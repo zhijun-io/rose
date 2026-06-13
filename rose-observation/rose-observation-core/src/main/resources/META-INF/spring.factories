@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.zhijun.observation.autoconfigure.ObservationAutoConfiguration
+
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+io.zhijun.observation.autoconfigure.MultipleAiObservationConventionsFailureAnalyzer

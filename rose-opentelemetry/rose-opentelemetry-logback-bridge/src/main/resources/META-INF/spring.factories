@@ -1,0 +1,5 @@
+org.springframework.context.ApplicationListener=\
+io.zhijun.opentelemetry.logback.autoconfigure.LogbackOpenTelemetryBridgeApplicationListener
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.zhijun.opentelemetry.logback.autoconfigure.LogbackOpenTelemetryBridgeAutoConfiguration

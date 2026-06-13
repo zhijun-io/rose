@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.zhijun</groupId>
+        <artifactId>rose-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>rose-spring-boot-starters</artifactId>
+    <packaging>pom</packaging>
+    <name>Rose Spring Boot Starters</name>
+
+    <properties>
+        <jacoco.skip>true</jacoco.skip>
+    </properties>
+
+    <modules>
+        <module>rose-spring-boot-starter</module>
+        <module>rose-opentelemetry-spring-boot-starter</module>
+        <module>rose-multitenancy-core-spring-boot-starter</module>
+        <module>rose-multitenancy-web-spring-boot-starter</module>
+    </modules>
+</project>

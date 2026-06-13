@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.zhijun.dev.services.openlit.OpenLitDevServicesAutoConfiguration,\
+io.zhijun.dev.services.openlit.OpenLitOtlpConnectionDetailsConfiguration

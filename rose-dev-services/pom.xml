@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.zhijun</groupId>
+        <artifactId>rose-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>rose-dev-services</artifactId>
+    <packaging>pom</packaging>
+    <name>Rose Dev Services</name>
+
+    <modules>
+        <module>rose-dev-services-api</module>
+        <module>rose-dev-services-core</module>
+        <module>rose-dev-services-postgresql</module>
+        <module>rose-dev-services-mysql</module>
+        <module>rose-dev-services-redis</module>
+        <module>rose-dev-services-mongodb</module>
+        <module>rose-dev-services-kafka</module>
+        <module>rose-dev-services-rabbitmq</module>
+        <module>rose-dev-services-artemis</module>
+        <module>rose-dev-services-activemq</module>
+        <module>rose-dev-services-ollama</module>
+        <module>rose-dev-services-mqtt</module>
+        <module>rose-dev-services-openlit</module>
+        <module>rose-dev-services-otel-collector</module>
+        <module>rose-dev-services-tests</module>
+    </modules>
+</project>

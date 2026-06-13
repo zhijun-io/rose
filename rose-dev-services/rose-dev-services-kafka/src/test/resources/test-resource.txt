@@ -1,0 +1,1 @@
+rose kafka test resource

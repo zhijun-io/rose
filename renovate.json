@@ -1,0 +1,171 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Rose: Spring Boot 2.7 / Java 8 only.",
+  "extends": [
+    "config:best-practices",
+    ":gitSignOff"
+  ],
+  "timezone": "Asia/Shanghai",
+  "enabledManagers": [
+    "maven",
+    "github-actions"
+  ],
+  "prConcurrentLimit": 10,
+  "assigneesFromCodeOwners": true,
+  "commitBodyTable": true,
+  "commitMessagePrefix": "deps:",
+  "configMigration": true,
+  "packageRules": [
+    {
+      "description": "Maven: daily at 23:00",
+      "matchManagers": [
+        "maven"
+      ],
+      "schedule": [
+        "at 11:00pm every day"
+      ],
+      "labels": [
+        "dependencies",
+        "spring-boot-2"
+      ]
+    },
+    {
+      "description": "GitHub Actions: daily at 00:30",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "schedule": [
+        "at 12:30am every day"
+      ],
+      "labels": [
+        "dependencies"
+      ]
+    },
+    {
+      "description": "Spring Boot 3+ (includes 4.x on the 3.x line or higher)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.boot:**"
+      ],
+      "allowedVersions": "<3.0.0"
+    },
+    {
+      "description": "Spring Framework 6+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework:**"
+      ],
+      "allowedVersions": "<6.0.0"
+    },
+    {
+      "description": "Spring Data 3+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.data:**"
+      ],
+      "allowedVersions": "<3.0.0"
+    },
+    {
+      "description": "Spring Security 6+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.security:**"
+      ],
+      "allowedVersions": "<6.0.0"
+    },
+    {
+      "description": "Spring Integration 6+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.integration:**"
+      ],
+      "allowedVersions": "<6.0.0"
+    },
+    {
+      "description": "Spring Session 3+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.session:**"
+      ],
+      "allowedVersions": "<3.0.0"
+    },
+    {
+      "description": "Spring Kafka 3+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.kafka:**"
+      ],
+      "allowedVersions": "<3.0.0"
+    },
+    {
+      "description": "Spring Batch 5+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.batch:**"
+      ],
+      "allowedVersions": "<5.0.0"
+    },
+    {
+      "description": "Spring AMQP 3+ (Spring Boot 3 baseline)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.springframework.amqp:**"
+      ],
+      "allowedVersions": "<3.0.0"
+    },
+    {
+      "description": "Jakarta EE (Boot 2.7 uses javax.*)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "jakarta.annotation:**",
+        "jakarta.servlet:**",
+        "jakarta.validation:**",
+        "jakarta.persistence:**",
+        "jakarta.transaction:**",
+        "jakarta.xml.bind:**"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Embedded Tomcat 10+ is Jakarta-based",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.apache.tomcat.embed:**"
+      ],
+      "allowedVersions": "<10.0.0"
+    },
+    {
+      "description": "Hibernate 6+ targets Jakarta",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.hibernate:**",
+        "org.hibernate.orm:**"
+      ],
+      "allowedVersions": "<6.0.0"
+    }
+  ]
+}

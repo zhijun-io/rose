@@ -1,0 +1,1 @@
+rose-otel-collector-test-resource

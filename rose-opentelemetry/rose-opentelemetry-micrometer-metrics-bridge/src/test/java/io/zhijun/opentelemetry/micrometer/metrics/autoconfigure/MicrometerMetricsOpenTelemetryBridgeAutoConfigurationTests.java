@@ -1,0 +1,165 @@
+package io.zhijun.opentelemetry.micrometer.metrics.autoconfigure;
+
+import java.lang.reflect.Field;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import io.micrometer.core.instrument.Clock;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.config.NamingConvention;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.instrumentation.micrometer.v1_5.OpenTelemetryMeterRegistry;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.util.ReflectionUtils;
+
+import io.zhijun.opentelemetry.autoconfigure.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * Unit tests for {@link MicrometerMetricsOpenTelemetryBridgeAutoConfiguration}.
+ */
+class MicrometerMetricsOpenTelemetryBridgeAutoConfigurationTests {
+
+    private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+            .withConfiguration(AutoConfigurations.of(MicrometerMetricsOpenTelemetryBridgeAutoConfiguration.class))
+            .withBean(Clock.class, () -> Clock.SYSTEM)
+            .withBean(OpenTelemetry.class, OpenTelemetry::noop)
+            .withBean(OpenTelemetryMetricsExporterProperties.class, () -> {
+                OpenTelemetryMetricsExporterProperties properties = new OpenTelemetryMetricsExporterProperties();
+                properties.setInterval(Duration.ofSeconds(5));
+                return properties;
+            });
+
+    @Test
+    void autoConfigurationNotActivatedWhenOpenTelemetryDisabled() {
+        contextRunner
+                .withPropertyValues("rose.otel.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(MeterRegistry.class));
+    }
+
+    @Test
+    void autoConfigurationNotActivatedWhenMetricsDisabled() {
+        contextRunner
+                .withPropertyValues("rose.otel.metrics.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(MeterRegistry.class));
+    }
+
+    @Test
+    void autoConfigurationNotActivatedWhenBridgeDisabled() {
+        contextRunner
+                .withPropertyValues("rose.otel.metrics.micrometer-bridge.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(MeterRegistry.class));
+    }
+
+    @Test
+    void autoConfigurationNotActivatedWhenMetricsExportDisabled() {
+        contextRunner
+                .withPropertyValues("rose.otel.metrics.exporter.type=none")
+                .run(context -> assertThat(context).doesNotHaveBean(MeterRegistry.class));
+    }
+
+    @Test
+    void meterRegistryAvailableWithDefaultConfiguration() {
+        contextRunner.run(context -> {
+            assertThat(context).hasSingleBean(Clock.class);
+            assertThat(context).hasSingleBean(OpenTelemetry.class);
+
+            MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
+            assertThat(registry).isNotNull();
+            registry = context.getBean(OpenTelemetryMeterRegistry.class);
+            assertThat(registry).isNotNull();
+        });
+    }
+
+    @Test
+    void meterRegistryConfiguredWithCustomProperties() {
+        contextRunner
+                .withPropertyValues(
+                        "rose.otel.metrics.micrometer-bridge.base-time-unit=milliseconds",
+                        "rose.otel.metrics.micrometer-bridge.histogram-gauges=false"
+                )
+                .run(context -> {
+                    MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
+                    assertThat(registry).isNotNull();
+                    registry = context.getBean(OpenTelemetryMeterRegistry.class);
+                    assertThat(registry).isNotNull();
+
+                    OpenTelemetryMeterRegistry otelRegistry = (OpenTelemetryMeterRegistry) registry;
+
+                    Field baseTimeUnitField = ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "baseTimeUnit");
+                    ReflectionUtils.makeAccessible(baseTimeUnitField);
+                    assertThat(ReflectionUtils.getField(baseTimeUnitField, otelRegistry)).isEqualTo(TimeUnit.MILLISECONDS);
+
+                    // Field distributionStatisticConfigModifierField = ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "distributionStatisticConfigModifier");
+                    // ReflectionUtils.makeAccessible(distributionStatisticConfigModifierField);
+                    // assertThat(ReflectionUtils.getField(distributionStatisticConfigModifierField, otelRegistry)).isEqualTo(DistributionStatisticConfigModifier.DISABLE_HISTOGRAM_GAUGES);
+
+                    Field namingConventionField = ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "namingConvention");
+                    ReflectionUtils.makeAccessible(namingConventionField);
+                    assertThat(ReflectionUtils.getField(namingConventionField, otelRegistry)).isEqualTo(NamingConvention.identity);
+                });
+    }
+
+    @Test
+    void meterRegistryAvailableWithMetricsExporters() {
+        // OTLP exporter (default)
+        contextRunner.run(context -> {
+            MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
+            assertThat(registry).isNotNull();
+            registry = context.getBean(OpenTelemetryMeterRegistry.class);
+            assertThat(registry).isNotNull();
+        });
+
+        // OTLP exporter (explicit)
+        contextRunner
+                .withPropertyValues("rose.otel.metrics.exporter.type=otlp")
+                .run(context -> {
+                    MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
+                    assertThat(registry).isNotNull();
+                    registry = context.getBean(OpenTelemetryMeterRegistry.class);
+                    assertThat(registry).isNotNull();
+                });
+
+        // Console exporter
+        contextRunner
+                .withPropertyValues("rose.otel.metrics.exporter.type=console")
+                .run(context -> {
+                    MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
+                    assertThat(registry).isNotNull();
+                    registry = context.getBean(OpenTelemetryMeterRegistry.class);
+                    assertThat(registry).isNotNull();
+                });
+    }
+
+    @Test
+    void meterRegistryNotAvailableWhenClockMissing() {
+        new ApplicationContextRunner()
+                .withConfiguration(AutoConfigurations.of(MicrometerMetricsOpenTelemetryBridgeAutoConfiguration.class))
+                .withBean(OpenTelemetry.class, OpenTelemetry::noop)
+                .withBean(OpenTelemetryMetricsExporterProperties.class, () -> {
+                    OpenTelemetryMetricsExporterProperties properties = new OpenTelemetryMetricsExporterProperties();
+                    properties.setInterval(Duration.ofSeconds(5));
+                    return properties;
+                })
+                .run(context -> assertThat(context).doesNotHaveBean(MeterRegistry.class));
+    }
+
+    @Test
+    void meterRegistryNotAvailableWhenOpenTelemetryMissing() {
+        new ApplicationContextRunner()
+                .withConfiguration(AutoConfigurations.of(MicrometerMetricsOpenTelemetryBridgeAutoConfiguration.class))
+                .withBean(Clock.class, () -> Clock.SYSTEM)
+                .withBean(OpenTelemetryMetricsExporterProperties.class, () -> {
+                    OpenTelemetryMetricsExporterProperties properties = new OpenTelemetryMetricsExporterProperties();
+                    properties.setInterval(Duration.ofSeconds(5));
+                    return properties;
+                })
+                .run(context -> assertThat(context).doesNotHaveBean(MeterRegistry.class));
+    }
+
+}
