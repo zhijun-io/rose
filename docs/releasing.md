@@ -64,11 +64,11 @@ Configure these **repository or organization secrets** before the first publish:
 | `GPG_SECRET_KEY` | Snapshot + release (ASCII-armored private key) |
 | `GPG_PASSPHRASE` | Snapshot + release |
 
-**Snapshot:** merges to `main` with `0.x.y-SNAPSHOT` run `verify -Pcoverage` then `deploy -Prelease` (same as local). Skipped when `<revision>` is not a SNAPSHOT.
+**Snapshot:** push to `main` when `<revision>` ends with `-SNAPSHOT` runs `clean verify` and `deploy` with `-Prelease` (skipped when not a SNAPSHOT). JaCoCo aggregate coverage (`-Pcoverage`) is enforced by **Maven CI** on the same commit, not repeated in the snapshot workflow.
 
-**Release:** sets `<revision>` to the input version, verifies, deploys with `-Prelease`, creates tag `vX.Y.Z`, GitHub Release, and bumps `<revision>` to the next `-SNAPSHOT` on `main`.
+**Release:** checks out `main`, sets `<revision>` to the input version and commits, runs `clean verify -Prelease`, deploys, pushes the release commit, creates tag `vX.Y.Z` and GitHub Release, then bumps `<revision>` to the next `-SNAPSHOT` on `main`.
 
-CI (`.github/workflows/maven-ci.yml`) uses shared [zhijun-io/workflows](https://github.com/zhijun-io/workflows) `maven-ci.yml` (validate / test / verify).
+CI (`.github/workflows/maven-ci.yml`) uses shared [zhijun-io/workflows](https://github.com/zhijun-io/workflows) `maven-ci.yml` — `mvn clean verify -Pcoverage`.
 
 ---
 
@@ -80,7 +80,7 @@ CI (`.github/workflows/maven-ci.yml`) uses shared [zhijun-io/workflows](https://
 2. Actions → **Maven Central Release** → Run workflow → enter `0.1.0`.
 3. Confirm deployment on [Central Portal](https://central.sonatype.com/).
 
-The workflow verifies, deploys, tags `v0.1.0`, creates a GitHub Release, and bumps `<revision>` to `0.2.0-SNAPSHOT` on `main`.
+The workflow commits the release version, verifies and deploys with `-Prelease`, pushes the release commit, tags `v0.1.0`, creates a GitHub Release, and bumps `<revision>` to `0.2.0-SNAPSHOT` on `main`.
 
 ### Option B — Manual release
 

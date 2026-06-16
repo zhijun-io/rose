@@ -28,6 +28,5 @@ jobs:
     with:
       java-version: '8'
       use-maven-wrapper: false
-      staged-ci: true
-      verify-profiles: coverage
-      maven-threads: '1'
+      maven-profiles: coverage
+      upload-coverage: true

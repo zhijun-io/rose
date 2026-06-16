@@ -27,7 +27,7 @@ mvn test                    # integration tests need Docker
 mvn verify -Pcoverage       # JaCoCo aggregate + line coverage check (CI)
 ```
 
-CI (`.github/workflows/maven-ci.yml`) calls [zhijun-io/workflows](https://github.com/zhijun-io/workflows) reusable `maven-ci.yml` — `mvn validate`, `mvn test`, and `mvn verify -Pcoverage` on Java 8 with Docker available for Testcontainers ITs.
+CI (`.github/workflows/maven-ci.yml`) calls [zhijun-io/workflows](https://github.com/zhijun-io/workflows) reusable `maven-ci.yml` — `mvn clean verify -Pcoverage` on Java 8 with Docker available for Testcontainers ITs.
 
 ## Module layering (required)
 
