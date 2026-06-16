@@ -213,6 +213,13 @@ mvn validate
 mvn compile test-compile    # compile only, no Docker
 mvn test                    # integration tests need Docker
 mvn verify -Pcoverage       # same as CI; JaCoCo aggregate + 90% line check
+
+mvn -B -ntp org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.organization=zhijun-io \
+  -Dsonar.projectKey=rose \
+  -DskipTests \
+  -Dsonar.coverage.jacoco.xmlReportPaths=rose-coverage/target/site/jacoco-aggregate/jacoco.xml
 ```
 
 Integration tests use Testcontainers 1.21.4 (Docker API 1.44+). Dev Services auto-detect OrbStack (`~/.orbstack/run/docker.sock`) or `/var/run/docker.sock`. Override if needed:
