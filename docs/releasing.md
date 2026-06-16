@@ -64,7 +64,7 @@ Configure these **repository or organization secrets** before the first publish:
 | `GPG_SECRET_KEY` | Snapshot + release (ASCII-armored private key) |
 | `GPG_PASSPHRASE` | Snapshot + release |
 
-**Snapshot:** push to `main` when `<revision>` ends with `-SNAPSHOT` runs `clean verify` and `deploy` with `-Prelease` (skipped when not a SNAPSHOT). JaCoCo aggregate coverage (`-Pcoverage`) is enforced by **Maven CI** on the same commit, not repeated in the snapshot workflow.
+**Snapshot:** push to `main` when `<revision>` ends with `-SNAPSHOT` runs `deploy -Prelease` only (`verify-first: false`; skipped when not a SNAPSHOT). Quality gate: **Maven CI** runs `mvn clean verify -Pcoverage` on the same commit — keep Maven CI as a required check on `main`.
 
 **Release:** checks out `main`, sets `<revision>` to the input version and commits, runs `clean verify -Prelease`, deploys, pushes the release commit, creates tag `vX.Y.Z` and GitHub Release, then bumps `<revision>` to the next `-SNAPSHOT` on `main`.
 
@@ -199,7 +199,7 @@ See [README.md](../README.md#quick-start) for starter dependencies.
 
 With `<revision>…-SNAPSHOT</revision>` and SNAPSHOTs enabled on the namespace:
 
-**GitHub Actions:** push to `main` (or run **Maven Publish Snapshot** manually) when `<revision>` is a SNAPSHOT — see [GitHub Actions](#github-actions).
+**GitHub Actions:** push to `main` (or run **Maven Publish Snapshot** manually) when `<revision>` is a SNAPSHOT — `deploy -Prelease` only; CI covers `verify -Pcoverage`. See [GitHub Actions](#github-actions).
 
 **Local:**
 
