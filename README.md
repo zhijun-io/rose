@@ -43,7 +43,7 @@ Use Spring Boot as the application parent and import Rose versions via BOM:
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-bom</artifactId>
-            <version>0.0.0.1</version>
+            <version>0.0.0.2-SNAPSHOT</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -161,7 +161,7 @@ Bump the release version in one place:
 
 ```xml
 <!-- pom.xml (rose-parent root) -->
-<revision>0.0.0.1</revision>
+<revision>0.0.0.2-SNAPSHOT</revision>
 ```
 
 All modules inherit `${revision}`. `flatten-maven-plugin` resolves CI-friendly versions on build/install.

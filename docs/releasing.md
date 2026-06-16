@@ -39,7 +39,7 @@ Complete these once (and re-check before each release).
 
 | Version | Example | Portal |
 |---------|---------|--------|
-| Snapshot | `0.0.0.1` | Enable **SNAPSHOTs** for `io.zhijun` on Central Portal |
+| Snapshot | `0.0.0.2-SNAPSHOT` | Enable **SNAPSHOTs** for `io.zhijun` on Central Portal |
 | Release | `0.1.0` (no suffix) | Verified namespace + GPG; no SNAPSHOT flag needed |
 
 This document focuses on **release** (正式版) publishing. For automation, see [GitHub Actions](#github-actions) below.
