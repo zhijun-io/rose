@@ -5,10 +5,12 @@ on:
   push:
     branches: [main]
     paths-ignore:
+      - '.editorconfig'
+      - '.gitattributes'
+      - '.gitignore'
       - '**/*.md'
       - 'docs/**'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/*.yml'
+      - '.github/**'
 
 permissions:
   contents: read

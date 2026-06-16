@@ -8,11 +8,9 @@ on:
       - '.editorconfig'
       - '.gitattributes'
       - '.gitignore'
-      - '*.md'
-      - '*.txt'
+      - '**/*.md'
       - 'docs/**'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/*.yml'
+      - '.github/**'
   pull_request:
     branches:
       - main
