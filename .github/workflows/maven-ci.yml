@@ -12,9 +12,7 @@ on:
       - '*.txt'
       - 'docs/**'
       - '.github/ISSUE_TEMPLATE/**'
-      - '.github/*.md'
       - '.github/*.yml'
-      - '.github/*.yaml'
   pull_request:
     branches:
       - main

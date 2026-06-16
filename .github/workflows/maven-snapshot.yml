@@ -8,9 +8,7 @@ on:
       - '**/*.md'
       - 'docs/**'
       - '.github/ISSUE_TEMPLATE/**'
-      - '.github/*.md'
       - '.github/*.yml'
-      - '.github/*.yaml'
 
 concurrency:
   group: maven-snapshot-${{ github.ref }}
