@@ -120,7 +120,7 @@ The `release` profile attaches **sources**, **javadoc**, **GPG signatures**, and
 | Snapshot | `.github/workflows/maven-snapshot.yml` | Push to `main` with `-SNAPSHOT` `<revision>`, or manual dispatch |
 | Release | `.github/workflows/maven-release.yml` | Manual dispatch (version input) |
 
-Requires org/repo secrets: `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `GPG_SECRET_KEY`, `GPG_PASSPHRASE`. See **[docs/releasing.md](docs/releasing.md#github-actions)**.
+Requires org/repo secrets: `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE`. See **[docs/releasing.md](docs/releasing.md#github-actions)**.
 
 ### Coverage (CI / local only)
 
@@ -136,15 +136,11 @@ Aggregated JaCoCo report: `rose-coverage/target/site/jacoco-aggregate/index.html
 
 | Mode | How |
 |------|-----|
-| **Local** | `gpg-agent` (default, `gpg.use.agent=true`). Run `gpg --sign` once or `export GPG_TTY=$(tty)` if the agent does not prompt. Optional: `-Dgpg.keyname=YOUR_KEY_ID` on the command line. |
-| **CI / batch** | Prefer `gpg-agent` in the workflow, or pass `--pinentry-mode loopback` and the passphrase via CI secrets (do not commit passphrases to `settings.xml`). |
+| **Local / CI** | `release` profile uses `--pinentry-mode loopback`; set `export MAVEN_MAVEN_GPG_PASSPHRASE='…'` before `-Prelease` deploy. Optional: `-Dgpg.keyname=YOUR_KEY_ID`. |
 
 ```bash
-# Local release (gpg-agent prompts or uses cached passphrase)
-mvn deploy -Prelease
-
-# CI / batch (example; store passphrase in a secret, not settings.xml)
-mvn deploy -Prelease -Dgpg.arg="--pinentry-mode loopback" -Dgpg.passphrase="$MAVEN_GPG_PASSPHRASE"
+export MAVEN_MAVEN_GPG_PASSPHRASE='…'
+mvn deploy -Prelease -P!company
 ```
 
 ### Troubleshooting
@@ -154,4 +150,4 @@ mvn deploy -Prelease -Dgpg.arg="--pinentry-mode loopback" -Dgpg.passphrase="$MAV
 | `403 Forbidden` on `maven-snapshots` | Enable **SNAPSHOTs** for `io.zhijun` on Central Portal; verify `central` token; avoid `altSnapshotDeploymentRepository` / corporate Nexus profiles during deploy. |
 | `403` on release version | Namespace not verified, wrong token, or GPG key not on keyserver. |
 | Error on `rose-coverage` during deploy | Do not use `-Pcoverage` with `deploy`. Default reactor excludes it. |
-| GPG passphrase warning | Remove `gpg.passphrase` from settings; use gpg-agent or `MAVEN_GPG_PASSPHRASE`. |
+| GPG passphrase warning | Remove `gpg.passphrase` from settings; use `export MAVEN_MAVEN_GPG_PASSPHRASE=…` instead. |
