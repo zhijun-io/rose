@@ -37,9 +37,17 @@ public class TenantContextIgnorePathMatcher {
         boolean matchesIgnorePaths = ignorePathPatterns.stream()
                 .anyMatch(pathPattern -> pathPattern.matches(pathContainer));
         if (matchesIgnorePaths) {
-            logger.debug("Request '{}' matches one of the paths to ignore when attaching a tenant context", requestUri);
+            logger.debug("Request '{}' matches one of the paths to ignore when attaching a tenant context",
+                    sanitizeForLog(requestUri));
         }
         return matchesIgnorePaths;
+    }
+
+    private static String sanitizeForLog(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value.replaceAll("[\r\n\t]", "_");
     }
 
     private PathPattern parse(String pattern) {
