@@ -17,7 +17,7 @@ Complete these once (and re-check before each release).
 | Portal token | [Generate a user token](https://central.sonatype.org/publish/generate-portal-token/); add to `~/.m2/settings.xml` with server id **`central`** |
 | GPG | Signing key available locally; **public** key on a public keyserver ([requirements](https://central.sonatype.org/publish/requirements/#sign-files-with-gpgpgp)) |
 | Quality gate | `mvn verify -Pcoverage` passes (CI runs the same) |
-| Corporate Maven profiles | If `settings.xml` redirects deploy to an internal Nexus (e.g. `wesine`), disable that profile during Central deploy (`-P!your-corporate-profile`) |
+| Corporate Maven profiles | If `settings.xml` redirects deploy to an internal Nexus (e.g. `company`), disable that profile during Central deploy (`-P!your-corporate-profile`) |
 
 **Do not** commit tokens or `gpg.passphrase` to the repository or `settings.xml`.
 
@@ -61,8 +61,8 @@ Configure these **repository or organization secrets** before the first publish:
 |--------|---------|
 | `MAVEN_USERNAME` | Snapshot + release (Central Portal token username) |
 | `MAVEN_PASSWORD` | Snapshot + release (Portal token password) |
-| `GPG_SECRET_KEY` | Snapshot + release (ASCII-armored private key) |
-| `GPG_PASSPHRASE` | Snapshot + release |
+| `MAVEN_GPG_PRIVATE_KEY` | Snapshot + release (ASCII-armored private key) |
+| `MAVEN_GPG_PASSPHRASE` | Snapshot + release |
 
 **Snapshot:** push to `main` when `<revision>` ends with `-SNAPSHOT` runs `deploy -Prelease` only (`verify-first: false`; skipped when not a SNAPSHOT). Quality gate: **Maven CI** runs `mvn clean verify -Pcoverage` on the same commit — keep Maven CI as a required check on `main`.
 
@@ -107,39 +107,30 @@ git push origin v0.1.0
 #### 3. Verify (recommended)
 
 ```bash
-mvn -B clean verify -Pcoverage -P!wesine
+mvn -B clean verify -Pcoverage -P!company
 ```
 
-Replace `wesine` with your corporate profile id if applicable. **Do not** combine `-Pcoverage` with `deploy` (`rose-coverage` is not in the default reactor).
+Replace `company` with your corporate profile id if applicable. **Do not** combine `-Pcoverage` with `deploy` (`rose-coverage` is not in the default reactor).
 
 #### 4. Deploy to Maven Central
 
 ```bash
-mvn -B clean deploy -Prelease -P!wesine
+mvn -B clean deploy -Prelease -P!company
 ```
 
 The `release` profile attaches:
 
 - **sources** and **javadoc** JARs
-- **GPG** signatures (`gpg.use.agent=true` by default)
+- **GPG** signatures (`--pinentry-mode loopback`; passphrase from `MAVEN_MAVEN_GPG_PASSPHRASE` env)
 - upload via **central-publishing-maven-plugin** (`autoPublish=true`)
 
-#### GPG (local, gpg-agent)
+#### GPG (loopback)
+
+`release` profile configures `maven-gpg-plugin` with `--pinentry-mode loopback`. Export the passphrase before deploy:
 
 ```bash
-# Ensure agent is running; export GPG_TTY=$(tty) if prompts fail
-mvn -B clean deploy -Prelease -P!wesine
-```
-
-Optional: `-Dgpg.keyname=YOUR_KEY_ID`
-
-#### GPG (CI / batch)
-
-```bash
-export MAVEN_GPG_PASSPHRASE='…'   # use a secret, not settings.xml
-mvn -B clean deploy -Prelease -P!wesine \
-  -Dgpg.arg="--pinentry-mode loopback" \
-  -Dgpg.passphrase="$MAVEN_GPG_PASSPHRASE"
+export MAVEN_MAVEN_GPG_PASSPHRASE='…'   # do not commit; do not put in settings.xml
+mvn -B clean deploy -Prelease -P!company
 ```
 
 #### 5. Confirm on Central Portal
@@ -204,7 +195,7 @@ With `<revision>…-SNAPSHOT</revision>` and SNAPSHOTs enabled on the namespace:
 **Local:**
 
 ```bash
-mvn -B clean deploy -Prelease -P!wesine
+mvn -B clean deploy -Prelease -P!company
 ```
 
 Use snapshots to test the publish pipeline before the first release.
@@ -217,7 +208,7 @@ Use snapshots to test the publish pipeline before the first release.
 |---------|------------|
 | `403 Forbidden` on `maven-snapshots` | Enable SNAPSHOTs for `io.zhijun`; verify `central` token; use `-P!corporate-profile` |
 | `403` on release version | Namespace not verified, wrong token, or GPG public key not on keyserver |
-| GPG / signing errors | Start `gpg-agent`, set `GPG_TTY`, or use loopback + `MAVEN_GPG_PASSPHRASE` |
+| GPG / signing errors | Export `MAVEN_MAVEN_GPG_PASSPHRASE`; confirm secret key with `gpg --list-secret-keys`; public key on keyserver |
 | `rose-coverage` errors during deploy | Do not pass `-Pcoverage` with `deploy` |
 | GPG passphrase warning in Maven | Remove `gpg.passphrase` from `settings.xml` |
 
