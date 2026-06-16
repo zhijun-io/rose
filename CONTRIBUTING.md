@@ -120,7 +120,7 @@ The `release` profile attaches **sources**, **javadoc**, **GPG signatures**, and
 | Snapshot | `.github/workflows/maven-snapshot.yml` | Push to `main` with `-SNAPSHOT` `<revision>`, or manual dispatch |
 | Release | `.github/workflows/maven-release.yml` | Manual dispatch (version input) |
 
-Requires org/repo secrets: `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE`. See **[docs/releasing.md](docs/releasing.md#github-actions)**.
+Requires org/repo secrets: `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `MAVEN_GPG_KEY`, `MAVEN_GPG_PASSPHRASE`. See **[docs/releasing.md](docs/releasing.md#github-actions)**.
 
 ### Coverage (CI / local only)
 
