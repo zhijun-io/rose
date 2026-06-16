@@ -39,46 +39,16 @@ public final class ActiveMqDevServicesAutoConfiguration {
             final ActiveMqDevServicesProperties properties = bindProperties(
                     ActiveMqDevServicesProperties.CONFIG_PREFIX, ActiveMqDevServicesProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServicesRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServicesRegistry.ServiceSpec service) {
-                    service
-                            .name("activemq")
-                            .description("ActiveMQ Classic Dev Service")
-                            .container(new java.util.function.Consumer<DevServicesRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServicesRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseActiveMqContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseActiveMqContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService(service -> service
+                    .name("activemq")
+                    .description("ActiveMQ Classic Dev Service")
+                    .container(container -> container
+                            .type(RoseActiveMqContainer.class)
+                            .supplier(() -> new RoseActiveMqContainer(properties))));
 
-            addDynamicProperty("spring.activemq.broker-url", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return activeMqContainer().getBrokerUrl();
-                }
-            });
-            addDynamicProperty("spring.activemq.user", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return activeMqContainer().getUsername();
-                }
-            });
-            addDynamicProperty("spring.activemq.password", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return activeMqContainer().getPassword();
-                }
-            });
+            addDynamicProperty("spring.activemq.broker-url", () -> activeMqContainer().getBrokerUrl());
+            addDynamicProperty("spring.activemq.user", () -> activeMqContainer().getUsername());
+            addDynamicProperty("spring.activemq.password", () -> activeMqContainer().getPassword());
         }
 
         private RoseActiveMqContainer activeMqContainer() {
