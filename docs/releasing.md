@@ -61,7 +61,7 @@ Configure these **repository or organization secrets** before the first publish:
 |--------|---------|
 | `MAVEN_USERNAME` | Snapshot + release (Central Portal token username) |
 | `MAVEN_PASSWORD` | Snapshot + release (Portal token password) |
-| `MAVEN_GPG_KEY` | Snapshot + release (ASCII-armored private key) |
+| `MAVEN_GPG_PRIVATE_KEY` | Snapshot + release (ASCII-armored private key) |
 | `MAVEN_GPG_PASSPHRASE` | Snapshot + release |
 
 **Snapshot:** push to `main` when `<revision>` ends with `-SNAPSHOT` runs `deploy -Prelease` only (`verify-first: false`; skipped when not a SNAPSHOT). Quality gate: **Maven CI** runs `mvn clean verify -Pcoverage` on the same commit — keep Maven CI as a required check on `main`.
