@@ -8,9 +8,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License" /></a>
 </p>
 
-Rose (`io.zhijun`) is a **Spring Boot 2.7 / Java 8 extension platform**: optional starters for bootstrap, OpenTelemetry, multitenancy, dev services, and related libraries. It extends Spring Boot; it does not replace or mirror the Spring Boot project.
-
-**Configuration prefix:** `rose.*` (for example `rose.dev.services.postgresql`, `rose.multitenancy.*`, `rose.otel.*`).
+Rose is a **Spring Boot 2.7 / Java 8 extension platform**: optional starters for bootstrap, OpenTelemetry, multitenancy, dev services, and related libraries. It extends Spring Boot; it does not replace or mirror the Spring Boot project.
 
 ## Contents
 
@@ -28,8 +26,6 @@ Rose (`io.zhijun`) is a **Spring Boot 2.7 / Java 8 extension platform**: optiona
   - [Development principles](#development-principles)
   - [Build](#build)
   - [Contributing](#contributing)
-
----
 
 ## Quick start
 
@@ -63,8 +59,6 @@ Use Spring Boot as the application parent and import Rose versions via BOM:
 ```
 
 Add **feature starters** when you need more than Rose bootstrap (see [Starters](#starters)). You do not declare `rose-spring-boot-starter` again — it is already transitive.
-
----
 
 ## Starters
 
@@ -103,8 +97,6 @@ rose-spring-boot-starter
 ```
 
 Dev service connectors are **not** starters — add them as optional `runtime` dependencies ([Dev Services](#dev-services)).
-
----
 
 ## Features
 
@@ -157,8 +149,6 @@ The OTel starter includes the OTLP registry. Add the metrics bridge explicitly f
 </dependency>
 ```
 
----
-
 ## Reference
 
 ### Bill of Materials
@@ -181,8 +171,6 @@ To publish to Maven Central, use the `release` profile (`mvn deploy -Prelease`).
 ### License
 
 [Apache License 2.0](LICENSE).
-
----
 
 ## Repository
 
