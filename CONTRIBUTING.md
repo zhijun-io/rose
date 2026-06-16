@@ -136,10 +136,10 @@ Aggregated JaCoCo report: `rose-coverage/target/site/jacoco-aggregate/index.html
 
 | Mode | How |
 |------|-----|
-| **Local / CI** | `release` profile uses `--pinentry-mode loopback`; set `export MAVEN_MAVEN_GPG_PASSPHRASE='…'` before `-Prelease` deploy. Optional: `-Dgpg.keyname=YOUR_KEY_ID`. |
+| **Local / CI** | `release` profile uses `--pinentry-mode loopback`; set `export MAVEN_GPG_PASSPHRASE='…'` before `-Prelease` deploy. Optional: `-Dgpg.keyname=YOUR_KEY_ID`. |
 
 ```bash
-export MAVEN_MAVEN_GPG_PASSPHRASE='…'
+export MAVEN_GPG_PASSPHRASE='…'
 mvn deploy -Prelease -P!company
 ```
 
@@ -150,4 +150,4 @@ mvn deploy -Prelease -P!company
 | `403 Forbidden` on `maven-snapshots` | Enable **SNAPSHOTs** for `io.zhijun` on Central Portal; verify `central` token; avoid `altSnapshotDeploymentRepository` / corporate Nexus profiles during deploy. |
 | `403` on release version | Namespace not verified, wrong token, or GPG key not on keyserver. |
 | Error on `rose-coverage` during deploy | Do not use `-Pcoverage` with `deploy`. Default reactor excludes it. |
-| GPG passphrase warning | Remove `gpg.passphrase` from settings; use `export MAVEN_MAVEN_GPG_PASSPHRASE=…` instead. |
+| GPG passphrase warning | Remove `gpg.passphrase` from settings; use `export MAVEN_GPG_PASSPHRASE=…` instead. |

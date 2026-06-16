@@ -29,3 +29,4 @@ jobs:
       use-maven-wrapper: false
       maven-profiles: coverage
       upload-coverage: true
+      run-sonar: true

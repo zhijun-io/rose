@@ -121,7 +121,7 @@ mvn -B clean deploy -Prelease -P!company
 The `release` profile attaches:
 
 - **sources** and **javadoc** JARs
-- **GPG** signatures (`--pinentry-mode loopback`; passphrase from `MAVEN_MAVEN_GPG_PASSPHRASE` env)
+- **GPG** signatures (`--pinentry-mode loopback`; passphrase from `MAVEN_GPG_PASSPHRASE` env)
 - upload via **central-publishing-maven-plugin** (`autoPublish=true`)
 
 #### GPG (loopback)
@@ -129,7 +129,7 @@ The `release` profile attaches:
 `release` profile configures `maven-gpg-plugin` with `--pinentry-mode loopback`. Export the passphrase before deploy:
 
 ```bash
-export MAVEN_MAVEN_GPG_PASSPHRASE='…'   # do not commit; do not put in settings.xml
+export MAVEN_GPG_PASSPHRASE='…'   # do not commit; do not put in settings.xml
 mvn -B clean deploy -Prelease -P!company
 ```
 
@@ -208,7 +208,7 @@ Use snapshots to test the publish pipeline before the first release.
 |---------|------------|
 | `403 Forbidden` on `maven-snapshots` | Enable SNAPSHOTs for `io.zhijun`; verify `central` token; use `-P!corporate-profile` |
 | `403` on release version | Namespace not verified, wrong token, or GPG public key not on keyserver |
-| GPG / signing errors | Export `MAVEN_MAVEN_GPG_PASSPHRASE`; confirm secret key with `gpg --list-secret-keys`; public key on keyserver |
+| GPG / signing errors | Export `MAVEN_GPG_PASSPHRASE`; confirm secret key with `gpg --list-secret-keys`; public key on keyserver |
 | `rose-coverage` errors during deploy | Do not pass `-Pcoverage` with `deploy` |
 | GPG passphrase warning in Maven | Remove `gpg.passphrase` from `settings.xml` |
 
