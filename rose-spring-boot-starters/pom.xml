@@ -24,5 +24,6 @@
         <module>rose-opentelemetry-spring-boot-starter</module>
         <module>rose-multitenancy-core-spring-boot-starter</module>
         <module>rose-multitenancy-web-spring-boot-starter</module>
+        <module>rose-data-mybatis-plus-spring-boot-starter</module>
     </modules>
 </project>

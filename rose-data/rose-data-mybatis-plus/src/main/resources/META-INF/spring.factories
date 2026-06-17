@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.zhijun.data.mybatisplus.autoconfigure.RoseDataMybatisPlusAutoConfiguration,\
+io.zhijun.data.mybatisplus.autoconfigure.RoseDataMybatisPlusTenantAutoConfiguration

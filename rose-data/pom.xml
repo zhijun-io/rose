@@ -17,5 +17,6 @@
 
     <modules>
         <module>rose-data-jdbc-sqlite</module>
+        <module>rose-data-mybatis-plus</module>
     </modules>
 </project>

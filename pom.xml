@@ -78,6 +78,7 @@
         <spring-boot.version>2.7.18</spring-boot.version>
         <testcontainers.version>1.21.4</testcontainers.version>
         <sqlite-jdbc.version>3.36.0.3</sqlite-jdbc.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <micrometer.version>1.16.6</micrometer.version>
         <opentelemetry.version>1.40.0</opentelemetry.version>
         <opentelemetry-instrumentation.version>2.10.0</opentelemetry-instrumentation.version>
@@ -161,6 +162,31 @@
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-data-jdbc-sqlite</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-data-mybatis-plus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-data-mybatis-plus-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>

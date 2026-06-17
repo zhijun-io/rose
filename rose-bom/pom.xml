@@ -44,6 +44,16 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
+                <artifactId>rose-data-mybatis-plus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-data-mybatis-plus-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
                 <artifactId>rose-observation-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
