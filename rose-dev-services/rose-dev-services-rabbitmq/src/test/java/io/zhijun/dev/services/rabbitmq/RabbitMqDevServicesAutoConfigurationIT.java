@@ -48,7 +48,12 @@ class RabbitMqDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigur
 
     @Test
     void containerConfigurationApplied() {
-        assertContainerConfigurationDeclared(RabbitMQContainer.class, commonConfigurationProperties(), container -> {
-        });
+        assertContainerConfigurationApplied(
+                RoseRabbitMqContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> {
+                    assertThat(context.getEnvironment().getProperty("spring.rabbitmq.host")).isNotBlank();
+                    assertThat(context.getEnvironment().getProperty("spring.rabbitmq.port")).isNotBlank();
+                });
     }
 }
