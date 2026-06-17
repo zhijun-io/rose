@@ -70,6 +70,7 @@ Starters are layered aggregates. Pick one or combine several.
 | `rose-opentelemetry-spring-boot-starter` | OpenTelemetry SDK, logs, OTLP metrics, semantic conventions, Actuator |
 | `rose-multitenancy-core-spring-boot-starter` | Multitenancy without web stack |
 | `rose-multitenancy-web-spring-boot-starter` | Multitenancy + `spring-boot-starter-web` |
+| `rose-mybatis-plus-spring-boot-starter` | MyBatis-Plus audit, encryption, data permission |
 
 **Stacking**
 
@@ -184,7 +185,7 @@ Build          rose-parent, rose-bom
 Base           rose-core → rose-spring-boot
   │
 Capabilities   rose-opentelemetry/*, rose-multitenancy/*, rose-observation/*,
-               rose-data/*, rose-dev-services/*
+               rose-excel, rose-sqlite, rose-mybatis-plus/*, rose-dev-services/*
   │
 Starters       rose-*-spring-boot-starter
 ```

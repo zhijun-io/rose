@@ -11,8 +11,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-spring-boot-starter</artifactId>
-    <name>Rose Spring Boot Starter</name>
+    <artifactId>rose-mybatis-plus-spring-boot-starter</artifactId>
+    <name>Rose MyBatis Plus Spring Boot Starter</name>
 
     <properties>
         <jacoco.skip>true</jacoco.skip>
@@ -21,11 +21,15 @@
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-boot</artifactId>
+            <artifactId>rose-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-mybatis-plus-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
     </dependencies>
 </project>

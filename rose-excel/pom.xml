@@ -6,13 +6,13 @@
 
     <parent>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-data</artifactId>
+        <artifactId>rose-parent</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-data-excel</artifactId>
-    <name>Rose Data Excel</name>
+    <artifactId>rose-excel</artifactId>
+    <name>Rose Excel</name>
     <description>FastExcel-based import/export helpers for Rose</description>
 
     <dependencies>

@@ -6,13 +6,13 @@
 
     <parent>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-data</artifactId>
+        <artifactId>rose-parent</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-data-mybatis-plus</artifactId>
-    <name>Rose Data MyBatis Plus</name>
+    <artifactId>rose-mybatis-plus-core</artifactId>
+    <name>Rose MyBatis Plus Core</name>
     <description>Audit, data permission SPI and field encryption for MyBatis-Plus</description>
 
     <dependencies>

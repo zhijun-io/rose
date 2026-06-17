@@ -19,7 +19,7 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 - `rose-bom` for aligned dependency management across all published artifacts
 - `rose-core` utilities (`PropertyAdapter`, incubating/internal markers)
 - `rose-spring-boot` bootstrap integration (dev/test profiles, `rose.*` configuration prefix)
-- `rose-data-jdbc-sqlite` SQLite JDBC dialect helpers
+- `rose-sqlite` SQLite JDBC dialect helpers
 - `rose-observation-core` observation support
 - JaCoCo aggregate coverage via `rose-coverage` (`mvn verify -Pcoverage`)
 

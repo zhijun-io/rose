@@ -6,13 +6,13 @@
 
     <parent>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-data</artifactId>
+        <artifactId>rose-parent</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-data-jdbc-sqlite</artifactId>
-    <name>Rose Data JDBC SQLite</name>
+    <artifactId>rose-sqlite</artifactId>
+    <name>Rose SQLite</name>
     <description>Spring Data JDBC dialect and converters for SQLite</description>
 
     <dependencies>

@@ -23,7 +23,7 @@ import io.zhijun.data.mybatisplus.permission.RoseDataPermissionHandler;
 import io.zhijun.data.mybatisplus.properties.EncryptorProperties;
 
 /**
- * Auto-configuration for rose-data-mybatis-plus.
+ * Auto-configuration for rose-mybatis-plus-core.
  */
 @Configuration
 @ConditionalOnClass({MybatisPlusInterceptor.class, MetaObjectHandler.class})

@@ -20,5 +20,6 @@
         <module>rose-opentelemetry-micrometer-metrics-bridge</module>
         <module>rose-opentelemetry-micrometer-registry-otlp</module>
         <module>rose-opentelemetry-semantic-conventions</module>
+        <module>rose-opentelemetry-spring-boot-starter</module>
     </modules>
 </project>

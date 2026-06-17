@@ -11,13 +11,12 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-data</artifactId>
+    <artifactId>rose-mybatis-plus</artifactId>
     <packaging>pom</packaging>
-    <name>Rose Data</name>
+    <name>Rose MyBatis Plus</name>
 
     <modules>
-        <module>rose-data-jdbc-sqlite</module>
-        <module>rose-data-mybatis-plus</module>
-        <module>rose-data-excel</module>
+        <module>rose-mybatis-plus-core</module>
+        <module>rose-mybatis-plus-spring-boot-starter</module>
     </modules>
 </project>

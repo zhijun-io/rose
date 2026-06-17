@@ -39,22 +39,22 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-data-jdbc-sqlite</artifactId>
+                <artifactId>rose-sqlite</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-data-mybatis-plus</artifactId>
+                <artifactId>rose-mybatis-plus-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-data-mybatis-plus-spring-boot-starter</artifactId>
+                <artifactId>rose-mybatis-plus-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-data-excel</artifactId>
+                <artifactId>rose-excel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

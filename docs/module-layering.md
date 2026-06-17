@@ -86,7 +86,9 @@ Capability modules **MUST NOT** depend on `rose-spring-boot` unless they integra
 | `rose-opentelemetry-micrometer-metrics-bridge` | `rose-core`, optional `rose-opentelemetry-core` | `spring-boot-actuator-autoconfigure`, `spring-boot-autoconfigure` |
 | `rose-opentelemetry-semantic-conventions` | `rose-observation-core`, optional `rose-opentelemetry-core` | `spring-boot`, optional `spring-boot-autoconfigure` |
 | `rose-observation-core` | `rose-core` | `spring-boot`, optional `spring-boot-autoconfigure` |
-| `rose-data-jdbc-sqlite` | `rose-core` | `spring-data-jdbc`, `spring-jdbc` |
+| `rose-sqlite` | `rose-core` | `spring-data-jdbc`, `spring-jdbc` |
+| `rose-excel` | `rose-core` | FastExcel |
+| `rose-mybatis-plus-core` | `rose-core`, optional `rose-multitenancy-core` | MyBatis-Plus |
 | `rose-dev-services-core` | `rose-dev-services-api`, **`rose-spring-boot`** | `spring-boot`, `spring-boot-autoconfigure` |
 | `rose-dev-services-{connector}` | `rose-dev-services-core` | Testcontainers + technology-specific libs |
 
@@ -146,8 +148,9 @@ Capability modules **MUST NOT** depend on `rose-spring-boot` unless they integra
 rose-spring-boot-starter
 ├── rose-opentelemetry-spring-boot-starter
 ├── rose-multitenancy-core-spring-boot-starter
-└── rose-multitenancy-web-spring-boot-starter
-        └── (extends multitenancy-core-spring-boot-starter)
+├── rose-multitenancy-web-spring-boot-starter
+│       └── (extends multitenancy-core-spring-boot-starter)
+└── rose-mybatis-plus-spring-boot-starter
 ```
 
 | Starter | Builds on | Adds (summary) |
@@ -156,6 +159,7 @@ rose-spring-boot-starter
 | `rose-opentelemetry-spring-boot-starter` | baseline | OTel modules + `spring-boot-starter-actuator` + OTLP runtime |
 | `rose-multitenancy-core-spring-boot-starter` | baseline | `rose-multitenancy-core` |
 | `rose-multitenancy-web-spring-boot-starter` | multitenancy-core starter | `rose-multitenancy-web` + `spring-boot-starter-web` |
+| `rose-mybatis-plus-spring-boot-starter` | baseline | `rose-mybatis-plus-core` + `mybatis-plus-boot-starter` |
 
 ### 4.3 Dev Services
 

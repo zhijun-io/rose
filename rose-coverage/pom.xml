@@ -32,7 +32,15 @@
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-data-jdbc-sqlite</artifactId>
+            <artifactId>rose-sqlite</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-excel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-mybatis-plus-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
