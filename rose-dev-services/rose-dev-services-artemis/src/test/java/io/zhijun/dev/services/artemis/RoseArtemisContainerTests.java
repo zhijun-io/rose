@@ -2,22 +2,23 @@ package io.zhijun.dev.services.artemis;
 
 import org.junit.jupiter.api.Test;
 
+import io.zhijun.dev.services.tests.BaseDevServicesContainerTests;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link RoseArtemisContainer}.
  */
-class RoseArtemisContainerTests {
+class RoseArtemisContainerTests extends BaseDevServicesContainerTests<RoseArtemisContainer> {
 
     @Test
     void whenExposedPortsAreNotConfigured() {
         RoseArtemisContainer container = new RoseArtemisContainer(new ArtemisDevServicesProperties());
         container.configure();
-        assertThat(container.getPortBindings()).isEmpty();
+        assertNoPortBindingsConfigured(container.getPortBindings());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void whenExposedPortsAreConfigured() {
         ArtemisDevServicesProperties properties = new ArtemisDevServicesProperties();
         properties.setPort(1234);
@@ -25,14 +26,11 @@ class RoseArtemisContainerTests {
 
         RoseArtemisContainer container = new RoseArtemisContainer(properties);
         container.configure();
-
-        java.util.List<String> portBindings = container.getPortBindings();
-        assertThat(portBindings).isNotNull();
-        assertThat(portBindings)
+        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
                 .anyMatch(binding -> binding.startsWith(
                         properties.getPort() + ":" + RoseArtemisContainer.TCP_PORT))
                 .anyMatch(binding -> binding.startsWith(
-                        properties.getManagementConsolePort() + ":" + RoseArtemisContainer.WEB_CONSOLE_PORT));
+                        properties.getManagementConsolePort() + ":" + RoseArtemisContainer.WEB_CONSOLE_PORT)));
     }
 
 }

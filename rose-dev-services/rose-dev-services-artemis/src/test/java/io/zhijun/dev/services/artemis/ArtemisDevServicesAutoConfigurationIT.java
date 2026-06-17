@@ -38,22 +38,14 @@ class ArtemisDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigura
 
     @Test
     void containerAvailableInDevMode() {
-        getContextRunner()
-                .withSystemProperties("rose.bootstrap.mode=dev")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(RoseArtemisContainer.class);
-                    RoseArtemisContainer container = context.getBean(RoseArtemisContainer.class);
-                    assertThat(container.getDockerImageName()).contains(RoseArtemisContainer.COMPATIBLE_IMAGE_NAME);
+        assertContainerAvailableInDevMode(
+                RoseArtemisContainer.class,
+                RoseArtemisContainer.COMPATIBLE_IMAGE_NAME,
+                container -> {
                     assertThat(container.getEnv()).anyMatch(env -> env.startsWith("AMQ_USER="));
-                    assertThat(container.getNetworkAliases()).hasSize(1);
-                    assertThat(container.isShouldBeReused()).isTrue();
                     assertThat(container.getBinds()).isEmpty();
-                    container.start();
                     assertThat(container.getUsername()).isEqualTo(ArtemisDevServicesProperties.DEFAULT_USERNAME);
                     assertThat(container.getPassword()).isEqualTo(ArtemisDevServicesProperties.DEFAULT_PASSWORD);
-                    container.stop();
-
-                    assertThatHasSingletonScope(context);
                 });
     }
 
@@ -64,15 +56,9 @@ class ArtemisDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigura
                 "rose.dev.services.artemis.username=myusername",
                 "rose.dev.services.artemis.password=mypassword");
 
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    RoseArtemisContainer container = context.getBean(RoseArtemisContainer.class);
-                    container.start();
-                    assertThatConfigurationIsApplied(container);
+        assertContainerConfigurationDeclared(RoseArtemisContainer.class, properties, container -> {
                     assertThat(container.getUsername()).isEqualTo("myusername");
                     assertThat(container.getPassword()).isEqualTo("mypassword");
-                    container.stop();
                 });
     }
 }

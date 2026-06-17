@@ -1,6 +1,5 @@
 package io.zhijun.dev.services.opentelemetry.collector;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
@@ -38,37 +37,26 @@ class OtelCollectorDevServicesAutoConfigurationIT extends BaseDevServicesAutoCon
 
     @Test
     void containerAvailableInDevMode() {
-        getContextRunner()
-                .withSystemProperties("rose.bootstrap.mode=dev")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(getContainerClass());
-                    RoseOtelCollectorContainer container = context.getBean(RoseOtelCollectorContainer.class);
-                    assertThat(container.getDockerImageName()).contains(RoseOtelCollectorContainer.COMPATIBLE_IMAGE_NAME);
+        assertContainerAvailableInDevMode(
+                RoseOtelCollectorContainer.class,
+                RoseOtelCollectorContainer.COMPATIBLE_IMAGE_NAME,
+                container -> {
                     assertThat(container.getEnv()).isEmpty();
-                    assertThat(container.getNetworkAliases()).hasSize(1);
-                    assertThat(container.isShouldBeReused()).isTrue();
-
-                    assertThatHasSingletonScope(context);
                 });
     }
 
     @Test
     void containerConfigurationApplied() {
-        String[] properties = ArrayUtils.addAll(commonConfigurationProperties());
-
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    RoseOtelCollectorContainer container = context.getBean(RoseOtelCollectorContainer.class);
-                    container.start();
-                    assertThatConfigurationIsApplied(container);
+        assertContainerConfigurationApplied(
+                RoseOtelCollectorContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_ENDPOINT"))
                             .startsWith("http://");
                     assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"))
                             .startsWith("http://");
                     assertThat(container.getOtlpHttpUrl()).startsWith("http://");
                     assertThat(container.getOtlpGrpcUrl()).startsWith("http://");
-                    container.stop();
                 });
     }
 }

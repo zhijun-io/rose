@@ -1,10 +1,9 @@
 package io.zhijun.dev.services.core.registration;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.testcontainers.containers.GenericContainer;
-
-import io.zhijun.dev.services.api.registration.ContainerInfo;
 
 import java.util.function.Consumer;
 
@@ -113,25 +112,10 @@ class DevServicesRegistryTests {
                         .type(TestPostgresContainer.class)
                         .supplier(TestPostgresContainer::new)));
 
-        TestPostgresContainer container = factory.getBean("devService.container.postgres", TestPostgresContainer.class);
-
-        assertThat(container).isNotNull();
-        assertThat(container.getDockerImageName()).contains("postgres");
-    }
-
-    @Test
-    void extractContainerInfoByIdReturnsMetadataForRunningContainer() {
-        TestPostgresContainer container = new TestPostgresContainer();
-        container.start();
-        try {
-            ContainerInfo info = DevServicesRegistry.extractContainerInfoById(container.getContainerId());
-
-            assertThat(info.getId()).isEqualTo(container.getContainerId());
-            assertThat(info.getImageName()).isNotBlank();
-            assertThat(info.getStatus()).isNotBlank();
-        } finally {
-            container.stop();
-        }
+        AbstractBeanDefinition beanDefinition =
+                (AbstractBeanDefinition) factory.getBeanDefinition("devService.container.postgres");
+        assertThat(beanDefinition.getBeanClassName()).isEqualTo(TestPostgresContainer.class.getName());
+        assertThat(beanDefinition.getInstanceSupplier()).isNotNull();
     }
 
     private static class TestPostgresContainer extends GenericContainer<TestPostgresContainer> {

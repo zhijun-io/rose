@@ -1,6 +1,5 @@
 package io.zhijun.dev.services.mqtt;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
@@ -37,31 +36,20 @@ class MqttDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfiguratio
 
     @Test
     void containerAvailableWithDefaultConfiguration() {
-        getContextRunner().run(context -> {
-            assertThat(context).hasSingleBean(getContainerClass());
-            RoseHiveMQContainer container = context.getBean(RoseHiveMQContainer.class);
-            assertThat(container.getDockerImageName()).contains(RoseHiveMQContainer.COMPATIBLE_IMAGE_NAME);
-            assertThat(container.getEnv()).isEmpty();
-            assertThat(container.getNetworkAliases()).hasSize(1);
-            assertThat(container.isShouldBeReused()).isFalse();
-
-            assertThatHasSingletonScope(context);
-        });
+        assertContainerAvailableWithDefaultConfiguration(
+                RoseHiveMQContainer.class,
+                RoseHiveMQContainer.COMPATIBLE_IMAGE_NAME,
+                container -> assertThat(container.getEnv()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
-        String[] properties = ArrayUtils.addAll(commonConfigurationProperties());
-
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    RoseHiveMQContainer container = context.getBean(RoseHiveMQContainer.class);
-                    container.start();
-                    assertThatConfigurationIsApplied(container);
+        assertContainerConfigurationApplied(
+                RoseHiveMQContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("mqtt.server.uri")).startsWith("tcp://");
                     assertThat(context.getEnvironment().getProperty("spring.mqtt.url")).startsWith("tcp://");
-                    container.stop();
                 });
     }
 }

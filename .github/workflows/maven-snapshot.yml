@@ -45,7 +45,7 @@ jobs:
   publish:
     needs: check-snapshot-version
     if: needs.check-snapshot-version.outputs.is_snapshot == 'true'
-    uses: zhijun-io/workflows/.github/workflows/maven-snapshot.yml@main
+    uses: zhijun-io/workflows/.github/workflows/maven-snapshot.yml@014bb9db61cbee5ccdccfbfb868e099965da02d0
     with:
       java-version: '8'
       use-maven-wrapper: false

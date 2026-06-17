@@ -1,6 +1,5 @@
 package io.zhijun.dev.services.ollama;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
@@ -38,33 +37,19 @@ class OllamaDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigurat
 
     @Test
     void containerActivatedWhenEnabled() {
-        contextRunner
-                .withSystemProperties("rose.bootstrap.mode=dev")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(getContainerClass());
-                    RoseOllamaContainer container = context.getBean(RoseOllamaContainer.class);
-                    assertThat(container.getDockerImageName()).contains(RoseOllamaContainer.COMPATIBLE_IMAGE_NAME);
-                    assertThat(container.getEnv()).isEmpty();
-                    assertThat(container.getNetworkAliases()).hasSize(1);
-                    assertThat(container.isShouldBeReused()).isTrue();
-
-                    assertThatHasSingletonScope(context);
-                });
+        assertContainerAvailableInDevMode(
+                RoseOllamaContainer.class,
+                RoseOllamaContainer.COMPATIBLE_IMAGE_NAME,
+                container -> assertThat(container.getEnv()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
-        String[] properties = ArrayUtils.addAll(commonConfigurationProperties());
-
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    RoseOllamaContainer container = context.getBean(RoseOllamaContainer.class);
-                    container.start();
-                    assertThatConfigurationIsApplied(container);
-                    assertThat(context.getEnvironment().getProperty(OllamaDevServicesProperties.BASE_URL_PROPERTY))
-                            .startsWith("http://");
-                    container.stop();
-                });
+        assertContainerConfigurationApplied(
+                RoseOllamaContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> assertThat(
+                        context.getEnvironment().getProperty(OllamaDevServicesProperties.BASE_URL_PROPERTY))
+                        .startsWith("http://"));
     }
 }

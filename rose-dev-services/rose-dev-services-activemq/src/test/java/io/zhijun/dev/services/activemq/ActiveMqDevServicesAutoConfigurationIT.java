@@ -38,22 +38,14 @@ class ActiveMqDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigur
 
     @Test
     void containerAvailableInDevMode() {
-        getContextRunner()
-                .withSystemProperties("rose.bootstrap.mode=dev")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(RoseActiveMqContainer.class);
-                    RoseActiveMqContainer container = context.getBean(RoseActiveMqContainer.class);
-                    assertThat(container.getDockerImageName()).contains(RoseActiveMqContainer.COMPATIBLE_IMAGE_NAME);
+        assertContainerAvailableInDevMode(
+                RoseActiveMqContainer.class,
+                RoseActiveMqContainer.COMPATIBLE_IMAGE_NAME,
+                container -> {
                     assertThat(container.getEnv()).anyMatch(env -> env.startsWith("ACTIVEMQ_CONNECTION_USER="));
-                    assertThat(container.getNetworkAliases()).hasSize(1);
-                    assertThat(container.isShouldBeReused()).isTrue();
                     assertThat(container.getBinds()).isEmpty();
-                    container.start();
                     assertThat(container.getUsername()).isEqualTo(ActiveMqDevServicesProperties.DEFAULT_USERNAME);
                     assertThat(container.getPassword()).isEqualTo(ActiveMqDevServicesProperties.DEFAULT_PASSWORD);
-                    container.stop();
-
-                    assertThatHasSingletonScope(context);
                 });
     }
 
@@ -64,15 +56,9 @@ class ActiveMqDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigur
                 "rose.dev.services.activemq.username=myusername",
                 "rose.dev.services.activemq.password=mypassword");
 
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    RoseActiveMqContainer container = context.getBean(RoseActiveMqContainer.class);
-                    container.start();
-                    assertThatConfigurationIsApplied(container);
+        assertContainerConfigurationDeclared(RoseActiveMqContainer.class, properties, container -> {
                     assertThat(container.getUsername()).isEqualTo("myusername");
                     assertThat(container.getPassword()).isEqualTo("mypassword");
-                    container.stop();
                 });
     }
 }

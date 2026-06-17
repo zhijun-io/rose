@@ -1,6 +1,5 @@
 package io.zhijun.dev.services.kafka;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.containers.KafkaContainer;
@@ -39,31 +38,13 @@ class KafkaDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigurati
 
     @Test
     void containerAvailableInDevMode() {
-        getContextRunner()
-                .withSystemProperties("rose.bootstrap.mode=dev")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(KafkaContainer.class);
-                    KafkaContainer container = context.getBean(KafkaContainer.class);
-                    assertThat(container.getDockerImageName()).contains("confluentinc/cp-kafka");
-                    assertThat(container.getNetworkAliases()).hasSize(1);
-                    assertThat(container.isShouldBeReused()).isTrue();
-                    assertThat(container.getBinds()).isEmpty();
-
-                    assertThatHasSingletonScope(context);
-                });
+        assertContainerAvailableInDevMode(KafkaContainer.class, "confluentinc/cp-kafka", container ->
+                assertThat(container.getBinds()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
-        String[] properties = ArrayUtils.addAll(commonConfigurationProperties());
-
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    KafkaContainer container = context.getBean(KafkaContainer.class);
-                    container.start();
-                    assertThatConfigurationIsApplied(container);
-                    container.stop();
-                });
+        assertContainerConfigurationDeclared(KafkaContainer.class, commonConfigurationProperties(), container -> {
+        });
     }
 }

@@ -1,6 +1,5 @@
 package io.zhijun.dev.services.redis;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
@@ -37,31 +36,20 @@ class RedisDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigurati
 
     @Test
     void containerAvailableWithDefaultConfiguration() {
-        getContextRunner().run(context -> {
-            assertThat(context).hasSingleBean(getContainerClass());
-            RoseRedisContainer container = context.getBean(RoseRedisContainer.class);
-            assertThat(container.getDockerImageName()).contains(RoseRedisContainer.COMPATIBLE_IMAGE_NAME);
-            assertThat(container.getEnv()).isEmpty();
-            assertThat(container.getNetworkAliases()).hasSize(1);
-            assertThat(container.isShouldBeReused()).isFalse();
-
-            assertThatHasSingletonScope(context);
-        });
+        assertContainerAvailableWithDefaultConfiguration(
+                RoseRedisContainer.class,
+                RoseRedisContainer.COMPATIBLE_IMAGE_NAME,
+                container -> assertThat(container.getEnv()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
-        String[] properties = ArrayUtils.addAll(commonConfigurationProperties());
-
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    RoseRedisContainer container = context.getBean(RoseRedisContainer.class);
-                    container.start();
-                    assertThatConfigurationIsApplied(container);
+        assertContainerConfigurationApplied(
+                RoseRedisContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("spring.redis.host")).isNotBlank();
                     assertThat(context.getEnvironment().getProperty("spring.redis.port")).isNotBlank();
-                    container.stop();
                 });
     }
 }

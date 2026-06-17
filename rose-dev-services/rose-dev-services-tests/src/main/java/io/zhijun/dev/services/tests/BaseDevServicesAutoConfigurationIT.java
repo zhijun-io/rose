@@ -24,6 +24,20 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public abstract class BaseDevServicesAutoConfigurationIT {
 
+    @FunctionalInterface
+    protected interface ThrowingConsumer<T> {
+
+        void accept(T value) throws Exception;
+
+    }
+
+    @FunctionalInterface
+    protected interface ThrowingBiConsumer<T, U> {
+
+        void accept(T first, U second) throws Exception;
+
+    }
+
     static {
         DockerTestSupport.configureIfNeeded();
     }
@@ -91,6 +105,85 @@ public abstract class BaseDevServicesAutoConfigurationIT {
                 .isEqualTo("singleton");
     }
 
+    protected <T extends GenericContainer<?>> void assertContainerAvailableInDevMode(
+            Class<T> containerClass, String expectedImageName, ThrowingConsumer<T> assertions) {
+        getContextRunner()
+                .withSystemProperties("rose.bootstrap.mode=dev")
+                .run(context -> {
+                    assertThat(context).hasSingleBean(containerClass);
+                    T container = context.getBean(containerClass);
+                    assertThat(container.getDockerImageName()).contains(expectedImageName);
+                    assertThat(container.getNetworkAliases()).hasSize(1);
+                    assertThat(container.isShouldBeReused()).isTrue();
+                    assertions.accept(container);
+                    assertThatHasSingletonScope(context);
+                });
+    }
+
+    protected <T extends GenericContainer<?>> void assertContainerAvailableWithDefaultConfiguration(
+            Class<T> containerClass, String expectedImageName, ThrowingConsumer<T> assertions) {
+        getContextRunner()
+                .run(context -> {
+                    assertThat(context).hasSingleBean(containerClass);
+                    T container = context.getBean(containerClass);
+                    assertThat(container.getDockerImageName()).contains(expectedImageName);
+                    assertThat(container.getNetworkAliases()).hasSize(1);
+                    assertThat(container.isShouldBeReused()).isFalse();
+                    assertions.accept(container);
+                    assertThatHasSingletonScope(context);
+                });
+    }
+
+    protected <T extends GenericContainer<?>> void assertContainerConfigurationApplied(
+            Class<T> containerClass, String[] properties, ThrowingConsumer<T> assertions) {
+        assertContainerConfigurationApplied(containerClass, properties, (context, container) -> assertions.accept(container));
+    }
+
+    protected <T extends GenericContainer<?>> void assertContainerConfigurationDeclared(
+            Class<T> containerClass, String[] properties, ThrowingConsumer<T> assertions) {
+        assertContainerConfigurationDeclared(containerClass, properties, (context, container) -> assertions.accept(container));
+    }
+
+    protected <T extends GenericContainer<?>> void assertContainerConfigurationDeclared(
+            Class<T> containerClass,
+            String[] properties,
+            ThrowingBiConsumer<AssertableApplicationContext, T> assertions) {
+        getContextRunner()
+                .withPropertyValues(properties)
+                .run(context -> {
+                    T container = context.getBean(containerClass);
+                    assertThatConfigurationIsDeclared(container);
+                    assertions.accept(context, container);
+                    assertThatHasSingletonScope(context);
+                });
+    }
+
+    protected <T extends GenericContainer<?>> void assertContainerConfigurationApplied(
+            Class<T> containerClass,
+            String[] properties,
+            ThrowingBiConsumer<AssertableApplicationContext, T> assertions) {
+        getContextRunner()
+                .withPropertyValues(properties)
+                .run(context -> {
+                    T container = context.getBean(containerClass);
+                    container.start();
+                    try {
+                        assertThatConfigurationIsApplied(container);
+                        assertions.accept(context, container);
+                    }
+                    finally {
+                        container.stop();
+                    }
+                });
+    }
+
+    protected static void assertThatConfigurationIsDeclared(GenericContainer<?> container) {
+        assertThat(container.getEnv()).contains("KEY=value");
+        assertThat(container.getNetworkAliases()).contains("network1");
+        assertThat(container.getBinds()).anyMatch(b -> b.getPath().equals(testMountDir.toAbsolutePath().toString()));
+        assertThat(container.getBinds()).anyMatch(b -> b.getVolume().getPath().equals("/rose"));
+    }
+
     protected String[] commonConfigurationProperties() {
         String prefix = "rose.dev.services." + getServiceName();
         return new String[] {
@@ -104,17 +197,13 @@ public abstract class BaseDevServicesAutoConfigurationIT {
     }
 
     protected static void assertThatConfigurationIsApplied(GenericContainer<?> container) throws Exception {
-        assertThat(container.getEnv()).contains("KEY=value");
-        assertThat(container.getNetworkAliases()).contains("network1");
+        assertThatConfigurationIsDeclared(container);
         assertThat(container.getCurrentContainerInfo().getState().getStatus()).isEqualTo("running");
 
         String mappedResourceContent = container.copyFileFromContainer(
                 "/tmp/test-resource.txt",
                 inputStream -> StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8));
         assertThat(mappedResourceContent).isNotEmpty();
-
-        assertThat(container.getBinds()).anyMatch(b -> b.getPath().equals(testMountDir.toAbsolutePath().toString()));
-        assertThat(container.getBinds()).anyMatch(b -> b.getVolume().getPath().equals("/rose"));
     }
 
     protected static ApplicationContextRunner defaultContextRunner(Class<?> autoConfigurationClass) {

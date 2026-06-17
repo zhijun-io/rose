@@ -9,6 +9,8 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import io.zhijun.dev.services.tests.BaseDevServicesContainerTests;
+
 import static io.zhijun.dev.services.postgresql.RosePostgreSqlContainer.READY_REGEX;
 import static io.zhijun.dev.services.postgresql.RosePostgreSqlContainer.SKIPPING_INITIALIZATION_REGEX;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,29 +18,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Unit tests for {@link RosePostgreSqlContainer}.
  */
-class RosePostgreSqlContainerTests {
+class RosePostgreSqlContainerTests extends BaseDevServicesContainerTests<RosePostgreSqlContainer> {
 
     @Test
     void whenExposedPortsAreNotConfigured() {
         RosePostgreSqlContainer container = new RosePostgreSqlContainer(new PostgresqlDevServicesProperties());
         container.configure();
-        assertThat(container.getPortBindings()).isEmpty();
+        assertNoPortBindingsConfigured(container.getPortBindings());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void whenExposedPortsAreConfigured() {
         PostgresqlDevServicesProperties properties = new PostgresqlDevServicesProperties();
         properties.setPort(1234);
 
         RosePostgreSqlContainer container = new RosePostgreSqlContainer(properties);
         container.configure();
-
-        java.util.List<String> portBindings = container.getPortBindings();
-        assertThat(portBindings).isNotNull();
-        assertThat(portBindings)
+        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
                 .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + PostgreSQLContainer.POSTGRESQL_PORT));
+                        properties.getPort() + ":" + PostgreSQLContainer.POSTGRESQL_PORT)));
     }
 
     @Test

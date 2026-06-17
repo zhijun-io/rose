@@ -24,13 +24,15 @@ concurrency:
 
 jobs:
   build:
-    uses: zhijun-io/workflows/.github/workflows/maven-ci.yml@main
+    uses: zhijun-io/workflows/.github/workflows/maven-ci.yml@014bb9db61cbee5ccdccfbfb868e099965da02d0
     with:
       java-version: '8'
       use-maven-wrapper: false
       maven-profiles: coverage
       upload-coverage: true
-      run-sonar: true
+      run-sonar: ${{ secrets.SONAR_TOKEN != '' }}
+      sonar-organization: zhijun-io
+      sonar-project-key: rose
       sonar-coverage-report-paths: rose-coverage/target/site/jacoco-aggregate/jacoco.xml
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

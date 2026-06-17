@@ -16,7 +16,7 @@ jobs:
   release:
     permissions:
       contents: write
-    uses: zhijun-io/workflows/.github/workflows/maven-release.yml@main
+    uses: zhijun-io/workflows/.github/workflows/maven-release.yml@014bb9db61cbee5ccdccfbfb868e099965da02d0
     with:
       version: ${{ inputs.version }}
       java-version: '8'
