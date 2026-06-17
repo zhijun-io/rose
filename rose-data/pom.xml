@@ -18,5 +18,6 @@
     <modules>
         <module>rose-data-jdbc-sqlite</module>
         <module>rose-data-mybatis-plus</module>
+        <module>rose-data-excel</module>
     </modules>
 </project>
