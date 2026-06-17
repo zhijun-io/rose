@@ -56,9 +56,13 @@ class ArtemisDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigura
                 "rose.dev.services.artemis.username=myusername",
                 "rose.dev.services.artemis.password=mypassword");
 
-        assertContainerConfigurationDeclared(RoseArtemisContainer.class, properties, container -> {
-                    assertThat(container.getUsername()).isEqualTo("myusername");
-                    assertThat(container.getPassword()).isEqualTo("mypassword");
-                });
+        assertContainerConfigurationApplied(RoseArtemisContainer.class, properties, (context, container) -> {
+            assertThat(container.getUsername()).isEqualTo("myusername");
+            assertThat(container.getPassword()).isEqualTo("mypassword");
+            assertThat(context.getEnvironment().getProperty("spring.artemis.mode")).isEqualTo("native");
+            assertThat(context.getEnvironment().getProperty("spring.artemis.broker-url")).isNotBlank();
+            assertThat(context.getEnvironment().getProperty("spring.artemis.user")).isEqualTo("myusername");
+            assertThat(context.getEnvironment().getProperty("spring.artemis.password")).isEqualTo("mypassword");
+        });
     }
 }

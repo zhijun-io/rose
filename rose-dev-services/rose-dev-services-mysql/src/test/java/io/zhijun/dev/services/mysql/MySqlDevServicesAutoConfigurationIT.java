@@ -8,6 +8,7 @@ import org.testcontainers.containers.MySQLContainer;
 
 import io.zhijun.dev.services.tests.BaseJdbcDevServicesAutoConfigurationIT;
 
+import static io.zhijun.dev.services.api.provider.DevServiceCategories.MYSQL;
 import static io.zhijun.dev.services.mysql.MySqlDevServicesProperties.DEFAULT_DB_NAME;
 import static io.zhijun.dev.services.mysql.MySqlDevServicesProperties.DEFAULT_PASSWORD;
 import static io.zhijun.dev.services.mysql.MySqlDevServicesProperties.DEFAULT_USERNAME;
@@ -37,7 +38,7 @@ class MySqlDevServicesAutoConfigurationIT extends BaseJdbcDevServicesAutoConfigu
 
     @Override
     protected String getServiceName() {
-        return "mysql";
+        return MYSQL;
     }
 
     @Test
@@ -72,9 +73,9 @@ class MySqlDevServicesAutoConfigurationIT extends BaseJdbcDevServicesAutoConfigu
                     assertThatConfigurationIsApplied((org.testcontainers.containers.GenericContainer<?>) container);
                     assertThatJdbcConfigurationIsApplied(container);
                     assertThat(((MySQLContainer<?>) container).execInContainer(
-                            "mysql", "-u", "mytest", "-pmytest", "mytest", "-N", "-e",
-                            "SELECT IF(EXISTS (SELECT 1 FROM information_schema.tables "
-                                    + "WHERE table_schema = 'mytest' AND table_name = 'BOOK'), 'true', 'false')")
+                                    "mysql", "-u", "mytest", "-pmytest", "mytest", "-N", "-e",
+                                    "SELECT IF(EXISTS (SELECT 1 FROM information_schema.tables "
+                                            + "WHERE table_schema = 'mytest' AND table_name = 'BOOK'), 'true', 'false')")
                             .getStdout())
                             .contains("true");
                     container.stop();

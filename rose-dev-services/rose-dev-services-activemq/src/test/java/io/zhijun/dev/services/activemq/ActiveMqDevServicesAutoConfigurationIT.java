@@ -56,9 +56,12 @@ class ActiveMqDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigur
                 "rose.dev.services.activemq.username=myusername",
                 "rose.dev.services.activemq.password=mypassword");
 
-        assertContainerConfigurationDeclared(RoseActiveMqContainer.class, properties, container -> {
-                    assertThat(container.getUsername()).isEqualTo("myusername");
-                    assertThat(container.getPassword()).isEqualTo("mypassword");
-                });
+        assertContainerConfigurationApplied(RoseActiveMqContainer.class, properties, (context, container) -> {
+            assertThat(container.getUsername()).isEqualTo("myusername");
+            assertThat(container.getPassword()).isEqualTo("mypassword");
+            assertThat(context.getEnvironment().getProperty("spring.activemq.broker-url")).isNotBlank();
+            assertThat(context.getEnvironment().getProperty("spring.activemq.user")).isEqualTo("myusername");
+            assertThat(context.getEnvironment().getProperty("spring.activemq.password")).isEqualTo("mypassword");
+        });
     }
 }
