@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import io.zhijun.dev.services.tests.BaseDevServicesAutoConfigurationIT;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Integration tests for {@link OpenLitDevServicesAutoConfiguration}.
  */
@@ -42,7 +44,14 @@ class OpenLitDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigura
 
     @Test
     void containerConfigurationApplied() {
-        assertContainerConfigurationDeclared(RoseOpenLitContainer.class, commonConfigurationProperties(), container -> {
-        });
+        assertContainerConfigurationApplied(
+                RoseOpenLitContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> {
+                    assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_ENDPOINT"))
+                            .startsWith("http://");
+                    assertThat(context.getEnvironment().getProperty("rose.dev.services.openlit.ui-url"))
+                            .startsWith("http://");
+                });
     }
 }

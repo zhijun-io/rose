@@ -46,7 +46,10 @@ class MongoDbDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigura
 
     @Test
     void containerConfigurationApplied() {
-        assertContainerConfigurationDeclared(MongoDBContainer.class, commonConfigurationProperties(), container -> {
-        });
+        assertContainerConfigurationApplied(
+                RoseMongoDbContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> assertThat(
+                        context.getEnvironment().getProperty("spring.data.mongodb.uri")).isNotBlank());
     }
 }

@@ -44,7 +44,10 @@ class KafkaDevServicesAutoConfigurationIT extends BaseDevServicesAutoConfigurati
 
     @Test
     void containerConfigurationApplied() {
-        assertContainerConfigurationDeclared(KafkaContainer.class, commonConfigurationProperties(), container -> {
-        });
+        assertContainerConfigurationApplied(
+                RoseKafkaContainer.class,
+                commonConfigurationProperties(),
+                (context, container) -> assertThat(
+                        context.getEnvironment().getProperty("spring.kafka.bootstrap-servers")).isNotBlank());
     }
 }
