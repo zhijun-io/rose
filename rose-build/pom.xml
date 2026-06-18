@@ -92,7 +92,6 @@
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
 
         <!-- Arguments Line -->
-        <central.publishing.skip>false</central.publishing.skip>
         <jacoco.skip>false</jacoco.skip>
         <skipITs>false</skipITs>
         <jvm.argLine/>
@@ -359,7 +358,6 @@
                     <configuration>
                         <publishingServerId>central</publishingServerId>
                         <autoPublish>true</autoPublish>
-                        <skipPublishing>${central.publishing.skip}</skipPublishing>
                     </configuration>
                 </plugin>
 
@@ -616,23 +614,22 @@
         </profile>
 
         <profile>
-            <id>java16+</id>
+            <id>java16-20</id>
             <activation>
-                <jdk>[16,)</jdk>
+                <jdk>[16,20]</jdk>
             </activation>
             <properties>
-                <jvm.argLine>
-                    --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
-                </jvm.argLine>
+                <jvm.argLine>--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED</jvm.argLine>
             </properties>
         </profile>
 
         <profile>
-            <id>java17+</id>
+            <id>java21+</id>
             <activation>
-                <jdk>[17,)</jdk>
+                <jdk>[21,)</jdk>
             </activation>
             <properties>
+                <jvm.argLine>--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dnet.bytebuddy.experimental=true -XX:+EnableDynamicAgentLoading</jvm.argLine>
             </properties>
         </profile>
     </profiles>
