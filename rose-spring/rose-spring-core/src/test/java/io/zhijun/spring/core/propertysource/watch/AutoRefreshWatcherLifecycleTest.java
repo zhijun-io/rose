@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.env.refresh;
+package io.zhijun.spring.core.propertysource.watch;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -9,14 +9,14 @@ import org.springframework.context.event.ContextClosedEvent;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ResourcePropertySourceRefreshLifecycleTests {
+class AutoRefreshWatcherLifecycleTest {
 
     @Test
     void shouldCloseRegisteredWatchersOnContextClosedEvent() throws IOException {
         RecordingWatcher watcher = new RecordingWatcher();
-        ResourcePropertySourceRefreshLifecycle.register(watcher);
+        AutoRefreshWatcherLifecycle.register(watcher);
 
-        ResourcePropertySourceRefreshLifecycle lifecycle = new ResourcePropertySourceRefreshLifecycle();
+        AutoRefreshWatcherLifecycle lifecycle = new AutoRefreshWatcherLifecycle();
         lifecycle.onApplicationEvent(new ContextClosedEvent(new AnnotationConfigApplicationContext()));
 
         assertThat(watcher.closed.get()).isTrue();

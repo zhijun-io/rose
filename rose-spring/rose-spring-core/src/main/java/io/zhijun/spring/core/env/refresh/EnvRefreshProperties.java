@@ -6,13 +6,13 @@ import org.springframework.core.env.Environment;
 /**
  * Environment property keys for env-refresh behavior.
  */
-public final class RoseSpringEnvironmentRefreshProperties {
+public final class EnvRefreshProperties {
 
     public static final String PUBLISH_EVENTS = "rose.spring.env.publish-property-source-events";
 
-    public static final String ORCHESTRATOR_ENABLED = "rose.spring.env.refresh-orchestrator.enabled";
+    public static final String REFRESH_ENABLED = "rose.spring.env.refresh.enabled";
 
-    private RoseSpringEnvironmentRefreshProperties() {
+    private EnvRefreshProperties() {
     }
 
     public static boolean isPublishPropertySourceEvents(ApplicationContext context) {
@@ -23,7 +23,7 @@ public final class RoseSpringEnvironmentRefreshProperties {
         return env.getProperty(PUBLISH_EVENTS, Boolean.class, Boolean.TRUE);
     }
 
-    public static boolean isOrchestratorEnabled(Environment environment) {
-        return environment.getProperty(ORCHESTRATOR_ENABLED, Boolean.class, Boolean.TRUE);
+    public static boolean isRefreshEnabled(Environment environment) {
+        return environment.getProperty(REFRESH_ENABLED, Boolean.class, Boolean.TRUE);
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.core.env.PropertySource;
 
 import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-import io.zhijun.spring.core.env.refresh.RoseSpringEnvironmentRefreshProperties;
+import io.zhijun.spring.core.env.refresh.EnvRefreshProperties;
 
 /**
  * MutablePropertySources wrapper that publishes change callbacks.
@@ -128,7 +128,7 @@ public class ListenableMutablePropertySources extends MutablePropertySources {
             listener.onPropertySourceChanged(event);
             listener.onPropertySourcesChanged(bulkEvent);
         }
-        if (RoseSpringEnvironmentRefreshProperties.isPublishPropertySourceEvents(applicationContext)
+        if (EnvRefreshProperties.isPublishPropertySourceEvents(applicationContext)
                 && applicationContext instanceof ConfigurableApplicationContext) {
             ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) applicationContext;
             if (configurableContext.isActive()) {

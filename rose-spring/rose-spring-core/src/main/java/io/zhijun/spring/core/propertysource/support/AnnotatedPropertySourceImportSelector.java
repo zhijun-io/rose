@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.config.support;
+package io.zhijun.spring.core.propertysource.support;
 
 import java.lang.annotation.Annotation;
 
@@ -17,7 +17,7 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * Lightweight {@link ImportSelector} base for annotation-driven property source loading.
  */
-abstract class AnnotatedPropertySourceImportSelector<A extends Annotation> implements ImportSelector,
+public abstract class AnnotatedPropertySourceImportSelector<A extends Annotation> implements ImportSelector,
         EnvironmentAware, BeanClassLoaderAware, ResourceLoaderAware {
 
     private static final String[] NO_IMPORTS = new String[0];
@@ -30,7 +30,7 @@ abstract class AnnotatedPropertySourceImportSelector<A extends Annotation> imple
 
     private ResourceLoader resourceLoader;
 
-    AnnotatedPropertySourceImportSelector(Class<A> annotationType) {
+    protected AnnotatedPropertySourceImportSelector(Class<A> annotationType) {
         this.annotationType = annotationType;
     }
 

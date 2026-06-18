@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.zhijun.spring.core.env.listener.EnvironmentListener;
 import io.zhijun.spring.core.env.listener.LoggingEnvironmentListener;
+import io.zhijun.spring.core.env.refresh.PropertySourcesRefreshEnvironmentListener;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,15 @@ class SpringFactoriesLoaderUtilsTests {
 
         assertThat(listeners).anyMatch(listener -> listener instanceof LoggingEnvironmentListener);
         assertThat(listeners).anyMatch(listener -> listener instanceof io.zhijun.spring.core.env.FactoryLoadedEnvironmentListener);
+        assertThat(listeners).anyMatch(listener -> listener instanceof PropertySourcesRefreshEnvironmentListener);
+    }
+
+    @Test
+    void shouldRegisterPropertySourcesRefreshEnvironmentListenerInMainSpringFactories() {
+        List<String> names = SpringFactoriesLoaderUtils.loadFactoryNames(EnvironmentListener.class,
+                LoggingEnvironmentListener.class.getClassLoader());
+
+        assertThat(names).contains(PropertySourcesRefreshEnvironmentListener.class.getName());
     }
 
     @Test

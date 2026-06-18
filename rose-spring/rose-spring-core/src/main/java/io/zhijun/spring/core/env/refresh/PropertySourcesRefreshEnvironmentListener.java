@@ -10,30 +10,31 @@ import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 /**
  * Dispatches property source changes to {@link Refreshable} extensions.
  */
-@Order(Ordered.LOWEST_PRECEDENCE)
-public final class PropertySourcesRefreshOrchestrator implements EnvironmentListener {
+@Order
+public final class PropertySourcesRefreshEnvironmentListener implements EnvironmentListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropertySourcesRefreshOrchestrator.class);
+    private static final Logger logger = LoggerFactory.getLogger(PropertySourcesRefreshEnvironmentListener.class);
 
     private volatile List<Refreshable> refreshables;
 
-    public PropertySourcesRefreshOrchestrator() {
+    public PropertySourcesRefreshEnvironmentListener() {
     }
 
-    public PropertySourcesRefreshOrchestrator(List<Refreshable> refreshables) {
+    public PropertySourcesRefreshEnvironmentListener(List<Refreshable> refreshables) {
         this.refreshables = refreshables;
     }
 
     @Override
     public void onPropertySourcesChanged(PropertySourcesChangedEvent event) {
         ApplicationContext context = (ApplicationContext) event.getSource();
-        if (!RoseSpringEnvironmentRefreshProperties.isOrchestratorEnabled(context.getEnvironment())) {
+        if (!isDispatchAllowed(context)) {
             return;
         }
         Set<String> changedKeys = event.getChangedKeys();
@@ -44,7 +45,24 @@ public final class PropertySourcesRefreshOrchestrator implements EnvironmentList
     }
 
     public void onEnvironmentChangeKeys(Set<String> keys) {
-        dispatch(RefreshableContextHolder.getApplicationContext(), keys);
+        ApplicationContext context = RefreshableContextHolder.getApplicationContext();
+        if (!isDispatchAllowed(context)) {
+            return;
+        }
+        dispatch(context, keys);
+    }
+
+    private boolean isDispatchAllowed(ApplicationContext context) {
+        if (context == null) {
+            return false;
+        }
+        if (!EnvRefreshProperties.isRefreshEnabled(context.getEnvironment())) {
+            return false;
+        }
+        if (context instanceof ConfigurableApplicationContext) {
+            return ((ConfigurableApplicationContext) context).isActive();
+        }
+        return true;
     }
 
     private void dispatch(ApplicationContext context, Set<String> changedKeys) {

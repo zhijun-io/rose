@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.env.support;
+package io.zhijun.spring.core.env.event;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.PropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,6 +36,48 @@ class PropertySourceDiffSupportTest {
                 new MapPropertySource("demo", map));
 
         assertThat(diff).isEmpty();
+    }
+
+    @Test
+    void diffReplacedIgnoresNullValuesWhenBothSidesNull() {
+        Map<String, Object> oldMap = new HashMap<String, Object>();
+        oldMap.put("nullable", null);
+        Map<String, Object> newMap = new HashMap<String, Object>();
+        newMap.put("nullable", null);
+
+        Set<String> diff = PropertySourceDiffSupport.diffReplaced(new MapPropertySource("demo", oldMap),
+                new MapPropertySource("demo", newMap));
+
+        assertThat(diff).isEmpty();
+    }
+
+    @Test
+    void diffReplacedDetectsRemovedKey() {
+        Map<String, Object> oldMap = new HashMap<String, Object>();
+        oldMap.put("kept", "1");
+        oldMap.put("removed", "x");
+        Map<String, Object> newMap = new HashMap<String, Object>();
+        newMap.put("kept", "1");
+
+        Set<String> diff = PropertySourceDiffSupport.diffReplaced(new MapPropertySource("demo", oldMap),
+                new MapPropertySource("demo", newMap));
+
+        assertThat(diff).containsExactly("removed");
+    }
+
+    @Test
+    void getPropertyNamesReturnsEmptyForNonEnumerableSource() {
+        PropertySource<Object> source = new PropertySource<Object>("demo", new Object()) {
+            @Override
+            public Object getProperty(String name) {
+                return null;
+            }
+        };
+
+        assertThat(PropertySourceDiffSupport.getPropertyNames(source)).isEmpty();
+        assertThat(PropertySourceDiffSupport.diffReplaced(source, source)).isEmpty();
+        assertThat(PropertySourceDiffSupport.keysAdded(source)).isEmpty();
+        assertThat(PropertySourceDiffSupport.keysRemoved(source)).isEmpty();
     }
 
     @Test

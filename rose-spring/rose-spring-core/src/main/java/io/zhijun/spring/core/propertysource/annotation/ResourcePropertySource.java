@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.config.annotation;
+package io.zhijun.spring.core.propertysource.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
@@ -7,8 +7,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Comparator;
 
-import io.zhijun.spring.core.config.support.ResourcePropertySourceLoader;
-import io.zhijun.spring.core.config.support.DefaultResourceComparator;
+import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
+import io.zhijun.spring.core.propertysource.support.ResourcePropertySourceLoader;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.DefaultPropertySourceFactory;

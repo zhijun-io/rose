@@ -1,6 +1,6 @@
-package io.zhijun.spring.core.config;
+package io.zhijun.spring.core.propertysource;
 
-import io.zhijun.spring.core.config.annotation.ResourcePropertySource;
+import io.zhijun.spring.core.propertysource.annotation.ResourcePropertySource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
@@ -11,8 +11,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 
-import io.zhijun.spring.core.config.annotation.JsonPropertySource;
-import io.zhijun.spring.core.config.annotation.YamlPropertySource;
+import io.zhijun.spring.core.propertysource.annotation.JsonPropertySource;
+import io.zhijun.spring.core.propertysource.annotation.YamlPropertySource;
 
 import java.util.Iterator;
 

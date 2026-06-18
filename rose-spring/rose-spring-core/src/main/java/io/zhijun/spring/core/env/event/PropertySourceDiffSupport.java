@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.env.support;
+package io.zhijun.spring.core.env.event;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -29,27 +29,32 @@ public final class PropertySourceDiffSupport {
     }
 
     public static Set<String> diffReplaced(PropertySource<?> oldSource, PropertySource<?> newSource) {
-        if (!(oldSource instanceof EnumerablePropertySource)
-                && !(newSource instanceof EnumerablePropertySource)) {
+        Set<String> oldNames = getPropertyNames(oldSource);
+        Set<String> newNames = getPropertyNames(newSource);
+        if (oldNames.isEmpty() && newNames.isEmpty()) {
             return Collections.emptySet();
         }
         LinkedHashSet<String> changed = new LinkedHashSet<String>();
-        if (oldSource instanceof EnumerablePropertySource) {
-            EnumerablePropertySource<?> oldEnumerable = (EnumerablePropertySource<?>) oldSource;
-            for (String key : oldEnumerable.getPropertyNames()) {
-                if (newSource.getProperty(key) == null) {
+        if (!oldNames.isEmpty() && !newNames.isEmpty()) {
+            for (String key : oldNames) {
+                if (!newNames.contains(key)) {
                     changed.add(key);
                 }
             }
-        }
-        if (newSource instanceof EnumerablePropertySource) {
-            EnumerablePropertySource<?> newEnumerable = (EnumerablePropertySource<?>) newSource;
-            for (String key : newEnumerable.getPropertyNames()) {
-                Object oldValue = oldSource.getProperty(key);
-                Object newValue = newEnumerable.getProperty(key);
-                if (oldValue == null || !Objects.equals(oldValue, newValue)) {
+            for (String key : newNames) {
+                if (!oldNames.contains(key)) {
                     changed.add(key);
                 }
+                else if (!Objects.equals(oldSource.getProperty(key), newSource.getProperty(key))) {
+                    changed.add(key);
+                }
+            }
+            return changed;
+        }
+        Set<String> keys = !oldNames.isEmpty() ? oldNames : newNames;
+        for (String key : keys) {
+            if (!Objects.equals(oldSource.getProperty(key), newSource.getProperty(key))) {
+                changed.add(key);
             }
         }
         return changed;

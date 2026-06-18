@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.env.refresh;
+package io.zhijun.spring.core.propertysource.watch;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,24 +9,25 @@ import org.springframework.core.io.Resource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ResourcePropertySourceRefreshWatcherTests {
+class AutoRefreshWatcherTest {
 
     @Test
-    void shouldTriggerRefreshCallbackForFileBackedResource() throws Exception {
+    void shouldTriggerReloadCallbackForFileBackedResource() throws Exception {
         File file = File.createTempFile("app", ".properties");
         List<String> callbacks = new ArrayList<String>();
         io.zhijun.spring.core.io.watch.FakeFileWatchService watchService = new io.zhijun.spring.core.io.watch.FakeFileWatchService();
 
-        ResourcePropertySourceRefreshWatcher watcher = new ResourcePropertySourceRefreshWatcher(
+        AutoRefreshWatcher watcher = new AutoRefreshWatcher(
                 new org.springframework.core.io.support.PathMatchingResourcePatternResolver(), watchService);
         try {
-            watcher.watch("file:" + file.getAbsolutePath(), new ResourcePropertySourcesRefresher() {
+            watcher.watch("file:" + file.getAbsolutePath(), new PropertySourceReloadCallback() {
                 @Override
-                public void refresh(String resourceValue, Resource resource) {
+                public void onReload(String resourceValue, Resource resource) {
                     callbacks.add(resourceValue);
                     callbacks.add(resource.getFilename());
                 }
             });
+            watcher.start();
             watchService.publish(file, io.zhijun.spring.core.io.watch.FileChangedEvent.Kind.MODIFIED);
         } finally {
             watcher.close();

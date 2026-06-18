@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.config.support;
+package io.zhijun.spring.core.propertysource.support;
 
 import java.util.Comparator;
 

@@ -1,7 +1,7 @@
-package io.zhijun.spring.core.config;
+package io.zhijun.spring.core.propertysource;
 
-import io.zhijun.spring.core.config.support.JsonPropertySourceFactory;
-import io.zhijun.spring.core.config.support.YamlPropertySourceFactory;
+import io.zhijun.spring.core.propertysource.support.JsonPropertySourceFactory;
+import io.zhijun.spring.core.propertysource.support.YamlPropertySourceFactory;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ByteArrayResource;

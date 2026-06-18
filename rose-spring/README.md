@@ -7,7 +7,7 @@ Rose Spring 是 Rose 的 Spring 扩展模块，提供可监听的环境（Listen
 | 规格文档 | 逻辑子域 | 包 | 状态 |
 |----------|----------|-----|------|
 | [env-refresh](../docs/rose-spring-env-refresh-design.md) | 可刷新环境 | `core.env.*` | §5 待实现 |
-| [property-source](../docs/rose-spring-property-source-design.md) | PropertySource 增强 | `core.propertysource.*` | Phase 1b |
+| [property-source](../docs/rose-spring-property-source-design.md) | PropertySource 增强 | `core.propertysource.*` | Phase 2（R2 包迁移 ✅） |
 | [configuration-bean-binding](../docs/rose-spring-configuration-bean-binding-design.md) | `@EnableConfigurationBeanBinding` | `core.binder.*` | ✅ 已实现 |
 
 **实施顺序：** env-refresh §5 → property-source §6–§11 → i18n §6 对接。
@@ -60,7 +60,7 @@ io.zhijun.spring.core.env.PropertyResolverListener=your.pkg.YourPropertyResolver
 
 默认已注册 `LoggingEnvironmentListener`（`slf4j` 输出访问与变更日志）。
 
-**配置刷新（实现规格）：** 见 [Env 刷新实现规格](../docs/rose-spring-env-refresh-design.md)。`PropertySourcesChangedEvent#getChangedKeys()` 提供 key 级 diff；`Refreshable` SPI 由 `PropertySourcesRefreshOrchestrator` 编排。
+**配置刷新（实现规格）：** 见 [Env 刷新实现规格](../docs/rose-spring-env-refresh-design.md)。`PropertySourcesChangedEvent#getChangedKeys()` 提供 key 级 diff；`Refreshable` SPI 由 `PropertySourcesRefreshEnvironmentListener` 编排。
 
 **PropertySource 注解（实现规格）：** 见 [PropertySource 实现规格](../docs/rose-spring-property-source-design.md)。
 
@@ -73,9 +73,9 @@ io.zhijun.spring.core.env.PropertyResolverListener=your.pkg.YourPropertyResolver
 | `ListenableConfigurableEnvironment` | `core.env` | 代理包装，拦截环境读取与变更 |
 | `ListenableMutablePropertySources` | `core.env` | 监听 `PropertySource` 增删改 |
 | `PropertySourceChangedEvent` / `PropertySourcesChangedEvent` | `core.env.event` | 单次 / 批量变更事件 |
-| `Refreshable` / `PropertySourcesRefreshOrchestrator` | `core.env.refresh` | 配置刷新 SPI（见 Env 刷新规格） |
-| `YamlPropertySourceFactory` / `JsonPropertySourceFactory` | `config.env.support` | YAML / JSON 属性源工厂 |
-| `DefaultResourceComparator` | `config.env.support` | 通配符资源排序 |
+| `Refreshable` / `PropertySourcesRefreshEnvironmentListener` | `core.env.refresh` | 配置刷新 SPI（见 Env 刷新规格） |
+| `YamlPropertySourceFactory` / `JsonPropertySourceFactory` | `propertysource.support` | YAML / JSON 属性源工厂 |
+| `DefaultResourceComparator` | `propertysource.support` | 通配符资源排序 |
 | `SpringFactoriesLoaderUtils` | `core.io.support` | 统一 SPI 加载入口 |
 
 ---
@@ -179,7 +179,7 @@ public class AppConfig {
 ```
 
 - 在 `selectImports` 阶段通过 `EnvironmentAware` 获取 `Environment` 并注册 `PropertySource`。
-- `autoRefreshed = true` 时由 `ResourcePropertySourceRefreshWatcher` 监听文件，`ResourcePropertySourceRefreshLifecycle` 在 Context 关闭时释放资源。
+- `autoRefreshed = true` 时由 `AutoRefreshWatcher` 监听文件，`AutoRefreshWatcherLifecycle` 在 Context 关闭时释放资源。
 
 ---
 
@@ -232,13 +232,16 @@ io.zhijun.spring
 │   │   ├── annotation         # @EnableConfigurationBeanBinding、Registrar、PostProcessor
 │   │   ├── config             # ConfigurationBeanBinder、Customizer
 │   │   └── support            # ConfigurationBeanAliasGenerator、ConversionServiceResolver
-│   ├── config                 # PropertyAdapter、legacy config.env 包（迁移中）
+│   ├── config                 # PropertyAdapter
 │   ├── env                    # Listenable Environment、PropertySourcesUtils
 │   │   ├── listener/
 │   │   ├── event/
 │   │   ├── support/
-│   │   └── refresh/           # 文件热更 watcher（property-source 协作）
-│   ├── propertysource/        # @ResourcePropertySource 新包（与 config 并存）
+│   │   └── refresh/           # 配置刷新 SPI（Refreshable、EnvironmentListener）
+│   ├── propertysource/        # @ResourcePropertySource 主包
+│   │   ├── annotation/
+│   │   ├── support/
+│   │   └── watch/             # 文件触发（autoRefreshed）
 │   ├── convert/support
 │   └── io
 │       ├── support            # SpringFactoriesLoaderUtils
@@ -270,10 +273,10 @@ io.zhijun.spring
 | `ListenableConfigurableEnvironmentInitializerTests` | 启动时自动包装 |
 | `SpringFactoriesLoaderUtilsTests` | SPI 加载 |
 | `FileWatchServiceTests` | 文件监听底座 |
-| `PropertySourceFactoryTests` | YAML / JSON 工厂（`config.env.support`） |
+| `PropertySourceFactoryTests` | YAML / JSON 工厂（`propertysource.support`） |
 | `ResourcePropertySourceLoaderTests` | 加载、排序、通配符、元注解、repeatable、ignoreResourceNotFound |
-| `ResourcePropertySourceRefreshWatcherTests` | 文件变更触发刷新 |
-| `ResourcePropertySourceRefreshLifecycleTests` | Context 关闭清理 watcher |
+| `AutoRefreshWatcherTest` | 文件变更触发 reload（`propertysource.watch`） |
+| `AutoRefreshWatcherLifecycleTest` | Context 关闭清理 watcher（`propertysource.watch`） |
 | `EnableConfigurationBeanBindingTest` | 单 Bean 绑定 + Customizer |
 | `EnableConfigurationBeanBindingMultipleTest` | `multiple = true` 多 Bean |
 | `EnableConfigurationBeanBindingAliasTest` | 别名 SPI |

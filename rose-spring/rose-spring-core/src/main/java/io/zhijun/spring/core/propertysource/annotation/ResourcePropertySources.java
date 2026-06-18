@@ -1,11 +1,11 @@
-package io.zhijun.spring.core.config.annotation;
+package io.zhijun.spring.core.propertysource.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import io.zhijun.spring.core.config.support.ResourcePropertySourcesLoader;
+import io.zhijun.spring.core.propertysource.support.ResourcePropertySourcesLoader;
 
 import org.springframework.context.annotation.Import;
 

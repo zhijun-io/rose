@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.config.annotation;
+package io.zhijun.spring.core.propertysource.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
@@ -6,8 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Comparator;
 
-import io.zhijun.spring.core.config.support.DefaultResourceComparator;
-import io.zhijun.spring.core.config.support.YamlPropertySourceFactory;
+import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
+import io.zhijun.spring.core.propertysource.support.JsonPropertySourceFactory;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.Resource;
 
@@ -15,14 +15,14 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * YAML property source annotation.
+ * JSON property source annotation.
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Inherited
 @Documented
-@ResourcePropertySource(factory = YamlPropertySourceFactory.class)
-public @interface YamlPropertySource {
+@ResourcePropertySource(factory = JsonPropertySourceFactory.class)
+public @interface JsonPropertySource {
 
     @AliasFor(annotation = ResourcePropertySource.class)
     String name() default "";

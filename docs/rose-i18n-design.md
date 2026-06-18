@@ -483,7 +483,7 @@ rose:
         ↓
 PropertySourcesChangedEvent / EnvironmentChangeEvent
         ↓
-PropertySourcesRefreshOrchestrator（rose-spring-core）
+PropertySourcesRefreshEnvironmentListener（rose-spring-core）
         ↓
 Refreshable.refresh(changedKeys)   ← EnvironmentMessageBundleRefreshable（rose-i18n）
         ↓
@@ -629,8 +629,8 @@ CompositeMessageBundle
 
 | 能力 | 机制 |
 |------|------|
-| 文件热更 | `ResourcePropertySourceRefreshWatcher` / `FileChangedEvent` → `refresh(locale)` |
-| Env 热更 | `PropertySourcesRefreshOrchestrator` → `Refreshable`（[`rose-spring-core` 规格 §5–§6](./rose-spring-env-refresh-design.md)） |
+| 文件热更 | `AutoRefreshWatcher` / `FileChangedEvent` → `refresh(locale)` |
+| Env 热更 | `PropertySourcesRefreshEnvironmentListener` → `Refreshable`（[`rose-spring-core` 规格 §5–§6](./rose-spring-env-refresh-design.md)） |
 | 远程配置 | `@YamlPropertySource` / Cloud 刷新后触发 i18n reload |
 | 键名约定 | Env 覆盖：`rose.i18n.messages.{bundle}.{locale}.{code}` 或整文件 blob |
 
@@ -1477,7 +1477,7 @@ ResourceBundleMessageSource legacyMessageSource() { ... }
 
 **实现要点（摘要）：**
 
-1. `rose-spring-core` 提供 `Refreshable` SPI + `PropertySourcesRefreshOrchestrator`（见`rose-spring-core` 规格 §5）。
+1. `rose-spring-core` 提供 `Refreshable` SPI + `PropertySourcesRefreshEnvironmentListener`（见`rose-spring-core` 规格 §5）。
 2. `rose-i18n-spring` 注册 `EnvironmentMessageBundleRefreshable`（`spring.factories`）。
 3. `supports(changedKeys)`：任一 key 以 `rose.i18n.messages.` 开头。
 4. `refresh(changedKeys)`：通过 `RefreshableContextHolder` 取 `ApplicationContext`，对全部 `EnvironmentMessageBundle` 调用 `refresh()`（见 [env-refresh §5.2](./rose-spring-env-refresh-design.md#52-refreshablecontextholder-与-initializer-钩子)）。
@@ -1698,14 +1698,14 @@ rose:
 
 #### `I18nRefreshOrchestrator`（Cloud 专用，Env 刷新走平台 orchestrator）
 
-> **Env bundle 刷新：** 由 [rose-spring-env-refresh-design.md §6](./rose-spring-env-refresh-design.md#6-phase-2-对接规格rose-i18n) 的 `EnvironmentMessageBundleRefreshable` + `PropertySourcesRefreshOrchestrator` 完成。  
+> **Env bundle 刷新：** 由 [rose-spring-env-refresh-design.md §6](./rose-spring-env-refresh-design.md#6-phase-2-对接规格rose-i18n) 的 `EnvironmentMessageBundleRefreshable` + `PropertySourcesRefreshEnvironmentListener` 完成。  
 > 本类 **仅** 负责 Cloud 配置项控制的 **ClasspathMessageBundle** 可选刷新。
 
 ```java
 public final class I18nRefreshOrchestrator {
 
     public I18nRefreshOrchestrator(ApplicationContext context, I18nCloudProperties properties,
-            PropertySourcesRefreshOrchestrator platformOrchestrator) { ... }
+            PropertySourcesRefreshEnvironmentListener platformOrchestrator) { ... }
 
     /** Cloud EnvironmentChangeEvent 入口 */
     public void onKeysChanged(Set<String> changedKeys) { ... }
