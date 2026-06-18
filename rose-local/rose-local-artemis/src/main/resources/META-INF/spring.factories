@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.dev.services.artemis.ArtemisDevServicesAutoConfiguration
+artemis.io.zhijun.local.ArtemisDevServicesAutoConfiguration

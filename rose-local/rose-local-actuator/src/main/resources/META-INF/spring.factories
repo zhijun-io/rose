@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.dev.services.actuator.autoconfigure.DevServicesEndpointAutoConfiguration
+autoconfigure.actuator.io.zhijun.local.DevServicesEndpointAutoConfiguration

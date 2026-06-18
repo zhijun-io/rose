@@ -1,0 +1,49 @@
+package io.zhijun.local.openlit;
+
+import java.time.Duration;
+
+import org.junit.jupiter.api.Test;
+
+import io.zhijun.local.tests.BaseLocalServicePropertiesTests;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * Unit tests for {@link OpenLitLocalServiceProperties}.
+ */
+class OpenLitDevServicePropertiesTests extends BaseLocalServicePropertiesTests<OpenLitLocalServiceProperties> {
+
+    @Override
+    protected OpenLitLocalServiceProperties createProperties() {
+        return new OpenLitLocalServiceProperties();
+    }
+
+    @Override
+    protected DefaultValues getExpectedDefaults() {
+        return DefaultValues.builder()
+                .imageName(RoseOpenLitContainer.COMPATIBLE_IMAGE_NAME)
+                .shared(true)
+                .startupTimeout(Duration.ofMinutes(2))
+                .build();
+    }
+
+    @Test
+    void shouldCreateInstanceWithServiceSpecificDefaultValues() {
+        OpenLitLocalServiceProperties properties = createProperties();
+
+        assertThat(properties.getOtlpGrpcPort()).isEqualTo(0);
+        assertThat(properties.getOtlpHttpPort()).isEqualTo(0);
+    }
+
+    @Test
+    void shouldUpdateServiceSpecificValues() {
+        OpenLitLocalServiceProperties properties = createProperties();
+
+        properties.setOtlpGrpcPort(9001);
+        properties.setOtlpHttpPort(9002);
+
+        assertThat(properties.getOtlpGrpcPort()).isEqualTo(9001);
+        assertThat(properties.getOtlpHttpPort()).isEqualTo(9002);
+    }
+
+}

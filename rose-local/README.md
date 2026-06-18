@@ -6,12 +6,12 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 
 ### 子模块
 
-| 模块 | Artifact | 角色 |
-|------|----------|------|
+| 模块 | Artifact | 角色                                            |
+|------|----------|-----------------------------------------------|
 | Core | `rose-local-core` | API、`BootstrapMode`、容器注册、`addDynamicProperty` |
-| Actuator | `rose-local-actuator` | `/actuator/devservices`（`@ConditionalOnDevMode`） |
-| Connectors | `rose-local-{tech}` | 按技术可选 `runtime` 依赖 |
-| Tests | `rose-local-tests` | 集成测试共享支持（test scope） |
+| Actuator | `rose-local-actuator` | `/actuator/local`（`@ConditionalOnDevMode`）    |
+| Connectors | `rose-local-{tech}` | 按技术可选 `runtime` 依赖                            |
+| Tests | `rose-local-tests` | 集成测试共享支持（test scope）                          |
 
 **连接器（reactor）**：`postgresql`、`mysql`、`redis`、`mongodb`、`kafka`、`rabbitmq`、`artemis`、`activemq`、`ollama`、`mqtt`、`openlit`、`otel-collector`。
 
@@ -35,13 +35,13 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 
 ### 对标 Arconia
 
-| Arconia Dev Services | Rose | 状态 |
-|----------------------|------|------|
-| 开发/测试自动起容器 | Testcontainers 连接器 | ✅ |
-| 动态配置注入 | `addDynamicProperty` | ✅ |
+| Arconia Dev Services | Rose                         | 状态 |
+|----------------------|------------------------------|------|
+| 开发/测试自动起容器 | Testcontainers 连接器           | ✅ |
+| 动态配置注入 | `addDynamicProperty`         | ✅ |
 | `config/default` 式静态默认 | 连接器 `config/default/*` + EPP | ✅ |
-| `@ServiceConnection` | — | ❌ Boot 3 |
-| Quarkus Dev UI | Actuator `/devservices` | ⚠️ 部分（Boot Actuator） |
+| `@ServiceConnection` | —                            | ❌ Boot 3 |
+| Quarkus Dev UI | Actuator `/local`            | ⚠️ 部分（Boot Actuator） |
 
 ### 对标 Microsphere
 
@@ -67,7 +67,7 @@ Override: `-Drose.bootstrap.mode=dev|test|prod`
 
 ## Enabling
 
-**Tests**: connector on `test` classpath; `rose.dev.services.*.enabled=true` by default.
+**Tests**: connector on `test` classpath; `rose.local.*.enabled=true` by default.
 
 **Local development**: `runtime` + `optional` (or Gradle `testAndDevelopmentOnly`); `rose.bootstrap.mode=dev`.
 

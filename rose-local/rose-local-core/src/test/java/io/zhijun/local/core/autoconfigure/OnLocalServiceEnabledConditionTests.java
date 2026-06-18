@@ -1,0 +1,240 @@
+package io.zhijun.local.core.autoconfigure;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+import org.springframework.mock.env.MockEnvironment;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+/**
+ * Unit tests for {@link OnLocalServiceEnabledCondition}.
+ */
+class OnLocalServiceEnabledConditionTests {
+
+    private final OnLocalServiceEnabledCondition condition = new OnLocalServiceEnabledCondition();
+
+    private final MockEnvironment environment = new MockEnvironment();
+
+    private final ConditionContext context = mock(ConditionContext.class);
+
+    @Test
+    void shouldMatchWhenGloballyEnabledAndSpecificDevServiceEnabled() {
+        environment.setProperty("rose.local.enabled", "true");
+        environment.setProperty("rose.local.test-service.enabled", "true");
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isTrue();
+        assertThat(outcome.getMessage())
+                .contains("rose.local.test-service.enabled is set to true");
+    }
+
+    @Test
+    void shouldNotMatchWhenGloballyEnabledButSpecificDevServiceDisabled() {
+        environment.setProperty("rose.local.enabled", "true");
+        environment.setProperty("rose.local.test-service.enabled", "false");
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("rose.local.test-service.enabled is set to false");
+    }
+
+    @Test
+    void shouldNotMatchWhenGloballyDisabledAndSpecificDevServiceEnabled() {
+        environment.setProperty("rose.local.enabled", "false");
+        environment.setProperty("rose.local.test-service.enabled", "true");
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("rose.local.enabled is set to false");
+    }
+
+    @Test
+    void shouldNotMatchWhenGloballyDisabledAndSpecificDevServiceDisabled() {
+        environment.setProperty("rose.local.enabled", "false");
+        environment.setProperty("rose.local.test-service.enabled", "false");
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("rose.local.enabled is set to false");
+    }
+
+    @Test
+    void shouldMatchByDefaultWhenPropertiesAreNotSet() {
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isTrue();
+        assertThat(outcome.getMessage())
+                .contains("enabled by default (rose.local.test-service.enabled is not set)");
+    }
+
+    @Test
+    void shouldNotMatchWhenDevServicesNameIsEmpty() {
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("a valid dev services name is not specified");
+    }
+
+    @Test
+    void shouldNotMatchWhenDevServicesNameIsBlank() {
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "   ");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("a valid dev services name is not specified");
+    }
+
+    @Test
+    void shouldNotMatchWhenDevServicesNameIsNull() {
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", null);
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("a valid dev services name is not specified");
+    }
+
+    @Test
+    void shouldNotMatchWhenAnnotationAttributesAreNull() {
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(null);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("a valid dev services name is not specified");
+    }
+
+    @Test
+    void shouldMatchWhenOnlyGlobalPropertyIsSetToTrue() {
+        environment.setProperty("rose.local.enabled", "true");
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isTrue();
+        assertThat(outcome.getMessage())
+                .contains("enabled by default (rose.local.test-service.enabled is not set)");
+    }
+
+    @Test
+    void shouldMatchWhenOnlyGlobalPropertyIsSetToFalse() {
+        environment.setProperty("rose.local.enabled", "false");
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isFalse();
+        assertThat(outcome.getMessage())
+                .contains("rose.local.enabled is set to false");
+    }
+
+    @Test
+    void shouldMatchWhenOnlySpecificPropertyIsSetToTrue() {
+        environment.setProperty("rose.local.test-service.enabled", "true");
+        when(context.getEnvironment()).thenReturn(environment);
+
+        AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("value", "test-service");
+        when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                .thenReturn(attributes);
+
+        ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+        assertThat(outcome.isMatch()).isTrue();
+        assertThat(outcome.getMessage())
+                .contains("rose.local.test-service.enabled is set to true");
+    }
+
+}

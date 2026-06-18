@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot-starter`; `rose-multitenancy-core` and `rose-multitenancy-web` no longer depend on Spring Boot. Replaces `rose-multitenancy-core-spring-boot-starter` and `rose-multitenancy-web-spring-boot-starter`.
-- Dev Services artifacts renamed to `rose-local-*` (parent `rose-local`). Replaces `rose-dev-services-*`. Configuration keys `rose.dev.services.*` and Java packages unchanged.
+- Dev Services artifacts renamed to `rose-local-*` (parent `rose-local`). Replaces `rose-dev-services-*`. Configuration keys `rose.local.*` and Java packages unchanged.
 
 ## [0.1.0] - Unreleased
 
@@ -47,7 +47,7 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 
 - Docker-backed local dev services (`rose-local-core`, Testcontainers-based connectors)
 - Connectors: PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, ActiveMQ, MQTT (HiveMQ), Ollama, OpenLit, OpenTelemetry Collector
-- Default credentials / JDBC database name `rose` unless overridden via `rose.dev.services.*`
+- Default credentials / JDBC database name `rose` unless overridden via `rose.local.*`
 - Actuator endpoint and dynamic property registration for running containers
 
 #### Multitenancy

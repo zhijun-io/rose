@@ -1,3 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.dev.services.opentelemetry.collector.OtelCollectorDevServicesAutoConfiguration,\
-io.zhijun.dev.services.opentelemetry.collector.OtelCollectorOtlpConnectionDetailsConfiguration
+collector.opentelemetry.io.zhijun.local.OtelCollectorDevServicesAutoConfiguration,\
+collector.opentelemetry.io.zhijun.local.OtelCollectorOtlpConnectionDetailsConfiguration

@@ -101,7 +101,7 @@ Docker-backed local services for development. Add `rose-spring-boot-starter`, op
 </dependency>
 ```
 
-Connectors include PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, ActiveMQ, Ollama, MQTT, OpenLit, and OpenTelemetry Collector. Defaults use username/password (and JDBC database name) **`rose`** unless overridden via `rose.dev.services.<connector>.*`.
+Connectors include PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, ActiveMQ, Ollama, MQTT, OpenLit, and OpenTelemetry Collector. Defaults use username/password (and JDBC database name) **`rose`** unless overridden via `rose.local.<connector>.*`.
 
 See [rose-local/README.md](rose-local/README.md).
 
