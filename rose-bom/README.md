@@ -92,7 +92,6 @@
 | Artifact | 原因 |
 |----------|------|
 | `rose-build` / `rose-parent` | 构建用，应用不 import |
-| `rose-coverage` | 仅 `-Pcoverage` profile，不发布 |
 
 ## 已实现
 

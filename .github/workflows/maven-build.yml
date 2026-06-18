@@ -1,0 +1,97 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Maven Build
+
+permissions:
+  contents: read
+  pull-requests: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: maven-build-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['8', '11', '17', '21', '25']
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Java ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Build with Maven
+        run: |
+          if [ "${{ matrix.java }}" = "21" ]; then
+            PROFILES="-Pcoverage"
+          else
+            PROFILES=""
+          fi
+          mvn -B -U -ntp verify ${PROFILES}
+
+      - name: SonarCloud analysis
+        # sonar-maven-plugin 5.7+ requires Java 21+ as scanner runtime (or JRE auto-provisioning)
+        if: matrix.java == '21'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
+          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+        run: |
+          if [ -z "${SONAR_TOKEN}" ]; then
+            echo "SONAR_TOKEN not set, skipping SonarCloud analysis."
+            exit 0
+          fi
+          if [ ! -f rose-coverage/target/site/jacoco-aggregate/jacoco.xml ]; then
+            echo "JaCoCo report not found."
+            exit 1
+          fi
+          ORG="${SONAR_ORGANIZATION:-${GITHUB_REPOSITORY%%/*}}"
+          PROJECT="${SONAR_PROJECT_KEY:-${GITHUB_REPOSITORY#*/}}"
+          mvn -B -ntp -DskipTests \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization="${ORG}" \
+            -Dsonar.projectKey="${PROJECT}" \
+            -Dsonar.coverage.jacoco.xmlReportPaths=rose-coverage/target/site/jacoco-aggregate/jacoco.xml \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar
+
+      - name: Upload coverage to Codecov
+        if: matrix.java == '21'
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          if [ -z "${CODECOV_TOKEN}" ]; then
+            echo "CODECOV_TOKEN not set, skipping Codecov upload."
+            exit 0
+          fi
+          if [ ! -f rose-coverage/target/site/jacoco-aggregate/jacoco.xml ]; then
+            echo "JaCoCo report not found, skipping Codecov upload."
+            exit 1
+          fi
+          curl -fsSL -o codecov https://cli.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov upload-process \
+            -f rose-coverage/target/site/jacoco-aggregate/jacoco.xml \
+            -t "${CODECOV_TOKEN}" \
+            --slug "${GITHUB_REPOSITORY}" \
+            --fail-on-error

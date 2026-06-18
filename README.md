@@ -1,7 +1,7 @@
 # Rose
 
 <p align="center">
-  <a href="https://github.com/zhijun-io/rose/actions/workflows/maven-ci.yml?query=branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/zhijun-io/rose/maven-ci.yml?branch=main&logo=GitHub&label=Build" alt="Build" /></a>
+  <a href="https://github.com/zhijun-io/rose/actions/workflows/maven-build.yml?query=branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/zhijun-io/rose/maven-build.yml?branch=main&logo=GitHub&label=Build" alt="Build" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/zhijun-io/rose"><img src="https://api.scorecard.dev/projects/github.com/zhijun-io/rose/badge" alt="OpenSSF Scorecard" /></a>
   <img src="https://img.shields.io/badge/Java-8-orange?logo=openjdk" alt="Java 8" />
   <a href="https://spring.io/projects/spring-boot"><img src="https://img.shields.io/badge/Spring%20Boot-2.7-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot 2.7" /></a>
@@ -199,14 +199,22 @@ export MAVEN_GPG_PASSPHRASE='…'   # do not put gpg.passphrase in settings.xml
 mvn -B clean deploy -Prelease
 ```
 
-Do **not** use `-Pcoverage` with `deploy` — `rose-coverage` is not in the default reactor.
+Do **not** use deploy with coverage tooling — keep `mvn deploy -Prelease` only.
 
 | Workflow | File | When |
 |----------|------|------|
-| Snapshot | `.github/workflows/maven-snapshot.yml` | Push to `main` with `-SNAPSHOT` `<revision>`, or manual dispatch |
-| Release | `.github/workflows/maven-release.yml` | Manual dispatch |
+| Publish | `.github/workflows/maven-publish.yml` | Manual dispatch：`deploy` → Central；`release`：Tag → Cloudflare AI 更新 CHANGELOG → GitHub Release → bump SNAPSHOT → push |
 
-Requires repo secrets: `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE`.
+**发版前**：可选配置 `CF_ACCOUNT_ID` + `CF_API_TOKEN`（`CF_AI_MODEL` 变量）；未配置时 CHANGELOG 回退为 commit 列表。
+
+| Secrets | Workflow | 必填 |
+|---------|----------|------|
+| `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE` | Publish | 是 |
+| `SONAR_TOKEN` | Build（JDK 21） | 否 |
+| `CODECOV_TOKEN` | Build（JDK 21） | 否 |
+| `CF_ACCOUNT_ID`, `CF_API_TOKEN` | Publish | 否 |
+
+Build 可选变量：`SONAR_ORGANIZATION`、`SONAR_PROJECT_KEY`（默认取 `GITHUB_REPOSITORY` 的 owner / repo 名）。
 
 ### License
 
@@ -259,14 +267,13 @@ mvn compile test-compile    # compile only, no Docker
 mvn test                    # unit tests only (*Test / *Tests)
 mvn verify                  # unit + integration (*IT; needs Docker)
 mvn verify -DskipITs        # verify lifecycle without integration tests
-mvn verify -Pcoverage       # same as CI; JaCoCo aggregate report (no gate)
 
 mvn -B -ntp org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar \
   -Dsonar.host.url=https://sonarcloud.io \
   -Dsonar.organization=zhijun-io \
   -Dsonar.projectKey=rose \
   -DskipTests \
-  -Dsonar.coverage.jacoco.xmlReportPaths=rose-coverage/target/site/jacoco-aggregate/jacoco.xml
+  -Dsonar.coverage.jacoco.xmlReportPaths=**/target/site/jacoco/jacoco.xml
 ```
 
 Integration tests use Testcontainers 1.21.4 (Docker API 1.44+). Dev Services auto-detect OrbStack (`~/.orbstack/run/docker.sock`) or `/var/run/docker.sock`. Override if needed:
