@@ -90,7 +90,10 @@ JaCoCo：`@{jacoco.argLine}` 同时注入 Surefire 与 Failsafe；各模块 `tar
 | Profile | 激活 | 作用 |
 |---------|------|------|
 | `docs` | 手动 `-Pdocs` | AsciiDoc / DocBook 生成 |
-| `java8+` / `java9+` / `java11+` / `java16+` | JDK 自动 | Javadoc、`jvm.argLine`（高版本 JDK 编译 Java 8 字节码时用） |
+| `java8+` / `java9+` / `java11+` | JDK 自动 | Javadoc 等 |
+| `java9-15` | JDK 9–15 | `jvm.argLine`：`--illegal-access=permit` |
+| `java16-20` | JDK 16–20 | `jvm.argLine`：Mockito 所需的 `--add-opens` |
+| `java21+` | JDK 21+ | 同上，并追加 `-Dnet.bytebuddy.experimental=true`、`-XX:+EnableDynamicAgentLoading` |
 
 ### 元数据
 
