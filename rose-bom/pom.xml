@@ -190,7 +190,7 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-local-otel-collector</artifactId>
+                <artifactId>rose-local-otel</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

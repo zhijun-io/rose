@@ -29,7 +29,7 @@
         <module>rose-local-ollama</module>
         <module>rose-local-mqtt</module>
         <module>rose-local-openlit</module>
-        <module>rose-local-otel-collector</module>
+        <module>rose-local-otel</module>
         <module>rose-local-tests</module>
     </modules>
 </project>

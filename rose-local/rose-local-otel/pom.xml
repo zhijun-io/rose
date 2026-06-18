@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-local-otel-collector</artifactId>
+    <artifactId>rose-local-otel</artifactId>
     <name>Rose Local OpenTelemetry Collector</name>
 
     <dependencies>
