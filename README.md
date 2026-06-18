@@ -147,8 +147,9 @@ Single source: `rose-build/pom.xml` → `<revision>…</revision>`. All modules 
 ```bash
 mvn validate
 mvn test                 # unit tests (*Test / *Tests)
-mvn verify               # unit + integration (*IT; needs Docker)
+mvn verify               # unit + integration (*IT; needs Docker; no JaCoCo)
 mvn verify -DskipITs     # verify lifecycle without ITs
+mvn verify -Pcoverage    # optional: JaCoCo (CI JDK 21); open <module>/target/site/jacoco/index.html
 ```
 
 Publish locally: `mvn -B clean deploy -Prelease` (Central Portal token + GPG; see [rose-build/README.md](rose-build/README.md)).

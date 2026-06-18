@@ -54,10 +54,26 @@ Rose 仓库的 **Maven 构建父 POM**（`rose-build`），为所有模块提供
 | 场景 | 命令 |
 |------|------|
 | 仅单元测试（快，无需 Docker） | `mvn test` |
-| 单元 + 集成（CI 同款，需 Docker） | `mvn verify` |
+| 单元 + 集成（本地默认，无 JaCoCo） | `mvn verify` |
 | 跳过集成测试 | `mvn verify -DskipITs` |
+| 本地查看覆盖率（可选，较慢） | 见下方 **本地查看覆盖率** |
 
-JaCoCo：`@{jacoco.argLine}` 同时注入 Surefire 与 Failsafe；各模块 `target/site/jacoco/jacoco.xml`。POM-only starter 可设 `<jacoco.skip>true</jacoco.skip>`。
+**JaCoCo（`-Pcoverage` profile）**：JaCoCo **未**绑定默认 build；须加 `-Pcoverage` 才会启用 agent 并生成 `target/site/jacoco/` 报告。日常 `mvn verify` 不采集覆盖率。CI 在 JDK 21 使用 `mvn verify -Pcoverage`。POM-only starter 可设 `<jacoco.skip>true</jacoco.skip>`。
+
+#### 本地查看覆盖率
+
+```bash
+# 全仓库（含 *IT，需 Docker，最慢）
+mvn verify -Pcoverage
+
+# 仅单元测试（更快，多数场景够用）
+mvn test -Pcoverage
+
+# 单模块（最快）
+mvn -pl rose-opentelemetry/rose-opentelemetry-core -Pcoverage test
+```
+
+报告路径：`<module>/target/site/jacoco/index.html`（浏览器打开即可；macOS 示例：`open rose-core/target/site/jacoco/index.html`）。机器可读：`jacoco.xml` 同目录。
 
 ### Enforcer（`validate` 阶段，所有模块继承）
 
@@ -80,7 +96,7 @@ JaCoCo：`@{jacoco.argLine}` 同时注入 Surefire 与 Failsafe；各模块 `tar
 
 | Workflow | 命令 / 行为 |
 |----------|-------------|
-| `maven-build.yml` | JDK **8 / 11 / 17 / 21 / 25** matrix；`verify`（`*IT` 全矩阵）；JDK 21：`SONAR_TOKEN` / `CODECOV_TOKEN` 存在时分别跑 Sonar / Codecov（各模块 JaCoCo） |
+| `maven-build.yml` | JDK **8 / 11 / 17 / 21 / 25** matrix；`mvn verify`（无 JaCoCo）；JDK 21 额外 `-Pcoverage`；`SONAR_TOKEN` / `CODECOV_TOKEN` 存在时上传覆盖率 |
 | `maven-publish.yml` | `deploy` → Central；`release`：Tag → Cloudflare AI CHANGELOG → GitHub Release → bump SNAPSHOT → push |
 
 `<revision>` 从 `rose-build/pom.xml` 读取；CI 通过 `-Drevision=…` 传入。
@@ -89,6 +105,7 @@ JaCoCo：`@{jacoco.argLine}` 同时注入 Surefire 与 Failsafe；各模块 `tar
 
 | Profile | 激活 | 作用 |
 |---------|------|------|
+| `coverage` | 手动 `-Pcoverage`（CI JDK 21 自动加） | JaCoCo agent + 各模块 `jacoco.xml` |
 | `docs` | 手动 `-Pdocs` | AsciiDoc / DocBook 生成 |
 | `java8+` / `java9+` / `java11+` | JDK 自动 | Javadoc 等 |
 | `java9-15` | JDK 9–15 | `jvm.argLine`：`--illegal-access=permit` |
@@ -125,8 +142,9 @@ Arconia 为 Quarkus 生态扩展，构建以 Quarkus BOM / Gradle 为主。**无
 mvn validate
 mvn compile test-compile          # 编译，不跑测试
 mvn test                          # 单元测试（*Test / *Tests）
-mvn verify                        # 单元 + 集成（*IT，需 Docker）
+mvn verify                        # 单元 + 集成（*IT，需 Docker；无 JaCoCo）
 mvn verify -DskipITs              # 仅单元，走完 verify 生命周期
+mvn verify -Pcoverage             # 可选：本地生成 JaCoCo 报告
 mvn -B clean deploy -Prelease     # 发布 Central（需 GPG + token）
 ```
 
