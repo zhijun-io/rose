@@ -11,12 +11,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.boot.constants.PropertyConstants;
+
 /**
  * Detects duplicate Maven coordinates on the classpath during application startup.
  */
 public final class ArtifactsCollisionDiagnosisListener implements ApplicationListener<ApplicationContextInitializedEvent> {
 
-    static final String ENABLED_PROPERTY = "rose.diagnostics.artifacts-collision.enabled";
+    public static final String ENABLED_PROPERTY = PropertyConstants.ARTIFACTS_COLLISION_ENABLED_PROPERTY_NAME;
 
     private static final Logger logger = LoggerFactory.getLogger(ArtifactsCollisionDiagnosisListener.class);
 

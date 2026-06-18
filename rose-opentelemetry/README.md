@@ -60,6 +60,6 @@ Modules ship merged exclusions via `config/default/*.properties`:
 | `rose-opentelemetry-core` → `opentelemetry.properties` | `OtlpMetricsExportAutoConfiguration` |
 | `rose-opentelemetry-micrometer-registry-otlp` → `micrometer-registry-otlp.properties` | same (accumulates) |
 
-Requires `rose-spring-boot-core` on the classpath for `config/default/*` loading and `RoseAutoConfigurationImportFilter`. The starter (`rose-opentelemetry-spring-boot-starter`) includes it transitively via `rose-spring-boot-starter`.
+Requires `rose-spring-boot-core` on the classpath for `config/default/*` / `META-INF/config/default/*` loading and `ConfigurableAutoConfigurationImportFilter`. The starter (`rose-opentelemetry-spring-boot-starter`) includes it transitively via `rose-spring-boot-starter`.
 
 `OtlpMetricsExportAutoConfiguration` exists from Spring Boot 3 onward; the exclusion is forward-compatible and harmless on Boot 2.7.

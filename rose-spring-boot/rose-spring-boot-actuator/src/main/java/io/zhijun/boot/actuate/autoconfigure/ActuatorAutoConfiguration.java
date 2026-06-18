@@ -8,7 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import io.zhijun.boot.actuate.MonitoredThreadPoolTaskScheduler;
 
-import static io.zhijun.boot.actuate.PropertyConstants.TASK_SCHEDULER_PROPERTY_NAME_PREFIX;
+import static io.zhijun.boot.actuate.constants.PropertyConstants.TASK_SCHEDULER_PROPERTY_NAME_PREFIX;
 import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 /**

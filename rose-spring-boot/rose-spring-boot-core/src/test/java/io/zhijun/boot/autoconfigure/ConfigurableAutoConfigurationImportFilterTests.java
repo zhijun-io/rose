@@ -11,7 +11,7 @@ import org.springframework.mock.env.MockEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RoseAutoConfigurationImportFilterTests {
+class ConfigurableAutoConfigurationImportFilterTests {
 
     private static final AutoConfigurationMetadata METADATA = new AutoConfigurationMetadata() {
         @Override
@@ -50,12 +50,12 @@ class RoseAutoConfigurationImportFilterTests {
         }
     };
 
-    private final RoseAutoConfigurationImportFilter filter = new RoseAutoConfigurationImportFilter();
+    private final ConfigurableAutoConfigurationImportFilter filter = new ConfigurableAutoConfigurationImportFilter();
 
     @Test
     void shouldExcludeConfiguredAutoConfigurationClasses() {
         MockEnvironment environment = new MockEnvironment()
-                .withProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY,
+                .withProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
                         "com.example.FooAutoConfiguration,com.example.BarAutoConfiguration");
         filter.setEnvironment(environment);
 
@@ -70,9 +70,11 @@ class RoseAutoConfigurationImportFilterTests {
     void shouldMergeExclusionsFromMultiplePropertySources() {
         MockEnvironment environment = new MockEnvironment();
         environment.getPropertySources().addLast(new MapPropertySource("module-a",
-                Collections.singletonMap(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY, "com.example.A")));
+                Collections.singletonMap(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
+                        "com.example.A")));
         environment.getPropertySources().addLast(new MapPropertySource("module-b",
-                Collections.singletonMap(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY, "com.example.B")));
+                Collections.singletonMap(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
+                        "com.example.B")));
         filter.setEnvironment(environment);
 
         boolean[] results = filter.match(
@@ -85,11 +87,13 @@ class RoseAutoConfigurationImportFilterTests {
     @Test
     void shouldSupportIndexedExcludePropertyFromBinder() {
         MockEnvironment environment = new MockEnvironment();
-        environment.setProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY + "[0]", "com.example.First");
-        environment.setProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY + "[1]", "com.example.Second");
+        environment.setProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME + "[0]",
+                "com.example.First");
+        environment.setProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME + "[1]",
+                "com.example.Second");
         filter.setEnvironment(environment);
 
-        Set<String> excluded = RoseAutoConfigurationImportFilter.getExcludedAutoConfigurationClasses(environment);
+        Set<String> excluded = ConfigurableAutoConfigurationImportFilter.getExcludedAutoConfigurationClasses(environment);
 
         assertThat(excluded).containsExactly("com.example.First", "com.example.Second");
     }
@@ -97,7 +101,7 @@ class RoseAutoConfigurationImportFilterTests {
     @Test
     void shouldAddExcludedClassesProgrammatically() {
         MockEnvironment environment = new MockEnvironment();
-        RoseAutoConfigurationImportFilter.addExcludedAutoConfigurationClasses(environment,
+        ConfigurableAutoConfigurationImportFilter.addExcludedAutoConfigurationClasses(environment,
                 Arrays.asList("com.example.RuntimeA", "com.example.RuntimeB"));
         filter.setEnvironment(environment);
 
@@ -106,7 +110,7 @@ class RoseAutoConfigurationImportFilterTests {
                 METADATA);
 
         assertThat(results).containsExactly(false, true);
-        assertThat(environment.getProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY))
+        assertThat(environment.getProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME))
                 .isEqualTo("com.example.RuntimeA,com.example.RuntimeB");
     }
 
@@ -114,7 +118,8 @@ class RoseAutoConfigurationImportFilterTests {
     void shouldResolvePlaceholdersInExcludeProperty() {
         MockEnvironment environment = new MockEnvironment()
                 .withProperty("rose.exclude.target", "com.example.Resolved")
-                .withProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY, "${rose.exclude.target}");
+                .withProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
+                        "${rose.exclude.target}");
         filter.setEnvironment(environment);
 
         boolean[] results = filter.match(

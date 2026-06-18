@@ -51,6 +51,15 @@ class DefaultConfigPropertiesLoaderTests {
 
         assertThat(properties).containsEntry("server.shutdown", "graceful");
         assertThat(properties).containsEntry("rose.test.yaml-key", "from-yaml");
+        assertThat(properties).containsEntry("rose.test.meta-inf-default-key", "from-meta-inf");
+    }
+
+    @Test
+    void shouldLoadMetaInfDefaultPropertiesFromClasspath() {
+        Map<String, Object> properties = loader.load(
+                DefaultConfigPropertiesEnvironmentPostProcessor.META_INF_DEFAULT_PROPERTIES_PATTERN);
+
+        assertThat(properties).containsEntry("rose.test.meta-inf-default-key", "from-meta-inf");
     }
 
     @Test

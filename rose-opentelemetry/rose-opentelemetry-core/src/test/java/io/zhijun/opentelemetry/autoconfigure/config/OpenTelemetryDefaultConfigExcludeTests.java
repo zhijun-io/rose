@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.boot.autoconfigure.RoseAutoConfigurationImportFilter;
+import io.zhijun.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter;
 import io.zhijun.boot.env.defaults.DefaultConfigPropertiesEnvironmentPostProcessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,9 +23,9 @@ class OpenTelemetryDefaultConfigExcludeTests {
         new DefaultConfigPropertiesEnvironmentPostProcessor()
                 .postProcessEnvironment(environment, new SpringApplication());
 
-        assertThat(environment.getProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY))
+        assertThat(environment.getProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME))
                 .contains(OTLP_METRICS_EXPORT_AUTO_CONFIGURATION);
-        assertThat(RoseAutoConfigurationImportFilter.getExcludedAutoConfigurationClasses(environment))
+        assertThat(ConfigurableAutoConfigurationImportFilter.getExcludedAutoConfigurationClasses(environment))
                 .contains(OTLP_METRICS_EXPORT_AUTO_CONFIGURATION);
     }
 }

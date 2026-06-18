@@ -1,0 +1,17 @@
+package io.zhijun.boot.constants;
+
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class PropertyConstantsTest {
+
+    @Test
+    void shouldExposeRoseSpringBootPropertyPrefixes() {
+        assertThat(PropertyConstants.ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX).isEqualTo("rose.spring.boot.");
+        assertThat(PropertyConstants.DEFAULT_CONFIG_ENABLED_PROPERTY_NAME).isEqualTo("rose.default-config.enabled");
+        assertThat(PropertyConstants.DEFAULT_CONFIG_LOCATIONS_PROPERTY_NAME).isEqualTo("rose.default-config.locations");
+        assertThat(PropertyConstants.ARTIFACTS_COLLISION_ENABLED_PROPERTY_NAME)
+                .isEqualTo("rose.diagnostics.artifacts-collision.enabled");
+    }
+}

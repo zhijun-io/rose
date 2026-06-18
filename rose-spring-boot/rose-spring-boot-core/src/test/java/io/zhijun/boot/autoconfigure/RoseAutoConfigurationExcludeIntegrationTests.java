@@ -12,7 +12,7 @@ import io.zhijun.boot.env.defaults.DefaultConfigPropertiesEnvironmentPostProcess
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * End-to-end tests for {@code config/default/*} exclusions and {@link RoseAutoConfigurationImportFilter}.
+ * End-to-end tests for {@code config/default/*} exclusions and {@link ConfigurableAutoConfigurationImportFilter}.
  */
 class RoseAutoConfigurationExcludeIntegrationTests {
 
@@ -65,10 +65,10 @@ class RoseAutoConfigurationExcludeIntegrationTests {
         new DefaultConfigPropertiesEnvironmentPostProcessor()
                 .postProcessEnvironment(environment, new SpringApplication());
 
-        assertThat(environment.getProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY))
+        assertThat(environment.getProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME))
                 .contains(GSON_AUTO_CONFIGURATION);
 
-        RoseAutoConfigurationImportFilter filter = new RoseAutoConfigurationImportFilter();
+        ConfigurableAutoConfigurationImportFilter filter = new ConfigurableAutoConfigurationImportFilter();
         filter.setEnvironment(environment);
 
         boolean[] results = filter.match(

@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurationImportFilter;
 import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MutablePropertySources;
@@ -16,16 +17,18 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Merges {@link #EXCLUDE_PROPERTY} from all property sources and filters excluded auto-configuration classes.
+ * Configurable {@link AutoConfigurationImportFilter} for excluding Spring Boot auto-configuration classes.
+ * <p>
+ * Unlike {@code spring.autoconfigure.exclude}, values from multiple {@code config/default/*} resources
+ * and property sources are accumulated rather than overwritten.
  */
-public final class RoseAutoConfigurationImportFilter implements AutoConfigurationImportFilter, EnvironmentAware {
+public final class ConfigurableAutoConfigurationImportFilter
+        implements AutoConfigurationImportFilter, EnvironmentAware, Ordered {
 
     /**
      * Comma-separated auto-configuration class names to exclude.
-     * Unlike {@code spring.autoconfigure.exclude}, values from multiple {@code config/default/*}
-     * resources and property sources are accumulated rather than overwritten.
      */
-    public static final String EXCLUDE_PROPERTY = "rose.autoconfigure.exclude";
+    public static final String AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME = "rose.autoconfigure.exclude";
 
     private Set<String> excludedAutoConfigurationClasses = Collections.emptySet();
 
@@ -76,6 +79,11 @@ public final class RoseAutoConfigurationImportFilter implements AutoConfiguratio
         propertySource.addClasses(classNames);
     }
 
+    @Override
+    public int getOrder() {
+        return HIGHEST_PRECEDENCE + 99;
+    }
+
     private static void addExcludedAutoConfigurationClasses(Environment environment, String[] excludedClasses,
             Set<String> allExcludedClasses) {
         for (String excludedClass : excludedClasses) {
@@ -91,7 +99,7 @@ public final class RoseAutoConfigurationImportFilter implements AutoConfiguratio
         Set<String> excludedClasses = new LinkedHashSet<String>();
         MutablePropertySources propertySources = environment.getPropertySources();
         for (PropertySource<?> propertySource : propertySources) {
-            Object property = propertySource.getProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY);
+            Object property = propertySource.getProperty(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME);
             if (property instanceof String) {
                 String resolvedExclude = environment.resolvePlaceholders((String) property);
                 excludedClasses.addAll(StringUtils.commaDelimitedListToSet(resolvedExclude));
@@ -102,7 +110,7 @@ public final class RoseAutoConfigurationImportFilter implements AutoConfiguratio
 
     private static String[] getExcludedAutoConfigurationClassesFromBinder(ConfigurableEnvironment environment) {
         return Binder.get(environment)
-                .bind(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY, String[].class)
+                .bind(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME, String[].class)
                 .orElse(new String[0]);
     }
 
@@ -114,7 +122,7 @@ public final class RoseAutoConfigurationImportFilter implements AutoConfiguratio
     private static final class ExcludedAutoConfigurationClassesPropertySource
             extends PropertySource<Set<String>> {
 
-        private static final String NAME = RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY;
+        private static final String NAME = AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME;
 
         private ExcludedAutoConfigurationClassesPropertySource() {
             super(NAME, new LinkedHashSet<String>());
@@ -122,7 +130,7 @@ public final class RoseAutoConfigurationImportFilter implements AutoConfiguratio
 
         @Override
         public Object getProperty(String name) {
-            if (RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY.equals(name)) {
+            if (AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME.equals(name)) {
                 return StringUtils.collectionToCommaDelimitedString(this.source);
             }
             return null;

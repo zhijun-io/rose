@@ -2,7 +2,7 @@ org.springframework.boot.env.EnvironmentPostProcessor=\
 io.zhijun.boot.env.defaults.DefaultConfigPropertiesEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
-io.zhijun.boot.autoconfigure.RoseAutoConfigurationImportFilter
+io.zhijun.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter
 
 org.springframework.context.ApplicationListener=\
 io.zhijun.boot.diagnostics.ArtifactsCollisionDiagnosisListener

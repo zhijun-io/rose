@@ -14,17 +14,20 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.boot.constants.PropertyConstants;
+
 /**
- * Merges {@code config/default/*} configuration files from all jars into Spring Boot default properties.
+ * Merges {@code config/default/*} and {@code META-INF/config/default/*} configuration files from all jars
+ * into Spring Boot default properties.
  * <p>
  * Runs before {@code application.yml} is loaded; disable with {@code -Drose.default-config.enabled=false}
  * or {@code ROSE_DEFAULT_CONFIG_ENABLED=false}.
  */
 public final class DefaultConfigPropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
-    public static final String ENABLED_PROPERTY = "rose.default-config.enabled";
+    public static final String ENABLED_PROPERTY = PropertyConstants.DEFAULT_CONFIG_ENABLED_PROPERTY_NAME;
 
-    public static final String LOCATIONS_PROPERTY = "rose.default-config.locations";
+    public static final String LOCATIONS_PROPERTY = PropertyConstants.DEFAULT_CONFIG_LOCATIONS_PROPERTY_NAME;
 
     public static final String DEFAULT_PROPERTIES_PATTERN = "classpath*:config/default/*.properties";
 
@@ -32,10 +35,19 @@ public final class DefaultConfigPropertiesEnvironmentPostProcessor implements En
 
     public static final String DEFAULT_YAML_PATTERN = "classpath*:config/default/*.yaml";
 
+    public static final String META_INF_DEFAULT_PROPERTIES_PATTERN = "classpath*:META-INF/config/default/*.properties";
+
+    public static final String META_INF_DEFAULT_YML_PATTERN = "classpath*:META-INF/config/default/*.yml";
+
+    public static final String META_INF_DEFAULT_YAML_PATTERN = "classpath*:META-INF/config/default/*.yaml";
+
     public static final String[] DEFAULT_LOCATION_PATTERNS = {
             DEFAULT_PROPERTIES_PATTERN,
             DEFAULT_YML_PATTERN,
-            DEFAULT_YAML_PATTERN
+            DEFAULT_YAML_PATTERN,
+            META_INF_DEFAULT_PROPERTIES_PATTERN,
+            META_INF_DEFAULT_YML_PATTERN,
+            META_INF_DEFAULT_YAML_PATTERN
     };
 
     private final DefaultConfigPropertiesLoader loader = new DefaultConfigPropertiesLoader();
