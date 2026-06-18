@@ -1,0 +1,52 @@
+# Inspired by https://github.com/microsphere-projects/microsphere-build/blob/main/.github/workflows/publish-wiki.yml
+#
+# Publishes markdown files from the wiki/ directory to this repository's GitHub Wiki
+# when they change on main.
+#
+# Prerequisites:
+# Initialize the GitHub Wiki with at least one page in the repository web UI
+# before the first workflow run can push to it.
+
+name: Publish Wiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-wiki:
+    name: Publish Wiki Content
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Checkout Wiki Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: .wiki
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync Wiki Content
+        run: |
+          rsync -av --include='*.md' --exclude='*' --delete wiki/ .wiki/
+
+      - name: Commit and Push
+        working-directory: .wiki
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No wiki changes to commit"
+          else
+            git commit -m "docs: sync wiki content from repository"
+            git push
+          fi
