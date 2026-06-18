@@ -17,6 +17,17 @@
 | `@Internal` | 内部 API，非稳定契约 |
 | `@ThreadSafe` / `@NotThreadSafe` / `@Immutable` | 并发语义文档注解 |
 
+## 消费方式
+
+```xml
+<dependency>
+    <groupId>io.zhijun</groupId>
+    <artifactId>rose-core</artifactId>
+</dependency>
+```
+
+由 `rose-spring-core` 等模块传递依赖；应用一般**无需**直接声明。
+
 ## 未实现 / 规划中
 
 - 通用 Java 工具类（字符串、集合、反射等）—— benchmark 建议 **保持 framework-light**，避免变成杂物间

@@ -20,6 +20,7 @@ Rose is a **Spring Boot 2.7 / Java 8 extension platform**: optional starters for
 - [Reference](#reference)
   - [Bill of Materials](#bill-of-materials)
   - [Versioning](#versioning)
+  - [Releasing](#releasing)
   - [License](#license)
 - [Repository](#repository)
   - [Module layout](#module-layout)
@@ -161,7 +162,7 @@ The OTel starter includes the OTLP registry. Add the metrics bridge explicitly f
 - Applications **keep** `spring-boot-starter-parent` (or their own corporate parent) and **import** `rose-bom`.
 - Applications **do not** inherit `rose-parent`; it is the Rose reactor aggregator.
 - Applications **do not** inherit `rose-build`; it is the shared build parent for Rose modules.
-- New published Rose artifacts are added to both `rose-parent` and `rose-bom` so consumers keep a single version line.
+- New published Rose artifacts are added to **`rose-bom`** only; `rose-parent` imports that BOM for the reactor build.
 
 **Managed coordinates**
 
@@ -184,7 +185,28 @@ Bump the release version in one place:
 
 All modules inherit `${revision}`. `flatten-maven-plugin` resolves CI-friendly versions on build/install.
 
-To publish to Maven Central, use the `release` profile (`mvn deploy -Prelease`). See [docs/releasing.md](docs/releasing.md) and [CONTRIBUTING.md](CONTRIBUTING.md#releasing-to-maven-central-sonatype).
+To publish to Maven Central, use the `release` profile (`mvn deploy -Prelease`). See [Releasing](#releasing).
+
+### Releasing
+
+Rose publishes to [Maven Central](https://central.sonatype.com/) via the [Central Publisher Portal](https://central.sonatype.org/publish/publish-portal-maven/) and `${revision}` with `flatten-maven-plugin`.
+
+**Prerequisites:** verified `io.zhijun` namespace on Central Portal; Portal token in `~/.m2/settings.xml` (`<server><id>central</id>…</server>`); GPG key on a keyserver; enable **SNAPSHOTs** on the namespace for snapshot deploys.
+
+```bash
+# ~/.m2/settings.xml must define server id "central"
+export MAVEN_GPG_PASSPHRASE='…'   # do not put gpg.passphrase in settings.xml
+mvn -B clean deploy -Prelease
+```
+
+Do **not** use `-Pcoverage` with `deploy` — `rose-coverage` is not in the default reactor.
+
+| Workflow | File | When |
+|----------|------|------|
+| Snapshot | `.github/workflows/maven-snapshot.yml` | Push to `main` with `-SNAPSHOT` `<revision>`, or manual dispatch |
+| Release | `.github/workflows/maven-release.yml` | Manual dispatch |
+
+Requires repo secrets: `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE`.
 
 ### License
 
@@ -218,11 +240,14 @@ Each top-level reactor module has a **README** with submodules, implemented vs p
 
 **Design principle:** capability modules stay **library-thin** (fine-grained Spring dependencies); starters own the **runnable stack** (`spring-boot-starter-web`, Actuator, JDBC pool, etc.).
 
-**Normative specification for contributors:** [docs/module-layering.md](docs/module-layering.md) — required for new modules and dependency changes (checklists, dependency rules, reactor tree).
-
 ### Development principles
 
-Design and review guidance: [docs/development-principles.md](docs/development-principles.md) — do not reinvent the wheel; extend Spring Boot; compose existing Rose modules; minimal correct changes.
+- Do not reinvent the wheel — prefer Spring Boot, OpenTelemetry, Testcontainers, and existing Rose modules.
+- Extend Boot, do not replace it — applications import `rose-bom`; they do not inherit `rose-parent` or `rose-build`.
+- Compose before you duplicate — reuse capabilities and starters; keep changes minimal and focused.
+- New published artifacts go into **`rose-bom`** `dependencyManagement` only.
+- Capability modules (`rose-{feature}/*`) stay library-thin; starters (`rose-*-spring-boot-starter`) own the runnable stack.
+- Auto-configuration: `META-INF/spring.factories` (Boot 2.7). Configuration prefix: `rose.*`.
 
 ### Build
 
@@ -231,8 +256,10 @@ Design and review guidance: [docs/development-principles.md](docs/development-pr
 ```bash
 mvn validate
 mvn compile test-compile    # compile only, no Docker
-mvn test                    # integration tests need Docker
-mvn verify -Pcoverage       # same as CI; JaCoCo aggregate + 90% line check
+mvn test                    # unit tests only (*Test / *Tests)
+mvn verify                  # unit + integration (*IT; needs Docker)
+mvn verify -DskipITs        # verify lifecycle without integration tests
+mvn verify -Pcoverage       # same as CI; JaCoCo aggregate report (no gate)
 
 mvn -B -ntp org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar \
   -Dsonar.host.url=https://sonarcloud.io \
@@ -259,4 +286,9 @@ First integration test run may be slow while images are pulled.
 
 ### Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). New modules must follow [docs/module-layering.md](docs/module-layering.md) and [docs/development-principles.md](docs/development-principles.md).
+- Match existing module structure (`rose-*`, package `io.zhijun.*`).
+- Use [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `docs:`, …).
+- One logical change per PR; update `README.md` when behavior or dependencies change.
+- Add integration tests (`*IT`) for new dev service connectors.
+- Dependency bumps: **Renovate** (`renovate.json`); keep Spring Boot 2.7 / Java 8 guardrails.
+- Build details: [rose-build/README.md](rose-build/README.md).

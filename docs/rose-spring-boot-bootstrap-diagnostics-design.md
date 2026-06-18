@@ -63,7 +63,7 @@ Rose 应用在 **Boot 2.7 / Java 8** 上运行。`rose-spring-boot` 负责：
 - 替换 Spring Boot `FailureAnalyzers` 基础设施
 - Spring Boot 3 式 **全局 parallel application context refresh**
 - 统一 Actuator `/health` 聚合（属各主题）
-- 在 `rose-spring-boot` 放置普通业务 AutoConfiguration（见 CONTRIBUTING）
+- 在 `rose-spring-boot` 放置普通业务 AutoConfiguration（见 [rose-spring-boot/README.md](../rose-spring-boot/README.md) **边界**）
 
 ---
 

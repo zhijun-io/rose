@@ -238,7 +238,7 @@ rose.diagnostics.artifacts-collision.enabled=true
 
 ## 边界
 
-- **不放**各主题业务 AutoConfiguration（见 `CONTRIBUTING.md`）
+- **不放**各主题业务 AutoConfiguration（见根 [README.md](../README.md#development-principles) 与下文 **边界**）
 - **不放** Dev Services / BootstrapMode（见 `rose-dev-services-core`）
 - 新 Boot 横切能力优先进 `rose-spring-boot-core` 或 `rose-spring-boot-actuator`
 

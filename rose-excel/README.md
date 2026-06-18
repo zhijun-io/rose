@@ -20,6 +20,17 @@
 | `@ExcelExplicitConstraint` / `ExplicitConstraintHelper` | 下拉约束 |
 | `CustomSheetWriteHandler` | 写出扩展 |
 
+## 消费方式
+
+```xml
+<dependency>
+    <groupId>io.zhijun</groupId>
+    <artifactId>rose-excel</artifactId>
+</dependency>
+```
+
+无 starter；在业务代码中直接使用 `RoseExcelHelper`、listener 与 converter。版本由 `rose-bom` 管理。
+
 ## 未实现 / 规划中
 
 - Spring Boot starter / 自动配置

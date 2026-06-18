@@ -8,6 +8,19 @@ Spring Framework 层扩展（**非 Boot**）：环境刷新、属性源、配置
 |------|----------|------|
 | `rose-spring-core` | `rose-spring-core` | 全部 Spring 扩展实现 |
 
+## 消费方式
+
+```xml
+<dependency>
+    <groupId>io.zhijun</groupId>
+    <artifactId>rose-spring-core</artifactId>
+</dependency>
+```
+
+通常由 `rose-spring-boot-starter` 传递引入；仅使用 Spring 扩展、不需要 Boot 栈时可单独依赖。无独立 starter。
+
+自动配置入口：`rose-spring-core` 的 `META-INF/spring.factories`（环境监听、属性源加载等）。
+
 ## 已实现
 
 ### 环境刷新（`env.refresh`）

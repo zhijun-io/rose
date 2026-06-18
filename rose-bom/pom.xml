@@ -6,9 +6,9 @@
 
     <parent>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-parent</artifactId>
+        <artifactId>rose-build</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../rose-build/pom.xml</relativePath>
     </parent>
 
     <artifactId>rose-bom</artifactId>
@@ -200,4 +200,26 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <flattenMode>bom</flattenMode>
+                    <updatePomFile>true</updatePomFile>
+                    <pomElements>
+                        <dependencyManagement>resolve</dependencyManagement>
+                        <properties>remove</properties>
+                        <repositories>remove</repositories>
+                        <distributionManagement>remove</distributionManagement>
+                        <issueManagement>remove</issueManagement>
+                        <ciManagement>remove</ciManagement>
+                        <scm>remove</scm>
+                    </pomElements>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

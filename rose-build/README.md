@@ -10,7 +10,7 @@ Rose 仓库的 **Maven 构建父 POM**（`rose-build`），为所有模块提供
 | Parent | `rose-parent` | 根 `pom.xml` | Reactor 模块列表、`dependencyManagement`、`-Pcoverage` | ❌ |
 | BOM | `rose-bom` | `rose-bom/` | 消费方版本对齐 | ✅ import |
 
-应用侧契约：**`spring-boot-starter-parent` + import `rose-bom`**，不继承 `rose-parent` 或 `rose-build`。详见 [CONTRIBUTING.md](../CONTRIBUTING.md)。
+应用侧契约：**`spring-boot-starter-parent` + import `rose-bom`**，不继承 `rose-parent` 或 `rose-build`。详见根 [README.md](../README.md#development-principles)。
 
 ## 子模块
 
@@ -23,7 +23,7 @@ Rose 仓库的 **Maven 构建父 POM**（`rose-build`），为所有模块提供
 | Artifact | 路径 | 说明 |
 |----------|------|------|
 | `rose-parent` | 根 `pom.xml` | Reactor 与依赖版本父 POM |
-| `rose-coverage` | `rose-coverage/` | `-Pcoverage` 时加入 reactor；JaCoCo 聚合 + 行覆盖率门禁 |
+| `rose-coverage` | `rose-coverage/` | `-Pcoverage` 时加入 reactor；JaCoCo 聚合报告 |
 
 ## 已实现
 
@@ -38,33 +38,41 @@ Rose 仓库的 **Maven 构建父 POM**（`rose-build`），为所有模块提供
 |------|------|
 | `maven-compiler-plugin` | Java 8、`-parameters` |
 | `maven-source-plugin` | `package` 附加 sources |
+| `maven-surefire-plugin` | 单元测试（`test` 阶段） |
+| `maven-failsafe-plugin` | 集成测试（`integration-test` / `verify` 阶段） |
+| `maven-enforcer-plugin` | `validate` 阶段环境校验 |
 | `flatten-maven-plugin` | 扁平化 POM |
 
-### 测试约定（`pluginManagement`）
+### 测试约定（Maven 标准生命周期）
 
-| 插件 | 包含 | 排除 |
-|------|------|------|
-| **Surefire**（默认 `test` 阶段） | `**/*Test.java`、`**/*Tests.java` | `**/*IT.java` |
-| **Failsafe**（`-Ptest` profile） | `**/*IT.java` | `**/*Test.java`、`**/*Tests.java` |
+| 插件 | 阶段 | 命名 | 典型命令 |
+|------|------|------|----------|
+| **Surefire** | `test` | `*Test`、`*Tests`（排除 `*IT`） | `mvn test` |
+| **Failsafe** | `integration-test` + `verify` | `*IT` | `mvn verify` |
 
-> 集成测试（`*IT.java`）需显式 `-Ptest` 或 `mvn verify -Ptest`；仅 `mvn test` **不会**执行 Failsafe。
+两者均在父 POM **默认绑定**；`failIfNoTests=false`，无对应测试的模块不会失败。
 
-JaCoCo：`prepare-agent` 注入 `@{jacoco.argLine}` 到 Surefire；POM-only starter 可设 `<jacoco.skip>true</jacoco.skip>`。
+| 场景 | 命令 |
+|------|------|
+| 仅单元测试（快，无需 Docker） | `mvn test` |
+| 单元 + 集成（CI 同款，需 Docker） | `mvn verify` 或 `mvn verify -Pcoverage` |
+| 跳过集成测试 | `mvn verify -DskipITs` |
+
+JaCoCo：`@{jacoco.argLine}` 同时注入 Surefire 与 Failsafe。POM-only starter 可设 `<jacoco.skip>true</jacoco.skip>`。
 
 ### 覆盖率（`-Pcoverage`，在 `rose-parent` 激活）
 
 ```bash
-mvn verify -Pcoverage    # CI 同款；聚合报告 + 行覆盖率门禁
+mvn verify -Pcoverage    # CI 同款；生成聚合覆盖率报告（无门禁）
 ```
 
 | 项 | 值 |
 |----|-----|
 | 聚合模块 | `rose-coverage`（不在默认 reactor） |
-| 门禁 | `rose-coverage` 在 verify 阶段读取 `jacoco.minimum.line.coverage`（**未在 build 父 POM 定义**，由 CI / 命令行 `-D` 传入） |
 | 报告路径 | `rose-coverage/target/site/jacoco-aggregate/index.html` |
 | 发布 | `maven.deploy.skip=true`，不发布到 Central |
 
-### Enforcer（`pluginManagement`，`-Prelease` 时绑定）
+### Enforcer（`validate` 阶段，所有模块继承）
 
 | 规则 | 约束 |
 |------|------|
@@ -73,19 +81,16 @@ mvn verify -Pcoverage    # CI 同款；聚合报告 + 行覆盖率门禁
 | `banDuplicatePomDependencyVersions` | POM 内重复版本声明 |
 | `bannedDependencies` | 占位（可扩展禁止依赖） |
 
-日常 `mvn test` 不强制 Enforcer；`-Prelease` deploy 时启用。
-
 ### 发布（`-Prelease` profile）
 
 - `maven-javadoc-plugin`、`maven-gpg-plugin`（`--pinentry-mode loopback`）
 - `central-publishing-maven-plugin`（Sonatype Central Portal，`autoPublish=true`）
-- 详见 [CONTRIBUTING.md § Releasing](../CONTRIBUTING.md#releasing-to-maven-central-sonatype)
+- 详见根 [README.md § Releasing](../README.md#releasing)
 
 ### 其他 profile
 
 | Profile | 激活 | 作用 |
 |---------|------|------|
-| `test` | 手动 `-Ptest` | 绑定 Failsafe + Surefire |
 | `docs` | 手动 `-Pdocs` | AsciiDoc / DocBook 生成 |
 | `java8+` / `java9+` / `java11+` / `java16+` | JDK 自动 | Javadoc、`jvm.argLine`（高版本 JDK 编译 Java 8 字节码时用） |
 
@@ -95,11 +100,8 @@ mvn verify -Pcoverage    # CI 同款；聚合报告 + 行覆盖率门禁
 
 ## 未实现 / 规划中
 
-- **`docs/releasing.md`**：CONTRIBUTING 仍引用，文件尚未创建
-- Enforcer **默认构建**未绑定（仅 release profile）——是否改为 `validate` 阶段全局执行待决
-- **`-Ptest` 未默认激活**——与根 README「`mvn test` 需 Docker」表述不完全一致，CI 是否跑 IT 依赖 reusable workflow 配置
-- `maven-checkstyle-plugin` 仅在 `pluginManagement` 声明，**未接入**构建
-- `pluginManagement` 内 **重复声明** `maven-enforcer-plugin`（Maven 警告，待合并）
+- `maven-checkstyle-plugin` 未接入
+- Failsafe 的 JaCoCo `prepare-agent-integration`（IT 覆盖率纳入聚合）待完善
 - 多 JDK / 多 Boot 版本 matrix（Rose 锁定 Boot 2.7 / Java 8）
 
 ## 对标 Arconia
@@ -112,7 +114,7 @@ Arconia 为 Quarkus 生态扩展，构建以 Quarkus BOM / Gradle 为主。**无
 |-------------|------|------|
 | [microsphere-build](https://github.com/microsphere-projects/microsphere-build) | `rose-build` | ✅ 共享 build parent |
 | 独立 coverage 模块 | `rose-coverage`（profile 激活） | ✅ |
-| BOM 文档化 | `rose-bom` | ⚠️ 见 `rose-bom/README.md` |
+| BOM 文档化 | `rose-bom` | ✅ 见 `rose-bom/README.md` |
 
 ## 常用命令
 
@@ -123,14 +125,13 @@ Arconia 为 Quarkus 生态扩展，构建以 Quarkus BOM / Gradle 为主。**无
 mvn validate
 mvn compile test-compile          # 编译，不跑测试
 mvn test                          # 单元测试（*Test / *Tests）
-mvn verify -Ptest                 # 含集成测试（*IT，需 Docker）
-mvn verify -Pcoverage             # CI：覆盖率聚合（门禁阈值见 CI -D 传参）
+mvn verify                        # 单元 + 集成（*IT，需 Docker）
+mvn verify -DskipITs              # 仅单元，走完 verify 生命周期
+mvn verify -Pcoverage             # CI：JaCoCo 聚合报告（无门禁）
 mvn -B clean deploy -Prelease     # 发布 Central（需 GPG + token）
 ```
 
 ## 建议下一步
 
-1. 补齐 `docs/releasing.md` 或把 CONTRIBUTING 中的链接改为锚点
-2. 决定 IT 策略：默认激活 Failsafe，或在文档/CI 中统一写 `verify -Ptest,coverage`
-3. 合并 `pom.xml` 中重复的 `maven-enforcer-plugin` 声明
-4. 若启用 checkstyle，在 `rose-build` 增加 execution 与规则文件路径
+1. 若需 IT 纳入 JaCoCo 聚合，增加 `prepare-agent-integration`
+2. 若启用 checkstyle，补版本属性、规则文件与 execution

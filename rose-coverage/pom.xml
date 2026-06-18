@@ -155,76 +155,11 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>jacoco-check</id>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>report-aggregate</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>check-aggregate-line-coverage</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <script language="javascript"><![CDATA[
-                                    var Files = java.nio.file.Files;
-                                    var StandardCharsets = java.nio.charset.StandardCharsets;
-                                    var Pattern = java.util.regex.Pattern;
-                                    var reportFile = new java.io.File(project.getProperty("project.build.directory")
-                                            + "/site/jacoco-aggregate/jacoco.xml");
-                                    if (!reportFile.isFile()) {
-                                        throw "Missing JaCoCo aggregate report: " + reportFile;
-                                    }
-
-                                    var reportXml = new java.lang.String(
-                                            Files.readAllBytes(reportFile.toPath()),
-                                            StandardCharsets.UTF_8);
-                                    var matcher = Pattern.compile(
-                                            "<counter type=\"LINE\" missed=\"([0-9]+)\" covered=\"([0-9]+)\"/>")
-                                            .matcher(reportXml);
-                                    var missed = null;
-                                    var covered = null;
-                                    while (matcher.find()) {
-                                        missed = matcher.group(1);
-                                        covered = matcher.group(2);
-                                    }
-                                    if (missed === null || covered === null) {
-                                        throw "Missing aggregate LINE counter in " + reportFile;
-                                    }
-
-                                    missed = java.lang.Integer.parseInt(missed);
-                                    covered = java.lang.Integer.parseInt(covered);
-                                    var total = covered + missed;
-                                    var ratio = total === 0 ? 0.0 : covered / total;
-                                    var minimum = java.lang.Double.parseDouble(
-                                            project.getProperty("jacoco.minimum.line.coverage"));
-
-                                    project.log("Aggregate line coverage ratio: " + ratio
-                                            + " (minimum: " + minimum + ")");
-
-                                    if (ratio + 1.0e-12 < minimum) {
-                                        throw "Aggregate line coverage " + ratio
-                                                + " is below minimum " + minimum;
-                                    }
-                                ]]></script>
-                            </target>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

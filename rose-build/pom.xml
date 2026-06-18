@@ -42,9 +42,9 @@
     </developers>
 
     <scm>
-        <url>git@github.com:zhijun-io/rose.git</url>
-        <connection>scm:git:${project.scm.url}</connection>
-        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+        <url>https://github.com/zhijun-io/rose</url>
+        <connection>scm:git:https://github.com/zhijun-io/rose.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/zhijun-io/rose.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
@@ -80,7 +80,6 @@
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <maven-failsafe-plugin.version>3.5.4</maven-failsafe-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
-        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <maven-lombok-plugin.version>1.18.20.0</maven-lombok-plugin.version>
         <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
@@ -93,8 +92,9 @@
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
 
         <!-- Arguments Line -->
-        <jacoco.skip>false</jacoco.skip>
         <central.publishing.skip>false</central.publishing.skip>
+        <jacoco.skip>false</jacoco.skip>
+        <skipITs>false</skipITs>
         <jvm.argLine/>
         <jacoco.argLine/>
     </properties>
@@ -229,7 +229,8 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-failsafe-plugin.version}</version>
                     <configuration>
-                        <argLine>${jvm.argLine}</argLine>
+                        <argLine>@{jacoco.argLine} ${jvm.argLine}</argLine>
+                        <skipITs>${skipITs}</skipITs>
                         <failIfNoTests>false</failIfNoTests>
                         <includes>
                             <include>**/*IT.java</include>
@@ -237,6 +238,7 @@
                         <excludes>
                             <exclude>**/*Test.java</exclude>
                             <exclude>**/*Tests.java</exclude>
+                            <exclude>**/Abstract*.java</exclude>
                         </excludes>
                     </configuration>
                     <executions>
@@ -305,6 +307,22 @@
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>${maven-enforcer-plugin.version}</version>
                     <executions>
+                        <execution>
+                            <id>enforce-build-environment</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>[3.6,)</version>
+                                    </requireMavenVersion>
+                                    <requireJavaVersion>
+                                        <version>[1.8,1.9)</version>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
                         <execution>
                             <id>enforce-banned-dependencies</id>
                             <goals>
@@ -441,6 +459,18 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
             </plugin>
@@ -461,32 +491,12 @@
                         <artifactId>maven-release-plugin</artifactId>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                    </plugin>
-                    <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
