@@ -17,12 +17,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.annotation.Internal;
-
 /**
  * Adapts external configuration properties to Rose properties.
  */
-@Internal
 public class PropertyAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyAdapter.class);

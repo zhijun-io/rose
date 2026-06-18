@@ -3,7 +3,6 @@ package io.zhijun.dev.services.bootstrap;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.core.annotation.Incubating;
-import io.zhijun.core.annotation.Internal;
 
 /**
  * Application bootstrap mode.
@@ -29,7 +28,6 @@ public enum BootstrapMode {
         return detect() == TEST;
     }
 
-    @Internal
     public static void clear() {
         BootstrapModeDetector.clearCache();
     }

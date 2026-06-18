@@ -1,11 +1,8 @@
 package io.zhijun.dev.services.core.util;
 
-import io.zhijun.core.annotation.Internal;
-
 /**
  * Container utilities.
  */
-@Internal
 public final class ContainerUtils {
 
     public static boolean isValidPort(int port) {
