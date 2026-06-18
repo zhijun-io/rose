@@ -2,6 +2,48 @@
 
 Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](https://github.com/microsphere-projects/microsphere-spring-boot)。
 
+## 迭代导航
+
+### 已实现（摘要）
+
+| 子模块 | 能力 |
+|--------|------|
+| `rose-spring-boot-core` | `rose/default/*` EPP、`RoseBinder` + `RoseBindListener`、`rose.autoconfigure.exclude` 累加、`ArtifactsCollisionDiagnosisListener`、`@ConditionalOnDevMode` |
+| `rose-spring-boot-actuator` | `MonitoredThreadPoolTaskScheduler` + Micrometer |
+| `rose-spring-boot-starter` | 聚合 core + `rose-spring-core` + `spring-boot-starter` |
+
+### 未实现 / 规划中
+
+- Boot 3 `@ServiceConnection` / Arconia Boot 3 连接注入路径
+- 更多 `FailureAnalyzer`（Docker 不可用等，见 bootstrap-diagnostics 设计）
+- Dev Services 连接器并行启动（远期）
+- `microsphere-spring-boot-compatible`（Rose 锁定 Boot 2.7 / Java 8，暂不引入）
+
+### 对标 Arconia
+
+| Arconia | Rose |
+|---------|------|
+| Dev Services 默认配置 + 动态属性 | `rose/default/*` + `addDynamicProperty`（见 `rose-dev-services`） |
+| `@ServiceConnection`（Boot 3） | ❌ Boot 2.7 仍用 `addDynamicProperty` |
+
+### 对标 Microsphere
+
+| Microsphere | Rose | 状态 |
+|-------------|------|------|
+| spring-boot-core | `rose-spring-boot-core` | ✅ |
+| spring-boot-actuator | `rose-spring-boot-actuator` | ✅ |
+| BindListener / exclude 合并 / artifact 冲突 | 同上 core | ✅ |
+| spring-boot-dependencies | `rose-bom` | ✅ 不重复 |
+| spring-boot-compatible | — | ❌ 低优先级 |
+
+### 建议下一步
+
+1. 补充 Docker 不可用等 `FailureAnalyzer`（与 dev-services 联动）
+2. Boot 3 分支规划时对齐 Arconia `@ServiceConnection` 语义
+3. 保持横切能力进 core/actuator，业务 AutoConfiguration 不进本主题
+
+---
+
 ## 模块
 
 | 模块 | Artifact | 说明 |

@@ -2,14 +2,58 @@
 
 Testcontainers-backed infrastructure for local development and testing ([Arconia-aligned](https://docs.arconia.io/arconia/latest/dev-services/)).
 
-| Module | Artifact | Role |
-|--------|----------|------|
-| Core | `rose-dev-services-core` | API contracts, `BootstrapMode`, registration, containers |
-| Actuator | `rose-dev-services-actuator` | `/actuator/devservices` endpoint (optional) |
-| Connectors | `rose-dev-services-{technology}` | Optional runtime dependencies per technology |
-| Tests | `rose-dev-services-tests` | Shared integration-test support (test scope) |
+## 迭代导航
 
-Connectors are optional `runtime` dependencies — there is no per-connector starter.
+### 子模块
+
+| 模块 | Artifact | 角色 |
+|------|----------|------|
+| Core | `rose-dev-services-core` | API、`BootstrapMode`、容器注册、`addDynamicProperty` |
+| Actuator | `rose-dev-services-actuator` | `/actuator/devservices`（`@ConditionalOnDevMode`） |
+| Connectors | `rose-dev-services-{tech}` | 按技术可选 `runtime` 依赖 |
+| Tests | `rose-dev-services-tests` | 集成测试共享支持（test scope） |
+
+**连接器（reactor）**：`postgresql`、`mysql`、`redis`、`mongodb`、`kafka`、`rabbitmq`、`artemis`、`activemq`、`ollama`、`mqtt`、`openlit`、`otel-collector`。
+
+> 目录中存在 `rose-dev-services-api` / `rose-dev-services-bootstrap` 源码，逻辑已并入 core，**未列入** reactor。
+
+### 已实现
+
+- Testcontainers 生命周期与 `BootstrapMode`（DEV / TEST / PROD）
+- `DevServicesRegistrar.addDynamicProperty`（最高优先级动态属性）
+- Docker 环境检测（OrbStack / 默认 socket）
+- 各连接器 AutoConfiguration + 集成测试
+- `MultipleDevServicesFailureAnalyzer`
+- 连接器 `rose/default/*.properties` 静态推荐默认
+
+### 未实现 / 规划中
+
+- `@ServiceConnection`（Boot 2.7 不可用；Arconia Boot 3 路径待对齐）
+- 连接器**并行启动**（bootstrap-diagnostics §8.1 远期）
+- Docker 不可用等专用 `FailureAnalyzer`
+- 更多连接器（按业务需求扩展）
+
+### 对标 Arconia
+
+| Arconia Dev Services | Rose | 状态 |
+|----------------------|------|------|
+| 开发/测试自动起容器 | Testcontainers 连接器 | ✅ |
+| 动态配置注入 | `addDynamicProperty` | ✅ |
+| `rose/default` 式静态默认 | 连接器 `rose/default/*` + EPP | ✅ |
+| `@ServiceConnection` | — | ❌ Boot 3 |
+| Quarkus Dev UI | Actuator `/devservices` | ⚠️ 部分（Boot Actuator） |
+
+### 对标 Microsphere
+
+Microsphere **无** Dev Services 对标。Rose 本主题主要对齐 **Arconia**；启动诊断模式参考 microsphere-spring-boot `FailureAnalyzer`。
+
+### 建议下一步
+
+1. 补齐 Docker 不可用 `FailureAnalyzer` 与运维文档
+2. 评估高频连接器的并行启动与启动耗时
+3. Boot 3 路线明确后实现 `@ServiceConnection` 或等价抽象
+
+---
 
 ## BootstrapMode (`rose-dev-services-core`)
 

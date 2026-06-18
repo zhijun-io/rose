@@ -214,6 +214,8 @@ Starters       rose-*-spring-boot-starter
 | Capabilities | `rose-{domain}/*` | Feature libraries; auto-configuration inside each JAR |
 | Starters | `rose-*-spring-boot-starter` | Thin POMs; what applications depend on |
 
+Each top-level reactor module has a **README** with submodules, implemented vs planned features, and comparisons to [Arconia](https://docs.arconia.io/) / [Microsphere](https://github.com/microsphere-projects) for iteration planning: `rose-build/`, `rose-bom/`, `rose-core/`, `rose-spring/`, `rose-spring-boot/`, `rose-excel/`, `rose-sqlite/`, `rose-mybatis-plus/`, `rose-observation/`, `rose-opentelemetry/`, `rose-multitenancy/`, `rose-dev-services/`.
+
 **Design principle:** capability modules stay **library-thin** (fine-grained Spring dependencies); starters own the **runnable stack** (`spring-boot-starter-web`, Actuator, JDBC pool, etc.).
 
 **Normative specification for contributors:** [docs/module-layering.md](docs/module-layering.md) — required for new modules and dependency changes (checklists, dependency rules, reactor tree).
