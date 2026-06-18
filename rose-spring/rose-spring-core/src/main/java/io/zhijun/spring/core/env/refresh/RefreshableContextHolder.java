@@ -32,11 +32,11 @@ public final class RefreshableContextHolder {
         return ctx;
     }
 
-    static ApplicationContext peekApplicationContext() {
+    public static ApplicationContext peekApplicationContext() {
         return applicationContext;
     }
 
-    static void clear() {
+    public static void clear() {
         applicationContext = null;
     }
 }

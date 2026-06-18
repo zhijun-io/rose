@@ -200,7 +200,7 @@ env-refresh **仅**在 `ListenableMutablePropertySources` 内发事件与 dispat
 
 ### 6.3 Configuration Bean 热更
 
-远期由 binding 模块提供独立 `Refreshable`，见 [configuration-bean-binding §7](./rose-spring-configuration-bean-binding-design.md#7-env-热更对接phase-2依赖-env-refresh)。
+远期由 binding 模块提供独立 `Refreshable`，见 [configuration-bean-binding §7](./rose-spring-configuration-bean-binding-design.md#7-env-热更契约)。
 
 ---
 

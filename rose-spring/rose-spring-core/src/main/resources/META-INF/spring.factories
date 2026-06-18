@@ -7,3 +7,5 @@ io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator=\
 io.zhijun.spring.core.binder.support.DefaultConfigurationBeanAliasGenerator,\
 io.zhijun.spring.core.binder.support.HyphenAliasGenerator,\
 io.zhijun.spring.core.binder.support.UnderScoreJoinAliasGenerator
+io.zhijun.spring.core.env.refresh.Refreshable=\
+io.zhijun.spring.core.binder.refresh.ConfigurationBeanBindingRefreshable

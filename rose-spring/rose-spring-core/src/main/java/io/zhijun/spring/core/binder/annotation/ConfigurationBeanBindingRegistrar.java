@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator;
+import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.env.PropertySourcesUtils;
 import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 import org.springframework.beans.BeansException;
@@ -18,8 +19,6 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
@@ -33,7 +32,7 @@ import static org.springframework.beans.factory.support.BeanDefinitionReaderUtil
  */
 public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware {
 
-    static final Class<?> ENABLE_CONFIGURATION_BINDING_CLASS = EnableConfigurationBeanBinding.class;
+    public static final Class<?> ENABLE_CONFIGURATION_BINDING_CLASS = EnableConfigurationBeanBinding.class;
 
     private static final String ENABLE_CONFIGURATION_BINDING_CLASS_NAME = ENABLE_CONFIGURATION_BINDING_CLASS.getName();
 
@@ -75,7 +74,7 @@ public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRe
                 : singletonSet(resolveSingleBeanName(configurationProperties, configClass, registry));
 
         for (String beanName : beanNames) {
-            registerConfigurationBean(beanName, configClass, multiple, ignoreUnknownFields, ignoreInvalidFields,
+            registerConfigurationBean(beanName, configClass, prefix, multiple, ignoreUnknownFields, ignoreInvalidFields,
                     configurationProperties, registry);
             registerConfigurationBeanAlias(beanName, configClass, prefix, registry);
         }
@@ -83,28 +82,18 @@ public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRe
         registerConfigurationBindingBeanPostProcessor(registry);
     }
 
-    private void registerConfigurationBean(String beanName, Class<?> configClass, boolean multiple,
+    private void registerConfigurationBean(String beanName, Class<?> configClass, String prefix, boolean multiple,
             boolean ignoreUnknownFields, boolean ignoreInvalidFields, Map<String, Object> configurationProperties,
             BeanDefinitionRegistry registry) {
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(configClass);
         AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
-        beanDefinition.setSource(ENABLE_CONFIGURATION_BINDING_CLASS);
+        beanDefinition.setSource(ConfigurationBeanBindingSupport.CONFIGURATION_BEAN_SOURCE);
 
-        Map<String, Object> subProperties = resolveSubProperties(multiple, beanName, configurationProperties);
+        Map<String, Object> subProperties = ConfigurationBeanBindingSupport.resolveSubProperties(multiple, beanName,
+                configurationProperties, environment);
         ConfigurationBeanBindingPostProcessor.initBeanMetadataAttributes(beanDefinition, subProperties,
-                ignoreUnknownFields, ignoreInvalidFields);
+                ignoreUnknownFields, ignoreInvalidFields, prefix, multiple);
         registry.registerBeanDefinition(beanName, beanDefinition);
-    }
-
-    private Map<String, Object> resolveSubProperties(boolean multiple, String beanName,
-            Map<String, Object> configurationProperties) {
-        if (!multiple) {
-            return configurationProperties;
-        }
-        MutablePropertySources propertySources = new MutablePropertySources();
-        propertySources.addLast(new MapPropertySource("_", configurationProperties));
-        return PropertySourcesUtils.getSubProperties(propertySources, environment,
-                PropertySourcesUtils.normalizePrefix(beanName));
     }
 
     private void registerConfigurationBeanAlias(String beanName, Class<?> configClass, String prefix,

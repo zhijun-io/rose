@@ -9,6 +9,7 @@ import java.util.Map;
 import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
 import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
 import io.zhijun.spring.core.binder.config.DefaultConfigurationBeanBinder;
+import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.binder.support.ConversionServiceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.core.PriorityOrdered;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.ClassUtils;
 
 import static org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncludingAncestors;
@@ -94,10 +96,35 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
     }
 
     static void initBeanMetadataAttributes(AbstractBeanDefinition beanDefinition,
-            Map<String, Object> configurationProperties, boolean ignoreUnknownFields, boolean ignoreInvalidFields) {
+            Map<String, Object> configurationProperties, boolean ignoreUnknownFields, boolean ignoreInvalidFields,
+            String prefix, boolean multiple) {
         beanDefinition.setAttribute(CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME, configurationProperties);
         beanDefinition.setAttribute(IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME, ignoreUnknownFields);
         beanDefinition.setAttribute(IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME, ignoreInvalidFields);
+        beanDefinition.setAttribute(ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_PREFIX, prefix);
+        beanDefinition.setAttribute(ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_MULTIPLE, multiple);
+    }
+
+    /**
+     * Rebinds an existing configuration bean from the current {@link Environment}.
+     */
+    public void rebindConfigurationBean(String beanName, ConfigurableEnvironment environment) {
+        BeanDefinition beanDefinition = getNullableBeanDefinition(beanName);
+        if (!ConfigurationBeanBindingSupport.isConfigurationBeanDefinition(beanDefinition)) {
+            return;
+        }
+        String prefix = getAttribute(beanDefinition, ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_PREFIX);
+        boolean multiple = getAttribute(beanDefinition, ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_MULTIPLE);
+        Map<String, Object> subProperties = ConfigurationBeanBindingSupport.resolveBindingProperties(environment, prefix,
+                multiple, beanName);
+        boolean ignoreUnknownFields = getAttribute(beanDefinition, IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME);
+        boolean ignoreInvalidFields = getAttribute(beanDefinition, IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME);
+        Object configurationBean = beanFactory.getBean(beanName);
+        getConfigurationBeanBinder().bind(subProperties, ignoreUnknownFields, ignoreInvalidFields, configurationBean);
+        customize(beanName, configurationBean);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Rebound configuration bean [{}] with properties {}", beanName, subProperties);
+        }
     }
 
     private BeanDefinition getNullableBeanDefinition(String beanName) {
@@ -105,8 +132,7 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
     }
 
     private boolean isConfigurationBean(Object bean, BeanDefinition beanDefinition) {
-        return beanDefinition != null
-                && ConfigurationBeanBindingRegistrar.ENABLE_CONFIGURATION_BINDING_CLASS.equals(beanDefinition.getSource())
+        return ConfigurationBeanBindingSupport.isConfigurationBeanDefinition(beanDefinition)
                 && nullSafeEquals(ClassUtils.getUserClass(bean.getClass()).getName(), beanDefinition.getBeanClassName());
     }
 
