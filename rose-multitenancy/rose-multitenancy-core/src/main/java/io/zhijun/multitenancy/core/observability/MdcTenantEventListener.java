@@ -6,7 +6,7 @@ import org.slf4j.MDC;
 import org.springframework.context.event.EventListener;
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.events.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.core.context.events.TenantContextClosedEvent;
 

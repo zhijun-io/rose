@@ -2,14 +2,18 @@ package io.zhijun.multitenancy.web.autoconfigure;
 
 import java.util.HashSet;
 
+import javax.servlet.DispatcherType;
+
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 
 import io.zhijun.multitenancy.core.autoconfigure.FixedTenantResolutionProperties;
 import io.zhijun.multitenancy.core.context.resolvers.FixedTenantResolver;
@@ -17,6 +21,8 @@ import io.zhijun.multitenancy.core.observability.TenantObservationFilter;
 import io.zhijun.multitenancy.core.tenantdetails.TenantVerifier;
 import io.zhijun.multitenancy.web.context.filters.TenantContextFilter;
 import io.zhijun.multitenancy.web.context.filters.TenantContextIgnorePathMatcher;
+import io.zhijun.multitenancy.web.context.filters.TenantContextMissingTenantHandler;
+import io.zhijun.multitenancy.web.context.filters.TenantContextRequiredPathMatcher;
 import io.zhijun.multitenancy.web.context.resolvers.CookieTenantResolver;
 import io.zhijun.multitenancy.web.context.resolvers.HeaderTenantResolver;
 import io.zhijun.multitenancy.web.context.resolvers.HttpRequestTenantResolver;
@@ -64,18 +70,30 @@ public final class HttpTenantResolutionConfiguration {
     static class HttpTenantFilterConfiguration {
 
         @Bean
-        @ConditionalOnMissingBean
-        TenantContextFilter tenantContextFilter(HttpRequestTenantResolver httpRequestTenantResolver,
+        @ConditionalOnMissingBean(name = "tenantContextFilterRegistration")
+        FilterRegistrationBean<TenantContextFilter> tenantContextFilterRegistration(
+                HttpRequestTenantResolver httpRequestTenantResolver,
                 TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
+                ObjectProvider<TenantContextRequiredPathMatcher> tenantContextRequiredPathMatcher,
                 ApplicationEventPublisher eventPublisher, ObjectProvider<TenantVerifier> tenantVerifier,
-                ObjectProvider<TenantObservationFilter> tenantObservationFilter) {
-            return TenantContextFilter.builder()
+                ObjectProvider<TenantObservationFilter> tenantObservationFilter,
+                ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler) {
+            TenantContextFilter filter = TenantContextFilter.builder()
                     .httpRequestTenantResolver(httpRequestTenantResolver)
                     .tenantContextIgnorePathMatcher(tenantContextIgnorePathMatcher)
+                    .tenantContextRequiredPathMatcher(tenantContextRequiredPathMatcher.getIfAvailable())
                     .eventPublisher(eventPublisher)
                     .tenantVerifier(tenantVerifier.getIfAvailable())
                     .tenantObservationFilter(tenantObservationFilter.getIfAvailable())
+                    .missingTenantHandler(missingTenantHandler.getIfAvailable())
                     .build();
+            FilterRegistrationBean<TenantContextFilter> registration = new FilterRegistrationBean<TenantContextFilter>();
+            registration.setFilter(filter);
+            registration.addUrlPatterns("/*");
+            registration.setDispatcherTypes(DispatcherType.REQUEST);
+            registration.setName("tenantContextFilter");
+            registration.setOrder(Ordered.LOWEST_PRECEDENCE);
+            return registration;
         }
 
         @Bean
@@ -86,6 +104,17 @@ public final class HttpTenantResolutionConfiguration {
                     httpTenantResolutionProperties.getFilter().getIgnorePaths());
             ignorePathMatcher.addAll(httpTenantResolutionProperties.getFilter().getAdditionalIgnorePaths());
             return new TenantContextIgnorePathMatcher(ignorePathMatcher);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        @ConditionalOnProperty(prefix = HttpTenantResolutionProperties.CONFIG_PREFIX + ".filter",
+                name = "required-include-paths")
+        TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher(
+                HttpTenantResolutionProperties httpTenantResolutionProperties) {
+            return new TenantContextRequiredPathMatcher(
+                    httpTenantResolutionProperties.getFilter().getRequiredIncludePaths(),
+                    httpTenantResolutionProperties.getFilter().getRequiredExcludePaths());
         }
     }
 

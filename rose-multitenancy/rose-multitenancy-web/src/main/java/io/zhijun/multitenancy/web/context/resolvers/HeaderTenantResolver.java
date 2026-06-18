@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * Strategy used to resolve the current tenant from a header in an HTTP request.

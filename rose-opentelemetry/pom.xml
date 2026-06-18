@@ -8,6 +8,7 @@
         <groupId>io.zhijun</groupId>
         <artifactId>rose-parent</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>rose-opentelemetry</artifactId>

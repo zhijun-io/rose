@@ -7,7 +7,7 @@ Thank you for contributing to Rose (`io.zhijun`).
 Read **[docs/development-principles.md](docs/development-principles.md)** before substantial changes. Core ideas:
 
 - **Do not reinvent the wheel** — prefer Spring Boot, OpenTelemetry, Testcontainers, and existing Rose modules.
-- **Extend Boot, do not replace it** — applications import `rose-bom`; they do not inherit `rose-parent`.
+- **Extend Boot, do not replace it** — applications import `rose-bom`; they do not inherit `rose-parent` or `rose-build`.
 - **Compose before you duplicate** — reuse capabilities and starters; keep changes minimal and focused.
 
 Structural rules are in **[docs/module-layering.md](docs/module-layering.md)** (mandatory for new modules).
@@ -41,6 +41,8 @@ Summary:
 - **Starters** (`rose-*-spring-boot-starter`) are POM-only aggregates that build on `rose-spring-boot-starter` and own the runnable stack (Web, Actuator, JDBC pool, …).
 - **`rose-spring-boot`** is only for bootstrap integration (today: `rose-dev-services-core`), not for ordinary features.
 - New published artifacts go into **both** `rose-parent` and `rose-bom` `dependencyManagement`.
+- `rose-build` is the authoritative shared build parent for plugin and build policy; `rose-parent` remains the dependency/version parent and repository aggregator.
+- Artifact renames or module splits should be documented through the `rose-bom` contract and upgrade notes.
 
 PR reviewers should use the checklist in `docs/module-layering.md` §6.
 

@@ -6,7 +6,7 @@ import io.opentelemetry.semconv.ServiceAttributes;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * A {@link ResourceContributor} that contributes build information.

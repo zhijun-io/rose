@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * Holds information about a container.

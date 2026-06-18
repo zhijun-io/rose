@@ -20,6 +20,10 @@
             <artifactId>rose-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-instrumentation-api</artifactId>
         </dependency>

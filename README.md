@@ -156,12 +156,29 @@ The OTel starter includes the OTLP registry. Add the metrics bridge explicitly f
 
 `rose-bom` aligns every published `io.zhijun` library and starter version. Import it in `dependencyManagement` (see [Quick start](#quick-start)).
 
+**Contract**
+
+- Applications **keep** `spring-boot-starter-parent` (or their own corporate parent) and **import** `rose-bom`.
+- Applications **do not** inherit `rose-parent`; it is the Rose reactor aggregator.
+- Applications **do not** inherit `rose-build`; it is the shared build parent for Rose modules.
+- New published Rose artifacts are added to both `rose-parent` and `rose-bom` so consumers keep a single version line.
+
+**Managed coordinates**
+
+- Base: `rose-core`, `rose-spring-core`, `rose-spring-boot`, `rose-spring-boot-starter`
+- Data and persistence: `rose-excel`, `rose-sqlite`, `rose-mybatis-plus-core`, `rose-mybatis-plus-spring-boot-starter`
+- Observability: `rose-observation-core`, `rose-opentelemetry-*`
+- Multitenancy: `rose-multitenancy-*`
+- Dev Services: `rose-dev-services-*`
+
+When artifact names change, treat `rose-bom` as the primary migration contract and document the old-to-new coordinates in release notes or upgrade docs.
+
 ### Versioning
 
 Bump the release version in one place:
 
 ```xml
-<!-- pom.xml (rose-parent root) -->
+<!-- rose-build/pom.xml -->
 <revision>0.0.0.2-SNAPSHOT</revision>
 ```
 
@@ -180,9 +197,9 @@ To publish to Maven Central, use the `release` profile (`mvn deploy -Prelease`).
 Rose is a **library platform** organized in four layers:
 
 ```
-Build          rose-parent, rose-bom
+Build          rose-build, rose-parent, rose-bom
   │
-Base           rose-core → rose-spring-boot
+Base           rose-core → rose-spring-core → rose-spring-boot
   │
 Capabilities   rose-opentelemetry/*, rose-multitenancy/*, rose-observation/*,
                rose-excel, rose-sqlite, rose-mybatis-plus/*, rose-dev-services/*
@@ -192,8 +209,8 @@ Starters       rose-*-spring-boot-starter
 
 | Layer | Key artifacts | Role |
 |-------|---------------|------|
-| Build | `rose-parent`, `rose-bom` | Reactor build; consumer version alignment |
-| Base | `rose-core`, `rose-spring-boot` | Utilities; Rose bootstrap and dev-mode profiles |
+| Build | `rose-build`, `rose-parent`, `rose-bom` | Shared build parent, dependency/version parent, consumer version alignment |
+| Base | `rose-core`, `rose-spring-core`, `rose-spring-boot` | 工具库；Spring 扩展（环境监听、增强属性源）；Rose bootstrap 与 dev-mode profiles |
 | Capabilities | `rose-{domain}/*` | Feature libraries; auto-configuration inside each JAR |
 | Starters | `rose-*-spring-boot-starter` | Thin POMs; what applications depend on |
 
@@ -230,6 +247,13 @@ export DOCKER_HOST=unix://$HOME/.orbstack/run/docker.sock
 ```
 
 First integration test run may be slow while images are pulled.
+
+**Build governance**
+
+- `rose-build` owns plugin versions, coverage policy, publishing setup, and shared build-environment enforcement.
+- `rose-parent` owns the reactor module list, dependency/version management, and aggregation profiles used to build the whole repository.
+- `rose-bom` is the consumer-facing dependency contract for applications using Rose artifacts.
+- Feature modules should not duplicate build or version policy locally unless there is a documented exception.
 
 ### Contributing
 

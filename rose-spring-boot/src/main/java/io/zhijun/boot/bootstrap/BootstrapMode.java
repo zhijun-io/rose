@@ -2,8 +2,8 @@ package io.zhijun.boot.bootstrap;
 
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.support.Incubating;
-import io.zhijun.core.support.Internal;
+import io.zhijun.core.annotation.Incubating;
+import io.zhijun.core.annotation.Internal;
 
 /**
  * Application bootstrap mode.

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * Default implementation of {@link TenantDetails}.

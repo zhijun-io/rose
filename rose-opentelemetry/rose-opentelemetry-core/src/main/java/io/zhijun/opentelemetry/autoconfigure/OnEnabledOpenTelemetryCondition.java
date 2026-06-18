@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * Determines if OpenTelemetry support should be enabled.
+ * Determines if OpenTelemetry annotation should be enabled.
  */
 class OnEnabledOpenTelemetryCondition extends SpringBootCondition {
 

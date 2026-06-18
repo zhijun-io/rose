@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * Determines if OpenTelemetry tracing support should be enabled.
+ * Determines if OpenTelemetry tracing annotation should be enabled.
  */
 class OnOpenTelemetryTracingCondition extends SpringBootCondition {
 

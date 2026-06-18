@@ -11,6 +11,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class TenantContextTests {
 
   @Test
+  void bindRestoresPreviousTenantOnClose() {
+    TenantContext.where("outer").run(() -> {
+      assertThat(TenantContext.getTenantIdentifier()).isEqualTo("outer");
+
+      try (TenantContext.Scope scope = TenantContext.bind("inner")) {
+        assertThat(TenantContext.getTenantIdentifier()).isEqualTo("inner");
+      }
+
+      assertThat(TenantContext.getTenantIdentifier()).isEqualTo("outer");
+    });
+  }
+
+  @Test
   void carrierRunSetsAndRestoresTenant() {
     TenantContext.where("outer").run(() -> {
       assertThat(TenantContext.getTenantIdentifier()).isEqualTo("outer");

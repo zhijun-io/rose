@@ -126,6 +126,28 @@ class TenantContextFilterTests {
     }
 
     @Test
+    void whenOptionalTenantPathThenContinueWithoutBinding() throws ServletException, IOException {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setRequestURI("/public/ping");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        MockFilterChain filterChain = new MockFilterChain();
+        ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
+        TenantContextRequiredPathMatcher requiredPathMatcher = new TenantContextRequiredPathMatcher(
+                Collections.singleton("/secured/**"), Collections.emptySet());
+        TenantContextFilter filter = TenantContextFilter.builder()
+            .httpRequestTenantResolver(new HeaderTenantResolver())
+            .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+            .tenantContextRequiredPathMatcher(requiredPathMatcher)
+            .eventPublisher(eventPublisher)
+            .build();
+
+        filter.doFilter(request, response, filterChain);
+
+        assertThat(filterChain.getRequest()).isNotNull();
+        Mockito.verify(eventPublisher, Mockito.times(0)).publishEvent(Mockito.any(ApplicationEvent.class));
+    }
+
+    @Test
     void whenRequiredTenantNotResolvedThenReturnBadRequest() throws ServletException, IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Conditional;
 import io.zhijun.opentelemetry.autoconfigure.ConditionalOnOpenTelemetry;
 
 /**
- * Whether OpenTelemetry logging support is eligible for registration.
+ * Whether OpenTelemetry logging annotation is eligible for registration.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })

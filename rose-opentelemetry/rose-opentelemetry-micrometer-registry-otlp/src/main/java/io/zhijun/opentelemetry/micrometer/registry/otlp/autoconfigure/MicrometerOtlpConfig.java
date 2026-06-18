@@ -15,7 +15,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link OtlpConfig} for OpenTelemetry unified support.
+ * Implementation of {@link OtlpConfig} for OpenTelemetry unified annotation.
  */
 class MicrometerOtlpConfig implements OtlpConfig {
 

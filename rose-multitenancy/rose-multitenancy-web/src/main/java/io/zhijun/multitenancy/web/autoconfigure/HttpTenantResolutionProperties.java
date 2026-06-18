@@ -120,6 +120,16 @@ public class HttpTenantResolutionProperties {
          */
         private Set<String> additionalIgnorePaths = Collections.emptySet();
 
+        /**
+         * HTTP request paths for which a tenant identifier is required when not ignored.
+         */
+        private Set<String> requiredIncludePaths = Collections.emptySet();
+
+        /**
+         * HTTP request paths excluded from tenant requirement checks.
+         */
+        private Set<String> requiredExcludePaths = Collections.emptySet();
+
         private static Set<String> defaultIgnorePaths() {
             Set<String> paths = new HashSet<String>();
             paths.add("/actuator/**");
@@ -152,6 +162,22 @@ public class HttpTenantResolutionProperties {
 
         public void setAdditionalIgnorePaths(Set<String> additionalIgnorePaths) {
             this.additionalIgnorePaths = additionalIgnorePaths;
+        }
+
+        public Set<String> getRequiredIncludePaths() {
+            return requiredIncludePaths;
+        }
+
+        public void setRequiredIncludePaths(Set<String> requiredIncludePaths) {
+            this.requiredIncludePaths = requiredIncludePaths;
+        }
+
+        public Set<String> getRequiredExcludePaths() {
+            return requiredExcludePaths;
+        }
+
+        public void setRequiredExcludePaths(Set<String> requiredExcludePaths) {
+            this.requiredExcludePaths = requiredExcludePaths;
         }
 
     }

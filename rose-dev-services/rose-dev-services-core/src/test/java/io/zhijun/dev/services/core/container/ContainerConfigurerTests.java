@@ -16,7 +16,7 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.WaitStrategy;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 import io.zhijun.dev.services.api.config.BaseDevServicesProperties;
 import io.zhijun.dev.services.api.config.JdbcDevServicesProperties;
 import io.zhijun.dev.services.api.config.ResourceMapping;

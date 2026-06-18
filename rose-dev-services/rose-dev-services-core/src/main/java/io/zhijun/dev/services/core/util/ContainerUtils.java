@@ -1,6 +1,6 @@
 package io.zhijun.dev.services.core.util;
 
-import io.zhijun.core.support.Internal;
+import io.zhijun.core.annotation.Internal;
 
 /**
  * Container utilities.

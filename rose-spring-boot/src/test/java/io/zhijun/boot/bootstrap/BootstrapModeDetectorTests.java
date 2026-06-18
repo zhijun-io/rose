@@ -93,8 +93,8 @@ class BootstrapModeDetectorTests {
     @Test
     void testModeWhenJUnitPlatformInStackTrace() {
         StackTraceElement[] testStackTrace = new StackTraceElement[] {
-            new StackTraceElement("org.junit.platform.engine.support.hierarchical.ThrowableCollector", "execute", "ThrowableCollector.java", 73),
-            new StackTraceElement("org.junit.platform.engine.support.hierarchical.NodeTestTask", "executeRecursively", "NodeTestTask.java", 125)
+            new StackTraceElement("org.junit.platform.engine.annotation.hierarchical.ThrowableCollector", "execute", "ThrowableCollector.java", 73),
+            new StackTraceElement("org.junit.platform.engine.annotation.hierarchical.NodeTestTask", "executeRecursively", "NodeTestTask.java", 125)
         };
         assertThat(BootstrapModeDetector.detect(testStackTrace)).isEqualTo(BootstrapMode.TEST);
     }

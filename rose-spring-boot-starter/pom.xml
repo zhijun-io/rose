@@ -24,6 +24,10 @@
             <artifactId>rose-spring-boot</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>

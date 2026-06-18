@@ -2,7 +2,7 @@ package io.zhijun.dev.services.api.config;
 
 import java.util.List;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * JDBC dev service properties.

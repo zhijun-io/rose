@@ -8,6 +8,7 @@
         <groupId>io.zhijun</groupId>
         <artifactId>rose-parent</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>rose-spring-boot</artifactId>
@@ -18,6 +19,10 @@
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

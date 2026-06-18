@@ -2,7 +2,7 @@ package io.zhijun.multitenancy.core.context.resolvers;
 
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * Strategy to use a fixed value as the current tenant, regardless of the source context.

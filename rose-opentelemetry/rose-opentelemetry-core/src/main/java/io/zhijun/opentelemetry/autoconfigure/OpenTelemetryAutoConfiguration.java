@@ -54,7 +54,7 @@ public final class OpenTelemetryAutoConfiguration {
     }
 
     /**
-     * This is needed because Spring Boot doesn't support disabling OpenTelemetry
+     * This is needed because Spring Boot doesn't annotation disabling OpenTelemetry
      * and always expects a {@link Resource} bean to be defined.
      */
     @Bean

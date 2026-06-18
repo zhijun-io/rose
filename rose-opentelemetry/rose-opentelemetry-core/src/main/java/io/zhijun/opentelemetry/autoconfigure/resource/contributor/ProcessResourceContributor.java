@@ -5,7 +5,7 @@ import java.lang.management.ManagementFactory;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.sdk.resources.ResourceBuilder;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * A {@link ResourceContributor} that contributes process attributes (OpenTelemetry semantic conventions).

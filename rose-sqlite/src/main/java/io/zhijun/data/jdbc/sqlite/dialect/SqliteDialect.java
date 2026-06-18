@@ -60,7 +60,7 @@ public class SqliteDialect extends AbstractDialect {
     };
 
     /**
-     * SQLite manages identity internally via {@code ROWID} and does not support sequences.
+     * SQLite manages identity internally via {@code ROWID} and does not annotation sequences.
      * Batch ID generation is disabled because the SQLite JDBC driver does not return
      * generated keys from batch statement executions.
      */

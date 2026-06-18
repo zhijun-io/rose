@@ -6,7 +6,7 @@ import io.micrometer.observation.ObservationFilter;
 
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
 
 /**

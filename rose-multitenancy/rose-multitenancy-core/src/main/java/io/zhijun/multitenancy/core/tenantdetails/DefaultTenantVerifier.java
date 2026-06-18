@@ -4,9 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.exceptions.TenantVerificationException;
-import io.zhijun.multitenancy.core.tenantdetails.TenantDetails;
 
 /**
  * Default {@link TenantVerifier} implementation that checks the tenant exists and is

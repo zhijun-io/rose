@@ -75,7 +75,7 @@ class MultitenancyWebAutoConfigurationTests {
     @Test
     void tenantContextFilterDefault() {
         contextRunner.run(context -> {
-            assertThat(context).hasSingleBean(TenantContextFilter.class);
+            assertThat(context).hasBean("tenantContextFilterRegistration");
         });
     }
 
@@ -95,7 +95,7 @@ class MultitenancyWebAutoConfigurationTests {
     @Test
     void tenantContextFilterDisabled() {
         contextRunner.withPropertyValues("rose.multitenancy.resolution.http.filter.enabled=false")
-                .run(context -> assertThat(context).doesNotHaveBean(TenantContextFilter.class));
+                .run(context -> assertThat(context).doesNotHaveBean("tenantContextFilterRegistration"));
     }
 
     @Test

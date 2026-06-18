@@ -38,7 +38,7 @@ import io.zhijun.opentelemetry.autoconfigure.metrics.exporter.OpenTelemetryMetri
 public final class MicrometerMetricsOpenTelemetryBridgeAutoConfiguration {
 
     // A MeterRegistry used exclusively for reading metrics, e.g. from the Actuator /metrics endpoint.
-    // This is necessary because the OpenTelemetryMeterRegistry doesn't support reading metrics, but
+    // This is necessary because the OpenTelemetryMeterRegistry doesn't annotation reading metrics, but
     // only bridging them to OpenTelemetry. We register this first so that it is the default
     // MeterRegistry used by the Actuator.
     @Bean

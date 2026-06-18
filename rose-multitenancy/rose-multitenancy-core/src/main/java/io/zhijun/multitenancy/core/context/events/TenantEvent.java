@@ -3,7 +3,7 @@ package io.zhijun.multitenancy.core.context.events;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * Abstract superclass for all tenant-related events.

@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.multitenancy.core.context.events.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.core.context.events.TenantContextClosedEvent;
@@ -31,7 +32,7 @@ import io.zhijun.multitenancy.web.context.resolvers.HttpRequestTenantResolver;
  * Establish a tenant context from an HTTP request, if tenant information is available.
  */
 @Incubating
-public final class TenantContextFilter extends OncePerRequestFilter {
+public final class TenantContextFilter extends OncePerRequestFilter implements Ordered {
 
     private static final String MISSING_TENANT_ERROR_MESSAGE =
             "A tenant identifier must be specified for HTTP requests to %s";
@@ -39,6 +40,9 @@ public final class TenantContextFilter extends OncePerRequestFilter {
     private final HttpRequestTenantResolver httpRequestTenantResolver;
 
     private final TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher;
+
+    @Nullable
+    private final TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher;
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -48,20 +52,32 @@ public final class TenantContextFilter extends OncePerRequestFilter {
     @Nullable
     private final TenantObservationFilter tenantObservationFilter;
 
+    @Nullable
+    private final TenantContextMissingTenantHandler missingTenantHandler;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private TenantContextFilter(HttpRequestTenantResolver httpRequestTenantResolver,
             TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
+            @Nullable TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher,
             ApplicationEventPublisher eventPublisher, @Nullable TenantVerifier tenantVerifier,
-            @Nullable TenantObservationFilter tenantObservationFilter) {
+            @Nullable TenantObservationFilter tenantObservationFilter,
+            @Nullable TenantContextMissingTenantHandler missingTenantHandler) {
         Assert.notNull(httpRequestTenantResolver, "httpRequestTenantResolver cannot be null");
         Assert.notNull(tenantContextIgnorePathMatcher, "ignorePathMatcher cannot be null");
         Assert.notNull(eventPublisher, "eventPublisher cannot be null");
         this.httpRequestTenantResolver = httpRequestTenantResolver;
         this.tenantContextIgnorePathMatcher = tenantContextIgnorePathMatcher;
+        this.tenantContextRequiredPathMatcher = tenantContextRequiredPathMatcher;
         this.eventPublisher = eventPublisher;
         this.tenantVerifier = tenantVerifier;
         this.tenantObservationFilter = tenantObservationFilter;
+        this.missingTenantHandler = missingTenantHandler;
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
     }
 
     @Override
@@ -69,8 +85,11 @@ public final class TenantContextFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String tenantIdentifier = httpRequestTenantResolver.resolveTenantIdentifier(request);
         if (!StringUtils.hasText(tenantIdentifier)) {
-            handleTenantVerificationException(response,
-                    String.format(MISSING_TENANT_ERROR_MESSAGE, request.getRequestURI()));
+            if (tenantContextRequiredPathMatcher != null && !tenantContextRequiredPathMatcher.requires(request)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            handleMissingTenant(request, response);
             return;
         }
 
@@ -110,6 +129,15 @@ public final class TenantContextFilter extends OncePerRequestFilter {
         return tenantContextIgnorePathMatcher.matches(request);
     }
 
+    private void handleMissingTenant(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (missingTenantHandler != null) {
+            missingTenantHandler.handle(request, response);
+            return;
+        }
+        handleTenantVerificationException(response,
+                String.format(MISSING_TENANT_ERROR_MESSAGE, request.getRequestURI()));
+    }
+
     private void handleTenantVerificationException(HttpServletResponse response, String exceptionMessage)
             throws IOException {
         Map<String, Object> body = errorResponse(exceptionMessage);
@@ -135,6 +163,9 @@ public final class TenantContextFilter extends OncePerRequestFilter {
 
         private TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher;
 
+        @Nullable
+        private TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher;
+
         private ApplicationEventPublisher eventPublisher;
 
         @Nullable
@@ -142,6 +173,9 @@ public final class TenantContextFilter extends OncePerRequestFilter {
 
         @Nullable
         private TenantObservationFilter tenantObservationFilter;
+
+        @Nullable
+        private TenantContextMissingTenantHandler missingTenantHandler;
 
         private Builder() {}
 
@@ -152,6 +186,12 @@ public final class TenantContextFilter extends OncePerRequestFilter {
 
         public Builder tenantContextIgnorePathMatcher(TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher) {
             this.tenantContextIgnorePathMatcher = tenantContextIgnorePathMatcher;
+            return this;
+        }
+
+        public Builder tenantContextRequiredPathMatcher(
+                @Nullable TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher) {
+            this.tenantContextRequiredPathMatcher = tenantContextRequiredPathMatcher;
             return this;
         }
 
@@ -170,9 +210,15 @@ public final class TenantContextFilter extends OncePerRequestFilter {
             return this;
         }
 
+        public Builder missingTenantHandler(@Nullable TenantContextMissingTenantHandler missingTenantHandler) {
+            this.missingTenantHandler = missingTenantHandler;
+            return this;
+        }
+
         public TenantContextFilter build() {
-            return new TenantContextFilter(httpRequestTenantResolver, tenantContextIgnorePathMatcher, eventPublisher,
-                    tenantVerifier, tenantObservationFilter);
+            return new TenantContextFilter(httpRequestTenantResolver, tenantContextIgnorePathMatcher,
+                    tenantContextRequiredPathMatcher, eventPublisher, tenantVerifier, tenantObservationFilter,
+                    missingTenantHandler);
         }
     }
 

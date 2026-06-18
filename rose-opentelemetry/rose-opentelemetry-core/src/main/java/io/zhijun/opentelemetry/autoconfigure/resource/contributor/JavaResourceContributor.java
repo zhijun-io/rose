@@ -6,7 +6,7 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 import org.springframework.boot.info.JavaInfo;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * A {@link ResourceContributor} that contributes attributes about the Java process runtime,

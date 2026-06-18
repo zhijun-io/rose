@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.info.OsInfo;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 
 /**
  * A {@link ResourceContributor} that contributes attributes about the host the application is running on,

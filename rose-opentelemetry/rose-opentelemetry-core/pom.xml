@@ -21,6 +21,10 @@
             <artifactId>rose-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-sdk</artifactId>
         </dependency>

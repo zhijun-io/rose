@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.boot.context.logging.LoggingApplicationListener;
-import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -18,6 +17,7 @@ import org.springframework.util.ClassUtils;
 
 import ch.qos.logback.classic.Logger;
 
+import io.zhijun.boot.context.properties.bind.RoseBinder;
 import io.zhijun.opentelemetry.autoconfigure.OpenTelemetryProperties;
 
 /**
@@ -50,7 +50,7 @@ class LogbackOpenTelemetryBridgeApplicationListener implements GenericApplicatio
         }
         ApplicationEnvironmentPreparedEvent applicationEvent = (ApplicationEnvironmentPreparedEvent) event;
 
-        Binder binder = Binder.get(applicationEvent.getEnvironment());
+        RoseBinder binder = RoseBinder.get(applicationEvent.getEnvironment());
         if (!isOpenTelemetryEnabled(binder) || !isLogbackAppenderBridgeEnabled(binder)) {
             return;
         }
@@ -63,25 +63,21 @@ class LogbackOpenTelemetryBridgeApplicationListener implements GenericApplicatio
         rootLogbackLogger.addAppender(openTelemetryAppender);
     }
 
-    private void configureOpenTelemetryAppender(OpenTelemetryAppender openTelemetryAppender, Binder binder) {
-        boolean captureExperimentalAttributes = binder
-                .bind(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-experimental-attributes", Boolean.class)
-                .orElse(false);
+    private void configureOpenTelemetryAppender(OpenTelemetryAppender openTelemetryAppender, RoseBinder binder) {
+        boolean captureExperimentalAttributes = binder.bindBoolean(
+                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-experimental-attributes", false);
         openTelemetryAppender.setCaptureExperimentalAttributes(captureExperimentalAttributes);
 
-        boolean captureKeyValuePairAttributes = binder
-                .bind(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-key-value-pair-attributes", Boolean.class)
-                .orElse(false);
+        boolean captureKeyValuePairAttributes = binder.bindBoolean(
+                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-key-value-pair-attributes", false);
         openTelemetryAppender.setCaptureKeyValuePairAttributes(captureKeyValuePairAttributes);
 
-        boolean captureMarkerAttribute = binder
-                .bind(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-marker-attribute", Boolean.class)
-                .orElse(false);
+        boolean captureMarkerAttribute = binder.bindBoolean(
+                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-marker-attribute", false);
         openTelemetryAppender.setCaptureMarkerAttribute(captureMarkerAttribute);
 
-        String captureMdcAttributes = binder
-                .bind(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-mdc-attributes", String.class)
-                .orElse(null);
+        String captureMdcAttributes = binder.bindString(
+                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-mdc-attributes", null);
         openTelemetryAppender.setCaptureMdcAttributes(captureMdcAttributes);
     }
 
@@ -108,13 +104,12 @@ class LogbackOpenTelemetryBridgeApplicationListener implements GenericApplicatio
         return ClassUtils.isPresent("io.opentelemetry.api.OpenTelemetry", null);
     }
 
-    private boolean isLogbackAppenderBridgeEnabled(Binder binder) {
-        return binder.bind(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".enabled", Boolean.class)
-                .orElse(true);
+    private boolean isLogbackAppenderBridgeEnabled(RoseBinder binder) {
+        return binder.bindBoolean(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".enabled", true);
     }
 
-    private boolean isOpenTelemetryEnabled(Binder binder) {
-        return binder.bind(OpenTelemetryProperties.CONFIG_PREFIX + ".enabled", Boolean.class).orElse(true);
+    private boolean isOpenTelemetryEnabled(RoseBinder binder) {
+        return binder.bindBoolean(OpenTelemetryProperties.CONFIG_PREFIX + ".enabled", true);
     }
 
     @Override

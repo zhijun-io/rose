@@ -3,8 +3,9 @@ package io.zhijun.multitenancy.core.context;
 import java.util.concurrent.Callable;
 
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 
-import io.zhijun.core.support.Incubating;
+import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.exceptions.TenantNotFoundException;
 
 /**
@@ -34,6 +35,29 @@ public final class TenantContext {
         return tenantIdentifier;
     }
 
+    /**
+     * Binds the tenant for the current thread and returns a scope that restores the previous value on close.
+     */
+    public static Scope bind(String tenantIdentifier) {
+        Assert.hasText(tenantIdentifier, "tenantIdentifier cannot be null or empty");
+        return new Scope(tenantIdentifier, TENANT_IDENTIFIER.get());
+    }
+
+    public static final class Scope implements AutoCloseable {
+
+        private final String previousTenantIdentifier;
+
+        private Scope(String tenantIdentifier, @Nullable String previousTenantIdentifier) {
+            TENANT_IDENTIFIER.set(tenantIdentifier);
+            this.previousTenantIdentifier = previousTenantIdentifier;
+        }
+
+        @Override
+        public void close() {
+            TenantContext.restore(previousTenantIdentifier);
+        }
+    }
+
     public static final class Carrier {
 
         private final String tenantIdentifier;
@@ -48,7 +72,7 @@ public final class TenantContext {
             try {
                 action.run();
             } finally {
-                restore(previous);
+                TenantContext.restore(previous);
             }
         }
 
@@ -58,16 +82,17 @@ public final class TenantContext {
             try {
                 return action.call();
             } finally {
-                restore(previous);
+                TenantContext.restore(previous);
             }
         }
 
-        private static void restore(String previous) {
-            if (previous != null) {
-                TENANT_IDENTIFIER.set(previous);
-            } else {
-                TENANT_IDENTIFIER.remove();
-            }
+    }
+
+    private static void restore(@Nullable String previous) {
+        if (previous != null) {
+            TENANT_IDENTIFIER.set(previous);
+        } else {
+            TENANT_IDENTIFIER.remove();
         }
     }
 
