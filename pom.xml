@@ -37,7 +37,7 @@
         <module>rose-observation</module>
         <module>rose-opentelemetry</module>
         <module>rose-multitenancy</module>
-        <module>rose-dev-services</module>
+        <module>rose-local</module>
     </modules>
 
     <dependencyManagement>

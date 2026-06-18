@@ -23,7 +23,7 @@ Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](ht
 
 | Arconia | Rose |
 |---------|------|
-| Dev Services 默认配置 + 动态属性 | `config/default/*` + `addDynamicProperty`（见 `rose-dev-services`） |
+| Dev Services 默认配置 + 动态属性 | `config/default/*` + `addDynamicProperty`（见 `rose-local`） |
 | `@ServiceConnection`（Boot 3） | ❌ Boot 2.7 仍用 `addDynamicProperty` |
 
 ### 对标 Microsphere
@@ -124,8 +124,8 @@ src/main/resources/config/default/<模块名>.yml    # 或 .yaml
 | `rose.autoconfigure.exclude` | 多模块合并排除 AutoConfiguration（见下文） |
 | `setDefaultProperty` | 同上 |
 | `addDynamicProperty` | 最高优先级，开发/测试时覆盖手动配置 |
-| `BootstrapMode` | 见 `rose-dev-services-core` |
-| Actuator 端点 | `rose-dev-services-actuator`，`@ConditionalOnDevMode` |
+| `BootstrapMode` | 见 `rose-local-core` |
+| Actuator 端点 | `rose-local-actuator`，`@ConditionalOnDevMode` |
 
 Boot 2.7 暂无 `@ServiceConnection`，连接注入仍走 `addDynamicProperty`（Arconia Boot 3 路径后续再对齐）。
 
@@ -178,7 +178,7 @@ ConfigurableAutoConfigurationImportFilter.addExcludedAutoConfigurationClass(envi
 | `rose-spring-boot-actuator` | `META-INF/config/default/actuator.properties` | —（`rose.actuator.task-scheduler.*` 推荐默认） |
 | `rose-opentelemetry-core` | `opentelemetry.properties` | `OtlpMetricsExportAutoConfiguration` |
 | `rose-opentelemetry-micrometer-registry-otlp` | `micrometer-registry-otlp.properties` | 同上（累加） |
-| `rose-dev-services-artemis` | `artemis.properties` | —（仅 `spring.artemis.mode` 推荐值） |
+| `rose-local-artemis` | `artemis.properties` | —（仅 `spring.artemis.mode` 推荐值） |
 
 新模块如需排除 Boot 自动配置，在各自 `config/default/<module>.properties` 声明；勿在 `EnvironmentPostProcessor` 里拼接 `spring.autoconfigure.exclude`。
 
@@ -240,7 +240,7 @@ rose.diagnostics.artifacts-collision.enabled=true
 ## 边界
 
 - **不放**各主题业务 AutoConfiguration（见根 [README.md](../README.md#development-principles) 与下文 **边界**）
-- **不放** Dev Services / BootstrapMode（见 `rose-dev-services-core`）
+- **不放** Dev Services / BootstrapMode（见 `rose-local-core`）
 - 新 Boot 横切能力优先进 `rose-spring-boot-core` 或 `rose-spring-boot-actuator`
 
 ## 相关文档

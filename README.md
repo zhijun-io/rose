@@ -84,14 +84,14 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 
 ## Features
 
-### Dev Services
+### Local services
 
-Docker-backed local services for development. Add `rose-spring-boot-starter`, optional `rose-dev-services-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
+Docker-backed local services for development. Add `rose-spring-boot-starter`, optional `rose-local-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
 
 ```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-dev-services-postgresql</artifactId>
+    <artifactId>rose-local-postgresql</artifactId>
     <scope>runtime</scope>
     <optional>true</optional>
 </dependency>
@@ -103,7 +103,7 @@ Docker-backed local services for development. Add `rose-spring-boot-starter`, op
 
 Connectors include PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, ActiveMQ, Ollama, MQTT, OpenLit, and OpenTelemetry Collector. Defaults use username/password (and JDBC database name) **`rose`** unless overridden via `rose.dev.services.<connector>.*`.
 
-See [rose-dev-services/README.md](rose-dev-services/README.md).
+See [rose-local/README.md](rose-local/README.md).
 
 ### OpenTelemetry metrics
 
@@ -123,7 +123,7 @@ See [rose-opentelemetry/README.md](rose-opentelemetry/README.md).
 | Module map & roadmap | Top-level `README.md` under each reactor module (see below) |
 | Design notes | [docs/](docs/) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-excel](rose-excel/) · [rose-sqlite](rose-sqlite/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-opentelemetry](rose-opentelemetry/) · [rose-multitenancy](rose-multitenancy/) · [rose-dev-services](rose-dev-services/)
+**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-excel](rose-excel/) · [rose-sqlite](rose-sqlite/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-opentelemetry](rose-opentelemetry/) · [rose-multitenancy](rose-multitenancy/) · [rose-local](rose-local/)
 
 **Help:** open a [GitHub issue](https://github.com/zhijun-io/rose/issues) for bugs and feature requests.
 

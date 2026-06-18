@@ -120,77 +120,77 @@
             <!-- Dev Services -->
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-core</artifactId>
+                <artifactId>rose-local-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-actuator</artifactId>
+                <artifactId>rose-local-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-postgresql</artifactId>
+                <artifactId>rose-local-postgresql</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-mysql</artifactId>
+                <artifactId>rose-local-mysql</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-redis</artifactId>
+                <artifactId>rose-local-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-mongodb</artifactId>
+                <artifactId>rose-local-mongodb</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-kafka</artifactId>
+                <artifactId>rose-local-kafka</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-rabbitmq</artifactId>
+                <artifactId>rose-local-rabbitmq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-artemis</artifactId>
+                <artifactId>rose-local-artemis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-activemq</artifactId>
+                <artifactId>rose-local-activemq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-tests</artifactId>
+                <artifactId>rose-local-tests</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-ollama</artifactId>
+                <artifactId>rose-local-ollama</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-mqtt</artifactId>
+                <artifactId>rose-local-mqtt</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-openlit</artifactId>
+                <artifactId>rose-local-openlit</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-otel-collector</artifactId>
+                <artifactId>rose-local-otel-collector</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

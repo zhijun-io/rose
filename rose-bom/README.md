@@ -77,14 +77,14 @@
 | `rose-multitenancy-web` | Servlet/WebMVC 集成（无 Boot） |
 | `rose-multitenancy-spring-boot-starter` | Boot 自动装配 |
 
-### Dev Services
+### Local services
 
 | Artifact | 说明 |
 |----------|------|
-| `rose-dev-services-core` | BootstrapMode、容器注册 |
-| `rose-dev-services-actuator` | `/actuator/devservices` |
-| `rose-dev-services-{postgresql,mysql,redis,mongodb,kafka,rabbitmq,artemis,activemq,ollama,mqtt,openlit,otel-collector}` | 连接器（`runtime` + `optional`） |
-| `rose-dev-services-tests` | 集成测试共享基类（`test` scope） |
+| `rose-local-core` | BootstrapMode、容器注册 |
+| `rose-local-actuator` | `/actuator/devservices` |
+| `rose-local-{postgresql,mysql,redis,mongodb,kafka,rabbitmq,artemis,activemq,ollama,mqtt,openlit,otel-collector}` | 连接器（`runtime` + `optional`） |
+| `rose-local-tests` | 集成测试共享基类（`test` scope） |
 
 ### 不在 BOM 中
 

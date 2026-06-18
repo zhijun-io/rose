@@ -24,7 +24,7 @@ public final class FixedTenantResolver implements TenantResolver<Object> {
     }
 
     @Override
-    public String resolveTenantIdentifier(Object source) {
+    public String resolveTenantId(Object source) {
         return fixedTenantIdentifier;
     }
 

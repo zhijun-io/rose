@@ -66,7 +66,7 @@ class MultitenancyWebAutoConfigurationTests {
                 .run(context -> {
                     assertThat(context).hasSingleBean(HttpRequestTenantResolver.class);
                     HttpRequestTenantResolver httpRequestTenantResolver = context.getBean(HttpRequestTenantResolver.class);
-                    assertThat(httpRequestTenantResolver.resolveTenantIdentifier(new MockHttpServletRequest()))
+                    assertThat(httpRequestTenantResolver.resolveTenantId(new MockHttpServletRequest()))
                             .isEqualTo("myTenant");
                 });
     }

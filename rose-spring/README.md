@@ -56,7 +56,7 @@ Spring Framework 层扩展（**非 Boot**）：环境刷新、属性源、配置
 
 ## 对标 Arconia
 
-Arconia 侧重 Quarkus CDI / 配置扩展。Rose Spring 层解决的是 **Spring `Environment` / PropertySource 增强**，与 Arconia 无直接模块对应；Dev Services 动态属性语义在 `rose-dev-services` 与 Arconia 对齐。
+Arconia 侧重 Quarkus CDI / 配置扩展。Rose Spring 层解决的是 **Spring `Environment` / PropertySource 增强**，与 Arconia 无直接模块对应；Dev Services 动态属性语义在 `rose-local` 与 Arconia 对齐。
 
 ## 对标 Microsphere
 

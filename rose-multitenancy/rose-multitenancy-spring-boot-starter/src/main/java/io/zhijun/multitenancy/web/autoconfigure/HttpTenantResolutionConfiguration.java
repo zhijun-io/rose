@@ -17,8 +17,8 @@ import org.springframework.core.Ordered;
 
 import io.zhijun.multitenancy.core.autoconfigure.FixedTenantResolutionProperties;
 import io.zhijun.multitenancy.core.context.resolver.FixedTenantResolver;
-import io.zhijun.multitenancy.core.observability.TenantObservationFilter;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
+import io.zhijun.multitenancy.core.observability.TenantObservationFilter;
 import io.zhijun.multitenancy.web.filter.TenantContextFilter;
 import io.zhijun.multitenancy.web.filter.TenantContextIgnorePathMatcher;
 import io.zhijun.multitenancy.web.filter.TenantContextMissingTenantHandler;
@@ -39,13 +39,8 @@ public final class HttpTenantResolutionConfiguration {
     @Bean
     @ConditionalOnBean(FixedTenantResolver.class)
     @ConditionalOnProperty(prefix = FixedTenantResolutionProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true")
-    HttpRequestTenantResolver fixedHttpRequestTenantResolver(FixedTenantResolver fixedTenantResolver) {
-        return new HttpRequestTenantResolver() {
-            @Override
-            public String resolveTenantIdentifier(javax.servlet.http.HttpServletRequest request) {
-                return fixedTenantResolver.resolveTenantIdentifier(request);
-            }
-        };
+    HttpRequestTenantResolver fixedHttpRequestTenantResolver(final FixedTenantResolver fixedTenantResolver) {
+        return request -> fixedTenantResolver.resolveTenantId(request);
     }
 
     @Bean

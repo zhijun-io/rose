@@ -399,7 +399,7 @@ Rose currently touches Redis via dev-services, not as an application-facing capa
 
 #### Suggested Rose actions
 
-- Keep Redis under `rose-dev-services` for now
+- Keep Redis under `rose-local` for now
 - Revisit only if Rose starts offering application-facing Redis helpers or integrations
 
 #### Breaking change risk
@@ -596,7 +596,7 @@ Rose already has significant test coverage distributed across modules. As cross-
 
 This aligns directly with the repository restructuring already under discussion:
 
-- keep `rose-opentelemetry`, `rose-multitenancy`, `rose-dev-services`
+- keep `rose-opentelemetry`, `rose-multitenancy`, `rose-local`
 - introduce `rose-mybatis-plus` as a real theme directory
 - avoid a weak `rose-data/` umbrella
 

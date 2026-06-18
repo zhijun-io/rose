@@ -32,7 +32,7 @@ class CookieTenantResolverTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setCookies(new Cookie(CookieTenantResolver.DEFAULT_COOKIE_NAME, expectedTenantId));
 
-        String actualTenantId = cookieTenantResolver.resolveTenantIdentifier(request);
+        String actualTenantId = cookieTenantResolver.resolveTenantId(request);
 
         assertThat(actualTenantId).isEqualTo(expectedTenantId);
     }
@@ -45,7 +45,7 @@ class CookieTenantResolverTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setCookies(new Cookie(cookieName, expectedTenantId));
 
-        String actualTenantId = cookieTenantResolver.resolveTenantIdentifier(request);
+        String actualTenantId = cookieTenantResolver.resolveTenantId(request);
 
         assertThat(actualTenantId).isEqualTo(expectedTenantId);
     }
@@ -55,7 +55,7 @@ class CookieTenantResolverTests {
         CookieTenantResolver cookieTenantResolver = new CookieTenantResolver();
         MockHttpServletRequest request = new MockHttpServletRequest();
 
-        String actualTenantId = cookieTenantResolver.resolveTenantIdentifier(request);
+        String actualTenantId = cookieTenantResolver.resolveTenantId(request);
 
         assertThat(actualTenantId).isNull();
     }
@@ -64,7 +64,7 @@ class CookieTenantResolverTests {
     void whenNullRequestThenThrow() {
         CookieTenantResolver cookieTenantResolver = new CookieTenantResolver();
 
-        assertThatThrownBy(() -> cookieTenantResolver.resolveTenantIdentifier(null))
+        assertThatThrownBy(() -> cookieTenantResolver.resolveTenantId(null))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("request cannot be null");
     }

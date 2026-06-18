@@ -26,7 +26,7 @@ class FixedTenantResolverTests {
     void whenDefaultIsUsedAsFixedTenant() {
         String expectedTenantIdentifier = "default";
         FixedTenantResolver fixedTenantResolver = new FixedTenantResolver();
-        String actualTenantIdentifier = fixedTenantResolver.resolveTenantIdentifier(this);
+        String actualTenantIdentifier = fixedTenantResolver.resolveTenantId(this);
         assertThat(actualTenantIdentifier).isEqualTo(expectedTenantIdentifier);
     }
 
@@ -34,7 +34,7 @@ class FixedTenantResolverTests {
     void whenCustomValueIsUsedAsFixedTenant() {
         String expectedTenantIdentifier = "beans";
         FixedTenantResolver fixedTenantResolver = new FixedTenantResolver(expectedTenantIdentifier);
-        String actualTenantIdentifier = fixedTenantResolver.resolveTenantIdentifier(this);
+        String actualTenantIdentifier = fixedTenantResolver.resolveTenantId(this);
         assertThat(actualTenantIdentifier).isEqualTo(expectedTenantIdentifier);
     }
 

@@ -31,7 +31,7 @@ public final class CookieTenantResolver implements HttpRequestTenantResolver {
 
     @Override
     @Nullable
-    public String resolveTenantIdentifier(HttpServletRequest request) {
+    public String resolveTenantId(HttpServletRequest request) {
         Assert.notNull(request, "request cannot be null");
         javax.servlet.http.Cookie[] cookies = request.getCookies();
         if (cookies == null) {

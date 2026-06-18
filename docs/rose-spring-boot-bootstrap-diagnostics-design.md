@@ -16,7 +16,7 @@
 **验收：**
 
 ```bash
-mvn -pl rose-spring/rose-spring-boot,rose-dev-services/rose-dev-services-core test
+mvn -pl rose-spring/rose-spring-boot,rose-local/rose-local-core test
 ```
 
 
@@ -72,7 +72,7 @@ Rose 应用在 **Boot 2.7 / Java 8** 上运行。`rose-spring-boot` 负责：
 | 模块 | 职责 |
 |------|------|
 | `rose-spring-boot` | Bootstrap EPP、AutoConfiguration、条件注解、`RoseBinder` |
-| `rose-dev-services-core` | Dev Services 注册、容器生命周期、Dev Services FailureAnalyzer |
+| `rose-local-core` | Dev Services 注册、容器生命周期、Dev Services FailureAnalyzer |
 | `rose-observation-core` | Observation 冲突 FailureAnalyzer |
 | `rose-spring-core` | `ListenableConfigurableEnvironmentInitializer`（Framework 层） |
 
@@ -167,7 +167,7 @@ fully.qualified.AnalyzerClass
 
 | Analyzer | 模块 | 异常类型 | Action 要点 |
 |----------|------|----------|-------------|
-| `MultipleDevServicesFailureAnalyzer` | dev-services-core | `MultipleDevServicesException` | 同 category 只启用一个 connector |
+| `MultipleDevServicesFailureAnalyzer` | rose-local-core | `MultipleDevServicesException` | 同 category 只启用一个 connector |
 | `MultipleAiObservationConventionsFailureAnalyzer` | observation-core | `MultipleAiObservationConventionsException` | 只保留一个 AI convention |
 
 ### 6.3 新增 Analyzer 模板
@@ -197,7 +197,7 @@ public final class ExampleFailureAnalyzer extends AbstractFailureAnalyzer<Exampl
 |------|----------|--------|
 | Listenable Initializer 未运行 | rose-spring-core | 低 |
 | env-refresh orchestrator 循环 refresh | rose-spring-core | 低 |
-| Dev Services Docker 不可用 | dev-services-core | 中 |
+| Local services Docker 不可用 | rose-local-core | 中 |
 
 ---
 
