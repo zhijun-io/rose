@@ -15,7 +15,7 @@ class DefaultConfigPropertiesLoaderTests {
 
     @Test
     void shouldLoadCoreDefaultsFromClasspath() {
-        Map<String, Object> properties = loader.load(DefaultConfigProperties.DEFAULT_PROPERTIES_PATTERN);
+        Map<String, Object> properties = loader.load(DefaultConfigPropertiesEnvironmentPostProcessor.DEFAULT_PROPERTIES_PATTERN);
 
         assertThat(properties).containsEntry("server.shutdown", "graceful");
         assertThat(properties).containsEntry("spring.lifecycle.timeout-per-shutdown-phase", "60s");
@@ -23,7 +23,7 @@ class DefaultConfigPropertiesLoaderTests {
 
     @Test
     void shouldLoadYamlDefaultsFromClasspath() {
-        Map<String, Object> properties = loader.load(DefaultConfigProperties.DEFAULT_YML_PATTERN);
+        Map<String, Object> properties = loader.load(DefaultConfigPropertiesEnvironmentPostProcessor.DEFAULT_YML_PATTERN);
 
         assertThat(properties).containsEntry("rose.test.yaml-key", "from-yaml");
         assertThat(properties).containsEntry("server.port", "18080");
@@ -31,7 +31,7 @@ class DefaultConfigPropertiesLoaderTests {
 
     @Test
     void shouldFlattenYamlListsToIndexedKeys() {
-        Map<String, Object> properties = loader.load("classpath:rose/default/lists.yml");
+        Map<String, Object> properties = loader.load("classpath:config/default/lists.yml");
 
         assertThat(properties).containsEntry("rose.test.tags[0]", "alpha");
         assertThat(properties).containsEntry("rose.test.tags[1]", "beta");
@@ -39,7 +39,7 @@ class DefaultConfigPropertiesLoaderTests {
 
     @Test
     void shouldMergeMultiDocumentYaml() {
-        Map<String, Object> properties = loader.load("classpath:rose/default/multi-doc.yaml");
+        Map<String, Object> properties = loader.load("classpath:config/default/multi-doc.yaml");
 
         assertThat(properties).containsEntry("rose.test.first", "one");
         assertThat(properties).containsEntry("rose.test.second", "two");
@@ -47,7 +47,7 @@ class DefaultConfigPropertiesLoaderTests {
 
     @Test
     void shouldLoadAllDefaultPatternsFromClasspath() {
-        Map<String, Object> properties = loader.load(DefaultConfigProperties.DEFAULT_LOCATION_PATTERNS);
+        Map<String, Object> properties = loader.load(DefaultConfigPropertiesEnvironmentPostProcessor.DEFAULT_LOCATION_PATTERNS);
 
         assertThat(properties).containsEntry("server.shutdown", "graceful");
         assertThat(properties).containsEntry("rose.test.yaml-key", "from-yaml");
@@ -56,8 +56,8 @@ class DefaultConfigPropertiesLoaderTests {
     @Test
     void shouldMergeLaterResourceOverEarlierForSameKey() {
         Map<String, Object> properties = loader.load(
-                "classpath:rose/default/merge-a.properties",
-                "classpath:rose/default/merge-b.properties");
+                "classpath:config/default/merge-a.properties",
+                "classpath:config/default/merge-b.properties");
 
         assertThat(properties).containsEntry("rose.test.key", "b");
     }
@@ -65,8 +65,8 @@ class DefaultConfigPropertiesLoaderTests {
     @Test
     void shouldAccumulateAutoConfigurationExcludeAcrossResources() {
         Map<String, Object> properties = loader.load(
-                "classpath:rose/default/merge-exclude-a.properties",
-                "classpath:rose/default/merge-exclude-b.properties");
+                "classpath:config/default/merge-exclude-a.properties",
+                "classpath:config/default/merge-exclude-b.properties");
 
         assertThat(properties).containsEntry("rose.autoconfigure.exclude",
                 "com.example.ExcludeFromA,com.example.ExcludeFromB");

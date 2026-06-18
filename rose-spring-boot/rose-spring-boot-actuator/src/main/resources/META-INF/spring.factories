@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.boot.actuate.scheduling.MonitoredTaskSchedulerAutoConfiguration
+io.zhijun.boot.actuate.autoconfigure.ActuatorAutoConfiguration

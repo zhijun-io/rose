@@ -44,7 +44,7 @@
 |----------|------|
 | `rose-core` | 纯 Java 注解/契约 |
 | `rose-spring-core` | Spring 扩展（属性源、env 刷新、配置绑定） |
-| `rose-spring-boot-core` | Boot 工具（`RoseBinder`、`rose/default/*`、诊断） |
+| `rose-spring-boot-core` | Boot 工具（`RoseBinder`、`config/default/*`、诊断） |
 | `rose-spring-boot-actuator` | 调度监控等 Actuator 扩展 |
 | `rose-spring-boot-starter` | 应用基线 starter |
 

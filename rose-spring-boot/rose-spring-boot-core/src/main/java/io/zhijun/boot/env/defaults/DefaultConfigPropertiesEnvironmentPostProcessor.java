@@ -15,11 +15,28 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Merges {@code rose/default/*} configuration files from all jars into Spring Boot default properties.
+ * Merges {@code config/default/*} configuration files from all jars into Spring Boot default properties.
  * <p>
- * Runs before {@code application.yml} is loaded; see {@link DefaultConfigProperties#ENABLED}.
+ * Runs before {@code application.yml} is loaded; disable with {@code -Drose.default-config.enabled=false}
+ * or {@code ROSE_DEFAULT_CONFIG_ENABLED=false}.
  */
 public final class DefaultConfigPropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+
+    public static final String ENABLED_PROPERTY = "rose.default-config.enabled";
+
+    public static final String LOCATIONS_PROPERTY = "rose.default-config.locations";
+
+    public static final String DEFAULT_PROPERTIES_PATTERN = "classpath*:config/default/*.properties";
+
+    public static final String DEFAULT_YML_PATTERN = "classpath*:config/default/*.yml";
+
+    public static final String DEFAULT_YAML_PATTERN = "classpath*:config/default/*.yaml";
+
+    public static final String[] DEFAULT_LOCATION_PATTERNS = {
+            DEFAULT_PROPERTIES_PATTERN,
+            DEFAULT_YML_PATTERN,
+            DEFAULT_YAML_PATTERN
+    };
 
     private final DefaultConfigPropertiesLoader loader = new DefaultConfigPropertiesLoader();
 
@@ -28,7 +45,7 @@ public final class DefaultConfigPropertiesEnvironmentPostProcessor implements En
         Assert.notNull(environment, "environment cannot be null");
         Assert.notNull(application, "application cannot be null");
 
-        Boolean enabled = environment.getProperty(DefaultConfigProperties.ENABLED, Boolean.class, Boolean.TRUE);
+        Boolean enabled = environment.getProperty(ENABLED_PROPERTY, Boolean.class, Boolean.TRUE);
         if (!enabled.booleanValue()) {
             return;
         }
@@ -42,8 +59,8 @@ public final class DefaultConfigPropertiesEnvironmentPostProcessor implements En
 
     private static String[] resolveLocationPatterns(ConfigurableEnvironment environment) {
         List<String> patterns = new ArrayList<String>();
-        Collections.addAll(patterns, DefaultConfigProperties.DEFAULT_LOCATION_PATTERNS);
-        String additionalLocations = environment.getProperty(DefaultConfigProperties.LOCATIONS);
+        Collections.addAll(patterns, DEFAULT_LOCATION_PATTERNS);
+        String additionalLocations = environment.getProperty(LOCATIONS_PROPERTY);
         if (StringUtils.hasText(additionalLocations)) {
             for (String location : StringUtils.commaDelimitedListToStringArray(additionalLocations)) {
                 if (StringUtils.hasText(location)) {

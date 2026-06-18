@@ -24,7 +24,7 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 - Docker 环境检测（OrbStack / 默认 socket）
 - 各连接器 AutoConfiguration + 集成测试
 - `MultipleDevServicesFailureAnalyzer`
-- 连接器 `rose/default/*.properties` 静态推荐默认
+- 连接器 `config/default/*.properties` 静态推荐默认
 
 ### 未实现 / 规划中
 
@@ -39,7 +39,7 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 |----------------------|------|------|
 | 开发/测试自动起容器 | Testcontainers 连接器 | ✅ |
 | 动态配置注入 | `addDynamicProperty` | ✅ |
-| `rose/default` 式静态默认 | 连接器 `rose/default/*` + EPP | ✅ |
+| `config/default` 式静态默认 | 连接器 `config/default/*` + EPP | ✅ |
 | `@ServiceConnection` | — | ❌ Boot 3 |
 | Quarkus Dev UI | Actuator `/devservices` | ⚠️ 部分（Boot Actuator） |
 
@@ -75,7 +75,7 @@ Override: `-Drose.bootstrap.mode=dev|test|prod`
 
 ## Module defaults
 
-Connector modules may ship static recommendations under `src/main/resources/rose/default/<name>.properties`.
+Connector modules may ship static recommendations under `src/main/resources/config/default/<name>.properties`.
 They are merged into Spring Boot `defaultProperties` by `rose-spring-boot-core`.
 Runtime connection values use `DevServicesRegistrar.addDynamicProperty` (highest precedence during dev/test).
 

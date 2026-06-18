@@ -23,11 +23,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import io.zhijun.boot.autoconfigure.RoseAutoConfigurationExcludeProperties;
+import io.zhijun.boot.autoconfigure.RoseAutoConfigurationImportFilter;
 import io.zhijun.spring.core.propertysource.support.PropertySourceMaps;
 
 /**
- * Loads and merges {@code rose/default/*} configuration resources from the classpath.
+ * Loads and merges {@code config/default/*} configuration resources from the classpath.
  */
 final class DefaultConfigPropertiesLoader {
 
@@ -135,7 +135,7 @@ final class DefaultConfigPropertiesLoader {
 
     private static void putMerged(Map<String, Object> merged, Resource resource, String key, Object value) {
         Object previous = merged.get(key);
-        if (previous != null && RoseAutoConfigurationExcludeProperties.EXCLUDE.equals(key)) {
+        if (previous != null && RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY.equals(key)) {
             Object accumulated = accumulateExcludeValues(previous, value);
             merged.put(key, accumulated);
             if (!valuesEqual(previous, accumulated) && logger.isDebugEnabled()) {

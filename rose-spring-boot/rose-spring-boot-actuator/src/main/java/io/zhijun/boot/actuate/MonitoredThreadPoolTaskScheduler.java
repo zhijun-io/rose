@@ -1,8 +1,11 @@
-package io.zhijun.boot.actuate.scheduling;
+package io.zhijun.boot.actuate;
 
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
+
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.SmartInitializingSingleton;
@@ -10,24 +13,23 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
+import io.zhijun.core.concurrent.DelegatingScheduledExecutorService;
 
 /**
  * {@link ThreadPoolTaskScheduler} with Micrometer executor metrics.
  */
-public final class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskScheduler
+public class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskScheduler
         implements ApplicationContextAware, SmartInitializingSingleton {
 
     private String beanName;
 
-    private ApplicationContext applicationContext;
+    private ApplicationContext context;
 
     private DelegatingScheduledExecutorService delegate;
 
     @Override
     protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory,
-            RejectedExecutionHandler rejectedExecutionHandler) {
+                                                      RejectedExecutionHandler rejectedExecutionHandler) {
         ScheduledExecutorService scheduledExecutor = super.createExecutor(poolSize, threadFactory, rejectedExecutionHandler);
         this.delegate = new DelegatingScheduledExecutorService(scheduledExecutor);
         return scheduledExecutor;
@@ -35,20 +37,14 @@ public final class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskSchedu
 
     @Override
     public ScheduledExecutorService getScheduledExecutor() throws IllegalStateException {
-        if (delegate == null) {
-            return super.getScheduledExecutor();
-        }
         return delegate;
     }
 
     @Override
     public void afterSingletonsInstantiated() {
-        if (delegate == null || applicationContext == null) {
-            return;
-        }
-        MeterRegistry registry = applicationContext.getBean(MeterRegistry.class);
+        MeterRegistry registry = context.getBean(MeterRegistry.class);
         ScheduledExecutorService scheduledExecutor = super.getScheduledExecutor();
-        delegate.setDelegate(ExecutorServiceMetrics.monitor(registry, scheduledExecutor, beanName));
+        this.delegate.setDelegate(ExecutorServiceMetrics.monitor(registry, scheduledExecutor, beanName));
     }
 
     @Override
@@ -59,6 +55,7 @@ public final class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskSchedu
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+        this.context = applicationContext;
     }
+
 }

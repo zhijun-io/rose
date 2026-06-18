@@ -1,23 +1,27 @@
-package io.zhijun.boot.actuate.scheduling;
+package io.zhijun.core.concurrent;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Mutable delegate for {@link ScheduledExecutorService}.
  */
-final class DelegatingScheduledExecutorService implements ScheduledExecutorService {
+public final class DelegatingScheduledExecutorService implements ScheduledExecutorService {
 
     private volatile ScheduledExecutorService delegate;
 
-    DelegatingScheduledExecutorService(ScheduledExecutorService delegate) {
+    public DelegatingScheduledExecutorService(ScheduledExecutorService delegate) {
         this.delegate = delegate;
     }
 
-    void setDelegate(ScheduledExecutorService delegate) {
+    public void setDelegate(ScheduledExecutorService delegate) {
         this.delegate = delegate;
     }
 
@@ -47,7 +51,7 @@ final class DelegatingScheduledExecutorService implements ScheduledExecutorServi
     }
 
     @Override
-    public java.util.List<Runnable> shutdownNow() {
+    public List<Runnable> shutdownNow() {
         return delegate.shutdownNow();
     }
 
@@ -82,27 +86,25 @@ final class DelegatingScheduledExecutorService implements ScheduledExecutorServi
     }
 
     @Override
-    public <T> java.util.List<Future<T>> invokeAll(java.util.Collection<? extends Callable<T>> tasks)
-            throws InterruptedException {
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
         return delegate.invokeAll(tasks);
     }
 
     @Override
-    public <T> java.util.List<Future<T>> invokeAll(java.util.Collection<? extends Callable<T>> tasks, long timeout,
-            TimeUnit unit) throws InterruptedException {
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+            throws InterruptedException {
         return delegate.invokeAll(tasks, timeout, unit);
     }
 
     @Override
-    public <T> T invokeAny(java.util.Collection<? extends Callable<T>> tasks)
-            throws InterruptedException, java.util.concurrent.ExecutionException {
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+            throws InterruptedException, ExecutionException {
         return delegate.invokeAny(tasks);
     }
 
     @Override
-    public <T> T invokeAny(java.util.Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
-            throws InterruptedException, java.util.concurrent.ExecutionException,
-            java.util.concurrent.TimeoutException {
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+            throws InterruptedException, ExecutionException, TimeoutException {
         return delegate.invokeAny(tasks, timeout, unit);
     }
 
@@ -110,4 +112,5 @@ final class DelegatingScheduledExecutorService implements ScheduledExecutorServi
     public void execute(Runnable command) {
         delegate.execute(command);
     }
+
 }

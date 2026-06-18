@@ -28,7 +28,7 @@ public final class ArtifactsCollisionFailureAnalyzer extends AbstractFailureAnal
         }
         action.append(System.lineSeparator());
         action.append("Then exclude redundant dependencies in pom.xml, or disable diagnosis with ");
-        action.append(ArtifactsCollisionProperties.ENABLED).append("=false");
+        action.append(ArtifactsCollisionDiagnosisListener.ENABLED_PROPERTY).append("=false");
         return action.toString();
     }
 }

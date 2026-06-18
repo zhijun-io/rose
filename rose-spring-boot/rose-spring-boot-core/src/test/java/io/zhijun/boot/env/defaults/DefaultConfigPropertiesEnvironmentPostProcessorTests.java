@@ -27,7 +27,7 @@ class DefaultConfigPropertiesEnvironmentPostProcessorTests {
     @Test
     void shouldNotLoadWhenDisabled() {
         MockEnvironment environment = new MockEnvironment()
-                .withProperty(DefaultConfigProperties.ENABLED, "false");
+                .withProperty(DefaultConfigPropertiesEnvironmentPostProcessor.ENABLED_PROPERTY, "false");
 
         processor.postProcessEnvironment(environment, new SpringApplication());
 

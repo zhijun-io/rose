@@ -16,6 +16,8 @@ import org.springframework.util.StringUtils;
  */
 public final class ArtifactsCollisionDiagnosisListener implements ApplicationListener<ApplicationContextInitializedEvent> {
 
+    static final String ENABLED_PROPERTY = "rose.diagnostics.artifacts-collision.enabled";
+
     private static final Logger logger = LoggerFactory.getLogger(ArtifactsCollisionDiagnosisListener.class);
 
     private final ClasspathMavenArtifactScanner scanner = new ClasspathMavenArtifactScanner();
@@ -44,6 +46,6 @@ public final class ArtifactsCollisionDiagnosisListener implements ApplicationLis
     private static boolean isEnabled(ApplicationContextInitializedEvent event) {
         ConfigurableApplicationContext context = event.getApplicationContext();
         ConfigurableEnvironment environment = context.getEnvironment();
-        return environment.getProperty(ArtifactsCollisionProperties.ENABLED, Boolean.class, Boolean.FALSE).booleanValue();
+        return environment.getProperty(ENABLED_PROPERTY, Boolean.class, Boolean.FALSE).booleanValue();
     }
 }

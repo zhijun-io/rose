@@ -34,7 +34,7 @@
 ## 未实现 / 规划中
 
 - Spring Boot starter / 自动配置
-- `rose/default` 模块默认配置
+- `config/default` 模块默认配置
 - 与 multitenancy / 数据权限的 Excel 导出联动
 - 大文件流式导入的性能与内存文档
 

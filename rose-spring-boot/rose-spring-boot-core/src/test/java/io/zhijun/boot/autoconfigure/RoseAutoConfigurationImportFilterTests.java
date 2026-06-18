@@ -55,7 +55,7 @@ class RoseAutoConfigurationImportFilterTests {
     @Test
     void shouldExcludeConfiguredAutoConfigurationClasses() {
         MockEnvironment environment = new MockEnvironment()
-                .withProperty(RoseAutoConfigurationExcludeProperties.EXCLUDE,
+                .withProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY,
                         "com.example.FooAutoConfiguration,com.example.BarAutoConfiguration");
         filter.setEnvironment(environment);
 
@@ -70,9 +70,9 @@ class RoseAutoConfigurationImportFilterTests {
     void shouldMergeExclusionsFromMultiplePropertySources() {
         MockEnvironment environment = new MockEnvironment();
         environment.getPropertySources().addLast(new MapPropertySource("module-a",
-                Collections.singletonMap(RoseAutoConfigurationExcludeProperties.EXCLUDE, "com.example.A")));
+                Collections.singletonMap(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY, "com.example.A")));
         environment.getPropertySources().addLast(new MapPropertySource("module-b",
-                Collections.singletonMap(RoseAutoConfigurationExcludeProperties.EXCLUDE, "com.example.B")));
+                Collections.singletonMap(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY, "com.example.B")));
         filter.setEnvironment(environment);
 
         boolean[] results = filter.match(
@@ -85,8 +85,8 @@ class RoseAutoConfigurationImportFilterTests {
     @Test
     void shouldSupportIndexedExcludePropertyFromBinder() {
         MockEnvironment environment = new MockEnvironment();
-        environment.setProperty(RoseAutoConfigurationExcludeProperties.EXCLUDE + "[0]", "com.example.First");
-        environment.setProperty(RoseAutoConfigurationExcludeProperties.EXCLUDE + "[1]", "com.example.Second");
+        environment.setProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY + "[0]", "com.example.First");
+        environment.setProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY + "[1]", "com.example.Second");
         filter.setEnvironment(environment);
 
         Set<String> excluded = RoseAutoConfigurationImportFilter.getExcludedAutoConfigurationClasses(environment);
@@ -106,7 +106,7 @@ class RoseAutoConfigurationImportFilterTests {
                 METADATA);
 
         assertThat(results).containsExactly(false, true);
-        assertThat(environment.getProperty(RoseAutoConfigurationExcludeProperties.EXCLUDE))
+        assertThat(environment.getProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY))
                 .isEqualTo("com.example.RuntimeA,com.example.RuntimeB");
     }
 
@@ -114,7 +114,7 @@ class RoseAutoConfigurationImportFilterTests {
     void shouldResolvePlaceholdersInExcludeProperty() {
         MockEnvironment environment = new MockEnvironment()
                 .withProperty("rose.exclude.target", "com.example.Resolved")
-                .withProperty(RoseAutoConfigurationExcludeProperties.EXCLUDE, "${rose.exclude.target}");
+                .withProperty(RoseAutoConfigurationImportFilter.EXCLUDE_PROPERTY, "${rose.exclude.target}");
         filter.setEnvironment(environment);
 
         boolean[] results = filter.match(

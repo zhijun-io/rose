@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.config;
+package io.zhijun.spring.core.env;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
