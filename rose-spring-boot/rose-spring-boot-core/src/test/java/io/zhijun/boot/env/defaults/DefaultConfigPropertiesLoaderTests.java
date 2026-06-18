@@ -61,4 +61,14 @@ class DefaultConfigPropertiesLoaderTests {
 
         assertThat(properties).containsEntry("rose.test.key", "b");
     }
+
+    @Test
+    void shouldAccumulateAutoConfigurationExcludeAcrossResources() {
+        Map<String, Object> properties = loader.load(
+                "classpath:rose/default/merge-exclude-a.properties",
+                "classpath:rose/default/merge-exclude-b.properties");
+
+        assertThat(properties).containsEntry("rose.autoconfigure.exclude",
+                "com.example.ExcludeFromA,com.example.ExcludeFromB");
+    }
 }

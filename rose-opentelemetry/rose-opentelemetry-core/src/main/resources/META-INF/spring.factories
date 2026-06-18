@@ -1,6 +1,5 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-io.zhijun.opentelemetry.autoconfigure.config.OpenTelemetryEnvironmentPostProcessor,\
-io.zhijun.opentelemetry.autoconfigure.config.SpringBootEnvironmentPostProcessor
+io.zhijun.opentelemetry.autoconfigure.config.OpenTelemetryEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 io.zhijun.opentelemetry.autoconfigure.exporter.OpenTelemetryExporterAutoConfiguration,\

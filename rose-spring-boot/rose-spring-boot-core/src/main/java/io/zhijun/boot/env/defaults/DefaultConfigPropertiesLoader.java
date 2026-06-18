@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
+import io.zhijun.boot.autoconfigure.RoseAutoConfigurationExcludeProperties;
 import io.zhijun.spring.core.propertysource.support.PropertySourceMaps;
 
 /**
@@ -133,11 +134,36 @@ final class DefaultConfigPropertiesLoader {
     }
 
     private static void putMerged(Map<String, Object> merged, Resource resource, String key, Object value) {
-        Object previous = merged.put(key, value);
+        Object previous = merged.get(key);
+        if (previous != null && RoseAutoConfigurationExcludeProperties.EXCLUDE.equals(key)) {
+            Object accumulated = accumulateExcludeValues(previous, value);
+            merged.put(key, accumulated);
+            if (!valuesEqual(previous, accumulated) && logger.isDebugEnabled()) {
+                logger.debug("Rose default config key '{}' accumulated in {} (previous: {}, added: {}, result: {})",
+                        key, resource.getDescription(), previous, value, accumulated);
+            }
+            return;
+        }
+        previous = merged.put(key, value);
         if (previous != null && !valuesEqual(previous, value) && logger.isDebugEnabled()) {
             logger.debug("Rose default config key '{}' overridden in {} (previous: {}, new: {})",
                     key, resource.getDescription(), previous, value);
         }
+    }
+
+    private static Object accumulateExcludeValues(Object previous, Object value) {
+        if (!(previous instanceof String) || !(value instanceof String)) {
+            return value;
+        }
+        String previousValue = (String) previous;
+        String valueToAdd = (String) value;
+        if (!StringUtils.hasText(previousValue)) {
+            return valueToAdd;
+        }
+        if (!StringUtils.hasText(valueToAdd)) {
+            return previousValue;
+        }
+        return previousValue + "," + valueToAdd;
     }
 
     private static boolean valuesEqual(Object left, Object right) {

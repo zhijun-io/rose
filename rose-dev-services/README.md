@@ -34,3 +34,5 @@ Override: `-Drose.bootstrap.mode=dev|test|prod`
 Connector modules may ship static recommendations under `src/main/resources/rose/default/<name>.properties`.
 They are merged into Spring Boot `defaultProperties` by `rose-spring-boot-core`.
 Runtime connection values use `DevServicesRegistrar.addDynamicProperty` (highest precedence during dev/test).
+
+To disable conflicting Spring Boot auto-configuration from a connector, use `rose.autoconfigure.exclude` in the same file (see `rose-spring-boot` README).

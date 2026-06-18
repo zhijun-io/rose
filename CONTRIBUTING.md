@@ -40,6 +40,8 @@ Summary:
 - **Capabilities** (`rose-{feature}/*`) stay library-thin: prefer `rose-core` + fine-grained Spring/Boot artifacts; **no** `spring-boot-starter*` at compile scope.
 - **Starters** (`rose-*-spring-boot-starter`) are POM-only aggregates that build on `rose-spring-boot-starter` and own the runnable stack (Web, Actuator, JDBC pool, …).
 - **`rose-spring-boot`** is a parent module (`rose-spring-boot-core`, `rose-spring-boot-starter`); shared Boot utilities and `rose/default/*.properties` loading live in core.
+- Module defaults: `src/main/resources/rose/default/<module>.properties` (or `.yml`); merged by `rose-spring-boot-core`.
+- Conflicting Spring Boot auto-configuration: use `rose.autoconfigure.exclude` in that file (not `spring.autoconfigure.exclude` in EPP); see [rose-spring-boot/README.md](rose-spring-boot/README.md).
 - New published artifacts go into **both** `rose-parent` and `rose-bom` `dependencyManagement`.
 - `rose-build` is the authoritative shared build parent for plugin and build policy; `rose-parent` remains the dependency/version parent and repository aggregator.
 - Artifact renames or module splits should be documented through the `rose-bom` contract and upgrade notes.

@@ -32,6 +32,10 @@
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
             <artifactId>rose-sqlite</artifactId>
         </dependency>
         <dependency>
