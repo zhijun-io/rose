@@ -199,7 +199,6 @@ export MAVEN_GPG_PASSPHRASE='…'   # do not put gpg.passphrase in settings.xml
 mvn -B clean deploy -Prelease
 ```
 
-Do **not** use deploy with coverage tooling — keep `mvn deploy -Prelease` only.
 
 | Workflow | File | When |
 |----------|------|------|

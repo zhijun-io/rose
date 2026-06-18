@@ -62,7 +62,7 @@ jobs:
             echo "SONAR_TOKEN not set, skipping SonarCloud analysis."
             exit 0
           fi
-          if [ ! -f rose-coverage/target/site/jacoco-aggregate/jacoco.xml ]; then
+          if ! find . -path '*/target/site/jacoco/jacoco.xml' -print -quit | grep -q .; then
             echo "JaCoCo report not found."
             exit 1
           fi
@@ -72,7 +72,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.organization="${ORG}" \
             -Dsonar.projectKey="${PROJECT}" \
-            -Dsonar.coverage.jacoco.xmlReportPaths=rose-coverage/target/site/jacoco-aggregate/jacoco.xml \
+            -Dsonar.coverage.jacoco.xmlReportPaths=**/target/site/jacoco/jacoco.xml \
             org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar
 
       - name: Upload coverage to Codecov
@@ -84,14 +84,19 @@ jobs:
             echo "CODECOV_TOKEN not set, skipping Codecov upload."
             exit 0
           fi
-          if [ ! -f rose-coverage/target/site/jacoco-aggregate/jacoco.xml ]; then
-            echo "JaCoCo report not found, skipping Codecov upload."
+          mapfile -t REPORTS < <(find . -path '*/target/site/jacoco/jacoco.xml' | sort)
+          if [ "${#REPORTS[@]}" -eq 0 ]; then
+            echo "JaCoCo report not found."
             exit 1
           fi
           curl -fsSL -o codecov https://cli.codecov.io/latest/linux/codecov
           chmod +x codecov
+          UPLOAD_ARGS=()
+          for report in "${REPORTS[@]}"; do
+            UPLOAD_ARGS+=(-f "${report}")
+          done
           ./codecov upload-process \
-            -f rose-coverage/target/site/jacoco-aggregate/jacoco.xml \
+            "${UPLOAD_ARGS[@]}" \
             -t "${CODECOV_TOKEN}" \
             --slug "${GITHUB_REPOSITORY}" \
             --fail-on-error
