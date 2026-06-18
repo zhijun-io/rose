@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.zhijun.multitenancy.core.autoconfigure.MultitenancyCoreAutoConfiguration,\
+io.zhijun.multitenancy.web.autoconfigure.MultitenancyWebAutoConfiguration

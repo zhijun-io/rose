@@ -70,7 +70,7 @@ class ListenableMutablePropertySourcesPublishTest {
         new ListenableConfigurableEnvironmentInitializer().initialize(context);
         context.getEnvironment().getPropertySources().addFirst(
                 new MapPropertySource("config", Collections.singletonMap(
-                        "rose.spring.env.publish-property-source-events", "false")));
+                        "rose.spring.env.publish-property-source-event", "false")));
         context.addApplicationListener((ApplicationListener<PropertySourcesChangedEvent>) capturedEvents::add);
         context.refresh();
 

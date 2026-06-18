@@ -11,7 +11,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Container for repeatable {@link EnableConfigurationBeanBinding} annotations.
+ * Container for repeatable {@link EnableConfigurationBeanBinding} annotation.
  * <p>
  * Required by Java {@link java.lang.annotation.Repeatable}; also allows explicit grouping:
  *

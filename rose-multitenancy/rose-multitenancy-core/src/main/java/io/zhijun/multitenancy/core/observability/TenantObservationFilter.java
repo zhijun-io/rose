@@ -43,7 +43,7 @@ public final class TenantObservationFilter implements ObservationFilter {
 
     @Override
     public Observation.Context map(Observation.Context context) {
-        String tenantIdentifier = TenantContext.getTenantIdentifier();
+        String tenantIdentifier = TenantContext.getTenantId();
         if (tenantIdentifier == null) {
             return context;
         }

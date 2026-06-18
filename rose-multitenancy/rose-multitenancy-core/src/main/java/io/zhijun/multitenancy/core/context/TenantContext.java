@@ -6,7 +6,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import io.zhijun.core.annotation.Incubating;
-import io.zhijun.multitenancy.core.exceptions.TenantNotFoundException;
+import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 /**
  * Thread-local tenant context for the current execution scope.
@@ -23,11 +23,11 @@ public final class TenantContext {
     }
 
     @Nullable
-    public static String getTenantIdentifier() {
+    public static String getTenantId() {
         return TENANT_IDENTIFIER.get();
     }
 
-    public static String getRequiredTenantIdentifier() {
+    public static String getRequiredTenantId() {
         String tenantIdentifier = TENANT_IDENTIFIER.get();
         if (tenantIdentifier == null) {
             throw new TenantNotFoundException("No tenant found in the current context");

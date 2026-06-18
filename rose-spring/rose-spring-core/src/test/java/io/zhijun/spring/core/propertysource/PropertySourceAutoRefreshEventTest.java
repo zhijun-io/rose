@@ -15,7 +15,7 @@ import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Verifies {@code propertySources.replace()} on Listenable Environment publishes events with
+ * Verifies {@code propertySources.replace()} on Listenable Environment publishes event with
  * {@code getChangedKeys()} (same path as {@code autoRefreshed} reload).
  */
 class PropertySourceAutoRefreshEventTest {

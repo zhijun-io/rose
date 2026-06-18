@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
 
 /**
- * Listener for Spring Boot configuration property binding events.
+ * Listener for Spring Boot configuration property binding event.
  */
 public interface RoseBindListener {
 

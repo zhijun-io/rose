@@ -3,7 +3,7 @@ package io.zhijun.data.mybatisplus.permission;
 import org.springframework.lang.Nullable;
 
 /**
- * Opaque principal passed to data permission resolvers.
+ * Opaque principal passed to data permission resolver.
  */
 public final class DataPermissionPrincipal {
 

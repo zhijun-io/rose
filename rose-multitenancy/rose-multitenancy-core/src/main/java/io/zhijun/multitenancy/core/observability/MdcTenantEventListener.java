@@ -7,11 +7,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.util.Assert;
 
 import io.zhijun.core.annotation.Incubating;
-import io.zhijun.multitenancy.core.context.events.TenantContextAttachedEvent;
-import io.zhijun.multitenancy.core.context.events.TenantContextClosedEvent;
+import io.zhijun.multitenancy.core.context.event.TenantContextAttachedEvent;
+import io.zhijun.multitenancy.core.context.event.TenantContextClosedEvent;
 
 /**
- * Manages the SLF4J {@link MDC} tenant identifier in response to tenant context events.
+ * Manages the SLF4J {@link MDC} tenant identifier in response to tenant context event.
  */
 @Incubating
 public final class MdcTenantEventListener {

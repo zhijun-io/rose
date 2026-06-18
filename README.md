@@ -60,8 +60,8 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 |---------|----------|
 | `rose-spring-boot-starter` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
 | `rose-opentelemetry-spring-boot-starter` | OTel SDK, logs, OTLP metrics, semantic conventions, Actuator |
-| `rose-multitenancy-core-spring-boot-starter` | Multitenancy without the web stack |
-| `rose-multitenancy-web-spring-boot-starter` | Multitenancy + `spring-boot-starter-web` |
+| `rose-multitenancy-spring-boot-starter` | Multitenancy Boot auto-configuration |
+| `rose-multitenancy-web` | Web integration (add alongside starter for HTTP tenant resolution) |
 | `rose-mybatis-plus-spring-boot-starter` | MyBatis-Plus audit, encryption, data permission |
 
 ```xml
@@ -71,10 +71,14 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
     <artifactId>rose-opentelemetry-spring-boot-starter</artifactId>
 </dependency>
 
-<!-- Multitenancy on the web stack -->
+<!-- Multitenancy -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-web-spring-boot-starter</artifactId>
+    <artifactId>rose-multitenancy-spring-boot-starter</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.zhijun</groupId>
+    <artifactId>rose-multitenancy-web</artifactId>
 </dependency>
 ```
 

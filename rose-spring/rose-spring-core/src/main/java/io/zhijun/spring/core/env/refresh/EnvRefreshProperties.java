@@ -8,7 +8,7 @@ import org.springframework.core.env.Environment;
  */
 public final class EnvRefreshProperties {
 
-    public static final String PUBLISH_EVENTS = "rose.spring.env.publish-property-source-events";
+    public static final String PUBLISH_EVENTS = "rose.spring.env.publish-property-source-event";
 
     public static final String REFRESH_ENABLED = "rose.spring.env.refresh.enabled";
 

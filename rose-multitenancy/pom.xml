@@ -18,7 +18,6 @@
     <modules>
         <module>rose-multitenancy-core</module>
         <module>rose-multitenancy-web</module>
-        <module>rose-multitenancy-core-spring-boot-starter</module>
-        <module>rose-multitenancy-web-spring-boot-starter</module>
+        <module>rose-multitenancy-spring-boot-starter</module>
     </modules>
 </project>

@@ -73,10 +73,9 @@
 
 | Artifact | 说明 |
 |----------|------|
-| `rose-multitenancy-core` | 租户上下文 API |
-| `rose-multitenancy-web` | Servlet/WebMVC 集成 |
-| `rose-multitenancy-core-spring-boot-starter` | 无 Web 栈 |
-| `rose-multitenancy-web-spring-boot-starter` | 含 Web |
+| `rose-multitenancy-core` | 租户上下文 API（无 Boot） |
+| `rose-multitenancy-web` | Servlet/WebMVC 集成（无 Boot） |
+| `rose-multitenancy-spring-boot-starter` | Boot 自动装配 |
 
 ### Dev Services
 

@@ -126,7 +126,7 @@ class OpenTelemetryTracingAutoConfigurationTests {
         tracingContextRunner()
             .withPropertyValues(
                 "rose.otel.traces.limits.max-number-of-attributes=10",
-                "rose.otel.traces.limits.max-number-of-events=20",
+                "rose.otel.traces.limits.max-number-of-event=20",
                 "rose.otel.traces.limits.max-number-of-links=30",
                 "rose.otel.traces.limits.max-number-of-attributes-per-event=40",
                 "rose.otel.traces.limits.max-number-of-attributes-per-link=50",

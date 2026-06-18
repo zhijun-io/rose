@@ -81,7 +81,7 @@ public class OpenTelemetryTracingProperties {
         private int maxNumberOfAttributes = 128;
 
         /**
-         * Maximum number of events per span.
+         * Maximum number of event per span.
          */
         private int maxNumberOfEvents = 128;
 

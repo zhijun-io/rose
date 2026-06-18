@@ -14,10 +14,6 @@
     <artifactId>rose-opentelemetry-spring-boot-starter</artifactId>
     <name>Rose OpenTelemetry Spring Boot Starter</name>
 
-    <properties>
-        <jacoco.skip>true</jacoco.skip>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>

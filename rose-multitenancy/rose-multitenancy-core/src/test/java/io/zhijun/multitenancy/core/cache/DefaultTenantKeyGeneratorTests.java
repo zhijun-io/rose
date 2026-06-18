@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.ReflectionUtils;
 
 import io.zhijun.multitenancy.core.context.TenantContext;
-import io.zhijun.multitenancy.core.exceptions.TenantNotFoundException;
+import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

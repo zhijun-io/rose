@@ -6,7 +6,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import io.zhijun.spring.core.propertysource.annotation.ResourcePropertySources;
 
 /**
- * Loader for {@link ResourcePropertySources} container annotations.
+ * Loader for {@link ResourcePropertySources} container annotation.
  */
 public class ResourcePropertySourcesLoader extends AnnotatedPropertySourceImportSelector<ResourcePropertySources> {
 

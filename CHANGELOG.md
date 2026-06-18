@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot-starter`; `rose-multitenancy-core` and `rose-multitenancy-web` no longer depend on Spring Boot. Replaces `rose-multitenancy-core-spring-boot-starter` and `rose-multitenancy-web-spring-boot-starter`.
+
 ## [0.1.0] - Unreleased
 
 First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (`io.zhijun`).

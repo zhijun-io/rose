@@ -1,2 +1,0 @@
-org.springframework.data.jdbc.repository.config.DialectResolver$JdbcDialectProvider=\
-io.zhijun.data.jdbc.sqlite.dialect.SqliteJdbcDialectProvider
