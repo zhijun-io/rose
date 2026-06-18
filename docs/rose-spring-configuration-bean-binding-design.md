@@ -69,7 +69,7 @@ io/zhijun/spring/core/binder/
 |------|-----|------|
 | `PropertySourcesUtils` | `core.env` | `getSubProperties` / `normalizePrefix` |
 | `Refreshable` / `PropertySourcesRefreshEnvironmentListener` | `core.env.refresh` | 变更 key 分发 |
-| `RoseBinder` | `rose-spring-boot` | Boot 侧 `Binder` 便捷封装；**不**参与本注解绑定链 |
+| `RoseBinder` | `rose-spring-boot-core` | Boot 侧 `Binder` 便捷封装；**不**参与本注解绑定链 |
 
 **热更链路：**
 

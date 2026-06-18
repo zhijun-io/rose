@@ -3,6 +3,7 @@ package io.zhijun.spring.core.binder.refresh;
 import java.util.Set;
 
 import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
+import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
 import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.env.refresh.Refreshable;
 import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
@@ -14,8 +15,15 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
- * Rebinds {@link io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding} beans when
- * matching configuration keys change.
+ * {@link Refreshable} that rebinds {@link EnableConfigurationBeanBinding} beans when matching
+ * configuration keys change.
+ * <p>
+ * Registered in {@code META-INF/spring.factories}. Invoked from
+ * {@link io.zhijun.spring.core.env.refresh.PropertySourcesRefreshEnvironmentListener} after
+ * {@code PropertySourcesChangedEvent#getChangedKeys()} is computed.
+ * <p>
+ * Rebind uses {@link ConfigurationBeanBindingPostProcessor#rebindConfigurationBean} on the
+ * <em>existing</em> bean instance; bean definitions are not re-registered.
  */
 public final class ConfigurationBeanBindingRefreshable implements Refreshable {
 

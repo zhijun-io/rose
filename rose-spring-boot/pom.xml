@@ -12,50 +12,12 @@
     </parent>
 
     <artifactId>rose-spring-boot</artifactId>
+    <packaging>pom</packaging>
     <name>Rose Spring Boot</name>
-    <description>Rose Spring Boot integration and bootstrap auto-configuration</description>
+    <description>Rose Spring Boot integration modules</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.zhijun</groupId>
-            <artifactId>rose-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>rose-spring-boot-core</module>
+        <module>rose-spring-boot-starter</module>
+    </modules>
 </project>

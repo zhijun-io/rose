@@ -1,5 +1,0 @@
-org.springframework.boot.env.EnvironmentPostProcessor=\
-io.zhijun.boot.autoconfigure.bootstrap.BootstrapEnvironmentPostProcessor
-
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.boot.autoconfigure.bootstrap.BootstrapAutoConfiguration

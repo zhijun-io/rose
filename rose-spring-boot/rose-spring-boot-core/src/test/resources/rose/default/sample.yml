@@ -1,0 +1,5 @@
+rose:
+  test:
+    yaml-key: from-yaml
+server:
+  port: 18080

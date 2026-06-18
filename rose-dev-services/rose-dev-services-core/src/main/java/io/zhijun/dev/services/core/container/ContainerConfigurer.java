@@ -8,7 +8,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.utility.MountableFile;
 
-import io.zhijun.boot.bootstrap.BootstrapMode;
+import io.zhijun.dev.services.bootstrap.BootstrapMode;
 import io.zhijun.dev.services.api.config.BaseDevServicesProperties;
 import io.zhijun.dev.services.api.config.JdbcDevServicesProperties;
 import io.zhijun.dev.services.api.config.ResourceMapping;
@@ -22,6 +22,9 @@ public final class ContainerConfigurer {
     private static final String RESOURCE_PREFIX_CLASSPATH = "classpath:";
     private static final String RESOURCE_PREFIX_FILE = "file:";
 
+    /**
+     * Configures base container settings for dev services.
+     */
     public static void base(GenericContainer<?> container, BaseDevServicesProperties properties) {
         container
                 .withEnv(properties.getEnvironment())

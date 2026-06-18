@@ -30,7 +30,16 @@ import static org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncl
 import static org.springframework.util.ObjectUtils.nullSafeEquals;
 
 /**
- * Binds configuration beans registered by {@link EnableConfigurationBeanBinding}.
+ * Binds {@link EnableConfigurationBeanBinding} beans and runs {@link io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer}
+ * callbacks after each bind.
+ * <p>
+ * Configuration beans are recognized by {@link io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport#CONFIGURATION_BEAN_SOURCE}
+ * on their {@link org.springframework.beans.factory.config.BeanDefinition}. Binding runs in
+ * {@link #postProcessBeforeInitialization} so fields are populated before {@code @PostConstruct}.
+ * <p>
+ * {@link #rebindConfigurationBean(String, org.springframework.core.env.ConfigurableEnvironment)} re-applies
+ * properties from the live {@code Environment} on the same bean instance (used by env hot-reload);
+ * it does not re-run lifecycle callbacks.
  */
 public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor, BeanFactoryAware, PriorityOrdered {
 
@@ -106,7 +115,8 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
     }
 
     /**
-     * Rebinds an existing configuration bean from the current {@link Environment}.
+     * Re-reads {@code prefix.*} from {@code environment} and binds again onto the existing bean.
+     * Customizers run again; {@code @PostConstruct} does not.
      */
     public void rebindConfigurationBean(String beanName, ConfigurableEnvironment environment) {
         BeanDefinition beanDefinition = getNullableBeanDefinition(beanName);

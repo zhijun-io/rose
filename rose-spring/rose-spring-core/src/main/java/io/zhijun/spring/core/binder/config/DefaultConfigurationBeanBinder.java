@@ -7,7 +7,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.validation.DataBinder;
 
 /**
- * Default {@link ConfigurationBeanBinder} implementation based on {@link DataBinder}.
+ * Default {@link ConfigurationBeanBinder}: Spring {@link DataBinder} with direct field access.
  */
 public class DefaultConfigurationBeanBinder implements ConfigurationBeanBinder {
 

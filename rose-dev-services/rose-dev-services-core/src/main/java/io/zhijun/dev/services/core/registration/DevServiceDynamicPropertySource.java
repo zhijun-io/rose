@@ -15,6 +15,9 @@ import io.zhijun.core.annotation.Incubating;
 
 /**
  * Lazy dynamic property source for dev services.
+ * <p>
+ * Dev service connection properties take precedence over manually configured values during
+ * development and testing, matching Arconia semantics.
  */
 @Incubating
 public final class DevServiceDynamicPropertySource extends MapPropertySource {

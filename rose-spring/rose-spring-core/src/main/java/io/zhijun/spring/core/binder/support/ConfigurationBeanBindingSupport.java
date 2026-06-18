@@ -13,14 +13,21 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
 /**
- * Shared helpers for configuration bean registration and refresh.
+ * Shared rules for {@link EnableConfigurationBeanBinding} registration and env hot-reload.
+ * <p>
+ * Keeps {@link io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingRegistrar} and
+ * {@link io.zhijun.spring.core.binder.refresh.ConfigurationBeanBindingRefreshable} aligned on
+ * how prefix properties are sliced, especially when {@code multiple = true}.
  */
 public final class ConfigurationBeanBindingSupport {
 
+    /** {@link BeanDefinition#getSource()} marker for configuration beans. */
     public static final Class<?> CONFIGURATION_BEAN_SOURCE = EnableConfigurationBeanBinding.class;
 
+    /** Resolved annotation {@code prefix} stored at registration time. */
     public static final String CONFIGURATION_BINDING_PREFIX = "configurationBindingPrefix";
 
+    /** Annotation {@code multiple} flag stored at registration time. */
     public static final String CONFIGURATION_BINDING_MULTIPLE = "configurationBindingMultiple";
 
     private ConfigurationBeanBindingSupport() {
@@ -30,6 +37,10 @@ public final class ConfigurationBeanBindingSupport {
         return beanDefinition != null && CONFIGURATION_BEAN_SOURCE.equals(beanDefinition.getSource());
     }
 
+    /**
+     * Returns whether any changed key belongs to the binding prefix
+     * ({@code key == prefix} or {@code key.startsWith(prefix + ".")}).
+     */
     public static boolean prefixAffected(String prefix, Set<String> changedKeys) {
         if (prefix == null || changedKeys == null || changedKeys.isEmpty()) {
             return false;
@@ -42,6 +53,10 @@ public final class ConfigurationBeanBindingSupport {
         return false;
     }
 
+    /**
+     * When {@code multiple} is false, returns the full map; otherwise extracts the subtree for
+     * {@code beanName} (first-level segment under the annotation prefix).
+     */
     public static Map<String, Object> resolveSubProperties(boolean multiple, String beanName,
             Map<String, Object> configurationProperties, Environment environment) {
         if (!multiple) {
@@ -53,6 +68,7 @@ public final class ConfigurationBeanBindingSupport {
                 PropertySourcesUtils.normalizePrefix(beanName));
     }
 
+    /** Reads current {@code prefix.*} from {@code environment} and applies {@link #resolveSubProperties}. */
     public static Map<String, Object> resolveBindingProperties(ConfigurableEnvironment environment, String prefix,
             boolean multiple, String beanName) {
         Map<String, Object> configurationProperties = PropertySourcesUtils.getSubProperties(environment, prefix);

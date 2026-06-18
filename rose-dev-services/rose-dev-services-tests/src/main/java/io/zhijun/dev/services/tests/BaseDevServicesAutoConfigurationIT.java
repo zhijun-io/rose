@@ -7,15 +7,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.devtools.restart.RestartScope;
 import org.springframework.boot.test.context.FilteredClassLoader;
 import org.springframework.boot.test.context.assertj.AssertableApplicationContext;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.support.SimpleThreadScope;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StreamUtils;
-import org.testcontainers.containers.GenericContainer;
 
-import io.zhijun.boot.bootstrap.BootstrapMode;
+import io.zhijun.dev.services.bootstrap.BootstrapMode;
+import io.zhijun.boot.env.defaults.DefaultConfigPropertiesEnvironmentPostProcessor;
+import org.testcontainers.containers.GenericContainer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -209,6 +212,13 @@ public abstract class BaseDevServicesAutoConfigurationIT {
     protected static ApplicationContextRunner defaultContextRunner(Class<?> autoConfigurationClass) {
         return new ApplicationContextRunner()
                 .withClassLoader(new FilteredClassLoader(RestartScope.class))
+                .withInitializer(context -> {
+                    if (context.getEnvironment() instanceof ConfigurableEnvironment) {
+                        new DefaultConfigPropertiesEnvironmentPostProcessor()
+                                .postProcessEnvironment((ConfigurableEnvironment) context.getEnvironment(),
+                                        new SpringApplication());
+                    }
+                })
                 .withConfiguration(AutoConfigurations.of(autoConfigurationClass));
     }
 }

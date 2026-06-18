@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-boot</artifactId>
+            <artifactId>rose-spring-boot-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>

@@ -16,8 +16,8 @@
     <name>Rose Dev Services</name>
 
     <modules>
-        <module>rose-dev-services-api</module>
         <module>rose-dev-services-core</module>
+        <module>rose-dev-services-actuator</module>
         <module>rose-dev-services-postgresql</module>
         <module>rose-dev-services-mysql</module>
         <module>rose-dev-services-redis</module>

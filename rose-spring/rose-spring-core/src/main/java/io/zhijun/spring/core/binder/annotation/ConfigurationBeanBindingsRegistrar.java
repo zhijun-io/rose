@@ -12,7 +12,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 
 /**
- * Registrar for {@link EnableConfigurationBeanBindings}.
+ * Delegates each element of {@link EnableConfigurationBeanBindings#value()} to
+ * {@link ConfigurationBeanBindingRegistrar}.
  */
 public class ConfigurationBeanBindingsRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware,
         BeanFactoryAware {

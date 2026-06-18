@@ -66,7 +66,7 @@ Starters are layered aggregates. Pick one or combine several.
 
 | Starter | When to use |
 |---------|-------------|
-| `rose-spring-boot-starter` | Rose bootstrap, dev/test profiles, baseline platform |
+| `rose-spring-boot-starter` | Rose Boot utilities (`RoseBinder`), baseline platform |
 | `rose-opentelemetry-spring-boot-starter` | OpenTelemetry SDK, logs, OTLP metrics, semantic conventions, Actuator |
 | `rose-multitenancy-core-spring-boot-starter` | Multitenancy without web stack |
 | `rose-multitenancy-web-spring-boot-starter` | Multitenancy + `spring-boot-starter-web` |
@@ -165,7 +165,7 @@ The OTel starter includes the OTLP registry. Add the metrics bridge explicitly f
 
 **Managed coordinates**
 
-- Base: `rose-core`, `rose-spring-core`, `rose-spring-boot`, `rose-spring-boot-starter`
+- Base: `rose-core`, `rose-spring-core`, `rose-spring-boot-core`, `rose-spring-boot-starter`
 - Data and persistence: `rose-excel`, `rose-sqlite`, `rose-mybatis-plus-core`, `rose-mybatis-plus-spring-boot-starter`
 - Observability: `rose-observation-core`, `rose-opentelemetry-*`
 - Multitenancy: `rose-multitenancy-*`
@@ -199,7 +199,7 @@ Rose is a **library platform** organized in four layers:
 ```
 Build          rose-build, rose-parent, rose-bom
   │
-Base           rose-core → rose-spring-core → rose-spring-boot
+Base           rose-core → rose-spring-core → rose-spring-boot-core
   │
 Capabilities   rose-opentelemetry/*, rose-multitenancy/*, rose-observation/*,
                rose-excel, rose-sqlite, rose-mybatis-plus/*, rose-dev-services/*
@@ -210,7 +210,7 @@ Starters       rose-*-spring-boot-starter
 | Layer | Key artifacts | Role |
 |-------|---------------|------|
 | Build | `rose-build`, `rose-parent`, `rose-bom` | Shared build parent, dependency/version parent, consumer version alignment |
-| Base | `rose-core`, `rose-spring-core`, `rose-spring-boot` | 工具库；Spring 扩展（环境监听、增强属性源）；Rose bootstrap 与 dev-mode profiles |
+| Base | `rose-core`, `rose-spring-core`, `rose-spring-boot-core` | 工具库；Spring 扩展；Boot 共享工具（`RoseBinder` 等） |
 | Capabilities | `rose-{domain}/*` | Feature libraries; auto-configuration inside each JAR |
 | Starters | `rose-*-spring-boot-starter` | Thin POMs; what applications depend on |
 

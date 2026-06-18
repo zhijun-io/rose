@@ -1,7 +1,8 @@
 package io.zhijun.spring.core.binder.support;
 
 /**
- * Generates aliases for configuration beans.
+ * SPI for extra bean aliases on {@link io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding} beans.
+ * Implementations are loaded from {@code META-INF/spring.factories}.
  */
 public interface ConfigurationBeanAliasGenerator {
 

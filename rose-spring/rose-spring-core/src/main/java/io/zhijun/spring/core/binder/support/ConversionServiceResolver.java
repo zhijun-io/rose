@@ -7,7 +7,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.format.support.DefaultFormattingConversionService;
 
 /**
- * Resolves a {@link ConversionService} from the bean factory or creates a default instance.
+ * Resolves {@link ConversionService} for {@link io.zhijun.spring.core.binder.config.ConfigurationBeanBinder}:
+ * bean factory → conversionService bean → environment → {@link org.springframework.format.support.DefaultFormattingConversionService}.
  */
 public class ConversionServiceResolver {
 

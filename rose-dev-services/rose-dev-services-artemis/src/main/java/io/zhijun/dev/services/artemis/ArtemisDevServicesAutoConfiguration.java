@@ -56,7 +56,6 @@ public final class ArtemisDevServicesAutoConfiguration {
                         }
                     }));
 
-            setDefaultProperty("spring.artemis.mode", "native");
             addDynamicProperty("spring.artemis.broker-url", new java.util.function.Supplier<Object>() {
                 @Override
                 public Object get() {

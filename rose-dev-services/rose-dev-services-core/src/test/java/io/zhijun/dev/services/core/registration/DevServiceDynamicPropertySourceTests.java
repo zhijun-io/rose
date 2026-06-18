@@ -3,9 +3,12 @@ package io.zhijun.dev.services.core.registration;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
+
+import io.zhijun.dev.services.bootstrap.BootstrapMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -15,6 +18,11 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  * Unit tests for {@link DevServiceDynamicPropertySource}.
  */
 class DevServiceDynamicPropertySourceTests {
+
+    @BeforeEach
+    void setUp() {
+        BootstrapMode.clear();
+    }
 
     @Test
     void addAndResolveProperty() {

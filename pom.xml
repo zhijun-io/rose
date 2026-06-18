@@ -33,7 +33,6 @@
         <module>rose-core</module>
         <module>rose-spring</module>
         <module>rose-spring-boot</module>
-        <module>rose-spring-boot-starter</module>
         <module>rose-excel</module>
         <module>rose-sqlite</module>
         <module>rose-mybatis-plus</module>
@@ -93,7 +92,7 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-spring-boot</artifactId>
+                <artifactId>rose-spring-boot-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -178,12 +177,12 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-api</artifactId>
+                <artifactId>rose-dev-services-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-dev-services-core</artifactId>
+                <artifactId>rose-dev-services-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

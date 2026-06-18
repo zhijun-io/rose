@@ -1,0 +1,7 @@
+rose:
+  test:
+    first: one
+---
+rose:
+  test:
+    second: two

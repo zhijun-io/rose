@@ -28,7 +28,12 @@ import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBin
 import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.generateBeanName;
 
 /**
- * Registers beans declared by {@link EnableConfigurationBeanBinding}.
+ * {@link ImportBeanDefinitionRegistrar} for {@link EnableConfigurationBeanBinding}.
+ * <p>
+ * Reads {@code prefix.*} from the {@code Environment}, registers one or more bean definitions
+ * (see {@link EnableConfigurationBeanBinding#multiple()}), stores binding metadata on each definition,
+ * registers bean aliases via {@link io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator},
+ * and ensures {@link ConfigurationBeanBindingPostProcessor} is present.
  */
 public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware {
 
@@ -48,6 +53,10 @@ public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRe
         }
     }
 
+    /**
+     * Registers beans for one {@link EnableConfigurationBeanBinding} declaration.
+     * Exposed for {@link ConfigurationBeanBindingsRegistrar} delegation.
+     */
     public void registerConfigurationBeanDefinitions(Map<String, Object> attributes, BeanDefinitionRegistry registry) {
         String prefix = (String) attributes.get("prefix");
         if (!StringUtils.hasText(prefix)) {
