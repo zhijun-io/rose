@@ -3,7 +3,7 @@ package io.zhijun.opentelemetry.autoconfigure.config;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.Assert;
 
-import io.zhijun.spring.config.adapter.PropertyAdapter;
+import io.zhijun.spring.core.config.PropertyAdapter;
 import io.zhijun.opentelemetry.autoconfigure.OpenTelemetryProperties;
 import io.zhijun.opentelemetry.autoconfigure.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.opentelemetry.autoconfigure.metrics.OpenTelemetryMetricsProperties;

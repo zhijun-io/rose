@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
-import io.zhijun.spring.config.env.event.PropertySourceChangedEvent;
+import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

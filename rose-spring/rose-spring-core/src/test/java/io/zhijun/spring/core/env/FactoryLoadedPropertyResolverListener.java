@@ -3,6 +3,8 @@ package io.zhijun.spring.core.env;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.zhijun.spring.core.env.listener.PropertyResolverListener;
+
 import org.springframework.core.env.ConfigurablePropertyResolver;
 
 public class FactoryLoadedPropertyResolverListener implements PropertyResolverListener {

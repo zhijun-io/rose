@@ -2,6 +2,9 @@ package io.zhijun.spring.core.io.support;
 
 import java.util.List;
 
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
+import io.zhijun.spring.core.env.listener.LoggingEnvironmentListener;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +13,7 @@ class SpringFactoriesLoaderUtilsTests {
 
     @Test
     void shouldLoadFactoryNamesFromSpringFactories() {
-        List<String> names = SpringFactoriesLoaderUtils.loadFactoryNames(io.zhijun.spring.core.env.EnvironmentListener.class,
+        List<String> names = SpringFactoriesLoaderUtils.loadFactoryNames(EnvironmentListener.class,
                 getClass().getClassLoader());
 
         assertThat(names).contains("io.zhijun.spring.core.env.FactoryLoadedEnvironmentListener");
@@ -18,10 +21,10 @@ class SpringFactoriesLoaderUtilsTests {
 
     @Test
     void shouldLoadFactoriesFromSpringFactories() {
-        List<io.zhijun.spring.core.env.EnvironmentListener> listeners = SpringFactoriesLoaderUtils
-                .loadFactories(io.zhijun.spring.core.env.EnvironmentListener.class, getClass().getClassLoader());
+        List<EnvironmentListener> listeners = SpringFactoriesLoaderUtils
+                .loadFactories(EnvironmentListener.class, getClass().getClassLoader());
 
-        assertThat(listeners).anyMatch(listener -> listener instanceof io.zhijun.spring.core.env.LoggingEnvironmentListener);
+        assertThat(listeners).anyMatch(listener -> listener instanceof LoggingEnvironmentListener);
         assertThat(listeners).anyMatch(listener -> listener instanceof io.zhijun.spring.core.env.FactoryLoadedEnvironmentListener);
     }
 
