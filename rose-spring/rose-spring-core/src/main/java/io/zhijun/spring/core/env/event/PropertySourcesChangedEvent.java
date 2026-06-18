@@ -2,8 +2,12 @@ package io.zhijun.spring.core.env.event;
 
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import io.zhijun.spring.core.env.support.PropertySourceDiffSupport;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ApplicationContextEvent;
@@ -15,6 +19,8 @@ import org.springframework.core.env.PropertySource;
 public class PropertySourcesChangedEvent extends ApplicationContextEvent {
 
     private final List<PropertySourceChangedEvent> subEvents;
+
+    private transient Set<String> changedKeys;
 
     public PropertySourcesChangedEvent(ApplicationContext source, List<PropertySourceChangedEvent> subEvents) {
         super(source);
@@ -45,6 +51,25 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
         return Collections.unmodifiableList(propertySources);
     }
 
+    /**
+     * Key-level changes. For selective refresh prefer this over {@link #getChangedProperties()}.
+     * <ul>
+     * <li>ADDED: all keys in the new source</li>
+     * <li>REMOVED: all keys in the old source</li>
+     * <li>REPLACED: {@link PropertySourceDiffSupport#diffReplaced}</li>
+     * </ul>
+     */
+    public Set<String> getChangedKeys() {
+        if (changedKeys == null) {
+            changedKeys = computeChangedKeys();
+        }
+        return changedKeys;
+    }
+
+    /**
+     * Returns properties from ADDED/REPLACED sources (full map). For key-level diff use
+     * {@link #getChangedKeys()}.
+     */
     public Map<String, Object> getChangedProperties() {
         return getProperties(PropertySourceChangedEvent.Kind.ADDED, PropertySourceChangedEvent.Kind.REPLACED);
     }
@@ -87,5 +112,26 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
             }
         }
         return false;
+    }
+
+    private Set<String> computeChangedKeys() {
+        LinkedHashSet<String> keys = new LinkedHashSet<String>();
+        for (PropertySourceChangedEvent sub : subEvents) {
+            switch (sub.getKind()) {
+                case ADDED:
+                    keys.addAll(PropertySourceDiffSupport.keysAdded(sub.getNewPropertySource()));
+                    break;
+                case REMOVED:
+                    keys.addAll(PropertySourceDiffSupport.keysRemoved(sub.getOldPropertySource()));
+                    break;
+                case REPLACED:
+                    keys.addAll(PropertySourceDiffSupport.diffReplaced(sub.getOldPropertySource(),
+                            sub.getNewPropertySource()));
+                    break;
+                default:
+                    break;
+            }
+        }
+        return Collections.unmodifiableSet(keys);
     }
 }

@@ -10,11 +10,13 @@ import java.util.stream.Stream;
 import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 
 import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
+import io.zhijun.spring.core.env.refresh.RoseSpringEnvironmentRefreshProperties;
 
 /**
  * MutablePropertySources wrapper that publishes change callbacks.
@@ -125,6 +127,13 @@ public class ListenableMutablePropertySources extends MutablePropertySources {
         for (EnvironmentListener listener : listeners) {
             listener.onPropertySourceChanged(event);
             listener.onPropertySourcesChanged(bulkEvent);
+        }
+        if (RoseSpringEnvironmentRefreshProperties.isPublishPropertySourceEvents(applicationContext)
+                && applicationContext instanceof ConfigurableApplicationContext) {
+            ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) applicationContext;
+            if (configurableContext.isActive()) {
+                configurableContext.publishEvent(bulkEvent);
+            }
         }
     }
 }

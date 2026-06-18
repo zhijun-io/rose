@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.env;
 
+import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.MutablePropertySources;
@@ -19,5 +21,6 @@ class ListenableConfigurableEnvironmentInitializerTests {
         propertySources.addLast(new org.springframework.core.env.MapPropertySource("demo", java.util.Collections.singletonMap("a", "b")));
 
         assertThat(FactoryLoadedEnvironmentListener.callbacks()).containsExactly("beforeGetPropertySources", "afterGetPropertySources");
+        assertThat(RefreshableContextHolder.getApplicationContext()).isSameAs(context);
     }
 }

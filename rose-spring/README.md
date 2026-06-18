@@ -1,12 +1,31 @@
 # Rose Spring
 
-Rose Spring 是 Rose 的 Spring 扩展模块，提供可监听的环境（Listenable Environment）与增强型属性源（Enhanced `@PropertySource`）。
+Rose Spring 是 Rose 的 Spring 扩展模块，提供可监听的环境（Listenable Environment）与增强型 PropertySource 注解。
+
+## 实现规格（`rose-spring-core`）
+
+| 规格文档 | 逻辑子域 | 包 | 状态 |
+|----------|----------|-----|------|
+| [env-refresh](../docs/rose-spring-env-refresh-design.md) | 可刷新环境 | `core.env.*` | §5 待实现 |
+| [property-source](../docs/rose-spring-property-source-design.md) | PropertySource 增强 | `core.propertysource.*` | Phase 1b |
+| [configuration-bean-binding](../docs/rose-spring-configuration-bean-binding-design.md) | `@EnableConfigurationBeanBinding` | `core.binder.*` | ✅ 已实现 |
+
+**实施顺序：** env-refresh §5 → property-source §6–§11 → i18n §6 对接。
+
+## 相关规格（其他模块 / 规划中）
+
+| 规格文档 | 说明 |
+|----------|------|
+| [bootstrap-diagnostics](../docs/rose-spring-boot-bootstrap-diagnostics-design.md) | Bootstrap 模式、FailureAnalyzer、启动顺序 |
+| [web-handler](../docs/rose-spring-web-handler-design.md) | Endpoint registry + HandlerMethod SPI（规划） |
+| [cache TTL](../docs/rose-cache-design.md) | `@TTLCacheable`（规划） |
+| [i18n](../docs/rose-i18n-design.md) | 国际化（规划） |
 
 ## 模块
 
 | Artifact | 说明 |
 |----------|------|
-| `rose-spring-core` | 核心扩展：环境监听、YAML/JSON 属性源、文件变更刷新 |
+| `rose-spring-core` | Listenable Environment、PropertySource 注解、Configuration Bean Binding（单一 artifact） |
 
 ## 依赖
 
@@ -41,13 +60,20 @@ io.zhijun.spring.core.env.PropertyResolverListener=your.pkg.YourPropertyResolver
 
 默认已注册 `LoggingEnvironmentListener`（`slf4j` 输出访问与变更日志）。
 
+**配置刷新（实现规格）：** 见 [Env 刷新实现规格](../docs/rose-spring-env-refresh-design.md)。`PropertySourcesChangedEvent#getChangedKeys()` 提供 key 级 diff；`Refreshable` SPI 由 `PropertySourcesRefreshOrchestrator` 编排。
+
+**PropertySource 注解（实现规格）：** 见 [PropertySource 实现规格](../docs/rose-spring-property-source-design.md)。
+
+**Configuration Bean Binding（实现规格）：** 见 [configuration-bean-binding 规格](../docs/rose-spring-configuration-bean-binding-design.md)。
+
 **关键类型：**
 
 | 类型 | 包路径 | 职责 |
 |------|--------|------|
 | `ListenableConfigurableEnvironment` | `core.env` | 代理包装，拦截环境读取与变更 |
 | `ListenableMutablePropertySources` | `core.env` | 监听 `PropertySource` 增删改 |
-| `PropertySourceChangedEvent` / `PropertySourcesChangedEvent` | `config.env.event` | 单次 / 批量变更事件 |
+| `PropertySourceChangedEvent` / `PropertySourcesChangedEvent` | `core.env.event` | 单次 / 批量变更事件 |
+| `Refreshable` / `PropertySourcesRefreshOrchestrator` | `core.env.refresh` | 配置刷新 SPI（见 Env 刷新规格） |
 | `YamlPropertySourceFactory` / `JsonPropertySourceFactory` | `config.env.support` | YAML / JSON 属性源工厂 |
 | `DefaultResourceComparator` | `config.env.support` | 通配符资源排序 |
 | `SpringFactoriesLoaderUtils` | `core.io.support` | 统一 SPI 加载入口 |
@@ -159,7 +185,8 @@ public class AppConfig {
 
 ### 3. `@EnableConfigurationBeanBinding`
 
-将 `Environment` 中指定前缀的属性绑定为 Spring Bean，借鉴 microsphere 的声明式配置绑定能力。
+将 `Environment` 中指定前缀的属性绑定为 Spring Bean。  
+**实现规格：** [rose-spring-configuration-bean-binding-design.md](../docs/rose-spring-configuration-bean-binding-design.md)
 
 ```java
 @Configuration
@@ -192,7 +219,7 @@ usr.age = 1
 |------|--------|------|
 | `ConfigurationBeanBinder` | `context.config` | 自定义绑定逻辑 |
 | `ConfigurationBeanCustomizer` | `context.config` | 绑定后回调（支持 `Ordered`） |
-| `ConfigurationBeanAliasGenerator` | `beans.factory.support` | Bean 别名生成（`spring.factories` SPI） |
+| `ConfigurationBeanAliasGenerator` | `core.binder.support` | Bean 别名生成（`spring.factories` SPI） |
 
 可重复标注，或使用 `@EnableConfigurationBeanBindings` 容器注解。
 
@@ -200,26 +227,23 @@ usr.age = 1
 
 ```
 io.zhijun.spring
-├── beans
-│   └── factory
-│       ├── annotation         # @EnableConfigurationBeanBinding、Registrar、PostProcessor
-│       └── support            # ConfigurationBeanAliasGenerator
-├── config
-│   ├── context/annotation     # @ResourcePropertySource、Loader
-│   ├── env
-│   │   ├── annotation         # @YamlPropertySource、@JsonPropertySource
-│   │   ├── event              # PropertySource 变更事件
-│   │   └── support            # Factory、Comparator、工具类
-│   └── adapter                # PropertyAdapter
-├── context
-│   └── config                 # ConfigurationBeanBinder、Customizer
-└── core
-    ├── convert/support        # ConversionServiceResolver
-    ├── env                    # Listenable Environment、PropertySourcesUtils
-    │   └── refresh            # auto-refresh（Rose 简化实现）
-    └── io
-        ├── support            # SpringFactoriesLoaderUtils
-        └── watch              # 文件监听底座
+├── core
+│   ├── binder
+│   │   ├── annotation         # @EnableConfigurationBeanBinding、Registrar、PostProcessor
+│   │   ├── config             # ConfigurationBeanBinder、Customizer
+│   │   └── support            # ConfigurationBeanAliasGenerator、ConversionServiceResolver
+│   ├── config                 # PropertyAdapter、legacy config.env 包（迁移中）
+│   ├── env                    # Listenable Environment、PropertySourcesUtils
+│   │   ├── listener/
+│   │   ├── event/
+│   │   ├── support/
+│   │   └── refresh/           # 文件热更 watcher（property-source 协作）
+│   ├── propertysource/        # @ResourcePropertySource 新包（与 config 并存）
+│   ├── convert/support
+│   └── io
+│       ├── support            # SpringFactoriesLoaderUtils
+│       └── watch              # 文件监听底座
+└── context/config             # ConfigurationBeanBinder 接口（legacy，与 core.binder 并存）
 ```
 
 ### 借鉴 Microsphere

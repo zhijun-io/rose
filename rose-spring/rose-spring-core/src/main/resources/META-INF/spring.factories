@@ -1,7 +1,9 @@
 org.springframework.context.ApplicationContextInitializer=io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer
 org.springframework.context.ApplicationListener=io.zhijun.spring.core.env.refresh.ResourcePropertySourceRefreshLifecycle
-io.zhijun.spring.core.env.EnvironmentListener=io.zhijun.spring.core.env.LoggingEnvironmentListener
-io.zhijun.spring.core.support.binder.ConfigurationBeanAliasGenerator=\
-io.zhijun.spring.core.support.binder.DefaultConfigurationBeanAliasGenerator,\
-io.zhijun.spring.core.support.binder.HyphenAliasGenerator,\
-io.zhijun.spring.core.support.binder.UnderScoreJoinAliasGenerator
+io.zhijun.spring.core.env.listener.EnvironmentListener=\
+io.zhijun.spring.core.env.listener.LoggingEnvironmentListener,\
+io.zhijun.spring.core.env.refresh.PropertySourcesRefreshOrchestrator
+io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator=\
+io.zhijun.spring.core.binder.support.DefaultConfigurationBeanAliasGenerator,\
+io.zhijun.spring.core.binder.support.HyphenAliasGenerator,\
+io.zhijun.spring.core.binder.support.UnderScoreJoinAliasGenerator
