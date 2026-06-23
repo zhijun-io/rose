@@ -102,7 +102,7 @@ See [Consumer Guide](Consumer-Guide) for starter-specific prefixes:
 
 - `rose.otel.*` — OpenTelemetry
 - `rose.multitenancy.*` — Multitenancy
-- `rose.local.enabled` — Global dev services toggle
+- `rose.dev.enabled` — Global dev services toggle
 - `rose.dev.<connector>.*` — Per-connector dev service settings
 
 Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.properties` (see `rose-spring-boot-core`).

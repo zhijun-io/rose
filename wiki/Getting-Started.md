@@ -75,7 +75,7 @@ Add a connector with `runtime` + `optional` scope and the matching Spring Boot s
 </dependency>
 ```
 
-- Global toggle: `rose.local.enabled` (default `true`)
+- Global toggle: `rose.dev.enabled` (default `true`)
 - Per-connector: `rose.dev.<connector>.enabled` (e.g. `rose.dev.postgresql.enabled`)
 
 Details: [rose-devservice/README.md](../rose-devservice/README.md).
