@@ -1,18 +1,19 @@
 package io.zhijun.mybatisplus.permission;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.lang.Nullable;
-
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 
+import io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer;
+
 /**
- * Registers {@link DataPermissionInterceptor} on an existing {@link MybatisPlusInterceptor}.
+ * Registers a {@link DataPermissionInterceptor} on the {@link MybatisPlusInterceptor}
+ * using the configured {@link DataPermissionHandler}.
+ *
+ * @see MybatisPlusInterceptorCustomizer
  */
-public final class DataPermissionInterceptorRegistrar implements BeanPostProcessor {
+public final class DataPermissionInterceptorRegistrar implements MybatisPlusInterceptorCustomizer {
 
     private final DataPermissionHandler dataPermissionHandler;
 
@@ -21,16 +22,11 @@ public final class DataPermissionInterceptorRegistrar implements BeanPostProcess
     }
 
     @Override
-    public Object postProcessAfterInitialization(@Nullable Object bean, String beanName) throws BeansException {
-        if (!(bean instanceof MybatisPlusInterceptor)) {
-            return bean;
-        }
-        MybatisPlusInterceptor interceptor = (MybatisPlusInterceptor) bean;
+    public void customize(MybatisPlusInterceptor interceptor) {
         if (containsDataPermissionInterceptor(interceptor)) {
-            return bean;
+            return;
         }
         interceptor.addInnerInterceptor(new DataPermissionInterceptor(dataPermissionHandler));
-        return bean;
     }
 
     private static boolean containsDataPermissionInterceptor(MybatisPlusInterceptor interceptor) {

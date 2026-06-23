@@ -1,6 +1,9 @@
 package io.zhijun.mybatisplus.autoconfigure;
 
+import io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer;
+import io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
 import io.zhijun.mybatisplus.permission.DataPermissionInterceptorRegistrar;
+import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -23,11 +26,15 @@ import io.zhijun.mybatisplus.permission.DataPermissionConditionResolver;
 import io.zhijun.mybatisplus.permission.DataPermissionPrincipalResolver;
 import io.zhijun.mybatisplus.permission.RoseDataPermissionHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Auto-configuration for rose-mybatis-plus-core.
  */
 @Configuration
 @ConditionalOnClass({MybatisPlusInterceptor.class, MetaObjectHandler.class})
+@ConditionalOnMybatisPlusEnabled
 @EnableConfigurationProperties(EncryptorProperties.class)
 public class RoseMybatisPlusAutoConfiguration {
 
@@ -72,8 +79,17 @@ public class RoseMybatisPlusAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(DataPermissionHandler.class)
-    public DataPermissionInterceptorRegistrar dataPermissionInnerInterceptorRegistrar(
+    public DataPermissionInterceptorRegistrar dataPermissionInterceptorRegistrar(
             DataPermissionHandler dataPermissionHandler) {
         return new DataPermissionInterceptorRegistrar(dataPermissionHandler);
+    }
+
+    @Bean
+    public MybatisPlusInterceptorCustomizerBeanPostProcessor mybatisPlusInterceptorCustomizerBeanPostProcessor() {
+        // Spring-bean customizers are resolved lazily by the BPP itself via BeanFactory;
+        // here we only supply spring.factories-discovered customizers (third-party jar extensions).
+        List<MybatisPlusInterceptorCustomizer> factoryCustomizers =
+                SpringFactoriesLoaderUtils.loadFactories(MybatisPlusInterceptorCustomizer.class);
+        return new MybatisPlusInterceptorCustomizerBeanPostProcessor(factoryCustomizers);
     }
 }

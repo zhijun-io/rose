@@ -11,31 +11,18 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-mybatis-plus-core</artifactId>
-    <name>Rose MyBatis Plus Core</name>
-    <description>Audit, data permission SPI and field encryption for MyBatis-Plus</description>
+    <artifactId>rose-mybatis-plus-spring</artifactId>
+    <name>Rose MyBatis Plus Spring</name>
+    <description>Spring Framework integration for Rose MyBatis-Plus (no Spring Boot required)</description>
 
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-core</artifactId>
+            <artifactId>rose-mybatis-plus-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-multitenancy-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <artifactId>rose-spring-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
