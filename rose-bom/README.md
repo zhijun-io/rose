@@ -81,10 +81,10 @@
 
 | Artifact | 说明 |
 |----------|------|
-| `rose-local-core` | BootstrapMode、容器注册 |
-| `rose-local-actuator` | `/actuator/devservices` |
-| `rose-local-{postgresql,mysql,redis,mongodb,kafka,rabbitmq,artemis,activemq,ollama,mqtt,openlit,otel-collector}` | 连接器（`runtime` + `optional`） |
-| `rose-local-tests` | 集成测试共享基类（`test` scope） |
+| `rose-devservice-core` | BootstrapMode、容器注册 |
+| `rose-devservice-actuator` | `/actuator/devservices` |
+| `rose-devservice-{postgresql,mysql,redis,mongodb,kafka,rabbitmq,artemis,activemq,ollama,mqtt,openlit,otel-collector}` | 连接器（`runtime` + `optional`） |
+| `rose-devservice-tests` | 集成测试共享基类（`test` scope） |
 
 ### 不在 BOM 中
 

@@ -86,12 +86,12 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 
 ### Local services
 
-Docker-backed local services for development. Add `rose-spring-boot-starter`, optional `rose-local-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
+Docker-backed local services for development. Add `rose-spring-boot-starter`, optional `rose-devservice-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
 
 ```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-local-postgresql</artifactId>
+    <artifactId>rose-devservice-postgresql</artifactId>
     <scope>runtime</scope>
     <optional>true</optional>
 </dependency>
