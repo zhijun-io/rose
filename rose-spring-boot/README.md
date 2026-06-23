@@ -23,7 +23,7 @@ Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](ht
 
 | Arconia | Rose |
 |---------|------|
-| Dev Services 默认配置 + 动态属性 | `config/default/*` + `addDynamicProperty`（见 `rose-local`） |
+| Dev Services 默认配置 + 动态属性 | `config/default/*` + `addDynamicProperty`（见 `rose-devservice`） |
 | `@ServiceConnection`（Boot 3） | ❌ Boot 2.7 仍用 `addDynamicProperty` |
 
 ### 对标 Microsphere
@@ -239,7 +239,7 @@ rose.diagnostics.artifacts-collision.enabled=true
 
 ## 边界
 
-- **不放**各主题业务 AutoConfiguration（见根 [README.md](../README.md#development-principles) 与下文 **边界**）
+- **不放**各主题业务 AutoConfiguration（见根 [README.md](../README.md#reference) 与下文 **边界**）
 - **不放** Dev Services / BootstrapMode（见 `rose-devservice-core`）
 - 新 Boot 横切能力优先进 `rose-spring-boot-core` 或 `rose-spring-boot-actuator`
 

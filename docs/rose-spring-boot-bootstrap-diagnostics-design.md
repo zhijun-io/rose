@@ -16,7 +16,7 @@
 **验收：**
 
 ```bash
-mvn -pl rose-spring/rose-spring-boot,rose-local/rose-devservice-core test
+mvn -pl rose-spring-boot/rose-spring-boot-core,rose-devservice/rose-devservice-core test
 ```
 
 

@@ -10,7 +10,7 @@ Rose 仓库的 **Maven 构建父 POM**（`rose-build`），为所有模块提供
 | Parent | `rose-parent` | 根 `pom.xml` | Reactor 模块列表、`dependencyManagement` | ❌ |
 | BOM | `rose-bom` | `rose-bom/` | 消费方版本对齐 | ✅ import |
 
-应用侧契约：**`spring-boot-starter-parent` + import `rose-bom`**，不继承 `rose-parent` 或 `rose-build`。详见根 [README.md](../README.md#development-principles)。
+应用侧契约：**`spring-boot-starter-parent` + import `rose-bom`**，不继承 `rose-parent` 或 `rose-build`。详见根 [README.md](../README.md#getting-started)。
 
 ## 子模块
 

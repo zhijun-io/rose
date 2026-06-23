@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot-starter`; `rose-multitenancy-core` and `rose-multitenancy-web` no longer depend on Spring Boot. Replaces `rose-multitenancy-core-spring-boot-starter` and `rose-multitenancy-web-spring-boot-starter`.
-- Dev Services artifacts renamed to `rose-devservice-*` (parent `rose-local`). Replaces `rose-dev-services-*`. Configuration keys `rose.dev.*` and Java packages unchanged.
+- Dev Services artifacts renamed to `rose-devservice-*` (reactor parent `rose-devservice`). Replaces `rose-dev-services-*`. Configuration keys `rose.dev.*` and Java packages unchanged.
 
 ## [0.1.0] - Unreleased
 

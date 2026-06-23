@@ -1,4 +1,4 @@
-# Rose DevSrevice
+# Rose DevService
 
 Testcontainers-backed infrastructure for local development and testing ([Arconia-aligned](https://docs.arconia.io/arconia/latest/dev-services/)).
 
