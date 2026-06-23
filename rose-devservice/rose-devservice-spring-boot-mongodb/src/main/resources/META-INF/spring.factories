@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.dev.mongodb.MongoDbDevServicesAutoConfiguration
+io.zhijun.devservice.mongodb.MongoDbDevServicesAutoConfiguration

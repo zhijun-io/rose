@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.dev.mqtt.MqttDevServicesAutoConfiguration
+io.zhijun.devservice.mqtt.MqttDevServicesAutoConfiguration

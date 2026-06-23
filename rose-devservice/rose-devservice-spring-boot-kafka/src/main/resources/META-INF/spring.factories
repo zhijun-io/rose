@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.dev.kafka.KafkaDevServicesAutoConfiguration
+io.zhijun.devservice.kafka.KafkaDevServicesAutoConfiguration

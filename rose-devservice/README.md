@@ -22,12 +22,12 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 
 | 模块 | 根包 |
 |------|------|
-| `rose-devservice-core` | `io.zhijun.dev.api.*`、`io.zhijun.dev.bootstrap.*`、`io.zhijun.dev.core.{container,docker,util}` |
-| `rose-devservice-spring-boot` | `io.zhijun.dev.core.{autoconfigure,registration}`、`io.zhijun.dev.autoconfigure.bootstrap.*` |
-| `rose-devservice-spring-boot-actuator` | `io.zhijun.dev.actuator.*` |
-| `rose-devservice-spring-boot-{tech}` | `io.zhijun.dev.{tech}.*` |
+| `rose-devservice-core` | `io.zhijun.devservice.api.*`、`io.zhijun.devservice.bootstrap.*`、`io.zhijun.devservice.core.{container,docker,util}` |
+| `rose-devservice-spring-boot` | `io.zhijun.devservice.core.{autoconfigure,registration}`、`io.zhijun.devservice.autoconfigure.bootstrap.*` |
+| `rose-devservice-spring-boot-actuator` | `io.zhijun.devservice.actuator.*` |
+| `rose-devservice-spring-boot-{tech}` | `io.zhijun.devservice.{tech}.*` |
 
-Artifact 为 `devservice`，Java 包缩写为 `dev`（与平台 `rose-spring-boot-*` → `io.zhijun.boot.*` 同理）。`*.core.autoconfigure` 类位于 `spring-boot` 模块、包名仍用 `core`，与 `rose-multitenancy` 一致。
+Artifact 与 Java 根包均为 `devservice`（`io.zhijun.devservice.*`）。`*.core.autoconfigure` 类位于 `spring-boot` 模块、包名仍用 `core`，与 `rose-multitenancy` 一致。
 
 ### 已实现
 
