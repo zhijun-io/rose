@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.autoconfigure.OnLocalServiceEnabledCondition;
+import io.zhijun.dev.core.autoconfigure.OnDevServiceEnabledCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;
@@ -16,11 +16,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit test for {@link OnLocalServiceEnabledCondition}.
+ * Unit test for {@link OnDevServiceEnabledCondition}.
  */
-class OnLocalServiceEnabledConditionTests {
+class OnDevServiceEnabledConditionTests {
 
-    private final OnLocalServiceEnabledCondition condition = new OnLocalServiceEnabledCondition();
+    private final OnDevServiceEnabledCondition condition = new OnDevServiceEnabledCondition();
 
     private final MockEnvironment environment = new MockEnvironment();
 

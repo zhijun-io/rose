@@ -11,46 +11,46 @@ import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.MySQLContainer;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.mysql.MySqlDevServicesAutoConfiguration.MySqlLocalServiceRegistrar;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.mysql.MySqlDevServicesAutoConfiguration.MySqlDevServiceRegistrar;
 
 /**
  * MySQL dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("mysql")
 @EnableConfigurationProperties(MySqlDevServiceProperties.class)
-@Import(MySqlLocalServiceRegistrar.class)
+@Import(MySqlDevServiceRegistrar.class)
 public final class MySqlDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider mySqlDevServiceProvider() {
-        return LocalServiceProvider.of("mysql", LocalServiceCategories.JDBC);
+    DevServiceProvider mySqlDevServiceProvider() {
+        return DevServiceProvider.of("mysql", DevServiceCategories.JDBC);
     }
 
-    static class MySqlLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class MySqlDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final MySqlDevServiceProperties properties = bindProperties(
                     MySqlDevServiceProperties.CONFIG_PREFIX, MySqlDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("mysql")
                             .description("MySQL Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseMySqlContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

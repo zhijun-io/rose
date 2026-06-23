@@ -7,45 +7,45 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.opentelemetry.collector.OtelCollectorDevServicesAutoConfiguration.OtelCollectorLocalServiceRegistrar;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.opentelemetry.collector.OtelCollectorDevServicesAutoConfiguration.OtelCollectorDevServiceRegistrar;
 
 /**
  * OpenTelemetry Collector dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("otel-collector")
 @EnableConfigurationProperties(OtelCollectorDevServiceProperties.class)
-@Import(OtelCollectorLocalServiceRegistrar.class)
+@Import(OtelCollectorDevServiceRegistrar.class)
 public final class OtelCollectorDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider otelCollectorDevServiceProvider() {
-        return LocalServiceProvider.of("otel-collector", LocalServiceCategories.OPENTELEMETRY);
+    DevServiceProvider otelCollectorDevServiceProvider() {
+        return DevServiceProvider.of("otel-collector", DevServiceCategories.OPENTELEMETRY);
     }
 
-    static class OtelCollectorLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class OtelCollectorDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final OtelCollectorDevServiceProperties properties = bindProperties(
                     OtelCollectorDevServiceProperties.CONFIG_PREFIX, OtelCollectorDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("otel-collector")
                             .description("OpenTelemetry Collector Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseOtelCollectorContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

@@ -10,7 +10,7 @@ import org.testcontainers.containers.GenericContainer;
 /**
  * Starts dev service containers before datasource initialization.
  */
-public class LocalServiceContainersInitializer implements ApplicationContextAware, InitializingBean {
+public class DevServiceContainersInitializer implements ApplicationContextAware, InitializingBean {
 
     private ApplicationContext applicationContext;
 

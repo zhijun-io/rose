@@ -1,10 +1,10 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-docker.core.io.zhijun.local.LocalServiceDockerEnvironmentPostProcessor,\
+docker.core.io.zhijun.local.DevServiceDockerEnvironmentPostProcessor,\
 bootstrap.autoconfigure.io.zhijun.local.BootstrapEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-autoconfigure.core.io.zhijun.local.LocalServiceAutoConfiguration,\
+autoconfigure.core.io.zhijun.local.DevServiceAutoConfiguration,\
 bootstrap.autoconfigure.io.zhijun.local.BootstrapAutoConfiguration
 
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-autoconfigure.core.io.zhijun.local.MultipleLocalServiceFailureAnalyzer
+autoconfigure.core.io.zhijun.local.MultipleDevServiceFailureAnalyzer

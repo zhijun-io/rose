@@ -13,8 +13,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.dev.api.provider.LocalServiceProvider;
-import io.zhijun.dev.core.registration.LocalServiceContainersInitializer;
+import io.zhijun.dev.api.provider.DevServiceProvider;
+import io.zhijun.dev.core.registration.DevServiceContainersInitializer;
 
 /**
  * Global dev services auto-configuration.
@@ -22,33 +22,33 @@ import io.zhijun.dev.core.registration.LocalServiceContainersInitializer;
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DevServiceProperties.class)
-public final class LocalServiceAutoConfiguration {
+public final class DevServiceAutoConfiguration {
 
     @Bean
-    static LocalServiceContainersInitializer devServiceContainersInitializer() {
-        return new LocalServiceContainersInitializer();
+    static DevServiceContainersInitializer devServiceContainersInitializer() {
+        return new DevServiceContainersInitializer();
     }
 
     @Bean
-    SmartInitializingSingleton devServicesConflictValidator(ObjectProvider<LocalServiceProvider> providers) {
+    SmartInitializingSingleton devServicesConflictValidator(ObjectProvider<DevServiceProvider> providers) {
         return () -> {
-            Map<String, List<LocalServiceProvider>> grouped = new java.util.HashMap<String, List<LocalServiceProvider>>();
-            for (LocalServiceProvider provider : providers) {
-                List<LocalServiceProvider> group = grouped.get(provider.category());
+            Map<String, List<DevServiceProvider>> grouped = new java.util.HashMap<String, List<DevServiceProvider>>();
+            for (DevServiceProvider provider : providers) {
+                List<DevServiceProvider> group = grouped.get(provider.category());
                 if (group == null) {
                     group = new ArrayList<>();
                     grouped.put(provider.category(), group);
                 }
                 group.add(provider);
             }
-            for (Map.Entry<String, List<LocalServiceProvider>> entry : grouped.entrySet()) {
+            for (Map.Entry<String, List<DevServiceProvider>> entry : grouped.entrySet()) {
                 if (entry.getValue().size() > 1) {
                     List<String> names = new ArrayList<String>();
-                    for (LocalServiceProvider provider : entry.getValue()) {
+                    for (DevServiceProvider provider : entry.getValue()) {
                         names.add(provider.name());
                     }
                     Collections.sort(names);
-                    throw new MultipleLocalServiceException(entry.getKey(), names);
+                    throw new MultipleDevServiceException(entry.getKey(), names);
                 }
             }
         };

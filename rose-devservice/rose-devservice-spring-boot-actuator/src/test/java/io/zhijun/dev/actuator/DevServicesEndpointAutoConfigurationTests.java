@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.dev.actuator.autoconfigure.DevServicesEndpointAutoConfiguration;
 import io.zhijun.dev.api.registration.ContainerInfo;
-import io.zhijun.dev.api.registration.LocalServiceRegistration;
+import io.zhijun.dev.api.registration.DevServiceRegistration;
 import io.zhijun.dev.bootstrap.BootstrapMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -96,7 +96,7 @@ class DevServicesEndpointAutoConfigurationTests {
 	@Configuration(proxyBeanMethods = false)
 	static class CustomEndpointConfiguration {
 
-		static final DevServicesEndpoint customEndpoint = new DevServicesEndpoint(new java.util.HashMap<String, LocalServiceRegistration>());
+		static final DevServicesEndpoint customEndpoint = new DevServicesEndpoint(new java.util.HashMap<String, DevServiceRegistration>());
 
 		@Bean
 		DevServicesEndpoint devServicesEndpoint() {
@@ -109,8 +109,8 @@ class DevServicesEndpointAutoConfigurationTests {
 	static class RegistrationsConfiguration {
 
 		@Bean
-        LocalServiceRegistration postgresqlRegistration() {
-			return new LocalServiceRegistration(
+        DevServiceRegistration postgresqlRegistration() {
+			return new DevServiceRegistration(
 					"postgresql",
 					"PostgreSQL Database",
 					mockContainerInfo("postgres:18", "1234")
@@ -118,8 +118,8 @@ class DevServicesEndpointAutoConfigurationTests {
 		}
 
 		@Bean
-        LocalServiceRegistration doclingRegistration() {
-			return new LocalServiceRegistration(
+        DevServiceRegistration doclingRegistration() {
+			return new DevServiceRegistration(
 					"docling",
 					"Docling Serve",
 					mockContainerInfo("docling:1.10", "5678")

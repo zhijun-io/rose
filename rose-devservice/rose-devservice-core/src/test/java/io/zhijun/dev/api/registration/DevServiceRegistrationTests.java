@@ -1,14 +1,14 @@
 package io.zhijun.dev.api.registration;
 
 import io.zhijun.dev.api.registration.ContainerInfo;
-import io.zhijun.dev.api.registration.LocalServiceRegistration;
+import io.zhijun.dev.api.registration.DevServiceRegistration;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class LocalServiceRegistrationTests {
+class DevServiceRegistrationTests {
 
   private final java.util.function.Supplier<ContainerInfo> containerInfoSupplier =
           new java.util.function.Supplier<ContainerInfo>() {
@@ -24,26 +24,26 @@ class LocalServiceRegistrationTests {
 
     @Test
     void rejectsNullName() {
-        assertThatThrownBy(() -> new LocalServiceRegistration(null, "desc", containerInfoSupplier))
+        assertThatThrownBy(() -> new DevServiceRegistration(null, "desc", containerInfoSupplier))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void rejectsEmptyName() {
-        assertThatThrownBy(() -> new LocalServiceRegistration("", "desc", containerInfoSupplier))
+        assertThatThrownBy(() -> new DevServiceRegistration("", "desc", containerInfoSupplier))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void rejectsNullContainerInfoSupplier() {
-        assertThatThrownBy(() -> new LocalServiceRegistration("postgres", "desc", null))
+        assertThatThrownBy(() -> new DevServiceRegistration("postgres", "desc", null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void exposesRegistrationFields() {
-        LocalServiceRegistration registration =
-                new LocalServiceRegistration("postgres", "PostgreSQL", containerInfoSupplier);
+        DevServiceRegistration registration =
+                new DevServiceRegistration("postgres", "PostgreSQL", containerInfoSupplier);
 
         assertThat(registration.getName()).isEqualTo("postgres");
         assertThat(registration.getDescription()).isEqualTo("PostgreSQL");
@@ -52,7 +52,7 @@ class LocalServiceRegistrationTests {
 
     @Test
     void allowsNullDescription() {
-        LocalServiceRegistration registration = new LocalServiceRegistration("postgres", null, containerInfoSupplier);
+        DevServiceRegistration registration = new DevServiceRegistration("postgres", null, containerInfoSupplier);
         assertThat(registration.getDescription()).isNull();
     }
 }

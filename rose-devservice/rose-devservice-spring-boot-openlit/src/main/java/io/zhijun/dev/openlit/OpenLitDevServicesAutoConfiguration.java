@@ -1,6 +1,6 @@
 package io.zhijun.dev.openlit;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,44 +9,44 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.openlit.OpenLitDevServicesAutoConfiguration.OpenLitLocalServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.openlit.OpenLitDevServicesAutoConfiguration.OpenLitDevServiceRegistrar;
 
 /**
  * OpenLit dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("openlit")
 @EnableConfigurationProperties(OpenLitDevServiceProperties.class)
-@Import(OpenLitLocalServiceRegistrar.class)
+@Import(OpenLitDevServiceRegistrar.class)
 public final class OpenLitDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider openLitDevServiceProvider() {
-        return LocalServiceProvider.of("openlit", LocalServiceCategories.OPENTELEMETRY);
+    DevServiceProvider openLitDevServiceProvider() {
+        return DevServiceProvider.of("openlit", DevServiceCategories.OPENTELEMETRY);
     }
 
-    static class OpenLitLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class OpenLitDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final OpenLitDevServiceProperties properties = bindProperties(
                     OpenLitDevServiceProperties.CONFIG_PREFIX, OpenLitDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("openlit")
                             .description("OpenLit Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseOpenLitContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

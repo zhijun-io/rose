@@ -1,6 +1,6 @@
 package io.zhijun.dev.core.registration;
 
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -13,11 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
- * Unit test for {@link LocalServiceRegistry}.
+ * Unit test for {@link DevServiceRegistry}.
  */
-class LocalServiceRegistryTests {
+class DevServiceRegistryTests {
 
-    private final LocalServiceRegistry registry = new LocalServiceRegistry(new DefaultListableBeanFactory());
+    private final DevServiceRegistry registry = new DevServiceRegistry(new DefaultListableBeanFactory());
 
     @Test
     void whenServiceNameIsNullThenThrow() {
@@ -74,7 +74,7 @@ class LocalServiceRegistryTests {
     @Test
     void whenValidServiceThenRegisterBeanDefinitions() {
         DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-        LocalServiceRegistry validRegistry = new LocalServiceRegistry(factory);
+        DevServiceRegistry validRegistry = new DevServiceRegistry(factory);
 
         validRegistry.registerDevService(service -> service
                 .name("postgres")
@@ -90,8 +90,8 @@ class LocalServiceRegistryTests {
     @Test
     void whenServiceAlreadyRegisteredThenSkipDuplicateDefinitions() {
         DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-        LocalServiceRegistry validRegistry = new LocalServiceRegistry(factory);
-        Consumer<LocalServiceRegistry.ServiceSpec> registration = service -> service
+        DevServiceRegistry validRegistry = new DevServiceRegistry(factory);
+        Consumer<DevServiceRegistry.ServiceSpec> registration = service -> service
                 .name("postgres")
                 .container(container -> container
                         .type(TestPostgresContainer.class)
@@ -106,7 +106,7 @@ class LocalServiceRegistryTests {
     @Test
     void registeredContainerCanBeResolvedFromBeanFactory() {
         DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-        LocalServiceRegistry registry = new LocalServiceRegistry(factory);
+        DevServiceRegistry registry = new DevServiceRegistry(factory);
 
         registry.registerDevService(service -> service
                 .name("postgres")

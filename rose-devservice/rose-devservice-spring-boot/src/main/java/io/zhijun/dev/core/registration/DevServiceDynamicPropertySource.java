@@ -20,13 +20,13 @@ import io.zhijun.core.annotation.Incubating;
  * development and testing, matching Arconia semantics.
  */
 @Incubating
-public final class LocalServiceDynamicPropertySource extends MapPropertySource {
+public final class DevServiceDynamicPropertySource extends MapPropertySource {
 
     public static final String PROPERTY_SOURCE_NAME = "Rose DevSrevice Dynamic Properties";
 
     private final Map<String, Supplier<Object>> valueSuppliers;
 
-    LocalServiceDynamicPropertySource(Map<String, Supplier<Object>> valueSuppliers) {
+    DevServiceDynamicPropertySource(Map<String, Supplier<Object>> valueSuppliers) {
         super(PROPERTY_SOURCE_NAME, Collections.unmodifiableMap(valueSuppliers));
         this.valueSuppliers = valueSuppliers;
     }
@@ -43,14 +43,14 @@ public final class LocalServiceDynamicPropertySource extends MapPropertySource {
         return supplier != null ? supplier.get() : null;
     }
 
-    public static LocalServiceDynamicPropertySource getOrCreate(ConfigurableEnvironment environment) {
+    public static DevServiceDynamicPropertySource getOrCreate(ConfigurableEnvironment environment) {
         MutablePropertySources propertySources = environment.getPropertySources();
         PropertySource<?> existingPropertySource = propertySources.get(PROPERTY_SOURCE_NAME);
-        if (existingPropertySource instanceof LocalServiceDynamicPropertySource) {
-            return (LocalServiceDynamicPropertySource) existingPropertySource;
+        if (existingPropertySource instanceof DevServiceDynamicPropertySource) {
+            return (DevServiceDynamicPropertySource) existingPropertySource;
         }
         if (existingPropertySource == null) {
-            LocalServiceDynamicPropertySource propertySource = new LocalServiceDynamicPropertySource(
+            DevServiceDynamicPropertySource propertySource = new DevServiceDynamicPropertySource(
                     Collections.synchronizedMap(new LinkedHashMap<String, Supplier<Object>>()));
             propertySources.addFirst(propertySource);
             return propertySource;

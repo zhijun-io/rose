@@ -1,6 +1,6 @@
 package io.zhijun.dev.ollama;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,39 +9,39 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.ollama.OllamaDevServicesAutoConfiguration.OllamaLocalServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.ollama.OllamaDevServicesAutoConfiguration.OllamaDevServiceRegistrar;
 
 /**
  * Ollama dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("ollama")
 @ConditionalOnOllamaNativeUnavailable
 @EnableConfigurationProperties(OllamaDevServiceProperties.class)
-@Import(OllamaLocalServiceRegistrar.class)
+@Import(OllamaDevServiceRegistrar.class)
 public final class OllamaDevServicesAutoConfiguration {
 
-    static class OllamaLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class OllamaDevServiceRegistrar extends DevServiceRegistrar {
 
         private static final String OLLAMA_BASE_URL_PROPERTY = OllamaDevServiceProperties.BASE_URL_PROPERTY;
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final OllamaDevServiceProperties properties = bindProperties(
                     OllamaDevServiceProperties.CONFIG_PREFIX, OllamaDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("ollama")
                             .description("Ollama Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseOllamaContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

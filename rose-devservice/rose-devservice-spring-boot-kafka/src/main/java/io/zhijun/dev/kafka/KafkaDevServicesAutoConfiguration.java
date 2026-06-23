@@ -1,6 +1,6 @@
 package io.zhijun.dev.kafka;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
@@ -10,37 +10,37 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.kafka.KafkaDevServicesAutoConfiguration.KafkaLocalServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.kafka.KafkaDevServicesAutoConfiguration.KafkaDevServiceRegistrar;
 
 /**
  * Kafka dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(KafkaAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("kafka")
 @EnableConfigurationProperties(KafkaDevServiceProperties.class)
-@Import(KafkaLocalServiceRegistrar.class)
+@Import(KafkaDevServiceRegistrar.class)
 public final class KafkaDevServicesAutoConfiguration {
 
-    static class KafkaLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class KafkaDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final KafkaDevServiceProperties properties = bindProperties(
                     KafkaDevServiceProperties.CONFIG_PREFIX, KafkaDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("kafka")
                             .description("Kafka Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseKafkaContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

@@ -1,6 +1,6 @@
 package io.zhijun.dev.core.registration;
 
-import io.zhijun.dev.core.registration.LocalServiceContainersInitializer;
+import io.zhijun.dev.core.registration.DevServiceContainersInitializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.testcontainers.containers.GenericContainer;
@@ -11,9 +11,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit test for {@link LocalServiceContainersInitializer}.
+ * Unit test for {@link DevServiceContainersInitializer}.
  */
-class LocalServiceContainersInitializerTests {
+class DevServiceContainersInitializerTests {
 
     @Test
     void startsContainersThatAreNotRunning() {
@@ -29,7 +29,7 @@ class LocalServiceContainersInitializerTests {
         containers.put("running", runningContainer);
         when(applicationContext.getBeansOfType(GenericContainer.class)).thenReturn(containers);
 
-        LocalServiceContainersInitializer initializer = new LocalServiceContainersInitializer();
+        DevServiceContainersInitializer initializer = new DevServiceContainersInitializer();
         initializer.setApplicationContext(applicationContext);
         initializer.afterPropertiesSet();
 

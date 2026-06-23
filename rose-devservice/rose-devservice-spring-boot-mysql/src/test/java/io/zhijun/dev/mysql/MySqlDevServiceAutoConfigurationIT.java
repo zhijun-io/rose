@@ -8,7 +8,7 @@ import org.testcontainers.containers.MySQLContainer;
 
 import io.zhijun.dev.test.BaseJdbcDevServiceAutoConfigurationIT;
 
-import static io.zhijun.dev.api.provider.LocalServiceCategories.MYSQL;
+import static io.zhijun.dev.api.provider.DevServiceCategories.MYSQL;
 import static io.zhijun.dev.mysql.MySqlDevServiceProperties.DEFAULT_DB_NAME;
 import static io.zhijun.dev.mysql.MySqlDevServiceProperties.DEFAULT_PASSWORD;
 import static io.zhijun.dev.mysql.MySqlDevServiceProperties.DEFAULT_USERNAME;

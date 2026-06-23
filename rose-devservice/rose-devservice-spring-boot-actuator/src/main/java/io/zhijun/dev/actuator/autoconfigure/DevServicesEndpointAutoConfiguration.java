@@ -11,24 +11,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.dev.actuator.DevServicesEndpoint;
-import io.zhijun.dev.api.registration.LocalServiceRegistration;
+import io.zhijun.dev.api.registration.DevServiceRegistration;
 import io.zhijun.dev.autoconfigure.bootstrap.ConditionalOnDevMode;
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 /**
  * Auto-configuration for the Dev Services Actuator endpoint.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevMode
 @ConditionalOnClass(name = "org.springframework.boot.actuate.endpoint.annotation.Endpoint")
 public class DevServicesEndpointAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    DevServicesEndpoint devServicesEndpoint(ObjectProvider<LocalServiceRegistration> registrations) {
-        Map<String, LocalServiceRegistration> registrationMap = new HashMap<String, LocalServiceRegistration>();
-        for (LocalServiceRegistration registration : registrations) {
+    DevServicesEndpoint devServicesEndpoint(ObjectProvider<DevServiceRegistration> registrations) {
+        Map<String, DevServiceRegistration> registrationMap = new HashMap<String, DevServiceRegistration>();
+        for (DevServiceRegistration registration : registrations) {
             registrationMap.put(registration.getName(), registration);
         }
         return new DevServicesEndpoint(registrationMap);

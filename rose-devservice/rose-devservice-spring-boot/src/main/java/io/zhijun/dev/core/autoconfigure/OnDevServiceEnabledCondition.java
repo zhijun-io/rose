@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 /**
  * Condition for {@link ConditionalOnDevServiceEnabled}.
  */
-class OnLocalServiceEnabledCondition extends SpringBootCondition {
+class OnDevServiceEnabledCondition extends SpringBootCondition {
 
     private static final String GLOBAL_PROPERTY = DevServiceProperties.CONFIG_PREFIX + ".enabled";
     private static final String DEV_SERVICES_PROPERTY = "rose.dev.%s.enabled";

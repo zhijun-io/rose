@@ -8,7 +8,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 /**
  * Configures Docker / Testcontainers before any dev service container starts.
  */
-public final class LocalServiceDockerEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+public final class DevServiceDockerEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {

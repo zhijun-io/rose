@@ -11,19 +11,19 @@ import org.junit.jupiter.api.Test;
 import io.zhijun.dev.actuator.DevServicesEndpoint.ServiceInfo;
 import io.zhijun.dev.actuator.DevServicesEndpoint.ServiceInfoSummary;
 import io.zhijun.dev.api.registration.ContainerInfo;
-import io.zhijun.dev.api.registration.LocalServiceRegistration;
+import io.zhijun.dev.api.registration.DevServiceRegistration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DevServicesEndpointTests {
 
-    private Map<String, LocalServiceRegistration> registrations;
+    private Map<String, DevServiceRegistration> registrations;
     private DevServicesEndpoint endpoint;
 
     @BeforeEach
     void setUp() {
-        registrations = new HashMap<String, LocalServiceRegistration>();
+        registrations = new HashMap<String, DevServiceRegistration>();
         endpoint = new DevServicesEndpoint(registrations);
     }
 
@@ -35,7 +35,7 @@ class DevServicesEndpointTests {
     @Test
     void devServicesReturnsSingleServiceWhenOneRegistration() {
         ContainerInfo containerInfo = createContainerInfo("container-1", "postgres:18", "running");
-        registrations.put("postgres", new LocalServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
+        registrations.put("postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
 
         Map<String, ServiceInfoSummary> result = endpoint.devServices();
 
@@ -51,7 +51,7 @@ class DevServicesEndpointTests {
     @Test
     void devServiceReturnsServiceInfoWhenServiceExists() {
         ContainerInfo containerInfo = createContainerInfo("container-1", "postgres:18", "running");
-        registrations.put("postgres", new LocalServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
+        registrations.put("postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
 
         ServiceInfo result = endpoint.devService("postgres");
 

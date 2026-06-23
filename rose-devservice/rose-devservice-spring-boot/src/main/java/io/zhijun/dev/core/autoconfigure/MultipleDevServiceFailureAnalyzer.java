@@ -7,10 +7,10 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
  * A {@link org.springframework.boot.diagnostics.FailureAnalyzer} that provides actionable feedback
  * when multiple dev services in the same category are detected.
  */
-public class MultipleLocalServiceFailureAnalyzer extends AbstractFailureAnalyzer<MultipleLocalServiceException> {
+public class MultipleDevServiceFailureAnalyzer extends AbstractFailureAnalyzer<MultipleDevServiceException> {
 
     @Override
-    protected FailureAnalysis analyze(Throwable rootFailure, MultipleLocalServiceException cause) {
+    protected FailureAnalysis analyze(Throwable rootFailure, MultipleDevServiceException cause) {
         String firstService = cause.getServiceNames().isEmpty() ? "unknown" : cause.getServiceNames().get(0);
         return new FailureAnalysis(
                 String.format(

@@ -1,19 +1,19 @@
 package io.zhijun.dev.api.provider;
 
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit test for {@link LocalServiceProvider}.
+ * Unit test for {@link DevServiceProvider}.
  */
-class LocalServiceProviderTests {
+class DevServiceProviderTests {
 
   @Test
   void of() {
-    LocalServiceProvider provider = LocalServiceProvider.of("postgresql", "database");
+    DevServiceProvider provider = DevServiceProvider.of("postgresql", "database");
 
     assertThat(provider.name()).isEqualTo("postgresql");
     assertThat(provider.category()).isEqualTo("database");

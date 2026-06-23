@@ -1,6 +1,6 @@
 package io.zhijun.dev.core.registration;
 
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
 
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
@@ -11,9 +11,9 @@ import io.zhijun.dev.core.docker.DockerEnvironmentSupport;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Integration test for {@link LocalServiceRegistry}.
+ * Integration test for {@link DevServiceRegistry}.
  */
-class LocalServiceRegistryIT {
+class DevServiceRegistryIT {
 
     static {
         DockerEnvironmentSupport.configureIfNeeded();
@@ -24,7 +24,7 @@ class LocalServiceRegistryIT {
         TestPostgresContainer container = new TestPostgresContainer();
         container.start();
         try {
-            ContainerInfo info = LocalServiceRegistry.extractContainerInfoById(container.getContainerId());
+            ContainerInfo info = DevServiceRegistry.extractContainerInfoById(container.getContainerId());
 
             assertThat(info.getId()).isEqualTo(container.getContainerId());
             assertThat(info.getImageName()).isNotBlank();

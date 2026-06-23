@@ -1,24 +1,24 @@
 package io.zhijun.dev.core.autoconfigure;
 
 import io.zhijun.dev.core.autoconfigure.DevServiceProperties;
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
-import io.zhijun.dev.core.autoconfigure.MultipleLocalServiceException;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.MultipleDevServiceException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit test for {@link LocalServiceAutoConfiguration}.
+ * Unit test for {@link DevServiceAutoConfiguration}.
  */
-class LocalServiceAutoConfigurationTests {
+class DevServiceAutoConfigurationTests {
 
     private static final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(LocalServiceAutoConfiguration.class));
+            .withConfiguration(AutoConfigurations.of(DevServiceAutoConfiguration.class));
 
     @Test
     void propertiesBeanIsAvailable() {
@@ -33,27 +33,27 @@ class LocalServiceAutoConfigurationTests {
     @Test
     void noConflictWithSingleProvider() {
         contextRunner
-                .withBean("lgtm", LocalServiceProvider.class, () -> LocalServiceProvider.of("lgtm", "opentelemetry"))
+                .withBean("lgtm", DevServiceProvider.class, () -> DevServiceProvider.of("lgtm", "opentelemetry"))
                 .run(context -> assertThat(context).hasNotFailed());
     }
 
     @Test
     void noConflictWithProvidersInDifferentCategories() {
         contextRunner
-                .withBean("lgtm", LocalServiceProvider.class, () -> LocalServiceProvider.of("lgtm", "opentelemetry"))
-                .withBean("postgresql", LocalServiceProvider.class, () -> LocalServiceProvider.of("postgresql", "jdbc"))
+                .withBean("lgtm", DevServiceProvider.class, () -> DevServiceProvider.of("lgtm", "opentelemetry"))
+                .withBean("postgresql", DevServiceProvider.class, () -> DevServiceProvider.of("postgresql", "jdbc"))
                 .run(context -> assertThat(context).hasNotFailed());
     }
 
     @Test
     void conflictDetectedWithMultipleProvidersInSameCategory() {
         contextRunner
-                .withBean("lgtm", LocalServiceProvider.class, () -> LocalServiceProvider.of("lgtm", "opentelemetry"))
-                .withBean("openlit", LocalServiceProvider.class, () -> LocalServiceProvider.of("openlit", "opentelemetry"))
+                .withBean("lgtm", DevServiceProvider.class, () -> DevServiceProvider.of("lgtm", "opentelemetry"))
+                .withBean("openlit", DevServiceProvider.class, () -> DevServiceProvider.of("openlit", "opentelemetry"))
                 .run(context -> {
                     assertThat(context).hasFailed();
                     assertThat(context.getStartupFailure())
-                            .isInstanceOf(MultipleLocalServiceException.class);
+                            .isInstanceOf(MultipleDevServiceException.class);
                 });
     }
 

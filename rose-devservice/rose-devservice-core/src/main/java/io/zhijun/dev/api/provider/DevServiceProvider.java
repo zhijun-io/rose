@@ -3,14 +3,14 @@ package io.zhijun.dev.api.provider;
 /**
  * Marker for mutually exclusive dev service categories.
  */
-public interface LocalServiceProvider {
+public interface DevServiceProvider {
 
     String name();
 
     String category();
 
-    static LocalServiceProvider of(final String name, final String category) {
-        return new LocalServiceProvider() {
+    static DevServiceProvider of(final String name, final String category) {
+        return new DevServiceProvider() {
             @Override
             public String name() {
                 return name;

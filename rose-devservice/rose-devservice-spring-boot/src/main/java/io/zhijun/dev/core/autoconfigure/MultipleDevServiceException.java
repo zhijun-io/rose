@@ -5,12 +5,12 @@ import java.util.List;
 /**
  * Thrown when multiple dev services in the same category are active.
  */
-public class MultipleLocalServiceException extends RuntimeException {
+public class MultipleDevServiceException extends RuntimeException {
 
     private final String category;
     private final List<String> serviceNames;
 
-    public MultipleLocalServiceException(String category, List<String> serviceNames) {
+    public MultipleDevServiceException(String category, List<String> serviceNames) {
         super("Multiple " + category + " dev services detected: " + serviceNames);
         this.category = category;
         this.serviceNames = serviceNames;

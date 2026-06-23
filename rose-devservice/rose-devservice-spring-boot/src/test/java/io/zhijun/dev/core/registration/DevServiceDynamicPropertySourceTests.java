@@ -2,7 +2,7 @@ package io.zhijun.dev.core.registration;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.zhijun.dev.core.registration.LocalServiceDynamicPropertySource;
+import io.zhijun.dev.core.registration.DevServiceDynamicPropertySource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.MapPropertySource;
@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
- * Unit test for {@link LocalServiceDynamicPropertySource}.
+ * Unit test for {@link DevServiceDynamicPropertySource}.
  */
-class LocalServiceDynamicPropertySourceTests {
+class DevServiceDynamicPropertySourceTests {
 
     @BeforeEach
     void setUp() {
@@ -27,7 +27,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void addAndResolveProperty() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         propertySource.add("my.property", () -> "my-value");
 
@@ -37,7 +37,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void supplierIsResolvedLazily() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         int[] callCount = {0};
         propertySource.add("lazy.property", () -> {
@@ -53,7 +53,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void supplierIsInvokedOnEachAccess() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         AtomicReference<String> value = new AtomicReference<>("initial");
         propertySource.add("dynamic.property", value::get);
@@ -67,7 +67,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void addOverridesExistingProperty() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         propertySource.add("my.property", () -> "original");
         assertThat(environment.getProperty("my.property")).isEqualTo("original");
@@ -80,8 +80,8 @@ class LocalServiceDynamicPropertySourceTests {
     void getOrCreateReturnsSameInstance() {
         MockEnvironment environment = new MockEnvironment();
 
-        LocalServiceDynamicPropertySource first = LocalServiceDynamicPropertySource.getOrCreate(environment);
-        LocalServiceDynamicPropertySource second = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource first = DevServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource second = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         assertThat(first).isSameAs(second);
     }
@@ -91,8 +91,8 @@ class LocalServiceDynamicPropertySourceTests {
         MockEnvironment environment1 = new MockEnvironment();
         MockEnvironment environment2 = new MockEnvironment();
 
-        LocalServiceDynamicPropertySource first = LocalServiceDynamicPropertySource.getOrCreate(environment1);
-        LocalServiceDynamicPropertySource second = LocalServiceDynamicPropertySource.getOrCreate(environment2);
+        DevServiceDynamicPropertySource first = DevServiceDynamicPropertySource.getOrCreate(environment1);
+        DevServiceDynamicPropertySource second = DevServiceDynamicPropertySource.getOrCreate(environment2);
 
         assertThat(first).isNotSameAs(second);
     }
@@ -101,10 +101,10 @@ class LocalServiceDynamicPropertySourceTests {
     void multipleRegistrarsShareSamePropertySource() {
         MockEnvironment environment = new MockEnvironment();
 
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
         propertySource.add("first.property", () -> "first-value");
 
-        LocalServiceDynamicPropertySource samePropertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource samePropertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
         samePropertySource.add("second.property", () -> "second-value");
 
         assertThat(environment.getProperty("first.property")).isEqualTo("first-value");
@@ -114,7 +114,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void unknownPropertyReturnsNull() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         assertThat(propertySource.getProperty("unknown.property")).isNull();
     }
@@ -122,7 +122,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void containsPropertyReturnsTrueForRegisteredProperty() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         propertySource.add("my.property", () -> "value");
 
@@ -133,7 +133,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void getPropertyNamesReturnsRegisteredNames() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         propertySource.add("first.property", () -> "value1");
         propertySource.add("second.property", () -> "value2");
@@ -144,7 +144,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void addWithNullNameThrows() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> propertySource.add(null, () -> "value"));
@@ -153,7 +153,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void addWithBlankNameThrows() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> propertySource.add("", () -> "value"));
@@ -162,7 +162,7 @@ class LocalServiceDynamicPropertySourceTests {
     @Test
     void addWithNullSupplierThrows() {
         MockEnvironment environment = new MockEnvironment();
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> propertySource.add("my.property", null));
@@ -172,10 +172,10 @@ class LocalServiceDynamicPropertySourceTests {
     void getOrCreateThrowsWhenConflictingPropertySourceExists() {
         MockEnvironment environment = new MockEnvironment();
         environment.getPropertySources().addFirst(
-                new MapPropertySource(LocalServiceDynamicPropertySource.PROPERTY_SOURCE_NAME, new java.util.HashMap<String, Object>()));
+                new MapPropertySource(DevServiceDynamicPropertySource.PROPERTY_SOURCE_NAME, new java.util.HashMap<String, Object>()));
 
         assertThatIllegalStateException()
-                .isThrownBy(() -> LocalServiceDynamicPropertySource.getOrCreate(environment));
+                .isThrownBy(() -> DevServiceDynamicPropertySource.getOrCreate(environment));
     }
 
     @Test
@@ -183,7 +183,7 @@ class LocalServiceDynamicPropertySourceTests {
         MockEnvironment environment = new MockEnvironment();
         environment.setProperty("my.property", "from-environment");
 
-        LocalServiceDynamicPropertySource propertySource = LocalServiceDynamicPropertySource.getOrCreate(environment);
+        DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
         propertySource.add("my.property", () -> "from-dev-service");
 
         assertThat(environment.getProperty("my.property")).isEqualTo("from-dev-service");

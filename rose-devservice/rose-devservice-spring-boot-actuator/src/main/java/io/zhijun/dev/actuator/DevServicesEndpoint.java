@@ -10,7 +10,7 @@ import org.springframework.boot.actuate.endpoint.annotation.Selector;
 import org.springframework.lang.Nullable;
 
 import io.zhijun.dev.api.registration.ContainerInfo;
-import io.zhijun.dev.api.registration.LocalServiceRegistration;
+import io.zhijun.dev.api.registration.DevServiceRegistration;
 
 /**
  * Endpoint for exposing development services information.
@@ -18,16 +18,16 @@ import io.zhijun.dev.api.registration.LocalServiceRegistration;
 @Endpoint(id = "devservices")
 public class DevServicesEndpoint {
 
-    private final Map<String, LocalServiceRegistration> registrations;
+    private final Map<String, DevServiceRegistration> registrations;
 
-    public DevServicesEndpoint(Map<String, LocalServiceRegistration> registrations) {
+    public DevServicesEndpoint(Map<String, DevServiceRegistration> registrations) {
         this.registrations = registrations;
     }
 
     @ReadOperation
     public Map<String, ServiceInfoSummary> devServices() {
         Map<String, ServiceInfoSummary> summaries = new java.util.HashMap<String, ServiceInfoSummary>();
-        for (LocalServiceRegistration registration : registrations.values()) {
+        for (DevServiceRegistration registration : registrations.values()) {
             ServiceInfoSummary summary = new ServiceInfoSummary(
                     registration.getName(),
                     registration.getDescription(),
@@ -39,7 +39,7 @@ public class DevServicesEndpoint {
 
     @ReadOperation
     public ServiceInfo devService(@Selector String name) {
-        LocalServiceRegistration registration = registrations.get(name);
+        DevServiceRegistration registration = registrations.get(name);
         if (registration == null) {
             throw new IllegalArgumentException("Dev service not found: " + name);
         }

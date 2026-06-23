@@ -1,6 +1,6 @@
 package io.zhijun.dev.activemq;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
@@ -10,33 +10,33 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.activemq.ActiveMqDevServicesAutoConfiguration.ActiveMqLocalServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.activemq.ActiveMqDevServicesAutoConfiguration.ActiveMqDevServiceRegistrar;
 
 /**
  * ActiveMQ Classic dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(ActiveMQAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("activemq")
 @EnableConfigurationProperties(ActiveMqDevServiceProperties.class)
-@Import(ActiveMqLocalServiceRegistrar.class)
+@Import(ActiveMqDevServiceRegistrar.class)
 public final class ActiveMqDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider activeMqDevServiceProvider() {
-        return LocalServiceProvider.of("activemq", LocalServiceCategories.JMS);
+    DevServiceProvider activeMqDevServiceProvider() {
+        return DevServiceProvider.of("activemq", DevServiceCategories.JMS);
     }
 
-    static class ActiveMqLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class ActiveMqDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final ActiveMqDevServiceProperties properties = bindProperties(
                     ActiveMqDevServiceProperties.CONFIG_PREFIX, ActiveMqDevServiceProperties.class);
 

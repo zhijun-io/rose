@@ -1,6 +1,6 @@
 package io.zhijun.dev.opentelemetry.collector;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -20,7 +20,7 @@ import io.zhijun.opentelemetry.autoconfigure.traces.exporter.otlp.OtlpTracingCon
  */
 @AutoConfiguration
 @ConditionalOnBean(RoseOtelCollectorContainer.class)
-@AutoConfigureAfter({ LocalServiceAutoConfiguration.class, OtelCollectorDevServicesAutoConfiguration.class })
+@AutoConfigureAfter({ DevServiceAutoConfiguration.class, OtelCollectorDevServicesAutoConfiguration.class })
 @AutoConfigureBefore({ OpenTelemetryTracingExporterAutoConfiguration.class, OpenTelemetryMetricsExporterAutoConfiguration.class })
 class OtelCollectorOtlpConnectionDetailsConfiguration {
 

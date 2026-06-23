@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Conditional;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-@Conditional(OnLocalServiceEnabledCondition.class)
+@Conditional(OnDevServiceEnabledCondition.class)
 public @interface ConditionalOnDevServiceEnabled {
 
     String value();

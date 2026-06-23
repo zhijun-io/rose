@@ -8,46 +8,46 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.redis.RedisDevServicesAutoConfiguration.RedisLocalServiceRegistrar;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.redis.RedisDevServicesAutoConfiguration.RedisDevServiceRegistrar;
 
 /**
  * Redis dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(RedisAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("redis")
 @EnableConfigurationProperties(RedisDevServiceProperties.class)
-@Import(RedisLocalServiceRegistrar.class)
+@Import(RedisDevServiceRegistrar.class)
 public final class RedisDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider redisDevServiceProvider() {
-        return LocalServiceProvider.of("redis", LocalServiceCategories.REDIS);
+    DevServiceProvider redisDevServiceProvider() {
+        return DevServiceProvider.of("redis", DevServiceCategories.REDIS);
     }
 
-    static class RedisLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class RedisDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final RedisDevServiceProperties properties = bindProperties(
                     RedisDevServiceProperties.CONFIG_PREFIX, RedisDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("redis")
                             .description("Redis Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseRedisContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

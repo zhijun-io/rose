@@ -3,9 +3,9 @@ package io.zhijun.dev.core.registration;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistrationFactoryBean;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrationFactoryBean;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -19,9 +19,9 @@ import org.testcontainers.containers.GenericContainer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit test for {@link LocalServiceRegistrar}.
+ * Unit test for {@link DevServiceRegistrar}.
  */
-class LocalServiceRegistrarTests {
+class DevServiceRegistrarTests {
 
     private final DefaultListableBeanFactory beanDefinitionRegistry = new DefaultListableBeanFactory();
 
@@ -115,9 +115,9 @@ class LocalServiceRegistrarTests {
 
     @Test
     void noRegistrations() {
-        doRegister(new Consumer<LocalServiceRegistry>() {
+        doRegister(new Consumer<DevServiceRegistry>() {
             @Override
-            public void accept(LocalServiceRegistry registry) {
+            public void accept(DevServiceRegistry registry) {
             }
         });
 
@@ -127,9 +127,9 @@ class LocalServiceRegistrarTests {
 
     @Test
     void setDefaultPropertyAddsToDefaultPropertiesSource() {
-        TestRegistrar registrar = new TestRegistrar(new Consumer<LocalServiceRegistry>() {
+        TestRegistrar registrar = new TestRegistrar(new Consumer<DevServiceRegistry>() {
             @Override
-            public void accept(LocalServiceRegistry registry) {
+            public void accept(DevServiceRegistry registry) {
             }
         }, environment, beanDefinitionRegistry);
         registrar.registerBeanDefinitions(AnnotationMetadata.introspect(this.getClass()), beanDefinitionRegistry);
@@ -146,9 +146,9 @@ class LocalServiceRegistrarTests {
         userConfig.put("spring.datasource.url", "jdbc:postgresql://user-host/db");
         sources.addFirst(new MapPropertySource("userConfig", userConfig));
 
-        TestRegistrar registrar = new TestRegistrar(new Consumer<LocalServiceRegistry>() {
+        TestRegistrar registrar = new TestRegistrar(new Consumer<DevServiceRegistry>() {
             @Override
-            public void accept(LocalServiceRegistry registry) {
+            public void accept(DevServiceRegistry registry) {
             }
         }, environment, beanDefinitionRegistry);
         registrar.registerBeanDefinitions(AnnotationMetadata.introspect(this.getClass()), beanDefinitionRegistry);
@@ -158,8 +158,8 @@ class LocalServiceRegistrarTests {
         assertThat(environment.getProperty("spring.datasource.url")).isEqualTo("jdbc:postgresql://user-host/db");
     }
 
-    private void doRegister(Consumer<LocalServiceRegistry>... registrars) {
-        for (Consumer<LocalServiceRegistry> consumer : registrars) {
+    private void doRegister(Consumer<DevServiceRegistry>... registrars) {
+        for (Consumer<DevServiceRegistry> consumer : registrars) {
             TestRegistrar registrar = new TestRegistrar(consumer, environment, beanDefinitionRegistry);
             registrar.registerBeanDefinitions(AnnotationMetadata.introspect(this.getClass()), beanDefinitionRegistry);
         }
@@ -179,7 +179,7 @@ class LocalServiceRegistrarTests {
         assertThat(beanDefinitionRegistry.containsBeanDefinition(beanName)).isTrue();
 
         BeanDefinition beanDefinition = beanDefinitionRegistry.getBeanDefinition(beanName);
-        assertThat(beanDefinition.getBeanClassName()).isEqualTo(LocalServiceRegistrationFactoryBean.class.getName());
+        assertThat(beanDefinition.getBeanClassName()).isEqualTo(DevServiceRegistrationFactoryBean.class.getName());
         assertThat(beanDefinition.getRole()).isEqualTo(BeanDefinition.ROLE_SUPPORT);
 
         String[] dependsOn = beanDefinition.getDependsOn();
@@ -192,14 +192,14 @@ class LocalServiceRegistrarTests {
     }
 
     private void assertRegistryExists() {
-        assertThat(beanDefinitionRegistry.containsSingleton(LocalServiceRegistrar.DEV_SERVICES_REGISTRY_BEAN_NAME)).isTrue();
+        assertThat(beanDefinitionRegistry.containsSingleton(DevServiceRegistrar.DEV_SERVICES_REGISTRY_BEAN_NAME)).isTrue();
     }
 
-    private static class TestRegistrar extends LocalServiceRegistrar {
+    private static class TestRegistrar extends DevServiceRegistrar {
 
-        private final Consumer<LocalServiceRegistry> registrar;
+        private final Consumer<DevServiceRegistry> registrar;
 
-        TestRegistrar(Consumer<LocalServiceRegistry> registrar, Environment environment,
+        TestRegistrar(Consumer<DevServiceRegistry> registrar, Environment environment,
                       DefaultListableBeanFactory beanDefinitionRegistry) {
             this.registrar = registrar;
             setEnvironment(environment);
@@ -207,7 +207,7 @@ class LocalServiceRegistrarTests {
         }
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             registrar.accept(registry);
         }
     }

@@ -1,6 +1,6 @@
 package io.zhijun.dev.mongodb;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
@@ -11,48 +11,48 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.mongodb.MongoDbDevServicesAutoConfiguration.MongoDbLocalServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.mongodb.MongoDbDevServicesAutoConfiguration.MongoDbDevServiceRegistrar;
 
 /**
  * MongoDB dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore({
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class
 })
 @ConditionalOnDevServiceEnabled("mongodb")
 @EnableConfigurationProperties(MongoDbDevServiceProperties.class)
-@Import(MongoDbLocalServiceRegistrar.class)
+@Import(MongoDbDevServiceRegistrar.class)
 public final class MongoDbDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider mongoDbDevServiceProvider() {
-        return LocalServiceProvider.of("mongodb", LocalServiceCategories.MONGODB);
+    DevServiceProvider mongoDbDevServiceProvider() {
+        return DevServiceProvider.of("mongodb", DevServiceCategories.MONGODB);
     }
 
-    static class MongoDbLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class MongoDbDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final MongoDbDevServiceProperties properties = bindProperties(
                     MongoDbDevServiceProperties.CONFIG_PREFIX, MongoDbDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("mongodb")
                             .description("MongoDB Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseMongoDbContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

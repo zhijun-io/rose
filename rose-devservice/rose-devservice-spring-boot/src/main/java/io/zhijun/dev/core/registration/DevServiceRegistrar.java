@@ -24,7 +24,7 @@ import io.zhijun.core.annotation.Incubating;
  * Base registrar for dev service container beans.
  */
 @Incubating
-public abstract class LocalServiceRegistrar implements ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware {
+public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware {
 
     public static final String DEV_SERVICES_REGISTRY_BEAN_NAME = "devServicesRegistry";
 
@@ -36,16 +36,16 @@ public abstract class LocalServiceRegistrar implements ImportBeanDefinitionRegis
         Assert.notNull(beanFactory, "beanFactory has not been initialized");
         Assert.notNull(environment, "environment has not been initialized");
 
-        LocalServiceRegistry localServiceRegistry = getOrCreateDevServicesRegistry(registry);
+        DevServiceRegistry localServiceRegistry = getOrCreateDevServicesRegistry(registry);
         registerDevServices(localServiceRegistry, environment);
     }
 
-    private LocalServiceRegistry getOrCreateDevServicesRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
+    private DevServiceRegistry getOrCreateDevServicesRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
         if (beanFactory != null && beanFactory.containsBean(DEV_SERVICES_REGISTRY_BEAN_NAME)) {
-            return beanFactory.getBean(DEV_SERVICES_REGISTRY_BEAN_NAME, LocalServiceRegistry.class);
+            return beanFactory.getBean(DEV_SERVICES_REGISTRY_BEAN_NAME, DevServiceRegistry.class);
         }
 
-        LocalServiceRegistry localServiceRegistry = new LocalServiceRegistry(beanDefinitionRegistry);
+        DevServiceRegistry localServiceRegistry = new DevServiceRegistry(beanDefinitionRegistry);
 
         if (beanDefinitionRegistry instanceof DefaultListableBeanFactory) {
             DefaultListableBeanFactory beanFactoryRegistry = (DefaultListableBeanFactory) beanDefinitionRegistry;
@@ -89,7 +89,7 @@ public abstract class LocalServiceRegistrar implements ImportBeanDefinitionRegis
         Assert.notNull(environment, "environment has not been initialized");
         Assert.state(environment instanceof ConfigurableEnvironment,
                 "environment must be a ConfigurableEnvironment");
-        LocalServiceDynamicPropertySource.getOrCreate((ConfigurableEnvironment) environment)
+        DevServiceDynamicPropertySource.getOrCreate((ConfigurableEnvironment) environment)
                 .add(name, valueSupplier);
     }
 
@@ -98,5 +98,5 @@ public abstract class LocalServiceRegistrar implements ImportBeanDefinitionRegis
         return beanFactory;
     }
 
-    protected abstract void registerDevServices(LocalServiceRegistry registry, Environment environment);
+    protected abstract void registerDevServices(DevServiceRegistry registry, Environment environment);
 }

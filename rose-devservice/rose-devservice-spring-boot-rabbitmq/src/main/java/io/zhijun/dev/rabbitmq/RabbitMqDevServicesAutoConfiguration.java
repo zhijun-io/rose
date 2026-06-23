@@ -1,6 +1,6 @@
 package io.zhijun.dev.rabbitmq;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
@@ -10,37 +10,37 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.rabbitmq.RabbitMqDevServicesAutoConfiguration.RabbitMqLocalServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.rabbitmq.RabbitMqDevServicesAutoConfiguration.RabbitMqDevServiceRegistrar;
 
 /**
  * RabbitMQ dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(RabbitAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("rabbitmq")
 @EnableConfigurationProperties(RabbitMqDevServiceProperties.class)
-@Import(RabbitMqLocalServiceRegistrar.class)
+@Import(RabbitMqDevServiceRegistrar.class)
 public final class RabbitMqDevServicesAutoConfiguration {
 
-    static class RabbitMqLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class RabbitMqDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final RabbitMqDevServiceProperties properties = bindProperties(
                     RabbitMqDevServiceProperties.CONFIG_PREFIX, RabbitMqDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("rabbitmq")
                             .description("RabbitMQ Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RoseRabbitMqContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

@@ -7,13 +7,13 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.lang.Nullable;
 import org.testcontainers.containers.Container;
 
-import io.zhijun.dev.api.registration.LocalServiceRegistration;
+import io.zhijun.dev.api.registration.DevServiceRegistration;
 
 /**
- * Creates {@link LocalServiceRegistration} after the container bean is available (Boot 2.7 compatible).
+ * Creates {@link DevServiceRegistration} after the container bean is available (Boot 2.7 compatible).
  */
-final class LocalServiceRegistrationFactoryBean
-        implements FactoryBean<LocalServiceRegistration>, BeanFactoryAware {
+final class DevServiceRegistrationFactoryBean
+        implements FactoryBean<DevServiceRegistration>, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     private String name;
@@ -39,20 +39,20 @@ final class LocalServiceRegistrationFactoryBean
     }
 
     @Override
-    public LocalServiceRegistration getObject() {
+    public DevServiceRegistration getObject() {
         Container<?> container = beanFactory.getBean(containerBeanName, Container.class);
         final String containerId = container.getContainerId();
-        return new LocalServiceRegistration(name, description, new java.util.function.Supplier<ContainerInfo>() {
+        return new DevServiceRegistration(name, description, new java.util.function.Supplier<ContainerInfo>() {
             @Override
             public ContainerInfo get() {
-                return LocalServiceRegistry.extractContainerInfoById(containerId);
+                return DevServiceRegistry.extractContainerInfoById(containerId);
             }
         });
     }
 
     @Override
     public Class<?> getObjectType() {
-        return LocalServiceRegistration.class;
+        return DevServiceRegistration.class;
     }
 
     @Override

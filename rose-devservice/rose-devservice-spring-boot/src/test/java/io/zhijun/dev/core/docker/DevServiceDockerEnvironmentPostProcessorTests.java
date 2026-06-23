@@ -1,6 +1,6 @@
 package io.zhijun.dev.core.docker;
 
-import io.zhijun.dev.core.docker.LocalServiceDockerEnvironmentPostProcessor;
+import io.zhijun.dev.core.docker.DevServiceDockerEnvironmentPostProcessor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +11,12 @@ import org.springframework.mock.env.MockEnvironment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit test for {@link LocalServiceDockerEnvironmentPostProcessor}.
+ * Unit test for {@link DevServiceDockerEnvironmentPostProcessor}.
  */
-class LocalServiceDockerEnvironmentPostProcessorTests {
+class DevServiceDockerEnvironmentPostProcessorTests {
 
-    private final LocalServiceDockerEnvironmentPostProcessor postProcessor =
-            new LocalServiceDockerEnvironmentPostProcessor();
+    private final DevServiceDockerEnvironmentPostProcessor postProcessor =
+            new DevServiceDockerEnvironmentPostProcessor();
 
     private String originalChecksDisableProperty;
     private String originalDockerApiVersionProperty;

@@ -11,14 +11,14 @@ import io.zhijun.core.annotation.Incubating;
  * Describes a registered dev service.
  */
 @Incubating
-public final class LocalServiceRegistration {
+public final class DevServiceRegistration {
 
     private final String name;
     @Nullable
     private final String description;
     private final Supplier<ContainerInfo> containerInfo;
 
-    public LocalServiceRegistration(
+    public DevServiceRegistration(
             String name,
             @Nullable String description,
             Supplier<ContainerInfo> containerInfo) {

@@ -3,7 +3,7 @@ package io.zhijun.dev.api.provider;
 /**
  * Dev service category constants.
  */
-public final class LocalServiceCategories {
+public final class DevServiceCategories {
 
     public static final String JDBC = "jdbc";
 
@@ -19,6 +19,6 @@ public final class LocalServiceCategories {
 
     public static final String OPENTELEMETRY = "opentelemetry";
 
-    private LocalServiceCategories() {
+    private DevServiceCategories() {
     }
 }

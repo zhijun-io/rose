@@ -8,43 +8,43 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.artemis.ArtemisDevServicesAutoConfiguration.ArtemisLocalServiceRegistrar;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.artemis.ArtemisDevServicesAutoConfiguration.ArtemisDevServiceRegistrar;
 
 /**
  * ActiveMQ Artemis dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(ArtemisAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("artemis")
 @EnableConfigurationProperties(ArtemisDevServiceProperties.class)
-@Import(ArtemisLocalServiceRegistrar.class)
+@Import(ArtemisDevServiceRegistrar.class)
 public final class ArtemisDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider artemisDevServiceProvider() {
-        return LocalServiceProvider.of("artemis", LocalServiceCategories.JMS);
+    DevServiceProvider artemisDevServiceProvider() {
+        return DevServiceProvider.of("artemis", DevServiceCategories.JMS);
     }
 
-    static class ArtemisLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class ArtemisDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final ArtemisDevServiceProperties properties = bindProperties(
                     ArtemisDevServiceProperties.CONFIG_PREFIX, ArtemisDevServiceProperties.class);
 
             registry.registerDevService(service -> service
                     .name("artemis")
                     .description("ActiveMQ Artemis Dev Service")
-                    .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                    .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                         @Override
-                        public void accept(LocalServiceRegistry.ContainerSpec container) {
+                        public void accept(DevServiceRegistry.ContainerSpec container) {
                             container
                                     .type(RoseArtemisContainer.class)
                                     .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

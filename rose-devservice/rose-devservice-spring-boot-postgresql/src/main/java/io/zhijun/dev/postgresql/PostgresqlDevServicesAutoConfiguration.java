@@ -1,6 +1,6 @@
 package io.zhijun.dev.postgresql;
 
-import io.zhijun.dev.core.autoconfigure.LocalServiceAutoConfiguration;
+import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -12,46 +12,46 @@ import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import io.zhijun.dev.api.provider.LocalServiceCategories;
-import io.zhijun.dev.api.provider.LocalServiceProvider;
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.dev.core.registration.LocalServiceRegistrar;
-import io.zhijun.dev.core.registration.LocalServiceRegistry;
-import io.zhijun.dev.postgresql.PostgresqlDevServicesAutoConfiguration.PostgresqlLocalServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistrar;
+import io.zhijun.dev.core.registration.DevServiceRegistry;
+import io.zhijun.dev.postgresql.PostgresqlDevServicesAutoConfiguration.PostgresqlDevServiceRegistrar;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * PostgreSQL dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(LocalServiceAutoConfiguration.class)
+@AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("postgresql")
 @EnableConfigurationProperties(PostgresqlDevServiceProperties.class)
-@Import(PostgresqlLocalServiceRegistrar.class)
+@Import(PostgresqlDevServiceRegistrar.class)
 public final class PostgresqlDevServicesAutoConfiguration {
 
     @Bean
-    LocalServiceProvider postgresqlDevServiceProvider() {
-        return LocalServiceProvider.of("postgresql", LocalServiceCategories.JDBC);
+    DevServiceProvider postgresqlDevServiceProvider() {
+        return DevServiceProvider.of("postgresql", DevServiceCategories.JDBC);
     }
 
-    static class PostgresqlLocalServiceRegistrar extends LocalServiceRegistrar {
+    static class PostgresqlDevServiceRegistrar extends DevServiceRegistrar {
 
         @Override
-        protected void registerDevServices(LocalServiceRegistry registry, Environment environment) {
+        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
             final PostgresqlDevServiceProperties properties = bindProperties(
                     PostgresqlDevServiceProperties.CONFIG_PREFIX, PostgresqlDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<LocalServiceRegistry.ServiceSpec>() {
+            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
                 @Override
-                public void accept(LocalServiceRegistry.ServiceSpec service) {
+                public void accept(DevServiceRegistry.ServiceSpec service) {
                     service
                             .name("postgresql")
                             .description("PostgreSQL Dev Service")
-                            .container(new java.util.function.Consumer<LocalServiceRegistry.ContainerSpec>() {
+                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
                                 @Override
-                                public void accept(LocalServiceRegistry.ContainerSpec container) {
+                                public void accept(DevServiceRegistry.ContainerSpec container) {
                                     container
                                             .type(RosePostgreSqlContainer.class)
                                             .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {

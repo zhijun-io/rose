@@ -26,11 +26,11 @@ import io.zhijun.dev.api.registration.ContainerInfo;
  * Registers Testcontainers container bean definitions.
  */
 @Incubating
-public class LocalServiceRegistry {
+public class DevServiceRegistry {
 
     private final BeanDefinitionRegistry beanDefinitionRegistry;
 
-    public LocalServiceRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
+    public DevServiceRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
         Assert.notNull(beanDefinitionRegistry, "beanDefinitionRegistry cannot be null");
         this.beanDefinitionRegistry = beanDefinitionRegistry;
     }
@@ -91,7 +91,7 @@ public class LocalServiceRegistry {
 
     private RootBeanDefinition createDescriptionBeanDefinition(ServiceSpec service, String containerBeanName) {
         RootBeanDefinition descriptionBeanDefinition = new RootBeanDefinition();
-        descriptionBeanDefinition.setBeanClass(LocalServiceRegistrationFactoryBean.class);
+        descriptionBeanDefinition.setBeanClass(DevServiceRegistrationFactoryBean.class);
         descriptionBeanDefinition.setRole(BeanDefinition.ROLE_SUPPORT);
         descriptionBeanDefinition.setDependsOn(containerBeanName);
         descriptionBeanDefinition.getPropertyValues().add("name", service.getName());
