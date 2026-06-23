@@ -38,13 +38,22 @@ public class FieldEncryptInterceptor implements Interceptor {
         MappedStatement mappedStatement = (MappedStatement) args[0];
         SqlCommandType commandType = mappedStatement.getSqlCommandType();
         if (commandType == SqlCommandType.INSERT || commandType == SqlCommandType.UPDATE) {
-            FieldEncryptProcessor.processParameter(args[1], commandType, encryptor, keyResolver);
-            return invocation.proceed();
+            Runnable restore = FieldEncryptProcessor.processParameter(args[1], commandType, encryptor, keyResolver);
+            try {
+                return invocation.proceed();
+            } finally {
+                restore.run();
+            }
         }
         if (commandType == SqlCommandType.SELECT) {
-            Object result = invocation.proceed();
-            FieldEncryptProcessor.processResult(result, encryptor, keyResolver);
-            return result;
+            Runnable restore = FieldEncryptProcessor.processParameter(args[1], commandType, encryptor, keyResolver);
+            try {
+                Object result = invocation.proceed();
+                FieldEncryptProcessor.processResult(result, encryptor, keyResolver);
+                return result;
+            } finally {
+                restore.run();
+            }
         }
         return invocation.proceed();
     }

@@ -21,18 +21,7 @@ public final class FieldEncryptProcessor {
     private FieldEncryptProcessor() {}
 
     public static void processWrite(Object entity, FieldEncryptor encryptor, EncryptionKeyResolver keyResolver) {
-        if (entity == null) {
-            return;
-        }
-        for (EncryptedField encryptedField : resolveFields(entity.getClass())) {
-            Object rawValue = ReflectionUtils.getField(encryptedField.field, entity);
-            if (rawValue == null) {
-                continue;
-            }
-            String secret = keyResolver.resolve(encryptedField.annotation.secretRef());
-            String encrypted = encryptor.encrypt(encryptedField.annotation.algorithm(), secret, rawValue);
-            ReflectionUtils.setField(encryptedField.field, entity, encrypted);
-        }
+        encryptFields(entity, encryptor, keyResolver);
     }
 
     public static void processRead(Object entity, FieldEncryptor encryptor, EncryptionKeyResolver keyResolver) {
@@ -50,27 +39,66 @@ public final class FieldEncryptProcessor {
         }
     }
 
+    /**
+     * Encrypts every {@link FieldEncrypt}-annotated field on {@code entity} in place and returns
+     * a {@link Runnable} that restores the original values. Call the returned action after the
+     * SQL has executed so the caller never observes ciphertext on the entity.
+     */
+    private static Runnable encryptFields(Object entity, FieldEncryptor encryptor, EncryptionKeyResolver keyResolver) {
+        if (entity == null) {
+            return () -> {};
+        }
+        List<EncryptedField> encryptedFields = resolveFields(entity.getClass());
+        if (encryptedFields.isEmpty()) {
+            return () -> {};
+        }
+        List<Runnable> restores = new ArrayList<>();
+        for (EncryptedField encryptedField : encryptedFields) {
+            Object rawValue = ReflectionUtils.getField(encryptedField.field, entity);
+            if (rawValue == null) {
+                continue;
+            }
+            String secret = keyResolver.resolve(encryptedField.annotation.secretRef());
+            String encrypted = encryptor.encrypt(encryptedField.annotation.algorithm(), secret, rawValue);
+            ReflectionUtils.setField(encryptedField.field, entity, encrypted);
+            restores.add(() -> ReflectionUtils.setField(encryptedField.field, entity, rawValue));
+        }
+        return () -> {
+            for (Runnable restore : restores) {
+                restore.run();
+            }
+        };
+    }
+
     public static boolean shouldProcess(SqlCommandType commandType) {
         return commandType == SqlCommandType.INSERT
                 || commandType == SqlCommandType.UPDATE
                 || commandType == SqlCommandType.SELECT;
     }
 
-    public static void processParameter(Object parameter, SqlCommandType commandType,
+    /**
+     * Encrypts annotated fields on the parameter (including SELECT query conditions so that
+     * {@code WHERE} clauses match stored ciphertext) and returns a {@link Runnable} that restores
+     * the original plaintext values after the SQL has executed.
+     */
+    public static Runnable processParameter(Object parameter, SqlCommandType commandType,
             FieldEncryptor encryptor, EncryptionKeyResolver keyResolver) {
         if (!shouldProcess(commandType) || parameter == null) {
-            return;
+            return () -> {};
         }
-        if (commandType == SqlCommandType.SELECT) {
-            return;
-        }
+        List<Runnable> restores = new ArrayList<>();
         if (parameter instanceof Map<?, ?>) {
             for (Object value : ((Map<?, ?>) parameter).values()) {
-                processWrite(value, encryptor, keyResolver);
+                restores.add(encryptFields(value, encryptor, keyResolver));
             }
-            return;
+        } else {
+            restores.add(encryptFields(parameter, encryptor, keyResolver));
         }
-        processWrite(parameter, encryptor, keyResolver);
+        return () -> {
+            for (Runnable restore : restores) {
+                restore.run();
+            }
+        };
     }
 
     public static void processResult(@Nullable Object result, FieldEncryptor encryptor,

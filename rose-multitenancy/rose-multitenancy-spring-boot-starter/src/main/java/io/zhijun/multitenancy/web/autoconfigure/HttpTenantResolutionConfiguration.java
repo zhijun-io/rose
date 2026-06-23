@@ -13,7 +13,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 
 import io.zhijun.multitenancy.core.autoconfigure.FixedTenantResolutionProperties;
 import io.zhijun.multitenancy.core.context.resolver.FixedTenantResolver;
@@ -87,7 +86,7 @@ public final class HttpTenantResolutionConfiguration {
             registration.addUrlPatterns("/*");
             registration.setDispatcherTypes(DispatcherType.REQUEST);
             registration.setName("tenantContextFilter");
-            registration.setOrder(Ordered.LOWEST_PRECEDENCE);
+            registration.setOrder(TenantContextFilter.FILTER_ORDER);
             return registration;
         }
 

@@ -2,6 +2,8 @@ package io.zhijun.mybatisplus.crypto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.apache.ibatis.mapping.SqlCommandType;
+
 import org.junit.jupiter.api.Test;
 
 class FieldEncryptProcessorTests {
@@ -27,6 +29,34 @@ class FieldEncryptProcessorTests {
 
         FieldEncryptProcessor.processRead(account, encryptor, keyResolver);
 
+        assertThat(account.getPhone()).isEqualTo("13800138000");
+    }
+
+    @Test
+    void shouldRestoreOriginalValuesAfterProcessParameter() {
+        SampleAccount account = new SampleAccount();
+        account.setPhone("13800138000");
+        String original = account.getPhone();
+
+        Runnable restore = FieldEncryptProcessor.processParameter(account, SqlCommandType.INSERT,
+                encryptor, keyResolver);
+
+        assertThat(account.getPhone()).isNotEqualTo(original);
+        restore.run();
+        assertThat(account.getPhone()).isEqualTo(original);
+    }
+
+    @Test
+    void shouldEncryptSelectParameterSoWhereMatchesCiphertext() {
+        SampleAccount account = new SampleAccount();
+        account.setPhone("13800138000");
+
+        Runnable restore = FieldEncryptProcessor.processParameter(account, SqlCommandType.SELECT,
+                encryptor, keyResolver);
+
+        // SELECT params must be encrypted so WHERE matches stored ciphertext
+        assertThat(account.getPhone()).isNotEqualTo("13800138000");
+        restore.run();
         assertThat(account.getPhone()).isEqualTo("13800138000");
     }
 

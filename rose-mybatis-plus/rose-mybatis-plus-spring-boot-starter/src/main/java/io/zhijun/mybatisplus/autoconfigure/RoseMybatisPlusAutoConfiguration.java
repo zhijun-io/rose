@@ -1,6 +1,6 @@
 package io.zhijun.mybatisplus.autoconfigure;
 
-import io.zhijun.mybatisplus.permission.DataPermissionInnerInterceptorRegistrar;
+import io.zhijun.mybatisplus.permission.DataPermissionInterceptorRegistrar;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -72,8 +72,8 @@ public class RoseMybatisPlusAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(DataPermissionHandler.class)
-    public DataPermissionInnerInterceptorRegistrar dataPermissionInnerInterceptorRegistrar(
+    public DataPermissionInterceptorRegistrar dataPermissionInnerInterceptorRegistrar(
             DataPermissionHandler dataPermissionHandler) {
-        return new DataPermissionInnerInterceptorRegistrar(dataPermissionHandler);
+        return new DataPermissionInterceptorRegistrar(dataPermissionHandler);
     }
 }

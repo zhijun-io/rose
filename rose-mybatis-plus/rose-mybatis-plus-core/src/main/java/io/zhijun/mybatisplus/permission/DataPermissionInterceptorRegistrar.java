@@ -12,11 +12,11 @@ import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 /**
  * Registers {@link DataPermissionInterceptor} on an existing {@link MybatisPlusInterceptor}.
  */
-public final class DataPermissionInnerInterceptorRegistrar implements BeanPostProcessor {
+public final class DataPermissionInterceptorRegistrar implements BeanPostProcessor {
 
     private final DataPermissionHandler dataPermissionHandler;
 
-    public DataPermissionInnerInterceptorRegistrar(DataPermissionHandler dataPermissionHandler) {
+    public DataPermissionInterceptorRegistrar(DataPermissionHandler dataPermissionHandler) {
         this.dataPermissionHandler = dataPermissionHandler;
     }
 

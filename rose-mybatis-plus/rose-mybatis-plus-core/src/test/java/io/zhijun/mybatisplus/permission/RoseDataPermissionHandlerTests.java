@@ -45,7 +45,45 @@ class RoseDataPermissionHandlerTests {
         assertThat(expression).isNull();
     }
 
+    @Test
+    void shouldSkipBaseMapperSelectById() {
+        DataPermissionPrincipalResolver principalResolver = () -> DataPermissionPrincipal.of(
+                new HashSet<Long>(Arrays.asList(1L)));
+        DataPermissionConditionResolver conditionResolver = (annotation, principal) -> {
+            throw new IllegalStateException("should not resolve condition for BaseMapper selectById");
+        };
+        RoseDataPermissionHandler handler = new RoseDataPermissionHandler(principalResolver, conditionResolver);
+
+        // SampleShopMapper does not declare its own selectById -> inherited from BaseMapper -> skipped
+        Expression expression = handler.getSqlSegment(null,
+                SampleShopMapper.class.getName() + ".selectById");
+
+        assertThat(expression).isNull();
+    }
+
+    @Test
+    void shouldApplyPermissionToCustomMethodNamedSelectById() {
+        DataPermissionPrincipalResolver principalResolver = () -> DataPermissionPrincipal.of(
+                new HashSet<Long>(Arrays.asList(1L, 2L)));
+        DataPermissionConditionResolver conditionResolver = (annotation, principal) ->
+                new InExpression(new Column("sys_shop.id"),
+                        new ExpressionList(Arrays.<Expression>asList(new LongValue(1), new LongValue(2))));
+        RoseDataPermissionHandler handler = new RoseDataPermissionHandler(principalResolver, conditionResolver);
+
+        // CustomMapperWithSelectById declares its own selectById -> NOT skipped -> permission applied
+        Expression expression = handler.getSqlSegment(null,
+                CustomMapperWithSelectById.class.getName() + ".selectById");
+
+        assertThat(expression).isNotNull();
+        assertThat(expression.toString()).contains("sys_shop.id");
+    }
+
     @DataPermission(alias = "sys_shop", column = "id")
     interface SampleShopMapper {
+    }
+
+    @DataPermission(alias = "sys_shop", column = "id")
+    interface CustomMapperWithSelectById {
+        void selectById();
     }
 }

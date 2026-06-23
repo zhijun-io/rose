@@ -75,9 +75,16 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         this.missingTenantHandler = missingTenantHandler;
     }
 
+    /**
+     * Run early so downstream filters and the dispatcher can access the tenant context.
+     * Slightly later than {@link Ordered#HIGHEST_PRECEDENCE} to allow character-encoding and
+     * request-context filters to run first.
+     */
+    public static final int FILTER_ORDER = Ordered.HIGHEST_PRECEDENCE + 50;
+
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return FILTER_ORDER;
     }
 
     @Override

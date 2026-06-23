@@ -2,6 +2,7 @@ package io.zhijun.core.concurrent;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -18,10 +19,11 @@ public final class DelegatingScheduledExecutorService implements ScheduledExecut
     private volatile ScheduledExecutorService delegate;
 
     public DelegatingScheduledExecutorService(ScheduledExecutorService delegate) {
-        this.delegate = delegate;
+        setDelegate(delegate);
     }
 
     public void setDelegate(ScheduledExecutorService delegate) {
+        Objects.requireNonNull(delegate, "delegate cannot be null");
         this.delegate = delegate;
     }
 

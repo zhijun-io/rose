@@ -1,5 +1,6 @@
 package io.zhijun.mybatisplus.permission;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,11 +54,13 @@ public class RoseDataPermissionHandler implements DataPermissionHandler {
         }
 
         String method = mappedStatementId.substring(lastDot + 1);
-        if (defaultIgnoredMethods.contains(method)) {
+        String className = mappedStatementId.substring(0, lastDot);
+
+        if (defaultIgnoredMethods.contains(method) && !declaresOwnMethod(className, method)) {
+            excludedMappedStatementIds.add(mappedStatementId);
             return where;
         }
 
-        String className = mappedStatementId.substring(0, lastDot);
         DataPermission dataPermission = resolveAnnotation(className);
         if (dataPermission == null) {
             return where;
@@ -90,6 +93,25 @@ public class RoseDataPermissionHandler implements DataPermissionHandler {
             return new Parenthesis(permissionExpression);
         }
         return new AndExpression(where, permissionExpression);
+    }
+
+    /**
+     * Returns {@code true} when the mapper interface declares its own method with the given name,
+     * so that custom methods shadowing {@code BaseMapper} defaults are still subject to data
+     * permission instead of being silently skipped.
+     */
+    private boolean declaresOwnMethod(String className, String methodName) {
+        try {
+            Class<?> mapperType = Class.forName(className);
+            for (Method method : mapperType.getDeclaredMethods()) {
+                if (method.getName().equals(methodName)) {
+                    return true;
+                }
+            }
+        } catch (ClassNotFoundException ignored) {
+            // mapper interface not on classpath yet
+        }
+        return false;
     }
 
     private DataPermission resolveAnnotation(String className) {
