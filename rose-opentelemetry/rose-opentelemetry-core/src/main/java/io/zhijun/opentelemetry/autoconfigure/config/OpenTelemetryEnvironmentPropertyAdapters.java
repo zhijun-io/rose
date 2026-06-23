@@ -67,7 +67,7 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                 .mapInteger("otel.span.attribute.count.limit",
                         OpenTelemetryTracingProperties.CONFIG_PREFIX + ".limits.max-number-of-attributes")
                 .mapInteger("otel.span.event.count.limit",
-                        OpenTelemetryTracingProperties.CONFIG_PREFIX + ".limits.max-number-of-event")
+                        OpenTelemetryTracingProperties.CONFIG_PREFIX + ".limits.max-number-of-events")
                 .mapInteger("otel.span.link.count.limit",
                         OpenTelemetryTracingProperties.CONFIG_PREFIX + ".limits.max-number-of-links")
                 .mapInteger("otel.event.attribute.count.limit",
