@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = DevServiceProperties.CONFIG_PREFIX)
 public class DevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local";
+    public static final String CONFIG_PREFIX = "rose.dev";
 
     private boolean enabled = true;
 

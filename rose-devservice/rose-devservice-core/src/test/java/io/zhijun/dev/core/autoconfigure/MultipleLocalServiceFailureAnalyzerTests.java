@@ -24,6 +24,6 @@ class MultipleLocalServiceFailureAnalyzerTests {
 
         assertThat(analysis).isNotNull();
         assertThat(analysis.getDescription()).contains("opentelemetry", "lgtm", "openlit");
-        assertThat(analysis.getAction()).contains("rose.local", "lgtm");
+        assertThat(analysis.getAction()).contains("rose.dev", "lgtm");
     }
 }
