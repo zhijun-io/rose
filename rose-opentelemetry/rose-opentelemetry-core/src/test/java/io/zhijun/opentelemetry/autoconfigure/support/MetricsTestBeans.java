@@ -8,7 +8,7 @@ import io.opentelemetry.sdk.metrics.InstrumentType;
 import io.opentelemetry.sdk.metrics.internal.export.CardinalityLimitSelector;
 
 /**
- * Beans required by metrics exporter auto-configuration tests.
+ * Beans required by metrics exporter auto-configuration test.
  */
 @Configuration(proxyBeanMethods = false)
 public final class MetricsTestBeans {

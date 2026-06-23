@@ -22,7 +22,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Unit tests for {@link EnvironmentResourceContributor}.
+ * Unit test for {@link EnvironmentResourceContributor}.
  */
 class EnvironmentResourceContributorTests {
 

@@ -1,6 +1,6 @@
 ---
 agent: 'agent'
-description: 'Generate unit tests for selected functions or methods'
+description: 'Generate unit test for selected functions or methods'
 ---
 
 ## Task

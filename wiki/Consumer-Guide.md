@@ -11,7 +11,7 @@ How to consume Rose artifacts in a Spring Boot 2.7 application.
 | BOM | `rose-bom` | `dependencyManagement` import |
 | Baseline | `rose-spring-boot-core` | Default platform starter |
 | Feature | `rose-*-spring-boot` | Observability, multitenancy, MyBatis-Plus |
-| Dev services | `rose-devservice-*` | Optional `runtime` connectors |
+| Dev services | `rose-devservice-spring-boot-*` | Optional `runtime` connectors |
 | Libraries | `rose-*-core`, `rose-multitenancy-spring` | Advanced / manual wiring |
 
 Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). They do **not** inherit `rose-parent` or `rose-build`.

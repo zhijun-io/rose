@@ -11,7 +11,7 @@ import io.zhijun.opentelemetry.autoconfigure.resource.OpenTelemetryResourceBuild
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OpenTelemetryConventionsAutoConfiguration}.
+ * Unit test for {@link OpenTelemetryConventionsAutoConfiguration}.
  */
 class OpenTelemetryConventionsAutoConfigurationTests {
 

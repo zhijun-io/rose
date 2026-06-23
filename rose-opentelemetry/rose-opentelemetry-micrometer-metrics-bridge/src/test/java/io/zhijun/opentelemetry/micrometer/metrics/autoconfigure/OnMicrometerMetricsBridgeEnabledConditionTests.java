@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link OnMicrometerMetricsBridgeEnabledCondition}.
+ * Unit test for {@link OnMicrometerMetricsBridgeEnabledCondition}.
  */
 class OnMicrometerMetricsBridgeEnabledConditionTests {
 

@@ -9,7 +9,7 @@ import io.zhijun.observation.conventions.AiObservationConventionsProvider;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link ObservationAutoConfiguration}.
+ * Unit test for {@link ObservationAutoConfiguration}.
  */
 class ObservationAutoConfigurationTests {
 

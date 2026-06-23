@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link OnOpenTelemetryResourceContributorCondition}.
+ * Unit test for {@link OnOpenTelemetryResourceContributorCondition}.
  */
 class OnOpenTelemetryResourceContributorConditionTests {
 

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit tests for {@link ContainerUtils}.
+ * Unit test for {@link ContainerUtils}.
  */
 class ContainerUtilsTests {
 

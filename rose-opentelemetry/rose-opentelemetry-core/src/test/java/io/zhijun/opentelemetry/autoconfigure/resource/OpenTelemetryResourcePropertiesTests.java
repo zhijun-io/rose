@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OpenTelemetryResourceProperties}.
+ * Unit test for {@link OpenTelemetryResourceProperties}.
  */
 class OpenTelemetryResourcePropertiesTests {
 

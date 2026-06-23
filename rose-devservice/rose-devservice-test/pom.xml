@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-devservice-core</artifactId>
+            <artifactId>rose-devservice-spring-boot</artifactId>
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>

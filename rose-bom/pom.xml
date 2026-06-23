@@ -31,12 +31,22 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
                 <artifactId>rose-spring-boot-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-spring-boot-actuator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-boot-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Data and persistence -->
@@ -115,47 +125,7 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-actuator</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-postgresql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-mysql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-redis</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-mongodb</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-kafka</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-rabbitmq</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-artemis</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-activemq</artifactId>
+                <artifactId>rose-devservice-spring-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -165,22 +135,67 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-ollama</artifactId>
+                <artifactId>rose-devservice-spring-boot-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-mqtt</artifactId>
+                <artifactId>rose-devservice-spring-boot-postgresql</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-openlit</artifactId>
+                <artifactId>rose-devservice-spring-boot-mysql</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-otel</artifactId>
+                <artifactId>rose-devservice-spring-boot-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-mongodb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-kafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-rabbitmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-artemis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-activemq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-ollama</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-mqtt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-openlit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-devservice-spring-boot-otel</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

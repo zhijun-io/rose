@@ -13,7 +13,7 @@ import ch.qos.logback.core.Appender;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link LogbackOpenTelemetryBridgeAutoConfiguration}.
+ * Unit test for {@link LogbackOpenTelemetryBridgeAutoConfiguration}.
  */
 class LogbackOpenTelemetryBridgeAutoConfigurationTests {
 

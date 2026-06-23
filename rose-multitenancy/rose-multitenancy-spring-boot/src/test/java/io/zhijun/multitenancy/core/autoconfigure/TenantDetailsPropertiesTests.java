@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Unit tests for {@link TenantDetailsProperties}.
+ * Unit test for {@link TenantDetailsProperties}.
  */
 class TenantDetailsPropertiesTests {
 

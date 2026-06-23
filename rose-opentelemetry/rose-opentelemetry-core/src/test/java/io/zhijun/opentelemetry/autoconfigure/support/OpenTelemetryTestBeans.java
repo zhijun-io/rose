@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Common beans for OpenTelemetry auto-configuration unit tests (Boot 2.7 has no {@code ApplicationContextRunner#withBean}).
+ * Common beans for OpenTelemetry auto-configuration unit test (Boot 2.7 has no {@code ApplicationContextRunner#withBean}).
  */
 @Configuration(proxyBeanMethods = false)
 public final class OpenTelemetryTestBeans {

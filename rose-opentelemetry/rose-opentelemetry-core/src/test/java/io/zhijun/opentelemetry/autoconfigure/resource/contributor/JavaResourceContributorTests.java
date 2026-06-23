@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link JavaResourceContributor}.
+ * Unit test for {@link JavaResourceContributor}.
  */
 @ExtendWith(MockitoExtension.class)
 class JavaResourceContributorTests {

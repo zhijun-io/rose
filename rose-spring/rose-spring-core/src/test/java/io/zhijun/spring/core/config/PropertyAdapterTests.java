@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link PropertyAdapter}.
+ * Unit test for {@link PropertyAdapter}.
  */
 @ExtendWith(MockitoExtension.class)
 class PropertyAdapterTests {

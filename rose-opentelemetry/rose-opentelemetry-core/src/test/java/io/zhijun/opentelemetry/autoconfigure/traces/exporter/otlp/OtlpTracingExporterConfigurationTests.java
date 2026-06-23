@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OtlpTracingExporterConfiguration}.
+ * Unit test for {@link OtlpTracingExporterConfiguration}.
  */
 class OtlpTracingExporterConfigurationTests {
 

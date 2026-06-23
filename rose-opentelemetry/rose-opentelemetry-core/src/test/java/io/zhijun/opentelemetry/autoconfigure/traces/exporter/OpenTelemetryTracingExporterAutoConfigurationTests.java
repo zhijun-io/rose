@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OpenTelemetryTracingExporterAutoConfiguration}.
+ * Unit test for {@link OpenTelemetryTracingExporterAutoConfiguration}.
  */
 class OpenTelemetryTracingExporterAutoConfigurationTests {
 

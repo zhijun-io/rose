@@ -9,7 +9,7 @@ import io.zhijun.multitenancy.core.detail.TenantDetails;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link PropertiesTenantDetailsService}.
+ * Unit test for {@link PropertiesTenantDetailsService}.
  */
 class PropertiesTenantDetailsServiceTests {
 

@@ -22,7 +22,7 @@ import io.zhijun.opentelemetry.autoconfigure.traces.OpenTelemetryPropagationProp
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link CompositeTextMapPropagator}.
+ * Unit test for {@link CompositeTextMapPropagator}.
  */
 class CompositeTextMapPropagatorTests {
 

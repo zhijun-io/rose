@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link DefaultTenantVerifier}.
+ * Unit test for {@link DefaultTenantVerifier}.
  */
 class DefaultTenantVerifierTests {
 

@@ -6,7 +6,7 @@ import org.testcontainers.utility.TestcontainersConfiguration;
 
 /**
  * Applies Testcontainers / Docker defaults when the environment is not already configured.
- * Used at application startup and in integration tests.
+ * Used at application startup and in integration test.
  */
 public final class DockerEnvironmentSupport {
 

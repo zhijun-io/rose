@@ -11,7 +11,7 @@ import io.zhijun.multitenancy.core.context.TenantContext;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Unit tests for {@link TenantObservationFilter}.
+ * Unit test for {@link TenantObservationFilter}.
  */
 class TenantObservationFilterTests {
 

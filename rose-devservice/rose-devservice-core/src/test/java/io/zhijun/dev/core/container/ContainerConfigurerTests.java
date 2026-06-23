@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Unit tests for {@link ContainerConfigurer}.
+ * Unit test for {@link ContainerConfigurer}.
  */
 @Incubating
 class ContainerConfigurerTests {

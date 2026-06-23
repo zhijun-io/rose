@@ -8,7 +8,7 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link MultipleAiObservationConventionsFailureAnalyzer}.
+ * Unit test for {@link MultipleAiObservationConventionsFailureAnalyzer}.
  */
 class MultipleAiObservationConventionsFailureAnalyzerTests {
 

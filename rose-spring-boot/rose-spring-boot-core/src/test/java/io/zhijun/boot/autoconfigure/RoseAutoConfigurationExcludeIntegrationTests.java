@@ -12,7 +12,7 @@ import io.zhijun.boot.env.defaults.DefaultConfigPropertiesEnvironmentPostProcess
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * End-to-end tests for {@code config/default/*} exclusions and {@link ConfigurableAutoConfigurationImportFilter}.
+ * End-to-end test for {@code config/default/*} exclusions and {@link ConfigurableAutoConfigurationImportFilter}.
  */
 class RoseAutoConfigurationExcludeIntegrationTests {
 

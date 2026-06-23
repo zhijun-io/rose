@@ -12,7 +12,7 @@ import io.zhijun.multitenancy.core.observability.TenantObservationFilter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link MultitenancyCoreAutoConfiguration}.
+ * Unit test for {@link MultitenancyCoreAutoConfiguration}.
  */
 class MultitenancyCoreAutoConfigurationTests {
 

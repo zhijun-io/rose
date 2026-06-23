@@ -10,7 +10,7 @@ import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link TenantDetailsConfiguration}.
+ * Unit test for {@link TenantDetailsConfiguration}.
  */
 class TenantDetailsConfigurationTests {
 

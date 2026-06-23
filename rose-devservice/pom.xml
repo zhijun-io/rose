@@ -13,23 +13,24 @@
 
     <artifactId>rose-devservice</artifactId>
     <packaging>pom</packaging>
-    <name>Rose DevSrevice</name>
+    <name>Rose DevService</name>
 
     <modules>
         <module>rose-devservice-core</module>
-        <module>rose-devservice-actuator</module>
-        <module>rose-devservice-postgresql</module>
-        <module>rose-devservice-mysql</module>
-        <module>rose-devservice-redis</module>
-        <module>rose-devservice-mongodb</module>
-        <module>rose-devservice-kafka</module>
-        <module>rose-devservice-rabbitmq</module>
-        <module>rose-devservice-artemis</module>
-        <module>rose-devservice-activemq</module>
-        <module>rose-devservice-ollama</module>
-        <module>rose-devservice-mqtt</module>
-        <module>rose-devservice-openlit</module>
-        <module>rose-devservice-otel</module>
+        <module>rose-devservice-spring-boot</module>
         <module>rose-devservice-test</module>
+        <module>rose-devservice-spring-boot-actuator</module>
+        <module>rose-devservice-spring-boot-postgresql</module>
+        <module>rose-devservice-spring-boot-mysql</module>
+        <module>rose-devservice-spring-boot-redis</module>
+        <module>rose-devservice-spring-boot-mongodb</module>
+        <module>rose-devservice-spring-boot-kafka</module>
+        <module>rose-devservice-spring-boot-rabbitmq</module>
+        <module>rose-devservice-spring-boot-artemis</module>
+        <module>rose-devservice-spring-boot-activemq</module>
+        <module>rose-devservice-spring-boot-ollama</module>
+        <module>rose-devservice-spring-boot-mqtt</module>
+        <module>rose-devservice-spring-boot-openlit</module>
+        <module>rose-devservice-spring-boot-otel</module>
     </modules>
 </project>

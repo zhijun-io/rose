@@ -22,7 +22,7 @@ import static org.mockito.Mockito.mock;
 import io.zhijun.opentelemetry.autoconfigure.support.OtelExporterMocks;
 
 /**
- * Unit tests for {@link OpenTelemetryLoggingAutoConfiguration}.
+ * Unit test for {@link OpenTelemetryLoggingAutoConfiguration}.
  */
 class OpenTelemetryLoggingAutoConfigurationTests {
 

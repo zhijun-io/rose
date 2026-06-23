@@ -11,7 +11,7 @@ import io.zhijun.opentelemetry.autoconfigure.logs.exporter.otlp.OtlpLoggingExpor
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OpenTelemetryLoggingExporterAutoConfiguration}.
+ * Unit test for {@link OpenTelemetryLoggingExporterAutoConfiguration}.
  */
 class OpenTelemetryLoggingExporterAutoConfigurationTests {
 

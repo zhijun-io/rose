@@ -9,7 +9,7 @@ import io.opentelemetry.sdk.common.export.RetryPolicy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link RetryConfig}.
+ * Unit test for {@link RetryConfig}.
  */
 class RetryConfigTests {
 

@@ -6,7 +6,7 @@ import static io.zhijun.opentelemetry.autoconfigure.metrics.OpenTelemetryMetrics
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OpenTelemetryMetricsProperties}.
+ * Unit test for {@link OpenTelemetryMetricsProperties}.
  */
 class OpenTelemetryMetricsPropertiesTests {
 

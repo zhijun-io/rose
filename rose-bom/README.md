@@ -38,14 +38,26 @@
 
 与 `rose-bom/pom.xml` 同步；新发布 artifact **仅须加入 `rose-bom`**（`rose-parent` 通过 import 继承）。
 
+### 命名约定（`-spring-boot`）
+
+| 模式 | 含义 | 示例 |
+|------|------|------|
+| `rose-xxx-spring-boot` | 该域**共享** Boot 装配（`AutoConfiguration`、`spring.factories`），每域一个 | `rose-multitenancy-spring-boot`、`rose-devservice-spring-boot` |
+| `rose-xxx-spring-boot-{slice}` | 可选 Boot slice（仍属 Boot 层，非 `core`/`spring`） | `rose-devservice-spring-boot-postgresql`、`rose-spring-boot-web` |
+| `rose-xxx-core` / `rose-xxx-spring` | 无 Boot / 无 Boot 自动配置 | `rose-devservice-core`、`rose-multitenancy-spring` |
+
+Dev Services 连接器保持 `rose-devservice-spring-boot-{tech}`，**不**缩短为 `rose-devservice-{tech}`。
+
 ### Base
 
 | Artifact | 说明 |
 |----------|------|
 | `rose-core` | 纯 Java 注解/契约 |
 | `rose-spring-core` | Spring 扩展（属性源、env 刷新、配置绑定） |
+| `rose-spring-web` | MVC 端点注册表、HandlerMethod SPI（无 Boot，🚧 脚手架） |
 | `rose-spring-boot-core` | Boot 工具 + 应用基线运行时（`RoseBinder`、`config/default/*`、诊断、`spring-boot-starter`） |
 | `rose-spring-boot-actuator` | 调度监控等 Actuator 扩展 |
+| `rose-spring-boot-web` | Web MVC Boot 自动配置（🚧 脚手架） |
 
 ### Data & persistence
 
@@ -78,10 +90,11 @@
 
 | Artifact | 说明 |
 |----------|------|
-| `rose-devservice-core` | BootstrapMode、容器注册 |
-| `rose-devservice-actuator` | `/actuator/devservices` |
-| `rose-devservice-{postgresql,mysql,redis,mongodb,kafka,rabbitmq,artemis,activemq,ollama,mqtt,openlit,otel-collector}` | 连接器（`runtime` + `optional`） |
-| `rose-devservice-tests` | 集成测试共享基类（`test` scope） |
+| `rose-devservice-core` | API、`BootstrapMode`、Testcontainers 工具 |
+| `rose-devservice-spring-boot` | Boot 自动配置与容器注册 |
+| `rose-devservice-test` | 集成测试共享基类（`test` scope） |
+| `rose-devservice-spring-boot-actuator` | `/actuator/devservices` |
+| `rose-devservice-spring-boot-{postgresql,mysql,redis,mongodb,kafka,rabbitmq,artemis,activemq,ollama,mqtt,openlit,otel}` | 连接器（`runtime` + `optional`） |
 
 ### 不在 BOM 中
 

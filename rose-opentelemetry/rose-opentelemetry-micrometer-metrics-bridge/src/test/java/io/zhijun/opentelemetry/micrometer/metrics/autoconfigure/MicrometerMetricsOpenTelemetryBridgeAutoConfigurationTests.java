@@ -21,7 +21,7 @@ import io.zhijun.opentelemetry.autoconfigure.metrics.exporter.OpenTelemetryMetri
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link MicrometerMetricsOpenTelemetryBridgeAutoConfiguration}.
+ * Unit test for {@link MicrometerMetricsOpenTelemetryBridgeAutoConfiguration}.
  */
 class MicrometerMetricsOpenTelemetryBridgeAutoConfigurationTests {
 

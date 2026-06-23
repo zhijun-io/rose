@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link OnOpenTelemetryLoggingExporterCondition}.
+ * Unit test for {@link OnOpenTelemetryLoggingExporterCondition}.
  */
 class OnOpenTelemetryLoggingExporterConditionTests {
 

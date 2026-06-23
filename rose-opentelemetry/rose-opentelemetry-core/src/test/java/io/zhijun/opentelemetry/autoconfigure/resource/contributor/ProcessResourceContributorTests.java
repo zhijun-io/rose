@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.verify;
 
 /**
- * Unit tests for {@link ProcessResourceContributor}.
+ * Unit test for {@link ProcessResourceContributor}.
  */
 @ExtendWith(MockitoExtension.class)
 class ProcessResourceContributorTests {

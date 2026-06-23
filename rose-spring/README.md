@@ -6,7 +6,8 @@ Spring Framework 层扩展（**非 Boot**）：环境刷新、属性源、配置
 
 | 模块 | Artifact | 说明 |
 |------|----------|------|
-| `rose-spring-core` | `rose-spring-core` | 全部 Spring 扩展实现 |
+| `rose-spring-core` | `rose-spring-core` | 环境刷新、属性源、配置 Bean 绑定 |
+| `rose-spring-web` | `rose-spring-web` | MVC 端点注册表、HandlerMethod 拦截 SPI（无 Boot，🚧 脚手架） |
 
 ## 消费方式
 
@@ -49,7 +50,7 @@ Spring Framework 层扩展（**非 Boot**）：环境刷新、属性源、配置
 
 | 主题 | 状态 | 文档 |
 |------|------|------|
-| `rose-spring-web` | ❌ 无代码 | [rose-spring-web-handler-design.md](../docs/rose-spring-web-handler-design.md) |
+| `rose-spring-web` | 🚧 脚手架 | [rose-spring-web-handler-design.md](../docs/rose-spring-web-handler-design.md) |
 | `rose-i18n` | ❌ 无代码 | [rose-i18n-design.md](../docs/rose-i18n-design.md) |
 | Boot `@ConfigurationProperties` 自动 rebind | 远期 | [configuration-bean-binding-design](../docs/rose-spring-configuration-bean-binding-design.md) §7 |
 | JDBC / Test 子模块 | ❌ | microsphere-spring 有 `jdbc`、`test` 等专题 |
@@ -64,7 +65,7 @@ Arconia 侧重 Quarkus CDI / 配置扩展。Rose Spring 层解决的是 **Spring
 |-------------|------|------|
 | [microsphere-spring](https://github.com/microsphere-projects/microsphere-spring) 配置/属性源 | `rose-spring-core` propertysource + binder | ✅ 部分已有 |
 | microsphere-spring env 刷新 | `env.refresh` | ✅ 已有 |
-| microsphere-spring-web / webmvc | — | ❌ 见 `rose-spring-web` 设计 |
+| microsphere-spring-web / webmvc | `rose-spring-web` | 🚧 脚手架 |
 | microsphere-i18n | — | ❌ 见 `rose-i18n` 设计 |
 
 ## 建议下一步

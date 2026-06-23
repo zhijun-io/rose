@@ -20,7 +20,7 @@ import io.zhijun.multitenancy.web.resolver.HeaderTenantResolver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Integration tests for HTTP tenant resolution auto-configuration.
+ * Integration test for HTTP tenant resolution auto-configuration.
  */
 class MultitenancyWebFilterIntegrationTests {
 

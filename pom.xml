@@ -13,6 +13,8 @@
 
     <artifactId>rose-parent</artifactId>
     <packaging>pom</packaging>
+    <name>Rose Parent</name>
+    <description>Rose Parent</description>
 
     <properties>
         <spring-boot.version>2.7.18</spring-boot.version>

@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link OnOpenTelemetryTracingCondition}.
+ * Unit test for {@link OnOpenTelemetryTracingCondition}.
  */
 class OnOpenTelemetryTracingConditionTests {
 

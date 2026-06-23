@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link HostResourceContributor}.
+ * Unit test for {@link HostResourceContributor}.
  */
 @ExtendWith(MockitoExtension.class)
 class HostResourceContributorTests {

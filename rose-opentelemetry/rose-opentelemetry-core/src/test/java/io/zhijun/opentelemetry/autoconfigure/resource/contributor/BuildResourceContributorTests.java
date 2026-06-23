@@ -14,7 +14,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link BuildResourceContributor}.
+ * Unit test for {@link BuildResourceContributor}.
  */
 class BuildResourceContributorTests {
 

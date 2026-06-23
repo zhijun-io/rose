@@ -7,7 +7,7 @@ import io.zhijun.multitenancy.core.observability.Cardinality;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link TenantObservationProperties}.
+ * Unit test for {@link TenantObservationProperties}.
  */
 class TenantObservationPropertiesTests {
 

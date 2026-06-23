@@ -86,7 +86,7 @@ Docker-backed local services for development. Add `rose-spring-boot-core`, optio
 ```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-devservice-postgresql</artifactId>
+    <artifactId>rose-devservice-spring-boot-postgresql</artifactId>
     <scope>runtime</scope>
     <optional>true</optional>
 </dependency>
@@ -150,7 +150,7 @@ Single source: `rose-build/pom.xml` → `<revision>…</revision>`. All modules 
 
 ```bash
 mvn validate
-mvn test                 # unit tests (*Test / *Tests)
+mvn test                 # unit test (*Test / *Tests)
 mvn verify               # unit + integration (*IT; needs Docker; no JaCoCo)
 mvn verify -DskipITs     # verify lifecycle without ITs
 mvn verify -Pcoverage    # optional: JaCoCo (CI JDK 21); open <module>/target/site/jacoco/index.html

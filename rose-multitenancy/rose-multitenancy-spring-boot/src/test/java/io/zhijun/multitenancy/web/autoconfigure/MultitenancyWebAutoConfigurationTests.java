@@ -15,7 +15,7 @@ import io.zhijun.multitenancy.web.resolver.HttpRequestTenantResolver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link MultitenancyWebAutoConfiguration}.
+ * Unit test for {@link MultitenancyWebAutoConfiguration}.
  */
 class MultitenancyWebAutoConfigurationTests {
 

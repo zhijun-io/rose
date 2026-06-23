@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
- * Unit tests for {@link MicrometerOtlpConfig}.
+ * Unit test for {@link MicrometerOtlpConfig}.
  */
 class MicrometerOtlpConfigTests {
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link VolumeMapping}.
+ * Unit test for {@link VolumeMapping}.
  */
 class VolumeMappingTests {
 

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link ConsoleMetricsExporterConfiguration}.
+ * Unit test for {@link ConsoleMetricsExporterConfiguration}.
  */
 class ConsoleMetricsExporterConfigurationTests {
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link JdbcDevServiceProperties}.
+ * Unit test for {@link JdbcDevServiceProperties}.
  */
 class JdbcDevServicePropertiesTests {
 

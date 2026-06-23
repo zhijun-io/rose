@@ -65,7 +65,7 @@ Add a connector with `runtime` + `optional` scope and the matching Spring Boot s
 ```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-devservice-postgresql</artifactId>
+    <artifactId>rose-devservice-spring-boot-postgresql</artifactId>
     <scope>runtime</scope>
     <optional>true</optional>
 </dependency>
@@ -89,9 +89,9 @@ git clone https://github.com/zhijun-io/rose.git
 cd rose
 
 mvn validate          # enforcer rules
-mvn test              # unit tests (*Test / *Tests)
+mvn test              # unit test (*Test / *Tests)
 mvn verify            # unit + integration (*IT; needs Docker)
-mvn verify -DskipITs  # skip integration tests
+mvn verify -DskipITs  # skip integration test
 mvn verify -Pcoverage # JaCoCo reports (CI uses JDK 21)
 ```
 

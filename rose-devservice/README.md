@@ -6,16 +6,17 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 
 ### 子模块
 
-| 模块 | Artifact | 角色                                            |
-|------|----------|-----------------------------------------------|
-| Core | `rose-devservice-core` | API、`BootstrapMode`、容器注册、`addDynamicProperty` |
-| Actuator | `rose-devservice-actuator` | `/actuator/local`（`@ConditionalOnDevMode`）    |
-| Connectors | `rose-devservice-{tech}` | 按技术可选 `runtime` 依赖                            |
-| Tests | `rose-devservice-tests` | 集成测试共享支持（test scope）                          |
+| 模块 | Artifact | 角色 |
+|------|----------|------|
+| Core | `rose-devservice-core` | API、`BootstrapMode`、Testcontainers 工具（无 Boot 自动配置） |
+| Spring Boot | `rose-devservice-spring-boot` | 注册、`addDynamicProperty`、Bootstrap / 全局 AutoConfiguration |
+| Test | `rose-devservice-test` | 集成测试共享支持（`test` scope） |
+| Actuator | `rose-devservice-spring-boot-actuator` | `/actuator/local`（`@ConditionalOnDevMode`） |
+| Connectors | `rose-devservice-spring-boot-{tech}` | 按技术可选 `runtime` 依赖 |
 
-**连接器（reactor）**：`postgresql`、`mysql`、`redis`、`mongodb`、`kafka`、`rabbitmq`、`artemis`、`activemq`、`ollama`、`mqtt`、`openlit`、`otel-collector`。
+**连接器（reactor）**：`postgresql`、`mysql`、`redis`、`mongodb`、`kafka`、`rabbitmq`、`artemis`、`activemq`、`ollama`、`mqtt`、`openlit`、`otel`。
 
-> 目录中存在 `rose-devservice-api` / `rose-devservice-bootstrap` 源码，逻辑已并入 core，**未列入** reactor。
+> 无 `rose-devservice-spring`：Dev Services 面向 Boot 生命周期，共享装配在 `rose-devservice-spring-boot`。
 
 ### 已实现
 
@@ -71,7 +72,15 @@ Override: `-Drose.bootstrap.mode=dev|test|prod`
 
 **Local development**: `runtime` + `optional` (or Gradle `testAndDevelopmentOnly`); `rose.bootstrap.mode=dev`.
 
-**Actuator**: add `rose-devservice-actuator` when Spring Boot Actuator is on the classpath.
+**Actuator**: add `rose-devservice-spring-boot-actuator` when Spring Boot Actuator is on the classpath.
+
+## 迁移（artifact 重命名）
+
+| 旧 | 新 |
+|----|-----|
+| `rose-devservice-actuator` | `rose-devservice-spring-boot-actuator` |
+| `rose-devservice-postgresql` 等 | `rose-devservice-spring-boot-postgresql` 等 |
+| Boot 装配（原在 core） | `rose-devservice-spring-boot`（共享层，每域一个） |
 
 ## Module defaults
 

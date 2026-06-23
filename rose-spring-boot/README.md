@@ -10,6 +10,7 @@ Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](ht
 |--------|------|
 | `rose-spring-boot-core` | `config/default/*` EPP、`RoseBinder` + `RoseBindListener`、`rose.autoconfigure.exclude` 累加、`ArtifactsCollisionDiagnosisListener`、`@ConditionalOnDevMode`、应用基线运行时（含 `spring-boot-starter`） |
 | `rose-spring-boot-actuator` | `MonitoredThreadPoolTaskScheduler` + Micrometer |
+| `rose-spring-boot-web` | Spring Web Boot 自动配置（端点注册表、Handler SPI，🚧 脚手架） |
 
 ### 未实现 / 规划中
 
@@ -50,6 +51,7 @@ Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](ht
 | `rose-spring-boot` | `rose-spring-boot` (pom) | 聚合父 POM |
 | `rose-spring-boot-core` | `rose-spring-boot-core` | 共享 Boot 工具 + 应用基线运行时 |
 | `rose-spring-boot-actuator` | `rose-spring-boot-actuator` | 调度监控、诊断扩展（可选） |
+| `rose-spring-boot-web` | `rose-spring-boot-web` | Web MVC Boot 自动配置（🚧 脚手架） |
 
 ## 消费方式
 
@@ -115,8 +117,8 @@ src/main/resources/config/default/<模块名>.yml    # 或 .yaml
 | `rose.autoconfigure.exclude` | 多模块合并排除 AutoConfiguration（见下文） |
 | `setDefaultProperty` | 同上 |
 | `addDynamicProperty` | 最高优先级，开发/测试时覆盖手动配置 |
-| `BootstrapMode` | 见 `rose-devservice-core` |
-| Actuator 端点 | `rose-devservice-actuator`，`@ConditionalOnDevMode` |
+| `BootstrapMode` | 见 `rose-devservice-core`；Boot 装配见 `rose-devservice-spring-boot` |
+| Actuator 端点 | `rose-devservice-spring-boot-actuator`，`@ConditionalOnDevMode` |
 
 Boot 2.7 暂无 `@ServiceConnection`，连接注入仍走 `addDynamicProperty`（Arconia Boot 3 路径后续再对齐）。
 
@@ -169,7 +171,7 @@ ConfigurableAutoConfigurationImportFilter.addExcludedAutoConfigurationClass(envi
 | `rose-spring-boot-actuator` | `META-INF/config/default/actuator.properties` | —（`rose.actuator.task-scheduler.*` 推荐默认） |
 | `rose-opentelemetry-core` | `opentelemetry.properties` | `OtlpMetricsExportAutoConfiguration` |
 | `rose-opentelemetry-micrometer-registry-otlp` | `micrometer-registry-otlp.properties` | 同上（累加） |
-| `rose-devservice-artemis` | `artemis.properties` | —（仅 `spring.artemis.mode` 推荐值） |
+| `rose-devservice-spring-boot-artemis` | `artemis.properties` | —（仅 `spring.artemis.mode` 推荐值） |
 
 新模块如需排除 Boot 自动配置，在各自 `config/default/<module>.properties` 声明；勿在 `EnvironmentPostProcessor` 里拼接 `spring.autoconfigure.exclude`。
 

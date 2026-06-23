@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
- * Unit tests for {@link OpenTelemetryMetricsAutoConfiguration}.
+ * Unit test for {@link OpenTelemetryMetricsAutoConfiguration}.
  */
 class OpenTelemetryMetricsAutoConfigurationTests {
 

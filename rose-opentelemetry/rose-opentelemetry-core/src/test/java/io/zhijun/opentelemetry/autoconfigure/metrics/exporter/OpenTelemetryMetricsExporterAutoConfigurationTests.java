@@ -12,7 +12,7 @@ import io.zhijun.opentelemetry.autoconfigure.metrics.exporter.otlp.OtlpMetricsEx
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OpenTelemetryMetricsExporterAutoConfiguration}.
+ * Unit test for {@link OpenTelemetryMetricsExporterAutoConfiguration}.
  */
 class OpenTelemetryMetricsExporterAutoConfigurationTests {
 

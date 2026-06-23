@@ -11,7 +11,7 @@ import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link DockerEnvironmentSupport}.
+ * Unit test for {@link DockerEnvironmentSupport}.
  */
 class DockerEnvironmentSupportTests {
 

@@ -11,7 +11,7 @@ import io.zhijun.multitenancy.core.context.TenantContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link TenantIdArgumentResolver}.
+ * Unit test for {@link TenantIdArgumentResolver}.
  */
 class TenantIdArgumentResolverTests {
 

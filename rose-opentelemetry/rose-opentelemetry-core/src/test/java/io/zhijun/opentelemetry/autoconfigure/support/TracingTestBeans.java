@@ -8,7 +8,7 @@ import io.opentelemetry.sdk.trace.export.SpanExporter;
 import io.zhijun.opentelemetry.autoconfigure.support.OtelExporterMocks;
 
 /**
- * Beans required by tracing auto-configuration unit tests.
+ * Beans required by tracing auto-configuration unit test.
  */
 @Configuration(proxyBeanMethods = false)
 public final class TracingTestBeans {

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link MicrometerRegistryOtlpProperties}.
+ * Unit test for {@link MicrometerRegistryOtlpProperties}.
  */
 class MicrometerRegistryOtlpPropertiesTests {
 

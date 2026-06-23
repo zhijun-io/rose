@@ -23,7 +23,7 @@ import io.zhijun.opentelemetry.autoconfigure.resource.contributor.ProcessResourc
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link OpenTelemetryResourceAutoConfiguration}.
+ * Unit test for {@link OpenTelemetryResourceAutoConfiguration}.
  */
 class OpenTelemetryResourceAutoConfigurationTests {
 
