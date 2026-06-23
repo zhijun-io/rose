@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-ollama</artifactId>
-    <name>Rose DevSrevice Ollama</name>
+    <name>Rose DevService Ollama</name>
 
     <dependencies>
         <dependency>

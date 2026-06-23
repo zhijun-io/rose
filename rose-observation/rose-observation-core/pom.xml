@@ -12,27 +12,13 @@
     </parent>
 
     <artifactId>rose-observation-core</artifactId>
-    <name>Rose Observation</name>
-    <description>AI observation convention conflict detection</description>
+    <name>Rose Observation Core</name>
+    <description>AI observation conventions API (no Boot auto-configuration)</description>
 
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

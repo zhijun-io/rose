@@ -4,10 +4,13 @@ import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.dev.core.registration.DevServiceRegistrar;
 import io.zhijun.dev.core.registration.DevServiceRegistry;
@@ -23,6 +26,11 @@ import io.zhijun.dev.ollama.OllamaDevServicesAutoConfiguration.OllamaDevServiceR
 @EnableConfigurationProperties(OllamaDevServiceProperties.class)
 @Import(OllamaDevServiceRegistrar.class)
 public final class OllamaDevServicesAutoConfiguration {
+
+    @Bean
+    DevServiceProvider ollamaDevServiceProvider() {
+        return DevServiceProvider.of("ollama", DevServiceCategories.OLLAMA);
+    }
 
     static class OllamaDevServiceRegistrar extends DevServiceRegistrar {
 

@@ -8,7 +8,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * OpenTelemetry Collector container configured for Rose DevSrevice.
+ * OpenTelemetry Collector container configured for Rose DevService.
  */
 final class RoseOtelCollectorContainer extends GenericContainer<RoseOtelCollectorContainer> {
 

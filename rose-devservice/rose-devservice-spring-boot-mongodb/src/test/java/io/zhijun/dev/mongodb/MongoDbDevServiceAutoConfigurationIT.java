@@ -28,7 +28,7 @@ class MongoDbDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
 
     @Override
     protected Class<?> getContainerClass() {
-        return MongoDBContainer.class;
+        return RoseMongoDbContainer.class;
     }
 
     @Override

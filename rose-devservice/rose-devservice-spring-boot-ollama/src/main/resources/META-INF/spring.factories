@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-ollama.io.zhijun.local.OllamaDevServicesAutoConfiguration
+io.zhijun.dev.ollama.OllamaDevServicesAutoConfiguration

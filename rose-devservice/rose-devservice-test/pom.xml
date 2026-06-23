@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-test</artifactId>
-    <name>Rose DevSrevice Tests</name>
+    <name>Rose DevService Tests</name>
 
     <dependencies>
         <dependency>

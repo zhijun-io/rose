@@ -8,7 +8,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * Ollama container configured for Rose DevSrevice.
+ * Ollama container configured for Rose DevService.
  */
 final class RoseOllamaContainer extends GenericContainer<RoseOllamaContainer> {
 

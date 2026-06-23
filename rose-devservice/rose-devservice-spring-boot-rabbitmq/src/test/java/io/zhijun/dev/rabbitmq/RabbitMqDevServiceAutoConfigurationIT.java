@@ -27,7 +27,7 @@ class RabbitMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
 
     @Override
     protected Class<?> getContainerClass() {
-        return RabbitMQContainer.class;
+        return RoseRabbitMqContainer.class;
     }
 
     @Override

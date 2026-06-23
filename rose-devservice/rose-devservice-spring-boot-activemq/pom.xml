@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-activemq</artifactId>
-    <name>Rose DevSrevice ActiveMQ</name>
+    <name>Rose DevService ActiveMQ</name>
 
     <dependencies>
         <dependency>

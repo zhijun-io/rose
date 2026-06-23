@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-openlit</artifactId>
-    <name>Rose DevSrevice OpenLit</name>
+    <name>Rose DevService OpenLit</name>
 
     <dependencies>
         <dependency>

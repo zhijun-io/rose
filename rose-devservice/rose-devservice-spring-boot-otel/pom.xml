@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-otel</artifactId>
-    <name>Rose DevSrevice OpenTelemetry Collector</name>
+    <name>Rose DevService OpenTelemetry Collector</name>
 
     <dependencies>
         <dependency>

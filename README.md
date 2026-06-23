@@ -79,9 +79,9 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 
 ## Features
 
-### Local services
+### Dev services
 
-Docker-backed local services for development. Add `rose-spring-boot-core`, optional `rose-devservice-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
+Docker-backed dev services for development. Add `rose-spring-boot-core`, optional `rose-devservice-spring-boot-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
 
 ```xml
 <dependency>

@@ -8,7 +8,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * PostgreSQL container configured for Rose DevSrevice.
+ * PostgreSQL container configured for Rose DevService.
  */
 final class RosePostgreSqlContainer extends PostgreSQLContainer<RosePostgreSqlContainer> {
 

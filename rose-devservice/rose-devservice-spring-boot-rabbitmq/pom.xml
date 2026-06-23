@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-rabbitmq</artifactId>
-    <name>Rose DevSrevice RabbitMQ</name>
+    <name>Rose DevService RabbitMQ</name>
 
     <dependencies>
         <dependency>

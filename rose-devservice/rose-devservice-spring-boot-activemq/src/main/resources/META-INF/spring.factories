@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-activemq.io.zhijun.local.ActiveMqDevServicesAutoConfiguration
+io.zhijun.dev.activemq.ActiveMqDevServicesAutoConfiguration

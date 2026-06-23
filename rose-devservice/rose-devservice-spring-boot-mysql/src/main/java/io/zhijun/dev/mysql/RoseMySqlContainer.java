@@ -7,7 +7,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * MySQL container configured for Rose DevSrevice.
+ * MySQL container configured for Rose DevService.
  */
 final class RoseMySqlContainer extends MySQLContainer<RoseMySqlContainer> {
 

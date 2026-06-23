@@ -5,10 +5,13 @@ import io.zhijun.dev.core.autoconfigure.DevServiceAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
+import io.zhijun.dev.api.provider.DevServiceCategories;
+import io.zhijun.dev.api.provider.DevServiceProvider;
 import io.zhijun.dev.core.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.dev.core.registration.DevServiceRegistrar;
 import io.zhijun.dev.core.registration.DevServiceRegistry;
@@ -24,6 +27,11 @@ import io.zhijun.dev.rabbitmq.RabbitMqDevServicesAutoConfiguration.RabbitMqDevSe
 @EnableConfigurationProperties(RabbitMqDevServiceProperties.class)
 @Import(RabbitMqDevServiceRegistrar.class)
 public final class RabbitMqDevServicesAutoConfiguration {
+
+    @Bean
+    DevServiceProvider rabbitMqDevServiceProvider() {
+        return DevServiceProvider.of("rabbitmq", DevServiceCategories.RABBITMQ);
+    }
 
     static class RabbitMqDevServiceRegistrar extends DevServiceRegistrar {
 

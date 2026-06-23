@@ -12,7 +12,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * ActiveMQ Artemis container for Rose DevSrevice.
+ * ActiveMQ Artemis container for Rose DevService.
  */
 final class RoseArtemisContainer extends GenericContainer<RoseArtemisContainer> {
 

@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-mongodb</artifactId>
-    <name>Rose DevSrevice MongoDB</name>
+    <name>Rose DevService MongoDB</name>
 
     <dependencies>
         <dependency>

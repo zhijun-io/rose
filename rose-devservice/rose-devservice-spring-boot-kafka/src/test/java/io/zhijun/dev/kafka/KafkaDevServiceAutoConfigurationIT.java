@@ -28,7 +28,7 @@ class KafkaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguration
 
     @Override
     protected Class<?> getContainerClass() {
-        return KafkaContainer.class;
+        return RoseKafkaContainer.class;
     }
 
     @Override

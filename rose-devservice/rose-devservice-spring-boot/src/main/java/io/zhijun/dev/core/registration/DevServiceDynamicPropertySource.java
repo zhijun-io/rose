@@ -22,7 +22,7 @@ import io.zhijun.core.annotation.Incubating;
 @Incubating
 public final class DevServiceDynamicPropertySource extends MapPropertySource {
 
-    public static final String PROPERTY_SOURCE_NAME = "Rose DevSrevice Dynamic Properties";
+    public static final String PROPERTY_SOURCE_NAME = "Rose DevService Dynamic Properties";
 
     private final Map<String, Supplier<Object>> valueSuppliers;
 

@@ -11,12 +11,23 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 | Core | `rose-devservice-core` | API、`BootstrapMode`、Testcontainers 工具（无 Boot 自动配置） |
 | Spring Boot | `rose-devservice-spring-boot` | 注册、`addDynamicProperty`、Bootstrap / 全局 AutoConfiguration |
 | Test | `rose-devservice-test` | 集成测试共享支持（`test` scope） |
-| Actuator | `rose-devservice-spring-boot-actuator` | `/actuator/local`（`@ConditionalOnDevMode`） |
+| Actuator | `rose-devservice-spring-boot-actuator` | `/actuator/devservices`（`@ConditionalOnDevMode`） |
 | Connectors | `rose-devservice-spring-boot-{tech}` | 按技术可选 `runtime` 依赖 |
 
 **连接器（reactor）**：`postgresql`、`mysql`、`redis`、`mongodb`、`kafka`、`rabbitmq`、`artemis`、`activemq`、`ollama`、`mqtt`、`openlit`、`otel`。
 
 > 无 `rose-devservice-spring`：Dev Services 面向 Boot 生命周期，共享装配在 `rose-devservice-spring-boot`。
+
+### 包名
+
+| 模块 | 根包 |
+|------|------|
+| `rose-devservice-core` | `io.zhijun.dev.api.*`、`io.zhijun.dev.bootstrap.*`、`io.zhijun.dev.core.{container,docker,util}` |
+| `rose-devservice-spring-boot` | `io.zhijun.dev.core.{autoconfigure,registration}`、`io.zhijun.dev.autoconfigure.bootstrap.*` |
+| `rose-devservice-spring-boot-actuator` | `io.zhijun.dev.actuator.*` |
+| `rose-devservice-spring-boot-{tech}` | `io.zhijun.dev.{tech}.*` |
+
+Artifact 为 `devservice`，Java 包缩写为 `dev`（与平台 `rose-spring-boot-*` → `io.zhijun.boot.*` 同理）。`*.core.autoconfigure` 类位于 `spring-boot` 模块、包名仍用 `core`，与 `rose-multitenancy` 一致。
 
 ### 已实现
 
@@ -24,7 +35,7 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 - `DevServicesRegistrar.addDynamicProperty`（最高优先级动态属性）
 - Docker 环境检测（OrbStack / 默认 socket）
 - 各连接器 AutoConfiguration + 集成测试
-- `MultipleDevServicesFailureAnalyzer`
+- `MultipleDevServiceFailureAnalyzer`
 - 连接器 `config/default/*.properties` 静态推荐默认
 
 ### 未实现 / 规划中
@@ -42,7 +53,7 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 | 动态配置注入 | `addDynamicProperty`         | ✅ |
 | `config/default` 式静态默认 | 连接器 `config/default/*` + EPP | ✅ |
 | `@ServiceConnection` | —                            | ❌ Boot 3 |
-| Quarkus Dev UI | Actuator `/local`            | ⚠️ 部分（Boot Actuator） |
+| Quarkus Dev UI | Actuator `/devservices`      | ⚠️ 部分（Boot Actuator） |
 
 ### 对标 Microsphere
 

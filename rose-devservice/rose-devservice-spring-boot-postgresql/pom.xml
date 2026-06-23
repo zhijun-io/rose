@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-postgresql</artifactId>
-    <name>Rose DevSrevice PostgreSQL</name>
+    <name>Rose DevService PostgreSQL</name>
 
     <dependencies>
         <dependency>

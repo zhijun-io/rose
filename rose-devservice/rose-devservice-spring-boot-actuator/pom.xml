@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-actuator</artifactId>
-    <name>Rose DevSrevice Actuator</name>
+    <name>Rose DevService Actuator</name>
     <description>Actuator endpoint for Dev Services</description>
 
     <dependencies>

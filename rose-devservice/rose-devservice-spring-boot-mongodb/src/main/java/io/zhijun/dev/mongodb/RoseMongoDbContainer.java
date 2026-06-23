@@ -7,7 +7,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * MongoDB container configured for Rose DevSrevice.
+ * MongoDB container configured for Rose DevService.
  */
 final class RoseMongoDbContainer extends MongoDBContainer {
 

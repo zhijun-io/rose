@@ -8,7 +8,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * Redis container configured for Rose DevSrevice.
+ * Redis container configured for Rose DevService.
  */
 final class RoseRedisContainer extends GenericContainer<RoseRedisContainer> {
 

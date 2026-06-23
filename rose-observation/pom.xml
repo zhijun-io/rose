@@ -17,5 +17,6 @@
 
     <modules>
         <module>rose-observation-core</module>
+        <module>rose-observation-spring-boot</module>
     </modules>
 </project>

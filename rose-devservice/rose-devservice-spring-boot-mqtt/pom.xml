@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-mqtt</artifactId>
-    <name>Rose DevSrevice MQTT</name>
+    <name>Rose DevService MQTT</name>
 
     <dependencies>
         <dependency>

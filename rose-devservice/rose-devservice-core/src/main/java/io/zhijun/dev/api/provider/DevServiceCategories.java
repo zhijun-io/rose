@@ -17,6 +17,12 @@ public final class DevServiceCategories {
 
     public static final String MQTT = "mqtt";
 
+    public static final String KAFKA = "kafka";
+
+    public static final String RABBITMQ = "rabbitmq";
+
+    public static final String OLLAMA = "ollama";
+
     public static final String OPENTELEMETRY = "opentelemetry";
 
     private DevServiceCategories() {

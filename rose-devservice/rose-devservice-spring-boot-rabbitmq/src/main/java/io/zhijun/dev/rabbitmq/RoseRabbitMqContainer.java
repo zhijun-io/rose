@@ -11,7 +11,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * RabbitMQ container configured for Rose DevSrevice.
+ * RabbitMQ container configured for Rose DevService.
  */
 final class RoseRabbitMqContainer extends RabbitMQContainer {
 

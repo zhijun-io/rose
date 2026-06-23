@@ -17,7 +17,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * OpenLit container configured for Rose DevSrevice.
+ * OpenLit container configured for Rose DevService.
  */
 final class RoseOpenLitContainer extends GenericContainer<RoseOpenLitContainer> {
 

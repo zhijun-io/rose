@@ -7,7 +7,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * Kafka container configured for Rose DevSrevice.
+ * Kafka container configured for Rose DevService.
  */
 final class RoseKafkaContainer extends KafkaContainer {
 

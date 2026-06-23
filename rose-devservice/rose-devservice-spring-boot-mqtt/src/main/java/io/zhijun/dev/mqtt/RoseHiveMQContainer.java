@@ -8,7 +8,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * HiveMQ CE container configured for Rose DevSrevice.
+ * HiveMQ CE container configured for Rose DevService.
  */
 final class RoseHiveMQContainer extends GenericContainer<RoseHiveMQContainer> {
 

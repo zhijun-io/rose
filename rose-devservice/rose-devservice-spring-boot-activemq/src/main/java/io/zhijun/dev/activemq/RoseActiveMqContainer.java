@@ -12,7 +12,7 @@ import io.zhijun.dev.core.container.ContainerConfigurer;
 import io.zhijun.dev.core.util.ContainerUtils;
 
 /**
- * ActiveMQ Classic container for Rose DevSrevice.
+ * ActiveMQ Classic container for Rose DevService.
  */
 final class RoseActiveMqContainer extends GenericContainer<RoseActiveMqContainer> {
 

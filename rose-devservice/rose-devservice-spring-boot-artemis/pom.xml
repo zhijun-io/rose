@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-artemis</artifactId>
-    <name>Rose DevSrevice Artemis</name>
+    <name>Rose DevService Artemis</name>
 
     <dependencies>
         <dependency>

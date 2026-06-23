@@ -6,7 +6,28 @@
 
 | 模块 | Artifact | 说明 |
 |------|----------|------|
-| `rose-observation-core` | `rose-observation-core` | 自动配置 + FailureAnalyzer |
+| Core | `rose-observation-core` | `AiObservationConventionsProvider` API（无 Boot） |
+| Boot | `rose-observation-spring-boot` | 冲突检测自动配置 + FailureAnalyzer |
+
+## 依赖
+
+**Spring Boot 应用（推荐）：**
+
+```xml
+<dependency>
+    <groupId>io.zhijun</groupId>
+    <artifactId>rose-observation-spring-boot</artifactId>
+</dependency>
+```
+
+**仅 API（实现 Provider、无 Boot）：**
+
+```xml
+<dependency>
+    <groupId>io.zhijun</groupId>
+    <artifactId>rose-observation-core</artifactId>
+</dependency>
+```
 
 ## 已实现
 
@@ -20,7 +41,6 @@
 ## 未实现 / 规划中
 
 - 通用 Micrometer `ObservationRegistry` 封装（非 AI 专用）
-- Starter 聚合模块
 - 与 `rose-opentelemetry` 的 trace 属性自动传播文档
 - Web / MVC 层 observation 切面
 

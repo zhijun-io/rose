@@ -36,8 +36,8 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
         Assert.notNull(beanFactory, "beanFactory has not been initialized");
         Assert.notNull(environment, "environment has not been initialized");
 
-        DevServiceRegistry localServiceRegistry = getOrCreateDevServicesRegistry(registry);
-        registerDevServices(localServiceRegistry, environment);
+        DevServiceRegistry devServiceRegistry = getOrCreateDevServicesRegistry(registry);
+        registerDevServices(devServiceRegistry, environment);
     }
 
     private DevServiceRegistry getOrCreateDevServicesRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
@@ -45,14 +45,14 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
             return beanFactory.getBean(DEV_SERVICES_REGISTRY_BEAN_NAME, DevServiceRegistry.class);
         }
 
-        DevServiceRegistry localServiceRegistry = new DevServiceRegistry(beanDefinitionRegistry);
+        DevServiceRegistry devServiceRegistry = new DevServiceRegistry(beanDefinitionRegistry);
 
         if (beanDefinitionRegistry instanceof DefaultListableBeanFactory) {
             DefaultListableBeanFactory beanFactoryRegistry = (DefaultListableBeanFactory) beanDefinitionRegistry;
-            beanFactoryRegistry.registerSingleton(DEV_SERVICES_REGISTRY_BEAN_NAME, localServiceRegistry);
+            beanFactoryRegistry.registerSingleton(DEV_SERVICES_REGISTRY_BEAN_NAME, devServiceRegistry);
         }
 
-        return localServiceRegistry;
+        return devServiceRegistry;
     }
 
     @Override

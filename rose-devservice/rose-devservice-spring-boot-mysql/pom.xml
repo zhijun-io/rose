@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-devservice-spring-boot-mysql</artifactId>
-    <name>Rose DevSrevice MySQL</name>
+    <name>Rose DevService MySQL</name>
 
     <dependencies>
         <dependency>

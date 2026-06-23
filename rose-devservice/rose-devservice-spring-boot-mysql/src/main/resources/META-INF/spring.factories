@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-mysql.io.zhijun.local.MySqlDevServicesAutoConfiguration
+io.zhijun.dev.mysql.MySqlDevServicesAutoConfiguration

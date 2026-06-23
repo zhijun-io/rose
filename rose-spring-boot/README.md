@@ -169,7 +169,7 @@ ConfigurableAutoConfigurationImportFilter.addExcludedAutoConfigurationClass(envi
 |------|---------------------|--------|
 | `rose-spring-boot-core` | `core.properties` | — |
 | `rose-spring-boot-actuator` | `META-INF/config/default/actuator.properties` | —（`rose.actuator.task-scheduler.*` 推荐默认） |
-| `rose-opentelemetry-core` | `opentelemetry.properties` | `OtlpMetricsExportAutoConfiguration` |
+| `rose-opentelemetry-spring-boot` | `opentelemetry.properties` | `OtlpMetricsExportAutoConfiguration` |
 | `rose-opentelemetry-micrometer-registry-otlp` | `micrometer-registry-otlp.properties` | 同上（累加） |
 | `rose-devservice-spring-boot-artemis` | `artemis.properties` | —（仅 `spring.artemis.mode` 推荐值） |
 
