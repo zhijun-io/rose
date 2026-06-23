@@ -19,5 +19,6 @@
     <modules>
         <module>rose-spring-boot-core</module>
         <module>rose-spring-boot-actuator</module>
+        <module>rose-spring-boot-starter</module>
     </modules>
 </project>

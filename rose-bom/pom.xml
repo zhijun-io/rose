@@ -47,22 +47,12 @@
             <!-- Data and persistence -->
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-sqlite</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
                 <artifactId>rose-mybatis-plus-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-mybatis-plus-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-excel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Observability -->

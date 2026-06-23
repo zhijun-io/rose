@@ -136,7 +136,7 @@ Build layout follows [microsphere-build](https://github.com/microsphere-projects
 
 Rose follows Conventional Commits (`feat:`, `fix:`, `docs:`, …), one logical change per PR, and integration tests (`*IT`) for new dev-service connectors. Dependency bumps are handled by Renovate (`renovate.json`).
 
-Build and release details: [rose-build/README.md](rose-build/README.md). Changelog: [CHANGELOG.md](CHANGELOG.md).
+Build and release: [rose-build/README.md](rose-build/README.md). Changelog: [CHANGELOG.md](CHANGELOG.md).
 
 ## Reference
 

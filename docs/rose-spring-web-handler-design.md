@@ -365,7 +365,7 @@ public class RoseWebEndpointsEndpoint {
 - [ ] Phase 1 仅 MVC；无 WebFlux 硬依赖
 - [ ] Registry 不 duplicate Actuator mappings JSON 结构
 - [ ] SPI 与 multitenancy **解耦**（SPI 注册 optional 实现）
-- [ ] `docs/module-layering.md` 分层检查通过
+- [ ] 模块分层与依赖方向符合根 `README.md` Reference 约定
 
 ---
 

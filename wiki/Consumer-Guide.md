@@ -54,7 +54,7 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 |---|---|---|
 | OpenTelemetry | `rose.otel.*` | `rose.otel.enabled=true` |
 | Multitenancy | `rose.multitenancy.*` | tenant resolver, MDC key |
-| Dev services (global) | `rose.dev.*` | `rose.dev.enabled=true` |
+| Dev services (global) | `rose.dev.enabled` | `rose.dev.enabled=true` |
 | Dev services (connector) | `rose.dev.<connector>.*` | `rose.dev.postgresql.enabled=true` |
 | Bootstrap profiles | `rose.bootstrap.*`, `rose.dev.profiles` | dev/test profile activation |
 

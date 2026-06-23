@@ -52,8 +52,6 @@
 
 | Artifact | 说明 |
 |----------|------|
-| `rose-excel` | FastExcel 导入导出 |
-| `rose-sqlite` | Spring Data JDBC SQLite 方言 |
 | `rose-mybatis-plus-core` | 审计、加密、数据权限、租户 |
 | `rose-mybatis-plus-spring-boot-starter` | MyBatis-Plus starter |
 

@@ -88,7 +88,7 @@ mvn -pl rose-opentelemetry/rose-opentelemetry-core -Pcoverage test
 
 - `maven-javadoc-plugin`、`maven-gpg-plugin`（`--pinentry-mode loopback`）
 - `central-publishing-maven-plugin`（Sonatype Central Portal，`autoPublish=true`）
-- 详见根 [README.md § Releasing](../README.md#releasing)
+- 详见根 [README.md](../README.md#reference) 与 [wiki/CI-CD-Integration.md](../wiki/CI-CD-Integration.md)
 
 ### CI（GitHub Actions）
 

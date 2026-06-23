@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot-starter`; `rose-multitenancy-core` and `rose-multitenancy-web` no longer depend on Spring Boot. Replaces `rose-multitenancy-core-spring-boot-starter` and `rose-multitenancy-web-spring-boot-starter`.
 - Dev Services artifacts renamed to `rose-devservice-*` (reactor parent `rose-devservice`). Replaces `rose-dev-services-*`. Configuration keys `rose.dev.*` and Java packages unchanged.
+- Removed unused BOM entries `rose-excel` and `rose-sqlite`.
 
 ## [0.1.0] - Unreleased
 
@@ -24,7 +25,6 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 - `rose-bom` for aligned dependency management across all published artifacts
 - `rose-core` utilities (`PropertyAdapter`, incubating/internal markers)
 - `rose-spring-boot` 父模块（`rose-spring-boot-core`、`rose-spring-boot-starter`）；使用 Spring profiles 区分环境
-- `rose-sqlite` SQLite JDBC dialect helpers
 - `rose-observation-core` observation support
 - JaCoCo aggregate coverage via `rose-coverage` (`mvn verify -Pcoverage`)
 
