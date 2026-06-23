@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OllamaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationIT {
 
     private final ApplicationContextRunner contextRunner = defaultContextRunner(OllamaDevServicesAutoConfiguration.class)
-            .withPropertyValues("rose.local.ollama.ignore-native-service=true");
+            .withPropertyValues("rose.dev.ollama.ignore-native-service=true");
 
     @Override
     protected ApplicationContextRunner getContextRunner() {

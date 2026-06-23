@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = ArtemisDevServiceProperties.CONFIG_PREFIX)
 public class ArtemisDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.artemis";
+    public static final String CONFIG_PREFIX = "rose.dev.artemis";
 
     static final String DEFAULT_USERNAME = "rose";
     static final String DEFAULT_PASSWORD = "rose";

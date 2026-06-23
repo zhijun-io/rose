@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 class OnLocalServiceEnabledCondition extends SpringBootCondition {
 
     private static final String GLOBAL_PROPERTY = DevServiceProperties.CONFIG_PREFIX + ".enabled";
-    private static final String DEV_SERVICES_PROPERTY = "rose.local.%s.enabled";
+    private static final String DEV_SERVICES_PROPERTY = "rose.dev.%s.enabled";
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {

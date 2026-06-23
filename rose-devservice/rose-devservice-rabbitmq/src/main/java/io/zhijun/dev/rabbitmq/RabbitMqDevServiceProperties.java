@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = RabbitMqDevServiceProperties.CONFIG_PREFIX)
 public class RabbitMqDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.rabbitmq";
+    public static final String CONFIG_PREFIX = "rose.dev.rabbitmq";
 
     private boolean enabled = true;
     private String imageName = "rabbitmq:3.12-management-alpine";

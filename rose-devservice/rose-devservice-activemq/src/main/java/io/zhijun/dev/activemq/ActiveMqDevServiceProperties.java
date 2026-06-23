@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = ActiveMqDevServiceProperties.CONFIG_PREFIX)
 public class ActiveMqDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.activemq";
+    public static final String CONFIG_PREFIX = "rose.dev.activemq";
 
     static final String DEFAULT_USERNAME = "rose";
     static final String DEFAULT_PASSWORD = "rose";

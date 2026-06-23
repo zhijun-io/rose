@@ -66,7 +66,7 @@ public final class OpenLitDevServicesAutoConfiguration {
                     return openLitContainer().getOtlpHttpUrl();
                 }
             });
-            addDynamicProperty("rose.local.openlit.ui-url", new java.util.function.Supplier<Object>() {
+            addDynamicProperty("rose.dev.openlit.ui-url", new java.util.function.Supplier<Object>() {
                 @Override
                 public Object get() {
                     return openLitContainer().getOpenLitUrl();

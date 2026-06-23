@@ -19,7 +19,7 @@ public class MultipleLocalServiceFailureAnalyzer extends AbstractFailureAnalyzer
                         cause.getServiceNames()),
                 String.format(
                         "Disable all but one %s dev service by setting the enabled property to false "
-                                + "(e.g., rose.local.%s.enabled=false).",
+                                + "(e.g., rose.dev.%s.enabled=false).",
                         cause.getCategory(),
                         firstService),
                 cause);

@@ -17,7 +17,7 @@ public abstract class BaseJdbcDevServiceAutoConfigurationIT extends BaseDevServi
     }
 
     protected String[] commonJdbcConfigurationProperties() {
-        String prefix = "rose.local." + getServiceName();
+        String prefix = "rose.dev." + getServiceName();
         return new String[] {
                 prefix + ".username=mytest",
                 prefix + ".password=mytest",

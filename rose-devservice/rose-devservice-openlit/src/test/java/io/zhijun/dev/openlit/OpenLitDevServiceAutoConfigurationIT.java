@@ -50,7 +50,7 @@ class OpenLitDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
                 (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_ENDPOINT"))
                             .startsWith("http://");
-                    assertThat(context.getEnvironment().getProperty("rose.local.openlit.ui-url"))
+                    assertThat(context.getEnvironment().getProperty("rose.dev.openlit.ui-url"))
                             .startsWith("http://");
                 });
     }

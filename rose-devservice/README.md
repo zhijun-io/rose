@@ -67,7 +67,7 @@ Override: `-Drose.bootstrap.mode=dev|test|prod`
 
 ## Enabling
 
-**Tests**: connector on `test` classpath; `rose.local.*.enabled=true` by default.
+**Tests**: connector on `test` classpath; `rose.dev.*.enabled=true` by default.
 
 **Local development**: `runtime` + `optional` (or Gradle `testAndDevelopmentOnly`); `rose.bootstrap.mode=dev`.
 

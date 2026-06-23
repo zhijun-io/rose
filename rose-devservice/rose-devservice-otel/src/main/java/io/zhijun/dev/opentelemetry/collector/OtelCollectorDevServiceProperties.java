@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = OtelCollectorDevServiceProperties.CONFIG_PREFIX)
 public class OtelCollectorDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.otel-collector";
+    public static final String CONFIG_PREFIX = "rose.dev.otel-collector";
 
     private boolean enabled = true;
     private String imageName = "otel/opentelemetry-collector-contrib:0.96.0";

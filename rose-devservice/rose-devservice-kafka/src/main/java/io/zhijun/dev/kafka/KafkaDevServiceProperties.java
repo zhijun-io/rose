@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = KafkaDevServiceProperties.CONFIG_PREFIX)
 public class KafkaDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.kafka";
+    public static final String CONFIG_PREFIX = "rose.dev.kafka";
 
     private boolean enabled = true;
     private String imageName = "confluentinc/cp-kafka:7.4.0";

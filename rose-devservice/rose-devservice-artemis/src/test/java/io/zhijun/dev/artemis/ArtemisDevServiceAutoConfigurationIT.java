@@ -53,8 +53,8 @@ class ArtemisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
     void containerConfigurationApplied() {
         String[] properties = ArrayUtils.addAll(
                 commonConfigurationProperties(),
-                "rose.local.artemis.username=myusername",
-                "rose.local.artemis.password=mypassword");
+                "rose.dev.artemis.username=myusername",
+                "rose.dev.artemis.password=mypassword");
 
         assertContainerConfigurationApplied(RoseArtemisContainer.class, properties, (context, container) -> {
             assertThat(container.getUsername()).isEqualTo("myusername");

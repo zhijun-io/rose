@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = MySqlDevServiceProperties.CONFIG_PREFIX)
 public class MySqlDevServiceProperties implements JdbcDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.mysql";
+    public static final String CONFIG_PREFIX = "rose.dev.mysql";
 
     private boolean enabled = true;
     private String imageName = "mysql:8.0";

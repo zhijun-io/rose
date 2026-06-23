@@ -28,8 +28,8 @@ class OnLocalServiceEnabledConditionTests {
 
     @Test
     void shouldMatchWhenGloballyEnabledAndSpecificDevServiceEnabled() {
-        environment.setProperty("rose.local.enabled", "true");
-        environment.setProperty("rose.local.test-service.enabled", "true");
+        environment.setProperty("rose.dev.enabled", "true");
+        environment.setProperty("rose.dev.test-service.enabled", "true");
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -42,13 +42,13 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isTrue();
         assertThat(outcome.getMessage())
-                .contains("rose.local.test-service.enabled is set to true");
+                .contains("rose.dev.test-service.enabled is set to true");
     }
 
     @Test
     void shouldNotMatchWhenGloballyEnabledButSpecificDevServiceDisabled() {
-        environment.setProperty("rose.local.enabled", "true");
-        environment.setProperty("rose.local.test-service.enabled", "false");
+        environment.setProperty("rose.dev.enabled", "true");
+        environment.setProperty("rose.dev.test-service.enabled", "false");
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -61,13 +61,13 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isFalse();
         assertThat(outcome.getMessage())
-                .contains("rose.local.test-service.enabled is set to false");
+                .contains("rose.dev.test-service.enabled is set to false");
     }
 
     @Test
     void shouldNotMatchWhenGloballyDisabledAndSpecificDevServiceEnabled() {
-        environment.setProperty("rose.local.enabled", "false");
-        environment.setProperty("rose.local.test-service.enabled", "true");
+        environment.setProperty("rose.dev.enabled", "false");
+        environment.setProperty("rose.dev.test-service.enabled", "true");
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -80,13 +80,13 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isFalse();
         assertThat(outcome.getMessage())
-                .contains("rose.local.enabled is set to false");
+                .contains("rose.dev.enabled is set to false");
     }
 
     @Test
     void shouldNotMatchWhenGloballyDisabledAndSpecificDevServiceDisabled() {
-        environment.setProperty("rose.local.enabled", "false");
-        environment.setProperty("rose.local.test-service.enabled", "false");
+        environment.setProperty("rose.dev.enabled", "false");
+        environment.setProperty("rose.dev.test-service.enabled", "false");
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -99,7 +99,7 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isFalse();
         assertThat(outcome.getMessage())
-                .contains("rose.local.enabled is set to false");
+                .contains("rose.dev.enabled is set to false");
     }
 
     @Test
@@ -116,7 +116,7 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isTrue();
         assertThat(outcome.getMessage())
-                .contains("enabled by default (rose.local.test-service.enabled is not set)");
+                .contains("enabled by default (rose.dev.test-service.enabled is not set)");
     }
 
     @Test
@@ -187,7 +187,7 @@ class OnLocalServiceEnabledConditionTests {
 
     @Test
     void shouldMatchWhenOnlyGlobalPropertyIsSetToTrue() {
-        environment.setProperty("rose.local.enabled", "true");
+        environment.setProperty("rose.dev.enabled", "true");
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -200,12 +200,12 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isTrue();
         assertThat(outcome.getMessage())
-                .contains("enabled by default (rose.local.test-service.enabled is not set)");
+                .contains("enabled by default (rose.dev.test-service.enabled is not set)");
     }
 
     @Test
     void shouldMatchWhenOnlyGlobalPropertyIsSetToFalse() {
-        environment.setProperty("rose.local.enabled", "false");
+        environment.setProperty("rose.dev.enabled", "false");
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -218,12 +218,12 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isFalse();
         assertThat(outcome.getMessage())
-                .contains("rose.local.enabled is set to false");
+                .contains("rose.dev.enabled is set to false");
     }
 
     @Test
     void shouldMatchWhenOnlySpecificPropertyIsSetToTrue() {
-        environment.setProperty("rose.local.test-service.enabled", "true");
+        environment.setProperty("rose.dev.test-service.enabled", "true");
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -236,7 +236,7 @@ class OnLocalServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isTrue();
         assertThat(outcome.getMessage())
-                .contains("rose.local.test-service.enabled is set to true");
+                .contains("rose.dev.test-service.enabled is set to true");
     }
 
 }

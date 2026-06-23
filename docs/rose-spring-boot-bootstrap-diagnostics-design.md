@@ -252,7 +252,7 @@ DevServicesBootstrapCoordinator
 
 - 仅 **dev/test** profile
 - 失败 fast：任一 connector 失败 → 聚合 `FailureAnalysis` 列出全部失败项
-- **默认仍串行**；`rose.local.parallel-startup=true`  opt-in
+- **默认仍串行**；`rose.dev.parallel-startup=true`  opt-in
 
 ### 8.2 Initializer 链「并行」
 

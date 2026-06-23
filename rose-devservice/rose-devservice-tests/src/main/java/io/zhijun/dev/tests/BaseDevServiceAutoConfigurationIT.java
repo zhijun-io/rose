@@ -64,14 +64,14 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     @Test
     void autoConfigurationNotActivatedWhenGloballyDisabled() {
         getContextRunner()
-                .withPropertyValues("rose.local.enabled=false")
+                .withPropertyValues("rose.dev.enabled=false")
                 .run(context -> assertThat(context).doesNotHaveBean(getContainerClass()));
     }
 
     @Test
     void autoConfigurationNotActivatedWhenDisabled() {
         getContextRunner()
-                .withPropertyValues(String.format("rose.local.%s.enabled=false", getServiceName()))
+                .withPropertyValues(String.format("rose.dev.%s.enabled=false", getServiceName()))
                 .run(context -> assertThat(context).doesNotHaveBean(getContainerClass()));
     }
 
@@ -188,7 +188,7 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     }
 
     protected String[] commonConfigurationProperties() {
-        String prefix = "rose.local." + getServiceName();
+        String prefix = "rose.dev." + getServiceName();
         return new String[] {
                 prefix + ".environment.KEY=value",
                 prefix + ".network-aliases=network1",

@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = MongoDbDevServiceProperties.CONFIG_PREFIX)
 public class MongoDbDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.mongodb";
+    public static final String CONFIG_PREFIX = "rose.dev.mongodb";
 
     private boolean enabled = true;
     private String imageName = "mongo:6.0";

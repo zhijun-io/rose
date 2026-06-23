@@ -52,8 +52,8 @@ class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
     void containerConfigurationApplied() {
         String[] properties = ArrayUtils.addAll(
                 commonConfigurationProperties(),
-                "rose.local.activemq.username=myusername",
-                "rose.local.activemq.password=mypassword");
+                "rose.dev.activemq.username=myusername",
+                "rose.dev.activemq.password=mypassword");
 
         assertContainerConfigurationApplied(RoseActiveMqContainer.class, properties, (context, container) -> {
             assertThat(container.getUsername()).isEqualTo("myusername");

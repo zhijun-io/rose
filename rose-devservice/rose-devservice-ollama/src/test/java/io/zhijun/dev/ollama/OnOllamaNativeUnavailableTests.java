@@ -60,14 +60,14 @@ class OnOllamaNativeUnavailableTests {
   @Test
   void matchesWhenIgnoreNativeServiceIsEnabled() {
     contextRunner
-        .withPropertyValues("rose.local.ollama.ignore-native-service=true")
+        .withPropertyValues("rose.dev.ollama.ignore-native-service=true")
         .run(context -> assertThat(context).hasBean("ollamaDevServiceMarker"));
   }
 
   @Test
   void matchesWhenNativeConnectionIsUnavailable() {
     contextRunner
-        .withPropertyValues("rose.local.ollama.base-url=http://127.0.0.1:1")
+        .withPropertyValues("rose.dev.ollama.base-url=http://127.0.0.1:1")
         .run(context -> assertThat(context).hasBean("ollamaDevServiceMarker"));
   }
 
@@ -83,7 +83,7 @@ class OnOllamaNativeUnavailableTests {
     int port = server.getAddress().getPort();
 
     contextRunner
-        .withPropertyValues("rose.local.ollama.base-url=http://127.0.0.1:" + port)
+        .withPropertyValues("rose.dev.ollama.base-url=http://127.0.0.1:" + port)
         .run(context -> assertThat(context).doesNotHaveBean("ollamaDevServiceMarker"));
   }
 

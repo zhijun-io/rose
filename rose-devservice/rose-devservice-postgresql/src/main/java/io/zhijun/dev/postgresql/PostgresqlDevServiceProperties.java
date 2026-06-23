@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = PostgresqlDevServiceProperties.CONFIG_PREFIX)
 public class PostgresqlDevServiceProperties implements JdbcDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.postgresql";
+    public static final String CONFIG_PREFIX = "rose.dev.postgresql";
 
     private boolean enabled = true;
     private String imageName = "postgres:18-alpine";

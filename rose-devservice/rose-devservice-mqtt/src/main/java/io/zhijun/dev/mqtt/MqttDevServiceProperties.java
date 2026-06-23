@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = MqttDevServiceProperties.CONFIG_PREFIX)
 public class MqttDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.mqtt";
+    public static final String CONFIG_PREFIX = "rose.dev.mqtt";
 
     private boolean enabled = true;
     private String imageName = "hivemq/hivemq-ce:2024.1";

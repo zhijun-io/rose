@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = RedisDevServiceProperties.CONFIG_PREFIX)
 public class RedisDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.redis";
+    public static final String CONFIG_PREFIX = "rose.dev.redis";
 
     private boolean enabled = true;
     private String imageName = "redis:7-alpine";

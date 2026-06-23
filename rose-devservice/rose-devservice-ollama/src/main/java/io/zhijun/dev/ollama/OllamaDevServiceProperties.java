@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = OllamaDevServiceProperties.CONFIG_PREFIX)
 public class OllamaDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.ollama";
+    public static final String CONFIG_PREFIX = "rose.dev.ollama";
 
     /** Dynamic property published when the dev container is running. */
     public static final String BASE_URL_PROPERTY = CONFIG_PREFIX + ".base-url";

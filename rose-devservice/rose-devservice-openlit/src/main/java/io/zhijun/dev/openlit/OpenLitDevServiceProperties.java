@@ -18,7 +18,7 @@ import io.zhijun.dev.api.config.VolumeMapping;
 @ConfigurationProperties(prefix = OpenLitDevServiceProperties.CONFIG_PREFIX)
 public class OpenLitDevServiceProperties implements BaseDevServiceProperties {
 
-    public static final String CONFIG_PREFIX = "rose.local.openlit";
+    public static final String CONFIG_PREFIX = "rose.dev.openlit";
 
     private boolean enabled = true;
     private String imageName = "ghcr.io/openlit/openlit:1.21.1";
