@@ -103,7 +103,7 @@ Docker-backed local services for development. Add `rose-spring-boot-starter`, op
 
 Connectors include PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, ActiveMQ, Ollama, MQTT, OpenLit, and OpenTelemetry Collector. Defaults use username/password (and JDBC database name) **`rose`** unless overridden via `rose.dev.<connector>.*`.
 
-See [rose-local/README.md](rose-local/README.md).
+Global toggle: `rose.local.enabled`. See [rose-devservice/README.md](rose-devservice/README.md).
 
 ### OpenTelemetry metrics
 
@@ -118,12 +118,17 @@ See [rose-opentelemetry/README.md](rose-opentelemetry/README.md).
 
 | Topic | Location |
 |-------|----------|
+| **Wiki (guides)** | [`wiki/`](wiki/) — synced to [GitHub Wiki](https://github.com/zhijun-io/rose/wiki) on push |
+| Getting started | [wiki/Getting-Started.md](wiki/Getting-Started.md) |
+| Consumer guide | [wiki/Consumer-Guide.md](wiki/Consumer-Guide.md) |
+| Build profiles | [wiki/Profiles-Management.md](wiki/Profiles-Management.md) |
 | BOM & consumer contract | [rose-bom/README.md](rose-bom/README.md) |
 | Build, CI, release | [rose-build/README.md](rose-build/README.md) |
-| Module map & roadmap | Top-level `README.md` under each reactor module (see below) |
 | Design notes | [docs/](docs/) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-excel](rose-excel/) · [rose-sqlite](rose-sqlite/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-opentelemetry](rose-opentelemetry/) · [rose-multitenancy](rose-multitenancy/) · [rose-local](rose-local/)
+**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-opentelemetry](rose-opentelemetry/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
+
+Build layout follows [microsphere-build](https://github.com/microsphere-projects/microsphere-build).
 
 **Help:** open a [GitHub issue](https://github.com/zhijun-io/rose/issues) for bugs and feature requests.
 
