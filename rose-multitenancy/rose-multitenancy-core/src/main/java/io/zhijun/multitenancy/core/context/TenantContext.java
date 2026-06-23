@@ -1,11 +1,10 @@
 package io.zhijun.multitenancy.core.context;
 
 import java.util.concurrent.Callable;
-
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import java.util.Objects;
 
 import io.zhijun.core.annotation.Incubating;
+import io.zhijun.core.annotation.Nullable;
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 /**
@@ -39,7 +38,7 @@ public final class TenantContext {
      * Binds the tenant for the current thread and returns a scope that restores the previous value on close.
      */
     public static Scope bind(String tenantIdentifier) {
-        Assert.hasText(tenantIdentifier, "tenantIdentifier cannot be null or empty");
+        requireText(tenantIdentifier, "tenantIdentifier cannot be null or empty");
         return new Scope(tenantIdentifier, TENANT_IDENTIFIER.get());
     }
 
@@ -93,6 +92,12 @@ public final class TenantContext {
             TENANT_IDENTIFIER.set(previous);
         } else {
             TENANT_IDENTIFIER.remove();
+        }
+    }
+
+    private static void requireText(String value, String message) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException(message);
         }
     }
 

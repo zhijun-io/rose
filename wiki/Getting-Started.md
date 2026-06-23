@@ -35,7 +35,7 @@ Rose extends Spring Boot; it does **not** replace `spring-boot-starter-parent`.
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-bom</artifactId>
-            <version>0.0.0.2-SNAPSHOT</version>
+            <version>0.0.1-SNAPSHOT</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -51,12 +51,12 @@ Use a released version from [Maven Central](https://central.sonatype.com/) when 
 <dependencies>
     <dependency>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-spring-boot-starter</artifactId>
+        <artifactId>rose-spring-boot-core</artifactId>
     </dependency>
 </dependencies>
 ```
 
-Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them **instead of** duplicating `rose-spring-boot-starter`. See [Consumer Guide](Consumer-Guide).
+Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them **instead of** duplicating `rose-spring-boot-core`. See [Consumer Guide](Consumer-Guide).
 
 ### Step 3 — Optional Dev Services
 

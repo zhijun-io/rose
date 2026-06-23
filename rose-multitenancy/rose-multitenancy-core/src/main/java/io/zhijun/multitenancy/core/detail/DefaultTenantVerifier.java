@@ -1,8 +1,10 @@
 package io.zhijun.multitenancy.core.detail;
 
+import java.util.List;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
 import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
@@ -19,14 +21,14 @@ public final class DefaultTenantVerifier implements TenantVerifier {
     private final TenantDetailsService tenantDetailsService;
 
     public DefaultTenantVerifier(TenantDetailsService tenantDetailsService) {
-        Assert.notNull(tenantDetailsService, "tenantDetailsService cannot be null");
-        this.tenantDetailsService = tenantDetailsService;
+        this.tenantDetailsService = Objects.requireNonNull(tenantDetailsService, "tenantDetailsService cannot be null");
     }
 
     @Override
     public void verify(String tenantIdentifier) {
         if (tenantIdentifier == null || !tenantIdentifier.matches("[a-zA-Z0-9_-]+")) {
-            throw new TenantVerificationException("The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+            throw new TenantVerificationException(
+                    "The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
         }
         logger.trace("Verifying tenant: {}", tenantIdentifier);
         TenantDetails tenant = tenantDetailsService.loadTenantByIdentifier(tenantIdentifier);

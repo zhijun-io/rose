@@ -1,10 +1,10 @@
 package io.zhijun.multitenancy.core.observability;
 
+import java.util.Objects;
+
 import io.micrometer.common.KeyValue;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationFilter;
-
-import org.springframework.util.Assert;
 
 import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
@@ -27,10 +27,11 @@ public final class TenantObservationFilter implements ObservationFilter {
     }
 
     public TenantObservationFilter(String tenantIdentifierKey, Cardinality cardinality) {
-        Assert.hasText(tenantIdentifierKey, "tenantIdentifierKey cannot be null or empty");
-        Assert.notNull(cardinality, "cardinality cannot be null");
+        if (tenantIdentifierKey == null || tenantIdentifierKey.trim().isEmpty()) {
+            throw new IllegalArgumentException("tenantIdentifierKey cannot be null or empty");
+        }
         this.tenantIdentifierKey = tenantIdentifierKey;
-        this.cardinality = cardinality;
+        this.cardinality = Objects.requireNonNull(cardinality, "cardinality cannot be null");
     }
 
     public String getTenantIdentifierKey() {

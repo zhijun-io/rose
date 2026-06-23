@@ -35,7 +35,7 @@ Keep `spring-boot-starter-parent` (or your corporate parent), import the Rose BO
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-bom</artifactId>
-            <version>0.0.0.2-SNAPSHOT</version>
+            <version>0.0.1-SNAPSHOT</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -45,7 +45,7 @@ Keep `spring-boot-starter-parent` (or your corporate parent), import the Rose BO
 <dependencies>
     <dependency>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-spring-boot-starter</artifactId>
+        <artifactId>rose-spring-boot-core</artifactId>
     </dependency>
 </dependencies>
 ```
@@ -54,31 +54,26 @@ Use released versions from [Maven Central](https://central.sonatype.com/) when a
 
 ## Starters
 
-Pick one or combine several. Feature starters already include `rose-spring-boot-starter` transitively—do not declare it again.
+Pick one or combine several. Feature starters already include `rose-spring-boot-core` transitively—do not declare it again.
 
 | Starter | Use when |
 |---------|----------|
-| `rose-spring-boot-starter` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
-| `rose-opentelemetry-spring-boot-starter` | OTel SDK, logs, OTLP metrics, semantic conventions, Actuator |
-| `rose-multitenancy-spring-boot-starter` | Multitenancy Boot auto-configuration |
-| `rose-multitenancy-web` | Web integration (add alongside starter for HTTP tenant resolution) |
-| `rose-mybatis-plus-spring-boot-starter` | MyBatis-Plus audit, encryption, data permission |
+| `rose-spring-boot-core` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
+| `rose-opentelemetry-spring-boot` | OTel SDK, logs, OTLP metrics, semantic conventions, Actuator |
+| `rose-multitenancy-spring-boot` | Multitenancy Boot auto-configuration (includes HTTP tenant resolution on servlet apps) |
+| `rose-mybatis-plus-spring-boot` | MyBatis-Plus audit, encryption, data permission |
 
 ```xml
 <!-- Observability -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-opentelemetry-spring-boot-starter</artifactId>
+    <artifactId>rose-opentelemetry-spring-boot</artifactId>
 </dependency>
 
 <!-- Multitenancy -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-spring-boot-starter</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-web</artifactId>
+    <artifactId>rose-multitenancy-spring-boot</artifactId>
 </dependency>
 ```
 
@@ -86,7 +81,7 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 
 ### Local services
 
-Docker-backed local services for development. Add `rose-spring-boot-starter`, optional `rose-devservice-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
+Docker-backed local services for development. Add `rose-spring-boot-core`, optional `rose-devservice-*` connectors (`runtime` + `optional`), and the matching Spring Boot starter (e.g. JDBC):
 
 ```xml
 <dependency>

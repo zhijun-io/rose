@@ -13,7 +13,7 @@
 
     <artifactId>rose-mybatis-plus-core</artifactId>
     <name>Rose MyBatis Plus Core</name>
-    <description>Audit, data permission SPI and field encryption for MyBatis-Plus</description>
+    <description>Audit, data permission SPI, field encryption and tenant integration for MyBatis-Plus (framework-agnostic)</description>
 
     <dependencies>
         <dependency>
@@ -36,10 +36,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>

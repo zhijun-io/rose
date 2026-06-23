@@ -1,7 +1,5 @@
 package io.zhijun.mybatisplus.permission;
 
-import org.springframework.lang.Nullable;
-
 /**
  * Opaque principal passed to data permission resolver.
  */
@@ -9,10 +7,9 @@ public final class DataPermissionPrincipal {
 
     private final boolean bypass;
 
-    @Nullable
     private final Object context;
 
-    private DataPermissionPrincipal(boolean bypass, @Nullable Object context) {
+    private DataPermissionPrincipal(boolean bypass, Object context) {
         this.bypass = bypass;
         this.context = context;
     }
@@ -21,7 +18,7 @@ public final class DataPermissionPrincipal {
         return new DataPermissionPrincipal(true, null);
     }
 
-    public static DataPermissionPrincipal of(@Nullable Object context) {
+    public static DataPermissionPrincipal of(Object context) {
         return new DataPermissionPrincipal(false, context);
     }
 
@@ -29,7 +26,6 @@ public final class DataPermissionPrincipal {
         return bypass;
     }
 
-    @Nullable
     public Object getContext() {
         return context;
     }

@@ -24,7 +24,7 @@ class TenantTests {
     @Test
     void whenAttributesIsNullThenThrow() {
         assertThatThrownBy(() -> Tenant.builder().identifier("acme").attributes(null).build())
-            .isInstanceOf(IllegalArgumentException.class)
+            .isInstanceOf(NullPointerException.class)
             .hasMessageContaining("attributes cannot be null");
     }
 

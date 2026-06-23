@@ -3,9 +3,9 @@ package io.zhijun.mybatisplus.audit;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.util.ClassUtils;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 
@@ -56,7 +56,7 @@ public class AuditMetaObjectHandler implements MetaObjectHandler {
             return;
         }
         Class<?> getterType = metaObject.getGetterType(fieldName);
-        if (ClassUtils.isAssignableValue(getterType, fieldValue)) {
+        if (ClassUtils.isAssignable(fieldValue.getClass(), getterType, true)) {
             metaObject.setValue(fieldName, fieldValue);
         }
     }

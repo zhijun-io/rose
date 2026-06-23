@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import io.zhijun.mybatisplus.spring.config.MyBatisPlusExtensionConfiguration;
+
 /**
  * Enables annotation-driven MyBatis-Plus extension, allowing {@link
  * io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer} beans and
@@ -29,12 +31,12 @@ import org.springframework.context.annotation.Import;
  *   }
  * }</pre>
  *
- * @see MyBatisPlusExtensionRegistrar
+ * @see MyBatisPlusExtensionConfiguration
  * @since 0.0.0.2
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(MyBatisPlusExtensionRegistrar.class)
+@Import(MyBatisPlusExtensionConfiguration.class)
 public @interface EnableMyBatisPlusExtension {
 }

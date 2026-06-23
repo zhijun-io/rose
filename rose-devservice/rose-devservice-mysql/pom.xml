@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-devservice-tests</artifactId>
+            <artifactId>rose-devservice-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -52,7 +52,7 @@ Import the Rose BOM and add a starter:
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-bom</artifactId>
-            <version>0.0.0.2-SNAPSHOT</version>
+            <version>0.0.1-SNAPSHOT</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -62,7 +62,7 @@ Import the Rose BOM and add a starter:
 <dependencies>
     <dependency>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-spring-boot-starter</artifactId>
+        <artifactId>rose-spring-boot-core</artifactId>
     </dependency>
 </dependencies>
 ```

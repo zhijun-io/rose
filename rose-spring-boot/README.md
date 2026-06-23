@@ -8,9 +8,8 @@ Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](ht
 
 | 子模块 | 能力 |
 |--------|------|
-| `rose-spring-boot-core` | `config/default/*` EPP、`RoseBinder` + `RoseBindListener`、`rose.autoconfigure.exclude` 累加、`ArtifactsCollisionDiagnosisListener`、`@ConditionalOnDevMode` |
+| `rose-spring-boot-core` | `config/default/*` EPP、`RoseBinder` + `RoseBindListener`、`rose.autoconfigure.exclude` 累加、`ArtifactsCollisionDiagnosisListener`、`@ConditionalOnDevMode`、应用基线运行时（含 `spring-boot-starter`） |
 | `rose-spring-boot-actuator` | `MonitoredThreadPoolTaskScheduler` + Micrometer |
-| `rose-spring-boot-starter` | 聚合 core + `rose-spring-core` + `spring-boot-starter` |
 
 ### 未实现 / 规划中
 
@@ -49,9 +48,8 @@ Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](ht
 | 模块 | Artifact | 说明 |
 |------|----------|------|
 | `rose-spring-boot` | `rose-spring-boot` (pom) | 聚合父 POM |
-| `rose-spring-boot-core` | `rose-spring-boot-core` | 共享 Boot 工具（如 `RoseBinder`） |
+| `rose-spring-boot-core` | `rose-spring-boot-core` | 共享 Boot 工具 + 应用基线运行时 |
 | `rose-spring-boot-actuator` | `rose-spring-boot-actuator` | 调度监控、诊断扩展（可选） |
-| `rose-spring-boot-starter` | `rose-spring-boot-starter` | 应用基线 starter（聚合 core + spring-core + boot-starter） |
 
 ## 消费方式
 
@@ -60,18 +58,11 @@ Rose 的 Spring Boot 集成模块族，结构参考 [microsphere-spring-boot](ht
 ```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-spring-boot-starter</artifactId>
-</dependency>
-```
-
-仅需工具类、不需要 starter 栈时：
-
-```xml
-<dependency>
-    <groupId>io.zhijun</groupId>
     <artifactId>rose-spring-boot-core</artifactId>
 </dependency>
 ```
+
+功能模块（`rose-*-spring-boot`）已传递依赖 `rose-spring-boot-core`，一般无需重复声明。
 
 ## 模块默认配置
 

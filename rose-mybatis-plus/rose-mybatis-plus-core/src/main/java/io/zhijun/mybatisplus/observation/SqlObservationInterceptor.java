@@ -15,7 +15,6 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
-import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
@@ -85,12 +84,12 @@ public class SqlObservationInterceptor implements Interceptor {
     }
 
     /**
-     * Construct using the global OTel tracer and the given {@link MeterRegistry}.
+     * Construct for metrics-only observation when no {@link Tracer} bean is available.
      *
      * @param meterRegistry the Micrometer registry; if {@code null}, metrics are not recorded
      */
     public SqlObservationInterceptor(MeterRegistry meterRegistry) {
-        this(GlobalOpenTelemetry.getTracer("rose-mybatis-plus"), meterRegistry);
+        this(null, meterRegistry);
     }
 
     @Override

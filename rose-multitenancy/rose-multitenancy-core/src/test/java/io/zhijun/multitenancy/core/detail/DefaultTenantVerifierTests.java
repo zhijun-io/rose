@@ -16,7 +16,7 @@ class DefaultTenantVerifierTests {
 
     @Test
     void whenNullTenantDetailsServiceThenThrow() {
-        assertThatThrownBy(() -> new DefaultTenantVerifier(null)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> new DefaultTenantVerifier(null)).isInstanceOf(NullPointerException.class)
             .hasMessageContaining("tenantDetailsService cannot be null");
     }
 

@@ -6,31 +6,38 @@
 
 | 模块 | Artifact | 说明 |
 |------|----------|------|
-| Core | `rose-multitenancy-core` | `TenantContext`、resolver、`TenantDetailsService`、MDC/observation（无 Boot） |
-| Web | `rose-multitenancy-web` | Header/Cookie 解析、`TenantContextFilter`、`@TenantId`（无 Boot） |
-| Starter | `rose-multitenancy-spring-boot-starter` | Spring Boot 自动装配（唯一 Boot 入口） |
+| Core | `rose-multitenancy-core` | `TenantContext`、resolver、`TenantDetailsService`、Micrometer observation（无 Spring） |
+| Spring | `rose-multitenancy-spring` | 事件、Cache Key、异步传播、MDC、Servlet/WebMVC（`@TenantId`、`TenantContextFilter` 等，无 Boot） |
+| Boot | `rose-multitenancy-spring-boot` | Spring Boot 自动装配（唯一 Boot 入口） |
 
 ## 依赖
 
-**非 Web 应用：**
+**Spring Boot 应用（推荐）：**
 
 ```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-spring-boot-starter</artifactId>
+    <artifactId>rose-multitenancy-spring-boot</artifactId>
 </dependency>
 ```
 
-**Web 应用（额外引入 web 模块）：**
+Starter 传递依赖 `rose-multitenancy-spring`；Servlet 环境下自动启用 HTTP 租户解析。
+
+**非 Boot、纯 Spring 应用：**
 
 ```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-spring-boot-starter</artifactId>
+    <artifactId>rose-multitenancy-spring</artifactId>
 </dependency>
+```
+
+**仅要租户上下文 API（无 Spring）：**
+
+```xml
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-web</artifactId>
+    <artifactId>rose-multitenancy-core</artifactId>
 </dependency>
 ```
 
@@ -96,5 +103,6 @@ TenantContext.where(tenantId).run(() -> asyncService.process());
 
 | 旧 Artifact | 新 Artifact |
 |-------------|-------------|
-| `rose-multitenancy-core-spring-boot-starter` | `rose-multitenancy-spring-boot-starter` |
-| `rose-multitenancy-web-spring-boot-starter` | `rose-multitenancy-spring-boot-starter` + `rose-multitenancy-web` |
+| `rose-multitenancy-core-spring-boot-starter` | `rose-multitenancy-spring-boot` |
+| `rose-multitenancy-web-spring-boot-starter` | `rose-multitenancy-spring-boot` |
+| `rose-multitenancy-web` | `rose-multitenancy-spring` |

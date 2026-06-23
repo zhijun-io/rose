@@ -1,7 +1,5 @@
 package io.zhijun.mybatisplus.permission;
 
-import org.springframework.lang.Nullable;
-
 import net.sf.jsqlparser.expression.Expression;
 
 /**
@@ -10,6 +8,5 @@ import net.sf.jsqlparser.expression.Expression;
 @FunctionalInterface
 public interface DataPermissionConditionResolver {
 
-    @Nullable
     Expression resolve(DataPermission dataPermission, DataPermissionPrincipal principal);
 }

@@ -17,7 +17,7 @@ Spring Framework 层扩展（**非 Boot**）：环境刷新、属性源、配置
 </dependency>
 ```
 
-通常由 `rose-spring-boot-starter` 传递引入；仅使用 Spring 扩展、不需要 Boot 栈时可单独依赖。无独立 starter。
+通常由 `rose-spring-boot-core` 传递引入；仅使用 Spring 扩展、不需要 Boot 栈时可单独依赖。无独立 starter。
 
 自动配置入口：`rose-spring-core` 的 `META-INF/spring.factories`（环境监听、属性源加载等）。
 

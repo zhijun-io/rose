@@ -9,7 +9,7 @@ Key properties, module layout, and customization points for the Rose repository.
 | Item | Location |
 |---|---|
 | Source of truth | `rose-build/pom.xml` → `<revision>` |
-| Current value | `0.0.0.2-SNAPSHOT` |
+| Current value | `0.0.1-SNAPSHOT` |
 | Override at build | `mvn test -Drevision=1.0.0-SNAPSHOT` |
 | Flattening | `flatten-maven-plugin` (`resolveCiFriendliesOnly`) |
 

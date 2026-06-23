@@ -3,8 +3,7 @@ package io.zhijun.multitenancy.core.detail;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.util.Assert;
+import java.util.Objects;
 
 import io.zhijun.core.annotation.Incubating;
 
@@ -21,9 +20,15 @@ public final class Tenant implements TenantDetails {
     private final Map<String, Object> attributes;
 
     public Tenant(String identifier, boolean enabled, Map<String, Object> attributes) {
-        Assert.hasText(identifier, "identifier cannot be null or empty");
-        Assert.notNull(attributes, "attributes cannot be null");
-        Assert.noNullElements(attributes.keySet().toArray(), "attributes keys cannot contain null values");
+        if (identifier == null || identifier.trim().isEmpty()) {
+            throw new IllegalArgumentException("identifier cannot be null or empty");
+        }
+        Objects.requireNonNull(attributes, "attributes cannot be null");
+        for (String key : attributes.keySet()) {
+            if (key == null) {
+                throw new IllegalArgumentException("attributes keys cannot contain null values");
+            }
+        }
         this.identifier = identifier;
         this.enabled = enabled;
         this.attributes = Collections.unmodifiableMap(new HashMap<>(attributes));

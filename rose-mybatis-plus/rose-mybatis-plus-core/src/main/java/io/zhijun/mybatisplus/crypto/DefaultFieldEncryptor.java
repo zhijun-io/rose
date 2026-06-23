@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.Nullable;
 
 /**
  * Default field encryptor. BASE64 is encoding, not encryption.
@@ -12,7 +11,7 @@ import org.springframework.lang.Nullable;
 public class DefaultFieldEncryptor implements FieldEncryptor {
 
     @Override
-    public @Nullable String encrypt(EncryptAlgorithm algorithm, @Nullable String secret, @Nullable Object rawValue) {
+    public String encrypt(EncryptAlgorithm algorithm, String secret, Object rawValue) {
         if (rawValue == null) {
             return null;
         }
@@ -27,7 +26,7 @@ public class DefaultFieldEncryptor implements FieldEncryptor {
     }
 
     @Override
-    public @Nullable String decrypt(EncryptAlgorithm algorithm, @Nullable String secret, @Nullable Object storedValue) {
+    public String decrypt(EncryptAlgorithm algorithm, String secret, Object storedValue) {
         if (storedValue == null) {
             return null;
         }

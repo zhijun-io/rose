@@ -18,6 +18,6 @@
     <modules>
         <module>rose-mybatis-plus-core</module>
         <module>rose-mybatis-plus-spring</module>
-        <module>rose-mybatis-plus-spring-boot-starter</module>
+        <module>rose-mybatis-plus-spring-boot</module>
     </modules>
 </project>

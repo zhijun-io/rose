@@ -27,7 +27,7 @@
     <!-- 版本由 BOM 管理，无需写 version -->
     <dependency>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-spring-boot-starter</artifactId>
+        <artifactId>rose-spring-boot-core</artifactId>
     </dependency>
 </dependencies>
 ```
@@ -44,16 +44,15 @@
 |----------|------|
 | `rose-core` | 纯 Java 注解/契约 |
 | `rose-spring-core` | Spring 扩展（属性源、env 刷新、配置绑定） |
-| `rose-spring-boot-core` | Boot 工具（`RoseBinder`、`config/default/*`、诊断） |
+| `rose-spring-boot-core` | Boot 工具 + 应用基线运行时（`RoseBinder`、`config/default/*`、诊断、`spring-boot-starter`） |
 | `rose-spring-boot-actuator` | 调度监控等 Actuator 扩展 |
-| `rose-spring-boot-starter` | 应用基线 starter |
 
 ### Data & persistence
 
 | Artifact | 说明 |
 |----------|------|
 | `rose-mybatis-plus-core` | 审计、加密、数据权限、租户 |
-| `rose-mybatis-plus-spring-boot-starter` | MyBatis-Plus starter |
+| `rose-mybatis-plus-spring-boot` | MyBatis-Plus Boot 自动装配 |
 
 ### Observability
 
@@ -65,15 +64,15 @@
 | `rose-opentelemetry-micrometer-registry-otlp` | Micrometer → OTLP（默认指标路径） |
 | `rose-opentelemetry-micrometer-metrics-bridge` | Micrometer → OTel SDK |
 | `rose-opentelemetry-semantic-conventions` | 语义约定 |
-| `rose-opentelemetry-spring-boot-starter` | OTel starter |
+| `rose-opentelemetry-spring-boot` | OTel Boot 自动装配 |
 
 ### Multitenancy
 
 | Artifact | 说明 |
 |----------|------|
-| `rose-multitenancy-core` | 租户上下文 API（无 Boot） |
-| `rose-multitenancy-web` | Servlet/WebMVC 集成（无 Boot） |
-| `rose-multitenancy-spring-boot-starter` | Boot 自动装配 |
+| `rose-multitenancy-core` | 租户上下文 API（无 Spring） |
+| `rose-multitenancy-spring` | Spring + Servlet/WebMVC 集成（无 Boot） |
+| `rose-multitenancy-spring-boot` | Boot 自动装配 |
 
 ### Local services
 

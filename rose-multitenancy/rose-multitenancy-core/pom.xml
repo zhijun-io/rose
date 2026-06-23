@@ -13,19 +13,12 @@
 
     <artifactId>rose-multitenancy-core</artifactId>
     <name>Rose Multitenancy Core</name>
+    <description>Tenant context, resolver SPI and observability primitives (framework-agnostic)</description>
 
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -47,13 +40,11 @@
             <artifactId>logback-classic</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-observation-test</artifactId>
             <version>${micrometer.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>

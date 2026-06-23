@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.ibatis.mapping.SqlCommandType;
-import org.springframework.lang.Nullable;
-import org.springframework.util.ReflectionUtils;
 
 /**
  * Reflective helper for {@link FieldEncrypt} processing.
@@ -29,13 +27,13 @@ public final class FieldEncryptProcessor {
             return;
         }
         for (EncryptedField encryptedField : resolveFields(entity.getClass())) {
-            Object storedValue = ReflectionUtils.getField(encryptedField.field, entity);
+            Object storedValue = getField(encryptedField.field, entity);
             if (storedValue == null) {
                 continue;
             }
             String secret = keyResolver.resolve(encryptedField.annotation.secretRef());
             String decrypted = encryptor.decrypt(encryptedField.annotation.algorithm(), secret, storedValue);
-            ReflectionUtils.setField(encryptedField.field, entity, decrypted);
+            setField(encryptedField.field, entity, decrypted);
         }
     }
 
@@ -52,16 +50,16 @@ public final class FieldEncryptProcessor {
         if (encryptedFields.isEmpty()) {
             return () -> {};
         }
-        List<Runnable> restores = new ArrayList<>();
+        List<Runnable> restores = new ArrayList<Runnable>();
         for (EncryptedField encryptedField : encryptedFields) {
-            Object rawValue = ReflectionUtils.getField(encryptedField.field, entity);
+            Object rawValue = getField(encryptedField.field, entity);
             if (rawValue == null) {
                 continue;
             }
             String secret = keyResolver.resolve(encryptedField.annotation.secretRef());
             String encrypted = encryptor.encrypt(encryptedField.annotation.algorithm(), secret, rawValue);
-            ReflectionUtils.setField(encryptedField.field, entity, encrypted);
-            restores.add(() -> ReflectionUtils.setField(encryptedField.field, entity, rawValue));
+            setField(encryptedField.field, entity, encrypted);
+            restores.add(() -> setField(encryptedField.field, entity, rawValue));
         }
         return () -> {
             for (Runnable restore : restores) {
@@ -86,7 +84,7 @@ public final class FieldEncryptProcessor {
         if (!shouldProcess(commandType) || parameter == null) {
             return () -> {};
         }
-        List<Runnable> restores = new ArrayList<>();
+        List<Runnable> restores = new ArrayList<Runnable>();
         if (parameter instanceof Map<?, ?>) {
             for (Object value : ((Map<?, ?>) parameter).values()) {
                 restores.add(encryptFields(value, encryptor, keyResolver));
@@ -101,8 +99,7 @@ public final class FieldEncryptProcessor {
         };
     }
 
-    public static void processResult(@Nullable Object result, FieldEncryptor encryptor,
-            EncryptionKeyResolver keyResolver) {
+    public static void processResult(Object result, FieldEncryptor encryptor, EncryptionKeyResolver keyResolver) {
         if (result == null) {
             return;
         }
@@ -128,7 +125,7 @@ public final class FieldEncryptProcessor {
                 if (annotation == null) {
                     continue;
                 }
-                ReflectionUtils.makeAccessible(field);
+                makeAccessible(field);
                 fields.add(new EncryptedField(field, annotation));
             }
             current = current.getSuperclass();
@@ -136,6 +133,30 @@ public final class FieldEncryptProcessor {
         List<EncryptedField> immutable = Collections.unmodifiableList(fields);
         CACHE.put(type, immutable);
         return immutable;
+    }
+
+    private static Object getField(Field field, Object target) {
+        try {
+            makeAccessible(field);
+            return field.get(target);
+        } catch (IllegalAccessException ex) {
+            throw new IllegalStateException("Could not read field " + field, ex);
+        }
+    }
+
+    private static void setField(Field field, Object target, Object value) {
+        try {
+            makeAccessible(field);
+            field.set(target, value);
+        } catch (IllegalAccessException ex) {
+            throw new IllegalStateException("Could not set field " + field, ex);
+        }
+    }
+
+    private static void makeAccessible(Field field) {
+        if (!field.isAccessible()) {
+            field.setAccessible(true);
+        }
     }
 
     private static final class EncryptedField {

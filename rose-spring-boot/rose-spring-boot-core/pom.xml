@@ -13,7 +13,7 @@
 
     <artifactId>rose-spring-boot-core</artifactId>
     <name>Rose Spring Boot Core</name>
-    <description>Shared Spring Boot utilities for Rose</description>
+    <description>Shared Spring Boot utilities and baseline runtime for Rose applications</description>
 
     <dependencies>
         <dependency>
@@ -31,6 +31,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

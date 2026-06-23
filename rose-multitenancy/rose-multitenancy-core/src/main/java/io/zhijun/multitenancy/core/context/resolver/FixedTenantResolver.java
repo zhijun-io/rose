@@ -1,7 +1,5 @@
 package io.zhijun.multitenancy.core.context.resolver;
 
-import org.springframework.util.Assert;
-
 import io.zhijun.core.annotation.Incubating;
 
 /**
@@ -19,7 +17,9 @@ public final class FixedTenantResolver implements TenantResolver<Object> {
     }
 
     public FixedTenantResolver(String tenantIdentifier) {
-        Assert.hasText(tenantIdentifier, "tenantIdentifier cannot be null or empty");
+        if (tenantIdentifier == null || tenantIdentifier.trim().isEmpty()) {
+            throw new IllegalArgumentException("tenantIdentifier cannot be null or empty");
+        }
         this.fixedTenantIdentifier = tenantIdentifier;
     }
 

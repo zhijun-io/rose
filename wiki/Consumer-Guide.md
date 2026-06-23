@@ -9,10 +9,10 @@ How to consume Rose artifacts in a Spring Boot 2.7 application.
 | Layer | Artifact | Application usage |
 |---|---|---|
 | BOM | `rose-bom` | `dependencyManagement` import |
-| Baseline | `rose-spring-boot-starter` | Default platform starter |
-| Feature | `rose-*-spring-boot-starter` | Observability, multitenancy, MyBatis-Plus |
+| Baseline | `rose-spring-boot-core` | Default platform starter |
+| Feature | `rose-*-spring-boot` | Observability, multitenancy, MyBatis-Plus |
 | Dev services | `rose-devservice-*` | Optional `runtime` connectors |
-| Libraries | `rose-*-core`, `rose-multitenancy-web` | Advanced / manual wiring |
+| Libraries | `rose-*-core`, `rose-multitenancy-spring` | Advanced / manual wiring |
 
 Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). They do **not** inherit `rose-parent` or `rose-build`.
 
@@ -22,27 +22,22 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 
 | Starter | Use when |
 |---|---|
-| `rose-spring-boot-starter` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
-| `rose-opentelemetry-spring-boot-starter` | OTel SDK, logs, OTLP metrics, semantic conventions |
-| `rose-multitenancy-spring-boot-starter` | Multitenancy Boot auto-configuration |
-| `rose-multitenancy-web` | HTTP tenant resolution (header/cookie); add alongside multitenancy starter |
-| `rose-mybatis-plus-spring-boot-starter` | MyBatis-Plus audit, encryption, data permission |
+| `rose-spring-boot-core` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
+| `rose-opentelemetry-spring-boot` | OTel SDK, logs, OTLP metrics, semantic conventions |
+| `rose-multitenancy-spring-boot` | Multitenancy Boot auto-configuration (HTTP resolution on servlet apps) |
+| `rose-mybatis-plus-spring-boot` | MyBatis-Plus audit, encryption, data permission |
 
 ```xml
 <!-- Observability -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-opentelemetry-spring-boot-starter</artifactId>
+    <artifactId>rose-opentelemetry-spring-boot</artifactId>
 </dependency>
 
-<!-- Multitenancy (Web) -->
+<!-- Multitenancy -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-spring-boot-starter</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.zhijun</groupId>
-    <artifactId>rose-multitenancy-web</artifactId>
+    <artifactId>rose-multitenancy-spring-boot</artifactId>
 </dependency>
 ```
 

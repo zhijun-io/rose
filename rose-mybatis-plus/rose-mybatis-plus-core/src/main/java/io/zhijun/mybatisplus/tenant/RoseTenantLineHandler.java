@@ -3,9 +3,10 @@ package io.zhijun.mybatisplus.tenant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.util.Assert;
+import org.apache.commons.lang3.StringUtils;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 
@@ -25,8 +26,10 @@ public final class RoseTenantLineHandler implements TenantLineHandler {
 
     public RoseTenantLineHandler(TenantIdSupplier tenantIdSupplier, String tenantIdColumn,
             Collection<String> ignoreTables) {
-        Assert.notNull(tenantIdSupplier, "tenantIdSupplier cannot be null");
-        Assert.hasText(tenantIdColumn, "tenantIdColumn cannot be null or empty");
+        Objects.requireNonNull(tenantIdSupplier, "tenantIdSupplier cannot be null");
+        if (StringUtils.isBlank(tenantIdColumn)) {
+            throw new IllegalArgumentException("tenantIdColumn cannot be null or empty");
+        }
         this.tenantIdSupplier = tenantIdSupplier;
         this.tenantIdColumn = tenantIdColumn;
         this.ignoreTables = Collections.unmodifiableSet(new HashSet<String>(ignoreTables));

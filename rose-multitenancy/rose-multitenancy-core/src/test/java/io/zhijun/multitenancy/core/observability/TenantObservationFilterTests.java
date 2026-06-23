@@ -32,7 +32,7 @@ class TenantObservationFilterTests {
     @Test
     void whenNullCardinalityThenThrow() {
         assertThatThrownBy(() -> new TenantObservationFilter("tenant.id", null))
-            .isInstanceOf(IllegalArgumentException.class)
+            .isInstanceOf(NullPointerException.class)
             .hasMessageContaining("cardinality cannot be null");
     }
 

@@ -30,6 +30,6 @@
         <module>rose-devservice-mqtt</module>
         <module>rose-devservice-openlit</module>
         <module>rose-devservice-otel</module>
-        <module>rose-devservice-tests</module>
+        <module>rose-devservice-test</module>
     </modules>
 </project>
