@@ -62,7 +62,7 @@ class MultitenancyWebAutoConfigurationTests {
     void httpRequestTenantResolverFixed() {
         contextRunner
                 .withPropertyValues("rose.multitenancy.resolution.fixed.enabled=true",
-                        "rose.multitenancy.resolution.fixed.tenant-identifier=myTenant")
+                        "rose.multitenancy.resolution.fixed.tenantIdentifier=myTenant")
                 .run(context -> {
                     assertThat(context).hasSingleBean(HttpRequestTenantResolver.class);
                     HttpRequestTenantResolver httpRequestTenantResolver = context.getBean(HttpRequestTenantResolver.class);

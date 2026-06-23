@@ -8,13 +8,16 @@ import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
+import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 
 import io.zhijun.mybatisplus.audit.AuditMetaObjectHandler;
 import io.zhijun.mybatisplus.audit.CurrentAuditorProvider;
@@ -25,6 +28,9 @@ import io.zhijun.mybatisplus.crypto.FieldEncryptor;
 import io.zhijun.mybatisplus.permission.DataPermissionConditionResolver;
 import io.zhijun.mybatisplus.permission.DataPermissionPrincipalResolver;
 import io.zhijun.mybatisplus.permission.RoseDataPermissionHandler;
+import io.zhijun.mybatisplus.tenant.RoseTenantLineHandler;
+import io.zhijun.mybatisplus.tenant.TenantIdSupplier;
+import io.zhijun.mybatisplus.tenant.TenantLineInnerInterceptorRegistrar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +41,8 @@ import java.util.List;
 @Configuration
 @ConditionalOnClass({MybatisPlusInterceptor.class, MetaObjectHandler.class})
 @ConditionalOnMybatisPlusEnabled
-@EnableConfigurationProperties(EncryptorProperties.class)
+@EnableConfigurationProperties({EncryptorProperties.class, TenantLineProperties.class})
+@Import(TenantContextTenantIdSupplierAutoConfiguration.class)
 public class RoseMybatisPlusAutoConfiguration {
 
     @Bean
@@ -82,6 +89,23 @@ public class RoseMybatisPlusAutoConfiguration {
     public DataPermissionInterceptorRegistrar dataPermissionInterceptorRegistrar(
             DataPermissionHandler dataPermissionHandler) {
         return new DataPermissionInterceptorRegistrar(dataPermissionHandler);
+    }
+
+    @Bean
+    @ConditionalOnBean(TenantIdSupplier.class)
+    @ConditionalOnProperty(prefix = TenantLineProperties.CONFIG_PREFIX, name = "enabled", matchIfMissing = true)
+    @ConditionalOnMissingBean(TenantLineHandler.class)
+    public RoseTenantLineHandler roseTenantLineHandler(TenantIdSupplier tenantIdSupplier,
+            TenantLineProperties tenantLineProperties) {
+        return new RoseTenantLineHandler(tenantIdSupplier, tenantLineProperties.getColumn(),
+                tenantLineProperties.getIgnoreTables());
+    }
+
+    @Bean
+    @ConditionalOnBean(RoseTenantLineHandler.class)
+    public TenantLineInnerInterceptorRegistrar tenantLineInnerInterceptorRegistrar(
+            RoseTenantLineHandler roseTenantLineHandler) {
+        return new TenantLineInnerInterceptorRegistrar(roseTenantLineHandler);
     }
 
     @Bean

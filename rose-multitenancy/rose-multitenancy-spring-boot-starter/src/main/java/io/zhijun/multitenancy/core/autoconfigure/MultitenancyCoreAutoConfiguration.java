@@ -15,8 +15,8 @@ import io.zhijun.multitenancy.core.context.resolver.FixedTenantResolver;
  * Auto-configuration for core multitenancy.
  */
 @AutoConfiguration
-@EnableConfigurationProperties(FixedTenantResolutionProperties.class)
-@Import({ TenantDetailsConfiguration.class, TenantObservabilityConfiguration.class })
+@EnableConfigurationProperties({FixedTenantResolutionProperties.class, MultitenancyAsyncProperties.class})
+@Import({ TenantDetailsConfiguration.class, TenantObservabilityConfiguration.class, MultitenancyAsyncConfiguration.class })
 public final class MultitenancyCoreAutoConfiguration {
 
     @Bean

@@ -312,7 +312,7 @@ public final class HandlerMethodInterceptorChain {
 | 机制 | 层次 | 用途 |
 |------|------|------|
 | `Filter` / `HandlerInterceptor` | HTTP | 租户解析、Trace 入口 |
-| `HandlerMethodArgumentResolver` | 参数 | `@TenantIdentifier` 等 |
+| `HandlerMethodArgumentResolver` | 参数 | `@TenantId` 等 |
 | **本 SPI** | Controller 方法 | 框架插件、方法级策略 |
 | `@Aspect` | 业务 | 业务横切 |
 

@@ -29,6 +29,7 @@ class RoseMybatisPlusAutoConfigurationTests {
     @Test
     void shouldApplySpringBeanCustomizersToInterceptor() {
         contextRunner
+                .withPropertyValues("rose.mybatis-plus.tenant.enabled=false")
                 .withUserConfiguration(CustomizerConfig.class, MybatisPlusInterceptorConfig.class)
                 .run(context -> {
                     MybatisPlusInterceptor interceptor =
