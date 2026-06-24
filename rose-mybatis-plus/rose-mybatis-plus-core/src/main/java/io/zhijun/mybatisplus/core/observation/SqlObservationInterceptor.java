@@ -156,6 +156,9 @@ public class SqlObservationInterceptor implements Interceptor {
                     }
                 }
             }
+            if (scope != null) {
+                scope.close();
+            }
             if (span != null) {
                 if (sqlText != null) {
                     span.setAttribute("db.statement",
@@ -164,9 +167,6 @@ public class SqlObservationInterceptor implements Interceptor {
                                     : sqlText);
                 }
                 span.end();
-            }
-            if (scope != null) {
-                scope.close();
             }
             if (meterRegistry != null) {
                 Timer.builder(METER_NAME)
