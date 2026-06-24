@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
-# Align Rose business domains to convention B:
-#   {domain}.core.*           (core module)
-#   {domain}.boot.autoconfigure.* (spring-boot autoconfiguration)
-#   {domain}.boot.registration.*  (devservice spring-boot registration)
-#   {domain}.spring.*         (spring integration module)
+# Align Rose business domains to convention B (see rose-bom/README.md).
+# One-shot migration helper; prefer manual moves for incremental PRs.
+# Supersedes scripts/migrate-package-layout.sh (removed — layer-first without .core.).
+#
+#   {domain}.core.*                 (core module)
+#   {domain}.boot.autoconfigure.*   (spring-boot autoconfiguration)
+#   {domain}.boot.registration.*    (devservice spring-boot registration)
+#   {domain}.spring.*               (spring integration module)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

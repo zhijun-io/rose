@@ -27,7 +27,7 @@ Starter 传递依赖 `rose-multitenancy-spring`；Servlet 环境下自动启用 
 
 | 模块 | 根包 |
 |------|------|
-| `rose-multitenancy-core` | `io.zhijun.multitenancy.{context,detail,exception,observation}.*` |
+| `rose-multitenancy-core` | `io.zhijun.multitenancy.core.{context,detail,exception,observation}.*` |
 | `rose-multitenancy-spring` | `io.zhijun.multitenancy.spring.*`（WebMVC 在 `spring.web`） |
 | `rose-multitenancy-spring-boot` | `io.zhijun.multitenancy.boot.autoconfigure.*`、`io.zhijun.multitenancy.boot.autoconfigure.web.*` |
 
