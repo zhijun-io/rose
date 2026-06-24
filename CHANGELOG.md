@@ -13,8 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dev Services: artifacts renamed to `rose-devservice-spring-boot-{tech}` (replaces `rose-devservice-{tech}`). Configuration keys remain `rose.dev.*`.
 - Dev Services: Java packages renamed from `io.zhijun.dev.*` to `io.zhijun.devservice.*` (breaking for direct imports).
 - Dev Services: class prefix renamed from `LocalService*` to `DevService*`.
-- Observation: Boot auto-configuration moved to `rose-observation-spring-boot`; use it instead of `rose-observation-core` alone for startup validation.
-- OpenTelemetry: SDK Boot auto-configuration moved to `rose-opentelemetry-spring-boot`; `rose-opentelemetry-core` is again the default stack aggregator (logback bridge, OTLP metrics, semantic conventions, Actuator).
+- Observability: merged `rose-observation` and `rose-opentelemetry` into `rose-observability`; conventions use `TelemetryConventionsBackend` with `rose.observability.conventions.backend` selection; default stack is `rose-observability-spring-boot`.
+- Observation: Boot auto-configuration moved to `rose-observability-spring-boot`; use `rose-observability-spring-boot` for full stack.
+- OpenTelemetry: SDK moved to `rose-observability-spring-boot-otel`; packages under `io.zhijun.observability.otel.autoconfigure.*`.
 - Removed unused BOM entries `rose-excel` and `rose-sqlite`.
 
 ### Migration
@@ -22,8 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Before | After |
 |--------|-------|
 | `io.zhijun.dev.*` | `io.zhijun.devservice.*` |
-| `rose-observation-core` only (Boot apps) | Add `rose-observation-spring-boot` |
-| `rose-opentelemetry-spring-boot` only (full stack) | Use `rose-opentelemetry-core` for default stack, or `rose-opentelemetry-spring-boot` for SDK autoconfig only |
+| `io.zhijun.opentelemetry.*` | `io.zhijun.observability.otel.autoconfigure.*` |
+| `io.zhijun.observation.*` | `io.zhijun.observability.core.*` / `io.zhijun.observability.core.autoconfigure.*` |
+| `rose-observation-*` / `rose-opentelemetry-*` | `rose-observability-*`（见 README） |
+| `rose-opentelemetry-core` | `rose-observability-spring-boot` |
+| `rose.observations.conventions.*` | `rose.observability.conventions.*` |
 
 ## [0.1.0] - Unreleased
 
@@ -37,23 +41,23 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 - `rose-bom` for aligned dependency management across all published artifacts
 - `rose-core` utilities (`PropertyAdapter`, incubating/internal markers)
 - `rose-spring-boot` 父模块（`rose-spring-boot-core`、`rose-spring-boot-starter`）；使用 Spring profiles 区分环境
-- `rose-observation-core` observation support
+- `rose-observability-core` observation support
 - JaCoCo aggregate coverage via `rose-coverage` (`mvn verify -Pcoverage`)
 
 #### Spring Boot starters
 
 - `rose-spring-boot-starter` — baseline Rose platform
-- `rose-opentelemetry-spring-boot-starter` — OpenTelemetry SDK, logs, OTLP metrics, Actuator
+- `rose-observability-spring-boot-otel-starter` — OpenTelemetry SDK, logs, OTLP metrics, Actuator
 - `rose-multitenancy-core-spring-boot-starter` — multitenancy without the web stack
 - `rose-multitenancy-web-spring-boot-starter` — multitenancy with `spring-boot-starter-web`
 
 #### OpenTelemetry
 
 - Auto-configuration for tracing, metrics, logs, and resource contributors
-- `rose-opentelemetry-logback-bridge` — Logback ↔ OpenTelemetry logs
-- `rose-opentelemetry-micrometer-registry-otlp` — Micrometer → OTLP metrics (default in OTel starter)
-- `rose-opentelemetry-micrometer-metrics-bridge` — Micrometer → OpenTelemetry `MeterProvider`
-- `rose-opentelemetry-semantic-conventions` — Rose semantic conventions
+- `rose-observability-spring-boot-logback` — Logback ↔ OpenTelemetry logs
+- `rose-observability-spring-boot-micrometer-otlp` — Micrometer → OTLP metrics (default in OTel starter)
+- `rose-observability-spring-boot-micrometer-bridge` — Micrometer → OpenTelemetry `MeterProvider`
+- `rose-observability-spring-boot-conventions-otel` — Rose semantic conventions
 
 #### Dev Services
 

@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.opentelemetry.autoconfigure.exporter.otlp.Protocol;
-import io.zhijun.opentelemetry.autoconfigure.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
-import io.zhijun.opentelemetry.autoconfigure.traces.exporter.otlp.OtlpTracingConnectionDetails;
+import io.zhijun.observability.otel.autoconfigure.exporter.otlp.Protocol;
+import io.zhijun.observability.otel.autoconfigure.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
+import io.zhijun.observability.otel.autoconfigure.traces.exporter.otlp.OtlpTracingConnectionDetails;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;

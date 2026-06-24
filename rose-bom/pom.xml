@@ -68,37 +68,37 @@
             <!-- Observability -->
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-core</artifactId>
+                <artifactId>rose-observability-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-spring-boot</artifactId>
+                <artifactId>rose-observability-spring-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-opentelemetry-core</artifactId>
+                <artifactId>rose-observability-spring-boot-otel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-opentelemetry-logback-bridge</artifactId>
+                <artifactId>rose-observability-spring-boot-logback</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-opentelemetry-micrometer-metrics-bridge</artifactId>
+                <artifactId>rose-observability-spring-boot-micrometer-bridge</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-opentelemetry-micrometer-registry-otlp</artifactId>
+                <artifactId>rose-observability-spring-boot-micrometer-otlp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-opentelemetry-semantic-conventions</artifactId>
+                <artifactId>rose-observability-spring-boot-conventions-otel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Multitenancy -->
@@ -110,11 +110,6 @@
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-multitenancy-spring</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-opentelemetry-spring-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

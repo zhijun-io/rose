@@ -59,8 +59,8 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 | Starter | Use when |
 |---------|----------|
 | `rose-spring-boot-core` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
-| `rose-opentelemetry-core` | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions, Actuator |
-| `rose-opentelemetry-spring-boot` | OTel SDK Boot auto-configuration only (compose with bridge slices as needed) |
+| `rose-observability-spring-boot` | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions, conventions selection, Actuator |
+| `rose-observability-spring-boot-otel` | OTel SDK Boot auto-configuration only (compose with bridge slices as needed) |
 | `rose-multitenancy-spring-boot` | Multitenancy Boot auto-configuration (includes HTTP tenant resolution on servlet apps) |
 | `rose-mybatis-plus-spring-boot` | MyBatis-Plus audit, encryption, data permission |
 
@@ -68,7 +68,7 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 <!-- Observability -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-opentelemetry-core</artifactId>
+    <artifactId>rose-observability-spring-boot</artifactId>
 </dependency>
 
 <!-- Multitenancy -->
@@ -105,10 +105,10 @@ Global toggle: `rose.dev.enabled`. See [rose-devservice/README.md](rose-devservi
 
 | Module | Path | When |
 |--------|------|------|
-| `rose-opentelemetry-micrometer-registry-otlp` | Micrometer → OTLP | Default in the OTel starter |
-| `rose-opentelemetry-micrometer-metrics-bridge` | Micrometer → OTel SDK | Metrics share the same SDK as traces/logs |
+| `rose-observability-spring-boot-micrometer-otlp` | Micrometer → OTLP | Default in the OTel starter |
+| `rose-observability-spring-boot-micrometer-bridge` | Micrometer → OTel SDK | Metrics share the same SDK as traces/logs |
 
-See [rose-opentelemetry/README.md](rose-opentelemetry/README.md).
+See [rose-observability/README.md](rose-observability/README.md).
 
 ## Documentation
 
@@ -122,7 +122,7 @@ See [rose-opentelemetry/README.md](rose-opentelemetry/README.md).
 | Build, CI, release | [rose-build/README.md](rose-build/README.md) |
 | Design notes | [docs/](docs/) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-opentelemetry](rose-opentelemetry/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
+**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observability](rose-observability/) · [rose-observability](rose-observability/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
 
 Build layout follows [microsphere-build](https://github.com/microsphere-projects/microsphere-build).
 

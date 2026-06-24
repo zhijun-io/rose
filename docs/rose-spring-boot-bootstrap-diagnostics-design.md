@@ -73,7 +73,7 @@ Rose 应用在 **Boot 2.7 / Java 8** 上运行。`rose-spring-boot` 负责：
 |------|------|
 | `rose-spring-boot` | Bootstrap EPP、AutoConfiguration、条件注解、`RoseBinder` |
 | `rose-devservice-core` | Dev Services 注册、容器生命周期、Dev Services FailureAnalyzer |
-| `rose-observation-spring-boot` | Observation 冲突 FailureAnalyzer |
+| `rose-observability-spring-boot` | Ambiguous conventions backend FailureAnalyzer |
 | `rose-spring-core` | `ListenableConfigurableEnvironmentInitializer`（Framework 层） |
 
 ---
@@ -168,7 +168,7 @@ fully.qualified.AnalyzerClass
 | Analyzer | 模块 | 异常类型 | Action 要点 |
 |----------|------|----------|-------------|
 | `MultipleDevServiceFailureAnalyzer` | rose-devservice-spring-boot | `MultipleDevServiceException` | 同 category 只启用一个 connector |
-| `MultipleAiObservationConventionsFailureAnalyzer` | observation-core | `MultipleAiObservationConventionsException` | 只保留一个 AI convention |
+| `AmbiguousConventionsBackendFailureAnalyzer` | observability-spring-boot | `AmbiguousConventionsBackendException` | 设置 `rose.observability.conventions.backend` 或移除多余 backend |
 
 ### 6.3 新增 Analyzer 模板
 
@@ -268,7 +268,7 @@ DevServicesBootstrapCoordinator
 | 2 | `BootstrapEnvironmentPostProcessorTests` | DEV/TEST profile 追加 |
 | 3 | `BootstrapAutoConfigurationTests` | 属性绑定 |
 | 4 | `MultipleDevServiceFailureAnalyzerTests` | 文案与 action |
-| 5 | `MultipleAiObservationConventionsFailureAnalyzerTests` | 同上 |
+| 5 | `AmbiguousConventionsBackendFailureAnalyzerTests` | 同上 |
 
 ---
 

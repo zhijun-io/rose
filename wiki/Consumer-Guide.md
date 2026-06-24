@@ -23,8 +23,8 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 | Starter | Use when |
 |---|---|
 | `rose-spring-boot-core` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
-| `rose-opentelemetry-core` | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions |
-| `rose-opentelemetry-spring-boot` | OTel SDK Boot auto-configuration only |
+| `rose-observability-spring-boot` | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions |
+| `rose-observability-spring-boot-otel` | OTel SDK Boot auto-configuration only |
 | `rose-multitenancy-spring-boot` | Multitenancy Boot auto-configuration (HTTP resolution on servlet apps) |
 | `rose-mybatis-plus-spring-boot` | MyBatis-Plus audit, encryption, data permission |
 
@@ -32,7 +32,7 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 <!-- Observability -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-opentelemetry-core</artifactId>
+    <artifactId>rose-observability-spring-boot</artifactId>
 </dependency>
 
 <!-- Multitenancy -->
@@ -54,7 +54,7 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 | Dev services (connector) | `rose.dev.<connector>.*` | `rose.dev.postgresql.enabled=true` |
 | Bootstrap profiles | `rose.bootstrap.*`, `rose.dev.profiles` | dev/test profile activation |
 
-OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via environment post-processors. See [rose-opentelemetry/README.md](../rose-opentelemetry/README.md).
+OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via environment post-processors. See [rose-observability/README.md](../rose-observability/README.md).
 
 ---
 
@@ -77,11 +77,11 @@ Default credentials and database name are **`rose`** unless overridden.
 | Core | [rose-core/README.md](../rose-core/README.md) |
 | Spring | [rose-spring/README.md](../rose-spring/README.md) |
 | Spring Boot | [rose-spring-boot/README.md](../rose-spring-boot/README.md) |
-| OpenTelemetry | [rose-opentelemetry/README.md](../rose-opentelemetry/README.md) |
+| OpenTelemetry | [rose-observability/README.md](../rose-observability/README.md) |
 | Multitenancy | [rose-multitenancy/README.md](../rose-multitenancy/README.md) |
 | Dev services | [rose-devservice/README.md](../rose-devservice/README.md) |
 | MyBatis-Plus | [rose-mybatis-plus/README.md](../rose-mybatis-plus/README.md) |
-| Observation | [rose-observation/README.md](../rose-observation/README.md) |
+| Observation | [rose-observability/README.md](../rose-observability/README.md) |
 
 ---
 

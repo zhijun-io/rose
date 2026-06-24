@@ -1,0 +1,13 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+io.zhijun.observability.otel.autoconfigure.config.OpenTelemetryEnvironmentPostProcessor
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.zhijun.observability.otel.autoconfigure.exporter.OpenTelemetryExporterAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.logs.exporter.OpenTelemetryLoggingExporterAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.logs.OpenTelemetryLoggingAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.metrics.exporter.OpenTelemetryMetricsExporterAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.metrics.OpenTelemetryMetricsAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.resource.OpenTelemetryResourceAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.traces.exporter.OpenTelemetryTracingExporterAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.traces.OpenTelemetryTracingAutoConfiguration,\
+io.zhijun.observability.otel.autoconfigure.OpenTelemetryAutoConfiguration

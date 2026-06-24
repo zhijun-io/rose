@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 import io.zhijun.devservice.core.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.opentelemetry.autoconfigure.exporter.otlp.OtlpContainerConnectionDetails;
-import io.zhijun.opentelemetry.autoconfigure.metrics.exporter.OpenTelemetryMetricsExporterAutoConfiguration;
-import io.zhijun.opentelemetry.autoconfigure.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
-import io.zhijun.opentelemetry.autoconfigure.traces.exporter.OpenTelemetryTracingExporterAutoConfiguration;
-import io.zhijun.opentelemetry.autoconfigure.traces.exporter.otlp.OtlpTracingConnectionDetails;
+import io.zhijun.observability.otel.autoconfigure.exporter.otlp.OtlpContainerConnectionDetails;
+import io.zhijun.observability.otel.autoconfigure.metrics.exporter.OpenTelemetryMetricsExporterAutoConfiguration;
+import io.zhijun.observability.otel.autoconfigure.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
+import io.zhijun.observability.otel.autoconfigure.traces.exporter.OpenTelemetryTracingExporterAutoConfiguration;
+import io.zhijun.observability.otel.autoconfigure.traces.exporter.otlp.OtlpTracingConnectionDetails;
 
 /**
  * Registers OTLP connection details from the OpenLit dev service container.
