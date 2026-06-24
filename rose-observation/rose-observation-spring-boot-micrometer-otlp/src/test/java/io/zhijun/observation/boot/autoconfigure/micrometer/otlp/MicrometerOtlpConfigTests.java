@@ -1,13 +1,16 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test for {@link MicrometerOtlpConfig}.
@@ -108,6 +111,20 @@ class MicrometerOtlpConfigTests {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> MicrometerOtlpConfig.builder().addResourceAttributes(resourceAttributes))
                 .withMessage("resourceAttributes cannot contain null keys");
+    }
+
+    @Test
+    void shouldReturnImmutableResourceAttributes() {
+        Map<String, String> resourceAttributes = new HashMap<String, String>();
+        resourceAttributes.put("service.name", "test");
+
+        MicrometerOtlpConfig config = MicrometerOtlpConfig.builder()
+                .url("http://localhost:4318/v1/metrics")
+                .addResourceAttributes(resourceAttributes)
+                .build();
+
+        assertThatThrownBy(() -> config.resourceAttributes().put("extra", "value"))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 
 }
