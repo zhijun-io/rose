@@ -3,7 +3,7 @@ package io.zhijun.multitenancy.boot.autoconfigure;
 import io.zhijun.multitenancy.boot.autoconfigure.async.MultitenancyAsyncConfiguration;
 import io.zhijun.multitenancy.boot.autoconfigure.async.MultitenancyAsyncProperties;
 import io.zhijun.multitenancy.boot.autoconfigure.detail.TenantDetailsConfiguration;
-import io.zhijun.multitenancy.boot.autoconfigure.observation.TenantObservationConfiguration;
+import io.zhijun.multitenancy.boot.autoconfigure.logging.TenantLoggingConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,7 +21,7 @@ import io.zhijun.multitenancy.core.context.FixedTenantResolver;
  */
 @AutoConfiguration
 @EnableConfigurationProperties({FixedTenantResolutionProperties.class, MultitenancyAsyncProperties.class})
-@Import({ TenantDetailsConfiguration.class, TenantObservationConfiguration.class, MultitenancyAsyncConfiguration.class })
+@Import({ TenantDetailsConfiguration.class, TenantLoggingConfiguration.class, MultitenancyAsyncConfiguration.class })
 public final class MultitenancyCoreAutoConfiguration {
 
     @Bean

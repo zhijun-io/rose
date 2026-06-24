@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import io.zhijun.multitenancy.boot.autoconfigure.observation.TenantLoggingProperties;
+import io.zhijun.multitenancy.boot.autoconfigure.logging.TenantLoggingProperties;
 
 import org.junit.jupiter.api.Test;
 

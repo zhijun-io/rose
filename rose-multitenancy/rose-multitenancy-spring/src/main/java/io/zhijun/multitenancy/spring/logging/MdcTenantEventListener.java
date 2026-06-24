@@ -1,4 +1,4 @@
-package io.zhijun.multitenancy.spring.observation;
+package io.zhijun.multitenancy.spring.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

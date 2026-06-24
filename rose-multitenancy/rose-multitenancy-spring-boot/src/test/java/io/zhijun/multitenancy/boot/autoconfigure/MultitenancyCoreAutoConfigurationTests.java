@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.multitenancy.spring.cache.TenantKeyGenerator;
 import io.zhijun.multitenancy.core.context.FixedTenantResolver;
-import io.zhijun.multitenancy.spring.observation.MdcTenantEventListener;
+import io.zhijun.multitenancy.spring.logging.MdcTenantEventListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

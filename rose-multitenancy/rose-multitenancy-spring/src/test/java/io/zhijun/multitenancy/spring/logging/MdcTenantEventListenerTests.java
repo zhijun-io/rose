@@ -1,4 +1,4 @@
-package io.zhijun.multitenancy.spring.observation;
+package io.zhijun.multitenancy.spring.logging;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;

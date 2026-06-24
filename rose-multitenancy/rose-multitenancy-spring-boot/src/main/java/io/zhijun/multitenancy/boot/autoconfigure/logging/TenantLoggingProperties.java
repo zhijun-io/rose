@@ -1,4 +1,4 @@
-package io.zhijun.multitenancy.boot.autoconfigure.observation;
+package io.zhijun.multitenancy.boot.autoconfigure.logging;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
