@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.devservice.api.provider.DevServiceProvider;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.core.registration.DevServiceContainersInitializer;
 
 /**

@@ -8,11 +8,11 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.utility.MountableFile;
 
-import io.zhijun.devservice.bootstrap.BootstrapMode;
-import io.zhijun.devservice.api.config.BaseDevServiceProperties;
-import io.zhijun.devservice.api.config.JdbcDevServiceProperties;
-import io.zhijun.devservice.api.config.ResourceMapping;
-import io.zhijun.devservice.api.config.VolumeMapping;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
+import io.zhijun.devservice.core.api.config.ResourceMapping;
+import io.zhijun.devservice.core.api.config.VolumeMapping;
 
 /**
  * Applies dev service properties to Testcontainers instances.

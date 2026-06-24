@@ -24,18 +24,18 @@ import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.multitenancy.spring.context.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.context.event.TenantContextClosedEvent;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
-import io.zhijun.multitenancy.core.observability.TenantObservationFilter;
+import io.zhijun.multitenancy.observability.TenantObservationFilter;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import io.zhijun.multitenancy.web.resolver.HttpRequestTenantResolver;
 
 /**
- * Establish a tenant context from an HTTP request, if tenant information is available.
+ * Establish a multitenancy context from an HTTP request, if multitenancy information is available.
  */
 @Incubating
 public final class TenantContextFilter extends OncePerRequestFilter implements Ordered {
 
     private static final String MISSING_TENANT_ERROR_MESSAGE =
-            "A tenant identifier must be specified for HTTP requests to %s";
+            "A multitenancy identifier must be specified for HTTP requests to %s";
 
     private final HttpRequestTenantResolver httpRequestTenantResolver;
 
@@ -76,7 +76,7 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
     }
 
     /**
-     * Run early so downstream filters and the dispatcher can access the tenant context.
+     * Run early so downstream filters and the dispatcher can access the multitenancy context.
      * Slightly later than {@link Ordered#HIGHEST_PRECEDENCE} to allow character-encoding and
      * request-context filters to run first.
      */

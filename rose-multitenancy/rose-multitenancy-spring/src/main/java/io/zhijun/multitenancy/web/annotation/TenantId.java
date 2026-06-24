@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that is used to resolve the current tenant identifier as a method argument.
+ * Annotation that is used to resolve the current multitenancy identifier as a method argument.
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)

@@ -16,7 +16,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Matches HTTP request paths for which a tenant identifier is required.
+ * Matches HTTP request paths for which a multitenancy identifier is required.
  */
 @Incubating
 public final class TenantContextRequiredPathMatcher {

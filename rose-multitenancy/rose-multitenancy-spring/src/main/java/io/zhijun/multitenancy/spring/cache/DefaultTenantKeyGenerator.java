@@ -9,7 +9,7 @@ import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
 
 /**
- * Generates cache keys combining the current tenant identifier with method parameters.
+ * Generates cache keys combining the current multitenancy identifier with method parameters.
  */
 @Incubating
 public final class DefaultTenantKeyGenerator implements TenantKeyGenerator {

@@ -1,12 +1,15 @@
 package io.zhijun.multitenancy.web.autoconfigure;
 
+import io.zhijun.multitenancy.autoconfigure.web.HttpTenantResolutionConfiguration;
+import io.zhijun.multitenancy.autoconfigure.web.MultitenancyWebAutoConfiguration;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import io.zhijun.multitenancy.core.autoconfigure.MultitenancyCoreAutoConfiguration;
+import io.zhijun.multitenancy.autoconfigure.core.MultitenancyCoreAutoConfiguration;
 import io.zhijun.multitenancy.web.filter.TenantContextIgnorePathMatcher;
 import io.zhijun.multitenancy.web.resolver.CookieTenantResolver;
 import io.zhijun.multitenancy.web.resolver.HeaderTenantResolver;

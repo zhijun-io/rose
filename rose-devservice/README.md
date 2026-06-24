@@ -22,8 +22,8 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 
 | 模块 | 根包 |
 |------|------|
-| `rose-devservice-core` | `io.zhijun.devservice.api.*`、`io.zhijun.devservice.bootstrap.*`、`io.zhijun.devservice.core.{container,docker,util}` |
-| `rose-devservice-spring-boot` | `io.zhijun.devservice.core.{autoconfigure,registration}`、`io.zhijun.devservice.autoconfigure.bootstrap.*` |
+| `rose-devservice-core` | `io.zhijun.devservice.core.api.*`、`io.zhijun.devservice.core.bootstrap.*`、`io.zhijun.devservice.core.{container,docker,util}` |
+| `rose-devservice-spring-boot` | `io.zhijun.devservice.core.{autoconfigure,registration}`、`io.zhijun.devservice.core.autoconfigure.bootstrap.*` |
 | `rose-devservice-spring-boot-actuator` | `io.zhijun.devservice.actuator.*` |
 | `rose-devservice-spring-boot-{tech}` | `io.zhijun.devservice.{tech}.*` |
 

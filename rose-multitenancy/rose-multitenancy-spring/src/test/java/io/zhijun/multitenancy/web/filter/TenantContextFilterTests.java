@@ -100,14 +100,14 @@ class TenantContextFilterTests {
 
     @Test
     void whenTenantVerifierRejectsThenReturnBadRequest() throws ServletException, IOException {
-        String tenantIdentifier = "invalid-tenant";
+        String tenantIdentifier = "invalid-multitenancy";
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(HeaderTenantResolver.DEFAULT_HEADER_NAME, tenantIdentifier);
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockFilterChain filterChain = new MockFilterChain();
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         TenantVerifier tenantVerifier = id -> {
-            throw new TenantVerificationException("The resolved tenant is invalid or disabled");
+            throw new TenantVerificationException("The resolved multitenancy is invalid or disabled");
         };
         TenantContextFilter filter = TenantContextFilter.builder()
             .httpRequestTenantResolver(new HeaderTenantResolver())
@@ -119,7 +119,7 @@ class TenantContextFilterTests {
         filter.doFilter(request, response, filterChain);
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(response.getContentAsString()).contains("The resolved tenant is invalid or disabled");
+        assertThat(response.getContentAsString()).contains("The resolved multitenancy is invalid or disabled");
 
         Mockito.verify(eventPublisher, Mockito.times(0)).publishEvent(Mockito.any(ApplicationEvent.class));
     }
@@ -161,7 +161,7 @@ class TenantContextFilterTests {
         filter.doFilter(request, response, filterChain);
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(response.getContentAsString()).contains("A tenant identifier must be specified for HTTP requests");
+        assertThat(response.getContentAsString()).contains("A multitenancy identifier must be specified for HTTP requests");
 
         Mockito.verify(eventPublisher, Mockito.times(0)).publishEvent(Mockito.any(ApplicationEvent.class));
     }

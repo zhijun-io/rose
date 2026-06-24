@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-observability-spring-boot-conventions-otel</artifactId>
-    <name>Rose OpenTelemetry Semantic Conventions</name>
+    <name>Rose Observability Conventions OTel</name>
 
     <dependencies>
         <dependency>

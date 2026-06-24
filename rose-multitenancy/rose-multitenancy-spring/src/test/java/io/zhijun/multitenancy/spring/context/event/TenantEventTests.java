@@ -20,7 +20,7 @@ class TenantEventTests {
 
     @Test
     void whenNullSourceThenThrow() {
-        assertThatThrownBy(() -> new TestTenantEvent("tenant", null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new TestTenantEvent("multitenancy", null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     static class TestTenantEvent extends TenantEvent {

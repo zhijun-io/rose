@@ -8,9 +8,9 @@ import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.api.config.JdbcDevServiceProperties;
-import io.zhijun.devservice.api.config.ResourceMapping;
-import io.zhijun.devservice.api.config.VolumeMapping;
+import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
+import io.zhijun.devservice.core.api.config.ResourceMapping;
+import io.zhijun.devservice.core.api.config.VolumeMapping;
 
 /**
  * PostgreSQL dev service properties.

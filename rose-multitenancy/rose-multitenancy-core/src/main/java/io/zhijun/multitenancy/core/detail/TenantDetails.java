@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * Provides core tenant information.
+ * Provides core multitenancy information.
  */
 public interface TenantDetails {
 

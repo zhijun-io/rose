@@ -6,7 +6,7 @@ import org.springframework.util.Assert;
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Abstract superclass for all tenant-related Spring application events.
+ * Abstract superclass for all multitenancy-related Spring application events.
  */
 @Incubating
 public abstract class TenantEvent extends ApplicationEvent {

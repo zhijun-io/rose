@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Writes the HTTP response when a required tenant identifier is missing.
+ * Writes the HTTP response when a required multitenancy identifier is missing.
  */
 @Incubating
 @FunctionalInterface

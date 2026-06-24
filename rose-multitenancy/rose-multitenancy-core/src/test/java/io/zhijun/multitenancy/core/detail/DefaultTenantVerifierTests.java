@@ -26,7 +26,7 @@ class DefaultTenantVerifierTests {
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify(null)).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+            .hasMessageContaining("The multitenancy identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
     }
 
     @Test
@@ -35,7 +35,7 @@ class DefaultTenantVerifierTests {
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify("acme\nmalicious")).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+            .hasMessageContaining("The multitenancy identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
     }
 
     @Test
@@ -66,7 +66,7 @@ class DefaultTenantVerifierTests {
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify("acme")).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The resolved tenant is invalid or disabled");
+            .hasMessageContaining("The resolved multitenancy is invalid or disabled");
     }
 
     @Test
@@ -76,7 +76,7 @@ class DefaultTenantVerifierTests {
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify("unknown")).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The resolved tenant is invalid or disabled");
+            .hasMessageContaining("The resolved multitenancy is invalid or disabled");
     }
 
 }

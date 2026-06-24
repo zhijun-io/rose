@@ -38,8 +38,8 @@ class TenantContextTests {
 
   @Test
   void carrierCallReturnsValueAndRestoresTenant() throws Exception {
-    String result = TenantContext.where("tenant").call(() -> {
-      assertThat(TenantContext.getRequiredTenantId()).isEqualTo("tenant");
+    String result = TenantContext.where("multitenancy").call(() -> {
+      assertThat(TenantContext.getRequiredTenantId()).isEqualTo("multitenancy");
       return "ok";
     });
 

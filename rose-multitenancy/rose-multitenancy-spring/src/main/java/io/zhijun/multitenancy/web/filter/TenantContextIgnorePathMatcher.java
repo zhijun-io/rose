@@ -16,7 +16,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Matches HTTP requests paths for which a tenant context is not attached.
+ * Matches HTTP requests paths for which a multitenancy context is not attached.
  */
 @Incubating
 public class TenantContextIgnorePathMatcher {
@@ -37,7 +37,7 @@ public class TenantContextIgnorePathMatcher {
         boolean matchesIgnorePaths = ignorePathPatterns.stream()
                 .anyMatch(pathPattern -> pathPattern.matches(pathContainer));
         if (matchesIgnorePaths) {
-            logger.debug("Request '{}' matches one of the paths to ignore when attaching a tenant context",
+            logger.debug("Request '{}' matches one of the paths to ignore when attaching a multitenancy context",
                     sanitizeForLog(requestUri));
         }
         return matchesIgnorePaths;

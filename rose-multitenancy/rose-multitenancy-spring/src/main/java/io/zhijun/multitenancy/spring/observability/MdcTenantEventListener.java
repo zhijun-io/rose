@@ -11,7 +11,7 @@ import io.zhijun.multitenancy.spring.context.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.context.event.TenantContextClosedEvent;
 
 /**
- * Manages the SLF4J {@link MDC} tenant identifier in response to tenant context events.
+ * Manages the SLF4J {@link MDC} multitenancy identifier in response to multitenancy context events.
  */
 @Incubating
 public final class MdcTenantEventListener {
@@ -33,13 +33,13 @@ public final class MdcTenantEventListener {
 
     @EventListener
     void onAttached(TenantContextAttachedEvent event) {
-        logger.trace("Setting current tenant in MDC to: {}", event.getTenantIdentifier());
+        logger.trace("Setting current multitenancy in MDC to: {}", event.getTenantIdentifier());
         MDC.put(tenantIdentifierKey, event.getTenantIdentifier());
     }
 
     @EventListener
     void onClosed(TenantContextClosedEvent event) {
-        logger.trace("Removing current tenant from MDC");
+        logger.trace("Removing current multitenancy from MDC");
         MDC.remove(tenantIdentifierKey);
     }
 

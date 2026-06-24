@@ -10,7 +10,7 @@ import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
 /**
- * Default {@link TenantVerifier} implementation that checks the tenant exists and is
+ * Default {@link TenantVerifier} implementation that checks the multitenancy exists and is
  * enabled using a {@link TenantDetailsService}.
  */
 @Incubating
@@ -28,12 +28,12 @@ public final class DefaultTenantVerifier implements TenantVerifier {
     public void verify(String tenantIdentifier) {
         if (tenantIdentifier == null || !tenantIdentifier.matches("[a-zA-Z0-9_-]+")) {
             throw new TenantVerificationException(
-                    "The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+                    "The multitenancy identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
         }
-        logger.trace("Verifying tenant: {}", tenantIdentifier);
+        logger.trace("Verifying multitenancy: {}", tenantIdentifier);
         TenantDetails tenant = tenantDetailsService.loadTenantByIdentifier(tenantIdentifier);
         if (tenant == null || !tenant.isEnabled()) {
-            throw new TenantVerificationException("The resolved tenant is invalid or disabled");
+            throw new TenantVerificationException("The resolved multitenancy is invalid or disabled");
         }
     }
 

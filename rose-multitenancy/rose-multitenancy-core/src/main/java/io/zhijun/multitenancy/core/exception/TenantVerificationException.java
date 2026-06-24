@@ -1,7 +1,7 @@
 package io.zhijun.multitenancy.core.exception;
 
 /**
- * Thrown when tenant verification fails.
+ * Thrown when multitenancy verification fails.
  */
 public class TenantVerificationException extends IllegalStateException {
 

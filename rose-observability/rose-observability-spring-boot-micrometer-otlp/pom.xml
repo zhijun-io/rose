@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>rose-observability-spring-boot-micrometer-otlp</artifactId>
-    <name>Rose OpenTelemetry Micrometer Registry OTLP</name>
+    <name>Rose Observability Micrometer OTLP</name>
 
     <dependencies>
         <dependency>

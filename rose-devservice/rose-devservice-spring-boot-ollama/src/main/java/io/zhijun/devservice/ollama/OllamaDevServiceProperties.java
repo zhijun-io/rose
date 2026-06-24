@@ -8,9 +8,9 @@ import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.api.config.BaseDevServiceProperties;
-import io.zhijun.devservice.api.config.ResourceMapping;
-import io.zhijun.devservice.api.config.VolumeMapping;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.ResourceMapping;
+import io.zhijun.devservice.core.api.config.VolumeMapping;
 
 /**
  * Ollama dev service properties.

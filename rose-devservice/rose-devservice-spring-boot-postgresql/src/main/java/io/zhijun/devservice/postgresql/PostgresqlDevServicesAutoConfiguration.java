@@ -12,8 +12,8 @@ import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import io.zhijun.devservice.api.provider.DevServiceCategories;
-import io.zhijun.devservice.api.provider.DevServiceProvider;
+import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.core.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.core.registration.DevServiceRegistrar;
 import io.zhijun.devservice.core.registration.DevServiceRegistry;

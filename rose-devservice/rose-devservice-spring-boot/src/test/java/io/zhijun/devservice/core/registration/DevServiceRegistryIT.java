@@ -5,7 +5,7 @@ import io.zhijun.devservice.core.registration.DevServiceRegistry;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 
-import io.zhijun.devservice.api.registration.ContainerInfo;
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 
 import static org.assertj.core.api.Assertions.assertThat;

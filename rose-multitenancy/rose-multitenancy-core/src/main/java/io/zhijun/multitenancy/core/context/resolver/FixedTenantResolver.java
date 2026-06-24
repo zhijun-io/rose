@@ -3,7 +3,7 @@ package io.zhijun.multitenancy.core.context.resolver;
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Strategy to use a fixed value as the current tenant, regardless of the source context.
+ * Strategy to use a fixed value as the current multitenancy, regardless of the source context.
  */
 @Incubating
 public final class FixedTenantResolver implements TenantResolver<Object> {

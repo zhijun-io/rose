@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.devservice.actuator.autoconfigure.DevServicesEndpointAutoConfiguration;
-import io.zhijun.devservice.api.registration.ContainerInfo;
-import io.zhijun.devservice.api.registration.DevServiceRegistration;
-import io.zhijun.devservice.bootstrap.BootstrapMode;
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

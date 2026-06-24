@@ -3,7 +3,7 @@ package io.zhijun.multitenancy.spring.context.event;
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Indicates a tenant has been attached to the current context.
+ * Indicates a multitenancy has been attached to the current context.
  */
 @Incubating
 public final class TenantContextAttachedEvent extends TenantEvent {

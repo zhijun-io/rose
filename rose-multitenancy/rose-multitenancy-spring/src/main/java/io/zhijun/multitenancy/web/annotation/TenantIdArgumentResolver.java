@@ -11,7 +11,7 @@ import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
 
 /**
- * Allows resolving the current tenant identifier using the {@link TenantId}
+ * Allows resolving the current multitenancy identifier using the {@link TenantId}
  * annotation.
  * <p>
  * Example:
@@ -19,7 +19,7 @@ import io.zhijun.multitenancy.core.context.TenantContext;
  * <pre>
  * &#64;RestController
  * class MyRestController {
- *     &#64;GetMapping("/tenant")
+ *     &#64;GetMapping("/multitenancy")
  *     String getCurrentTenant(@TenantIdentifier String tenantIdentifier) {
  *         return tenantIdentifier;
  *     }

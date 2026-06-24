@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import io.zhijun.devservice.api.provider.DevServiceCategories;
-import io.zhijun.devservice.api.provider.DevServiceProvider;
+import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.core.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.core.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.core.registration.DevServiceRegistrar;

@@ -17,7 +17,7 @@ class TenantVerificationExceptionTests {
 
     @Test
     void whenCustomMessage() {
-        String message = "Custom tenant exception message";
+        String message = "Custom multitenancy exception message";
         TenantVerificationException exception = new TenantVerificationException(message);
         assertThat(exception).hasMessageContaining(message);
     }

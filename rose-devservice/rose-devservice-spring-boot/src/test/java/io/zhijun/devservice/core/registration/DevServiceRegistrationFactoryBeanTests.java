@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.testcontainers.containers.Container;
 
-import io.zhijun.devservice.api.registration.DevServiceRegistration;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;

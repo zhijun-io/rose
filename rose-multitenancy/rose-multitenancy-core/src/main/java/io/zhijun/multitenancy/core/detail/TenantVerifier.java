@@ -4,7 +4,7 @@ import io.zhijun.core.annotation.Incubating;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
 /**
- * Strategy for verifying that a resolved tenant identifier is valid and allowed to
+ * Strategy for verifying that a resolved multitenancy identifier is valid and allowed to
  * proceed.
  */
 @Incubating
@@ -12,8 +12,8 @@ import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 public interface TenantVerifier {
 
     /**
-     * Verifies the given tenant identifier.
-     * @throws TenantVerificationException if the tenant is invalid or disabled
+     * Verifies the given multitenancy identifier.
+     * @throws TenantVerificationException if the multitenancy is invalid or disabled
      */
     void verify(String tenantIdentifier);
 

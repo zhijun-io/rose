@@ -20,7 +20,7 @@ import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.Container;
 
 import io.zhijun.core.annotation.Incubating;
-import io.zhijun.devservice.api.registration.ContainerInfo;
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
 
 /**
  * Registers Testcontainers container bean definitions.

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.devservice.api.provider.DevServiceProvider;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

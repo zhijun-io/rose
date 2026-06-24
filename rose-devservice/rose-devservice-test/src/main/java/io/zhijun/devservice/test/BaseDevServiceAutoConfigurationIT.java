@@ -16,7 +16,7 @@ import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StreamUtils;
 
-import io.zhijun.devservice.bootstrap.BootstrapMode;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import io.zhijun.boot.env.defaults.DefaultConfigPropertiesEnvironmentPostProcessor;
 import org.testcontainers.containers.GenericContainer;
 

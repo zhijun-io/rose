@@ -2,6 +2,7 @@ package io.zhijun.multitenancy.web.autoconfigure;
 
 import java.util.Collections;
 
+import io.zhijun.multitenancy.autoconfigure.web.HttpTenantResolutionProperties;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,14 +25,14 @@ class HttpTenantResolutionPropertiesTests {
     properties.setEnabled(false);
     properties.setResolutionMode(HttpTenantResolutionProperties.HttpResolutionMode.COOKIE);
     properties.getHeader().setHeaderName("Tenant");
-    properties.getCookie().setCookieName("tenant");
+    properties.getCookie().setCookieName("multitenancy");
     properties.getFilter().setIgnorePaths(Collections.singleton("/public/**"));
 
     assertThat(properties.isEnabled()).isFalse();
     assertThat(properties.getResolutionMode())
         .isEqualTo(HttpTenantResolutionProperties.HttpResolutionMode.COOKIE);
     assertThat(properties.getHeader().getHeaderName()).isEqualTo("Tenant");
-    assertThat(properties.getCookie().getCookieName()).isEqualTo("tenant");
+    assertThat(properties.getCookie().getCookieName()).isEqualTo("multitenancy");
     assertThat(properties.getFilter().getIgnorePaths()).containsExactly("/public/**");
   }
 

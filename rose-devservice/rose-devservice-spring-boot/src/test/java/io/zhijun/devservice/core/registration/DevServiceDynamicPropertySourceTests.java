@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.devservice.bootstrap.BootstrapMode;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;

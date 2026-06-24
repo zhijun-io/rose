@@ -8,7 +8,7 @@ import io.zhijun.core.annotation.Nullable;
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 /**
- * Thread-local tenant context for the current execution scope.
+ * Thread-local multitenancy context for the current execution scope.
  */
 @Incubating
 public final class TenantContext {
@@ -29,13 +29,13 @@ public final class TenantContext {
     public static String getRequiredTenantId() {
         String tenantIdentifier = TENANT_IDENTIFIER.get();
         if (tenantIdentifier == null) {
-            throw new TenantNotFoundException("No tenant found in the current context");
+            throw new TenantNotFoundException("No multitenancy found in the current context");
         }
         return tenantIdentifier;
     }
 
     /**
-     * Binds the tenant for the current thread and returns a scope that restores the previous value on close.
+     * Binds the multitenancy for the current thread and returns a scope that restores the previous value on close.
      */
     public static Scope bind(String tenantIdentifier) {
         requireText(tenantIdentifier, "tenantIdentifier cannot be null or empty");
