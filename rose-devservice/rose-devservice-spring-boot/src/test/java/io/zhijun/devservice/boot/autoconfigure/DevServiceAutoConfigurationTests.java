@@ -1,4 +1,4 @@
-package io.zhijun.devservice.autoconfigure;
+package io.zhijun.devservice.boot.autoconfigure;
 
 import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;

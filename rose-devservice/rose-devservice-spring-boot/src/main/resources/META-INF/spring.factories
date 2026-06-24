@@ -1,5 +1,5 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-io.zhijun.devservice.core.docker.DevServiceDockerEnvironmentPostProcessor,\
+io.zhijun.devservice.boot.autoconfigure.docker.DevServiceDockerEnvironmentPostProcessor,\
 io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\

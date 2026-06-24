@@ -1,7 +1,5 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import io.zhijun.multitenancy.boot.autoconfigure.web.FixedTenantResolutionProperties;
-
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,13 +14,13 @@ class FixedTenantResolutionPropertiesTests {
     FixedTenantResolutionProperties properties = new FixedTenantResolutionProperties();
 
     assertThat(properties.isEnabled()).isFalse();
-    assertThat(properties.getTenantId()).isEqualTo("default");
+    assertThat(properties.getTenantIdentifier()).isEqualTo("default");
 
     properties.setEnabled(true);
-    properties.setTenantId("acme");
+    properties.setTenantIdentifier("acme");
 
     assertThat(properties.isEnabled()).isTrue();
-    assertThat(properties.getTenantId()).isEqualTo("acme");
+    assertThat(properties.getTenantIdentifier()).isEqualTo("acme");
   }
 
 }

@@ -57,8 +57,8 @@ rose:
 
 | Artifact | 包根 |
 |----------|------|
-| `rose-observation-core` | `io.zhijun.observation` |
-| `rose-observation-spring-boot` | `io.zhijun.observation.autoconfigure` |
+| `rose-observation-core` | `io.zhijun.observation.core.*` |
+| `rose-observation-spring-boot` | `io.zhijun.observation.boot.autoconfigure.*` |
 | `rose-observation-spring-boot-otel` | `io.zhijun.observation.boot.autoconfigure.otel` |
 | `rose-observation-spring-boot-logback` | `io.zhijun.observation.boot.autoconfigure.logback` |
 | `rose-observation-spring-boot-micrometer-otlp` | `io.zhijun.observation.boot.autoconfigure.micrometer.otlp` |

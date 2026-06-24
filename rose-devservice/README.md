@@ -22,12 +22,12 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 
 | 模块 | 根包 |
 |------|------|
-| `rose-devservice-core` | `io.zhijun.devservice.{api,bootstrap,container,docker,util}.*` |
-| `rose-devservice-spring-boot` | `io.zhijun.devservice.{autoconfigure,registration}.*` |
+| `rose-devservice-core` | `io.zhijun.devservice.core.{api,bootstrap,container,docker,util}.*` |
+| `rose-devservice-spring-boot` | `io.zhijun.devservice.boot.{autoconfigure,registration}.*` |
 | `rose-devservice-spring-boot-actuator` | `io.zhijun.devservice.actuator.*`、`io.zhijun.devservice.boot.autoconfigure.actuator.*` |
 | `rose-devservice-spring-boot-{tech}` | `io.zhijun.devservice.boot.autoconfigure.{tech}.*` |
 
-Artifact 与 Java 根包均为 `devservice`（`io.zhijun.devservice.*`）。Boot 装配统一在 `autoconfigure` 下；连接器 slice 为 `autoconfigure.{tech}`。
+Artifact 与 Java 根包均为 `devservice`（`io.zhijun.devservice.*`）。Boot 装配在 `boot.autoconfigure`；连接器 slice 为 `boot.autoconfigure.{tech}`；容器注册在 `boot.registration`。
 
 ### 已实现
 

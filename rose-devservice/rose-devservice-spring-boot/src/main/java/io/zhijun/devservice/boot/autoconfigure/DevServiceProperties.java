@@ -1,4 +1,4 @@
-package io.zhijun.devservice.autoconfigure;
+package io.zhijun.devservice.boot.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

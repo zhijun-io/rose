@@ -18,7 +18,7 @@ public final class FixedTenantResolver implements TenantResolver<Object> {
 
     public FixedTenantResolver(String tenantIdentifier) {
         if (tenantIdentifier == null || tenantIdentifier.trim().isEmpty()) {
-            throw new IllegalArgumentException("tenantId cannot be null or empty");
+            throw new IllegalArgumentException("tenantIdentifier cannot be null or empty");
         }
         this.fixedTenantIdentifier = tenantIdentifier;
     }

@@ -34,7 +34,7 @@ public final class MultitenancyCoreAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = FixedTenantResolutionProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true")
     FixedTenantResolver fixedTenantResolver(FixedTenantResolutionProperties fixedTenantResolutionProperties) {
-        return new FixedTenantResolver(fixedTenantResolutionProperties.getTenantId());
+        return new FixedTenantResolver(fixedTenantResolutionProperties.getTenantIdentifier());
     }
 
 }

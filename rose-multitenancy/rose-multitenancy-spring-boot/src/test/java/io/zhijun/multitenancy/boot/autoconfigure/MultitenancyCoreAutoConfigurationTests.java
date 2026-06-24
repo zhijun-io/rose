@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import io.zhijun.multitenancy.boot.autoconfigure.web.MultitenancyCoreAutoConfiguration;
+import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

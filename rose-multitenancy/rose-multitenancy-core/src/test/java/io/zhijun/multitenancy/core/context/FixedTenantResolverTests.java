@@ -1,4 +1,4 @@
-package io.zhijun.multitenancy.core.context.resolver;
+package io.zhijun.multitenancy.core.context;
 
 import io.zhijun.multitenancy.core.context.FixedTenantResolver;
 
