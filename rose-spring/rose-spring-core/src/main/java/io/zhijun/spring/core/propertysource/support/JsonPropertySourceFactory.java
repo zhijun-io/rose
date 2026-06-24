@@ -16,12 +16,13 @@ import org.springframework.core.io.support.PropertySourceFactory;
  */
 public class JsonPropertySourceFactory implements PropertySourceFactory {
 
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     @Override
     public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         try (Reader reader = resource.getReader()) {
             @SuppressWarnings("unchecked")
-            Map<String, Object> loaded = objectMapper.readValue(reader, LinkedHashMap.class);
+            Map<String, Object> loaded = OBJECT_MAPPER.readValue(reader, LinkedHashMap.class);
             return new MapPropertySource(name, PropertySourceMaps.flatten(loaded));
         }
     }
