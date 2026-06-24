@@ -27,7 +27,7 @@ public final class DefaultTenantVerifier implements TenantVerifier {
     public void verify(String tenantIdentifier) {
         if (tenantIdentifier == null || !tenantIdentifier.matches("[a-zA-Z0-9_-]+")) {
             throw new TenantVerificationException(
-                    "The multitenancy identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+                    "The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
         }
         logger.trace("Verifying multitenancy: {}", tenantIdentifier);
         TenantDetails tenant = tenantDetailsService.loadTenantByIdentifier(tenantIdentifier);

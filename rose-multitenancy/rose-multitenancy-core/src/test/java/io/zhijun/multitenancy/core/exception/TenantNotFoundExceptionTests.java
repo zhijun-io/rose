@@ -12,7 +12,7 @@ class TenantNotFoundExceptionTests {
     @Test
     void whenDefaultMessage() {
         TenantNotFoundException exception = new TenantNotFoundException();
-        assertThat(exception).hasMessageContaining("No multitenancy found in the current context");
+        assertThat(exception).hasMessageContaining("No tenant found in the current context");
     }
 
     @Test

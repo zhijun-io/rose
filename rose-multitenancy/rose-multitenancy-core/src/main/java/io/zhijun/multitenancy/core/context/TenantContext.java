@@ -28,7 +28,7 @@ public final class TenantContext {
     public static String getRequiredTenantId() {
         String tenantIdentifier = TENANT_IDENTIFIER.get();
         if (tenantIdentifier == null) {
-            throw new TenantNotFoundException("No multitenancy found in the current context");
+            throw new TenantNotFoundException("No tenant found in the current context");
         }
         return tenantIdentifier;
     }

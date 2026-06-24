@@ -13,7 +13,9 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Compression;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProxyConfig;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.RetryConfig;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.TlsConfig;
 
 /**
  * Configuration properties for OpenTelemetry exporters.
@@ -105,6 +107,18 @@ public class OpenTelemetryExporterProperties {
          */
         private boolean metrics = false;
 
+        /**
+         * TLS settings for OTLP exporters.
+         */
+        @NestedConfigurationProperty
+        private final TlsConfig tls = new TlsConfig();
+
+        /**
+         * HTTP proxy settings for OTLP exporters.
+         */
+        @NestedConfigurationProperty
+        private final ProxyConfig proxy = new ProxyConfig();
+
         @Nullable
         public URI getEndpoint() {
             return endpoint;
@@ -164,6 +178,14 @@ public class OpenTelemetryExporterProperties {
 
         public void setMetrics(boolean metrics) {
             this.metrics = metrics;
+        }
+
+        public TlsConfig getTls() {
+            return tls;
+        }
+
+        public ProxyConfig getProxy() {
+            return proxy;
         }
 
     }

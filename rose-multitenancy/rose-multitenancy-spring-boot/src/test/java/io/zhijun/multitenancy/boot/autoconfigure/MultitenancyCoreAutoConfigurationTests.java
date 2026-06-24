@@ -28,14 +28,14 @@ class MultitenancyCoreAutoConfigurationTests {
     }
 
     @Test
-    void mdcTenantContextEventListenerWhenDefault() {
+    void mdcTenantEventListenerWhenDefault() {
         contextRunner.run(context -> {
             assertThat(context).hasSingleBean(MdcTenantEventListener.class);
         });
     }
 
     @Test
-    void mdcTenantContextEventListenerWhenDisabled() {
+    void mdcTenantEventListenerWhenDisabled() {
         contextRunner.withPropertyValues("rose.multitenancy.logging.mdc.enabled=false").run(context -> {
             assertThat(context).doesNotHaveBean(MdcTenantEventListener.class);
         });

@@ -34,7 +34,7 @@ import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 public final class TenantContextFilter extends OncePerRequestFilter implements Ordered {
 
     private static final String MISSING_TENANT_ERROR_MESSAGE =
-            "A multitenancy identifier must be specified for HTTP requests to %s";
+            "A tenant identifier must be specified for HTTP requests to %s";
 
     private final HttpRequestTenantResolver httpRequestTenantResolver;
 

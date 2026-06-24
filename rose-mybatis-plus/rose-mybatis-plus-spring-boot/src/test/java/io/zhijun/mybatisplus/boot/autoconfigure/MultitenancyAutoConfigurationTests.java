@@ -15,7 +15,7 @@ import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.mybatisplus.core.multitenancy.TenantIdSupplier;
 import io.zhijun.mybatisplus.core.multitenancy.TenantLineInnerInterceptorRegistrar;
 
-class TenantLineAutoConfigurationTests {
+class MultitenancyAutoConfigurationTests {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
             .withConfiguration(AutoConfigurations.of(RoseMybatisPlusAutoConfiguration.class));

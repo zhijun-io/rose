@@ -14,10 +14,6 @@
     <artifactId>rose-mybatis-plus-spring-boot</artifactId>
     <name>Rose MyBatis Plus Spring Boot</name>
 
-    <properties>
-        <jacoco.skip>true</jacoco.skip>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>

@@ -26,7 +26,7 @@ class DefaultTenantVerifierTests {
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify(null)).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The multitenancy identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+            .hasMessageContaining("The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
     }
 
     @Test
@@ -35,7 +35,7 @@ class DefaultTenantVerifierTests {
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify("acme\nmalicious")).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The multitenancy identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+            .hasMessageContaining("The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
     }
 
     @Test

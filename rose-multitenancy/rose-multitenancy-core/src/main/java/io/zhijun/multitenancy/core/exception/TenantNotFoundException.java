@@ -6,7 +6,7 @@ package io.zhijun.multitenancy.core.exception;
 public class TenantNotFoundException extends IllegalStateException {
 
     public TenantNotFoundException() {
-        super("No multitenancy found in the current context");
+        super("No tenant found in the current context");
     }
 
     public TenantNotFoundException(String message) {

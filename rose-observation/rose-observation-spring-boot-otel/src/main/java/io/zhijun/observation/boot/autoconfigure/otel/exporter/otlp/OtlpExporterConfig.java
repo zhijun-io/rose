@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.lang.Nullable;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Configuration properties for exporting OpenTelemetry telemetry data using OTLP.
@@ -58,6 +59,18 @@ public class OtlpExporterConfig {
      */
     @Nullable
     private Boolean metrics;
+
+    /**
+     * TLS settings for the OTLP exporter.
+     */
+    @NestedConfigurationProperty
+    private final TlsConfig tls = new TlsConfig();
+
+    /**
+     * HTTP proxy settings for the OTLP exporter.
+     */
+    @NestedConfigurationProperty
+    private final ProxyConfig proxy = new ProxyConfig();
 
     @Nullable
     public URI getEndpoint() {
@@ -128,6 +141,14 @@ public class OtlpExporterConfig {
 
     public void setMetrics(Boolean metrics) {
         this.metrics = metrics;
+    }
+
+    public TlsConfig getTls() {
+        return tls;
+    }
+
+    public ProxyConfig getProxy() {
+        return proxy;
     }
 
 }

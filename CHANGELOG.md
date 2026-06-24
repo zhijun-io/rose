@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenTelemetry: SDK moved to `rose-observation-spring-boot-otel`; packages under `io.zhijun.observation.boot.autoconfigure.otel.*`.
 - **Package layout (breaking)**: business domains mirror Maven modules — `{domain}.core.*` (`*-core`), `{domain}.spring.*` (`*-spring`), `{domain}.boot.autoconfigure[.{slice}].*` (`*-spring-boot`); DevService registration at `{domain}.boot.registration.*`. See `rose-bom/README.md`.
 - Removed unused BOM entries `rose-excel` and `rose-sqlite`.
+- MyBatis-Plus upgraded to `3.5.15` (`mybatis-plus-bom`); Micrometer versions follow Spring Boot 2.7.18 BOM (no separate `micrometer-bom` pin).
+- Multitenancy: removed Micrometer Observation enrichment (`rose.multitenancy.observations.*`); MDC logging remains under `rose.multitenancy.logging.mdc.*`.
+- Observation OTLP Micrometer registry adapted to Micrometer 1.9.17 (Boot 2.7); removed `rose.otel.exporter.otlp.micrometer.{base-time-unit,max-scale,max-bucket-count}`.
 
 ### Migration
 
@@ -35,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | `io.zhijun.devservice.{tech}.*` | `io.zhijun.devservice.boot.autoconfigure.{tech}.*` |
 | `io.zhijun.observation.autoconfigure.*` | `io.zhijun.observation.boot.autoconfigure.*` |
 | `io.zhijun.mybatisplus.core.autoconfigure.*` | `io.zhijun.mybatisplus.boot.autoconfigure.*` |
+| `rose.multitenancy.observations.*` | removed (Boot 2.7 has no `micrometer-observation` BOM entry) |
 
 ## [0.1.0] - Unreleased
 
@@ -46,17 +50,16 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 
 - Maven reactor with `${revision}` versioning and `flatten-maven-plugin`
 - `rose-bom` for aligned dependency management across all published artifacts
-- `rose-core` utilities (`PropertyAdapter`, incubating/internal markers)
+- `rose-core` utilities (incubating/internal markers, `DelegatingScheduledExecutorService`)
 - `rose-spring-boot` 父模块（`rose-spring-boot-core`、`rose-spring-boot-starter`）；使用 Spring profiles 区分环境
-- `rose-observation-core` observation support
-- JaCoCo aggregate coverage via `rose-coverage` (`mvn verify -Pcoverage`)
+- `rose-observation-core` — `TelemetryConventionsBackend` SPI
+- Per-module JaCoCo reports via `mvn verify -Pcoverage`; aggregate report and line-coverage gate in `rose-coverage` (`mvn verify -Pcoverage`)
 
 #### Spring Boot starters
 
 - `rose-spring-boot-starter` — baseline Rose platform
-- `rose-observation-spring-boot-otel-starter` — OpenTelemetry SDK, logs, OTLP metrics, Actuator
-- `rose-multitenancy-core-spring-boot-starter` — multitenancy without the web stack
-- `rose-multitenancy-web-spring-boot-starter` — multitenancy with `spring-boot-starter-web`
+- `rose-observation-spring-boot` — observation domain auto-configuration
+- `rose-multitenancy-spring-boot` — multitenancy (core + web when Servlet present)
 
 #### OpenTelemetry
 
@@ -75,22 +78,22 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 
 #### Multitenancy
 
-- `rose-multitenancy-core` and `rose-multitenancy-web` (`rose.multitenancy.*`)
+- `rose-multitenancy-core`, `rose-multitenancy-spring`, `rose-multitenancy-spring-boot` (`rose.multitenancy.*`)
 
 #### Build & release
 
 - Maven `release` profile: sources, Javadoc, GPG signing, Central Publisher Portal deploy
-- GitHub Actions: Maven CI, snapshot publish, Central release (via [zhijun-io/workflows](https://github.com/zhijun-io/workflows))
-- OpenSSF Scorecard and CodeQL workflows
+- GitHub Actions: Maven CI (`maven-build.yml`), CodeQL (`codeql-analysis.yml`), snapshot publish, Central release (via [zhijun-io/workflows](https://github.com/zhijun-io/workflows))
 
 #### Documentation
 
-- `README.md`, `CONTRIBUTING.md`, `docs/development-principles.md`, `docs/module-layering.md`, `docs/releasing.md`
+- `README.md`, `rose-bom/README.md`, `docs/rose-module-layering.md`, module-level READMEs
 
 ### Notes
 
 - Applications should use `spring-boot-starter-parent` and **import** `rose-bom`; they do not inherit `rose-parent`.
 - Auto-configuration is registered via `META-INF/spring.factories` (Spring Boot 2.7).
+- `rose-spring-web` and `rose-spring-boot-web` are reactor placeholders — not intended for direct consumer use until implemented.
 
 [Unreleased]: https://github.com/zhijun-io/rose/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/zhijun-io/rose/releases/tag/v0.1.0

@@ -36,6 +36,7 @@
         <module>rose-observation</module>
         <module>rose-multitenancy</module>
         <module>rose-devservice</module>
+        <module>rose-coverage</module>
     </modules>
 
     <dependencyManagement>

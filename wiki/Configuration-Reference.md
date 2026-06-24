@@ -98,10 +98,17 @@ Delimiter: `@` (`resource.delimiter` property).
 
 See [Consumer Guide](Consumer-Guide) for starter-specific prefixes:
 
-- `rose.otel.*` — OpenTelemetry
-- `rose.multitenancy.*` — Multitenancy
-- `rose.dev.enabled` — Global dev services toggle
-- `rose.dev.<connector>.*` — Per-connector dev service settings
+| Prefix | Scope |
+|--------|--------|
+| `rose.observation.*` | Observation domain toggle and conventions backend selection |
+| `rose.otel.*` | OpenTelemetry SDK (traces, metrics, logs, exporters, resource) |
+| `rose.otel.exporter.otlp.micrometer.*` | Micrometer OTLP registry (when bridge disabled) |
+| `rose.otel.exporter.otlp.tls.*` | OTLP TLS (`trusted-certificates`, `certificate`, `key`) |
+| `rose.otel.exporter.otlp.proxy.*` | OTLP HTTP proxy (`host`, `port`) |
+| `rose.mybatis-plus.observation.*` | SQL observation (MyBatis interceptor) |
+| `rose.multitenancy.*` | Multitenancy resolution, MDC logging, async propagation |
+| `rose.dev.enabled` | Global dev services toggle |
+| `rose.dev.<connector>.*` | Per-connector dev service settings |
 
 Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.properties` (see `rose-spring-boot-core`).
 

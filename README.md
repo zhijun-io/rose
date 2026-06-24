@@ -121,8 +121,9 @@ See [rose-observation/README.md](rose-observation/README.md).
 | BOM & consumer contract | [rose-bom/README.md](rose-bom/README.md) |
 | Build, CI, release | [rose-build/README.md](rose-build/README.md) |
 | Design notes | [docs/](docs/) |
+| Module layering & naming | [docs/rose-module-layering.md](docs/rose-module-layering.md) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
+**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
 
 Build layout follows [microsphere-build](https://github.com/microsphere-projects/microsphere-build).
 

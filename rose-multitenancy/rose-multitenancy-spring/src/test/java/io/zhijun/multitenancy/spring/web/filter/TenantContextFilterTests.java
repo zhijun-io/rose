@@ -161,7 +161,7 @@ class TenantContextFilterTests {
         filter.doFilter(request, response, filterChain);
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(response.getContentAsString()).contains("A multitenancy identifier must be specified for HTTP requests");
+        assertThat(response.getContentAsString()).contains("A tenant identifier must be specified for HTTP requests");
 
         Mockito.verify(eventPublisher, Mockito.times(0)).publishEvent(Mockito.any(ApplicationEvent.class));
     }

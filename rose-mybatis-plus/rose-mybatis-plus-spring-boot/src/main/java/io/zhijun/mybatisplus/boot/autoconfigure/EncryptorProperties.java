@@ -5,8 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * Field encryption properties.
  */
-@ConfigurationProperties(prefix = "rose.mybatis-plus.encryptor")
+@ConfigurationProperties(prefix = EncryptorProperties.CONFIG_PREFIX)
 public class EncryptorProperties {
+
+    public static final String CONFIG_PREFIX = "rose.mybatis-plus.encryptor";
 
     /**
      * Default secret for {@code secretRef = default}.

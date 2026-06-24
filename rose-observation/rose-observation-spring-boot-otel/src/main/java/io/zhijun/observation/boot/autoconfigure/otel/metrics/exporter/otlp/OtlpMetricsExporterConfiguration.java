@@ -1,8 +1,5 @@
 package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp;
 
-import java.util.Locale;
-
-import io.opentelemetry.api.metrics.MeterProvider;
 import io.opentelemetry.exporter.otlp.http.metrics.OtlpHttpMetricExporter;
 import io.opentelemetry.exporter.otlp.http.metrics.OtlpHttpMetricExporterBuilder;
 import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter;
@@ -16,18 +13,18 @@ import io.opentelemetry.sdk.metrics.internal.view.ExplicitBucketHistogramAggrega
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.Assert;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectionUrls;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfigurer;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterTransportConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.RetryConfig;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.ConditionalOnOpenTelemetryMetricsExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.HistogramAggregationStrategy;
@@ -49,42 +46,44 @@ public final class OtlpMetricsExporterConfiguration {
         return new PropertiesOtlpMetricsConnectionDetails(commonProperties, properties);
     }
 
-    // TODO: Add certificates/TLS, retry, and proxy.
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpMetricsConnectionDetails.class)
     @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "http_protobuf", matchIfMissing = true)
-    OtlpHttpMetricExporter otlpHttpMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
+    OtlpHttpMetricExporter otlpHttpMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails) {
         OtlpHttpMetricExporterBuilder builder = OtlpHttpMetricExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.HTTP_PROTOBUF))
-                .setTimeout(properties.getOtlp().getTimeout() != null ? properties.getOtlp().getTimeout() : commonProperties.getOtlp().getTimeout())
-                .setConnectTimeout(properties.getOtlp().getConnectTimeout() != null ? properties.getOtlp().getConnectTimeout() : commonProperties.getOtlp().getConnectTimeout())
-                .setCompression(properties.getOtlp().getCompression() != null ? properties.getOtlp().getCompression().name().toLowerCase(Locale.ROOT) : commonProperties.getOtlp().getCompression().name().toLowerCase(Locale.ROOT))
+                .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
+                .setConnectTimeout(OtlpExporterConfigurer.connectTimeout(commonProperties, properties.getOtlp()))
+                .setCompression(OtlpExporterConfigurer.compression(commonProperties, properties.getOtlp()))
                 .setAggregationTemporalitySelector(getAggregationTemporalitySelector(properties))
-                .setMemoryMode(commonProperties.getMemoryMode());
-        builder.setRetryPolicy(properties.getOtlp().getRetry() != null ? RetryConfig.buildRetryPolicy(properties.getOtlp().getRetry()) : RetryConfig.buildRetryPolicy(commonProperties.getOtlp().getRetry()));
-        commonProperties.getOtlp().getHeaders().forEach(builder::addHeader);
-        properties.getOtlp().getHeaders().forEach(builder::addHeader);
+                .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
+        builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
+        OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
+        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
+                OtlpHttpMetricExporterBuilder::setTrustedCertificates, OtlpHttpMetricExporterBuilder::setClientTls);
+        OtlpExporterTransportConfigurer.applyProxy(builder, commonProperties, properties.getOtlp(),
+                OtlpHttpMetricExporterBuilder::setProxyOptions);
         logger.info("Configuring OpenTelemetry HTTP/Protobuf metric exporter with endpoint: {}", connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
         return builder.build();
     }
 
-    // TODO: Add certificates/TLS, retry, and proxy.
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpMetricsConnectionDetails.class)
     @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "grpc")
-    OtlpGrpcMetricExporter otlpGrpcMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
+    OtlpGrpcMetricExporter otlpGrpcMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails) {
         OtlpGrpcMetricExporterBuilder builder = OtlpGrpcMetricExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.GRPC))
-                .setTimeout(properties.getOtlp().getTimeout() != null ? properties.getOtlp().getTimeout() : commonProperties.getOtlp().getTimeout())
-                .setConnectTimeout(properties.getOtlp().getConnectTimeout() != null ? properties.getOtlp().getConnectTimeout() : commonProperties.getOtlp().getConnectTimeout())
-                .setCompression(properties.getOtlp().getCompression() != null ? properties.getOtlp().getCompression().name().toLowerCase(Locale.ROOT) : commonProperties.getOtlp().getCompression().name().toLowerCase(Locale.ROOT))
+                .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
+                .setConnectTimeout(OtlpExporterConfigurer.connectTimeout(commonProperties, properties.getOtlp()))
+                .setCompression(OtlpExporterConfigurer.compression(commonProperties, properties.getOtlp()))
                 .setAggregationTemporalitySelector(getAggregationTemporalitySelector(properties))
-                .setMemoryMode(commonProperties.getMemoryMode());
-        builder.setRetryPolicy(properties.getOtlp().getRetry() != null ? RetryConfig.buildRetryPolicy(properties.getOtlp().getRetry()) : RetryConfig.buildRetryPolicy(commonProperties.getOtlp().getRetry()));
-        commonProperties.getOtlp().getHeaders().forEach(builder::addHeader);
-        properties.getOtlp().getHeaders().forEach(builder::addHeader);
+                .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
+        builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
+        OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
+        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
+                OtlpGrpcMetricExporterBuilder::setTrustedCertificates, OtlpGrpcMetricExporterBuilder::setClientTls);
         logger.info("Configuring OpenTelemetry gRPC metric exporter with endpoint: {}", connectionDetails.getUrl(Protocol.GRPC));
         return builder.build();
     }
@@ -129,32 +128,16 @@ public final class OtlpMetricsExporterConfiguration {
         private final OpenTelemetryExporterProperties commonProperties;
         private final OpenTelemetryMetricsExporterProperties properties;
 
-        public PropertiesOtlpMetricsConnectionDetails(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties) {
+        PropertiesOtlpMetricsConnectionDetails(OpenTelemetryExporterProperties commonProperties,
+                OpenTelemetryMetricsExporterProperties properties) {
             this.commonProperties = commonProperties;
             this.properties = properties;
         }
 
         @Override
         public String getUrl(Protocol protocol) {
-            Protocol protocolProperty = properties.getOtlp().getProtocol() != null
-                    ? properties.getOtlp().getProtocol()
-                    : commonProperties.getOtlp().getProtocol();
-            Assert.state(protocol == protocolProperty,
-                    String.format("Requested protocol %s doesn't match configured protocol %s", protocol,
-                            protocolProperty));
-
-            String url;
-            if (properties.getOtlp().getEndpoint() != null) {
-                url = properties.getOtlp().getEndpoint().toString();
-            } else if (commonProperties.getOtlp().getEndpoint() != null) {
-                java.net.URI endpoint = commonProperties.getOtlp().getEndpoint();
-                url = protocolProperty == Protocol.HTTP_PROTOBUF
-                        ? endpoint.toString() + (endpoint.getPath().endsWith("/") ? METRICS_PATH.substring(1) : METRICS_PATH)
-                        : endpoint.toString();
-            } else {
-                url = protocolProperty == Protocol.HTTP_PROTOBUF ? DEFAULT_HTTP_PROTOBUF_ENDPOINT : DEFAULT_GRPC_ENDPOINT;
-            }
-            return url;
+            return OtlpConnectionUrls.resolve(protocol, commonProperties, properties.getOtlp(), METRICS_PATH,
+                    DEFAULT_HTTP_PROTOBUF_ENDPOINT, DEFAULT_GRPC_ENDPOINT);
         }
 
     }
