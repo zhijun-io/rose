@@ -22,6 +22,9 @@ import io.opentelemetry.context.Scope;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * MyBatis {@link Interceptor} that records SQL execution as OpenTelemetry spans and
  * Micrometer timers.
@@ -55,6 +58,8 @@ import io.micrometer.core.instrument.Timer;
 })
 public class SqlObservationInterceptor implements Interceptor {
 
+    private static final Logger logger = LoggerFactory.getLogger(SqlObservationInterceptor.class);
+
     /**
      * Maximum SQL text length captured in span attributes to avoid excessive payload.
      */
@@ -73,14 +78,33 @@ public class SqlObservationInterceptor implements Interceptor {
     private final MeterRegistry meterRegistry;
 
     /**
+     * Threshold beyond which a SQL execution is considered slow and logged at WARN level.
+     * {@code null} or {@code <= 0} disables slow-query detection.
+     */
+    private final long slowQueryThresholdMillis;
+
+    /**
      * Construct with an explicit {@link Tracer} and {@link MeterRegistry}.
      *
      * @param tracer       the OTel tracer; if {@code null}, spans are not created
      * @param meterRegistry the Micrometer registry; if {@code null}, metrics are not recorded
      */
     public SqlObservationInterceptor(Tracer tracer, MeterRegistry meterRegistry) {
+        this(tracer, meterRegistry, 0);
+    }
+
+    /**
+     * Construct with slow-query threshold.
+     *
+     * @param tracer       the OTel tracer; if {@code null}, spans are not created
+     * @param meterRegistry the Micrometer registry; if {@code null}, metrics are not recorded
+     * @param slowQueryThresholdMillis threshold in millis; {@code <= 0} disables detection
+     */
+    public SqlObservationInterceptor(Tracer tracer, MeterRegistry meterRegistry,
+            long slowQueryThresholdMillis) {
         this.tracer = tracer;
         this.meterRegistry = meterRegistry;
+        this.slowQueryThresholdMillis = slowQueryThresholdMillis;
     }
 
     /**
@@ -89,7 +113,7 @@ public class SqlObservationInterceptor implements Interceptor {
      * @param meterRegistry the Micrometer registry; if {@code null}, metrics are not recorded
      */
     public SqlObservationInterceptor(MeterRegistry meterRegistry) {
-        this(null, meterRegistry);
+        this(null, meterRegistry, 0);
     }
 
     @Override
@@ -122,6 +146,16 @@ public class SqlObservationInterceptor implements Interceptor {
             throw failure;
         } finally {
             long elapsedNanos = System.nanoTime() - startNanos;
+            if (slowQueryThresholdMillis > 0) {
+                long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos);
+                if (elapsedMillis >= slowQueryThresholdMillis) {
+                    logger.warn("Slow SQL detected: {} took {}ms (threshold: {}ms)",
+                            operation, elapsedMillis, slowQueryThresholdMillis);
+                    if (span != null) {
+                        span.setAttribute("db.slow_query", true);
+                    }
+                }
+            }
             if (span != null) {
                 if (sqlText != null) {
                     span.setAttribute("db.statement",

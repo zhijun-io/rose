@@ -28,9 +28,11 @@ public final class SqlObservationAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(SqlObservationInterceptor.class)
-    SqlObservationInterceptor sqlObservationInterceptor(ObjectProvider<MeterRegistry> meterRegistryProvider,
+    SqlObservationInterceptor sqlObservationInterceptor(SqlObservationProperties properties,
+            ObjectProvider<MeterRegistry> meterRegistryProvider,
             ObjectProvider<io.opentelemetry.api.trace.Tracer> tracerProvider) {
-        return new SqlObservationInterceptor(tracerProvider.getIfAvailable(), meterRegistryProvider.getIfAvailable());
+        return new SqlObservationInterceptor(tracerProvider.getIfAvailable(),
+                meterRegistryProvider.getIfAvailable(), properties.getSlowQueryThresholdMillis());
     }
 
     static final class OnTracerOrMeterRegistry extends AnyNestedCondition {
