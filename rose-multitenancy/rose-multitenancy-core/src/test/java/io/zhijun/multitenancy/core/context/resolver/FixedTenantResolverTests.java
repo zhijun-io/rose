@@ -1,5 +1,7 @@
 package io.zhijun.multitenancy.core.context.resolver;
 
+import io.zhijun.multitenancy.core.context.FixedTenantResolver;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

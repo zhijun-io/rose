@@ -1,5 +1,6 @@
 package io.zhijun.multitenancy.core.context;
 
+import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,7 +51,7 @@ class TenantContextTests {
   @Test
   void getRequiredTenantIdWhenMissing() {
     assertThatThrownBy(TenantContext::getRequiredTenantId)
-        .isInstanceOf(io.zhijun.multitenancy.core.exception.TenantNotFoundException.class);
+        .isInstanceOf(TenantNotFoundException.class);
   }
 
 }

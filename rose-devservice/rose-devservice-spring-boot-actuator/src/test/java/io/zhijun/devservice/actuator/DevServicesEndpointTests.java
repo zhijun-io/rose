@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.actuator.DevServicesEndpoint.ServiceInfo;
 import io.zhijun.devservice.actuator.DevServicesEndpoint.ServiceInfoSummary;
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import io.zhijun.devservice.api.registration.ContainerInfo;
+import io.zhijun.devservice.api.registration.DevServiceRegistration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

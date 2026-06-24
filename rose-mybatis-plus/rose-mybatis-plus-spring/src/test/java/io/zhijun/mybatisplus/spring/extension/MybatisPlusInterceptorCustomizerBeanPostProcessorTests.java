@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 import org.junit.jupiter.api.Test;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -14,7 +15,7 @@ class MybatisPlusInterceptorCustomizerBeanPostProcessorTests {
     @Test
     void shouldApplyCustomizersToMybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer customizer = i ->
+        MybatisPlusInterceptorCustomizer customizer = i ->
                 i.addInnerInterceptor(new TestInnerInterceptor());
 
         MybatisPlusInterceptorCustomizerBeanPostProcessor bpp =
@@ -29,7 +30,7 @@ class MybatisPlusInterceptorCustomizerBeanPostProcessorTests {
 
     @Test
     void shouldIgnoreNonInterceptorBeans() {
-        io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer customizer = i ->
+        MybatisPlusInterceptorCustomizer customizer = i ->
                 i.addInnerInterceptor(new TestInnerInterceptor());
         MybatisPlusInterceptorCustomizerBeanPostProcessor bpp =
                 new MybatisPlusInterceptorCustomizerBeanPostProcessor(Collections.singletonList(customizer));

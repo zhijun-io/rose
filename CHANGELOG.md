@@ -13,9 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dev Services: artifacts renamed to `rose-devservice-spring-boot-{tech}` (replaces `rose-devservice-{tech}`). Configuration keys remain `rose.dev.*`.
 - Dev Services: Java packages renamed from `io.zhijun.dev.*` to `io.zhijun.devservice.*` (breaking for direct imports).
 - Dev Services: class prefix renamed from `LocalService*` to `DevService*`.
-- Observability: merged `rose-observation` and `rose-opentelemetry` into `rose-observability`; conventions use `TelemetryConventionsBackend` with `rose.observability.conventions.backend` selection; default stack is `rose-observability-spring-boot`.
-- Observation: Boot auto-configuration moved to `rose-observability-spring-boot`; use `rose-observability-spring-boot` for full stack.
-- OpenTelemetry: SDK moved to `rose-observability-spring-boot-otel`; packages under `io.zhijun.observability.otel.autoconfigure.*`.
+- Observation: merged `rose-observation` and `rose-opentelemetry` into `rose-observation`; conventions use `TelemetryConventionsBackend` with `rose.observation.conventions.backend` selection; default stack is `rose-observation-spring-boot`.
+- Observation: Boot auto-configuration moved to `rose-observation-spring-boot`; use `rose-observation-spring-boot` for full stack.
+- OpenTelemetry: SDK moved to `rose-observation-spring-boot-otel`; packages under `io.zhijun.observation.autoconfigure.otel.*`.
+- **Package layout (breaking)**: business domains adopt layer-first packages — API at `{domain}.{feature}`, Boot at `{domain}.autoconfigure[.{slice}]`; drop redundant `.core.` segment in Java packages (Maven `-core` artifact unchanged).
 - Removed unused BOM entries `rose-excel` and `rose-sqlite`.
 
 ### Migration
@@ -23,11 +24,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Before | After |
 |--------|-------|
 | `io.zhijun.dev.*` | `io.zhijun.devservice.*` |
-| `io.zhijun.opentelemetry.*` | `io.zhijun.observability.otel.autoconfigure.*` |
-| `io.zhijun.observation.*` | `io.zhijun.observability.core.*` / `io.zhijun.observability.core.autoconfigure.*` |
-| `rose-observation-*` / `rose-opentelemetry-*` | `rose-observability-*`（见 README） |
-| `rose-opentelemetry-core` | `rose-observability-spring-boot` |
-| `rose.observations.conventions.*` | `rose.observability.conventions.*` |
+| `io.zhijun.opentelemetry.*` | `io.zhijun.observation.autoconfigure.otel.*` |
+| `io.zhijun.observation.*` | `io.zhijun.observation.*` / `io.zhijun.observation.autoconfigure.*` |
+| `rose-observation-*` / `rose-opentelemetry-*` | `rose-observation-*`（见 README） |
+| `rose-opentelemetry-core` | `rose-observation-spring-boot` |
+| `rose.observations.conventions.*` | `rose.observation.conventions.*` |
+| `io.zhijun.multitenancy.core.*` | `io.zhijun.multitenancy.{context,detail,exception,observation}.*` |
+| `io.zhijun.multitenancy.core.autoconfigure.*` / `autoconfigure.core.*` | `io.zhijun.multitenancy.autoconfigure.*` |
+| `io.zhijun.multitenancy.web.*` | `io.zhijun.multitenancy.spring.web.*` |
+| `io.zhijun.multitenancy.autoconfigure.web.*` | `io.zhijun.multitenancy.autoconfigure.spring.web.*` |
+| `io.zhijun.devservice.core.*` | `io.zhijun.devservice.{api,bootstrap,container,docker,util,registration,autoconfigure}.*` |
+| `io.zhijun.devservice.{tech}.*` | `io.zhijun.devservice.autoconfigure.{tech}.*` |
+| `io.zhijun.observation.core.*` | `io.zhijun.observation.*` |
+| `io.zhijun.mybatisplus.core.autoconfigure.*` | `io.zhijun.mybatisplus.autoconfigure.*` |
 
 ## [0.1.0] - Unreleased
 
@@ -41,23 +50,23 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 - `rose-bom` for aligned dependency management across all published artifacts
 - `rose-core` utilities (`PropertyAdapter`, incubating/internal markers)
 - `rose-spring-boot` 父模块（`rose-spring-boot-core`、`rose-spring-boot-starter`）；使用 Spring profiles 区分环境
-- `rose-observability-core` observation support
+- `rose-observation-core` observation support
 - JaCoCo aggregate coverage via `rose-coverage` (`mvn verify -Pcoverage`)
 
 #### Spring Boot starters
 
 - `rose-spring-boot-starter` — baseline Rose platform
-- `rose-observability-spring-boot-otel-starter` — OpenTelemetry SDK, logs, OTLP metrics, Actuator
+- `rose-observation-spring-boot-otel-starter` — OpenTelemetry SDK, logs, OTLP metrics, Actuator
 - `rose-multitenancy-core-spring-boot-starter` — multitenancy without the web stack
 - `rose-multitenancy-web-spring-boot-starter` — multitenancy with `spring-boot-starter-web`
 
 #### OpenTelemetry
 
 - Auto-configuration for tracing, metrics, logs, and resource contributors
-- `rose-observability-spring-boot-logback` — Logback ↔ OpenTelemetry logs
-- `rose-observability-spring-boot-micrometer-otlp` — Micrometer → OTLP metrics (default in OTel starter)
-- `rose-observability-spring-boot-micrometer-bridge` — Micrometer → OpenTelemetry `MeterProvider`
-- `rose-observability-spring-boot-conventions-otel` — Rose semantic conventions
+- `rose-observation-spring-boot-logback` — Logback ↔ OpenTelemetry logs
+- `rose-observation-spring-boot-micrometer-otlp` — Micrometer → OTLP metrics (default in OTel starter)
+- `rose-observation-spring-boot-micrometer-bridge` — Micrometer → OpenTelemetry `MeterProvider`
+- `rose-observation-spring-boot-conventions-otel` — Rose semantic conventions
 
 #### Dev Services
 

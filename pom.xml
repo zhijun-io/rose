@@ -34,7 +34,7 @@
         <module>rose-spring</module>
         <module>rose-spring-boot</module>
         <module>rose-mybatis-plus</module>
-        <module>rose-observability</module>
+        <module>rose-observation</module>
         <module>rose-multitenancy</module>
         <module>rose-devservice</module>
     </modules>

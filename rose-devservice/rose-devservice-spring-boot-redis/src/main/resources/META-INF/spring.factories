@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.devservice.redis.RedisDevServicesAutoConfiguration
+io.zhijun.devservice.autoconfigure.redis.RedisDevServicesAutoConfiguration

@@ -22,12 +22,12 @@ Testcontainers-backed infrastructure for local development and testing ([Arconia
 
 | 模块 | 根包 |
 |------|------|
-| `rose-devservice-core` | `io.zhijun.devservice.core.api.*`、`io.zhijun.devservice.core.bootstrap.*`、`io.zhijun.devservice.core.{container,docker,util}` |
-| `rose-devservice-spring-boot` | `io.zhijun.devservice.core.{autoconfigure,registration}`、`io.zhijun.devservice.core.autoconfigure.bootstrap.*` |
-| `rose-devservice-spring-boot-actuator` | `io.zhijun.devservice.actuator.*` |
-| `rose-devservice-spring-boot-{tech}` | `io.zhijun.devservice.{tech}.*` |
+| `rose-devservice-core` | `io.zhijun.devservice.{api,bootstrap,container,docker,util}.*` |
+| `rose-devservice-spring-boot` | `io.zhijun.devservice.{autoconfigure,registration}.*` |
+| `rose-devservice-spring-boot-actuator` | `io.zhijun.devservice.actuator.*`、`io.zhijun.devservice.autoconfigure.actuator.*` |
+| `rose-devservice-spring-boot-{tech}` | `io.zhijun.devservice.autoconfigure.{tech}.*` |
 
-Artifact 与 Java 根包均为 `devservice`（`io.zhijun.devservice.*`）。`*.core.autoconfigure` 类位于 `spring-boot` 模块、包名仍用 `core`，与 `rose-multitenancy` 一致。
+Artifact 与 Java 根包均为 `devservice`（`io.zhijun.devservice.*`）。Boot 装配统一在 `autoconfigure` 下；连接器 slice 为 `autoconfigure.{tech}`。
 
 ### 已实现
 

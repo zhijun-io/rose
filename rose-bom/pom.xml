@@ -65,40 +65,40 @@
                 <artifactId>rose-mybatis-plus-spring-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- Observability -->
+            <!-- Observation -->
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observability-core</artifactId>
+                <artifactId>rose-observation-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observability-spring-boot</artifactId>
+                <artifactId>rose-observation-spring-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observability-spring-boot-otel</artifactId>
+                <artifactId>rose-observation-spring-boot-otel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observability-spring-boot-logback</artifactId>
+                <artifactId>rose-observation-spring-boot-logback</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observability-spring-boot-micrometer-bridge</artifactId>
+                <artifactId>rose-observation-spring-boot-micrometer-bridge</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observability-spring-boot-micrometer-otlp</artifactId>
+                <artifactId>rose-observation-spring-boot-micrometer-otlp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-observability-spring-boot-conventions-otel</artifactId>
+                <artifactId>rose-observation-spring-boot-conventions-otel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Multitenancy -->

@@ -8,11 +8,12 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.mybatisplus.spring.config.MyBatisPlusExtensionConfiguration;
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
+import io.zhijun.mybatisplus.spring.extension.MyBatisPlusExtensionConfiguration;
 
 /**
  * Enables annotation-driven MyBatis-Plus extension, allowing {@link
- * io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer} beans and
+ * MybatisPlusInterceptorCustomizer} beans and
  * {@code spring.factories}-discovered customizers to be applied to the
  * {@link com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor}.
  *

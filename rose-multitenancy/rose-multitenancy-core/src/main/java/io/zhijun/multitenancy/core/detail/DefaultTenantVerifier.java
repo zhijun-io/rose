@@ -1,6 +1,5 @@
 package io.zhijun.multitenancy.core.detail;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.slf4j.Logger;

@@ -15,9 +15,9 @@ public interface TenantDetailsService {
     List<? extends TenantDetails> loadAllTenants();
 
     /**
-     * Loads a multitenancy by identifier.
+     * Loads a multitenancy by tenantIdentifier.
      */
     @Nullable
-    TenantDetails loadTenantByIdentifier(String identifier);
+    TenantDetails loadTenantByIdentifier(String tenantIdentifier);
 
 }

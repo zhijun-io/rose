@@ -1,7 +1,6 @@
 package io.zhijun.multitenancy.core.context;
 
 import java.util.concurrent.Callable;
-import java.util.Objects;
 
 import io.zhijun.core.annotation.Incubating;
 import io.zhijun.core.annotation.Nullable;

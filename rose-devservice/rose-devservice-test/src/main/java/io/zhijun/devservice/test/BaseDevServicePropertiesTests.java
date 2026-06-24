@@ -9,9 +9,9 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
-import io.zhijun.devservice.core.api.config.ResourceMapping;
-import io.zhijun.devservice.core.api.config.VolumeMapping;
+import io.zhijun.devservice.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.api.config.ResourceMapping;
+import io.zhijun.devservice.api.config.VolumeMapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

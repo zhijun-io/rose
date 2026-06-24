@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.boot.env.defaults.DefaultConfigPropertiesEnvironmentPostProcessor;
+import io.zhijun.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

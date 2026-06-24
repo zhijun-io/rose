@@ -37,8 +37,8 @@ Consumer applications pin **`rose-bom`** version in `dependencyManagement`; they
 | `rose-spring` | Spring Framework extensions |
 | `rose-spring-boot` | Spring Boot utilities and starters |
 | `rose-mybatis-plus` | MyBatis-Plus extensions |
-| `rose-observability` | Observation support |
-| `rose-observability` | OpenTelemetry integration |
+| `rose-observation` | Observation support |
+| `rose-observation` | OpenTelemetry integration |
 | `rose-multitenancy` | Multitenancy core, web, starter |
 | `rose-devservice` | Testcontainers dev services |
 

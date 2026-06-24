@@ -9,8 +9,8 @@ import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.actuate.endpoint.annotation.Selector;
 import org.springframework.lang.Nullable;
 
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import io.zhijun.devservice.api.registration.ContainerInfo;
+import io.zhijun.devservice.api.registration.DevServiceRegistration;
 
 /**
  * Endpoint for exposing development services information.

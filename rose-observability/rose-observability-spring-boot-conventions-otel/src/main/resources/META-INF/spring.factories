@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.observability.conventions.otel.autoconfigure.OpenTelemetryConventionsAutoConfiguration

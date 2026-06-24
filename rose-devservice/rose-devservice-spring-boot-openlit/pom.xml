@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-observability-spring-boot</artifactId>
+            <artifactId>rose-observation-spring-boot</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
