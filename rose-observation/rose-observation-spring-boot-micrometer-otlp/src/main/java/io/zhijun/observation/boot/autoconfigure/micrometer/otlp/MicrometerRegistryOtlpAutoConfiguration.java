@@ -2,6 +2,7 @@ package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,8 +55,8 @@ public final class MicrometerRegistryOtlpAutoConfiguration {
         static class Disabled {}
     }
 
-    private static final Set<String> RESERVED_RESOURCE_ATTRIBUTES = new HashSet<>(
-            Arrays.asList("telemetry.sdk.language", "telemetry.sdk.name", "telemetry.sdk.version"));
+    private static final Set<String> RESERVED_RESOURCE_ATTRIBUTES = Collections.unmodifiableSet(
+            new HashSet<>(Arrays.asList("telemetry.sdk.language", "telemetry.sdk.name", "telemetry.sdk.version")));
 
     @Bean
     @ConditionalOnMissingBean(OtlpConfig.class)
