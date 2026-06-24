@@ -51,11 +51,46 @@ class MultitenancyAsyncConfigurationTests {
                 .run(context -> assertThat(context).doesNotHaveBean(TenantContextTaskDecorator.class));
     }
 
+    @Test
+    void shouldPreserveExistingTaskDecorator() throws Exception {
+        ExistingDecoratorConfig.called = false;
+        contextRunner.withUserConfiguration(ExistingDecoratorConfig.class).run(context -> {
+            ThreadPoolTaskExecutor executor = context.getBean(ThreadPoolTaskExecutor.class);
+            AtomicReference<String> capturedTenant = new AtomicReference<String>();
+            CountDownLatch latch = new CountDownLatch(1);
+
+            TenantContext.where("acme").run(() -> executor.execute(() -> {
+                capturedTenant.set(TenantContext.getTenantId());
+                latch.countDown();
+            }));
+
+            assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(capturedTenant.get()).isEqualTo("acme");
+            assertThat(ExistingDecoratorConfig.called).isTrue();
+        });
+    }
+
     @Configuration
     static class TaskExecutorConfig {
         @Bean
         ThreadPoolTaskExecutor taskExecutor() {
             ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+            executor.initialize();
+            return executor;
+        }
+    }
+
+    @Configuration
+    static class ExistingDecoratorConfig {
+        static volatile boolean called = false;
+
+        @Bean
+        ThreadPoolTaskExecutor taskExecutor() {
+            ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+            executor.setTaskDecorator(runnable -> () -> {
+                called = true;
+                runnable.run();
+            });
             executor.initialize();
             return executor;
         }
