@@ -1,6 +1,7 @@
 package io.zhijun.mybatisplus.boot.autoconfigure;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 
+import io.zhijun.mybatisplus.core.crypto.EncryptionKeyResolver;
 import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 import io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
 
@@ -47,6 +49,28 @@ class RoseMybatisPlusAutoConfigurationTests {
                 .run(context -> {
                     assertThat(context).doesNotHaveBean(RoseMybatisPlusAutoConfiguration.class);
                     assertThat(context).doesNotHaveBean(MybatisPlusInterceptorCustomizerBeanPostProcessor.class);
+                });
+    }
+
+    @Test
+    void shouldResolveDefaultSecretFromPassword() {
+        contextRunner
+                .withPropertyValues("rose.mybatis-plus.encryptor.password=mySecret")
+                .run(context -> {
+                    EncryptionKeyResolver resolver = context.getBean(EncryptionKeyResolver.class);
+                    assertThat(resolver.resolve("default")).isEqualTo("mySecret");
+                });
+    }
+
+    @Test
+    void shouldThrowForNonDefaultSecretRef() {
+        contextRunner
+                .withPropertyValues("rose.mybatis-plus.encryptor.password=mySecret")
+                .run(context -> {
+                    EncryptionKeyResolver resolver = context.getBean(EncryptionKeyResolver.class);
+                    assertThatThrownBy(() -> resolver.resolve("custom"))
+                            .isInstanceOf(IllegalArgumentException.class)
+                            .hasMessageContaining("custom");
                 });
     }
 
