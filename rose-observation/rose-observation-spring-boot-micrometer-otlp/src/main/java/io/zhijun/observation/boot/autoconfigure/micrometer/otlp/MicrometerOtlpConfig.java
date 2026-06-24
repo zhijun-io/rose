@@ -1,6 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ class MicrometerOtlpConfig implements OtlpConfig {
         this.enabled = builder.enabled;
         this.url = builder.url;
         this.step = builder.step;
-        this.resourceAttributes = builder.resourceAttributes;
+        this.resourceAttributes = Collections.unmodifiableMap(new HashMap<>(builder.resourceAttributes));
     }
 
     /**
