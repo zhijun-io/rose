@@ -29,7 +29,11 @@ class ProcessResourceContributorTests {
 
     private static long currentPid() {
         String jvmName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
-        return Long.parseLong(jvmName.split("@")[0]);
+        try {
+            return Long.parseLong(jvmName.split("@")[0]);
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
 }
