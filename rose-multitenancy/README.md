@@ -6,7 +6,7 @@
 
 | 模块 | Artifact | 说明 |
 |------|----------|------|
-| Core | `rose-multitenancy-core` | `TenantContext`、resolver、`TenantDetailsService`、Micrometer observation（无 Spring） |
+| Core | `rose-multitenancy-core` | `TenantContext`、resolver、`TenantDetailsService`（无 Spring） |
 | Spring | `rose-multitenancy-spring` | 事件、Cache Key、异步传播、MDC、Servlet/WebMVC（`@TenantId`、`TenantContextFilter` 等，无 Boot） |
 | Boot | `rose-multitenancy-spring-boot` | Spring Boot 自动装配（唯一 Boot 入口） |
 
@@ -27,7 +27,7 @@ Starter 传递依赖 `rose-multitenancy-spring`；Servlet 环境下自动启用 
 
 | 模块 | 根包 |
 |------|------|
-| `rose-multitenancy-core` | `io.zhijun.multitenancy.core.{context,detail,exception,observation}.*` |
+| `rose-multitenancy-core` | `io.zhijun.multitenancy.core.{context,detail,exception}.*` |
 | `rose-multitenancy-spring` | `io.zhijun.multitenancy.spring.*`（WebMVC 在 `spring.web`） |
 | `rose-multitenancy-spring-boot` | `io.zhijun.multitenancy.boot.autoconfigure.*`、`io.zhijun.multitenancy.boot.autoconfigure.web.*` |
 
@@ -103,7 +103,7 @@ TenantContext.where(tenantId).run(() -> asyncService.process());
 | `HeaderTenantResolver` / `CookieTenantResolver` | HTTP 租户解析 |
 | `TenantContextFilter` | Servlet 过滤器链集成 |
 | `@TenantId` | Controller 参数解析 |
-| MDC + Observation 集成 | 日志与观测携带 tenant |
+| MDC 集成 | 日志携带 tenant |
 | 异步传播 | `TenantContextTaskDecorator` + `ThreadPoolTaskExecutor` BPP |
 | MyBatis-Plus | `TenantIdSupplier` 行级过滤（见 `rose-mybatis-plus`） |
 

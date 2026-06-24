@@ -24,7 +24,6 @@ import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
-import io.zhijun.multitenancy.core.observation.TenantObservationFilter;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 
@@ -50,9 +49,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
     private final TenantVerifier tenantVerifier;
 
     @Nullable
-    private final TenantObservationFilter tenantObservationFilter;
-
-    @Nullable
     private final TenantContextMissingTenantHandler missingTenantHandler;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -61,7 +57,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
             TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
             @Nullable TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher,
             ApplicationEventPublisher eventPublisher, @Nullable TenantVerifier tenantVerifier,
-            @Nullable TenantObservationFilter tenantObservationFilter,
             @Nullable TenantContextMissingTenantHandler missingTenantHandler) {
         Assert.notNull(httpRequestTenantResolver, "httpRequestTenantResolver cannot be null");
         Assert.notNull(tenantContextIgnorePathMatcher, "ignorePathMatcher cannot be null");
@@ -71,7 +66,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         this.tenantContextRequiredPathMatcher = tenantContextRequiredPathMatcher;
         this.eventPublisher = eventPublisher;
         this.tenantVerifier = tenantVerifier;
-        this.tenantObservationFilter = tenantObservationFilter;
         this.missingTenantHandler = missingTenantHandler;
     }
 
@@ -179,9 +173,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         private TenantVerifier tenantVerifier;
 
         @Nullable
-        private TenantObservationFilter tenantObservationFilter;
-
-        @Nullable
         private TenantContextMissingTenantHandler missingTenantHandler;
 
         private Builder() {}
@@ -212,11 +203,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
             return this;
         }
 
-        public Builder tenantObservationFilter(@Nullable TenantObservationFilter tenantObservationFilter) {
-            this.tenantObservationFilter = tenantObservationFilter;
-            return this;
-        }
-
         public Builder missingTenantHandler(@Nullable TenantContextMissingTenantHandler missingTenantHandler) {
             this.missingTenantHandler = missingTenantHandler;
             return this;
@@ -224,8 +210,7 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
 
         public TenantContextFilter build() {
             return new TenantContextFilter(httpRequestTenantResolver, tenantContextIgnorePathMatcher,
-                    tenantContextRequiredPathMatcher, eventPublisher, tenantVerifier, tenantObservationFilter,
-                    missingTenantHandler);
+                    tenantContextRequiredPathMatcher, eventPublisher, tenantVerifier, missingTenantHandler);
         }
     }
 

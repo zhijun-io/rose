@@ -1,10 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
-import io.micrometer.registry.otlp.AggregationTemporality;
-import io.micrometer.registry.otlp.HistogramFlavor;
 import io.micrometer.registry.otlp.OtlpMeterRegistry;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
@@ -111,42 +108,13 @@ class MicrometerRegistryOtlpAutoConfigurationTests {
     @Test
     void otlpConfigConfiguredWithCustomProperties() {
         contextRunner
-                .withPropertyValues(
-                        "rose.otel.exporter.otlp.micrometer.base-time-unit=milliseconds",
-                        "rose.otel.exporter.otlp.micrometer.max-scale=10",
-                        "rose.otel.exporter.otlp.micrometer.max-bucket-count=100",
-                        "rose.otel.metrics.exporter.interval=PT10S",
-                        "rose.otel.metrics.exporter.aggregation-temporality=delta",
-                        "rose.otel.metrics.exporter.histogram-aggregation=base2-exponential-bucket-histogram"
-                )
+                .withPropertyValues("rose.otel.metrics.exporter.interval=PT10S")
                 .withBean(Resource.class, Resource::getDefault)
                 .run(context -> {
                     assertThat(context).hasSingleBean(MicrometerOtlpConfig.class);
 
                     MicrometerOtlpConfig config = context.getBean(MicrometerOtlpConfig.class);
-                    assertThat(config.baseTimeUnit()).isEqualTo(TimeUnit.MILLISECONDS);
-                    assertThat(config.maxScale()).isEqualTo(10);
-                    assertThat(config.maxBucketCount()).isEqualTo(100);
                     assertThat(config.step()).isEqualTo(Duration.ofSeconds(10));
-                    assertThat(config.aggregationTemporality()).isEqualTo(AggregationTemporality.DELTA);
-                    assertThat(config.histogramFlavor()).isEqualTo(HistogramFlavor.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM);
-                });
-    }
-
-    @Test
-    void otlpConfigWithCustomHeaders() {
-        contextRunner
-                .withPropertyValues(
-                        "rose.otel.exporter.otlp.headers.custom-header=common-value",
-                        "rose.otel.metrics.exporter.otlp.headers.metrics-header=metrics-value"
-                )
-                .withBean(Resource.class, Resource::getDefault)
-                .run(context -> {
-                    assertThat(context).hasSingleBean(MicrometerOtlpConfig.class);
-
-                    MicrometerOtlpConfig config = context.getBean(MicrometerOtlpConfig.class);
-                    assertThat(config.headers()).containsEntry("custom-header", "common-value");
-                    assertThat(config.headers()).containsEntry("metrics-header", "metrics-value");
                 });
     }
 

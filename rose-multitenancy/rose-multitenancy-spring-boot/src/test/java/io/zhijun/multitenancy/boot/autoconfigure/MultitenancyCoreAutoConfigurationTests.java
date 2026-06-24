@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import io.zhijun.multitenancy.spring.cache.TenantKeyGenerator;
 import io.zhijun.multitenancy.core.context.FixedTenantResolver;
 import io.zhijun.multitenancy.spring.observation.MdcTenantEventListener;
-import io.zhijun.multitenancy.core.observation.TenantObservationFilter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,20 +24,6 @@ class MultitenancyCoreAutoConfigurationTests {
     void tenantKeyGenerator() {
         contextRunner.run(context -> {
             assertThat(context).hasSingleBean(TenantKeyGenerator.class);
-        });
-    }
-
-    @Test
-    void tenantObservationFilterWhenDefault() {
-        contextRunner.run(context -> {
-            assertThat(context).hasSingleBean(TenantObservationFilter.class);
-        });
-    }
-
-    @Test
-    void tenantObservationFilterWhenDisabled() {
-        contextRunner.withPropertyValues("rose.multitenancy.observations.enabled=false").run(context -> {
-            assertThat(context).doesNotHaveBean(TenantObservationFilter.class);
         });
     }
 
