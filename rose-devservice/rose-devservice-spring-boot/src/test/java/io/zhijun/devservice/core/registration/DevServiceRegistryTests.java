@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit test for {@link DevServiceRegistry}.
@@ -88,7 +89,7 @@ class DevServiceRegistryTests {
     }
 
     @Test
-    void whenServiceAlreadyRegisteredThenSkipDuplicateDefinitions() {
+    void whenServiceAlreadyRegisteredThenThrow() {
         DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
         DevServiceRegistry validRegistry = new DevServiceRegistry(factory);
         Consumer<DevServiceRegistry.ServiceSpec> registration = service -> service
@@ -98,9 +99,10 @@ class DevServiceRegistryTests {
                         .supplier(TestPostgresContainer::new));
 
         validRegistry.registerDevService(registration);
-        validRegistry.registerDevService(registration);
 
-        assertThat(factory.getBeanDefinitionNames()).hasSize(2);
+        assertThatIllegalStateException()
+                .isThrownBy(() -> validRegistry.registerDevService(registration))
+                .withMessageContaining("Dev service already registered: postgres");
     }
 
     @Test

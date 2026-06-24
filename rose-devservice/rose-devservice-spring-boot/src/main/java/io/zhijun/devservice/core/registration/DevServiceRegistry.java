@@ -48,17 +48,19 @@ public class DevServiceRegistry {
         Assert.notNull(service.getContainerSpec().getSupplier(), "service container supplier cannot be null");
 
         String containerBeanName = "devService.container." + service.getName();
-        if (!beanDefinitionRegistry.containsBeanDefinition(containerBeanName)) {
-            GenericBeanDefinition containerBeanDefinition = createContainerBeanDefinition(service);
-            beanDefinitionRegistry.registerBeanDefinition(containerBeanName, containerBeanDefinition);
+        if (beanDefinitionRegistry.containsBeanDefinition(containerBeanName)) {
+            throw new IllegalStateException("Dev service already registered: " + service.getName());
         }
+        GenericBeanDefinition containerBeanDefinition = createContainerBeanDefinition(service);
+        beanDefinitionRegistry.registerBeanDefinition(containerBeanName, containerBeanDefinition);
 
         String descriptionBeanName = "devServiceRegistration." + service.getName();
-        if (!beanDefinitionRegistry.containsBeanDefinition(descriptionBeanName)) {
-            RootBeanDefinition descriptionBeanDefinition =
-                    createDescriptionBeanDefinition(service, containerBeanName);
-            beanDefinitionRegistry.registerBeanDefinition(descriptionBeanName, descriptionBeanDefinition);
+        if (beanDefinitionRegistry.containsBeanDefinition(descriptionBeanName)) {
+            throw new IllegalStateException("Dev service registration already registered: " + service.getName());
         }
+        RootBeanDefinition descriptionBeanDefinition =
+                createDescriptionBeanDefinition(service, containerBeanName);
+        beanDefinitionRegistry.registerBeanDefinition(descriptionBeanName, descriptionBeanDefinition);
     }
 
     private GenericBeanDefinition createContainerBeanDefinition(ServiceSpec service) {

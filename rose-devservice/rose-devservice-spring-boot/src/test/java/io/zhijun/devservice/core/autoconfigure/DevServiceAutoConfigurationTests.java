@@ -57,5 +57,29 @@ class DevServiceAutoConfigurationTests {
                 });
     }
 
+    @Test
+    void conflictDetectedWithMultipleJdbcProviders() {
+        contextRunner
+                .withBean("postgresql", DevServiceProvider.class, () -> DevServiceProvider.of("postgresql", "jdbc"))
+                .withBean("mysql", DevServiceProvider.class, () -> DevServiceProvider.of("mysql", "jdbc"))
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .isInstanceOf(MultipleDevServiceException.class);
+                });
+    }
+
+    @Test
+    void conflictDetectedWithMultipleJmsProviders() {
+        contextRunner
+                .withBean("artemis", DevServiceProvider.class, () -> DevServiceProvider.of("artemis", "jms"))
+                .withBean("activemq", DevServiceProvider.class, () -> DevServiceProvider.of("activemq", "jms"))
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .isInstanceOf(MultipleDevServiceException.class);
+                });
+    }
+
 }
 

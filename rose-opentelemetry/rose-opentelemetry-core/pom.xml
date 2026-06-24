@@ -13,12 +13,39 @@
 
     <artifactId>rose-opentelemetry-core</artifactId>
     <name>Rose OpenTelemetry Core</name>
-    <description>Compatibility artifact; delegates to rose-opentelemetry-spring-boot</description>
+    <description>Default OpenTelemetry stack: SDK auto-configuration plus logback, OTLP metrics, and semantic conventions</description>
 
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-opentelemetry-spring-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-opentelemetry-logback-bridge</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-opentelemetry-micrometer-registry-otlp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-opentelemetry-semantic-conventions</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-otlp</artifactId>
+            <version>${micrometer.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>

@@ -9,9 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot-starter`; `rose-multitenancy-core` and `rose-multitenancy-web` no longer depend on Spring Boot. Replaces `rose-multitenancy-core-spring-boot-starter` and `rose-multitenancy-web-spring-boot-starter`.
-- Dev Services artifacts renamed to `rose-devservice-*` (reactor parent `rose-devservice`). Replaces `rose-dev-services-*`. Configuration keys `rose.dev.*` and Java packages unchanged.
+- Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot`; `rose-multitenancy-spring` and `rose-multitenancy-core` no longer depend on Spring Boot.
+- Dev Services: artifacts renamed to `rose-devservice-spring-boot-{tech}` (replaces `rose-devservice-{tech}`). Configuration keys remain `rose.dev.*`.
+- Dev Services: Java packages renamed from `io.zhijun.dev.*` to `io.zhijun.devservice.*` (breaking for direct imports).
+- Dev Services: class prefix renamed from `LocalService*` to `DevService*`.
+- Observation: Boot auto-configuration moved to `rose-observation-spring-boot`; use it instead of `rose-observation-core` alone for startup validation.
+- OpenTelemetry: SDK Boot auto-configuration moved to `rose-opentelemetry-spring-boot`; `rose-opentelemetry-core` is again the default stack aggregator (logback bridge, OTLP metrics, semantic conventions, Actuator).
 - Removed unused BOM entries `rose-excel` and `rose-sqlite`.
+
+### Migration
+
+| Before | After |
+|--------|-------|
+| `io.zhijun.dev.*` | `io.zhijun.devservice.*` |
+| `rose-observation-core` only (Boot apps) | Add `rose-observation-spring-boot` |
+| `rose-opentelemetry-spring-boot` only (full stack) | Use `rose-opentelemetry-core` for default stack, or `rose-opentelemetry-spring-boot` for SDK autoconfig only |
 
 ## [0.1.0] - Unreleased
 

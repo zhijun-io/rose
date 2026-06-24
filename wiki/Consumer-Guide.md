@@ -23,7 +23,8 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 | Starter | Use when |
 |---|---|
 | `rose-spring-boot-core` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
-| `rose-opentelemetry-spring-boot` | OTel SDK, logs, OTLP metrics, semantic conventions |
+| `rose-opentelemetry-core` | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions |
+| `rose-opentelemetry-spring-boot` | OTel SDK Boot auto-configuration only |
 | `rose-multitenancy-spring-boot` | Multitenancy Boot auto-configuration (HTTP resolution on servlet apps) |
 | `rose-mybatis-plus-spring-boot` | MyBatis-Plus audit, encryption, data permission |
 
@@ -31,7 +32,7 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 <!-- Observability -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-opentelemetry-spring-boot</artifactId>
+    <artifactId>rose-opentelemetry-core</artifactId>
 </dependency>
 
 <!-- Multitenancy -->

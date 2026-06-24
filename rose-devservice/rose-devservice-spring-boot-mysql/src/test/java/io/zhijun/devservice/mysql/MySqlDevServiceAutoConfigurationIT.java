@@ -8,7 +8,6 @@ import org.testcontainers.containers.MySQLContainer;
 
 import io.zhijun.devservice.test.BaseJdbcDevServiceAutoConfigurationIT;
 
-import static io.zhijun.devservice.api.provider.DevServiceCategories.MYSQL;
 import static io.zhijun.devservice.mysql.MySqlDevServiceProperties.DEFAULT_DB_NAME;
 import static io.zhijun.devservice.mysql.MySqlDevServiceProperties.DEFAULT_PASSWORD;
 import static io.zhijun.devservice.mysql.MySqlDevServiceProperties.DEFAULT_USERNAME;
@@ -38,7 +37,7 @@ class MySqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConfigura
 
     @Override
     protected String getServiceName() {
-        return MYSQL;
+        return "mysql";
     }
 
     @Test

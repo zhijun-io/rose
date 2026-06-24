@@ -32,7 +32,7 @@ Artifact 与 Java 根包均为 `devservice`（`io.zhijun.devservice.*`）。`*.c
 ### 已实现
 
 - Testcontainers 生命周期与 `BootstrapMode`（DEV / TEST / PROD）
-- `DevServicesRegistrar.addDynamicProperty`（最高优先级动态属性）
+- `DevServiceRegistrar.addDynamicProperty`（最高优先级动态属性）
 - Docker 环境检测（OrbStack / 默认 socket）
 - 各连接器 AutoConfiguration + 集成测试
 - `MultipleDevServiceFailureAnalyzer`

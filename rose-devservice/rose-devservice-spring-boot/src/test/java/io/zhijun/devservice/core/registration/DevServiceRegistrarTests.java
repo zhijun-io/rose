@@ -17,6 +17,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.testcontainers.containers.GenericContainer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit test for {@link DevServiceRegistrar}.
@@ -84,18 +85,8 @@ class DevServiceRegistrarTests {
     }
 
     @Test
-    void whenDuplicateRegistrationThenSkipSecond() {
+    void whenDuplicateRegistrationThenThrow() {
         doRegister(
-                registry -> registry.registerDevService(service ->
-                        service.name("docling")
-                                .container(container -> container
-                                        .type(TestDoclingContainer.class)
-                                        .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
-                                            @Override
-                                            public GenericContainer<?> get() {
-                                                return new TestDoclingContainer();
-                                            }
-                                        }))),
                 registry -> registry.registerDevService(service ->
                         service.name("docling")
                                 .container(container -> container
@@ -107,10 +98,19 @@ class DevServiceRegistrarTests {
                                             }
                                         }))));
 
-        assertRegistryExists();
-        assertContainerBeanDefinition("docling", TestDoclingContainer.class);
-        assertDescriptionBeanDefinition("docling");
-        assertBeanDefinitionCount(2);
+        assertThatIllegalStateException()
+                .isThrownBy(() -> doRegister(
+                        registry -> registry.registerDevService(service ->
+                                service.name("docling")
+                                        .container(container -> container
+                                                .type(TestDoclingContainer.class)
+                                                .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
+                                                    @Override
+                                                    public GenericContainer<?> get() {
+                                                        return new TestDoclingContainer();
+                                                    }
+                                                })))))
+                .withMessageContaining("Dev service already registered: docling");
     }
 
     @Test
