@@ -41,37 +41,13 @@ public final class MongoDbDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final MongoDbDevServiceProperties properties = bindProperties(
+            MongoDbDevServiceProperties properties = bindProperties(
                     MongoDbDevServiceProperties.CONFIG_PREFIX, MongoDbDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("mongodb")
-                            .description("MongoDB Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseMongoDbContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseMongoDbContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("mongodb", "MongoDB Dev Service",
+                    RoseMongoDbContainer.class, () -> new RoseMongoDbContainer(properties));
 
-            addDynamicProperty("spring.data.mongodb.uri", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return mongoContainer().getReplicaSetUrl();
-                }
-            });
+            addDynamicProperty("spring.data.mongodb.uri", () -> mongoContainer().getReplicaSetUrl());
         }
 
         private RoseMongoDbContainer mongoContainer() {

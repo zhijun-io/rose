@@ -19,8 +19,7 @@
     <properties>
         <spring-boot.version>2.7.18</spring-boot.version>
         <testcontainers.version>1.21.4</testcontainers.version>
-        <mybatis-plus.version>3.5.2</mybatis-plus.version>
-        <micrometer.version>1.16.6</micrometer.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <opentelemetry.version>1.40.0</opentelemetry.version>
         <opentelemetry-instrumentation.version>2.10.0</opentelemetry-instrumentation.version>
         <opentelemetry-semconv.version>1.40.0</opentelemetry-semconv.version>
@@ -56,13 +55,6 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-bom</artifactId>
-                <version>${micrometer.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>io.opentelemetry</groupId>
                 <artifactId>opentelemetry-bom</artifactId>
                 <version>${opentelemetry.version}</version>
@@ -87,18 +79,10 @@
 
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-core</artifactId>
+                <artifactId>mybatis-plus-bom</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>

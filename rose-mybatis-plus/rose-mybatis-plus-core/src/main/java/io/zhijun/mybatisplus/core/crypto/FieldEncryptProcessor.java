@@ -131,8 +131,8 @@ public final class FieldEncryptProcessor {
             current = current.getSuperclass();
         }
         List<EncryptedField> immutable = Collections.unmodifiableList(fields);
-        CACHE.put(type, immutable);
-        return immutable;
+        List<EncryptedField> existing = CACHE.putIfAbsent(type, immutable);
+        return existing != null ? existing : immutable;
     }
 
     private static Object getField(Field field, Object target) {

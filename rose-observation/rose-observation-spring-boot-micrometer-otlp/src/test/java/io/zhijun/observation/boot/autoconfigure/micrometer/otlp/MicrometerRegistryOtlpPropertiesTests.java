@@ -1,7 +1,5 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,9 +20,6 @@ class MicrometerRegistryOtlpPropertiesTests {
         MicrometerRegistryOtlpProperties properties = new MicrometerRegistryOtlpProperties();
 
         assertThat(properties.isEnabled()).isTrue();
-        assertThat(properties.getBaseTimeUnit()).isEqualTo(TimeUnit.SECONDS);
-        assertThat(properties.getMaxScale()).isEqualTo(20);
-        assertThat(properties.getMaxBucketCount()).isEqualTo(160);
     }
 
     @Test
@@ -32,14 +27,8 @@ class MicrometerRegistryOtlpPropertiesTests {
         MicrometerRegistryOtlpProperties properties = new MicrometerRegistryOtlpProperties();
 
         properties.setEnabled(false);
-        properties.setBaseTimeUnit(TimeUnit.MILLISECONDS);
-        properties.setMaxScale(10);
-        properties.setMaxBucketCount(100);
 
         assertThat(properties.isEnabled()).isFalse();
-        assertThat(properties.getBaseTimeUnit()).isEqualTo(TimeUnit.MILLISECONDS);
-        assertThat(properties.getMaxScale()).isEqualTo(10);
-        assertThat(properties.getMaxBucketCount()).isEqualTo(100);
     }
 
 }

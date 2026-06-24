@@ -31,6 +31,9 @@ public class RoseDataPermissionHandler implements DataPermissionHandler {
 
     private final Map<String, DataPermission> annotationCache = new ConcurrentHashMap<String, DataPermission>();
 
+    /** Class names known to have no @DataPermission or to be unloadable, to avoid repeated reflection. */
+    private final Set<String> noAnnotationCache = new ConcurrentSkipListSet<String>();
+
     private final Set<String> excludedMappedStatementIds = new ConcurrentSkipListSet<String>();
 
     private final Set<String> defaultIgnoredMethods = new HashSet<String>(Arrays.asList(
@@ -119,6 +122,9 @@ public class RoseDataPermissionHandler implements DataPermissionHandler {
         if (cached != null) {
             return cached;
         }
+        if (noAnnotationCache.contains(className)) {
+            return null;
+        }
         try {
             Class<?> mapperType = Class.forName(className);
             DataPermission annotation = mapperType.getAnnotation(DataPermission.class);
@@ -129,6 +135,7 @@ public class RoseDataPermissionHandler implements DataPermissionHandler {
         } catch (ClassNotFoundException ignored) {
             // mapper interface not on classpath yet
         }
+        noAnnotationCache.add(className);
         return null;
     }
 }

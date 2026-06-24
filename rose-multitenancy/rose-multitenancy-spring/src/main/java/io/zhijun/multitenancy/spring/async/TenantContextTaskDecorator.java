@@ -19,9 +19,7 @@ public final class TenantContextTaskDecorator implements TaskDecorator {
     }
 
     private static final class TenantPropagatingRunnable implements Runnable {
-
         private final String tenantId;
-
         private final Runnable delegate;
 
         private TenantPropagatingRunnable(String tenantId, Runnable delegate) {

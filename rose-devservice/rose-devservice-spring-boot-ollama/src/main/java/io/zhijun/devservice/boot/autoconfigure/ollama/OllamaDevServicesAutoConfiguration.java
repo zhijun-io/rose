@@ -22,7 +22,6 @@ import io.zhijun.devservice.boot.autoconfigure.ollama.OllamaDevServicesAutoConfi
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("ollama")
-@ConditionalOnOllamaNativeUnavailable
 @EnableConfigurationProperties(OllamaDevServiceProperties.class)
 @Import(OllamaDevServiceRegistrar.class)
 public final class OllamaDevServicesAutoConfiguration {
@@ -38,37 +37,13 @@ public final class OllamaDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final OllamaDevServiceProperties properties = bindProperties(
+            OllamaDevServiceProperties properties = bindProperties(
                     OllamaDevServiceProperties.CONFIG_PREFIX, OllamaDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("ollama")
-                            .description("Ollama Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseOllamaContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseOllamaContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("ollama", "Ollama Dev Service",
+                    RoseOllamaContainer.class, () -> new RoseOllamaContainer(properties));
 
-            addDynamicProperty(OLLAMA_BASE_URL_PROPERTY, new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return ollamaContainer().getBaseUrl();
-                }
-            });
+            addDynamicProperty(OLLAMA_BASE_URL_PROPERTY, () -> ollamaContainer().getBaseUrl());
         }
 
         private RoseOllamaContainer ollamaContainer() {

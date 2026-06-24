@@ -35,43 +35,14 @@ public final class MqttDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final MqttDevServiceProperties properties = bindProperties(
+            MqttDevServiceProperties properties = bindProperties(
                     MqttDevServiceProperties.CONFIG_PREFIX, MqttDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("mqtt")
-                            .description("MQTT Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseHiveMQContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseHiveMQContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("mqtt", "MQTT Dev Service",
+                    RoseHiveMQContainer.class, () -> new RoseHiveMQContainer(properties));
 
-            addDynamicProperty("mqtt.server.uri", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return mqttContainer().getBrokerUrl();
-                }
-            });
-            addDynamicProperty("spring.mqtt.url", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return mqttContainer().getBrokerUrl();
-                }
-            });
+            addDynamicProperty("mqtt.server.uri", () -> mqttContainer().getBrokerUrl());
+            addDynamicProperty("spring.mqtt.url", () -> mqttContainer().getBrokerUrl());
         }
 
         private RoseHiveMQContainer mqttContainer() {

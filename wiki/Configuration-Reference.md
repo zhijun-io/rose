@@ -49,9 +49,8 @@ Defined in root `rose-parent` `properties`:
 
 | Property | Purpose |
 |---|---|
-| `spring-boot.version` | Spring Boot BOM (2.7.18) |
+| `spring-boot.version` | Spring Boot BOM (2.7.18; includes Micrometer) |
 | `testcontainers.version` | Testcontainers BOM |
-| `micrometer.version` | Micrometer BOM |
 | `opentelemetry.version` | OpenTelemetry SDK BOM |
 | `mybatis-plus.version` | MyBatis-Plus |
 

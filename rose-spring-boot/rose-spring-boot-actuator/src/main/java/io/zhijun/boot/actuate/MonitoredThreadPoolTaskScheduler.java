@@ -42,6 +42,9 @@ public class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskScheduler
 
     @Override
     public void afterSingletonsInstantiated() {
+        if (context == null || beanName == null) {
+            return;
+        }
         MeterRegistry registry = context.getBean(MeterRegistry.class);
         ScheduledExecutorService scheduledExecutor = super.getScheduledExecutor();
         this.delegate.setDelegate(ExecutorServiceMetrics.monitor(registry, scheduledExecutor, beanName));

@@ -57,16 +57,20 @@ class OnOllamaNativeUnavailable extends SpringBootCondition {
     }
 
     boolean isOllamaNativeConnection(String baseUrl) {
+        HttpURLConnection connection = null;
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(baseUrl).openConnection();
+            connection = (HttpURLConnection) new URL(baseUrl).openConnection();
             connection.setRequestMethod("HEAD");
             connection.setConnectTimeout(1000);
             connection.setReadTimeout(1000);
             int status = connection.getResponseCode();
-            connection.disconnect();
             return status == 200;
         } catch (Exception e) {
             return false;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 }

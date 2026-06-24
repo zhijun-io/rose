@@ -1,8 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.artemis;
 
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
+
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.jms.artemis.ArtemisAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -11,17 +13,17 @@ import org.springframework.core.env.Environment;
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceRegistry;
 import io.zhijun.devservice.boot.autoconfigure.artemis.ArtemisDevServicesAutoConfiguration.ArtemisDevServiceRegistrar;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * ActiveMQ Artemis dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
-@org.springframework.boot.autoconfigure.AutoConfigureBefore(ArtemisAutoConfiguration.class)
+@AutoConfigureBefore(ArtemisAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("artemis")
 @EnableConfigurationProperties(ArtemisDevServiceProperties.class)
 @Import(ArtemisDevServiceRegistrar.class)
@@ -36,44 +38,15 @@ public final class ArtemisDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final ArtemisDevServiceProperties properties = bindProperties(
+            ArtemisDevServiceProperties properties = bindProperties(
                     ArtemisDevServiceProperties.CONFIG_PREFIX, ArtemisDevServiceProperties.class);
 
-            registry.registerDevService(service -> service
-                    .name("artemis")
-                    .description("ActiveMQ Artemis Dev Service")
-                    .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                        @Override
-                        public void accept(DevServiceRegistry.ContainerSpec container) {
-                            container
-                                    .type(RoseArtemisContainer.class)
-                                    .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                        @Override
-                                        public org.testcontainers.containers.Container<?> get() {
-                                            return new RoseArtemisContainer(properties);
-                                        }
-                                    });
-                        }
-                    }));
+            registry.registerDevService("artemis", "Artemis Dev Service",
+                    RoseArtemisContainer.class, () -> new RoseArtemisContainer(properties));
 
-            addDynamicProperty("spring.artemis.broker-url", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return artemisContainer().getBrokerUrl();
-                }
-            });
-            addDynamicProperty("spring.artemis.user", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return artemisContainer().getUsername();
-                }
-            });
-            addDynamicProperty("spring.artemis.password", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return artemisContainer().getPassword();
-                }
-            });
+            addDynamicProperty("spring.artemis.broker-url", () -> artemisContainer().getBrokerUrl());
+            addDynamicProperty("spring.artemis.user", () -> artemisContainer().getUsername());
+            addDynamicProperty("spring.artemis.password", () -> artemisContainer().getPassword());
         }
 
         private RoseArtemisContainer artemisContainer() {

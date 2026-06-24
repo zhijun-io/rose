@@ -4,11 +4,8 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import io.micrometer.core.instrument.config.validate.Validated;
-import io.micrometer.registry.otlp.AggregationTemporality;
-import io.micrometer.registry.otlp.HistogramFlavor;
 import io.micrometer.registry.otlp.OtlpConfig;
 
 import org.springframework.lang.Nullable;
@@ -22,13 +19,7 @@ class MicrometerOtlpConfig implements OtlpConfig {
     private final boolean enabled;
     private final String url;
     private final Duration step;
-    private final AggregationTemporality aggregationTemporality;
-    private final HistogramFlavor histogramFlavor;
-    private final Map<String, String> headers;
     private final Map<String, String> resourceAttributes;
-    private final int maxScale;
-    private final int maxBucketCount;
-    private final TimeUnit baseTimeUnit;
 
     private MicrometerOtlpConfig(Builder builder) {
         Assert.hasText(builder.url, "url cannot be null or empty");
@@ -36,13 +27,7 @@ class MicrometerOtlpConfig implements OtlpConfig {
         this.enabled = builder.enabled;
         this.url = builder.url;
         this.step = builder.step;
-        this.aggregationTemporality = builder.aggregationTemporality;
-        this.histogramFlavor = builder.histogramFlavor;
-        this.headers = builder.headers;
-        this.resourceAttributes = builder.resourceAttributes;
-        this.maxScale = builder.maxScale;
-        this.maxBucketCount = builder.maxBucketCount;
-        this.baseTimeUnit = builder.baseTimeUnit;
+        this.resourceAttributes = Collections.unmodifiableMap(new HashMap<>(builder.resourceAttributes));
     }
 
     /**
@@ -84,46 +69,6 @@ class MicrometerOtlpConfig implements OtlpConfig {
     }
 
     @Override
-    public AggregationTemporality aggregationTemporality() {
-        return aggregationTemporality;
-    }
-
-    @Override
-    public Map<String, String> headers() {
-        return headers;
-    }
-
-    @Override
-    public HistogramFlavor histogramFlavor() {
-        return histogramFlavor;
-    }
-
-    @Override
-    public Map<String, HistogramFlavor> histogramFlavorPerMeter() {
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public int maxScale() {
-        return maxScale;
-    }
-
-    @Override
-    public int maxBucketCount() {
-        return maxBucketCount;
-    }
-
-    @Override
-    public Map<String, Integer> maxBucketsPerMeter() {
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public TimeUnit baseTimeUnit() {
-        return baseTimeUnit;
-    }
-
-    @Override
     public Validated<?> validate() {
         return Validated.none();
     }
@@ -135,13 +80,7 @@ class MicrometerOtlpConfig implements OtlpConfig {
         private boolean enabled = true;
         private String url;
         private Duration step = Duration.ofSeconds(60);
-        private AggregationTemporality aggregationTemporality = AggregationTemporality.CUMULATIVE;
-        private HistogramFlavor histogramFlavor = HistogramFlavor.EXPLICIT_BUCKET_HISTOGRAM;
-        private final Map<String, String> headers = new HashMap<>();
         private final Map<String, String> resourceAttributes = new HashMap<>();
-        private int maxScale = 20;
-        private int maxBucketCount = 160;
-        private TimeUnit baseTimeUnit = TimeUnit.MILLISECONDS;
 
         private Builder() {}
 
@@ -161,45 +100,10 @@ class MicrometerOtlpConfig implements OtlpConfig {
             return this;
         }
 
-        Builder aggregationTemporality(AggregationTemporality aggregationTemporality) {
-            Assert.notNull(aggregationTemporality, "aggregationTemporality cannot be null");
-            this.aggregationTemporality = aggregationTemporality;
-            return this;
-        }
-
-        Builder histogramFlavor(HistogramFlavor histogramFlavor) {
-            Assert.notNull(histogramFlavor, "histogramFlavor cannot be null");
-            this.histogramFlavor = histogramFlavor;
-            return this;
-        }
-
-        Builder addHeaders(Map<String, String> headers) {
-            Assert.notNull(headers, "headers cannot be null");
-            Assert.noNullElements(headers.keySet().toArray(), "headers cannot contain null keys");
-            this.headers.putAll(new HashMap<>(headers));
-            return this;
-        }
-
         Builder addResourceAttributes(Map<String, String> resourceAttributes) {
             Assert.notNull(resourceAttributes, "resourceAttributes cannot be null");
             Assert.noNullElements(resourceAttributes.keySet().toArray(), "resourceAttributes cannot contain null keys");
             this.resourceAttributes.putAll(new HashMap<>(resourceAttributes));
-            return this;
-        }
-
-        Builder maxScale(int maxScale) {
-            this.maxScale = maxScale;
-            return this;
-        }
-
-        Builder maxBucketCount(int maxBucketCount) {
-            this.maxBucketCount = maxBucketCount;
-            return this;
-        }
-
-        Builder baseTimeUnit(TimeUnit baseTimeUnit) {
-            Assert.notNull(baseTimeUnit, "baseTimeUnit cannot be null");
-            this.baseTimeUnit = baseTimeUnit;
             return this;
         }
 

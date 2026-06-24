@@ -58,7 +58,14 @@ public class RoseMybatisPlusAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public EncryptionKeyResolver encryptionKeyResolver(EncryptorProperties properties) {
-        return secretRef -> "default".equals(secretRef) ? properties.getPassword() : null;
+        return secretRef -> {
+            if ("default".equals(secretRef)) {
+                return properties.getPassword();
+            }
+            throw new IllegalArgumentException(
+                    "No secret configured for secretRef '" + secretRef + "'. "
+                            + "Provide a custom EncryptionKeyResolver bean to handle non-default secretRefs.");
+        };
     }
 
     @Bean

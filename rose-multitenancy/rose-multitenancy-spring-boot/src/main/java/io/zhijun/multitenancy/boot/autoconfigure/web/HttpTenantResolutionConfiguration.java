@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import io.zhijun.multitenancy.boot.autoconfigure.FixedTenantResolutionProperties;
 import io.zhijun.multitenancy.core.context.FixedTenantResolver;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
-import io.zhijun.multitenancy.core.observation.TenantObservationFilter;
 import io.zhijun.multitenancy.spring.web.filter.TenantContextFilter;
 import io.zhijun.multitenancy.spring.web.filter.TenantContextIgnorePathMatcher;
 import io.zhijun.multitenancy.spring.web.filter.TenantContextMissingTenantHandler;
@@ -69,7 +68,6 @@ public final class HttpTenantResolutionConfiguration {
                 TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
                 ObjectProvider<TenantContextRequiredPathMatcher> tenantContextRequiredPathMatcher,
                 ApplicationEventPublisher eventPublisher, ObjectProvider<TenantVerifier> tenantVerifier,
-                ObjectProvider<TenantObservationFilter> tenantObservationFilter,
                 ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler) {
             TenantContextFilter filter = TenantContextFilter.builder()
                     .httpRequestTenantResolver(httpRequestTenantResolver)
@@ -77,7 +75,6 @@ public final class HttpTenantResolutionConfiguration {
                     .tenantContextRequiredPathMatcher(tenantContextRequiredPathMatcher.getIfAvailable())
                     .eventPublisher(eventPublisher)
                     .tenantVerifier(tenantVerifier.getIfAvailable())
-                    .tenantObservationFilter(tenantObservationFilter.getIfAvailable())
                     .missingTenantHandler(missingTenantHandler.getIfAvailable())
                     .build();
             FilterRegistrationBean<TenantContextFilter> registration = new FilterRegistrationBean<TenantContextFilter>();

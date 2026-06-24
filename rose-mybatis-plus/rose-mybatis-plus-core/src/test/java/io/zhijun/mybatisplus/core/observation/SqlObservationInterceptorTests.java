@@ -3,6 +3,7 @@ package io.zhijun.mybatisplus.core.observation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -61,6 +62,19 @@ class SqlObservationInterceptorTests {
                 .isEqualTo("DELETE");
     }
 
+    @Test
+    void shouldWorkWithSlowQueryThresholdSet() throws Throwable {
+        SimpleMeterRegistry meterRegistry = new SimpleMeterRegistry();
+        SqlObservationInterceptor interceptor = new SqlObservationInterceptor(null, meterRegistry, 5000);
+
+        MappedStatement ms = buildMappedStatement(SqlCommandType.SELECT, "io.example.UserMapper.selectById");
+        Invocation invocation = new TestInvocation(ms, "ok");
+
+        interceptor.intercept(invocation);
+
+        assertThat(meterRegistry.find("db.sql.execution").timers()).hasSize(1);
+    }
+
     private static MappedStatement buildMappedStatement(SqlCommandType commandType, String id) {
         SqlSource sqlSource = parameterObject -> new BoundSql(CONFIG, "SELECT 1", null, null);
         return new MappedStatement.Builder(CONFIG, id, sqlSource, commandType).build();
@@ -71,19 +85,31 @@ class SqlObservationInterceptorTests {
      */
     static class TestInvocation extends Invocation {
 
+        private static final java.lang.reflect.Method EXECUTOR_UPDATE_METHOD;
+
+        static {
+            try {
+                EXECUTOR_UPDATE_METHOD = Executor.class.getMethod("update", MappedStatement.class, Object.class);
+            } catch (NoSuchMethodException ex) {
+                throw new ExceptionInInitializerError(ex);
+            }
+        }
+
         private final Object[] args;
         private final Object result;
         private final RuntimeException failure;
 
         TestInvocation(MappedStatement ms, Object result) {
-            super(new Object(), Object.class.getMethods()[0], new Object[0]);
+            super(new Object() {
+            }, EXECUTOR_UPDATE_METHOD, new Object[]{ms, null});
             this.args = new Object[]{ms, new Object()};
             this.result = result;
             this.failure = null;
         }
 
         TestInvocation(MappedStatement ms, RuntimeException failure) {
-            super(new Object(), Object.class.getMethods()[0], new Object[0]);
+            super(new Object() {
+            }, EXECUTOR_UPDATE_METHOD, new Object[]{ms, null});
             this.args = new Object[]{ms, new Object()};
             this.result = null;
             this.failure = failure;
@@ -109,7 +135,7 @@ class SqlObservationInterceptorTests {
 
         @Override
         public java.lang.reflect.Method getMethod() {
-            return Object.class.getMethods()[0];
+            return EXECUTOR_UPDATE_METHOD;
         }
     }
 }

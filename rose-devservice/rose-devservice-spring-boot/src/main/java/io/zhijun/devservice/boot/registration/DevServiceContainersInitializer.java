@@ -20,6 +20,7 @@ public class DevServiceContainersInitializer implements ApplicationContextAware,
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public void afterPropertiesSet() {
         Map<String, GenericContainer> containers = applicationContext.getBeansOfType(GenericContainer.class);
         for (GenericContainer container : containers.values()) {
