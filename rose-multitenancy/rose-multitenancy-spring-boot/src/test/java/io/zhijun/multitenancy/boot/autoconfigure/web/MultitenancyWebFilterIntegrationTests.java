@@ -4,6 +4,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.servlet.Filter;
 
+import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;

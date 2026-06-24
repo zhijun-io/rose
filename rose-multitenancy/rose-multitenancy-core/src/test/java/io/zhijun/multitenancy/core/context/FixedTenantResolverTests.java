@@ -1,7 +1,5 @@
 package io.zhijun.multitenancy.core.context;
 
-import io.zhijun.multitenancy.core.context.FixedTenantResolver;
-
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +26,7 @@ class FixedTenantResolverTests {
     void whenDefaultIsUsedAsFixedTenant() {
         String expectedTenantIdentifier = "default";
         FixedTenantResolver fixedTenantResolver = new FixedTenantResolver();
-        String actualTenantIdentifier = fixedTenantResolver.resolveTenantId(this);
+        String actualTenantIdentifier = fixedTenantResolver.resolveTenantIdentifier(this);
         assertThat(actualTenantIdentifier).isEqualTo(expectedTenantIdentifier);
     }
 
@@ -36,7 +34,7 @@ class FixedTenantResolverTests {
     void whenCustomValueIsUsedAsFixedTenant() {
         String expectedTenantIdentifier = "beans";
         FixedTenantResolver fixedTenantResolver = new FixedTenantResolver(expectedTenantIdentifier);
-        String actualTenantIdentifier = fixedTenantResolver.resolveTenantId(this);
+        String actualTenantIdentifier = fixedTenantResolver.resolveTenantIdentifier(this);
         assertThat(actualTenantIdentifier).isEqualTo(expectedTenantIdentifier);
     }
 

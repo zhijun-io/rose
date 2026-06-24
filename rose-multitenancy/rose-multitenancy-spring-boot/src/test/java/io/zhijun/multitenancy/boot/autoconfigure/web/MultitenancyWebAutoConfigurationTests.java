@@ -1,5 +1,7 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
+import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -65,7 +67,7 @@ class MultitenancyWebAutoConfigurationTests {
                 .run(context -> {
                     assertThat(context).hasSingleBean(HttpRequestTenantResolver.class);
                     HttpRequestTenantResolver httpRequestTenantResolver = context.getBean(HttpRequestTenantResolver.class);
-                    assertThat(httpRequestTenantResolver.resolveTenantId(new MockHttpServletRequest()))
+                    assertThat(httpRequestTenantResolver.resolveTenantIdentifier(new MockHttpServletRequest()))
                             .isEqualTo("myTenant");
                 });
     }

@@ -90,7 +90,7 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String tenantIdentifier = httpRequestTenantResolver.resolveTenantId(request);
+        String tenantIdentifier = httpRequestTenantResolver.resolveTenantIdentifier(request);
         if (!StringUtils.hasText(tenantIdentifier)) {
             if (tenantContextRequiredPathMatcher != null && !tenantContextRequiredPathMatcher.requires(request)) {
                 filterChain.doFilter(request, response);

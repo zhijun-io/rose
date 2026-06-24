@@ -30,7 +30,7 @@ class HeaderTenantResolverTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(HeaderTenantResolver.DEFAULT_HEADER_NAME, expectedTenantId);
 
-        String actualTenantId = headerTenantResolver.resolveTenantId(request);
+        String actualTenantId = headerTenantResolver.resolveTenantIdentifier(request);
 
         assertThat(actualTenantId).isEqualTo(expectedTenantId);
     }
@@ -43,7 +43,7 @@ class HeaderTenantResolverTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(headerName, expectedTenantId);
 
-        String actualTenantId = headerTenantResolver.resolveTenantId(request);
+        String actualTenantId = headerTenantResolver.resolveTenantIdentifier(request);
 
         assertThat(actualTenantId).isEqualTo(expectedTenantId);
     }
@@ -53,7 +53,7 @@ class HeaderTenantResolverTests {
         HeaderTenantResolver headerTenantResolver = new HeaderTenantResolver();
         MockHttpServletRequest request = new MockHttpServletRequest();
 
-        String actualTenantId = headerTenantResolver.resolveTenantId(request);
+        String actualTenantId = headerTenantResolver.resolveTenantIdentifier(request);
 
         assertThat(actualTenantId).isNull();
     }
@@ -62,7 +62,7 @@ class HeaderTenantResolverTests {
     void whenNullRequestThenThrow() {
         HeaderTenantResolver headerTenantResolver = new HeaderTenantResolver();
 
-        assertThatThrownBy(() -> headerTenantResolver.resolveTenantId(null))
+        assertThatThrownBy(() -> headerTenantResolver.resolveTenantIdentifier(null))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("request cannot be null");
     }

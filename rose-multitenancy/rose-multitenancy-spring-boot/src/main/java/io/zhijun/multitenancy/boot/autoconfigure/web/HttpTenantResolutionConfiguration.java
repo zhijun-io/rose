@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.zhijun.multitenancy.boot.autoconfigure.FixedTenantResolutionProperties;
 import io.zhijun.multitenancy.core.context.FixedTenantResolver;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import io.zhijun.multitenancy.core.observation.TenantObservationFilter;
@@ -37,7 +38,7 @@ public final class HttpTenantResolutionConfiguration {
     @ConditionalOnBean(FixedTenantResolver.class)
     @ConditionalOnProperty(prefix = FixedTenantResolutionProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true")
     HttpRequestTenantResolver fixedHttpRequestTenantResolver(final FixedTenantResolver fixedTenantResolver) {
-        return request -> fixedTenantResolver.resolveTenantId(request);
+        return request -> fixedTenantResolver.resolveTenantIdentifier(request);
     }
 
     @Bean
