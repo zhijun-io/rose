@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.observation.autoconfigure.ConventionsSelectorAutoConfiguration
+io.zhijun.observation.boot.autoconfigure.ConventionsSelectorAutoConfiguration
 
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-io.zhijun.observation.autoconfigure.AmbiguousConventionsBackendFailureAnalyzer
+io.zhijun.observation.boot.autoconfigure.AmbiguousConventionsBackendFailureAnalyzer

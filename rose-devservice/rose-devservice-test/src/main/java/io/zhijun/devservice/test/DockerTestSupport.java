@@ -1,6 +1,6 @@
 package io.zhijun.devservice.test;
 
-import io.zhijun.devservice.docker.DockerEnvironmentSupport;
+import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 
 /**
  * Configures Docker connectivity for Testcontainers before any container starts.

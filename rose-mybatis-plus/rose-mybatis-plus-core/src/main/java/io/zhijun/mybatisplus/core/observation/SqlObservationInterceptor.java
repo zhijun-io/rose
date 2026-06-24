@@ -42,7 +42,7 @@ import io.micrometer.core.instrument.Timer;
  * (not an {@code InnerInterceptor}) so that it can wrap the full execution in a
  * {@code try/finally} block and capture both before and after states.
  *
- * @since 0.0.0.2
+ * @since 0.0.1
  */
 @Intercepts({
         @Signature(type = Executor.class, method = "update",

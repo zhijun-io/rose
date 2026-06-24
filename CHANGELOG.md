@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dev Services: class prefix renamed from `LocalService*` to `DevService*`.
 - Observation: merged `rose-observation` and `rose-opentelemetry` into `rose-observation`; conventions use `TelemetryConventionsBackend` with `rose.observation.conventions.backend` selection; default stack is `rose-observation-spring-boot`.
 - Observation: Boot auto-configuration moved to `rose-observation-spring-boot`; use `rose-observation-spring-boot` for full stack.
-- OpenTelemetry: SDK moved to `rose-observation-spring-boot-otel`; packages under `io.zhijun.observation.autoconfigure.otel.*`.
+- OpenTelemetry: SDK moved to `rose-observation-spring-boot-otel`; packages under `io.zhijun.observation.boot.autoconfigure.otel.*`.
 - **Package layout (breaking)**: business domains adopt layer-first packages — API at `{domain}.{feature}`, Boot at `{domain}.autoconfigure[.{slice}]`; drop redundant `.core.` segment in Java packages (Maven `-core` artifact unchanged).
 - Removed unused BOM entries `rose-excel` and `rose-sqlite`.
 
@@ -24,17 +24,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Before | After |
 |--------|-------|
 | `io.zhijun.dev.*` | `io.zhijun.devservice.*` |
-| `io.zhijun.opentelemetry.*` | `io.zhijun.observation.autoconfigure.otel.*` |
-| `io.zhijun.observation.*` | `io.zhijun.observation.*` / `io.zhijun.observation.autoconfigure.*` |
+| `io.zhijun.opentelemetry.*` | `io.zhijun.observation.boot.autoconfigure.otel.*` |
+| `io.zhijun.observation.*` | `io.zhijun.observation.*` / `io.zhijun.observation.boot.autoconfigure.*` |
 | `rose-observation-*` / `rose-opentelemetry-*` | `rose-observation-*`（见 README） |
 | `rose-opentelemetry-core` | `rose-observation-spring-boot` |
 | `rose.observations.conventions.*` | `rose.observation.conventions.*` |
 | `io.zhijun.multitenancy.core.*` | `io.zhijun.multitenancy.{context,detail,exception,observation}.*` |
-| `io.zhijun.multitenancy.core.autoconfigure.*` / `autoconfigure.core.*` | `io.zhijun.multitenancy.autoconfigure.*` |
+| `io.zhijun.multitenancy.core.autoconfigure.*` / `autoconfigure.core.*` | `io.zhijun.multitenancy.boot.autoconfigure.*` |
 | `io.zhijun.multitenancy.web.*` | `io.zhijun.multitenancy.spring.web.*` |
-| `io.zhijun.multitenancy.autoconfigure.web.*` | `io.zhijun.multitenancy.autoconfigure.spring.web.*` |
+| `io.zhijun.multitenancy.boot.autoconfigure.web.*` | `io.zhijun.multitenancy.boot.autoconfigure.web.*` |
 | `io.zhijun.devservice.core.*` | `io.zhijun.devservice.{api,bootstrap,container,docker,util,registration,autoconfigure}.*` |
-| `io.zhijun.devservice.{tech}.*` | `io.zhijun.devservice.autoconfigure.{tech}.*` |
+| `io.zhijun.devservice.{tech}.*` | `io.zhijun.devservice.boot.autoconfigure.{tech}.*` |
 | `io.zhijun.observation.core.*` | `io.zhijun.observation.*` |
 | `io.zhijun.mybatisplus.core.autoconfigure.*` | `io.zhijun.mybatisplus.autoconfigure.*` |
 

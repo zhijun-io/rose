@@ -59,7 +59,7 @@ rose:
 |----------|------|
 | `rose-observation-core` | `io.zhijun.observation` |
 | `rose-observation-spring-boot` | `io.zhijun.observation.autoconfigure` |
-| `rose-observation-spring-boot-otel` | `io.zhijun.observation.autoconfigure.otel` |
-| `rose-observation-spring-boot-logback` | `io.zhijun.observation.autoconfigure.logback` |
-| `rose-observation-spring-boot-micrometer-otlp` | `io.zhijun.observation.autoconfigure.micrometer.otlp` |
-| `rose-observation-spring-boot-conventions-otel` | `io.zhijun.observation.autoconfigure.conventions.otel` |
+| `rose-observation-spring-boot-otel` | `io.zhijun.observation.boot.autoconfigure.otel` |
+| `rose-observation-spring-boot-logback` | `io.zhijun.observation.boot.autoconfigure.logback` |
+| `rose-observation-spring-boot-micrometer-otlp` | `io.zhijun.observation.boot.autoconfigure.micrometer.otlp` |
+| `rose-observation-spring-boot-conventions-otel` | `io.zhijun.observation.boot.autoconfigure.conventions.otel` |

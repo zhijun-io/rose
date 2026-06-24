@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.devservice.autoconfigure.postgresql.PostgresqlDevServicesAutoConfiguration
+io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlDevServicesAutoConfiguration

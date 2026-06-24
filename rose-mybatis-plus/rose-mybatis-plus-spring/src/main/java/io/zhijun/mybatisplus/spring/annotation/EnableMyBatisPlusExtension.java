@@ -33,7 +33,7 @@ import io.zhijun.mybatisplus.spring.extension.MyBatisPlusExtensionConfiguration;
  * }</pre>
  *
  * @see MyBatisPlusExtensionConfiguration
- * @since 0.0.0.2
+ * @since 0.0.1
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

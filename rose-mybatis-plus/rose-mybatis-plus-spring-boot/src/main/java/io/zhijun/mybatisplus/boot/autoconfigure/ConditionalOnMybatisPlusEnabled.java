@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
  * Defaults to {@code true} when the property is absent.
  *
  * @see ConditionalOnProperty
- * @since 0.0.0.2
+ * @since 0.0.1
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

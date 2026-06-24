@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.observation.autoconfigure.micrometer.bridge.MicrometerMetricsOpenTelemetryBridgeAutoConfiguration
+io.zhijun.observation.boot.autoconfigure.micrometer.bridge.MicrometerMetricsOpenTelemetryBridgeAutoConfiguration
