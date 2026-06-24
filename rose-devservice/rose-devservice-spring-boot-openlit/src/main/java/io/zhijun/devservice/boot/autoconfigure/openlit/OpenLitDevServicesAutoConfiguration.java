@@ -3,7 +3,6 @@ package io.zhijun.devservice.boot.autoconfigure.openlit;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -15,6 +14,7 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceRegistry;
 import io.zhijun.devservice.boot.autoconfigure.openlit.OpenLitDevServicesAutoConfiguration.OpenLitDevServiceRegistrar;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * OpenLit dev services auto-configuration.
@@ -35,43 +35,14 @@ public final class OpenLitDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final OpenLitDevServiceProperties properties = bindProperties(
+            OpenLitDevServiceProperties properties = bindProperties(
                     OpenLitDevServiceProperties.CONFIG_PREFIX, OpenLitDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("openlit")
-                            .description("OpenLit Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseOpenLitContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseOpenLitContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("openlit", "OpenLit Dev Service",
+                    RoseOpenLitContainer.class, () -> new RoseOpenLitContainer(properties));
 
-            addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return openLitContainer().getOtlpHttpUrl();
-                }
-            });
-            addDynamicProperty("rose.dev.openlit.ui-url", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return openLitContainer().getOpenLitUrl();
-                }
-            });
+            addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT", () -> openLitContainer().getOtlpHttpUrl());
+            addDynamicProperty("rose.dev.openlit.ui-url", () -> openLitContainer().getOpenLitUrl());
         }
 
         private RoseOpenLitContainer openLitContainer() {

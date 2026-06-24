@@ -1,23 +1,23 @@
 package io.zhijun.devservice.boot.autoconfigure.mysql;
 
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
+
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.containers.MySQLContainer;
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceRegistry;
 import io.zhijun.devservice.boot.autoconfigure.mysql.MySqlDevServicesAutoConfiguration.MySqlDevServiceRegistrar;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * MySQL dev services auto-configuration.
@@ -39,53 +39,19 @@ public final class MySqlDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final MySqlDevServiceProperties properties = bindProperties(
+            MySqlDevServiceProperties properties = bindProperties(
                     MySqlDevServiceProperties.CONFIG_PREFIX, MySqlDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("mysql")
-                            .description("MySQL Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseMySqlContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseMySqlContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("mysql", "MySQL Dev Service",
+                    RoseMySqlContainer.class, () -> new RoseMySqlContainer(properties));
 
-            addDynamicProperty("spring.datasource.url", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return jdbcContainer().getJdbcUrl();
-                }
-            });
-            addDynamicProperty("spring.datasource.username", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return jdbcContainer().getUsername();
-                }
-            });
-            addDynamicProperty("spring.datasource.password", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return jdbcContainer().getPassword();
-                }
-            });
+            addDynamicProperty("spring.datasource.url", () -> jdbcContainer().getJdbcUrl());
+            addDynamicProperty("spring.datasource.username", () -> jdbcContainer().getUsername());
+            addDynamicProperty("spring.datasource.password", () -> jdbcContainer().getPassword());
         }
 
         private JdbcDatabaseContainer<?> jdbcContainer() {
-            MySQLContainer<?> container = getBeanFactory().getBean(RoseMySqlContainer.class);
+            RoseMySqlContainer container = getBeanFactory().getBean(RoseMySqlContainer.class);
             if (!container.isRunning()) {
                 container.start();
             }

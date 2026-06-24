@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
@@ -40,53 +39,19 @@ public final class PostgresqlDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final PostgresqlDevServiceProperties properties = bindProperties(
+            PostgresqlDevServiceProperties properties = bindProperties(
                     PostgresqlDevServiceProperties.CONFIG_PREFIX, PostgresqlDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("postgresql")
-                            .description("PostgreSQL Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RosePostgreSqlContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RosePostgreSqlContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("postgresql", "PostgreSQL Dev Service",
+                    RosePostgreSqlContainer.class, () -> new RosePostgreSqlContainer(properties));
 
-            addDynamicProperty("spring.datasource.url", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return jdbcContainer().getJdbcUrl();
-                }
-            });
-            addDynamicProperty("spring.datasource.username", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return jdbcContainer().getUsername();
-                }
-            });
-            addDynamicProperty("spring.datasource.password", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return jdbcContainer().getPassword();
-                }
-            });
+            addDynamicProperty("spring.datasource.url", () -> jdbcContainer().getJdbcUrl());
+            addDynamicProperty("spring.datasource.username", () -> jdbcContainer().getUsername());
+            addDynamicProperty("spring.datasource.password", () -> jdbcContainer().getPassword());
         }
 
         private JdbcDatabaseContainer<?> jdbcContainer() {
-            PostgreSQLContainer<?> container = getBeanFactory().getBean(RosePostgreSqlContainer.class);
+            RosePostgreSqlContainer container = getBeanFactory().getBean(RosePostgreSqlContainer.class);
             if (!container.isRunning()) {
                 container.start();
             }

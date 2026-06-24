@@ -1,5 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.otel;
 
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
+
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +12,6 @@ import org.springframework.core.env.Environment;
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceRegistry;
 import io.zhijun.devservice.boot.autoconfigure.otel.OtelCollectorDevServicesAutoConfiguration.OtelCollectorDevServiceRegistrar;
@@ -34,43 +35,14 @@ public final class OtelCollectorDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final OtelCollectorDevServiceProperties properties = bindProperties(
+            OtelCollectorDevServiceProperties properties = bindProperties(
                     OtelCollectorDevServiceProperties.CONFIG_PREFIX, OtelCollectorDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("otel-collector")
-                            .description("OpenTelemetry Collector Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseOtelCollectorContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseOtelCollectorContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("otel-collector", "OpenTelemetry Collector Dev Service",
+                    RoseOtelCollectorContainer.class, () -> new RoseOtelCollectorContainer(properties));
 
-            addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return otelCollector().getOtlpHttpUrl();
-                }
-            });
-            addDynamicProperty("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return otelCollector().getOtlpHttpUrl();
-                }
-            });
+            addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT", () -> otelCollector().getOtlpHttpUrl());
+            addDynamicProperty("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", () -> otelCollector().getOtlpHttpUrl());
         }
 
         private RoseOtelCollectorContainer otelCollector() {

@@ -41,6 +41,18 @@ public class DevServiceRegistry {
         registerBeanDefinition(serviceSpec);
     }
 
+    /**
+     * Convenience overload that avoids nested anonymous {@link Consumer}/{@link Supplier} classes
+     * for the common case of registering a named service with a single container.
+     */
+    public void registerDevService(String name, String description,
+            Class<? extends Container<?>> type, Supplier<? extends Container<?>> supplier) {
+        registerDevService(service -> service
+                .name(name)
+                .description(description)
+                .container(container -> container.type(type).supplier(supplier)));
+    }
+
     private void registerBeanDefinition(ServiceSpec service) {
         Assert.hasText(service.getName(), "service name cannot be null or empty");
         Assert.notNull(service.getContainerSpec(), "service container cannot be null");

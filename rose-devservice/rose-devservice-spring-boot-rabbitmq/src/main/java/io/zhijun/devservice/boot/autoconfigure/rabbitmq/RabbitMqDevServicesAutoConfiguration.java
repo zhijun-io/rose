@@ -37,43 +37,14 @@ public final class RabbitMqDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final RabbitMqDevServiceProperties properties = bindProperties(
+            RabbitMqDevServiceProperties properties = bindProperties(
                     RabbitMqDevServiceProperties.CONFIG_PREFIX, RabbitMqDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("rabbitmq")
-                            .description("RabbitMQ Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseRabbitMqContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseRabbitMqContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("rabbitmq", "RabbitMQ Dev Service",
+                    RoseRabbitMqContainer.class, () -> new RoseRabbitMqContainer(properties));
 
-            addDynamicProperty("spring.rabbitmq.host", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return rabbitContainer().getHost();
-                }
-            });
-            addDynamicProperty("spring.rabbitmq.port", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return rabbitContainer().getAmqpPort();
-                }
-            });
+            addDynamicProperty("spring.rabbitmq.host", () -> rabbitContainer().getHost());
+            addDynamicProperty("spring.rabbitmq.port", () -> rabbitContainer().getAmqpPort());
         }
 
         private RoseRabbitMqContainer rabbitContainer() {

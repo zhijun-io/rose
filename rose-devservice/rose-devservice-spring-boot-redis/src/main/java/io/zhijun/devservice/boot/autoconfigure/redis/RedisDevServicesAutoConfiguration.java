@@ -36,43 +36,14 @@ public final class RedisDevServicesAutoConfiguration {
 
         @Override
         protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            final RedisDevServiceProperties properties = bindProperties(
+            RedisDevServiceProperties properties = bindProperties(
                     RedisDevServiceProperties.CONFIG_PREFIX, RedisDevServiceProperties.class);
 
-            registry.registerDevService(new java.util.function.Consumer<DevServiceRegistry.ServiceSpec>() {
-                @Override
-                public void accept(DevServiceRegistry.ServiceSpec service) {
-                    service
-                            .name("redis")
-                            .description("Redis Dev Service")
-                            .container(new java.util.function.Consumer<DevServiceRegistry.ContainerSpec>() {
-                                @Override
-                                public void accept(DevServiceRegistry.ContainerSpec container) {
-                                    container
-                                            .type(RoseRedisContainer.class)
-                                            .supplier(new java.util.function.Supplier<org.testcontainers.containers.Container<?>>() {
-                                                @Override
-                                                public org.testcontainers.containers.Container<?> get() {
-                                                    return new RoseRedisContainer(properties);
-                                                }
-                                            });
-                                }
-                            });
-                }
-            });
+            registry.registerDevService("redis", "Redis Dev Service",
+                    RoseRedisContainer.class, () -> new RoseRedisContainer(properties));
 
-            addDynamicProperty("spring.redis.host", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return redisContainer().getRedisHost();
-                }
-            });
-            addDynamicProperty("spring.redis.port", new java.util.function.Supplier<Object>() {
-                @Override
-                public Object get() {
-                    return redisContainer().getRedisPort();
-                }
-            });
+            addDynamicProperty("spring.redis.host", () -> redisContainer().getRedisHost());
+            addDynamicProperty("spring.redis.port", () -> redisContainer().getRedisPort());
         }
 
         private RoseRedisContainer redisContainer() {
