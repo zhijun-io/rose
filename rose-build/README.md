@@ -70,7 +70,7 @@ mvn verify -Pcoverage
 mvn test -Pcoverage
 
 # 单模块（最快）
-mvn -pl rose-opentelemetry/rose-opentelemetry-spring-boot -Pcoverage test
+mvn -pl rose-observation/rose-observation-spring-boot-otel -Pcoverage test
 ```
 
 报告路径：`<module>/target/site/jacoco/index.html`（浏览器打开即可；macOS 示例：`open rose-core/target/site/jacoco/index.html`）。机器可读：`jacoco.xml` 同目录。

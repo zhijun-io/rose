@@ -14,9 +14,15 @@
     <artifactId>rose-observation</artifactId>
     <packaging>pom</packaging>
     <name>Rose Observation</name>
+    <description>Telemetry infrastructure, conventions selection, and OpenTelemetry integration</description>
 
     <modules>
         <module>rose-observation-core</module>
+        <module>rose-observation-spring-boot-otel</module>
+        <module>rose-observation-spring-boot-logback</module>
+        <module>rose-observation-spring-boot-micrometer-otlp</module>
+        <module>rose-observation-spring-boot-micrometer-bridge</module>
+        <module>rose-observation-spring-boot-conventions-otel</module>
         <module>rose-observation-spring-boot</module>
     </modules>
 </project>

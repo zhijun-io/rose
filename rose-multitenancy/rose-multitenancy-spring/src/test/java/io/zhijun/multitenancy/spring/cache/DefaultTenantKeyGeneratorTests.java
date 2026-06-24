@@ -45,7 +45,7 @@ class DefaultTenantKeyGeneratorTests {
     void whenTenantContextNotDefinedThenThrow() {
         assertThatThrownBy(() -> generateCacheKey(new Object[] {"something"}))
                 .isInstanceOf(TenantNotFoundException.class)
-                .hasMessageContaining("No tenant found in the current context");
+                .hasMessageContaining("No multitenancy found in the current context");
     }
 
     @SuppressWarnings("unused")

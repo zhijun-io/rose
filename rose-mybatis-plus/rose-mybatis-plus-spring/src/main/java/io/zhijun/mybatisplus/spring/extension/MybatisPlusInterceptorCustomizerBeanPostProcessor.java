@@ -13,7 +13,7 @@ import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 
-import io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer;
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 
 /**
  * {@link BeanPostProcessor} that applies all registered {@link MybatisPlusInterceptorCustomizer}s

@@ -1,5 +1,7 @@
 package io.zhijun.multitenancy.spring.context.event;
 
+import io.zhijun.multitenancy.spring.event.TenantEvent;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -20,7 +22,7 @@ class TenantEventTests {
 
     @Test
     void whenNullSourceThenThrow() {
-        assertThatThrownBy(() -> new TestTenantEvent("tenant", null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new TestTenantEvent("multitenancy", null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     static class TestTenantEvent extends TenantEvent {

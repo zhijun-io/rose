@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 
-import io.zhijun.mybatisplus.extension.MybatisPlusInterceptorCustomizer;
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 import io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
 
 class EnableMyBatisPlusExtensionTest {

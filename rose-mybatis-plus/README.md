@@ -25,6 +25,14 @@ rose-mybatis-plus-spring-boot
 | 纯 Spring | `rose-mybatis-plus-spring` + `@EnableMyBatisPlusExtension` |
 | 自行装配 | `rose-mybatis-plus-core` |
 
+## 包名
+
+| 模块 | 根包 |
+|------|------|
+| `rose-mybatis-plus-core` | `io.zhijun.mybatisplus.core.*` |
+| `rose-mybatis-plus-spring` | `io.zhijun.mybatisplus.spring.*` |
+| `rose-mybatis-plus-spring-boot` | `io.zhijun.mybatisplus.boot.autoconfigure.*` |
+
 ## 已实现
 
 | 能力 | 说明 |

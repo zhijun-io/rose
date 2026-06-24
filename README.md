@@ -12,7 +12,7 @@ Rose is a **Spring Boot 2.7 / Java 8 extension platform** (`io.zhijun`): optiona
 ## Why Rose
 
 - **BOM-aligned versions** — import `rose-bom` once; all `io.zhijun` artifacts stay in sync.
-- **Composable starters** — add only observability, multitenancy, MyBatis-Plus, or baseline bootstrap as needed.
+- **Composable starters** — add only observation, multitenancy, MyBatis-Plus, or baseline bootstrap as needed.
 - **Local dev services** — Docker-backed connectors (PostgreSQL, Redis, Kafka, …) with sensible defaults and dynamic properties.
 - **OpenTelemetry-first** — tracing, logs, OTLP metrics, and optional Micrometer ↔ SDK bridges.
 - **Library-thin modules** — capability JARs stay small; starters own the runnable stack (Web, JDBC, Actuator).
@@ -59,15 +59,16 @@ Pick one or combine several. Feature starters already include `rose-spring-boot-
 | Starter | Use when |
 |---------|----------|
 | `rose-spring-boot-core` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
-| `rose-opentelemetry-spring-boot` | OTel SDK, logs, OTLP metrics, semantic conventions, Actuator |
+| `rose-observation-spring-boot` | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions, conventions selection, Actuator |
+| `rose-observation-spring-boot-otel` | OTel SDK Boot auto-configuration only (compose with bridge slices as needed) |
 | `rose-multitenancy-spring-boot` | Multitenancy Boot auto-configuration (includes HTTP tenant resolution on servlet apps) |
 | `rose-mybatis-plus-spring-boot` | MyBatis-Plus audit, encryption, data permission |
 
 ```xml
-<!-- Observability -->
+<!-- Observation -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-opentelemetry-spring-boot</artifactId>
+    <artifactId>rose-observation-spring-boot</artifactId>
 </dependency>
 
 <!-- Multitenancy -->
@@ -104,10 +105,10 @@ Global toggle: `rose.dev.enabled`. See [rose-devservice/README.md](rose-devservi
 
 | Module | Path | When |
 |--------|------|------|
-| `rose-opentelemetry-micrometer-registry-otlp` | Micrometer → OTLP | Default in the OTel starter |
-| `rose-opentelemetry-micrometer-metrics-bridge` | Micrometer → OTel SDK | Metrics share the same SDK as traces/logs |
+| `rose-observation-spring-boot-micrometer-otlp` | Micrometer → OTLP | Default in the OTel starter |
+| `rose-observation-spring-boot-micrometer-bridge` | Micrometer → OTel SDK | Metrics share the same SDK as traces/logs |
 
-See [rose-opentelemetry/README.md](rose-opentelemetry/README.md).
+See [rose-observation/README.md](rose-observation/README.md).
 
 ## Documentation
 
@@ -121,7 +122,7 @@ See [rose-opentelemetry/README.md](rose-opentelemetry/README.md).
 | Build, CI, release | [rose-build/README.md](rose-build/README.md) |
 | Design notes | [docs/](docs/) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-opentelemetry](rose-opentelemetry/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
+**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
 
 Build layout follows [microsphere-build](https://github.com/microsphere-projects/microsphere-build).
 

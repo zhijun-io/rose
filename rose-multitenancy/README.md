@@ -23,6 +23,14 @@
 
 Starter 传递依赖 `rose-multitenancy-spring`；Servlet 环境下自动启用 HTTP 租户解析。
 
+## 包名
+
+| 模块 | 根包 |
+|------|------|
+| `rose-multitenancy-core` | `io.zhijun.multitenancy.core.{context,detail,exception,observation}.*` |
+| `rose-multitenancy-spring` | `io.zhijun.multitenancy.spring.*`（WebMVC 在 `spring.web`） |
+| `rose-multitenancy-spring-boot` | `io.zhijun.multitenancy.boot.autoconfigure.*`、`io.zhijun.multitenancy.boot.autoconfigure.web.*` |
+
 **非 Boot、纯 Spring 应用：**
 
 ```xml

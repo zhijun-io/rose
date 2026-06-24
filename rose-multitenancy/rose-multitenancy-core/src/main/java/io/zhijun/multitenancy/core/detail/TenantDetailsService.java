@@ -5,7 +5,7 @@ import java.util.List;
 import io.zhijun.core.annotation.Nullable;
 
 /**
- * Loads tenant-specific data. It is used throughout the framework as a tenant DAO.
+ * Loads multitenancy-specific data. It is used throughout the framework as a multitenancy DAO.
  */
 public interface TenantDetailsService {
 
@@ -15,9 +15,9 @@ public interface TenantDetailsService {
     List<? extends TenantDetails> loadAllTenants();
 
     /**
-     * Loads a tenant by identifier.
+     * Loads a multitenancy by tenantIdentifier.
      */
     @Nullable
-    TenantDetails loadTenantByIdentifier(String identifier);
+    TenantDetails loadTenantByIdentifier(String tenantIdentifier);
 
 }

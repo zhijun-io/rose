@@ -18,7 +18,7 @@
 | Feature | Description |
 |---|---|
 | **BOM-aligned versions** | Import `rose-bom` once; all `io.zhijun` artifacts stay in sync |
-| **Composable starters** | Observability, multitenancy, MyBatis-Plus, baseline bootstrap |
+| **Composable starters** | Observation, multitenancy, MyBatis-Plus, baseline bootstrap |
 | **Dev services** | Testcontainers connectors with dynamic properties (`rose-devservice-spring-boot-*`) |
 | **OpenTelemetry-first** | Tracing, logs, OTLP metrics, optional Micrometer bridges |
 | **Build governance** | Shared `rose-build` parent (profiles, JaCoCo, Central publishing) |

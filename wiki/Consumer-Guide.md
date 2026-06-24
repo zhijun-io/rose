@@ -10,7 +10,7 @@ How to consume Rose artifacts in a Spring Boot 2.7 application.
 |---|---|---|
 | BOM | `rose-bom` | `dependencyManagement` import |
 | Baseline | `rose-spring-boot-core` | Default platform starter |
-| Feature | `rose-*-spring-boot` | Observability, multitenancy, MyBatis-Plus |
+| Feature | `rose-*-spring-boot` | Observation, multitenancy, MyBatis-Plus |
 | Dev services | `rose-devservice-spring-boot-*` | Optional `runtime` connectors |
 | Libraries | `rose-*-core`, `rose-multitenancy-spring` | Advanced / manual wiring |
 
@@ -23,15 +23,16 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 | Starter | Use when |
 |---|---|
 | `rose-spring-boot-core` | Baseline Rose platform (`RoseBinder`, shared Boot utilities) |
-| `rose-opentelemetry-spring-boot` | OTel SDK, logs, OTLP metrics, semantic conventions |
+| `rose-observation-spring-boot` | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions |
+| `rose-observation-spring-boot-otel` | OTel SDK Boot auto-configuration only |
 | `rose-multitenancy-spring-boot` | Multitenancy Boot auto-configuration (HTTP resolution on servlet apps) |
 | `rose-mybatis-plus-spring-boot` | MyBatis-Plus audit, encryption, data permission |
 
 ```xml
-<!-- Observability -->
+<!-- Observation -->
 <dependency>
     <groupId>io.zhijun</groupId>
-    <artifactId>rose-opentelemetry-spring-boot</artifactId>
+    <artifactId>rose-observation-spring-boot</artifactId>
 </dependency>
 
 <!-- Multitenancy -->
@@ -53,7 +54,7 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 | Dev services (connector) | `rose.dev.<connector>.*` | `rose.dev.postgresql.enabled=true` |
 | Bootstrap profiles | `rose.bootstrap.*`, `rose.dev.profiles` | dev/test profile activation |
 
-OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via environment post-processors. See [rose-opentelemetry/README.md](../rose-opentelemetry/README.md).
+OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via environment post-processors. See [rose-observation/README.md](../rose-observation/README.md).
 
 ---
 
@@ -76,7 +77,7 @@ Default credentials and database name are **`rose`** unless overridden.
 | Core | [rose-core/README.md](../rose-core/README.md) |
 | Spring | [rose-spring/README.md](../rose-spring/README.md) |
 | Spring Boot | [rose-spring-boot/README.md](../rose-spring-boot/README.md) |
-| OpenTelemetry | [rose-opentelemetry/README.md](../rose-opentelemetry/README.md) |
+| OpenTelemetry | [rose-observation/README.md](../rose-observation/README.md) |
 | Multitenancy | [rose-multitenancy/README.md](../rose-multitenancy/README.md) |
 | Dev services | [rose-devservice/README.md](../rose-devservice/README.md) |
 | MyBatis-Plus | [rose-mybatis-plus/README.md](../rose-mybatis-plus/README.md) |

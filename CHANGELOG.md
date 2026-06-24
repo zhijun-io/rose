@@ -9,9 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot-starter`; `rose-multitenancy-core` and `rose-multitenancy-web` no longer depend on Spring Boot. Replaces `rose-multitenancy-core-spring-boot-starter` and `rose-multitenancy-web-spring-boot-starter`.
-- Dev Services artifacts renamed to `rose-devservice-*` (reactor parent `rose-devservice`). Replaces `rose-dev-services-*`. Configuration keys `rose.dev.*` and Java packages unchanged.
+- Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot`; `rose-multitenancy-spring` and `rose-multitenancy-core` no longer depend on Spring Boot.
+- Dev Services: artifacts renamed to `rose-devservice-spring-boot-{tech}` (replaces `rose-devservice-{tech}`). Configuration keys remain `rose.dev.*`.
+- Dev Services: Java packages renamed from `io.zhijun.dev.*` to `io.zhijun.devservice.*` (breaking for direct imports).
+- Dev Services: class prefix renamed from `LocalService*` to `DevService*`.
+- Observation: merged `rose-observation` and `rose-opentelemetry` into `rose-observation`; conventions use `TelemetryConventionsBackend` with `rose.observation.conventions.backend` selection; default stack is `rose-observation-spring-boot`.
+- Observation: Boot auto-configuration moved to `rose-observation-spring-boot`; use `rose-observation-spring-boot` for full stack.
+- OpenTelemetry: SDK moved to `rose-observation-spring-boot-otel`; packages under `io.zhijun.observation.boot.autoconfigure.otel.*`.
+- **Package layout (breaking)**: business domains mirror Maven modules — `{domain}.core.*` (`*-core`), `{domain}.spring.*` (`*-spring`), `{domain}.boot.autoconfigure[.{slice}].*` (`*-spring-boot`); DevService registration at `{domain}.boot.registration.*`. See `rose-bom/README.md`.
 - Removed unused BOM entries `rose-excel` and `rose-sqlite`.
+
+### Migration
+
+| Before | After |
+|--------|-------|
+| `io.zhijun.dev.*` | `io.zhijun.devservice.*` |
+| `io.zhijun.opentelemetry.*` | `io.zhijun.observation.boot.autoconfigure.otel.*` |
+| `io.zhijun.observation.*` | `io.zhijun.observation.*` / `io.zhijun.observation.boot.autoconfigure.*` |
+| `rose-observation-*` / `rose-opentelemetry-*` | `rose-observation-*`（见 README） |
+| `rose-opentelemetry-core` | `rose-observation-spring-boot` |
+| `rose.observations.conventions.*` | `rose.observation.conventions.*` |
+| `io.zhijun.multitenancy.web.*` | `io.zhijun.multitenancy.spring.web.*` |
+| `io.zhijun.multitenancy.autoconfigure.*` | `io.zhijun.multitenancy.boot.autoconfigure.*` |
+| `io.zhijun.devservice.core.registration.*` / `io.zhijun.devservice.autoconfigure.*` | `io.zhijun.devservice.boot.registration.*` / `io.zhijun.devservice.boot.autoconfigure.*` |
+| `io.zhijun.devservice.{tech}.*` | `io.zhijun.devservice.boot.autoconfigure.{tech}.*` |
+| `io.zhijun.observation.autoconfigure.*` | `io.zhijun.observation.boot.autoconfigure.*` |
+| `io.zhijun.mybatisplus.core.autoconfigure.*` | `io.zhijun.mybatisplus.boot.autoconfigure.*` |
 
 ## [0.1.0] - Unreleased
 
@@ -31,17 +54,17 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 #### Spring Boot starters
 
 - `rose-spring-boot-starter` — baseline Rose platform
-- `rose-opentelemetry-spring-boot-starter` — OpenTelemetry SDK, logs, OTLP metrics, Actuator
+- `rose-observation-spring-boot-otel-starter` — OpenTelemetry SDK, logs, OTLP metrics, Actuator
 - `rose-multitenancy-core-spring-boot-starter` — multitenancy without the web stack
 - `rose-multitenancy-web-spring-boot-starter` — multitenancy with `spring-boot-starter-web`
 
 #### OpenTelemetry
 
 - Auto-configuration for tracing, metrics, logs, and resource contributors
-- `rose-opentelemetry-logback-bridge` — Logback ↔ OpenTelemetry logs
-- `rose-opentelemetry-micrometer-registry-otlp` — Micrometer → OTLP metrics (default in OTel starter)
-- `rose-opentelemetry-micrometer-metrics-bridge` — Micrometer → OpenTelemetry `MeterProvider`
-- `rose-opentelemetry-semantic-conventions` — Rose semantic conventions
+- `rose-observation-spring-boot-logback` — Logback ↔ OpenTelemetry logs
+- `rose-observation-spring-boot-micrometer-otlp` — Micrometer → OTLP metrics (default in OTel starter)
+- `rose-observation-spring-boot-micrometer-bridge` — Micrometer → OpenTelemetry `MeterProvider`
+- `rose-observation-spring-boot-conventions-otel` — Rose semantic conventions
 
 #### Dev Services
 

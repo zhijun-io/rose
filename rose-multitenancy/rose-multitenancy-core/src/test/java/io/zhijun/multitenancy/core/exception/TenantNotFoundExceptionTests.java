@@ -12,12 +12,12 @@ class TenantNotFoundExceptionTests {
     @Test
     void whenDefaultMessage() {
         TenantNotFoundException exception = new TenantNotFoundException();
-        assertThat(exception).hasMessageContaining("No tenant found in the current context");
+        assertThat(exception).hasMessageContaining("No multitenancy found in the current context");
     }
 
     @Test
     void whenCustomMessage() {
-        String message = "Custom tenant exception message";
+        String message = "Custom multitenancy exception message";
         TenantNotFoundException exception = new TenantNotFoundException(message);
         assertThat(exception).hasMessageContaining(message);
     }

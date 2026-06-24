@@ -17,10 +17,10 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.WaitStrategy;
 
 import io.zhijun.core.annotation.Incubating;
-import io.zhijun.devservice.api.config.BaseDevServiceProperties;
-import io.zhijun.devservice.api.config.JdbcDevServiceProperties;
-import io.zhijun.devservice.api.config.ResourceMapping;
-import io.zhijun.devservice.api.config.VolumeMapping;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
+import io.zhijun.devservice.core.api.config.ResourceMapping;
+import io.zhijun.devservice.core.api.config.VolumeMapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.devservice.rabbitmq.RabbitMqDevServicesAutoConfiguration
+io.zhijun.devservice.boot.autoconfigure.rabbitmq.RabbitMqDevServicesAutoConfiguration

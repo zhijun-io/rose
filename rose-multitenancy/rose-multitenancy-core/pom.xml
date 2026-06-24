@@ -13,7 +13,7 @@
 
     <artifactId>rose-multitenancy-core</artifactId>
     <name>Rose Multitenancy Core</name>
-    <description>Tenant context, resolver SPI and observability primitives (framework-agnostic)</description>
+    <description>Tenant context, resolver SPI and observation primitives (framework-agnostic)</description>
 
     <dependencies>
         <dependency>
