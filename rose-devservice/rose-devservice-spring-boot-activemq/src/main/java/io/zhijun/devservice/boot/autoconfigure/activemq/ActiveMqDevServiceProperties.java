@@ -2,13 +2,13 @@ package io.zhijun.devservice.boot.autoconfigure.activemq;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.core.api.config.AbstractBaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * ActiveMQ Classic dev service properties.
  */
 @ConfigurationProperties(prefix = ActiveMqDevServiceProperties.CONFIG_PREFIX)
-public class ActiveMqDevServiceProperties extends AbstractBaseDevServiceProperties {
+public class ActiveMqDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.activemq";
 

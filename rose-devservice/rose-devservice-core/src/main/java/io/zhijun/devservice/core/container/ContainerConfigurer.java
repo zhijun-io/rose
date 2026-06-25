@@ -13,7 +13,7 @@ import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
 import io.zhijun.devservice.core.api.config.VolumeMapping;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
-import io.zhijun.devservice.core.util.DevServiceAssert;
+import io.zhijun.devservice.core.util.DevServiceUtils;
 
 /**
  * Applies dev service properties to Testcontainers instances.
@@ -39,8 +39,8 @@ public final class ContainerConfigurer {
 
     public static void resources(GenericContainer<?> container, BaseDevServiceProperties properties) {
         for (ResourceMapping resource : properties.getResources()) {
-            DevServiceAssert.hasText(resource.getSourcePath(), "the source path in a resource mapping cannot be null or empty.");
-            DevServiceAssert.hasText(resource.getContainerPath(), "the container path in a resource mapping cannot be null or empty.");
+            DevServiceUtils.hasText(resource.getSourcePath(), "the source path in a resource mapping cannot be null or empty.");
+            DevServiceUtils.hasText(resource.getContainerPath(), "the container path in a resource mapping cannot be null or empty.");
 
             MountableFile mountableFile = resolveMountableFile(resource.getSourcePath());
             container.withCopyFileToContainer(mountableFile, resource.getContainerPath());

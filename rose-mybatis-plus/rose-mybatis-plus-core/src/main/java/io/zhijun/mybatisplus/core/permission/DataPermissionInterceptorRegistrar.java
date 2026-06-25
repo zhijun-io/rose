@@ -3,8 +3,8 @@ package io.zhijun.mybatisplus.core.permission;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 
+import io.zhijun.mybatisplus.core.extension.InnerInterceptorSupport;
 import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 
 /**
@@ -23,18 +23,7 @@ public final class DataPermissionInterceptorRegistrar implements MybatisPlusInte
 
     @Override
     public void customize(MybatisPlusInterceptor interceptor) {
-        if (containsDataPermissionInterceptor(interceptor)) {
-            return;
-        }
-        interceptor.addInnerInterceptor(new DataPermissionInterceptor(dataPermissionHandler));
-    }
-
-    private static boolean containsDataPermissionInterceptor(MybatisPlusInterceptor interceptor) {
-        for (InnerInterceptor innerInterceptor : interceptor.getInterceptors()) {
-            if (innerInterceptor instanceof DataPermissionInterceptor) {
-                return true;
-            }
-        }
-        return false;
+        InnerInterceptorSupport.addIfAbsent(interceptor, new DataPermissionInterceptor(dataPermissionHandler),
+                DataPermissionInterceptor.class);
     }
 }

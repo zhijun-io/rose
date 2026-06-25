@@ -2,13 +2,13 @@ package io.zhijun.devservice.boot.autoconfigure.otel;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.core.api.config.AbstractBaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * OpenTelemetry Collector dev service properties.
  */
 @ConfigurationProperties(prefix = OtelCollectorDevServiceProperties.CONFIG_PREFIX)
-public class OtelCollectorDevServiceProperties extends AbstractBaseDevServiceProperties {
+public class OtelCollectorDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.otel-collector";
 

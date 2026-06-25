@@ -1,18 +1,15 @@
 package io.zhijun.devservice.boot.autoconfigure.openlit;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
-import io.zhijun.devservice.boot.autoconfigure.openlit.OpenLitDevServicesAutoConfiguration.OpenLitDevServiceRegistrar;
+import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 
 /**
  * OpenLit dev services auto-configuration.
@@ -21,51 +18,31 @@ import io.zhijun.devservice.boot.autoconfigure.openlit.OpenLitDevServicesAutoCon
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("openlit")
 @EnableConfigurationProperties(OpenLitDevServiceProperties.class)
-@Import(OpenLitDevServiceRegistrar.class)
+@Import(OpenLitDevServicesAutoConfiguration.OpenLitDevServiceRegistrar.class)
 public final class OpenLitDevServicesAutoConfiguration {
 
-    @Bean
-    DevServiceProvider openLitDevServiceProvider() {
-        return DevServiceProvider.of("openlit", DevServiceCategories.OPENTELEMETRY);
-    }
+    private static final DevServiceConnectorDescriptor<OpenLitDevServiceProperties, RoseOpenLitContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<OpenLitDevServiceProperties, RoseOpenLitContainer>builder()
+                    .propertiesType(OpenLitDevServiceProperties.class)
+                    .configPrefix(OpenLitDevServiceProperties.CONFIG_PREFIX)
+                    .serviceName("openlit")
+                    .displayName("OpenLit Dev Service")
+                    .category(DevServiceCategories.OPENTELEMETRY)
+                    .containerClass(RoseOpenLitContainer.class)
+                    .containerFactory(RoseOpenLitContainer::new)
+                    .dynamicProperties(registrar -> {
+                        registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT",
+                                () -> registrar.requireRunningContainer().getOtlpHttpUrl());
+                        registrar.addDynamicProperty("rose.dev.openlit.ui-url",
+                                () -> registrar.requireRunningContainer().getOpenLitUrl());
+                    })
+                    .build();
 
-    static class OpenLitDevServiceRegistrar
+    static final class OpenLitDevServiceRegistrar
             extends ContainerDevServiceRegistrar<OpenLitDevServiceProperties, RoseOpenLitContainer> {
 
-        @Override
-        protected Class<OpenLitDevServiceProperties> getPropertiesType() {
-            return OpenLitDevServiceProperties.class;
-        }
-
-        @Override
-        protected String getConfigPrefix() {
-            return OpenLitDevServiceProperties.CONFIG_PREFIX;
-        }
-
-        @Override
-        protected String getServiceName() {
-            return "openlit";
-        }
-
-        @Override
-        protected String getDisplayName() {
-            return "OpenLit Dev Service";
-        }
-
-        @Override
-        protected Class<RoseOpenLitContainer> getContainerClass() {
-            return RoseOpenLitContainer.class;
-        }
-
-        @Override
-        protected RoseOpenLitContainer createContainer(OpenLitDevServiceProperties properties) {
-            return new RoseOpenLitContainer(properties);
-        }
-
-        @Override
-        protected void registerDynamicProperties() {
-            addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT", () -> requireRunningContainer().getOtlpHttpUrl());
-            addDynamicProperty("rose.dev.openlit.ui-url", () -> requireRunningContainer().getOpenLitUrl());
+        OpenLitDevServiceRegistrar() {
+            super(DESCRIPTOR);
         }
     }
 }

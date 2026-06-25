@@ -1,5 +1,6 @@
 package io.zhijun.boot.bind;
 
+import io.zhijun.core.annotation.Incubating;
 import org.springframework.boot.context.properties.bind.AbstractBindHandler;
 import org.springframework.boot.context.properties.bind.BindContext;
 import org.springframework.boot.context.properties.bind.BindHandler;
@@ -9,6 +10,7 @@ import org.springframework.boot.context.properties.source.ConfigurationPropertyN
 /**
  * {@link BindHandler} that notifies {@link RoseBindListener} instances during binding.
  */
+@Incubating
 public final class ListenableBindHandlerAdapter extends AbstractBindHandler {
 
     private final RoseBindListeners bindListeners;

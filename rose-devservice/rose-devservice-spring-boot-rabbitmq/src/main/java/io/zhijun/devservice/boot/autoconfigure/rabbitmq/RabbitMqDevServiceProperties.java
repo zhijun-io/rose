@@ -2,13 +2,13 @@ package io.zhijun.devservice.boot.autoconfigure.rabbitmq;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.core.api.config.AbstractBaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * RabbitMQ dev service properties.
  */
 @ConfigurationProperties(prefix = RabbitMqDevServiceProperties.CONFIG_PREFIX)
-public class RabbitMqDevServiceProperties extends AbstractBaseDevServiceProperties {
+public class RabbitMqDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.rabbitmq";
 

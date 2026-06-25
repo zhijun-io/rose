@@ -20,6 +20,7 @@ import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.Container;
 
 import io.zhijun.core.annotation.Incubating;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 
 /**
@@ -33,6 +34,15 @@ public class DevServiceRegistry {
     public DevServiceRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
         Assert.notNull(beanDefinitionRegistry, "beanDefinitionRegistry cannot be null");
         this.beanDefinitionRegistry = beanDefinitionRegistry;
+    }
+
+    public void registerDevServiceProvider(String name, String category) {
+        String beanName = "devServiceProvider." + name;
+        if (!beanDefinitionRegistry.containsBeanDefinition(beanName)) {
+            GenericBeanDefinition definition = new GenericBeanDefinition();
+            definition.setInstanceSupplier(() -> DevServiceProvider.of(name, category));
+            beanDefinitionRegistry.registerBeanDefinition(beanName, definition);
+        }
     }
 
     public void registerDevService(Consumer<ServiceSpec> service) {

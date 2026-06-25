@@ -391,136 +391,69 @@ class ContainerConfigurerTests {
         }
     }
 
-    private static class TestBaseDevServiceProperties implements BaseDevServiceProperties {
-        private Map<String, String> environment = Collections.emptyMap();
-        private List<String> networkAliases = Collections.emptyList();
-        private Duration startupTimeout = Duration.ofSeconds(30);
-        private List<ResourceMapping> resources = Collections.emptyList();
-        private List<VolumeMapping> volumes = Collections.emptyList();
-        private boolean shared = false;
+    private static class TestBaseDevServiceProperties extends BaseDevServiceProperties {
 
-        @Override
-        public String getImageName() {
-            return "test-image:latest";
-        }
-
-        @Override
-        public void setImageName(String imageName) {
-
-        }
-
-        @Override
-        public Map<String, String> getEnvironment() {
-            return environment;
+        TestBaseDevServiceProperties() {
+            setImageName("test-image:latest");
         }
 
         public TestBaseDevServiceProperties withEnvironment(Map<String, String> environment) {
-            this.environment = environment;
+            setEnvironment(environment);
             return this;
-        }
-
-        @Override
-        public List<String> getNetworkAliases() {
-            return networkAliases;
         }
 
         public TestBaseDevServiceProperties withNetworkAliases(List<String> networkAliases) {
-            this.networkAliases = networkAliases;
+            setNetworkAliases(networkAliases);
             return this;
-        }
-
-        @Override
-        public Duration getStartupTimeout() {
-            return startupTimeout;
         }
 
         public TestBaseDevServiceProperties withStartupTimeout(Duration startupTimeout) {
-            this.startupTimeout = startupTimeout;
+            setStartupTimeout(startupTimeout);
             return this;
-        }
-
-        @Override
-        public List<ResourceMapping> getResources() {
-            return resources;
         }
 
         public TestBaseDevServiceProperties withResources(List<ResourceMapping> resources) {
-            this.resources = resources;
+            setResources(resources);
             return this;
-        }
-
-        @Override
-        public List<VolumeMapping> getVolumes() {
-            return volumes;
         }
 
         public TestBaseDevServiceProperties withVolumes(List<VolumeMapping> volumes) {
-            this.volumes = volumes;
+            setVolumes(volumes);
             return this;
         }
 
-        @Override
-        public boolean isShared() {
-            return shared;
-        }
-
         public TestBaseDevServiceProperties withShared(boolean shared) {
-            this.shared = shared;
+            setShared(shared);
             return this;
         }
     }
 
-    private static class TestJdbcDevServiceProperties implements JdbcDevServiceProperties {
-        private String username = "user";
-        private String password = "password";
-        private String dbName = "testdb";
-        private List<String> initScriptPaths = Collections.emptyList();
+    private static class TestJdbcDevServiceProperties extends JdbcDevServiceProperties {
 
-        @Override
-        public String getImageName() {
-            return "test-db:latest";
-        }
-
-        @Override
-        public void setImageName(String imageName) {}
-
-        @Override
-        public String getUsername() {
-            return username;
+        TestJdbcDevServiceProperties() {
+            setImageName("test-db:latest");
+            setUsername("user");
+            setPassword("password");
+            setDbName("testdb");
         }
 
         public TestJdbcDevServiceProperties withUsername(String username) {
-            this.username = username;
+            setUsername(username);
             return this;
-        }
-
-        @Override
-        public String getPassword() {
-            return password;
         }
 
         public TestJdbcDevServiceProperties withPassword(String password) {
-            this.password = password;
+            setPassword(password);
             return this;
-        }
-
-        @Override
-        public String getDbName() {
-            return dbName;
         }
 
         public TestJdbcDevServiceProperties withDbName(String dbName) {
-            this.dbName = dbName;
+            setDbName(dbName);
             return this;
         }
 
-        @Override
-        public List<String> getInitScriptPaths() {
-            return initScriptPaths;
-        }
-
         public TestJdbcDevServiceProperties withInitScriptPaths(List<String> initScriptPaths) {
-            this.initScriptPaths = initScriptPaths;
+            setInitScriptPaths(initScriptPaths);
             return this;
         }
     }

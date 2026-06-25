@@ -2,13 +2,13 @@ package io.zhijun.devservice.boot.autoconfigure.ollama;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.core.api.config.AbstractBaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * Ollama dev service properties.
  */
 @ConfigurationProperties(prefix = OllamaDevServiceProperties.CONFIG_PREFIX)
-public class OllamaDevServiceProperties extends AbstractBaseDevServiceProperties {
+public class OllamaDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.ollama";
 

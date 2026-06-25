@@ -2,6 +2,7 @@ package io.zhijun.boot.bind;
 
 import java.util.Arrays;
 
+import io.zhijun.core.annotation.Incubating;
 import org.springframework.boot.context.properties.bind.BindHandler;
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.boot.context.properties.bind.Bindable;
@@ -12,6 +13,7 @@ import org.springframework.util.Assert;
 /**
  * Lightweight helpers around Spring Boot {@link Binder}.
  */
+@Incubating
 public final class RoseBinder {
 
     private final Binder binder;

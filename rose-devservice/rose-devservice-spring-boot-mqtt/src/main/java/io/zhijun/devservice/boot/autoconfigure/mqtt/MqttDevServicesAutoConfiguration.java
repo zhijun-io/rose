@@ -1,18 +1,15 @@
 package io.zhijun.devservice.boot.autoconfigure.mqtt;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
-import io.zhijun.devservice.boot.autoconfigure.mqtt.MqttDevServicesAutoConfiguration.MqttDevServiceRegistrar;
+import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 
 /**
  * MQTT dev services auto-configuration.
@@ -21,51 +18,31 @@ import io.zhijun.devservice.boot.autoconfigure.mqtt.MqttDevServicesAutoConfigura
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("mqtt")
 @EnableConfigurationProperties(MqttDevServiceProperties.class)
-@Import(MqttDevServiceRegistrar.class)
+@Import(MqttDevServicesAutoConfiguration.MqttDevServiceRegistrar.class)
 public final class MqttDevServicesAutoConfiguration {
 
-    @Bean
-    DevServiceProvider mqttDevServiceProvider() {
-        return DevServiceProvider.of("mqtt", DevServiceCategories.MQTT);
-    }
+    private static final DevServiceConnectorDescriptor<MqttDevServiceProperties, RoseHiveMQContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<MqttDevServiceProperties, RoseHiveMQContainer>builder()
+                    .propertiesType(MqttDevServiceProperties.class)
+                    .configPrefix(MqttDevServiceProperties.CONFIG_PREFIX)
+                    .serviceName("mqtt")
+                    .displayName("MQTT Dev Service")
+                    .category(DevServiceCategories.MQTT)
+                    .containerClass(RoseHiveMQContainer.class)
+                    .containerFactory(RoseHiveMQContainer::new)
+                    .dynamicProperties(registrar -> {
+                        registrar.addDynamicProperty("mqtt.server.uri",
+                                () -> registrar.requireRunningContainer().getBrokerUrl());
+                        registrar.addDynamicProperty("spring.mqtt.url",
+                                () -> registrar.requireRunningContainer().getBrokerUrl());
+                    })
+                    .build();
 
-    static class MqttDevServiceRegistrar
+    static final class MqttDevServiceRegistrar
             extends ContainerDevServiceRegistrar<MqttDevServiceProperties, RoseHiveMQContainer> {
 
-        @Override
-        protected Class<MqttDevServiceProperties> getPropertiesType() {
-            return MqttDevServiceProperties.class;
-        }
-
-        @Override
-        protected String getConfigPrefix() {
-            return MqttDevServiceProperties.CONFIG_PREFIX;
-        }
-
-        @Override
-        protected String getServiceName() {
-            return "mqtt";
-        }
-
-        @Override
-        protected String getDisplayName() {
-            return "MQTT Dev Service";
-        }
-
-        @Override
-        protected Class<RoseHiveMQContainer> getContainerClass() {
-            return RoseHiveMQContainer.class;
-        }
-
-        @Override
-        protected RoseHiveMQContainer createContainer(MqttDevServiceProperties properties) {
-            return new RoseHiveMQContainer(properties);
-        }
-
-        @Override
-        protected void registerDynamicProperties() {
-            addDynamicProperty("mqtt.server.uri", () -> requireRunningContainer().getBrokerUrl());
-            addDynamicProperty("spring.mqtt.url", () -> requireRunningContainer().getBrokerUrl());
+        MqttDevServiceRegistrar() {
+            super(DESCRIPTOR);
         }
     }
 }

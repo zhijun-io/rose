@@ -1,6 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.otel;
 
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.devservice.boot.container.DevServiceContainerLifecycle;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -27,20 +28,17 @@ class OtelCollectorOtlpConnectionDetailsConfiguration {
     @Bean
     @ConditionalOnMissingBean(OtlpTracingConnectionDetails.class)
     OtlpTracingConnectionDetails otelCollectorOtlpTracingConnectionDetails(RoseOtelCollectorContainer container) {
-        ensureRunning(container);
-        return OtlpContainerConnectionDetails.tracing(container.getHost(), container.getHttpPort(), container.getGrpcPort());
+        DevServiceContainerLifecycle.startIfNecessary(container);
+        return OtlpContainerConnectionDetails.tracing(container.getHost(), container.getHttpPort(),
+                container.getGrpcPort());
     }
 
     @Bean
     @ConditionalOnMissingBean(OtlpMetricsConnectionDetails.class)
     OtlpMetricsConnectionDetails otelCollectorOtlpMetricsConnectionDetails(RoseOtelCollectorContainer container) {
-        ensureRunning(container);
-        return OtlpContainerConnectionDetails.metrics(container.getHost(), container.getHttpPort(), container.getGrpcPort());
+        DevServiceContainerLifecycle.startIfNecessary(container);
+        return OtlpContainerConnectionDetails.metrics(container.getHost(), container.getHttpPort(),
+                container.getGrpcPort());
     }
 
-    private static void ensureRunning(RoseOtelCollectorContainer container) {
-        if (!container.isRunning()) {
-            container.start();
-        }
-    }
 }

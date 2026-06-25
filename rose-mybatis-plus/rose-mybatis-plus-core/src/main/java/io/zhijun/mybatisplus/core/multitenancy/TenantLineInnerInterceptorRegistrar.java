@@ -2,9 +2,9 @@ package io.zhijun.mybatisplus.core.multitenancy;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 
+import io.zhijun.mybatisplus.core.extension.InnerInterceptorSupport;
 import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 
 /**
@@ -20,19 +20,8 @@ public final class TenantLineInnerInterceptorRegistrar implements MybatisPlusInt
 
     @Override
     public void customize(MybatisPlusInterceptor interceptor) {
-        if (containsTenantLineInnerInterceptor(interceptor)) {
-            return;
-        }
-        interceptor.addInnerInterceptor(new TenantLineInnerInterceptor(tenantLineHandler));
-    }
-
-    private static boolean containsTenantLineInnerInterceptor(MybatisPlusInterceptor interceptor) {
-        for (InnerInterceptor innerInterceptor : interceptor.getInterceptors()) {
-            if (innerInterceptor instanceof TenantLineInnerInterceptor) {
-                return true;
-            }
-        }
-        return false;
+        InnerInterceptorSupport.addIfAbsent(interceptor, new TenantLineInnerInterceptor(tenantLineHandler),
+                TenantLineInnerInterceptor.class);
     }
 
 }

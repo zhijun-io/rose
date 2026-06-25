@@ -1,7 +1,6 @@
 package io.zhijun.devservice.core.api.config;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,55 +11,32 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class JdbcDevServicePropertiesTests {
 
-  @Test
-  void constants() {
-    assertThat(JdbcDevServiceProperties.DEFAULT_USERNAME).isEqualTo("rose");
-    assertThat(JdbcDevServiceProperties.DEFAULT_PASSWORD).isEqualTo("rose");
-    assertThat(JdbcDevServiceProperties.DEFAULT_DB_NAME).isEqualTo("rose");
-  }
+    @Test
+    void constants() {
+        assertThat(JdbcDevServiceProperties.DEFAULT_USERNAME).isEqualTo("rose");
+        assertThat(JdbcDevServiceProperties.DEFAULT_PASSWORD).isEqualTo("rose");
+        assertThat(JdbcDevServiceProperties.DEFAULT_DB_NAME).isEqualTo("rose");
+    }
 
-  @Test
-  void defaultSettersAreNoOps() {
-    JdbcDevServiceProperties properties = new JdbcDevServiceProperties() {
-      @Override
-      public String getImageName() {
-        return "postgres:16";
-      }
+    @Test
+    void defaultsAndSetters() {
+        JdbcDevServiceProperties properties = new JdbcDevServiceProperties() {
+        };
 
-      @Override
-      public void setImageName(String imageName) {
-      }
+        assertThat(properties.getUsername()).isEqualTo(JdbcDevServiceProperties.DEFAULT_USERNAME);
+        assertThat(properties.getPassword()).isEqualTo(JdbcDevServiceProperties.DEFAULT_PASSWORD);
+        assertThat(properties.getDbName()).isEqualTo(JdbcDevServiceProperties.DEFAULT_DB_NAME);
+        assertThat(properties.getInitScriptPaths()).isEmpty();
 
-      @Override
-      public String getUsername() {
-        return "user";
-      }
+        properties.setUsername("other");
+        properties.setPassword("secret");
+        properties.setDbName("other-db");
+        properties.setInitScriptPaths(Arrays.asList("other.sql"));
 
-      @Override
-      public String getPassword() {
-        return "pass";
-      }
-
-      @Override
-      public String getDbName() {
-        return "db";
-      }
-
-      @Override
-      public List<String> getInitScriptPaths() {
-        return Arrays.asList("init.sql");
-      }
-    };
-
-    properties.setUsername("other");
-    properties.setPassword("secret");
-    properties.setDbName("other-db");
-    properties.setInitScriptPaths(Arrays.asList("other.sql"));
-
-    assertThat(properties.getUsername()).isEqualTo("user");
-    assertThat(properties.getPassword()).isEqualTo("pass");
-    assertThat(properties.getDbName()).isEqualTo("db");
-    assertThat(properties.getInitScriptPaths()).containsExactly("init.sql");
-  }
+        assertThat(properties.getUsername()).isEqualTo("other");
+        assertThat(properties.getPassword()).isEqualTo("secret");
+        assertThat(properties.getDbName()).isEqualTo("other-db");
+        assertThat(properties.getInitScriptPaths()).containsExactly("other.sql");
+    }
 
 }

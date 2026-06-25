@@ -87,7 +87,7 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
         setDefaultProperties(defaults);
     }
 
-    protected void addDynamicProperty(String name, Supplier<Object> valueSupplier) {
+    public void addDynamicProperty(String name, Supplier<Object> valueSupplier) {
         Assert.notNull(environment, "environment has not been initialized");
         Assert.state(environment instanceof ConfigurableEnvironment,
                 "environment must be a ConfigurableEnvironment");

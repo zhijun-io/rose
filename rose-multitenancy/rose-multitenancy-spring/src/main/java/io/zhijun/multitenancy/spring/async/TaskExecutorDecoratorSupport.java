@@ -1,14 +1,12 @@
 package io.zhijun.multitenancy.spring.async;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.lang.Nullable;
+import org.springframework.util.ReflectionUtils;
 
 /**
  * Applies {@link TenantContextTaskDecorator} to Spring executors that expose
- * {@code setTaskDecorator} without using Spring Framework reflection utilities.
+ * {@code setTaskDecorator}.
  */
 public final class TaskExecutorDecoratorSupport {
 
@@ -16,7 +14,7 @@ public final class TaskExecutorDecoratorSupport {
     }
 
     public static boolean supportsTaskDecoration(Object executor) {
-        return findMethod(executor.getClass(), "setTaskDecorator", TaskDecorator.class) != null;
+        return ReflectionUtils.findMethod(executor.getClass(), "setTaskDecorator", TaskDecorator.class) != null;
     }
 
     public static void applyTenantDecorator(Object executor, TenantContextTaskDecorator tenantDecorator) {
@@ -29,63 +27,30 @@ public final class TaskExecutorDecoratorSupport {
 
     @Nullable
     static TaskDecorator resolveTaskDecorator(Object executor) {
-        Method getter = findMethod(executor.getClass(), "getTaskDecorator");
+        java.lang.reflect.Method getter = ReflectionUtils.findMethod(executor.getClass(), "getTaskDecorator");
         if (getter != null) {
-            try {
-                return (TaskDecorator) getter.invoke(executor);
-            } catch (ReflectiveOperationException ex) {
-                throw new IllegalStateException("Failed to read TaskDecorator from " + executor.getClass().getName(), ex);
-            }
+            return (TaskDecorator) ReflectionUtils.invokeMethod(getter, executor);
         }
         return readTaskDecoratorField(executor);
     }
 
     private static void setTaskDecorator(Object executor, TaskDecorator decorator) {
-        Method setter = findMethod(executor.getClass(), "setTaskDecorator", TaskDecorator.class);
+        java.lang.reflect.Method setter = ReflectionUtils.findMethod(executor.getClass(), "setTaskDecorator",
+                TaskDecorator.class);
         if (setter == null) {
             throw new IllegalStateException("Executor does not expose setTaskDecorator: " + executor.getClass().getName());
         }
-        try {
-            setter.invoke(executor, decorator);
-        } catch (ReflectiveOperationException ex) {
-            throw new IllegalStateException("Failed to set TaskDecorator on " + executor.getClass().getName(), ex);
-        }
+        ReflectionUtils.invokeMethod(setter, executor, decorator);
     }
 
     @Nullable
     private static TaskDecorator readTaskDecoratorField(Object executor) {
-        Class<?> type = executor.getClass();
-        while (type != null) {
-            try {
-                Field field = type.getDeclaredField("taskDecorator");
-                field.setAccessible(true);
-                return (TaskDecorator) field.get(executor);
-            } catch (NoSuchFieldException ex) {
-                type = type.getSuperclass();
-            } catch (IllegalAccessException ex) {
-                throw new IllegalStateException("Failed to read taskDecorator field from " + executor.getClass().getName(), ex);
-            }
+        java.lang.reflect.Field field = ReflectionUtils.findField(executor.getClass(), "taskDecorator");
+        if (field == null) {
+            return null;
         }
-        return null;
-    }
-
-    @Nullable
-    private static Method findMethod(Class<?> type, String name, Class<?>... parameterTypes) {
-        Class<?> current = type;
-        while (current != null) {
-            try {
-                return current.getMethod(name, parameterTypes);
-            } catch (NoSuchMethodException ex) {
-                try {
-                    Method method = current.getDeclaredMethod(name, parameterTypes);
-                    method.setAccessible(true);
-                    return method;
-                } catch (NoSuchMethodException ignored) {
-                    current = current.getSuperclass();
-                }
-            }
-        }
-        return null;
+        ReflectionUtils.makeAccessible(field);
+        return (TaskDecorator) ReflectionUtils.getField(field, executor);
     }
 
 }

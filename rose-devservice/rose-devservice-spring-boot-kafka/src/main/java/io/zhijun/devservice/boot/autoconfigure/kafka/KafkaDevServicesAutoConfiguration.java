@@ -1,20 +1,17 @@
 package io.zhijun.devservice.boot.autoconfigure.kafka;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
-import io.zhijun.devservice.boot.autoconfigure.kafka.KafkaDevServicesAutoConfiguration.KafkaDevServiceRegistrar;
+import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 
 /**
  * Kafka dev services auto-configuration.
@@ -24,51 +21,27 @@ import io.zhijun.devservice.boot.autoconfigure.kafka.KafkaDevServicesAutoConfigu
 @AutoConfigureBefore(KafkaAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("kafka")
 @EnableConfigurationProperties(KafkaDevServiceProperties.class)
-@Import(KafkaDevServiceRegistrar.class)
+@Import(KafkaDevServicesAutoConfiguration.KafkaDevServiceRegistrar.class)
 public final class KafkaDevServicesAutoConfiguration {
 
-    @Bean
-    DevServiceProvider kafkaDevServiceProvider() {
-        return DevServiceProvider.of("kafka", DevServiceCategories.KAFKA);
-    }
+    private static final DevServiceConnectorDescriptor<KafkaDevServiceProperties, RoseKafkaContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<KafkaDevServiceProperties, RoseKafkaContainer>builder()
+                    .propertiesType(KafkaDevServiceProperties.class)
+                    .configPrefix(KafkaDevServiceProperties.CONFIG_PREFIX)
+                    .serviceName("kafka")
+                    .displayName("Kafka Dev Service")
+                    .category(DevServiceCategories.KAFKA)
+                    .containerClass(RoseKafkaContainer.class)
+                    .containerFactory(RoseKafkaContainer::new)
+                    .dynamicProperties(registrar -> registrar.addDynamicProperty("spring.kafka.bootstrap-servers",
+                            () -> registrar.requireRunningContainer().getBootstrapServers()))
+                    .build();
 
-    static class KafkaDevServiceRegistrar
+    static final class KafkaDevServiceRegistrar
             extends ContainerDevServiceRegistrar<KafkaDevServiceProperties, RoseKafkaContainer> {
 
-        @Override
-        protected Class<KafkaDevServiceProperties> getPropertiesType() {
-            return KafkaDevServiceProperties.class;
-        }
-
-        @Override
-        protected String getConfigPrefix() {
-            return KafkaDevServiceProperties.CONFIG_PREFIX;
-        }
-
-        @Override
-        protected String getServiceName() {
-            return "kafka";
-        }
-
-        @Override
-        protected String getDisplayName() {
-            return "Kafka Dev Service";
-        }
-
-        @Override
-        protected Class<RoseKafkaContainer> getContainerClass() {
-            return RoseKafkaContainer.class;
-        }
-
-        @Override
-        protected RoseKafkaContainer createContainer(KafkaDevServiceProperties properties) {
-            return new RoseKafkaContainer(properties);
-        }
-
-        @Override
-        protected void registerDynamicProperties() {
-            addDynamicProperty("spring.kafka.bootstrap-servers",
-                    () -> requireRunningContainer().getBootstrapServers());
+        KafkaDevServiceRegistrar() {
+            super(DESCRIPTOR);
         }
     }
 }

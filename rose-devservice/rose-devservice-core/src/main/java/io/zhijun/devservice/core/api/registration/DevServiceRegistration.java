@@ -2,7 +2,7 @@ package io.zhijun.devservice.core.api.registration;
 
 import java.util.function.Supplier;
 
-import io.zhijun.devservice.core.util.DevServiceAssert;
+import io.zhijun.devservice.core.util.DevServiceUtils;
 
 import io.zhijun.core.annotation.Incubating;
 
@@ -20,8 +20,8 @@ public final class DevServiceRegistration {
             String name,
             String description,
             Supplier<ContainerInfo> containerInfo) {
-        DevServiceAssert.hasText(name, "name cannot be null or empty");
-        DevServiceAssert.notNull(containerInfo, "containerInfo cannot be null");
+        DevServiceUtils.hasText(name, "name cannot be null or empty");
+        DevServiceUtils.notNull(containerInfo, "containerInfo cannot be null");
         this.name = name;
         this.description = description;
         this.containerInfo = containerInfo;

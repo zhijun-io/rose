@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.devservice.boot.container.DevServiceContainerLifecycle;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpContainerConnectionDetails;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterAutoConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
@@ -26,7 +27,7 @@ class OpenLitOtlpConnectionDetailsConfiguration {
     @Bean
     @ConditionalOnMissingBean(OtlpTracingConnectionDetails.class)
     OtlpTracingConnectionDetails openLitOtlpTracingConnectionDetails(RoseOpenLitContainer container) {
-        ensureRunning(container);
+        DevServiceContainerLifecycle.startIfNecessary(container);
         return OtlpContainerConnectionDetails.tracing(container.getHost(), container.getOtlpHttpPort(),
                 container.getOtlpGrpcPort());
     }
@@ -34,14 +35,9 @@ class OpenLitOtlpConnectionDetailsConfiguration {
     @Bean
     @ConditionalOnMissingBean(OtlpMetricsConnectionDetails.class)
     OtlpMetricsConnectionDetails openLitOtlpMetricsConnectionDetails(RoseOpenLitContainer container) {
-        ensureRunning(container);
+        DevServiceContainerLifecycle.startIfNecessary(container);
         return OtlpContainerConnectionDetails.metrics(container.getHost(), container.getOtlpHttpPort(),
                 container.getOtlpGrpcPort());
     }
 
-    private static void ensureRunning(RoseOpenLitContainer container) {
-        if (!container.isRunning()) {
-            container.start();
-        }
-    }
 }

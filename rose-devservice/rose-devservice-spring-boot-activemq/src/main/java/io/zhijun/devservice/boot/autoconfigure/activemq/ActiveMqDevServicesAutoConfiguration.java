@@ -1,20 +1,17 @@
 package io.zhijun.devservice.boot.autoconfigure.activemq;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
-import io.zhijun.devservice.boot.autoconfigure.activemq.ActiveMqDevServicesAutoConfiguration.ActiveMqDevServiceRegistrar;
+import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 
 /**
  * ActiveMQ Classic dev services auto-configuration.
@@ -24,52 +21,33 @@ import io.zhijun.devservice.boot.autoconfigure.activemq.ActiveMqDevServicesAutoC
 @AutoConfigureBefore(ActiveMQAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("activemq")
 @EnableConfigurationProperties(ActiveMqDevServiceProperties.class)
-@Import(ActiveMqDevServiceRegistrar.class)
+@Import(ActiveMqDevServicesAutoConfiguration.ActiveMqDevServiceRegistrar.class)
 public final class ActiveMqDevServicesAutoConfiguration {
 
-    @Bean
-    DevServiceProvider activeMqDevServiceProvider() {
-        return DevServiceProvider.of("activemq", DevServiceCategories.JMS);
-    }
+    private static final DevServiceConnectorDescriptor<ActiveMqDevServiceProperties, RoseActiveMqContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<ActiveMqDevServiceProperties, RoseActiveMqContainer>builder()
+                    .propertiesType(ActiveMqDevServiceProperties.class)
+                    .configPrefix(ActiveMqDevServiceProperties.CONFIG_PREFIX)
+                    .serviceName("activemq")
+                    .displayName("ActiveMQ Dev Service")
+                    .category(DevServiceCategories.JMS)
+                    .containerClass(RoseActiveMqContainer.class)
+                    .containerFactory(RoseActiveMqContainer::new)
+                    .dynamicProperties(registrar -> {
+                        registrar.addDynamicProperty("spring.activemq.broker-url",
+                                () -> registrar.requireRunningContainer().getBrokerUrl());
+                        registrar.addDynamicProperty("spring.activemq.user",
+                                () -> registrar.requireRunningContainer().getUsername());
+                        registrar.addDynamicProperty("spring.activemq.password",
+                                () -> registrar.requireRunningContainer().getPassword());
+                    })
+                    .build();
 
-    static class ActiveMqDevServiceRegistrar
+    static final class ActiveMqDevServiceRegistrar
             extends ContainerDevServiceRegistrar<ActiveMqDevServiceProperties, RoseActiveMqContainer> {
 
-        @Override
-        protected Class<ActiveMqDevServiceProperties> getPropertiesType() {
-            return ActiveMqDevServiceProperties.class;
-        }
-
-        @Override
-        protected String getConfigPrefix() {
-            return ActiveMqDevServiceProperties.CONFIG_PREFIX;
-        }
-
-        @Override
-        protected String getServiceName() {
-            return "activemq";
-        }
-
-        @Override
-        protected String getDisplayName() {
-            return "ActiveMQ Dev Service";
-        }
-
-        @Override
-        protected Class<RoseActiveMqContainer> getContainerClass() {
-            return RoseActiveMqContainer.class;
-        }
-
-        @Override
-        protected RoseActiveMqContainer createContainer(ActiveMqDevServiceProperties properties) {
-            return new RoseActiveMqContainer(properties);
-        }
-
-        @Override
-        protected void registerDynamicProperties() {
-            addDynamicProperty("spring.activemq.broker-url", () -> requireRunningContainer().getBrokerUrl());
-            addDynamicProperty("spring.activemq.user", () -> requireRunningContainer().getUsername());
-            addDynamicProperty("spring.activemq.password", () -> requireRunningContainer().getPassword());
+        ActiveMqDevServiceRegistrar() {
+            super(DESCRIPTOR);
         }
     }
 }

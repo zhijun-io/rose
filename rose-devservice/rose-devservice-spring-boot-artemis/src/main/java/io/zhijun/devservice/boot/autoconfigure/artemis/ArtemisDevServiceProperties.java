@@ -2,13 +2,13 @@ package io.zhijun.devservice.boot.autoconfigure.artemis;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.core.api.config.AbstractBaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * ActiveMQ Artemis dev service properties.
  */
 @ConfigurationProperties(prefix = ArtemisDevServiceProperties.CONFIG_PREFIX)
-public class ArtemisDevServiceProperties extends AbstractBaseDevServiceProperties {
+public class ArtemisDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.artemis";
 

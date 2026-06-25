@@ -7,48 +7,36 @@ import org.testcontainers.lifecycle.Startable;
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Base registrar for non-JDBC dev service connectors backed by a single Testcontainers
- * {@link Container} bean.
- *
- * @param <P> dev service properties type
- * @param <C> Testcontainers container type
+ * Registrar for non-JDBC dev service connectors backed by a single Testcontainers container.
  */
 @Incubating
-public abstract class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable> extends DevServiceRegistrar {
+public class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable> extends DevServiceRegistrar {
 
-    protected abstract Class<P> getPropertiesType();
+    private final DevServiceConnectorDescriptor<P, C> descriptor;
 
-    protected abstract String getConfigPrefix();
-
-    protected abstract String getServiceName();
-
-    protected abstract String getDisplayName();
-
-    protected abstract Class<C> getContainerClass();
-
-    protected abstract C createContainer(P properties);
-
-    /**
-     * Register dynamic Spring properties resolved against the running container.
-     */
-    protected abstract void registerDynamicProperties();
+    protected ContainerDevServiceRegistrar(DevServiceConnectorDescriptor<P, C> descriptor) {
+        this.descriptor = descriptor;
+    }
 
     @Override
     protected final void registerDevServices(DevServiceRegistry registry, Environment environment) {
-        P properties = bindProperties(getConfigPrefix(), getPropertiesType());
+        registry.registerDevServiceProvider(descriptor.serviceName(), descriptor.category());
 
-        registry.registerDevService(getServiceName(), getDisplayName(), getContainerClass(),
-                () -> createContainer(properties));
+        P properties = bindProperties(descriptor.configPrefix(), descriptor.propertiesType());
+        registry.registerDevService(descriptor.serviceName(), descriptor.displayName(), descriptor.containerClass(),
+                () -> descriptor.containerFactory().apply(properties));
 
-        registerDynamicProperties();
+        if (descriptor.dynamicProperties() != null) {
+            descriptor.dynamicProperties().register(this);
+        }
     }
 
     /**
-     * Returns the container bean, starting it if necessary. Safe to call from dynamic property suppliers.
+     * Returns the container bean, starting it if necessary.
      */
-    protected final C requireRunningContainer() {
-        C container = getBeanFactory().getBean(getContainerClass());
-        ensureContainerStarted(container, getServiceName());
+    public final C requireRunningContainer() {
+        C container = getBeanFactory().getBean(descriptor.containerClass());
+        ensureContainerStarted(container, descriptor.serviceName());
         return container;
     }
 

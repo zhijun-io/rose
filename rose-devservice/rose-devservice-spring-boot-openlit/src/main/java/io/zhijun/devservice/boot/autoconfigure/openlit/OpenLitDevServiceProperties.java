@@ -2,13 +2,13 @@ package io.zhijun.devservice.boot.autoconfigure.openlit;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.devservice.core.api.config.AbstractBaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * OpenLit dev service properties.
  */
 @ConfigurationProperties(prefix = OpenLitDevServiceProperties.CONFIG_PREFIX)
-public class OpenLitDevServiceProperties extends AbstractBaseDevServiceProperties {
+public class OpenLitDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.openlit";
 

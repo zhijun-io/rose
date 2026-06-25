@@ -1,75 +1,98 @@
 package io.zhijun.devservice.core.api.config;
 
 import java.time.Duration;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.zhijun.core.annotation.Incubating;
 
 /**
- * Base dev service properties.
+ * Base dev service properties shared by all connector property classes.
  */
 @Incubating
-public interface BaseDevServiceProperties {
+public abstract class BaseDevServiceProperties {
 
-    default boolean isEnabled() {
-        return true;
+    private boolean enabled = true;
+    private String imageName;
+    private Map<String, String> environment = new HashMap<String, String>();
+    private List<String> networkAliases = new ArrayList<String>();
+    private int port = 0;
+    private List<ResourceMapping> resources = new ArrayList<ResourceMapping>();
+    private boolean shared = false;
+    private Duration startupTimeout = Duration.ofSeconds(30);
+    private List<VolumeMapping> volumes = new ArrayList<VolumeMapping>();
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    String getImageName();
-
-    default Map<String, String> getEnvironment() {
-        return Collections.emptyMap();
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    default List<String> getNetworkAliases() {
-        return Collections.emptyList();
+    public String getImageName() {
+        return imageName;
     }
 
-    default int getPort() {
-        return 0;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
-    default List<ResourceMapping> getResources() {
-        return Collections.emptyList();
+    public Map<String, String> getEnvironment() {
+        return environment;
     }
 
-    default boolean isShared() {
-        return false;
+    public void setEnvironment(Map<String, String> environment) {
+        this.environment = environment;
     }
 
-    default Duration getStartupTimeout() {
-        return Duration.ofSeconds(30);
+    public List<String> getNetworkAliases() {
+        return networkAliases;
     }
 
-    default List<VolumeMapping> getVolumes() {
-        return Collections.emptyList();
+    public void setNetworkAliases(List<String> networkAliases) {
+        this.networkAliases = networkAliases;
     }
 
-    default void setEnabled(boolean enabled) {
+    public int getPort() {
+        return port;
     }
 
-    void setImageName(String imageName);
-
-    default void setEnvironment(Map<String, String> environment) {
+    public void setPort(int port) {
+        this.port = port;
     }
 
-    default void setNetworkAliases(List<String> networkAliases) {
+    public List<ResourceMapping> getResources() {
+        return resources;
     }
 
-    default void setPort(int port) {
+    public void setResources(List<ResourceMapping> resources) {
+        this.resources = resources;
     }
 
-    default void setResources(List<ResourceMapping> resources) {
+    public boolean isShared() {
+        return shared;
     }
 
-    default void setShared(boolean shared) {
+    public void setShared(boolean shared) {
+        this.shared = shared;
     }
 
-    default void setStartupTimeout(Duration startupTimeout) {
+    public Duration getStartupTimeout() {
+        return startupTimeout;
     }
 
-    default void setVolumes(List<VolumeMapping> volumes) {
+    public void setStartupTimeout(Duration startupTimeout) {
+        this.startupTimeout = startupTimeout;
+    }
+
+    public List<VolumeMapping> getVolumes() {
+        return volumes;
+    }
+
+    public void setVolumes(List<VolumeMapping> volumes) {
+        this.volumes = volumes;
     }
 }

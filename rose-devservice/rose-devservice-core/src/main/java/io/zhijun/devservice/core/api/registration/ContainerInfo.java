@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.zhijun.devservice.core.util.DevServiceAssert;
+import io.zhijun.devservice.core.util.DevServiceUtils;
 
 import io.zhijun.core.annotation.Incubating;
 
@@ -30,12 +30,12 @@ public final class ContainerInfo {
             List<ContainerPort> exposedPorts,
             Map<String, String> labels,
             String status) {
-        DevServiceAssert.hasText(id, "id cannot be null or empty");
-        DevServiceAssert.hasText(imageName, "imageName cannot be null or empty");
-        DevServiceAssert.notNull(names, "names cannot be null");
-        DevServiceAssert.notNull(exposedPorts, "exposedPorts cannot be null");
-        DevServiceAssert.notNull(labels, "labels cannot be null");
-        DevServiceAssert.hasText(status, "status cannot be null or empty");
+        DevServiceUtils.hasText(id, "id cannot be null or empty");
+        DevServiceUtils.hasText(imageName, "imageName cannot be null or empty");
+        DevServiceUtils.notNull(names, "names cannot be null");
+        DevServiceUtils.notNull(exposedPorts, "exposedPorts cannot be null");
+        DevServiceUtils.notNull(labels, "labels cannot be null");
+        DevServiceUtils.hasText(status, "status cannot be null or empty");
 
         this.id = id;
         this.imageName = imageName;

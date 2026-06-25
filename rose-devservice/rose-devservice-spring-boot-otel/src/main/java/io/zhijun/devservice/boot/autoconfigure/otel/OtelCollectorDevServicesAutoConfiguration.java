@@ -1,18 +1,15 @@
 package io.zhijun.devservice.boot.autoconfigure.otel;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
-import io.zhijun.devservice.boot.autoconfigure.otel.OtelCollectorDevServicesAutoConfiguration.OtelCollectorDevServiceRegistrar;
+import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 
 /**
  * OpenTelemetry Collector dev services auto-configuration.
@@ -21,51 +18,31 @@ import io.zhijun.devservice.boot.autoconfigure.otel.OtelCollectorDevServicesAuto
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled("otel-collector")
 @EnableConfigurationProperties(OtelCollectorDevServiceProperties.class)
-@Import(OtelCollectorDevServiceRegistrar.class)
+@Import(OtelCollectorDevServicesAutoConfiguration.OtelCollectorDevServiceRegistrar.class)
 public final class OtelCollectorDevServicesAutoConfiguration {
 
-    @Bean
-    DevServiceProvider otelCollectorDevServiceProvider() {
-        return DevServiceProvider.of("otel-collector", DevServiceCategories.OPENTELEMETRY);
-    }
+    private static final DevServiceConnectorDescriptor<OtelCollectorDevServiceProperties, RoseOtelCollectorContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<OtelCollectorDevServiceProperties, RoseOtelCollectorContainer>builder()
+                    .propertiesType(OtelCollectorDevServiceProperties.class)
+                    .configPrefix(OtelCollectorDevServiceProperties.CONFIG_PREFIX)
+                    .serviceName("otel-collector")
+                    .displayName("OpenTelemetry Collector Dev Service")
+                    .category(DevServiceCategories.OPENTELEMETRY)
+                    .containerClass(RoseOtelCollectorContainer.class)
+                    .containerFactory(RoseOtelCollectorContainer::new)
+                    .dynamicProperties(registrar -> {
+                        registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT",
+                                () -> registrar.requireRunningContainer().getOtlpHttpUrl());
+                        registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
+                                () -> registrar.requireRunningContainer().getOtlpHttpUrl());
+                    })
+                    .build();
 
-    static class OtelCollectorDevServiceRegistrar
+    static final class OtelCollectorDevServiceRegistrar
             extends ContainerDevServiceRegistrar<OtelCollectorDevServiceProperties, RoseOtelCollectorContainer> {
 
-        @Override
-        protected Class<OtelCollectorDevServiceProperties> getPropertiesType() {
-            return OtelCollectorDevServiceProperties.class;
-        }
-
-        @Override
-        protected String getConfigPrefix() {
-            return OtelCollectorDevServiceProperties.CONFIG_PREFIX;
-        }
-
-        @Override
-        protected String getServiceName() {
-            return "otel-collector";
-        }
-
-        @Override
-        protected String getDisplayName() {
-            return "OpenTelemetry Collector Dev Service";
-        }
-
-        @Override
-        protected Class<RoseOtelCollectorContainer> getContainerClass() {
-            return RoseOtelCollectorContainer.class;
-        }
-
-        @Override
-        protected RoseOtelCollectorContainer createContainer(OtelCollectorDevServiceProperties properties) {
-            return new RoseOtelCollectorContainer(properties);
-        }
-
-        @Override
-        protected void registerDynamicProperties() {
-            addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT", () -> requireRunningContainer().getOtlpHttpUrl());
-            addDynamicProperty("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", () -> requireRunningContainer().getOtlpHttpUrl());
+        OtelCollectorDevServiceRegistrar() {
+            super(DESCRIPTOR);
         }
     }
 }

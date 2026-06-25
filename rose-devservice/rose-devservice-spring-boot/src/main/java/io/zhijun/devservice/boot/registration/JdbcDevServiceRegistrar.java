@@ -4,36 +4,28 @@ import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 
 import io.zhijun.core.annotation.Incubating;
-import io.zhijun.devservice.core.api.config.AbstractJdbcDevServiceProperties;
+import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 
 /**
- * Base registrar for JDBC dev service connectors that expose {@code spring.datasource.*}.
- *
- * @param <P> dev service properties type
- * @param <C> Testcontainers JDBC container type
+ * Registrar for JDBC dev service connectors that expose {@code spring.datasource.*}.
  */
 @Incubating
-public abstract class JdbcDevServiceRegistrar<P extends AbstractJdbcDevServiceProperties,
+public class JdbcDevServiceRegistrar<P extends JdbcDevServiceProperties,
         C extends JdbcDatabaseContainer<?>> extends DevServiceRegistrar {
 
-    protected abstract Class<P> getPropertiesType();
+    private final JdbcDevServiceConnectorDescriptor<P, C> descriptor;
 
-    protected abstract String getConfigPrefix();
-
-    protected abstract String getServiceName();
-
-    protected abstract String getDisplayName();
-
-    protected abstract Class<C> getContainerClass();
-
-    protected abstract C createContainer(P properties);
+    protected JdbcDevServiceRegistrar(JdbcDevServiceConnectorDescriptor<P, C> descriptor) {
+        this.descriptor = descriptor;
+    }
 
     @Override
     protected final void registerDevServices(DevServiceRegistry registry, Environment environment) {
-        P properties = bindProperties(getConfigPrefix(), getPropertiesType());
+        registry.registerDevServiceProvider(descriptor.serviceName(), descriptor.category());
 
-        registry.registerDevService(getServiceName(), getDisplayName(), getContainerClass(),
-                () -> createContainer(properties));
+        P properties = bindProperties(descriptor.configPrefix(), descriptor.propertiesType());
+        registry.registerDevService(descriptor.serviceName(), descriptor.displayName(), descriptor.containerClass(),
+                () -> descriptor.containerFactory().apply(properties));
 
         addDynamicProperty("spring.datasource.url", () -> runningContainer().getJdbcUrl());
         addDynamicProperty("spring.datasource.username", () -> runningContainer().getUsername());
@@ -41,8 +33,8 @@ public abstract class JdbcDevServiceRegistrar<P extends AbstractJdbcDevServicePr
     }
 
     private C runningContainer() {
-        C container = getBeanFactory().getBean(getContainerClass());
-        ensureContainerStarted(container, getServiceName());
+        C container = getBeanFactory().getBean(descriptor.containerClass());
+        ensureContainerStarted(container, descriptor.serviceName());
         return container;
     }
 
