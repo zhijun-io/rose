@@ -52,7 +52,7 @@ rose-mybatis-plus-spring-boot
 | `rose.mybatis-plus.tenant.enabled` | `true` | 租户行过滤 |
 | `rose.mybatis-plus.tenant.column` | `tenant_id` | 租户列名 |
 | `rose.mybatis-plus.tenant.ignore-tables` | 空 | 跳过多租户的表 |
-| `rose.mybatis-plus.observation.enabled` | `true` | SQL metrics/tracing（需 `MeterRegistry` 或 `Tracer` Bean） |
+| `rose.mybatis-plus.observation.enabled` | `false` | SQL metrics/tracing（需 `MeterRegistry` 或 `Tracer` Bean；生产建议显式开启） |
 | `rose.mybatis-plus.encryptor.password` | — | 默认加密密钥 |
 
 ## 租户接入

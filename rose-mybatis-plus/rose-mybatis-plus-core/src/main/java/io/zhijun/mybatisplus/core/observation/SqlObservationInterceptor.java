@@ -22,6 +22,7 @@ import io.opentelemetry.context.Scope;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 
+import io.zhijun.core.annotation.Incubating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +48,7 @@ import org.slf4j.LoggerFactory;
  *
  * @since 0.0.1
  */
+@Incubating
 @Intercepts({
         @Signature(type = Executor.class, method = "update",
                 args = {MappedStatement.class, Object.class}),
@@ -185,7 +187,8 @@ public class SqlObservationInterceptor implements Interceptor {
                 return ((BoundSql) args[5]).getSql();
             }
             return mappedStatement.getBoundSql(args[1]).getSql();
-        } catch (Exception ignored) {
+        } catch (Exception ex) {
+            logger.debug("Failed to extract SQL for observation on {}", mappedStatement.getId(), ex);
             return null;
         }
     }

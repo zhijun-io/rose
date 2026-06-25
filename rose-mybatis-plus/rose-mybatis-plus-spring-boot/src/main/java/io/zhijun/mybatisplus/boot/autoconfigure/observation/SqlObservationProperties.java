@@ -15,7 +15,7 @@ public class SqlObservationProperties {
     /**
      * Whether SQL observation is enabled.
      */
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     /**
      * Threshold beyond which a SQL execution is logged at WARN level.

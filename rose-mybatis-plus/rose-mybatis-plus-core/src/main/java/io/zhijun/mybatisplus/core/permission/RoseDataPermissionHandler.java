@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 
+import io.zhijun.core.annotation.Incubating;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
@@ -21,6 +22,7 @@ import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 /**
  * SPI-based data permission handler.
  */
+@Incubating
 public class RoseDataPermissionHandler implements DataPermissionHandler {
 
     private static final String DOT = ".";

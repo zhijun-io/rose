@@ -19,7 +19,9 @@ class SqlObservationAutoConfigurationTests {
 
     @Test
     void shouldRegisterInterceptorWhenMeterRegistryPresent() {
-        contextRunner.withUserConfiguration(MeterRegistryConfig.class).run(context -> {
+        contextRunner
+                .withPropertyValues("rose.mybatis-plus.observation.enabled=true")
+                .withUserConfiguration(MeterRegistryConfig.class).run(context -> {
             assertThat(context).hasSingleBean(SqlObservationInterceptor.class);
             SqlObservationInterceptor interceptor = context.getBean(SqlObservationInterceptor.class);
             assertThat(interceptor).isNotNull();
