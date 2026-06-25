@@ -53,10 +53,7 @@ public final class OtlpTracingExporterConfiguration {
                 .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
-                OtlpHttpSpanExporterBuilder::setTrustedCertificates, OtlpHttpSpanExporterBuilder::setClientTls);
-        OtlpExporterTransportConfigurer.applyProxy(builder, commonProperties, properties.getOtlp(),
-                OtlpHttpSpanExporterBuilder::setProxy);
+        OtlpExporterTransportConfigurer.configureHttpTraceTransport(builder, commonProperties, properties.getOtlp());
         OtlpExporterConfigurer.configureExporterMetrics(meterProvider, commonProperties, properties.getOtlp(),
                 builder::setMeterProvider);
         logger.info("Configuring OpenTelemetry HTTP/Protobuf span exporter with endpoint: {}", connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
@@ -76,8 +73,7 @@ public final class OtlpTracingExporterConfiguration {
                 .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
-                OtlpGrpcSpanExporterBuilder::setTrustedCertificates, OtlpGrpcSpanExporterBuilder::setClientTls);
+        OtlpExporterTransportConfigurer.configureGrpcTraceTransport(builder, commonProperties, properties.getOtlp());
         OtlpExporterConfigurer.configureExporterMetrics(meterProvider, commonProperties, properties.getOtlp(),
                 builder::setMeterProvider);
         logger.info("Configuring OpenTelemetry gRPC span exporter with endpoint: {}", connectionDetails.getUrl(Protocol.GRPC));

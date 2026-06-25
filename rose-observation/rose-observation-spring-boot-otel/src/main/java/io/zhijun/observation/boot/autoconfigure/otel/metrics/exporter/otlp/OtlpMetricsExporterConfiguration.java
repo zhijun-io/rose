@@ -60,10 +60,7 @@ public final class OtlpMetricsExporterConfiguration {
                 .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
-                OtlpHttpMetricExporterBuilder::setTrustedCertificates, OtlpHttpMetricExporterBuilder::setClientTls);
-        OtlpExporterTransportConfigurer.applyProxy(builder, commonProperties, properties.getOtlp(),
-                OtlpHttpMetricExporterBuilder::setProxyOptions);
+        OtlpExporterTransportConfigurer.configureHttpMetricTransport(builder, commonProperties, properties.getOtlp());
         logger.info("Configuring OpenTelemetry HTTP/Protobuf metric exporter with endpoint: {}", connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
         return builder.build();
     }
@@ -82,8 +79,7 @@ public final class OtlpMetricsExporterConfiguration {
                 .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
-                OtlpGrpcMetricExporterBuilder::setTrustedCertificates, OtlpGrpcMetricExporterBuilder::setClientTls);
+        OtlpExporterTransportConfigurer.configureGrpcMetricTransport(builder, commonProperties, properties.getOtlp());
         logger.info("Configuring OpenTelemetry gRPC metric exporter with endpoint: {}", connectionDetails.getUrl(Protocol.GRPC));
         return builder.build();
     }

@@ -53,10 +53,7 @@ public final class OtlpLoggingExporterConfiguration {
                 .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
-                OtlpHttpLogRecordExporterBuilder::setTrustedCertificates, OtlpHttpLogRecordExporterBuilder::setClientTls);
-        OtlpExporterTransportConfigurer.applyProxy(builder, commonProperties, properties.getOtlp(),
-                OtlpHttpLogRecordExporterBuilder::setProxyOptions);
+        OtlpExporterTransportConfigurer.configureHttpLogTransport(builder, commonProperties, properties.getOtlp());
         OtlpExporterConfigurer.configureExporterMetrics(meterProvider, commonProperties, properties.getOtlp(),
                 builder::setMeterProvider);
         logger.info("Configuring OpenTelemetry HTTP/Protobuf log exporter with endpoint: {}", connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
@@ -76,8 +73,7 @@ public final class OtlpLoggingExporterConfiguration {
                 .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.applyTls(builder, commonProperties, properties.getOtlp(),
-                OtlpGrpcLogRecordExporterBuilder::setTrustedCertificates, OtlpGrpcLogRecordExporterBuilder::setClientTls);
+        OtlpExporterTransportConfigurer.configureGrpcLogTransport(builder, commonProperties, properties.getOtlp());
         OtlpExporterConfigurer.configureExporterMetrics(meterProvider, commonProperties, properties.getOtlp(),
                 builder::setMeterProvider);
         logger.info("Configuring OpenTelemetry gRPC log exporter with endpoint: {}", connectionDetails.getUrl(Protocol.GRPC));
