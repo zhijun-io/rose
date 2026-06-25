@@ -36,7 +36,8 @@ class TenantDetailsConfigurationTests {
     @Test
     void tenantVerifierWhenNoService() {
         contextRunner.run(context -> {
-            assertThat(context).doesNotHaveBean(TenantVerifier.class);
+            assertThat(context).hasSingleBean(TenantVerifier.class);
+            assertThat(context).hasSingleBean(io.zhijun.multitenancy.core.detail.FormatTenantVerifier.class);
         });
     }
 

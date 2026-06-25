@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.multitenancy.core.detail.DefaultTenantVerifier;
+import io.zhijun.multitenancy.core.detail.FormatTenantVerifier;
 import io.zhijun.multitenancy.core.detail.TenantDetailsService;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
 
@@ -27,6 +28,12 @@ public final class TenantDetailsConfiguration {
     @ConditionalOnBean(TenantDetailsService.class)
     DefaultTenantVerifier tenantVerifier(TenantDetailsService tenantDetailsService) {
         return new DefaultTenantVerifier(tenantDetailsService);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(TenantVerifier.class)
+    FormatTenantVerifier formatTenantVerifier() {
+        return new FormatTenantVerifier();
     }
 
 }
