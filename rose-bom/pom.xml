@@ -26,6 +26,11 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
+                <artifactId>rose-annotation-processor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
                 <artifactId>rose-core</artifactId>
                 <version>${project.version}</version>
             </dependency>

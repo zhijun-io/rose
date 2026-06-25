@@ -103,6 +103,17 @@
                 <version>${opentelemetry-semconv.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.auto.service</groupId>
+                <artifactId>auto-service</artifactId>
+                <version>${auto-service.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.testing.compile</groupId>
+                <artifactId>compile-testing</artifactId>
+                <version>${compile-testing.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
