@@ -8,15 +8,13 @@ import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.env.Environment;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
-import io.zhijun.devservice.boot.registration.DevServiceRegistry;
+import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.autoconfigure.kafka.KafkaDevServicesAutoConfiguration.KafkaDevServiceRegistrar;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * Kafka dev services auto-configuration.
@@ -34,25 +32,43 @@ public final class KafkaDevServicesAutoConfiguration {
         return DevServiceProvider.of("kafka", DevServiceCategories.KAFKA);
     }
 
-    static class KafkaDevServiceRegistrar extends DevServiceRegistrar {
+    static class KafkaDevServiceRegistrar
+            extends ContainerDevServiceRegistrar<KafkaDevServiceProperties, RoseKafkaContainer> {
 
         @Override
-        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            KafkaDevServiceProperties properties = bindProperties(
-                    KafkaDevServiceProperties.CONFIG_PREFIX, KafkaDevServiceProperties.class);
-
-            registry.registerDevService("kafka", "Kafka Dev Service",
-                    RoseKafkaContainer.class, () -> new RoseKafkaContainer(properties));
-
-            addDynamicProperty("spring.kafka.bootstrap-servers", () -> kafkaContainer().getBootstrapServers());
+        protected Class<KafkaDevServiceProperties> getPropertiesType() {
+            return KafkaDevServiceProperties.class;
         }
 
-        private RoseKafkaContainer kafkaContainer() {
-            RoseKafkaContainer container = getBeanFactory().getBean(RoseKafkaContainer.class);
-            if (!container.isRunning()) {
-                container.start();
-            }
-            return container;
+        @Override
+        protected String getConfigPrefix() {
+            return KafkaDevServiceProperties.CONFIG_PREFIX;
+        }
+
+        @Override
+        protected String getServiceName() {
+            return "kafka";
+        }
+
+        @Override
+        protected String getDisplayName() {
+            return "Kafka Dev Service";
+        }
+
+        @Override
+        protected Class<RoseKafkaContainer> getContainerClass() {
+            return RoseKafkaContainer.class;
+        }
+
+        @Override
+        protected RoseKafkaContainer createContainer(KafkaDevServiceProperties properties) {
+            return new RoseKafkaContainer(properties);
+        }
+
+        @Override
+        protected void registerDynamicProperties() {
+            addDynamicProperty("spring.kafka.bootstrap-servers",
+                    () -> requireRunningContainer().getBootstrapServers());
         }
     }
 }

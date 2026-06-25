@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -25,8 +26,8 @@ import io.zhijun.devservice.boot.registration.DevServiceContainersInitializer;
 public final class DevServiceAutoConfiguration {
 
     @Bean
-    static DevServiceContainersInitializer devServiceContainersInitializer() {
-        return new DevServiceContainersInitializer();
+    static DevServiceContainersInitializer devServiceContainersInitializer(BeanFactory beanFactory) {
+        return new DevServiceContainersInitializer(beanFactory);
     }
 
     @Bean

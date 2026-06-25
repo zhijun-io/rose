@@ -1,9 +1,12 @@
 package io.zhijun.devservice.boot.registration;
 
-import io.zhijun.devservice.boot.registration.DevServiceContainersInitializer;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationContext;
 import org.testcontainers.containers.GenericContainer;
+
+import io.opentelemetry.api.trace.Tracer;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -29,7 +32,14 @@ class DevServiceContainersInitializerTests {
         containers.put("running", runningContainer);
         when(applicationContext.getBeansOfType(GenericContainer.class)).thenReturn(containers);
 
-        DevServiceContainersInitializer initializer = new DevServiceContainersInitializer();
+        @SuppressWarnings("unchecked")
+        ObjectProvider<Tracer> tracerProvider = mock(ObjectProvider.class);
+        when(tracerProvider.getIfAvailable()).thenReturn(null);
+
+        BeanFactory beanFactory = mock(BeanFactory.class);
+        when(beanFactory.getBeanProvider(Tracer.class)).thenReturn(tracerProvider);
+
+        DevServiceContainersInitializer initializer = new DevServiceContainersInitializer(beanFactory);
         initializer.setApplicationContext(applicationContext);
         initializer.afterPropertiesSet();
 

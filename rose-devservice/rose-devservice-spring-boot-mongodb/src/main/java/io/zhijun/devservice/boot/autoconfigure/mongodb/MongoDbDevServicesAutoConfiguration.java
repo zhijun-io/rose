@@ -9,13 +9,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.env.Environment;
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
-import io.zhijun.devservice.boot.registration.DevServiceRegistry;
+import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.autoconfigure.mongodb.MongoDbDevServicesAutoConfiguration.MongoDbDevServiceRegistrar;
 
 /**
@@ -37,25 +35,42 @@ public final class MongoDbDevServicesAutoConfiguration {
         return DevServiceProvider.of("mongodb", DevServiceCategories.MONGODB);
     }
 
-    static class MongoDbDevServiceRegistrar extends DevServiceRegistrar {
+    static class MongoDbDevServiceRegistrar
+            extends ContainerDevServiceRegistrar<MongoDbDevServiceProperties, RoseMongoDbContainer> {
 
         @Override
-        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            MongoDbDevServiceProperties properties = bindProperties(
-                    MongoDbDevServiceProperties.CONFIG_PREFIX, MongoDbDevServiceProperties.class);
-
-            registry.registerDevService("mongodb", "MongoDB Dev Service",
-                    RoseMongoDbContainer.class, () -> new RoseMongoDbContainer(properties));
-
-            addDynamicProperty("spring.data.mongodb.uri", () -> mongoContainer().getReplicaSetUrl());
+        protected Class<MongoDbDevServiceProperties> getPropertiesType() {
+            return MongoDbDevServiceProperties.class;
         }
 
-        private RoseMongoDbContainer mongoContainer() {
-            RoseMongoDbContainer container = getBeanFactory().getBean(RoseMongoDbContainer.class);
-            if (!container.isRunning()) {
-                container.start();
-            }
-            return container;
+        @Override
+        protected String getConfigPrefix() {
+            return MongoDbDevServiceProperties.CONFIG_PREFIX;
+        }
+
+        @Override
+        protected String getServiceName() {
+            return "mongodb";
+        }
+
+        @Override
+        protected String getDisplayName() {
+            return "MongoDB Dev Service";
+        }
+
+        @Override
+        protected Class<RoseMongoDbContainer> getContainerClass() {
+            return RoseMongoDbContainer.class;
+        }
+
+        @Override
+        protected RoseMongoDbContainer createContainer(MongoDbDevServiceProperties properties) {
+            return new RoseMongoDbContainer(properties);
+        }
+
+        @Override
+        protected void registerDynamicProperties() {
+            addDynamicProperty("spring.data.mongodb.uri", () -> requireRunningContainer().getReplicaSetUrl());
         }
     }
 }

@@ -8,13 +8,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.env.Environment;
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
-import io.zhijun.devservice.boot.registration.DevServiceRegistry;
+import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.autoconfigure.rabbitmq.RabbitMqDevServicesAutoConfiguration.RabbitMqDevServiceRegistrar;
 
 /**
@@ -33,26 +31,43 @@ public final class RabbitMqDevServicesAutoConfiguration {
         return DevServiceProvider.of("rabbitmq", DevServiceCategories.RABBITMQ);
     }
 
-    static class RabbitMqDevServiceRegistrar extends DevServiceRegistrar {
+    static class RabbitMqDevServiceRegistrar
+            extends ContainerDevServiceRegistrar<RabbitMqDevServiceProperties, RoseRabbitMqContainer> {
 
         @Override
-        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            RabbitMqDevServiceProperties properties = bindProperties(
-                    RabbitMqDevServiceProperties.CONFIG_PREFIX, RabbitMqDevServiceProperties.class);
-
-            registry.registerDevService("rabbitmq", "RabbitMQ Dev Service",
-                    RoseRabbitMqContainer.class, () -> new RoseRabbitMqContainer(properties));
-
-            addDynamicProperty("spring.rabbitmq.host", () -> rabbitContainer().getHost());
-            addDynamicProperty("spring.rabbitmq.port", () -> rabbitContainer().getAmqpPort());
+        protected Class<RabbitMqDevServiceProperties> getPropertiesType() {
+            return RabbitMqDevServiceProperties.class;
         }
 
-        private RoseRabbitMqContainer rabbitContainer() {
-            RoseRabbitMqContainer container = getBeanFactory().getBean(RoseRabbitMqContainer.class);
-            if (!container.isRunning()) {
-                container.start();
-            }
-            return container;
+        @Override
+        protected String getConfigPrefix() {
+            return RabbitMqDevServiceProperties.CONFIG_PREFIX;
+        }
+
+        @Override
+        protected String getServiceName() {
+            return "rabbitmq";
+        }
+
+        @Override
+        protected String getDisplayName() {
+            return "RabbitMQ Dev Service";
+        }
+
+        @Override
+        protected Class<RoseRabbitMqContainer> getContainerClass() {
+            return RoseRabbitMqContainer.class;
+        }
+
+        @Override
+        protected RoseRabbitMqContainer createContainer(RabbitMqDevServiceProperties properties) {
+            return new RoseRabbitMqContainer(properties);
+        }
+
+        @Override
+        protected void registerDynamicProperties() {
+            addDynamicProperty("spring.rabbitmq.host", () -> requireRunningContainer().getHost());
+            addDynamicProperty("spring.rabbitmq.port", () -> requireRunningContainer().getAmqpPort());
         }
     }
 }

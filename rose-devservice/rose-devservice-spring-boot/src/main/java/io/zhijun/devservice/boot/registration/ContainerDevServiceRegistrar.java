@@ -1,20 +1,20 @@
 package io.zhijun.devservice.boot.registration;
 
 import org.springframework.core.env.Environment;
-import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.containers.Container;
+import org.testcontainers.lifecycle.Startable;
 
 import io.zhijun.core.annotation.Incubating;
-import io.zhijun.devservice.core.api.config.AbstractJdbcDevServiceProperties;
 
 /**
- * Base registrar for JDBC dev service connectors that expose {@code spring.datasource.*}.
+ * Base registrar for non-JDBC dev service connectors backed by a single Testcontainers
+ * {@link Container} bean.
  *
  * @param <P> dev service properties type
- * @param <C> Testcontainers JDBC container type
+ * @param <C> Testcontainers container type
  */
 @Incubating
-public abstract class JdbcDevServiceRegistrar<P extends AbstractJdbcDevServiceProperties,
-        C extends JdbcDatabaseContainer<?>> extends DevServiceRegistrar {
+public abstract class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable> extends DevServiceRegistrar {
 
     protected abstract Class<P> getPropertiesType();
 
@@ -28,6 +28,11 @@ public abstract class JdbcDevServiceRegistrar<P extends AbstractJdbcDevServicePr
 
     protected abstract C createContainer(P properties);
 
+    /**
+     * Register dynamic Spring properties resolved against the running container.
+     */
+    protected abstract void registerDynamicProperties();
+
     @Override
     protected final void registerDevServices(DevServiceRegistry registry, Environment environment) {
         P properties = bindProperties(getConfigPrefix(), getPropertiesType());
@@ -35,12 +40,13 @@ public abstract class JdbcDevServiceRegistrar<P extends AbstractJdbcDevServicePr
         registry.registerDevService(getServiceName(), getDisplayName(), getContainerClass(),
                 () -> createContainer(properties));
 
-        addDynamicProperty("spring.datasource.url", () -> runningContainer().getJdbcUrl());
-        addDynamicProperty("spring.datasource.username", () -> runningContainer().getUsername());
-        addDynamicProperty("spring.datasource.password", () -> runningContainer().getPassword());
+        registerDynamicProperties();
     }
 
-    private C runningContainer() {
+    /**
+     * Returns the container bean, starting it if necessary. Safe to call from dynamic property suppliers.
+     */
+    protected final C requireRunningContainer() {
         C container = getBeanFactory().getBean(getContainerClass());
         ensureContainerStarted(container, getServiceName());
         return container;

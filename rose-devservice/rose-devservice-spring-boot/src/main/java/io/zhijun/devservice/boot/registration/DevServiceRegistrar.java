@@ -18,6 +18,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 
+import io.opentelemetry.api.trace.Tracer;
+
 import io.zhijun.core.annotation.Incubating;
 
 /**
@@ -96,6 +98,11 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
     protected BeanFactory getBeanFactory() {
         Assert.notNull(beanFactory, "beanFactory has not been initialized");
         return beanFactory;
+    }
+
+    protected void ensureContainerStarted(org.testcontainers.containers.Container<?> container, String serviceName) {
+        Tracer tracer = getBeanFactory().getBeanProvider(Tracer.class).getIfAvailable();
+        DevServiceContainerTracing.startIfNecessary(container, serviceName, tracer);
     }
 
     protected abstract void registerDevServices(DevServiceRegistry registry, Environment environment);

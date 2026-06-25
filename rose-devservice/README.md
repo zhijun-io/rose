@@ -36,6 +36,8 @@ Artifact 与 Java 根包均为 `devservice`（`io.zhijun.devservice.*`）。Boot
 - Docker 环境检测（OrbStack / 默认 socket）
 - 各连接器 AutoConfiguration + 集成测试
 - `MultipleDevServiceFailureAnalyzer`
+- 非 JDBC 连接器共享 `ContainerDevServiceRegistrar` 基类
+- 容器启动可选 OTel span（`devservice.container.start`，需 classpath 上有 `Tracer`）
 - 连接器 `config/default/*.properties` 静态推荐默认
 
 ### 未实现 / 规划中
@@ -80,6 +82,8 @@ Override: `-Drose.bootstrap.mode=dev|test|prod`
 ## Enabling
 
 **Tests**: connector on `test` classpath; `rose.dev.*.enabled=true` by default.
+
+**Production**: `rose.dev.enabled` defaults to **false**; do not add connector `runtime` dependencies in production images.
 
 **Local development**: `runtime` + `optional` (or Gradle `testAndDevelopmentOnly`); `rose.bootstrap.mode=dev`.
 

@@ -7,13 +7,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.env.Environment;
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
-import io.zhijun.devservice.boot.registration.DevServiceRegistry;
+import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.autoconfigure.ollama.OllamaDevServicesAutoConfiguration.OllamaDevServiceRegistrar;
 
 /**
@@ -31,27 +29,43 @@ public final class OllamaDevServicesAutoConfiguration {
         return DevServiceProvider.of("ollama", DevServiceCategories.OLLAMA);
     }
 
-    static class OllamaDevServiceRegistrar extends DevServiceRegistrar {
-
-        private static final String OLLAMA_BASE_URL_PROPERTY = OllamaDevServiceProperties.BASE_URL_PROPERTY;
+    static class OllamaDevServiceRegistrar
+            extends ContainerDevServiceRegistrar<OllamaDevServiceProperties, RoseOllamaContainer> {
 
         @Override
-        protected void registerDevServices(DevServiceRegistry registry, Environment environment) {
-            OllamaDevServiceProperties properties = bindProperties(
-                    OllamaDevServiceProperties.CONFIG_PREFIX, OllamaDevServiceProperties.class);
-
-            registry.registerDevService("ollama", "Ollama Dev Service",
-                    RoseOllamaContainer.class, () -> new RoseOllamaContainer(properties));
-
-            addDynamicProperty(OLLAMA_BASE_URL_PROPERTY, () -> ollamaContainer().getBaseUrl());
+        protected Class<OllamaDevServiceProperties> getPropertiesType() {
+            return OllamaDevServiceProperties.class;
         }
 
-        private RoseOllamaContainer ollamaContainer() {
-            RoseOllamaContainer container = getBeanFactory().getBean(RoseOllamaContainer.class);
-            if (!container.isRunning()) {
-                container.start();
-            }
-            return container;
+        @Override
+        protected String getConfigPrefix() {
+            return OllamaDevServiceProperties.CONFIG_PREFIX;
+        }
+
+        @Override
+        protected String getServiceName() {
+            return "ollama";
+        }
+
+        @Override
+        protected String getDisplayName() {
+            return "Ollama Dev Service";
+        }
+
+        @Override
+        protected Class<RoseOllamaContainer> getContainerClass() {
+            return RoseOllamaContainer.class;
+        }
+
+        @Override
+        protected RoseOllamaContainer createContainer(OllamaDevServiceProperties properties) {
+            return new RoseOllamaContainer(properties);
+        }
+
+        @Override
+        protected void registerDynamicProperties() {
+            addDynamicProperty(OllamaDevServiceProperties.BASE_URL_PROPERTY,
+                    () -> requireRunningContainer().getBaseUrl());
         }
     }
 }
