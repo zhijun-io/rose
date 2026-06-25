@@ -14,7 +14,7 @@ class DevServicePropertiesTests {
     @Test
     void shouldCreateInstanceWithDefaultValues() {
         DevServiceProperties properties = new DevServiceProperties();
-        assertThat(properties.isEnabled()).isTrue();
+        assertThat(properties.isEnabled()).isFalse();
     }
 
     @Test

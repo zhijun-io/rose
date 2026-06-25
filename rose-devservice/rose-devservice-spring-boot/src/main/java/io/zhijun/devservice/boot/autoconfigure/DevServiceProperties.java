@@ -10,7 +10,7 @@ public class DevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev";
 
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     public boolean isEnabled() {
         return enabled;

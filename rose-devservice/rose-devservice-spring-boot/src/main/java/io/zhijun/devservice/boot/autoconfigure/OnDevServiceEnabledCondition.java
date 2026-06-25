@@ -9,6 +9,8 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+
 /**
  * Condition for {@link ConditionalOnDevServiceEnabled}.
  */
@@ -46,9 +48,14 @@ class OnDevServiceEnabledCondition extends SpringBootCondition {
         }
 
         if (devServiceProperty == null) {
-            return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
-                    .because("enabled by default (" + String.format(DEV_SERVICES_PROPERTY, devServicesName)
-                            + " is not set)"));
+            if (BootstrapMode.isTest() || BootstrapMode.isDev()) {
+                return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
+                        .because("enabled in " + BootstrapMode.detect() + " bootstrap mode ("
+                                + String.format(DEV_SERVICES_PROPERTY, devServicesName) + " is not set)"));
+            }
+            return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
+                    .because("disabled by default in production (set rose.dev.enabled=true or rose.dev."
+                            + devServicesName + ".enabled=true)"));
         }
 
         return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)

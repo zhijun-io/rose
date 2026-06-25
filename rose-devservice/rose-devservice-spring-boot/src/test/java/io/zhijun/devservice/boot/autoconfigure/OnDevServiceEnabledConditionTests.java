@@ -5,6 +5,7 @@ import java.util.Map;
 
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.OnDevServiceEnabledCondition;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;
@@ -103,7 +104,30 @@ class OnDevServiceEnabledConditionTests {
     }
 
     @Test
-    void shouldMatchByDefaultWhenPropertiesAreNotSet() {
+    void shouldNotMatchByDefaultInProductionMode() {
+        System.setProperty(BootstrapMode.PROPERTY_KEY, "PROD");
+        BootstrapMode.clear();
+        try {
+            when(context.getEnvironment()).thenReturn(environment);
+
+            AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("value", "test-service");
+            when(metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName()))
+                    .thenReturn(attributes);
+
+            ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
+
+            assertThat(outcome.isMatch()).isFalse();
+            assertThat(outcome.getMessage()).contains("disabled by default in production");
+        } finally {
+            System.clearProperty(BootstrapMode.PROPERTY_KEY);
+            BootstrapMode.clear();
+        }
+    }
+
+    @Test
+    void shouldMatchByDefaultWhenPropertiesAreNotSetInTestMode() {
         when(context.getEnvironment()).thenReturn(environment);
 
         AnnotatedTypeMetadata metadata = mock(AnnotatedTypeMetadata.class);
@@ -116,7 +140,7 @@ class OnDevServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isTrue();
         assertThat(outcome.getMessage())
-                .contains("enabled by default (rose.dev.test-service.enabled is not set)");
+                .contains("enabled in TEST bootstrap mode");
     }
 
     @Test
@@ -200,7 +224,7 @@ class OnDevServiceEnabledConditionTests {
 
         assertThat(outcome.isMatch()).isTrue();
         assertThat(outcome.getMessage())
-                .contains("enabled by default (rose.dev.test-service.enabled is not set)");
+                .contains("enabled in TEST bootstrap mode");
     }
 
     @Test
