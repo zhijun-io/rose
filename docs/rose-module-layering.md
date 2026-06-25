@@ -50,10 +50,13 @@
 - 子能力**轻量且强相关** → 内聚分包
 - 需**一键全栈** → 额外建聚合模块（如 `rose-observation-spring-boot` 聚合各 slice，子模块亦可单选）
 
+**Maven parent 链：** 域内叶子模块的 `<parent>` 必须指向域聚合 POM（如 `rose-multitenancy`）；仅域聚合 POM 与 `rose-core` 直挂 `rose-parent`。禁止叶子模块跳过域聚合直挂 `rose-parent`。
+
 ## 4. 特例与已知决策
 
 - **observation 省略 `-spring` 层**：OTel 配置天然绑定 Spring Boot `AutoConfiguration`，无独立 Spring Framework 层需求，故 `core` 之后直接 `-spring-boot`。
 - **`rose-devservice-test` 命名**：devservice 集成测试共享支持库，`-test` 后缀沿用 `spring-boot-starter-test` / `spring-boot-test-autoconfigure` 先例表示"测试支持"，不强制加 `-spring-boot` 后缀。
+- **Actuator 端点包**：`rose-devservice-spring-boot-actuator` 的端点类位于 `io.zhijun.devservice.boot.actuator`（仍遵循 `-spring-boot` → `.boot` 映射）。
 - **`rose-mybatis-plus` → `io.zhijun.mybatisplus`**：Java 包名不含连字符，与 mybatis-plus 官方包名一致。
 
 ## 5. 模块清单

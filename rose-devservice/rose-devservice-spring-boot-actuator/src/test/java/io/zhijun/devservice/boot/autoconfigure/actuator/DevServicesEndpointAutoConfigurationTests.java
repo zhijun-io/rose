@@ -1,4 +1,4 @@
-package io.zhijun.devservice.actuator;
+package io.zhijun.devservice.boot.autoconfigure.actuator;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.zhijun.devservice.boot.actuator.DevServicesEndpoint;
 import io.zhijun.devservice.boot.autoconfigure.actuator.DevServicesEndpointAutoConfiguration;
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import io.zhijun.devservice.core.api.registration.DevServiceRegistration;

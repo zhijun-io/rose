@@ -1,4 +1,4 @@
-package io.zhijun.devservice.actuator;
+package io.zhijun.devservice.boot.actuator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,6 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.devservice.actuator.DevServicesEndpoint.ServiceInfo;
-import io.zhijun.devservice.actuator.DevServicesEndpoint.ServiceInfoSummary;
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 
@@ -37,10 +35,10 @@ class DevServicesEndpointTests {
         ContainerInfo containerInfo = createContainerInfo("container-1", "postgres:18", "running");
         registrations.put("postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
 
-        Map<String, ServiceInfoSummary> result = endpoint.devServices();
+        Map<String, DevServicesEndpoint.ServiceInfoSummary> result = endpoint.devServices();
 
         assertThat(result).hasSize(1).containsKey("postgres");
-        ServiceInfoSummary summary = result.get("postgres");
+        DevServicesEndpoint.ServiceInfoSummary summary = result.get("postgres");
         assertThat(summary.getName()).isEqualTo("postgres");
         assertThat(summary.getDescription()).isEqualTo("PostgreSQL Database");
         assertThat(summary.getContainerInfo().getId()).isEqualTo("container-1");
@@ -53,7 +51,7 @@ class DevServicesEndpointTests {
         ContainerInfo containerInfo = createContainerInfo("container-1", "postgres:18", "running");
         registrations.put("postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
 
-        ServiceInfo result = endpoint.devService("postgres");
+        DevServicesEndpoint.ServiceInfo result = endpoint.devService("postgres");
 
         assertThat(result.getName()).isEqualTo("postgres");
         assertThat(result.getDescription()).isEqualTo("PostgreSQL Database");

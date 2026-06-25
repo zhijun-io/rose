@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.devservice.actuator.DevServicesEndpoint;
+import io.zhijun.devservice.boot.actuator.DevServicesEndpoint;
 import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 import io.zhijun.devservice.boot.autoconfigure.bootstrap.ConditionalOnDevMode;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;

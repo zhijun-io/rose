@@ -6,9 +6,9 @@
 
     <parent>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-parent</artifactId>
+        <artifactId>rose-multitenancy</artifactId>
         <version>${revision}</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>rose-multitenancy-spring-boot</artifactId>

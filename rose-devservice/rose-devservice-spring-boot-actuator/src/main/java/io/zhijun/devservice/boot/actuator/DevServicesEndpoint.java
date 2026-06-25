@@ -1,4 +1,4 @@
-package io.zhijun.devservice.actuator;
+package io.zhijun.devservice.boot.actuator;
 
 import java.util.ArrayList;
 import java.util.List;

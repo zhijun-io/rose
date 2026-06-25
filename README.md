@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/zhijun-io/rose/actions/workflows/maven-build.yml?query=branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/zhijun-io/rose/maven-build.yml?branch=main&logo=GitHub&label=Build" alt="Build" /></a>
   <a href="https://app.codecov.io/gh/zhijun-io/rose"><img src="https://codecov.io/gh/zhijun-io/rose/branch/main/graph/badge.svg" alt="Codecov" /></a>
-  <img src="https://img.shields.io/maven-central/v/io.github.zhijun-io/rose.svg" alt="Maven" />
+  <img src="https://img.shields.io/maven-central/v/io.zhijun/rose-bom.svg" alt="Maven" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License" /></a>
 </p>
 
