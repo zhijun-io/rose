@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.mybatisplus.core.multitenancy.RoseTenantLineHandler;
-import io.zhijun.mybatisplus.core.multitenancy.TenantContextTenantIdSupplier;
 import io.zhijun.mybatisplus.core.multitenancy.TenantIdSupplier;
 import io.zhijun.mybatisplus.core.multitenancy.TenantLineInnerInterceptorRegistrar;
 

@@ -21,11 +21,6 @@
             <artifactId>rose-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.zhijun</groupId>
-            <artifactId>rose-multitenancy-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-core</artifactId>
         </dependency>
