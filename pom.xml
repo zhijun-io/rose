@@ -36,7 +36,6 @@
         <module>rose-observation</module>
         <module>rose-multitenancy</module>
         <module>rose-devservice</module>
-        <module>rose-coverage</module>
     </modules>
 
     <dependencyManagement>
@@ -76,6 +75,18 @@
                 <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Reactor-only scaffolds (excluded from rose-bom until implemented) -->
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-boot-web</artifactId>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>

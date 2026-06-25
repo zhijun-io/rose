@@ -31,12 +31,6 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-spring-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!-- Incubating: package-info placeholder only; see docs/rose-module-layering.md -->
-            <dependency>
-                <groupId>io.zhijun</groupId>
                 <artifactId>rose-spring-boot-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -45,12 +39,6 @@
                 <artifactId>rose-spring-boot-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-spring-boot-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!-- Incubating: package-info placeholder only; see docs/rose-module-layering.md -->
             <!-- Data and persistence -->
             <dependency>
                 <groupId>io.zhijun</groupId>

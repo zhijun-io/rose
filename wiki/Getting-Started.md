@@ -11,7 +11,7 @@ This guide covers two audiences:
 
 | Requirement | Minimum | Notes |
 |---|---|---|
-| **JDK** | 8 | CI tests 8, 11, 17, 21, 25 |
+| **JDK** | 8 | CI unit: 8, 11, 17, 21; coverage + CodeQL: 25 |
 | **Maven** | 3.6+ | Enforced by `rose-build` enforcer |
 | **Docker** | — | Required for `*IT` integration tests and dev-service connectors |
 
@@ -92,7 +92,7 @@ mvn validate          # enforcer rules
 mvn test              # unit test (*Test / *Tests)
 mvn verify            # unit + integration (*IT; needs Docker)
 mvn verify -DskipITs  # skip integration test
-mvn verify -Pcoverage # JaCoCo reports (CI uses JDK 21)
+mvn verify -Pcoverage # JaCoCo + same as CI coverage job (Codecov upload)
 ```
 
 Version is defined once in `rose-build/pom.xml` → `<revision>`. Override at build time:

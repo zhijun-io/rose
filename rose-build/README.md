@@ -58,7 +58,7 @@ Rose 仓库的 **Maven 构建父 POM**（`rose-build`），为所有模块提供
 | 跳过集成测试 | `mvn verify -DskipITs` |
 | 本地查看覆盖率（可选，较慢） | 见下方 **本地查看覆盖率** |
 
-**JaCoCo（`-Pcoverage` profile）**：JaCoCo **未**绑定默认 build；须加 `-Pcoverage` 才会启用 agent 并生成 `target/site/jacoco/` 报告。日常 `mvn verify` 不采集覆盖率。CI 在 JDK 21 使用 `mvn verify -Pcoverage`。POM-only starter 可设 `<jacoco.skip>true</jacoco.skip>`。
+**JaCoCo（`-Pcoverage` profile）**：JaCoCo **未**绑定默认 build；须加 `-Pcoverage` 才会启用 agent 并生成 `target/site/jacoco/`。CI 在 JDK 25 的 `coverage` job 跑 `verify -Pcoverage` 并上传 Codecov。POM-only starter 可设 `<jacoco.skip>true</jacoco.skip>`。
 
 #### 本地查看覆盖率
 
@@ -96,7 +96,7 @@ mvn -pl rose-observation/rose-observation-spring-boot-otel -Pcoverage test
 
 | Workflow | 命令 / 行为 |
 |----------|-------------|
-| `maven-build.yml` | JDK **8 / 11 / 17 / 21 / 25** matrix；`mvn verify`（无 JaCoCo）；JDK 21 额外 `-Pcoverage`；`SONAR_TOKEN` / `CODECOV_TOKEN` 存在时上传覆盖率 |
+| `maven-build.yml` | **unit** 8/11/17/21 `-DskipITs`；**integration** JDK 8 `verify`；**coverage** / **codeql** JDK 25 |
 | `maven-publish.yml` | `deploy` → Central；`release`：Tag → Cloudflare AI CHANGELOG → GitHub Release → bump SNAPSHOT → push |
 
 `<revision>` 从 `rose-build/pom.xml` 读取；CI 通过 `-Drevision=…` 传入。
@@ -105,7 +105,7 @@ mvn -pl rose-observation/rose-observation-spring-boot-otel -Pcoverage test
 
 | Profile | 激活 | 作用 |
 |---------|------|------|
-| `coverage` | 手动 `-Pcoverage`（CI JDK 21 自动加） | JaCoCo agent + 各模块 `jacoco.xml` |
+| `coverage` | 手动 `-Pcoverage`；CI `coverage` job | JaCoCo + Codecov 上传 |
 | `docs` | 手动 `-Pdocs` | AsciiDoc / DocBook 生成 |
 | `java8+` / `java9+` / `java11+` | JDK 自动 | Javadoc 等 |
 | `java9-15` | JDK 9–15 | `jvm.argLine`：`--illegal-access=permit` |

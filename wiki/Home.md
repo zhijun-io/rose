@@ -8,7 +8,7 @@
 | **BOM** | `rose-bom` |
 | **Build parent** | `rose-build` |
 | **License** | Apache License 2.0 |
-| **Java (tested in CI)** | 8, 11, 17, 21, 25 |
+| **Java (tested in CI)** | 8, 11, 17, 21 (unit); 25 (coverage, IT, CodeQL) |
 | **Spring Boot** | 2.7.x |
 
 ---

@@ -367,7 +367,7 @@ public class RoseWebEndpointsEndpoint {
 
 ## 9. 实现检查清单
 
-- [x] `rose-spring-web` + `rose-spring-boot-web` 脚手架 + BOM / reactor 条目
+- [x] `rose-spring-web` + `rose-spring-boot-web` 脚手架 + reactor 条目（**未**进 `rose-bom`，实现后再加入）
 - [ ] Phase 1 仅 MVC；无 WebFlux 硬依赖
 - [ ] Registry 不 duplicate Actuator mappings JSON 结构
 - [ ] SPI 与 multitenancy **解耦**（SPI 注册 optional 实现）

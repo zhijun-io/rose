@@ -123,9 +123,9 @@ See [rose-observation/README.md](rose-observation/README.md).
 | Design notes | [docs/](docs/) |
 | Module layering & naming | [docs/rose-module-layering.md](docs/rose-module-layering.md) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/) · [rose-coverage](rose-coverage/)
+**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
 
-The [rose-bom](rose-bom/) manages **30+** published `io.zhijun` coordinates (starters, core libraries, dev-service connectors). `rose-spring-web` / `rose-spring-boot-web` are layout placeholders today — see [docs/rose-module-layering.md](docs/rose-module-layering.md).
+The [rose-bom](rose-bom/) manages published `io.zhijun` coordinates (starters, core libraries, dev-service connectors). `rose-spring-web` / `rose-spring-boot-web` remain in the reactor as incubating scaffolds but are **not** in the BOM until implemented — see [docs/rose-module-layering.md](docs/rose-module-layering.md).
 
 Build layout follows [microsphere-build](https://github.com/microsphere-projects/microsphere-build).
 
@@ -161,7 +161,7 @@ mvn validate
 mvn test                 # unit test (*Test / *Tests)
 mvn verify               # unit + integration (*IT; needs Docker; no JaCoCo)
 mvn verify -DskipITs     # verify lifecycle without ITs
-mvn verify -Pcoverage    # optional: JaCoCo (CI JDK 21); open <module>/target/site/jacoco/index.html
+mvn verify -Pcoverage    # optional: per-module JaCoCo; CI uploads on JDK 25 (Codecov)
 ```
 
 Publish locally: `mvn -B clean deploy -Prelease` (Central Portal token + GPG; see [rose-build/README.md](rose-build/README.md)).

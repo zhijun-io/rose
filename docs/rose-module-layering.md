@@ -64,13 +64,14 @@
 构建与版本：
 
 - `rose-build` —— 构建父（插件 / profile），不对外发布
-- `rose-bom` —— 版本 BOM，消费者 `import`
+- `rose-bom` —— 版本 BOM，消费者 `import`（未实现模块不进 BOM）
+- `rose-parent` —— reactor 构建；对 **仅 reactor 内** 的占位模块在 `dependencyManagement` 中单独钉版本
 
 公共基础：
 
 - `rose-core`
-- `rose-spring`：`rose-spring-core`、`rose-spring-web`（占位）
-- `rose-spring-boot`：`rose-spring-boot-core`、`rose-spring-boot-actuator`、`rose-spring-boot-web`（占位）
+- `rose-spring`：`rose-spring-core`；`rose-spring-web`（占位，**不在 BOM**）
+- `rose-spring-boot`：`rose-spring-boot-core`、`rose-spring-boot-actuator`；`rose-spring-boot-web`（占位，**不在 BOM**）
 
 能力域：
 

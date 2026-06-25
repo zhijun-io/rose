@@ -8,7 +8,7 @@ Rose uses GitHub Actions workflows in `.github/workflows/`, inspired by [microsp
 
 | Workflow | Trigger | Purpose |
 |---|---|---|
-| [`maven-build.yml`](../.github/workflows/maven-build.yml) | Push/PR to `main` | Multi-JDK build and test |
+| [`maven-build.yml`](../.github/workflows/maven-build.yml) | Push/PR to `main` | Multi-JDK unit + ITs + coverage + CodeQL |
 | [`maven-publish.yml`](../.github/workflows/maven-publish.yml) | Release tag / manual | Deploy to Maven Central |
 | [`publish-wiki.yml`](../.github/workflows/publish-wiki.yml) | Push to `main` (`wiki/**`) | Sync `wiki/` → GitHub Wiki |
 
@@ -16,18 +16,14 @@ Rose uses GitHub Actions workflows in `.github/workflows/`, inspired by [microsp
 
 ## Maven Build
 
-**Matrix:** JDK 8, 11, 17, 21, 25 on `ubuntu-latest`
+Four parallel jobs (see workflow header in `maven-build.yml`):
 
-**Commands:**
-
-| JDK | Command |
-|-----|---------|
-| 8 | `mvn -B -U -ntp verify` (unit + integration tests) |
-| 11, 17, 25 | `mvn -B -U -ntp verify -DskipITs` (unit tests only) |
-| 21 | `mvn -B -U -ntp verify -Pcoverage` (unit + IT + JaCoCo aggregate gate) |
-
-- JaCoCo coverage and the 35% aggregate gate run **only** on JDK 21.
-- Codecov upload runs on JDK 21 when `CODECOV_TOKEN` is configured.
+| Job | JDK | Command | Purpose |
+|-----|-----|---------|---------|
+| `unit` | 8, 11, 17, 21 | `mvn -B -ntp verify -DskipITs` | Compile + unit tests (`fail-fast: false`) |
+| `integration` | 8 | `mvn -B -ntp verify` | Full `*IT` on minimum JDK (Docker) |
+| `coverage` | 25 | `mvn -B -ntp verify -Pcoverage` | IT + JaCoCo → Codecov; JaCoCo artifacts retained 7 days |
+| `codeql` | 25 | `compile` + `analyze` | Security (not coverage) |
 
 **Requirements for green CI:**
 
@@ -66,7 +62,7 @@ Local edit workflow:
 
 | Secret | Used by |
 |---|---|
-| `CODECOV_TOKEN` | Codecov upload (optional) |
+| `CODECOV_TOKEN` | Codecov upload (`coverage` job) |
 | `SONAR_TOKEN` | SonarCloud (if configured) |
 | Central Portal / GPG | Release workflow |
 
@@ -75,10 +71,13 @@ Local edit workflow:
 ## Local CI Parity
 
 ```bash
-# Match CI build (needs Docker)
-mvn -B verify -Pcoverage
+# Match CI full verify (needs Docker)
+mvn -B verify
 
 # Faster local loop
 mvn test
 mvn verify -DskipITs
+
+# Optional local JaCoCo
+mvn verify -Pcoverage
 ```

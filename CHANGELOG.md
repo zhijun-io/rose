@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MyBatis-Plus upgraded to `3.5.15` (`mybatis-plus-bom`); Micrometer versions follow Spring Boot 2.7.18 BOM (no separate `micrometer-bom` pin).
 - Multitenancy: removed Micrometer Observation enrichment (`rose.multitenancy.observations.*`); MDC logging remains under `rose.multitenancy.logging.mdc.*`.
 - Observation OTLP Micrometer registry adapted to Micrometer 1.9.17 (Boot 2.7); removed `rose.otel.exporter.otlp.micrometer.{base-time-unit,max-scale,max-bucket-count}`.
+- `rose-spring-web` and `rose-spring-boot-web` removed from `rose-bom` until implemented (reactor scaffolds unchanged).
+- Removed `rose-coverage` aggregator module; Codecov upload uses per-module `jacoco.xml` from `coverage` CI job (JDK 25, `-Pcoverage`).
 
 ### Migration
 
@@ -53,7 +55,7 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 - `rose-core` utilities (incubating/internal markers, `DelegatingScheduledExecutorService`)
 - `rose-spring-boot` 父模块（`rose-spring-boot-core`、`rose-spring-boot-starter`）；使用 Spring profiles 区分环境
 - `rose-observation-core` — `TelemetryConventionsBackend` SPI
-- Per-module JaCoCo reports via `mvn verify -Pcoverage`; aggregate report and line-coverage gate in `rose-coverage` (`mvn verify -Pcoverage`)
+- Per-module JaCoCo via `mvn verify -Pcoverage`; CI `coverage` job uploads to Codecov.
 
 #### Spring Boot starters
 
@@ -93,7 +95,7 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 
 - Applications should use `spring-boot-starter-parent` and **import** `rose-bom`; they do not inherit `rose-parent`.
 - Auto-configuration is registered via `META-INF/spring.factories` (Spring Boot 2.7).
-- `rose-spring-web` and `rose-spring-boot-web` are reactor placeholders — not intended for direct consumer use until implemented.
+- `rose-spring-web` and `rose-spring-boot-web` are reactor scaffolds only — excluded from `rose-bom` until implemented.
 
 [Unreleased]: https://github.com/zhijun-io/rose/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/zhijun-io/rose/releases/tag/v0.1.0
