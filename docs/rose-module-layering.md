@@ -16,7 +16,9 @@
 
 跨能力公共基础：
 
-- `rose-core`（`io.zhijun.core`）—— 无 Spring 的公共注解 / 并发工具等
+- `rose-annotation`（`io.zhijun.annotation`）—— 契约注解
+- `rose-core`（`io.zhijun.core`）—— 无 Spring 的工具实现
+- `rose-test`（`io.zhijun.test`）—— 跨主题测试工具（`test` scope）
 - `rose-spring-core`（`io.zhijun.spring.core`）—— 对 Spring Framework 的扩展：`binder` / `env` / `propertysource`
 - `rose-spring-boot-core`（`io.zhijun.boot`）—— 将上述能力桥接到 Boot：`Binder` 适配 / `EnvironmentPostProcessor` / 启动诊断
 
@@ -26,7 +28,9 @@
 
 | artifactId 段 | Java 包名段 |
 |---------------|-------------|
+| `rose-annotation` | `io.zhijun.annotation` |
 | `rose-core` | `io.zhijun.core` |
+| `rose-test` | `io.zhijun.test` |
 | `rose-spring-*` | `io.zhijun.spring.*` |
 | `rose-spring-boot-*` | `io.zhijun.boot.*` |
 | `rose-<cap>-core` | `io.zhijun.<cap>.core` |
@@ -50,7 +54,7 @@
 - 子能力**轻量且强相关** → 内聚分包
 - 需**一键全栈** → 额外建聚合模块（如 `rose-observation-spring-boot` 聚合各 slice，子模块亦可单选）
 
-**Maven parent 链：** 域内叶子模块的 `<parent>` 必须指向域聚合 POM（如 `rose-multitenancy`）；仅域聚合 POM 与 `rose-core` 直挂 `rose-parent`。禁止叶子模块跳过域聚合直挂 `rose-parent`。
+**Maven parent 链：** 域内叶子模块的 `<parent>` 必须指向域聚合 POM（如 `rose-multitenancy`）；`rose-foundation` 下叶子指向 `rose-foundation`；域聚合与 `rose-foundation` 直挂 `rose-parent`。
 
 ## 4. 特例与已知决策
 
@@ -69,7 +73,7 @@
 
 公共基础：
 
-- `rose-core`
+- `rose-foundation`：`rose-annotation`、`rose-core`、`rose-annotation-processor`、`rose-test`
 - `rose-spring`：`rose-spring-core`；`rose-spring-web`（占位，**不在 BOM**）
 - `rose-spring-boot`：`rose-spring-boot-core`、`rose-spring-boot-actuator`；`rose-spring-boot-web`（占位，**不在 BOM**）
 

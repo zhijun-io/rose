@@ -74,7 +74,7 @@ Default credentials and database name are **`rose`** unless overridden.
 |---|---|
 | BOM | [rose-bom/README.md](../rose-bom/README.md) |
 | Build | [rose-build/README.md](../rose-build/README.md) |
-| Core | [rose-core/README.md](../rose-core/README.md) |
+| Core | [rose-foundation/README.md](../rose-foundation/README.md) |
 | Spring | [rose-spring/README.md](../rose-spring/README.md) |
 | Spring Boot | [rose-spring-boot/README.md](../rose-spring-boot/README.md) |
 | OpenTelemetry | [rose-observation/README.md](../rose-observation/README.md) |

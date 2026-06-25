@@ -23,11 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Observation OTLP Micrometer registry adapted to Micrometer 1.9.17 (Boot 2.7); removed `rose.otel.exporter.otlp.micrometer.{base-time-unit,max-scale,max-bucket-count}`.
 - `rose-spring-web` and `rose-spring-boot-web` removed from `rose-bom` until implemented (reactor scaffolds unchanged).
 - Removed `rose-coverage` aggregator module; Codecov upload uses per-module `jacoco.xml` from `coverage` CI job (JDK 25, `-Pcoverage`).
+- **Foundation split (breaking)**: annotations moved to `rose-annotation` (`io.zhijun.annotation`); new `rose-foundation` aggregator with `rose-test` and `rose-annotation-processor`. Replace `io.zhijun.core.annotation.*` imports.
+- `rose-annotation-processor` registers `Processor` SPI via Google Auto Service; includes `RoseSinceProcessor`, `RoseInternalApiProcessor`, `RosePropertyMetadataProcessor`.
+- `@RosePropertyHint` generates `META-INF/additional-spring-configuration-metadata.json` fragments for `rose.*` keys.
 
 ### Migration
 
 | Before | After |
 |--------|-------|
+| `io.zhijun.core.annotation.*` | `io.zhijun.annotation.*` (`rose-annotation`) |
 | `io.zhijun.dev.*` | `io.zhijun.devservice.*` |
 | `io.zhijun.opentelemetry.*` | `io.zhijun.observation.boot.autoconfigure.otel.*` |
 | `io.zhijun.observation.*` | `io.zhijun.observation.*` / `io.zhijun.observation.boot.autoconfigure.*` |
