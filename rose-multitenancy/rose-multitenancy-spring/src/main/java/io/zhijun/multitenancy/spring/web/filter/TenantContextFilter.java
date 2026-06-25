@@ -27,6 +27,11 @@ import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Scope;
+
 /**
  * Establish a multitenancy context from an HTTP request, if multitenancy information is available.
  */
@@ -51,13 +56,16 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
     @Nullable
     private final TenantContextMissingTenantHandler missingTenantHandler;
 
+    @Nullable
+    private final Tracer tracer;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private TenantContextFilter(HttpRequestTenantResolver httpRequestTenantResolver,
             TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
             @Nullable TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher,
             ApplicationEventPublisher eventPublisher, @Nullable TenantVerifier tenantVerifier,
-            @Nullable TenantContextMissingTenantHandler missingTenantHandler) {
+            @Nullable TenantContextMissingTenantHandler missingTenantHandler, @Nullable Tracer tracer) {
         Assert.notNull(httpRequestTenantResolver, "httpRequestTenantResolver cannot be null");
         Assert.notNull(tenantContextIgnorePathMatcher, "ignorePathMatcher cannot be null");
         Assert.notNull(eventPublisher, "eventPublisher cannot be null");
@@ -67,6 +75,7 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         this.eventPublisher = eventPublisher;
         this.tenantVerifier = tenantVerifier;
         this.missingTenantHandler = missingTenantHandler;
+        this.tracer = tracer;
     }
 
     /**
@@ -104,18 +113,22 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         }
 
         try {
-            TenantContext.where(tenantIdentifier).call(new java.util.concurrent.Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    eventPublisher.publishEvent(new TenantContextAttachedEvent(tenantIdentifier, request));
-                    try {
-                        filterChain.doFilter(request, response);
-                    } finally {
-                        eventPublisher.publishEvent(new TenantContextClosedEvent(tenantIdentifier, request));
-                    }
-                    return null;
+            if (tracer != null) {
+                Span span = tracer.spanBuilder("tenant.context")
+                        .setAttribute("tenant.id", tenantIdentifier)
+                        .startSpan();
+                try (Scope scope = span.makeCurrent()) {
+                    runWithTenantContext(tenantIdentifier, request, response, filterChain);
+                } catch (Exception ex) {
+                    span.setStatus(StatusCode.ERROR);
+                    span.recordException(ex);
+                    throw ex;
+                } finally {
+                    span.end();
                 }
-            });
+            } else {
+                runWithTenantContext(tenantIdentifier, request, response, filterChain);
+            }
         } catch (ServletException ex) {
             throw ex;
         } catch (IOException ex) {
@@ -123,6 +136,22 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         } catch (Exception ex) {
             throw new ServletException(ex);
         }
+    }
+
+    private void runWithTenantContext(String tenantIdentifier, HttpServletRequest request,
+            HttpServletResponse response, FilterChain filterChain) throws Exception {
+        TenantContext.where(tenantIdentifier).call(new java.util.concurrent.Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                eventPublisher.publishEvent(new TenantContextAttachedEvent(tenantIdentifier, request));
+                try {
+                    filterChain.doFilter(request, response);
+                } finally {
+                    eventPublisher.publishEvent(new TenantContextClosedEvent(tenantIdentifier, request));
+                }
+                return null;
+            }
+        });
     }
 
     @Override
@@ -175,6 +204,9 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         @Nullable
         private TenantContextMissingTenantHandler missingTenantHandler;
 
+        @Nullable
+        private Tracer tracer;
+
         private Builder() {}
 
         public Builder httpRequestTenantResolver(HttpRequestTenantResolver httpRequestTenantResolver) {
@@ -208,9 +240,14 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
             return this;
         }
 
+        public Builder tracer(@Nullable Tracer tracer) {
+            this.tracer = tracer;
+            return this;
+        }
+
         public TenantContextFilter build() {
             return new TenantContextFilter(httpRequestTenantResolver, tenantContextIgnorePathMatcher,
-                    tenantContextRequiredPathMatcher, eventPublisher, tenantVerifier, missingTenantHandler);
+                    tenantContextRequiredPathMatcher, eventPublisher, tenantVerifier, missingTenantHandler, tracer);
         }
     }
 

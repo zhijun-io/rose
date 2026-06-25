@@ -25,6 +25,8 @@ import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 
+import io.opentelemetry.api.trace.Tracer;
+
 /**
  * Configuration for HTTP multitenancy resolution.
  */
@@ -68,7 +70,8 @@ public final class HttpTenantResolutionConfiguration {
                 TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
                 ObjectProvider<TenantContextRequiredPathMatcher> tenantContextRequiredPathMatcher,
                 ApplicationEventPublisher eventPublisher, ObjectProvider<TenantVerifier> tenantVerifier,
-                ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler) {
+                ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler,
+                ObjectProvider<Tracer> tracer) {
             TenantContextFilter filter = TenantContextFilter.builder()
                     .httpRequestTenantResolver(httpRequestTenantResolver)
                     .tenantContextIgnorePathMatcher(tenantContextIgnorePathMatcher)
@@ -76,6 +79,7 @@ public final class HttpTenantResolutionConfiguration {
                     .eventPublisher(eventPublisher)
                     .tenantVerifier(tenantVerifier.getIfAvailable())
                     .missingTenantHandler(missingTenantHandler.getIfAvailable())
+                    .tracer(tracer.getIfAvailable())
                     .build();
             FilterRegistrationBean<TenantContextFilter> registration = new FilterRegistrationBean<TenantContextFilter>();
             registration.setFilter(filter);

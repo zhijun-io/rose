@@ -11,7 +11,8 @@ public class MultitenancyAsyncProperties {
     public static final String CONFIG_PREFIX = "rose.multitenancy.async";
 
     /**
-     * Whether to propagate {@code TenantContext} to {@code ThreadPoolTaskExecutor} beans.
+     * Whether to propagate {@code TenantContext} to executors that support {@code TaskDecorator}
+     * (for example {@code ThreadPoolTaskExecutor} and {@code SimpleAsyncTaskExecutor}).
      */
     private boolean propagationEnabled = true;
 

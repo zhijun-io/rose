@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
@@ -52,6 +53,23 @@ class MultitenancyAsyncConfigurationTests {
     }
 
     @Test
+    void shouldPropagateTenantThroughSimpleAsyncTaskExecutor() throws Exception {
+        contextRunner.withUserConfiguration(SimpleAsyncExecutorConfig.class).run(context -> {
+            SimpleAsyncTaskExecutor executor = context.getBean(SimpleAsyncTaskExecutor.class);
+            AtomicReference<String> capturedTenant = new AtomicReference<String>();
+            CountDownLatch latch = new CountDownLatch(1);
+
+            TenantContext.where("acme").run(() -> executor.execute(() -> {
+                capturedTenant.set(TenantContext.getTenantId());
+                latch.countDown();
+            }));
+
+            assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+            assertThat(capturedTenant.get()).isEqualTo("acme");
+        });
+    }
+
+    @Test
     void shouldPreserveExistingTaskDecorator() throws Exception {
         ExistingDecoratorConfig.called = false;
         contextRunner.withUserConfiguration(ExistingDecoratorConfig.class).run(context -> {
@@ -68,6 +86,14 @@ class MultitenancyAsyncConfigurationTests {
             assertThat(capturedTenant.get()).isEqualTo("acme");
             assertThat(ExistingDecoratorConfig.called).isTrue();
         });
+    }
+
+    @Configuration
+    static class SimpleAsyncExecutorConfig {
+        @Bean
+        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor() {
+            return new SimpleAsyncTaskExecutor();
+        }
     }
 
     @Configuration
