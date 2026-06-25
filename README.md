@@ -99,7 +99,7 @@ Docker-backed dev services for development. Add `rose-spring-boot-core`, optiona
 
 Connectors include PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, ActiveMQ, Ollama, MQTT, OpenLit, and OpenTelemetry Collector. Defaults use username/password (and JDBC database name) **`rose`** unless overridden via `rose.dev.<connector>.*`.
 
-Global toggle: `rose.dev.enabled`. See [rose-devservice/README.md](rose-devservice/README.md).
+**Production:** dev services are **off by default**. Enable explicitly with `rose.dev.enabled=true` and/or `rose.dev.<connector>.enabled=true`. In local **DEV** or **TEST** bootstrap mode, connectors activate unless disabled. See [rose-devservice/README.md](rose-devservice/README.md).
 
 ### OpenTelemetry metrics
 
@@ -123,7 +123,9 @@ See [rose-observation/README.md](rose-observation/README.md).
 | Design notes | [docs/](docs/) |
 | Module layering & naming | [docs/rose-module-layering.md](docs/rose-module-layering.md) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
+**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-core](rose-core/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/) · [rose-coverage](rose-coverage/)
+
+The [rose-bom](rose-bom/) manages **30+** published `io.zhijun` coordinates (starters, core libraries, dev-service connectors). `rose-spring-web` / `rose-spring-boot-web` are layout placeholders today — see [docs/rose-module-layering.md](docs/rose-module-layering.md).
 
 Build layout follows [microsphere-build](https://github.com/microsphere-projects/microsphere-build).
 
@@ -136,6 +138,10 @@ Rose follows Conventional Commits (`feat:`, `fix:`, `docs:`, …), one logical c
 Build and release: [rose-build/README.md](rose-build/README.md). Changelog: [CHANGELOG.md](CHANGELOG.md).
 
 ## Reference
+
+### Platform baseline & support
+
+Rose **0.0.x** targets **Spring Boot 2.7.x** and **Java 8+**. Spring Boot 2.7 [reached end of open-source support](https://spring.io/projects/spring-boot#support) in November 2023; patch releases may still arrive via the BOM, but **new applications should plan a Boot 3 / Java 17 migration**. Renovate is capped at Boot `<3.0.0` until a Rose 1.x line ships — track [CHANGELOG.md](CHANGELOG.md) and GitHub issues for migration work.
 
 ### Bill of Materials
 

@@ -18,14 +18,15 @@ Rose uses GitHub Actions workflows in `.github/workflows/`, inspired by [microsp
 
 **Matrix:** JDK 8, 11, 17, 21, 25 on `ubuntu-latest`
 
-**Command:**
+**Commands:**
 
-```bash
-mvn -B -U -ntp verify -Pcoverage
-```
+| JDK | Command |
+|-----|---------|
+| 8 | `mvn -B -U -ntp verify` (unit + integration tests) |
+| 11, 17, 25 | `mvn -B -U -ntp verify -DskipITs` (unit tests only) |
+| 21 | `mvn -B -U -ntp verify -Pcoverage` (unit + IT + JaCoCo aggregate gate) |
 
-- All JDKs run full `verify` (unit + integration tests).
-- JaCoCo coverage is collected on every matrix job via `-Pcoverage`.
+- JaCoCo coverage and the 35% aggregate gate run **only** on JDK 21.
 - Codecov upload runs on JDK 21 when `CODECOV_TOKEN` is configured.
 
 **Requirements for green CI:**

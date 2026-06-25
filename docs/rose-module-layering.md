@@ -12,6 +12,8 @@
 | Spring 集成 | `-spring` | 对 Spring Framework 的扩展（非 Boot） | 对应 `-core` |
 | Boot 自动配置 | `-spring-boot` | `AutoConfiguration` / starter 装配 | 对应 `-spring` + `rose-spring-boot-core` |
 
+`rose-devservice-core` 遵循「无 Spring」约定（仅 Testcontainers + SLF4J）；Bootstrap 检测使用 `io.zhijun.devservice.core.util` 工具类。
+
 跨能力公共基础：
 
 - `rose-core`（`io.zhijun.core`）—— 无 Spring 的公共注解 / 并发工具等
