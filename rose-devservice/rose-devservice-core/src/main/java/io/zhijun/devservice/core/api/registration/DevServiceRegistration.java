@@ -2,8 +2,7 @@ package io.zhijun.devservice.core.api.registration;
 
 import java.util.function.Supplier;
 
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import io.zhijun.devservice.core.util.DevServiceAssert;
 
 import io.zhijun.core.annotation.Incubating;
 
@@ -14,16 +13,15 @@ import io.zhijun.core.annotation.Incubating;
 public final class DevServiceRegistration {
 
     private final String name;
-    @Nullable
     private final String description;
     private final Supplier<ContainerInfo> containerInfo;
 
     public DevServiceRegistration(
             String name,
-            @Nullable String description,
+            String description,
             Supplier<ContainerInfo> containerInfo) {
-        Assert.hasText(name, "name cannot be null or empty");
-        Assert.notNull(containerInfo, "containerInfo cannot be null");
+        DevServiceAssert.hasText(name, "name cannot be null or empty");
+        DevServiceAssert.notNull(containerInfo, "containerInfo cannot be null");
         this.name = name;
         this.description = description;
         this.containerInfo = containerInfo;
@@ -33,7 +31,9 @@ public final class DevServiceRegistration {
         return name;
     }
 
-    @Nullable
+    /**
+     * @return description, or {@code null} when not provided
+     */
     public String getDescription() {
         return description;
     }

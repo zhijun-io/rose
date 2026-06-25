@@ -7,8 +7,9 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.StringUtils;
+
+import io.zhijun.devservice.core.util.DevServiceClasses;
+import io.zhijun.devservice.core.util.DevServiceStrings;
 
 /**
  * Detects bootstrap mode from environment and stack trace heuristics.
@@ -19,6 +20,7 @@ final class BootstrapModeDetector {
 
     private static final Set<String> TEST_CLASS_PREFIXES = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
             "org.junit.runners.",
+            "org.junit.jupiter.",
             "org.junit.platform.",
             "org.springframework.boot.test.",
             "cucumber.runtime."
@@ -48,10 +50,10 @@ final class BootstrapModeDetector {
 
     private static BootstrapMode doDetect(StackTraceElement[] stackTraceElements) {
         String modeProperty = System.getenv(BootstrapMode.PROPERTY_KEY.toUpperCase().replace(".", "_"));
-        if (!StringUtils.hasText(modeProperty)) {
+        if (!DevServiceStrings.hasText(modeProperty)) {
             modeProperty = System.getProperty(BootstrapMode.PROPERTY_KEY);
         }
-        if (StringUtils.hasText(modeProperty)) {
+        if (DevServiceStrings.hasText(modeProperty)) {
             String normalized = modeProperty.trim().toUpperCase();
             if (BootstrapMode.isValid(normalized)) {
                 return BootstrapMode.valueOf(normalized);
@@ -94,12 +96,12 @@ final class BootstrapModeDetector {
     }
 
     static boolean isNativeContext() {
-        return ClassUtils.isPresent("org.graalvm.nativeimage.ImageInfo", null);
+        return DevServiceClasses.isPresent("org.graalvm.nativeimage.ImageInfo", null);
     }
 
     static boolean isDevelopmentContext() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        if (ClassUtils.isPresent("org.springframework.boot.devtools.RemoteSpringApplication", classLoader)) {
+        if (DevServiceClasses.isPresent("org.springframework.boot.devtools.RemoteSpringApplication", classLoader)) {
             return true;
         }
         if (classLoader != null && classLoader.getClass().getName().contains("AppClassLoader")) {

@@ -1,18 +1,19 @@
 package io.zhijun.devservice.core.container;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.util.Assert;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.utility.MountableFile;
 
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
 import io.zhijun.devservice.core.api.config.VolumeMapping;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import io.zhijun.devservice.core.util.DevServiceAssert;
 
 /**
  * Applies dev service properties to Testcontainers instances.
@@ -38,8 +39,8 @@ public final class ContainerConfigurer {
 
     public static void resources(GenericContainer<?> container, BaseDevServiceProperties properties) {
         for (ResourceMapping resource : properties.getResources()) {
-            Assert.hasText(resource.getSourcePath(), "the source path in a resource mapping cannot be null or empty.");
-            Assert.hasText(resource.getContainerPath(), "the container path in a resource mapping cannot be null or empty.");
+            DevServiceAssert.hasText(resource.getSourcePath(), "the source path in a resource mapping cannot be null or empty.");
+            DevServiceAssert.hasText(resource.getContainerPath(), "the container path in a resource mapping cannot be null or empty.");
 
             MountableFile mountableFile = resolveMountableFile(resource.getSourcePath());
             container.withCopyFileToContainer(mountableFile, resource.getContainerPath());
@@ -57,17 +58,23 @@ public final class ContainerConfigurer {
             return MountableFile.forHostPath(path);
         }
 
-        ClassPathResource classpathResource = new ClassPathResource(resourcePath);
-        if (classpathResource.exists()) {
+        if (classpathResourceExists(resourcePath)) {
             return MountableFile.forClasspathResource(resourcePath);
         }
 
-        FileSystemResource fileResource = new FileSystemResource(resourcePath);
-        if (fileResource.exists()) {
+        if (Files.exists(Paths.get(resourcePath))) {
             return MountableFile.forHostPath(resourcePath);
         }
 
         throw new IllegalArgumentException("Resource not found in classpath or filesystem: " + resourcePath);
+    }
+
+    private static boolean classpathResourceExists(String resourcePath) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (classLoader != null && classLoader.getResource(resourcePath) != null) {
+            return true;
+        }
+        return ContainerConfigurer.class.getClassLoader().getResource(resourcePath) != null;
     }
 
     public static void volumes(GenericContainer<?> container, BaseDevServiceProperties properties) {

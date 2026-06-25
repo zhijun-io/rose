@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.util.ReflectionUtils;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -91,20 +90,36 @@ class ContainerConfigurerTests {
      * Helper method to extract the WaitStrategy from a GenericContainer using reflection.
      */
     private WaitStrategy getWaitStrategy(GenericContainer<?> container) {
-        Field waitStrategyField = ReflectionUtils.findField(GenericContainer.class, "waitStrategy");
-        assertThat(waitStrategyField).isNotNull();
-        ReflectionUtils.makeAccessible(waitStrategyField);
-        return (WaitStrategy) ReflectionUtils.getField(waitStrategyField, container);
+        return readField(GenericContainer.class, container, "waitStrategy", WaitStrategy.class);
     }
 
     /**
      * Helper method to extract the startup timeout from a WaitStrategy using reflection.
      */
     private Duration getStartupTimeout(WaitStrategy waitStrategy) {
-        Field startupTimeoutField = ReflectionUtils.findField(waitStrategy.getClass(), "startupTimeout");
-        assertThat(startupTimeoutField).isNotNull();
-        ReflectionUtils.makeAccessible(startupTimeoutField);
-        return (Duration) ReflectionUtils.getField(startupTimeoutField, waitStrategy);
+        return readField(waitStrategy.getClass(), waitStrategy, "startupTimeout", Duration.class);
+    }
+
+    private static <T> T readField(Class<?> type, Object target, String fieldName, Class<T> fieldType) {
+        try {
+            Field field = findDeclaredField(type, fieldName);
+            field.setAccessible(true);
+            return fieldType.cast(field.get(target));
+        } catch (ReflectiveOperationException ex) {
+            throw new AssertionError("Failed to read field " + fieldName + " from " + type.getName(), ex);
+        }
+    }
+
+    private static Field findDeclaredField(Class<?> type, String fieldName) throws NoSuchFieldException {
+        Class<?> current = type;
+        while (current != null) {
+            try {
+                return current.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException ex) {
+                current = current.getSuperclass();
+            }
+        }
+        throw new NoSuchFieldException(fieldName);
     }
 
     @Test
@@ -365,12 +380,15 @@ class ContainerConfigurerTests {
      * Helper method to extract the init scripts from a JdbcDatabaseContainer using reflection.
      */
     private String[] getInitScripts(JdbcDatabaseContainer<?> container) {
-        Field initScriptsField = ReflectionUtils.findField(JdbcDatabaseContainer.class, "initScriptPaths");
-        assertThat(initScriptsField).isNotNull();
-        ReflectionUtils.makeAccessible(initScriptsField);
-        @SuppressWarnings("unchecked")
-        List<String> scripts = (List<String>) ReflectionUtils.getField(initScriptsField, container);
-        return scripts != null ? scripts.toArray(new String[0]) : new String[0];
+        try {
+            Field initScriptsField = JdbcDatabaseContainer.class.getDeclaredField("initScriptPaths");
+            initScriptsField.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            List<String> scripts = (List<String>) initScriptsField.get(container);
+            return scripts != null ? scripts.toArray(new String[0]) : new String[0];
+        } catch (ReflectiveOperationException ex) {
+            throw new AssertionError("Failed to read initScriptPaths from JdbcDatabaseContainer", ex);
+        }
     }
 
     private static class TestBaseDevServiceProperties implements BaseDevServiceProperties {

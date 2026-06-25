@@ -3,7 +3,6 @@ package io.zhijun.devservice.core.bootstrap;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import io.zhijun.devservice.core.bootstrap.BootstrapModeDetector;
 
-import org.springframework.lang.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -28,9 +27,7 @@ class BootstrapModeDetectorTests {
         new StackTraceElement("java.lang.Thread", "run", "Thread.java", 748)
     };
 
-    @Nullable
     private MockedStatic<BootstrapModeDetector> mockedBootstrapModeDetector;
-    @Nullable
     private String originalRoseBootstrapModeProperty;
 
     @BeforeEach

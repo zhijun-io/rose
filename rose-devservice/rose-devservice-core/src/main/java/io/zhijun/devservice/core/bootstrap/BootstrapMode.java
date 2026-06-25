@@ -1,6 +1,6 @@
 package io.zhijun.devservice.core.bootstrap;
 
-import org.springframework.util.StringUtils;
+import io.zhijun.devservice.core.util.DevServiceStrings;
 
 import io.zhijun.core.annotation.Incubating;
 
@@ -33,7 +33,7 @@ public enum BootstrapMode {
     }
 
     static boolean isValid(String modeProperty) {
-        if (!StringUtils.hasText(modeProperty)) {
+        if (!DevServiceStrings.hasText(modeProperty)) {
             return false;
         }
 

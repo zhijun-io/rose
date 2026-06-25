@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import io.zhijun.devservice.core.util.DevServiceAssert;
 
 import io.zhijun.core.annotation.Incubating;
 
@@ -31,12 +30,12 @@ public final class ContainerInfo {
             List<ContainerPort> exposedPorts,
             Map<String, String> labels,
             String status) {
-        Assert.hasText(id, "id cannot be null or empty");
-        Assert.hasText(imageName, "imageName cannot be null or empty");
-        Assert.notNull(names, "names cannot be null");
-        Assert.notNull(exposedPorts, "exposedPorts cannot be null");
-        Assert.notNull(labels, "labels cannot be null");
-        Assert.hasText(status, "status cannot be null or empty");
+        DevServiceAssert.hasText(id, "id cannot be null or empty");
+        DevServiceAssert.hasText(imageName, "imageName cannot be null or empty");
+        DevServiceAssert.notNull(names, "names cannot be null");
+        DevServiceAssert.notNull(exposedPorts, "exposedPorts cannot be null");
+        DevServiceAssert.notNull(labels, "labels cannot be null");
+        DevServiceAssert.hasText(status, "status cannot be null or empty");
 
         this.id = id;
         this.imageName = imageName;
@@ -75,45 +74,37 @@ public final class ContainerInfo {
    */
     public static final class ContainerPort {
 
-        @Nullable
         private final String ip;
 
-        @Nullable
         private final Integer privatePort;
 
-        @Nullable
         private final Integer publicPort;
 
-        @Nullable
         private final String type;
 
         public ContainerPort(
-                @Nullable String ip,
-                @Nullable Integer privatePort,
-                @Nullable Integer publicPort,
-                @Nullable String type) {
+                String ip,
+                Integer privatePort,
+                Integer publicPort,
+                String type) {
             this.ip = ip;
             this.privatePort = privatePort;
             this.publicPort = publicPort;
             this.type = type;
         }
 
-        @Nullable
         public String getIp() {
             return ip;
         }
 
-        @Nullable
         public Integer getPrivatePort() {
             return privatePort;
         }
 
-        @Nullable
         public Integer getPublicPort() {
             return publicPort;
         }
 
-        @Nullable
         public String getType() {
             return type;
         }
