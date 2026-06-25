@@ -1,4 +1,4 @@
-package io.zhijun.core.annotation;
+package io.zhijun.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -17,11 +17,9 @@ import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * The annotation that indicates the API is introduced in the first time.
+ * Indicates the version in which an API element was introduced.
  *
- * @author <a href="mailto:mercyblitz@gmail.com">Mercy<a/>
  * @see Incubating
- * @since 1.0.0
  */
 @Retention(RUNTIME)
 @Target({
@@ -40,13 +38,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface Since {
 
     /**
-     * @return The module name, e.g. <code>microsphere-core</code>
+     * @return the Rose module name, e.g. {@code rose-core}
      */
     String module() default "";
 
     /**
-     * @return The version value of the API, e.g. <code>1.0.0</code>
+     * @return the version value, e.g. {@code 1.0.0}
      */
     String value();
-
 }

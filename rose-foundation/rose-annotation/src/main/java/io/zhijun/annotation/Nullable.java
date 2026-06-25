@@ -1,4 +1,4 @@
-package io.zhijun.core.annotation;
+package io.zhijun.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

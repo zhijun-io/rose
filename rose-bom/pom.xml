@@ -21,7 +21,17 @@
             <!-- Base platform -->
             <dependency>
                 <groupId>io.zhijun</groupId>
+                <artifactId>rose-annotation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
                 <artifactId>rose-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

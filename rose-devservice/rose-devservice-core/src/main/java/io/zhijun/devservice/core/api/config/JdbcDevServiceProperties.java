@@ -3,7 +3,7 @@ package io.zhijun.devservice.core.api.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * JDBC dev service properties shared by database connector property classes.

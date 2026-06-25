@@ -3,7 +3,7 @@ package io.zhijun.devservice.boot.container;
 import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Starts dev service containers when connection details are resolved before the global initializer runs.

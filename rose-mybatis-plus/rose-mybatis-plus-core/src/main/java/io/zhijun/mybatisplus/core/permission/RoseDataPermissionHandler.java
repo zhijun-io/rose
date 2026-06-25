@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;

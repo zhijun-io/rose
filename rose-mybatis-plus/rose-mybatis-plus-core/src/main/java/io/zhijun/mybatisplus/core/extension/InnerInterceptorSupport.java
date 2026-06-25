@@ -1,6 +1,6 @@
 package io.zhijun.mybatisplus.core.extension;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 

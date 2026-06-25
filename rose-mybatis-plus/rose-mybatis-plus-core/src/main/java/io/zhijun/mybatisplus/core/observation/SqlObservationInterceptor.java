@@ -22,7 +22,7 @@ import io.opentelemetry.context.Scope;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

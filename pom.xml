@@ -29,7 +29,7 @@
     <modules>
         <module>rose-build</module>
         <module>rose-bom</module>
-        <module>rose-core</module>
+        <module>rose-foundation</module>
         <module>rose-spring</module>
         <module>rose-spring-boot</module>
         <module>rose-mybatis-plus</module>

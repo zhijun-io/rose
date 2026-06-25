@@ -3,7 +3,7 @@ package io.zhijun.devservice.boot.registration;
 import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 
 /**

@@ -20,7 +20,7 @@ import org.springframework.util.Assert;
 
 import io.opentelemetry.api.trace.Tracer;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Base registrar for dev service container beans.

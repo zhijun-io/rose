@@ -3,7 +3,7 @@ package io.zhijun.observation.boot.autoconfigure.otel.exporter;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;

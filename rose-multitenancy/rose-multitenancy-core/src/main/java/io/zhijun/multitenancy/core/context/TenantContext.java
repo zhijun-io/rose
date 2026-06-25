@@ -2,8 +2,8 @@ package io.zhijun.multitenancy.core.context;
 
 import java.util.concurrent.Callable;
 
-import io.zhijun.core.annotation.Incubating;
-import io.zhijun.core.annotation.Nullable;
+import io.zhijun.annotation.Incubating;
+import io.zhijun.annotation.Nullable;
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 /**

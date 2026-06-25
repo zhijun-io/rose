@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.lang.Nullable;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
 
 /**

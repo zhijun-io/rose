@@ -6,7 +6,7 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 import org.springframework.boot.info.OsInfo;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * A {@link ResourceContributor} that contributes attributes about the operating system,

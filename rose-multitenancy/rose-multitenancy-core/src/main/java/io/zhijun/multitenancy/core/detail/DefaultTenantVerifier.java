@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
 /**

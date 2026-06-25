@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.core.detail;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
 /**

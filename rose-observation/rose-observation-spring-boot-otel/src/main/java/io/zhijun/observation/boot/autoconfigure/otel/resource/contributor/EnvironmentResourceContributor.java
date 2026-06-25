@@ -16,7 +16,7 @@ import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceProperties;
 
 /**

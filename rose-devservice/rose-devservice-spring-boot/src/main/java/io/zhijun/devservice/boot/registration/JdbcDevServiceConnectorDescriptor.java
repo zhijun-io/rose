@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import org.testcontainers.containers.JdbcDatabaseContainer;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 
 /**

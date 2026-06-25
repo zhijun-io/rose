@@ -19,7 +19,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;

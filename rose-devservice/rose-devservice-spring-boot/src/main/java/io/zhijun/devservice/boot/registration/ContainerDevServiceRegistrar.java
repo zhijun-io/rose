@@ -4,7 +4,7 @@ import org.springframework.core.env.Environment;
 import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Registrar for non-JDBC dev service connectors backed by a single Testcontainers container.

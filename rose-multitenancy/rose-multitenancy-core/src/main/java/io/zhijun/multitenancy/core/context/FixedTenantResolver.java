@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.core.context;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Strategy to use a fixed value as the current multitenancy, regardless of the source context.

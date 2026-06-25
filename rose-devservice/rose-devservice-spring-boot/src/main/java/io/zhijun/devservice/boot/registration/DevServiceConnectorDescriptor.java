@@ -5,7 +5,7 @@ import java.util.function.Function;
 import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Declarative metadata for a non-JDBC dev service connector.

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import io.zhijun.devservice.core.util.DevServiceUtils;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Holds information about a container.

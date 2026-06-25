@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Matches HTTP request paths for which a multitenancy identifier is required.

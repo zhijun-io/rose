@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Matches HTTP requests paths for which a multitenancy context is not attached.

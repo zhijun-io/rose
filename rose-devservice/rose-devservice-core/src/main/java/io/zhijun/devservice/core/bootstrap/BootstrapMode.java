@@ -2,7 +2,7 @@ package io.zhijun.devservice.core.bootstrap;
 
 import io.zhijun.devservice.core.util.DevServiceUtils;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Application bootstrap mode.

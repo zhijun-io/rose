@@ -1,6 +1,6 @@
 package io.zhijun.devservice.core.util;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Small helpers for devservice-core (no Spring dependency).

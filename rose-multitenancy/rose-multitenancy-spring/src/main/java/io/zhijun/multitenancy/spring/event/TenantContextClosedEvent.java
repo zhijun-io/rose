@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.spring.event;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Indicates the context for the current multitenancy has been closed.

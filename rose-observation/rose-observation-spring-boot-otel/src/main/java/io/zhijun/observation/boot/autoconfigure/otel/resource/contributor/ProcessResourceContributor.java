@@ -8,7 +8,7 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * A {@link ResourceContributor} that contributes process attributes (OpenTelemetry semantic conventions).

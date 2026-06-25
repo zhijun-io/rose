@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import io.zhijun.devservice.core.util.DevServiceUtils;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 
 /**
  * Describes a registered dev service.

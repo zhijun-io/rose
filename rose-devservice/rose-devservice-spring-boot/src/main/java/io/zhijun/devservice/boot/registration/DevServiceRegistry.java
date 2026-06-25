@@ -19,7 +19,7 @@ import org.springframework.util.ClassUtils;
 import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.Container;
 
-import io.zhijun.core.annotation.Incubating;
+import io.zhijun.annotation.Incubating;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 
