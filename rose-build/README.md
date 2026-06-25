@@ -119,7 +119,7 @@ mvn -pl rose-observation/rose-observation-spring-boot-otel -Pcoverage test
 ## 未实现 / 规划中
 
 - `maven-checkstyle-plugin` 未接入
-- Failsafe 的 JaCoCo `prepare-agent-integration`（IT 覆盖率）待完善
+- Failsafe 的 JaCoCo `prepare-agent-integration` 已绑定（`-Pcoverage` 时 IT 纳入覆盖率报告）
 - 多 JDK / 多 Boot 版本 matrix（Rose 锁定 Boot 2.7 / Java 8）
 
 ## 对标 Arconia

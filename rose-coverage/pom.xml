@@ -17,6 +17,7 @@
     <description>JaCoCo aggregate coverage report for the Rose reactor</description>
 
     <properties>
+        <!-- Aggregator module: skip agent instrumentation, but run aggregate report/check -->
         <jacoco.skip>true</jacoco.skip>
         <jacoco.minimum.line.coverage>0.35</jacoco.minimum.line.coverage>
     </properties>
@@ -172,29 +173,34 @@
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
+                        <configuration>
+                            <skip>false</skip>
+                            <dataFileIncludes>
+                                <dataFileInclude>target/jacoco.exec</dataFileInclude>
+                            </dataFileIncludes>
+                        </configuration>
                     </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
                     <execution>
-                        <id>check-aggregate</id>
+                        <id>check-aggregate-coverage</id>
                         <phase>verify</phase>
                         <goals>
-                            <goal>check</goal>
+                            <goal>run</goal>
                         </goals>
                         <configuration>
-                            <dataFileIncludes>
-                                <dataFileInclude>**/target/jacoco.exec</dataFileInclude>
-                            </dataFileIncludes>
-                            <rules>
-                                <rule>
-                                    <element>BUNDLE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>${jacoco.minimum.line.coverage}</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
+                            <target>
+                                <chmod file="${project.basedir}/scripts/check-aggregate-coverage.sh" perm="ugo+rx"/>
+                                <exec executable="bash" failonerror="true">
+                                    <arg value="${project.basedir}/scripts/check-aggregate-coverage.sh"/>
+                                    <arg value="${project.build.directory}/site/jacoco-aggregate/jacoco.csv"/>
+                                    <arg value="${jacoco.minimum.line.coverage}"/>
+                                </exec>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>
