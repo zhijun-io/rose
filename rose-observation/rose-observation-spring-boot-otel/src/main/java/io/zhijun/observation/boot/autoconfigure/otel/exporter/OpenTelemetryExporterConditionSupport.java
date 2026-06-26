@@ -4,6 +4,8 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import io.zhijun.annotation.Incubating;
+
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterTypeNames;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;
@@ -16,7 +18,7 @@ import org.springframework.util.StringUtils;
 @Incubating
 public final class OpenTelemetryExporterConditionSupport {
 
-    private static final String GENERAL_EXPORTER_TYPE = OpenTelemetryExporterProperties.CONFIG_PREFIX + ".type";
+    private static final String GENERAL_EXPORTER_TYPE = OpenTelemetryExporterProperties.TYPE_PROPERTY;
 
     private OpenTelemetryExporterConditionSupport() {
     }
@@ -31,7 +33,7 @@ public final class OpenTelemetryExporterConditionSupport {
                     .because("a valid exporter type is not specified"));
         }
 
-        String generalExporterTypeString = context.getEnvironment().getProperty(GENERAL_EXPORTER_TYPE, "otlp");
+        String generalExporterTypeString = context.getEnvironment().getProperty(GENERAL_EXPORTER_TYPE, ExporterTypeNames.DEFAULT);
         ExporterType generalExporterType = StringUtils.hasText(generalExporterTypeString)
                 ? ExporterType.valueOf(generalExporterTypeString.toUpperCase()) : null;
 

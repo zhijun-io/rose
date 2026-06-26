@@ -11,6 +11,8 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.util.Assert;
 
+import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryProperties;
+
 /**
  * Maps OpenTelemetry Environment Variable Specification properties to {@code rose.otel.*}.
  */
@@ -18,7 +20,7 @@ public class OpenTelemetryEnvironmentPostProcessor implements EnvironmentPostPro
 
     static final String PROPERTY_SOURCE_NAME = "opentelemetry-environment-variable-specification";
 
-    static final String COMPATIBILITY_PROPERTY = "rose.otel.compatibility.environment-variable-specification";
+    static final String COMPATIBILITY_PROPERTY = OpenTelemetryProperties.COMPATIBILITY_ENV_VAR_SPEC_PROPERTY;
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {

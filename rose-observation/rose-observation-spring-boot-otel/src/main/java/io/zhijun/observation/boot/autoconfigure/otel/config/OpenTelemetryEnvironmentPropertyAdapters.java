@@ -23,10 +23,10 @@ class OpenTelemetryEnvironmentPropertyAdapters {
     static PropertyAdapter general(ConfigurableEnvironment environment) {
         Assert.notNull(environment, "environment cannot be null");
         return PropertyAdapter.builder(environment)
-                .mapProperty("otel.sdk.disabled", OpenTelemetryProperties.CONFIG_PREFIX + ".enabled",
+                .mapProperty("otel.sdk.disabled", OpenTelemetryProperties.ENABLED_PROPERTY,
                         value -> !Boolean.parseBoolean(value.toLowerCase()))
-                .mapMap("otel.resource.attributes", OpenTelemetryResourceProperties.CONFIG_PREFIX + ".attributes")
-                .mapString("otel.service.name", OpenTelemetryResourceProperties.CONFIG_PREFIX + ".service-name")
+                .mapMap("otel.resource.attributes", OpenTelemetryResourceProperties.ATTRIBUTES_PROPERTY)
+                .mapString("otel.service.name", OpenTelemetryResourceProperties.SERVICE_NAME_PROPERTY)
                 .mapEnum("otel.propagators", OpenTelemetryPropagationProperties.CONFIG_PREFIX + ".produce",
                         OpenTelemetryEnvironmentPropertyConverters::propagationType)
                 .mapEnum("otel.tracer.sampler", OpenTelemetryTracingProperties.CONFIG_PREFIX + ".sampling.strategy",
@@ -80,9 +80,9 @@ class OpenTelemetryEnvironmentPropertyAdapters {
     static PropertyAdapter exporterSelection(ConfigurableEnvironment environment) {
         Assert.notNull(environment, "environment cannot be null");
         return PropertyAdapter.builder(environment)
-                .mapEnum("otel.traces.exporter", OpenTelemetryTracingExporterProperties.CONFIG_PREFIX + ".type",
+                .mapEnum("otel.traces.exporter", OpenTelemetryTracingExporterProperties.TYPE_PROPERTY,
                         OpenTelemetryEnvironmentPropertyConverters::exporterType)
-                .mapEnum("otel.metrics.exporter", OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".type",
+                .mapEnum("otel.metrics.exporter", OpenTelemetryMetricsExporterProperties.TYPE_PROPERTY,
                         OpenTelemetryEnvironmentPropertyConverters::exporterType)
                 .build();
     }
@@ -92,7 +92,7 @@ class OpenTelemetryEnvironmentPropertyAdapters {
         return PropertyAdapter.builder(environment)
                 .mapEnum("otel.metrics.exemplar.filter", OpenTelemetryMetricsProperties.CONFIG_PREFIX + ".exemplars.filter",
                         OpenTelemetryEnvironmentPropertyConverters::exemplarFilter)
-                .mapDuration("otel.metric.export.interval", OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".interval")
+                .mapDuration("otel.metric.export.interval", OpenTelemetryMetricsExporterProperties.INTERVAL_PROPERTY)
                 .mapDuration("otel.metric.export.timeout",
                         OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".otlp.timeout")
                 .build();

@@ -12,7 +12,7 @@ import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 @Incubating
 public final class FormatTenantVerifier implements TenantVerifier {
 
-    private static final String TENANT_ID_PATTERN = "[a-zA-Z0-9_-]+";
+    private static final String TENANT_ID_PATTERN = TenantIdentifierConstraints.PATTERN;
 
     @Override
     public void verify(String tenantIdentifier) {

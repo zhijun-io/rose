@@ -7,6 +7,18 @@ public class LogbackOpenTelemetryBridgeProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.logs.logback-bridge";
 
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
+
+    public static final String CAPTURE_EXPERIMENTAL_ATTRIBUTES_PROPERTY =
+            CONFIG_PREFIX + ".capture-experimental-attributes";
+
+    public static final String CAPTURE_KEY_VALUE_PAIR_ATTRIBUTES_PROPERTY =
+            CONFIG_PREFIX + ".capture-key-value-pair-attributes";
+
+    public static final String CAPTURE_MARKER_ATTRIBUTE_PROPERTY = CONFIG_PREFIX + ".capture-marker-attribute";
+
+    public static final String CAPTURE_MDC_ATTRIBUTES_PROPERTY = CONFIG_PREFIX + ".capture-mdc-attributes";
+
     /**
      * Whether to enable the Logback OpenTelemetry bridge.
      */

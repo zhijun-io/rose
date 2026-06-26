@@ -14,7 +14,7 @@ class OnOpenTelemetryLoggingCondition extends SpringBootCondition {
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
         Boolean openTelemetryLogsEnabled = context.getEnvironment().getProperty(
-                OpenTelemetryLoggingProperties.CONFIG_PREFIX + ".enabled", Boolean.class);
+                OpenTelemetryLoggingProperties.ENABLED_PROPERTY, Boolean.class);
 
         if (openTelemetryLogsEnabled != null) {
             return new ConditionOutcome(openTelemetryLogsEnabled,

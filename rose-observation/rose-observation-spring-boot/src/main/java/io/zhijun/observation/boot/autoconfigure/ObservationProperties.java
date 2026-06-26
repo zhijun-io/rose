@@ -10,6 +10,8 @@ public class ObservationProperties {
 
     public static final String CONFIG_PREFIX = "rose.observation";
 
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
+
     private boolean enabled = true;
 
     private final Conventions conventions = new Conventions();

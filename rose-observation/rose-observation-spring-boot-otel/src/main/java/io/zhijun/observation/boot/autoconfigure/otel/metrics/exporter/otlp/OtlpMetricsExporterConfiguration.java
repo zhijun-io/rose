@@ -20,11 +20,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterTypeNames;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectionUrls;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterTransportConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.ConditionalOnOpenTelemetryMetricsExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.HistogramAggregationStrategy;
@@ -35,7 +37,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTeleme
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(OtlpHttpMetricExporter.class)
-@ConditionalOnOpenTelemetryMetricsExporter("otlp")
+@ConditionalOnOpenTelemetryMetricsExporter(ExporterTypeNames.OTLP)
 public final class OtlpMetricsExporterConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(OtlpMetricsExporterConfiguration.class);
@@ -49,7 +51,7 @@ public final class OtlpMetricsExporterConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpMetricsConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "http_protobuf", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.HTTP_PROTOBUF, matchIfMissing = true)
     OtlpHttpMetricExporter otlpHttpMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails) {
         OtlpHttpMetricExporterBuilder builder = OtlpHttpMetricExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.HTTP_PROTOBUF))
@@ -68,7 +70,7 @@ public final class OtlpMetricsExporterConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpMetricsConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "grpc")
+    @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.GRPC)
     OtlpGrpcMetricExporter otlpGrpcMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails) {
         OtlpGrpcMetricExporterBuilder builder = OtlpGrpcMetricExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.GRPC))

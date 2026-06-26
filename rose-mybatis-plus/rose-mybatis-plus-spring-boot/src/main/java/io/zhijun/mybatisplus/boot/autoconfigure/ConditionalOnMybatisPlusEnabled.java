@@ -20,6 +20,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@ConditionalOnProperty(prefix = "rose.mybatis-plus", name = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = MybatisPlusProperties.CONFIG_PREFIX, name = "enabled", matchIfMissing = true)
 public @interface ConditionalOnMybatisPlusEnabled {
 }

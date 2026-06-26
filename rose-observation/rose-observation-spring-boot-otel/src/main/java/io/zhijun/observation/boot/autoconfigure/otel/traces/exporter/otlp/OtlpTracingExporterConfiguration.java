@@ -21,6 +21,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectio
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterTransportConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.ConditionalOnOpenTelemetryTracingExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterProperties;
 
@@ -43,7 +44,7 @@ public final class OtlpTracingExporterConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpTracingConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryTracingExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "http_protobuf", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = OpenTelemetryTracingExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.HTTP_PROTOBUF, matchIfMissing = true)
     OtlpHttpSpanExporter otlpHttpSpanExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties, OtlpTracingConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
         OtlpHttpSpanExporterBuilder builder = OtlpHttpSpanExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.HTTP_PROTOBUF))
@@ -63,7 +64,7 @@ public final class OtlpTracingExporterConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpTracingConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryTracingExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "grpc")
+    @ConditionalOnProperty(prefix = OpenTelemetryTracingExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.GRPC)
     OtlpGrpcSpanExporter otlpGrpcSpanExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties, OtlpTracingConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
         OtlpGrpcSpanExporterBuilder builder = OtlpGrpcSpanExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.GRPC))

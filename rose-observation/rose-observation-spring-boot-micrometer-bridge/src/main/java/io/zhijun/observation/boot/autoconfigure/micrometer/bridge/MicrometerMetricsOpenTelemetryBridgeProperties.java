@@ -4,10 +4,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
+
 @ConfigurationProperties(prefix = MicrometerMetricsOpenTelemetryBridgeProperties.CONFIG_PREFIX)
 public class MicrometerMetricsOpenTelemetryBridgeProperties {
 
-    public static final String CONFIG_PREFIX = "rose.otel.metrics.micrometer-bridge";
+    public static final String CONFIG_PREFIX = OpenTelemetryMetricsProperties.MICROMETER_BRIDGE_CONFIG_PREFIX;
+
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
 
     /**
      * Whether to enable the Micrometer Metrics OpenTelemetry bridge.

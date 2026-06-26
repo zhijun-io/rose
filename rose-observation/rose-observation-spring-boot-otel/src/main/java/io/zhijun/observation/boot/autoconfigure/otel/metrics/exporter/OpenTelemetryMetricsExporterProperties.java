@@ -17,6 +17,12 @@ public class OpenTelemetryMetricsExporterProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.metrics.exporter";
 
+    public static final String TYPE_PROPERTY = CONFIG_PREFIX + ".type";
+
+    public static final String INTERVAL_PROPERTY = CONFIG_PREFIX + ".interval";
+
+    public static final String OTLP_CONFIG_PREFIX = CONFIG_PREFIX + ".otlp";
+
     /**
      * The interval between two consecutive exports of metrics.
      */

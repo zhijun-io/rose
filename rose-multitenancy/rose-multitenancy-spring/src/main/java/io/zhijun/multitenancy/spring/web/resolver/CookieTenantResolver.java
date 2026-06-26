@@ -9,6 +9,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import io.zhijun.annotation.Incubating;
+import io.zhijun.multitenancy.core.MultitenancyDefaults;
 
 /**
  * Strategy used to resolve the current multitenancy from a cookie in an HTTP request.
@@ -16,7 +17,7 @@ import io.zhijun.annotation.Incubating;
 @Incubating
 public final class CookieTenantResolver implements HttpRequestTenantResolver {
 
-    public static final String DEFAULT_COOKIE_NAME = "TENANT-ID";
+    public static final String DEFAULT_COOKIE_NAME = MultitenancyDefaults.DEFAULT_HTTP_COOKIE_NAME;
 
     private final String tenantCookieName;
 

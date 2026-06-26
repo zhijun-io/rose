@@ -15,6 +15,10 @@ public class OpenTelemetryLoggingExporterProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.logs.exporter";
 
+    public static final String TYPE_PROPERTY = CONFIG_PREFIX + ".type";
+
+    public static final String OTLP_CONFIG_PREFIX = CONFIG_PREFIX + ".otlp";
+
     @Nullable
     private ExporterType type;
 

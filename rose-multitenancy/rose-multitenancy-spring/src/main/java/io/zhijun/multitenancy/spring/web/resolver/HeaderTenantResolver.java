@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import io.zhijun.annotation.Incubating;
+import io.zhijun.multitenancy.core.MultitenancyDefaults;
 
 /**
  * Strategy used to resolve the current multitenancy from a header in an HTTP request.
@@ -13,7 +14,7 @@ import io.zhijun.annotation.Incubating;
 @Incubating
 public final class HeaderTenantResolver implements HttpRequestTenantResolver {
 
-    public static final String DEFAULT_HEADER_NAME = "X-TenantId";
+    public static final String DEFAULT_HEADER_NAME = MultitenancyDefaults.DEFAULT_HTTP_HEADER_NAME;
 
     private final String tenantHeaderName;
 

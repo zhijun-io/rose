@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
  */
 class OnOpenTelemetryResourceContributorCondition extends SpringBootCondition {
 
-    private static final String CONTRIBUTOR_PROPERTY = OpenTelemetryResourceProperties.CONFIG_PREFIX + ".contributors.%s.enabled";
+    private static final String CONTRIBUTOR_PROPERTY = OpenTelemetryResourceProperties.CONTRIBUTOR_ENABLED_PROPERTY;
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {

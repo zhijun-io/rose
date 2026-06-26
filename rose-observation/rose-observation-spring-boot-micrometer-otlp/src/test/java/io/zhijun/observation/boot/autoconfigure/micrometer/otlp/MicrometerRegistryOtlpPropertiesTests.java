@@ -2,6 +2,8 @@ package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
 import org.junit.jupiter.api.Test;
 
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -12,7 +14,7 @@ class MicrometerRegistryOtlpPropertiesTests {
     @Test
     void shouldHaveCorrectConfigPrefix() {
         assertThat(MicrometerRegistryOtlpProperties.CONFIG_PREFIX)
-                .isEqualTo("rose.otel.exporter.otlp.micrometer");
+                .isEqualTo(OpenTelemetryExporterProperties.MICROMETER_REGISTRY_CONFIG_PREFIX);
     }
 
     @Test

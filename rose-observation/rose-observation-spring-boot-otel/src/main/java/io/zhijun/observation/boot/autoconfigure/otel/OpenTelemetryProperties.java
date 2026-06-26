@@ -10,6 +10,10 @@ public class OpenTelemetryProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel";
 
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
+
+    public static final String COMPATIBILITY_ENV_VAR_SPEC_PROPERTY = CONFIG_PREFIX + ".compatibility.environment-variable-specification";
+
     private boolean enabled = true;
 
     public boolean isEnabled() {

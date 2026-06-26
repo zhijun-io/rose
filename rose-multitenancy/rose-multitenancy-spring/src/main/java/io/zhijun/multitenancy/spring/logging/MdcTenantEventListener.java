@@ -7,6 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.util.Assert;
 
 import io.zhijun.annotation.Incubating;
+import io.zhijun.multitenancy.core.MultitenancyDefaults;
 import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
 
@@ -18,7 +19,7 @@ public final class MdcTenantEventListener {
 
     private static final Logger logger = LoggerFactory.getLogger(MdcTenantEventListener.class);
 
-    private static final String DEFAULT_TENANT_IDENTIFIER_KEY = "tenantId";
+    private static final String DEFAULT_TENANT_IDENTIFIER_KEY = MultitenancyDefaults.DEFAULT_MDC_TENANT_KEY;
 
     private final String tenantIdentifierKey;
 

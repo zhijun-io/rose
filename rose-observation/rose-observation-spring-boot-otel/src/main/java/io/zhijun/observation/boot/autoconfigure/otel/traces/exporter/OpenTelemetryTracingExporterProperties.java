@@ -15,6 +15,10 @@ public class OpenTelemetryTracingExporterProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.traces.exporter";
 
+    public static final String TYPE_PROPERTY = CONFIG_PREFIX + ".type";
+
+    public static final String OTLP_CONFIG_PREFIX = CONFIG_PREFIX + ".otlp";
+
     /**
      * The type of OpenTelemetry exporter to use.
      */

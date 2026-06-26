@@ -6,6 +6,9 @@ import java.util.Set;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
+import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
+
 /**
  * Configuration properties for HTTP multitenancy resolution.
  */
@@ -72,7 +75,7 @@ public class HttpTenantResolutionProperties {
         /**
          * Name of the HTTP header from which to resolve the current multitenancy.
          */
-        private String headerName = "X-TenantId";
+        private String headerName = HeaderTenantResolver.DEFAULT_HEADER_NAME;
 
         public String getHeaderName() {
             return headerName;
@@ -89,7 +92,7 @@ public class HttpTenantResolutionProperties {
         /**
          * Name of the HTTP cookie from which to resolve the current multitenancy.
          */
-        private String cookieName = "TENANT-ID";
+        private String cookieName = CookieTenantResolver.DEFAULT_COOKIE_NAME;
 
         public String getCookieName() {
             return cookieName;

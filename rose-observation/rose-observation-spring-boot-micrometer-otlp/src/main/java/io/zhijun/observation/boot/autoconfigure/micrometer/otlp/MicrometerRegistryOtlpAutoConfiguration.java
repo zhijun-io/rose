@@ -22,8 +22,10 @@ import org.springframework.boot.actuate.autoconfigure.metrics.export.simple.Simp
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterTypeNames;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsAutoConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.ConditionalOnOpenTelemetryMetricsExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterAutoConfiguration;
@@ -41,7 +43,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResou
 )
 @Conditional(MicrometerRegistryOtlpAutoConfiguration.MicrometerBridgeDisabled.class)
 @ConditionalOnProperty(prefix = MicrometerRegistryOtlpProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@ConditionalOnOpenTelemetryMetricsExporter("otlp")
+@ConditionalOnOpenTelemetryMetricsExporter(ExporterTypeNames.OTLP)
 @EnableConfigurationProperties(MicrometerRegistryOtlpProperties.class)
 public final class MicrometerRegistryOtlpAutoConfiguration {
 
@@ -51,7 +53,7 @@ public final class MicrometerRegistryOtlpAutoConfiguration {
             super(ConfigurationPhase.REGISTER_BEAN);
         }
 
-        @ConditionalOnProperty(prefix = "rose.otel.metrics.micrometer-bridge", name = "enabled", havingValue = "false", matchIfMissing = true)
+        @ConditionalOnProperty(prefix = OpenTelemetryMetricsProperties.MICROMETER_BRIDGE_CONFIG_PREFIX, name = "enabled", havingValue = "false", matchIfMissing = true)
         static class Disabled {}
     }
 

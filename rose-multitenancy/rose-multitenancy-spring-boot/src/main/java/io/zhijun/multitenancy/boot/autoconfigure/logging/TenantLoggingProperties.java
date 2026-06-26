@@ -2,6 +2,8 @@ package io.zhijun.multitenancy.boot.autoconfigure.logging;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import io.zhijun.multitenancy.core.MultitenancyDefaults;
+
 /**
  * Configuration properties for multitenancy logging enrichment.
  */
@@ -29,7 +31,7 @@ public class TenantLoggingProperties {
         /**
          * Name of the key to use for the multitenancy identifier in MDC.
          */
-        private String keyName = "tenantId";
+        private String keyName = MultitenancyDefaults.DEFAULT_MDC_TENANT_KEY;
 
         public boolean isEnabled() {
             return enabled;

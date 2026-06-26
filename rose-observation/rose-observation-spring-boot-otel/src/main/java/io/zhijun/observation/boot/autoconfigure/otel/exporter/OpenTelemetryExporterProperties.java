@@ -25,6 +25,14 @@ public class OpenTelemetryExporterProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.exporter";
 
+    public static final String TYPE_PROPERTY = CONFIG_PREFIX + ".type";
+
+    public static final String OTLP_CONFIG_PREFIX = CONFIG_PREFIX + ".otlp";
+
+    public static final String MICROMETER_REGISTRY_CONFIG_PREFIX = OTLP_CONFIG_PREFIX + ".micrometer";
+
+    public static final String MICROMETER_REGISTRY_ENABLED_PROPERTY = MICROMETER_REGISTRY_CONFIG_PREFIX + ".enabled";
+
     /**
      * The type of OpenTelemetry exporter to use.
      */

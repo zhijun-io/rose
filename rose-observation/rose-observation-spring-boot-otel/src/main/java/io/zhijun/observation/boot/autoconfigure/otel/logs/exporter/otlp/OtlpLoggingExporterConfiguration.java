@@ -21,6 +21,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectio
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterTransportConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
 import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.ConditionalOnOpenTelemetryLoggingExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.OpenTelemetryLoggingExporterProperties;
 
@@ -43,7 +44,7 @@ public final class OtlpLoggingExporterConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpLoggingConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryLoggingExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "http_protobuf", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = OpenTelemetryLoggingExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.HTTP_PROTOBUF, matchIfMissing = true)
     OtlpHttpLogRecordExporter otlpHttpLogRecordExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryLoggingExporterProperties properties, OtlpLoggingConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
         OtlpHttpLogRecordExporterBuilder builder = OtlpHttpLogRecordExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.HTTP_PROTOBUF))
@@ -63,7 +64,7 @@ public final class OtlpLoggingExporterConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpLoggingConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryLoggingExporterProperties.CONFIG_PREFIX + ".otlp", name = "protocol", havingValue = "grpc")
+    @ConditionalOnProperty(prefix = OpenTelemetryLoggingExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.GRPC)
     OtlpGrpcLogRecordExporter otlpGrpcLogRecordExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryLoggingExporterProperties properties, OtlpLoggingConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
         OtlpGrpcLogRecordExporterBuilder builder = OtlpGrpcLogRecordExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.GRPC))

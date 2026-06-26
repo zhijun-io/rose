@@ -103,7 +103,7 @@ class LogbackOpenTelemetryBridgeApplicationListenerTests {
     @Test
     void appenderNotRegisteredWhenOpenTelemetryDisabled() {
         MockEnvironment env = new MockEnvironment();
-        env.setProperty(OpenTelemetryProperties.CONFIG_PREFIX + ".enabled", "false");
+        env.setProperty(OpenTelemetryProperties.ENABLED_PROPERTY, "false");
         listener.onApplicationEvent(createEvent(env));
         assertThat(hasOpenTelemetryAppender()).isFalse();
     }

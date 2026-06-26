@@ -21,7 +21,7 @@ public @interface FieldEncrypt {
     /**
      * Secret reference key resolved by {@link EncryptionKeyResolver}.
      */
-    String secretRef() default "default";
+    String secretRef() default EncryptorDefaults.DEFAULT_SECRET_REF;
 
     Class<? extends FieldEncryptor> encryptor() default FieldEncryptor.class;
 }

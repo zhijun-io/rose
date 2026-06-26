@@ -37,10 +37,10 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
 
         Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.general(environment).getRoseProperties();
 
-        assertThat(properties.get(OpenTelemetryProperties.CONFIG_PREFIX + ".enabled")).isEqualTo(false);
-        assertThat(properties.get(OpenTelemetryResourceProperties.CONFIG_PREFIX + ".attributes"))
+        assertThat(properties.get(OpenTelemetryProperties.ENABLED_PROPERTY)).isEqualTo(false);
+        assertThat(properties.get(OpenTelemetryResourceProperties.ATTRIBUTES_PROPERTY))
                 .isEqualTo(mapOf("key1", "value1", "key2", "value2"));
-        assertThat(properties.get(OpenTelemetryResourceProperties.CONFIG_PREFIX + ".service-name")).isEqualTo("test-service");
+        assertThat(properties.get(OpenTelemetryResourceProperties.SERVICE_NAME_PROPERTY)).isEqualTo("test-service");
         assertThat((List<PropagationType>) properties.get("rose.otel.traces.propagation.produce"))
                 .containsExactlyInAnyOrder(PropagationType.W3C, PropagationType.B3);
         assertThat(properties.get(OpenTelemetryTracingProperties.CONFIG_PREFIX + ".sampling.strategy"))
@@ -110,8 +110,8 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
 
         Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.exporterSelection(environment).getRoseProperties();
 
-        assertThat(properties.get(OpenTelemetryTracingExporterProperties.CONFIG_PREFIX + ".type")).isEqualTo(ExporterType.OTLP);
-        assertThat(properties.get(OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".type")).isEqualTo(ExporterType.NONE);
+        assertThat(properties.get(OpenTelemetryTracingExporterProperties.TYPE_PROPERTY)).isEqualTo(ExporterType.OTLP);
+        assertThat(properties.get(OpenTelemetryMetricsExporterProperties.TYPE_PROPERTY)).isEqualTo(ExporterType.NONE);
     }
 
     @Test
@@ -125,7 +125,7 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
 
         assertThat(properties.get(OpenTelemetryMetricsProperties.CONFIG_PREFIX + ".exemplars.filter"))
                 .isEqualTo(OpenTelemetryMetricsProperties.ExemplarFilter.TRACE_BASED);
-        assertThat(properties.get(OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".interval"))
+        assertThat(properties.get(OpenTelemetryMetricsExporterProperties.INTERVAL_PROPERTY))
                 .isEqualTo(Duration.ofSeconds(60));
         assertThat(properties.get(OpenTelemetryMetricsExporterProperties.CONFIG_PREFIX + ".otlp.timeout"))
                 .isEqualTo(Duration.ofSeconds(30));

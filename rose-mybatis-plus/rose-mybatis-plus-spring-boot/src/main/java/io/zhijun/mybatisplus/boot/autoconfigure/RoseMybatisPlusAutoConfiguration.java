@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 
 import io.zhijun.mybatisplus.core.audit.AuditMetaObjectHandler;
 import io.zhijun.mybatisplus.core.audit.CurrentAuditorProvider;
+import io.zhijun.mybatisplus.core.crypto.EncryptorDefaults;
 import io.zhijun.mybatisplus.core.crypto.DefaultFieldEncryptor;
 import io.zhijun.mybatisplus.core.crypto.EncryptionKeyResolver;
 import io.zhijun.mybatisplus.core.crypto.FieldEncryptInterceptor;
@@ -59,7 +60,7 @@ public class RoseMybatisPlusAutoConfiguration {
     @ConditionalOnMissingBean
     public EncryptionKeyResolver encryptionKeyResolver(EncryptorProperties properties) {
         return secretRef -> {
-            if ("default".equals(secretRef)) {
+            if (EncryptorDefaults.DEFAULT_SECRET_REF.equals(secretRef)) {
                 return properties.getPassword();
             }
             throw new IllegalArgumentException(

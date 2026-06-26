@@ -2,6 +2,8 @@ package io.zhijun.multitenancy.boot.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import io.zhijun.multitenancy.core.context.FixedTenantResolver;
+
 /**
  * Configuration properties for fixed multitenancy resolution.
  */
@@ -18,7 +20,7 @@ public class FixedTenantResolutionProperties {
     /**
      * Identifier of the fixed multitenancy to use in each context.
      */
-    private String tenantIdentifier = "default";
+    private String tenantIdentifier = FixedTenantResolver.DEFAULT_FIXED_TENANT_IDENTIFIER;
 
     public boolean isEnabled() {
         return enabled;

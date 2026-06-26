@@ -10,6 +10,10 @@ public class OpenTelemetryMetricsProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.metrics";
 
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
+
+    public static final String MICROMETER_BRIDGE_CONFIG_PREFIX = CONFIG_PREFIX + ".micrometer-bridge";
+
     /**
      * Configuration for exemplars.
      */

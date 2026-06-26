@@ -12,6 +12,8 @@ public class OpenTelemetryTracingProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.traces";
 
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
+
     /**
      * How to sample traces.
      */

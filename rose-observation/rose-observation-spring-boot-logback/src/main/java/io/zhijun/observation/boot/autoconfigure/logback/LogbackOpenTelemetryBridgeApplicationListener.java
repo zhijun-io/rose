@@ -64,19 +64,19 @@ class LogbackOpenTelemetryBridgeApplicationListener implements GenericApplicatio
 
     private void configureOpenTelemetryAppender(OpenTelemetryAppender openTelemetryAppender, RoseBinder binder) {
         boolean captureExperimentalAttributes = binder.bindBoolean(
-                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-experimental-attributes", false);
+                LogbackOpenTelemetryBridgeProperties.CAPTURE_EXPERIMENTAL_ATTRIBUTES_PROPERTY, false);
         openTelemetryAppender.setCaptureExperimentalAttributes(captureExperimentalAttributes);
 
         boolean captureKeyValuePairAttributes = binder.bindBoolean(
-                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-key-value-pair-attributes", false);
+                LogbackOpenTelemetryBridgeProperties.CAPTURE_KEY_VALUE_PAIR_ATTRIBUTES_PROPERTY, false);
         openTelemetryAppender.setCaptureKeyValuePairAttributes(captureKeyValuePairAttributes);
 
         boolean captureMarkerAttribute = binder.bindBoolean(
-                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-marker-attribute", false);
+                LogbackOpenTelemetryBridgeProperties.CAPTURE_MARKER_ATTRIBUTE_PROPERTY, false);
         openTelemetryAppender.setCaptureMarkerAttribute(captureMarkerAttribute);
 
         String captureMdcAttributes = binder.bindString(
-                LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".capture-mdc-attributes", null);
+                LogbackOpenTelemetryBridgeProperties.CAPTURE_MDC_ATTRIBUTES_PROPERTY, null);
         openTelemetryAppender.setCaptureMdcAttributes(captureMdcAttributes);
     }
 
@@ -104,11 +104,11 @@ class LogbackOpenTelemetryBridgeApplicationListener implements GenericApplicatio
     }
 
     private boolean isLogbackAppenderBridgeEnabled(RoseBinder binder) {
-        return binder.bindBoolean(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX + ".enabled", true);
+        return binder.bindBoolean(LogbackOpenTelemetryBridgeProperties.ENABLED_PROPERTY, true);
     }
 
     private boolean isOpenTelemetryEnabled(RoseBinder binder) {
-        return binder.bindBoolean(OpenTelemetryProperties.CONFIG_PREFIX + ".enabled", true);
+        return binder.bindBoolean(OpenTelemetryProperties.ENABLED_PROPERTY, true);
     }
 
     @Override

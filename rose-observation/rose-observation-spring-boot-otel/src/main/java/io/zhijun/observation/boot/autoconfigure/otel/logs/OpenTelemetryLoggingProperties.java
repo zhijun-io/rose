@@ -12,6 +12,8 @@ public class OpenTelemetryLoggingProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.logs";
 
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
+
     private final LogLimits limits = new LogLimits();
 
     private final LogRecordProcessorConfig processor = new LogRecordProcessorConfig();

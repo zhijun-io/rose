@@ -6,6 +6,9 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.mock.env.MockEnvironment;
 
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -25,18 +28,19 @@ class OnMicrometerMetricsBridgeEnabledConditionTests {
 
     @Test
     void doesNotMatchWhenOtlpMicrometerEnabled() {
-        environment.setProperty("rose.otel.exporter.otlp.micrometer.enabled", "true");
+        environment.setProperty(OpenTelemetryExporterProperties.MICROMETER_REGISTRY_ENABLED_PROPERTY, "true");
         when(context.getEnvironment()).thenReturn(environment);
 
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage()).contains("rose.otel.exporter.otlp.micrometer.enabled is true");
+        assertThat(outcome.getMessage())
+                .contains(OpenTelemetryExporterProperties.MICROMETER_REGISTRY_ENABLED_PROPERTY + " is true");
     }
 
     @Test
     void matchesWhenConsoleMetricsExporterEnabled() {
-        environment.setProperty("rose.otel.metrics.exporter.type", "console");
+        environment.setProperty(OpenTelemetryMetricsExporterProperties.TYPE_PROPERTY, "console");
         when(context.getEnvironment()).thenReturn(environment);
 
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
@@ -56,8 +60,8 @@ class OnMicrometerMetricsBridgeEnabledConditionTests {
 
     @Test
     void doesNotMatchWhenExporterDisabled() {
-        environment.setProperty("rose.otel.exporter.type", "none");
-        environment.setProperty("rose.otel.metrics.exporter.type", "none");
+        environment.setProperty(OpenTelemetryExporterProperties.TYPE_PROPERTY, "none");
+        environment.setProperty(OpenTelemetryMetricsExporterProperties.TYPE_PROPERTY, "none");
         when(context.getEnvironment()).thenReturn(environment);
 
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);

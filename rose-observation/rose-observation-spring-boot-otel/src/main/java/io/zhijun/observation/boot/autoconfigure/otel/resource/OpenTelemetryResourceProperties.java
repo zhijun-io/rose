@@ -15,6 +15,12 @@ public class OpenTelemetryResourceProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.resource";
 
+    public static final String ATTRIBUTES_PROPERTY = CONFIG_PREFIX + ".attributes";
+
+    public static final String SERVICE_NAME_PROPERTY = CONFIG_PREFIX + ".service-name";
+
+    public static final String CONTRIBUTOR_ENABLED_PROPERTY = CONFIG_PREFIX + ".contributors.%s.enabled";
+
     /**
      * Name identifying the service.
      */
