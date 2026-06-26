@@ -31,7 +31,7 @@ class OnOllamaNativeUnavailable extends SpringBootCondition {
             if (devServicesProperties.isIgnoreNativeService()) {
                 return ConditionOutcome.match(String.format(
                         "Usage of Ollama native service is ignored: %s=%s",
-                        OllamaDevServiceProperties.CONFIG_PREFIX + ".ignore-native-service",
+                        OllamaDevServiceProperties.IGNORE_NATIVE_SERVICE_PROPERTY,
                         devServicesProperties.isIgnoreNativeService()));
             }
 

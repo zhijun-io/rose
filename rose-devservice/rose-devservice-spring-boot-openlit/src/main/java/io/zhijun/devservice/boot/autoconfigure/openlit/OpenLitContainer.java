@@ -14,7 +14,9 @@ import org.testcontainers.utility.DockerImageName;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.util.OtlpPorts;
 
 /**
  * OpenLit container configured for Rose DevService.
@@ -23,18 +25,20 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenLitContainer.class);
 
-    static final String COMPATIBLE_IMAGE_NAME = "ghcr.io/openlit/openlit";
+    static final String COMPATIBLE_IMAGE_NAME =
+            DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int UI_PORT = 3000;
 
-    static final int OTLP_GRPC_PORT = 4317;
+    static final int OTLP_GRPC_PORT = OtlpPorts.GRPC;
 
-    static final int OTLP_HTTP_PORT = 4318;
+    static final int OTLP_HTTP_PORT = OtlpPorts.HTTP;
 
-    private static final DockerImageName DEFAULT_IMAGE_NAME = DockerImageName.parse("ghcr.io/openlit/openlit");
+    private static final DockerImageName DEFAULT_IMAGE_NAME =
+            DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_IMAGE_NAME);
 
     private static final DockerImageName DEFAULT_CLICKHOUSE_IMAGE_NAME =
-            DockerImageName.parse("clickhouse/clickhouse-server");
+            DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_CLICKHOUSE_IMAGE_NAME);
 
     private static final String CLICKHOUSE_NETWORK_ALIAS = "clickhouse";
 
@@ -122,7 +126,8 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
         }
 
         ClickHouseSidecar clickHouseContainer = new ClickHouseSidecar(
-                clickHouseImageName.asCompatibleSubstituteFor("clickhouse/clickhouse-server"));
+                clickHouseImageName.asCompatibleSubstituteFor(
+                        DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_CLICKHOUSE_IMAGE_NAME).getUnversionedPart()));
         clickHouseContainer.withNetwork(network);
         clickHouseContainer.withNetworkAliases(CLICKHOUSE_NETWORK_ALIAS);
         clickHouseContainer.withStartupTimeout(Duration.ofMinutes(3));
@@ -156,13 +161,13 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
 
         withCopyToContainer(Transferable.of(otelCollectorConfig), OTEL_COLLECTOR_CONFIG_PATH);
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), UI_PORT);
         }
-        if (ContainerUtils.isValidPort(properties.getOtlpGrpcPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getOtlpGrpcPort())) {
             addFixedExposedPort(properties.getOtlpGrpcPort(), OTLP_GRPC_PORT);
         }
-        if (ContainerUtils.isValidPort(properties.getOtlpHttpPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getOtlpHttpPort())) {
             addFixedExposedPort(properties.getOtlpHttpPort(), OTLP_HTTP_PORT);
         }
     }

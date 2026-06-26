@@ -9,7 +9,8 @@ import org.testcontainers.utility.DockerImageName;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * ActiveMQ Artemis container for Rose DevService.
@@ -18,7 +19,7 @@ final class ArtemisContainer extends GenericContainer<ArtemisContainer> {
 
     private static final Logger logger = LoggerFactory.getLogger(ArtemisContainer.class);
 
-    static final String COMPATIBLE_IMAGE_NAME = "apache/activemq-artemis";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(ArtemisDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int TCP_PORT = 61616;
 
@@ -43,10 +44,10 @@ final class ArtemisContainer extends GenericContainer<ArtemisContainer> {
     protected void configure() {
         super.configure();
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), TCP_PORT);
         }
-        if (ContainerUtils.isValidPort(properties.getManagementConsolePort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getManagementConsolePort())) {
             addFixedExposedPort(properties.getManagementConsolePort(), WEB_CONSOLE_PORT);
         }
     }

@@ -126,7 +126,7 @@ public abstract class BaseDevServicePropertiesTests<T extends BaseDevServiceProp
 
             private String imageName = "";
             private boolean shared = false;
-            private Duration startupTimeout = Duration.ofSeconds(30);
+            private Duration startupTimeout = BaseDevServiceProperties.DEFAULT_STARTUP_TIMEOUT;
 
             public Builder imageName(String imageName) {
                 this.imageName = imageName;

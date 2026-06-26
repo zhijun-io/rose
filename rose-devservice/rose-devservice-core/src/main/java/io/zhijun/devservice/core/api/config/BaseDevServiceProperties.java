@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.Range;
+
 import io.zhijun.annotation.Incubating;
 
 /**
@@ -13,6 +15,18 @@ import io.zhijun.annotation.Incubating;
  */
 @Incubating
 public abstract class BaseDevServiceProperties {
+
+    public static final int RANDOM_PORT = 0;
+
+    public static final int MAX_PORT = 65535;
+
+    private static final Range<Integer> VALID_PORT_RANGE = Range.between(1, MAX_PORT);
+
+    public static final Duration DEFAULT_STARTUP_TIMEOUT = Duration.ofSeconds(30);
+
+    public static final Duration SLOW_STARTUP_TIMEOUT = Duration.ofSeconds(60);
+
+    public static final Duration HEAVY_STARTUP_TIMEOUT = Duration.ofMinutes(2);
 
     /**
      * Whether to start the Dev Service container.
@@ -30,7 +44,7 @@ public abstract class BaseDevServiceProperties {
     /**
      * Fixed host port; 0 selects a random port.
      */
-    private int port = 0;
+    private int port = RANDOM_PORT;
 
     private List<ResourceMapping> resources = new ArrayList<ResourceMapping>();
 
@@ -42,7 +56,7 @@ public abstract class BaseDevServiceProperties {
     /**
      * Maximum time to wait for the container to become ready.
      */
-    private Duration startupTimeout = Duration.ofSeconds(30);
+    private Duration startupTimeout = DEFAULT_STARTUP_TIMEOUT;
 
     private List<VolumeMapping> volumes = new ArrayList<VolumeMapping>();
 
@@ -116,5 +130,12 @@ public abstract class BaseDevServiceProperties {
 
     public void setVolumes(List<VolumeMapping> volumes) {
         this.volumes = volumes;
+    }
+
+    /**
+     * Whether {@code port} is a fixed host port (not {@link #RANDOM_PORT}).
+     */
+    public static boolean isFixedPort(int port) {
+        return VALID_PORT_RANGE.contains(port);
     }
 }

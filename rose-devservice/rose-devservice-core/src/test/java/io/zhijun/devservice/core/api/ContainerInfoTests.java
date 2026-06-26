@@ -36,7 +36,7 @@ class ContainerInfoTests {
     @Test
     void whenIdIsNullThenThrow() {
         assertThatThrownBy(() -> ContainerInfo.builder().id(null).imageName("image").status("running").build())
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("id cannot be null or empty");
     }
 
@@ -50,7 +50,7 @@ class ContainerInfoTests {
     @Test
     void whenImageNameIsNullThenThrow() {
         assertThatThrownBy(() -> ContainerInfo.builder().id("id123").imageName(null).status("running").build())
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("imageName cannot be null or empty");
     }
 
@@ -64,28 +64,28 @@ class ContainerInfoTests {
     @Test
     void whenNamesIsNullThenThrow() {
         assertThatThrownBy(() -> ContainerInfo.builder().id("id123").imageName("image").names(null).status("running").build())
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("names cannot be null");
     }
 
     @Test
     void whenExposedPortsIsNullThenThrow() {
         assertThatThrownBy(() -> ContainerInfo.builder().id("id123").imageName("image").exposedPorts(null).status("running").build())
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("exposedPorts cannot be null");
     }
 
     @Test
     void whenLabelsIsNullThenThrow() {
         assertThatThrownBy(() -> ContainerInfo.builder().id("id123").imageName("image").labels(null).status("running").build())
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("labels cannot be null");
     }
 
     @Test
     void whenStatusIsNullThenThrow() {
         assertThatThrownBy(() -> ContainerInfo.builder().id("id123").imageName("image").status(null).build())
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("status cannot be null or empty");
     }
 

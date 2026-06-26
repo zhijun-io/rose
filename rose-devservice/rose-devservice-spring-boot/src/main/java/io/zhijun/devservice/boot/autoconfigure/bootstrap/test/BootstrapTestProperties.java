@@ -14,6 +14,8 @@ public class BootstrapTestProperties {
 
     public static final String CONFIG_PREFIX = "rose.test";
 
+    public static final String PROFILES_PROPERTY = CONFIG_PREFIX + ".profiles";
+
     private List<String> profiles = new ArrayList<String>(Arrays.asList("test"));
 
     public List<String> getProfiles() {

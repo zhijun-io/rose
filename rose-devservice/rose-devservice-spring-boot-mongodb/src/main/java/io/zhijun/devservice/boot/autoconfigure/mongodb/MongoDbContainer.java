@@ -4,14 +4,15 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * MongoDB container configured for Rose DevService.
  */
 final class MongoDbContainer extends MongoDBContainer {
 
-    static final String COMPATIBLE_IMAGE_NAME = "mongo";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(MongoDbDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int MONGODB_PORT = 27017;
 
@@ -28,7 +29,7 @@ final class MongoDbContainer extends MongoDBContainer {
     protected void configure() {
         super.configure();
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), MONGODB_PORT);
         }
     }

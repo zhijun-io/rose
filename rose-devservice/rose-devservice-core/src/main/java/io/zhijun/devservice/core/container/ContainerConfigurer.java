@@ -8,12 +8,13 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.utility.MountableFile;
 
+import org.apache.commons.lang3.Validate;
+
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
 import io.zhijun.devservice.core.api.config.VolumeMapping;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
-import io.zhijun.devservice.core.util.DevServiceUtils;
 
 /**
  * Applies dev service properties to Testcontainers instances.
@@ -39,8 +40,10 @@ public final class ContainerConfigurer {
 
     public static void resources(GenericContainer<?> container, BaseDevServiceProperties properties) {
         for (ResourceMapping resource : properties.getResources()) {
-            DevServiceUtils.hasText(resource.getSourcePath(), "the source path in a resource mapping cannot be null or empty.");
-            DevServiceUtils.hasText(resource.getContainerPath(), "the container path in a resource mapping cannot be null or empty.");
+            Validate.notBlank(resource.getSourcePath(),
+                    "the source path in a resource mapping cannot be null or empty.");
+            Validate.notBlank(resource.getContainerPath(),
+                    "the container path in a resource mapping cannot be null or empty.");
 
             MountableFile mountableFile = resolveMountableFile(resource.getSourcePath());
             container.withCopyFileToContainer(mountableFile, resource.getContainerPath());

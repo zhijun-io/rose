@@ -25,7 +25,7 @@ class DevServiceRegistrationTests {
     @Test
     void rejectsNullName() {
         assertThatThrownBy(() -> new DevServiceRegistration(null, "desc", containerInfoSupplier))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -37,7 +37,7 @@ class DevServiceRegistrationTests {
     @Test
     void rejectsNullContainerInfoSupplier() {
         assertThatThrownBy(() -> new DevServiceRegistration("postgres", "desc", null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
     }
 
     @Test

@@ -4,14 +4,15 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * MySQL container configured for Rose DevService.
  */
 final class MySqlContainer extends MySQLContainer<MySqlContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME = "mysql";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(MySqlDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     private final MySqlDevServiceProperties properties;
 
@@ -27,7 +28,7 @@ final class MySqlContainer extends MySQLContainer<MySqlContainer> {
     protected void configure() {
         super.configure();
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), MYSQL_PORT);
         }
     }

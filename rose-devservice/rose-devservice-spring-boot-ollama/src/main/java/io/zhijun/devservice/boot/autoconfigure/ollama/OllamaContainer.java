@@ -5,14 +5,15 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * Ollama container configured for Rose DevService.
  */
 final class OllamaContainer extends GenericContainer<OllamaContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME = "ollama/ollama";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(OllamaDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int OLLAMA_PORT = 11434;
 
@@ -31,7 +32,7 @@ final class OllamaContainer extends GenericContainer<OllamaContainer> {
     @Override
     protected void configure() {
         super.configure();
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), OLLAMA_PORT);
         }
     }

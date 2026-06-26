@@ -20,6 +20,7 @@ import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.Container;
 
 import io.zhijun.annotation.Incubating;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 
@@ -36,7 +37,7 @@ public class DevServiceRegistry {
         this.beanDefinitionRegistry = beanDefinitionRegistry;
     }
 
-    public void registerDevServiceProvider(String name, String category) {
+    public void registerDevServiceProvider(String name, DevServiceCategory category) {
         String beanName = "devServiceProvider." + name;
         if (!beanDefinitionRegistry.containsBeanDefinition(beanName)) {
             GenericBeanDefinition definition = new GenericBeanDefinition();

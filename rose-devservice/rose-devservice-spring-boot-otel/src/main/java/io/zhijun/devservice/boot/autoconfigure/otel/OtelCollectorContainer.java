@@ -5,18 +5,21 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.util.OtlpPorts;
 
 /**
  * OpenTelemetry Collector container configured for Rose DevService.
  */
 final class OtelCollectorContainer extends GenericContainer<OtelCollectorContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME = "otel/opentelemetry-collector-contrib";
+    static final String COMPATIBLE_IMAGE_NAME =
+            DockerImageName.parse(OtelCollectorDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
-    static final int OTLP_GRPC_PORT = 4317;
+    static final int OTLP_GRPC_PORT = OtlpPorts.GRPC;
 
-    static final int OTLP_HTTP_PORT = 4318;
+    static final int OTLP_HTTP_PORT = OtlpPorts.HTTP;
 
     private final OtelCollectorDevServiceProperties properties;
 
@@ -33,10 +36,10 @@ final class OtelCollectorContainer extends GenericContainer<OtelCollectorContain
     @Override
     protected void configure() {
         super.configure();
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), OTLP_HTTP_PORT);
         }
-        if (ContainerUtils.isValidPort(properties.getOtlpGrpcPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getOtlpGrpcPort())) {
             addFixedExposedPort(properties.getOtlpGrpcPort(), OTLP_GRPC_PORT);
         }
     }

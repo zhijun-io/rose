@@ -28,7 +28,7 @@ class BaseDevServicePropertiesTests {
         assertThat(properties.getPort()).isZero();
         assertThat(properties.getResources()).isEmpty();
         assertThat(properties.isShared()).isFalse();
-        assertThat(properties.getStartupTimeout()).isEqualTo(Duration.ofSeconds(30));
+        assertThat(properties.getStartupTimeout()).isEqualTo(BaseDevServiceProperties.DEFAULT_STARTUP_TIMEOUT);
         assertThat(properties.getVolumes()).isEmpty();
 
         Map<String, String> environment = new HashMap<String, String>();
@@ -43,13 +43,26 @@ class BaseDevServicePropertiesTests {
         properties.setPort(5432);
         properties.setResources(resources);
         properties.setShared(true);
-        properties.setStartupTimeout(Duration.ofMinutes(2));
+        properties.setStartupTimeout(BaseDevServiceProperties.HEAVY_STARTUP_TIMEOUT);
         properties.setVolumes(volumes);
         properties.setImageName("postgres:17");
 
         assertThat(properties.getImageName()).isEqualTo("postgres:17");
         assertThat(properties.getEnvironment()).isEqualTo(environment);
         assertThat(properties.getNetworkAliases()).isEqualTo(aliases);
+    }
+
+    @Test
+    void isFixedPortWhenPortIsInvalidThenReturnFalse() {
+        assertThat(BaseDevServiceProperties.isFixedPort(-1)).isFalse();
+        assertThat(BaseDevServiceProperties.isFixedPort(0)).isFalse();
+        assertThat(BaseDevServiceProperties.isFixedPort(65536)).isFalse();
+    }
+
+    @Test
+    void isFixedPortWhenPortIsValidThenReturnTrue() {
+        assertThat(BaseDevServiceProperties.isFixedPort(1234)).isTrue();
+        assertThat(BaseDevServiceProperties.isFixedPort(65535)).isTrue();
     }
 
 }

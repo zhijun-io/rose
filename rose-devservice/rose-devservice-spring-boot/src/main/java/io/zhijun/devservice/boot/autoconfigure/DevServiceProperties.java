@@ -10,10 +10,16 @@ public class DevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev";
 
+    public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
+
     /**
      * Global switch for Rose Dev Services auto-configuration.
      */
     private boolean enabled = false;
+
+    public static String serviceEnabledProperty(String serviceName) {
+        return CONFIG_PREFIX + "." + serviceName + ".enabled";
+    }
 
     public boolean isEnabled() {
         return enabled;

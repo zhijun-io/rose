@@ -8,7 +8,8 @@ import org.testcontainers.utility.DockerImageName;
 import com.github.dockerjava.api.command.InspectContainerResponse;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * RabbitMQ container configured for Rose DevService.
@@ -17,7 +18,7 @@ final class RabbitMqContainer extends RabbitMQContainer {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqContainer.class);
 
-    static final String COMPATIBLE_IMAGE_NAME = "rabbitmq";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(RabbitMqDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int AMQP_PORT = 5672;
 
@@ -36,10 +37,10 @@ final class RabbitMqContainer extends RabbitMQContainer {
     protected void configure() {
         super.configure();
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), AMQP_PORT);
         }
-        if (ContainerUtils.isValidPort(properties.getManagementConsolePort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getManagementConsolePort())) {
             addFixedExposedPort(properties.getManagementConsolePort(), HTTP_PORT);
         }
     }

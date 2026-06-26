@@ -5,14 +5,15 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * Redis container configured for Rose DevService.
  */
 final class RedisContainer extends GenericContainer<RedisContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME = "redis";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(RedisDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int REDIS_PORT = 6379;
 
@@ -32,7 +33,7 @@ final class RedisContainer extends GenericContainer<RedisContainer> {
     protected void configure() {
         super.configure();
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), REDIS_PORT);
         }
     }

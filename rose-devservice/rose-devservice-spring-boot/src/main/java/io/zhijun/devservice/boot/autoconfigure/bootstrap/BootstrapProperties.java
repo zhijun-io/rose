@@ -10,6 +10,8 @@ public class BootstrapProperties {
 
     public static final String CONFIG_PREFIX = "rose.bootstrap";
 
+    public static final String PROFILES_ENABLED_PROPERTY = CONFIG_PREFIX + ".profiles.enabled";
+
     private final Profiles profiles = new Profiles();
 
     public Profiles getProfiles() {

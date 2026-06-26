@@ -200,7 +200,7 @@ class ContainerConfigurerTests {
                 ));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("source path");
     }
 
@@ -226,7 +226,7 @@ class ContainerConfigurerTests {
                 ));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("container path");
     }
 

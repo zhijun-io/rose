@@ -1,6 +1,6 @@
 package io.zhijun.devservice.core.bootstrap;
 
-import io.zhijun.devservice.core.util.DevServiceUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import io.zhijun.annotation.Incubating;
 
@@ -33,7 +33,7 @@ public enum BootstrapMode {
     }
 
     static boolean isValid(String modeProperty) {
-        if (!DevServiceUtils.hasText(modeProperty)) {
+        if (!StringUtils.isNotBlank(modeProperty)) {
             return false;
         }
 

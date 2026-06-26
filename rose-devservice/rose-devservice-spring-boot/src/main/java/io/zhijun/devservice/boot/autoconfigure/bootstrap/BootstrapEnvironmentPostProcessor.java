@@ -15,9 +15,9 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import io.zhijun.devservice.boot.autoconfigure.bootstrap.dev.BootstrapDevProperties;
 import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestProperties;
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 
 /**
  * Activates profiles based on bootstrap mode.
@@ -33,7 +33,7 @@ class BootstrapEnvironmentPostProcessor implements EnvironmentPostProcessor, Ord
         Assert.notNull(application, "application cannot be null");
 
         Boolean profilesEnabled = environment.getProperty(
-                BootstrapProperties.CONFIG_PREFIX + ".profiles.enabled", Boolean.class, true);
+                BootstrapProperties.PROFILES_ENABLED_PROPERTY, Boolean.class, true);
         if (!profilesEnabled) {
             return;
         }
@@ -49,14 +49,14 @@ class BootstrapEnvironmentPostProcessor implements EnvironmentPostProcessor, Ord
             case DEV:
                 logger.info("The application is running in dev mode");
                 List<String> developmentProfiles = environment.getProperty(
-                        BootstrapDevProperties.CONFIG_PREFIX + ".profiles", List.class,
+                        BootstrapDevProperties.PROFILES_PROPERTY, List.class,
                         new ArrayList<String>(Arrays.asList("dev")));
                 addProfiles(currentProfiles, additionalProfiles, developmentProfiles);
                 break;
             case TEST:
                 logger.info("The application is running in test mode");
                 List<String> testProfiles = environment.getProperty(
-                        BootstrapTestProperties.CONFIG_PREFIX + ".profiles", List.class,
+                        BootstrapTestProperties.PROFILES_PROPERTY, List.class,
                         new ArrayList<String>(Arrays.asList("test")));
                 addProfiles(currentProfiles, additionalProfiles, testProfiles);
                 break;

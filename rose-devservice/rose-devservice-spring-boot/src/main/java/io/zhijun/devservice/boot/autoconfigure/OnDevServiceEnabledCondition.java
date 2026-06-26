@@ -16,8 +16,7 @@ import io.zhijun.devservice.core.bootstrap.BootstrapMode;
  */
 class OnDevServiceEnabledCondition extends SpringBootCondition {
 
-    private static final String GLOBAL_PROPERTY = DevServiceProperties.CONFIG_PREFIX + ".enabled";
-    private static final String DEV_SERVICES_PROPERTY = "rose.dev.%s.enabled";
+    private static final String GLOBAL_PROPERTY = DevServiceProperties.ENABLED_PROPERTY;
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
@@ -31,8 +30,8 @@ class OnDevServiceEnabledCondition extends SpringBootCondition {
         }
 
         String globalProperty = context.getEnvironment().getProperty(GLOBAL_PROPERTY);
-        String devServiceProperty = context.getEnvironment().getProperty(
-                String.format(DEV_SERVICES_PROPERTY, devServicesName));
+        String serviceEnabledProperty = DevServiceProperties.serviceEnabledProperty(devServicesName);
+        String devServiceProperty = context.getEnvironment().getProperty(serviceEnabledProperty);
 
         boolean areDevServicesGloballyDisabled = globalProperty != null && !Boolean.parseBoolean(globalProperty);
         boolean isSpecificDevServiceEnabled = Boolean.parseBoolean(devServiceProperty);
@@ -44,21 +43,21 @@ class OnDevServiceEnabledCondition extends SpringBootCondition {
 
         if (isSpecificDevServiceEnabled) {
             return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
-                    .because(String.format(DEV_SERVICES_PROPERTY, devServicesName) + " is set to true"));
+                    .because(serviceEnabledProperty + " is set to true"));
         }
 
         if (devServiceProperty == null) {
             if (BootstrapMode.isTest() || BootstrapMode.isDev()) {
                 return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
                         .because("enabled in " + BootstrapMode.detect() + " bootstrap mode ("
-                                + String.format(DEV_SERVICES_PROPERTY, devServicesName) + " is not set)"));
+                                + serviceEnabledProperty + " is not set)"));
             }
             return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
-                    .because("disabled by default in production (set rose.dev.enabled=true or rose.dev."
-                            + devServicesName + ".enabled=true)"));
+                    .because("disabled by default in production (set " + DevServiceProperties.ENABLED_PROPERTY
+                            + "=true or " + serviceEnabledProperty + "=true)"));
         }
 
         return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
-                .because(String.format(DEV_SERVICES_PROPERTY, devServicesName) + " is set to false"));
+                .because(serviceEnabledProperty + " is set to false"));
     }
 }

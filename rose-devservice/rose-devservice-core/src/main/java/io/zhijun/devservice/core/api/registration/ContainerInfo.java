@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.zhijun.devservice.core.util.DevServiceUtils;
+import org.apache.commons.lang3.Validate;
 
 import io.zhijun.annotation.Incubating;
 
@@ -30,12 +30,12 @@ public final class ContainerInfo {
             List<ContainerPort> exposedPorts,
             Map<String, String> labels,
             String status) {
-        DevServiceUtils.hasText(id, "id cannot be null or empty");
-        DevServiceUtils.hasText(imageName, "imageName cannot be null or empty");
-        DevServiceUtils.notNull(names, "names cannot be null");
-        DevServiceUtils.notNull(exposedPorts, "exposedPorts cannot be null");
-        DevServiceUtils.notNull(labels, "labels cannot be null");
-        DevServiceUtils.hasText(status, "status cannot be null or empty");
+        Validate.notBlank(id, "id cannot be null or empty");
+        Validate.notBlank(imageName, "imageName cannot be null or empty");
+        Validate.notNull(names, "names cannot be null");
+        Validate.notNull(exposedPorts, "exposedPorts cannot be null");
+        Validate.notNull(labels, "labels cannot be null");
+        Validate.notBlank(status, "status cannot be null or empty");
 
         this.id = id;
         this.imageName = imageName;

@@ -8,7 +8,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.zhijun.devservice.core.util.DevServiceUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.ClassUtils;
 
 /**
  * Detects bootstrap mode from environment and stack trace heuristics.
@@ -49,10 +50,10 @@ final class BootstrapModeDetector {
 
     private static BootstrapMode doDetect(StackTraceElement[] stackTraceElements) {
         String modeProperty = System.getenv(BootstrapMode.PROPERTY_KEY.toUpperCase().replace(".", "_"));
-        if (!DevServiceUtils.hasText(modeProperty)) {
+        if (!StringUtils.isNotBlank(modeProperty)) {
             modeProperty = System.getProperty(BootstrapMode.PROPERTY_KEY);
         }
-        if (DevServiceUtils.hasText(modeProperty)) {
+        if (StringUtils.isNotBlank(modeProperty)) {
             String normalized = modeProperty.trim().toUpperCase();
             if (BootstrapMode.isValid(normalized)) {
                 return BootstrapMode.valueOf(normalized);
@@ -95,12 +96,12 @@ final class BootstrapModeDetector {
     }
 
     static boolean isNativeContext() {
-        return DevServiceUtils.isClassPresent("org.graalvm.nativeimage.ImageInfo", null);
+        return ClassUtils.isPresent("org.graalvm.nativeimage.ImageInfo", null);
     }
 
     static boolean isDevelopmentContext() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        if (DevServiceUtils.isClassPresent("org.springframework.boot.devtools.RemoteSpringApplication", classLoader)) {
+        if (ClassUtils.isPresent("org.springframework.boot.devtools.RemoteSpringApplication", classLoader)) {
             return true;
         }
         if (classLoader != null && classLoader.getClass().getName().contains("AppClassLoader")) {

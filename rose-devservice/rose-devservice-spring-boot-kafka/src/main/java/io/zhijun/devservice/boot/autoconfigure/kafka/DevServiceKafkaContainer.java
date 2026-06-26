@@ -4,14 +4,15 @@ import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * Kafka container configured for Rose DevService.
  */
 final class DevServiceKafkaContainer extends KafkaContainer {
 
-    static final String COMPATIBLE_IMAGE_NAME = "confluentinc/cp-kafka";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(KafkaDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int KAFKA_PORT = 9093;
 
@@ -28,7 +29,7 @@ final class DevServiceKafkaContainer extends KafkaContainer {
     protected void configure() {
         super.configure();
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), KAFKA_PORT);
         }
     }

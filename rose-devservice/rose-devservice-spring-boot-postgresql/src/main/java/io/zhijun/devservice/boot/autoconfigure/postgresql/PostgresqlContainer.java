@@ -5,14 +5,15 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.ContainerUtils;
+
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * PostgreSQL container configured for Rose DevService.
  */
 final class PostgresqlContainer extends PostgreSQLContainer<PostgresqlContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME = "postgres";
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(PostgresqlDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final String READY_REGEX = ".*database system is ready to accept connections.*\\s";
     static final String SKIPPING_INITIALIZATION_REGEX =
@@ -35,7 +36,7 @@ final class PostgresqlContainer extends PostgreSQLContainer<PostgresqlContainer>
     protected void configure() {
         super.configure();
 
-        if (ContainerUtils.isValidPort(properties.getPort())) {
+        if (BaseDevServiceProperties.isFixedPort(properties.getPort())) {
             addFixedExposedPort(properties.getPort(), POSTGRESQL_PORT);
         }
     }
