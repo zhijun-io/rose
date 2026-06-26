@@ -72,7 +72,7 @@ jobs:
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         run: |
-          ARGS=(-B -Prelease -DskipTests)
+          ARGS=(-B -ntp -Prelease -DskipTests)
           if [[ -n "${{ steps.publish.outputs.revision }}" ]]; then
             ARGS+=(-Drevision="${{ steps.publish.outputs.revision }}")
           fi

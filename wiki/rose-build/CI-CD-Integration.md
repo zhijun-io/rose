@@ -20,12 +20,12 @@ Two jobs (fast failure first):
 
 | Job | Command | Purpose |
 |-----|---------|---------|
-| `enforce-project-rules` | `./mvnw -B validate` | Maven enforcer (Maven/Java version, banned deps, duplicate versions) |
-| `build-and-test` | `./mvnw -B -Pcoverage verify` | Compile, Surefire unit tests, Failsafe `*IT`, JaCoCo reports |
+| `enforce-project-rules` | `./mvnw -B -ntp validate` | Maven enforcer (Maven/Java version, banned deps, duplicate versions) |
+| `build-and-test` | `./mvnw -B -ntp -Pcoverage verify` | Compile, Surefire unit tests, Failsafe `*IT`, JaCoCo reports |
 
 After tests:
 
-- Artifact `jacoco-report` (`**/target/site/jacoco/jacoco.xml`, 14 days)
+- Artifact `jacoco-report` (`**/target/site/jacoco/jacoco.xml`, `**/target/site/jacoco-it/jacoco.xml`, 14 days)
 - Upload to Codecov (`codecov/codecov-action`, `fail_ci_if_error: false`)
 
 **Runtime:** Temurin JDK 8, Maven Wrapper (`mvnw`, Maven 3.9.16), Maven dependency cache via `actions/setup-java`.
@@ -47,7 +47,7 @@ Separate from CI. Credentials via `actions/setup-java` (`server-id: central`, ma
 | `workflow_dispatch` + `release_version` | Manual release of that version |
 | `workflow_dispatch`, version empty | Publish current SNAPSHOT (`-Dgpg.skip=true`) |
 
-Command: `./mvnw -B -Prelease -DskipTests deploy` (add `-Drevision=…` for releases).
+Command: `./mvnw -B -ntp -Prelease -DskipTests deploy` (add `-Drevision=…` for releases).
 
 See [Profiles-Management](Profiles-Management) for the `release` profile.
 
@@ -85,10 +85,10 @@ Use these **exact** secret names (org- or repo-level) so workflows stay consiste
 
 ```bash
 # Match CI enforcer
-./mvnw -B validate
+./mvnw -B -ntp validate
 
 # Match CI full verify (needs Docker)
-./mvnw -B -Pcoverage verify
+./mvnw -B -ntp -Pcoverage verify
 
 # Faster local loop
 ./mvnw test

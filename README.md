@@ -55,9 +55,9 @@ Step-by-step walkthrough: [wiki/rose-spring-boot/Getting-Started.md](wiki/rose-s
 git clone https://github.com/zhijun-io/rose.git
 cd rose
 sdk env                         # optional — Java 8 (.sdkmanrc)
-./mvnw -B validate              # enforcer (CI)
-./mvnw -B verify                # unit + *IT (Docker)
-./mvnw -B -Pcoverage verify     # coverage profile + Codecov upload (CI)
+./mvnw -B -ntp validate              # enforcer (CI)
+./mvnw -B -ntp verify                # unit + *IT (Docker)
+./mvnw -B -ntp -Pcoverage verify     # coverage profile + Codecov upload (CI)
 ```
 
 `<revision>` in `rose-build/pom.xml` is `0.0.1-SNAPSHOT`. CI and profile details: [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md).
