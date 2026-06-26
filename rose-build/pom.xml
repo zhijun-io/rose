@@ -98,6 +98,7 @@
         <skipITs>false</skipITs>
         <jvm.argLine/>
         <jacoco.argLine/>
+        <spring-boot.version>2.7.18</spring-boot.version>
     </properties>
 
     <!-- Shared build governance for Rose modules: plugin versions, coverage, flattening, and publishing. -->

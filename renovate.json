@@ -27,6 +27,16 @@
       ]
     },
     {
+      "description": "Testcontainers 2.x incompatible with Spring Boot 2.7 Jackson 2.13 (testcontainers#11236); stay on 1.21.4",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackageNames": [
+        "org.testcontainers:**"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Maven: daily around 23:00 (hour granularity only)",
       "matchManagers": [
         "maven"

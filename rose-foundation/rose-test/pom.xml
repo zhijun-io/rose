@@ -13,7 +13,7 @@
 
     <artifactId>rose-test</artifactId>
     <name>Rose Test</name>
-    <description>Cross-theme JUnit test utilities for Rose modules</description>
+    <description>Cross-theme JUnit test utilities and shared test classpath resources (logback-test.xml)</description>
 
     <dependencies>
         <dependency>
@@ -23,12 +23,6 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

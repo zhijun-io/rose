@@ -19,4 +19,12 @@
         <module>rose-spring-core</module>
         <module>rose-spring-web</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

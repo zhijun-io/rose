@@ -21,4 +21,12 @@
         <module>rose-spring-boot-actuator</module>
         <module>rose-spring-boot-web</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

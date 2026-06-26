@@ -20,4 +20,12 @@
         <module>rose-multitenancy-spring</module>
         <module>rose-multitenancy-spring-boot</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
