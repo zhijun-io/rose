@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
 import io.opentelemetry.sdk.metrics.InstrumentType;
-import io.opentelemetry.sdk.metrics.internal.export.CardinalityLimitSelector;
+import io.opentelemetry.sdk.metrics.export.CardinalityLimitSelector;
 
 /**
  * Beans required by metrics exporter auto-configuration test.

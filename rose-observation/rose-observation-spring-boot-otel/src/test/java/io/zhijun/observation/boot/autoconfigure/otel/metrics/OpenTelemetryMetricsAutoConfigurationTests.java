@@ -3,7 +3,7 @@ package io.zhijun.observation.boot.autoconfigure.otel.metrics;
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.sdk.metrics.InstrumentType;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
-import io.opentelemetry.sdk.metrics.internal.export.CardinalityLimitSelector;
+import io.opentelemetry.sdk.metrics.export.CardinalityLimitSelector;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

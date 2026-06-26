@@ -5,7 +5,7 @@ import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.sdk.common.Clock;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
 import io.opentelemetry.sdk.metrics.SdkMeterProviderBuilder;
-import io.opentelemetry.sdk.metrics.internal.export.CardinalityLimitSelector;
+import io.opentelemetry.sdk.metrics.export.CardinalityLimitSelector;
 import io.opentelemetry.sdk.resources.Resource;
 
 import org.springframework.beans.factory.ObjectProvider;

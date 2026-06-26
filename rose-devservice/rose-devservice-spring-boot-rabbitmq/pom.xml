@@ -26,7 +26,7 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>rabbitmq</artifactId>
+            <artifactId>testcontainers-rabbitmq</artifactId>
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
@@ -65,7 +65,7 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>testcontainers-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
