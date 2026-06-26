@@ -99,7 +99,7 @@ Docker-backed dev services for development. Add `rose-spring-boot-core`, optiona
 
 Connectors include PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, ActiveMQ, Ollama, MQTT, OpenLit, and OpenTelemetry Collector. Defaults use username/password (and JDBC database name) **`rose`** unless overridden via `rose.dev.<connector>.*`.
 
-**Production:** dev services are **off by default**. Enable explicitly with `rose.dev.enabled=true` and/or `rose.dev.<connector>.enabled=true`. In local **DEV** or **TEST** bootstrap mode, connectors activate unless disabled. See [rose-devservice/README.md](rose-devservice/README.md).
+**Production:** dev services are **off by default**. Enable explicitly with `rose.dev.enabled=true` and/or `rose.dev.<connector>.enabled=true`. In local **DEV** or **TEST** bootstrap mode, connectors activate unless disabled. See [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md#dev-service-connectors).
 
 ### OpenTelemetry metrics
 
@@ -108,24 +108,21 @@ Connectors include PostgreSQL, MySQL, Redis, MongoDB, Kafka, RabbitMQ, Artemis, 
 | `rose-observation-spring-boot-micrometer-otlp` | Micrometer → OTLP | Default in the OTel starter |
 | `rose-observation-spring-boot-micrometer-bridge` | Micrometer → OTel SDK | Metrics share the same SDK as traces/logs |
 
-See [rose-observation/README.md](rose-observation/README.md).
+Prefixes: `rose.observation.*`, `rose.otel.*` — see [wiki/rose-spring-boot/Configuration-Reference.md](wiki/rose-spring-boot/Configuration-Reference.md).
 
 ## Documentation
 
 | Topic | Location |
 |-------|----------|
 | **Wiki (guides)** | [`wiki/`](wiki/) — synced to [GitHub Wiki](https://github.com/zhijun-io/rose/wiki) on push |
-| Getting started | [wiki/Getting-Started.md](wiki/Getting-Started.md) |
-| Consumer guide | [wiki/Consumer-Guide.md](wiki/Consumer-Guide.md) |
-| Build profiles | [wiki/Profiles-Management.md](wiki/Profiles-Management.md) |
-| BOM & consumer contract | [rose-bom/README.md](rose-bom/README.md) |
-| Build, CI, release | [rose-build/README.md](rose-build/README.md) |
-| Design notes | [docs/](docs/) |
-| Module layering & naming | [docs/rose-module-layering.md](docs/rose-module-layering.md) |
+| Getting started | [wiki/rose-spring-boot/Getting-Started.md](wiki/rose-spring-boot/Getting-Started.md) |
+| Consumer guide & BOM | [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md) |
+| Build profiles | [wiki/rose-build/Profiles-Management.md](wiki/rose-build/Profiles-Management.md) |
+| CI / release | [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md) |
+| Design specs | [docs/design/](docs/design/) |
+| **Contributing conventions** | [docs/rose-conventions.md](docs/rose-conventions.md) |
 
-**Module READMEs:** [rose-build](rose-build/) · [rose-bom](rose-bom/) · [rose-foundation](rose-foundation/) · [rose-spring](rose-spring/) · [rose-spring-boot](rose-spring-boot/) · [rose-mybatis-plus](rose-mybatis-plus/) · [rose-observation](rose-observation/) · [rose-multitenancy](rose-multitenancy/) · [rose-devservice](rose-devservice/)
-
-The [rose-bom](rose-bom/) manages published `io.zhijun` coordinates (starters, core libraries, dev-service connectors). `rose-spring-web` / `rose-spring-boot-web` remain in the reactor as incubating scaffolds but are **not** in the BOM until implemented — see [docs/rose-module-layering.md](docs/rose-module-layering.md).
+The [rose-bom](rose-bom/) manages published `io.zhijun` coordinates. `rose-spring-web` / `rose-spring-boot-web` remain incubating scaffolds **not** in the BOM — see [docs/rose-conventions.md](docs/rose-conventions.md).
 
 Build layout follows [microsphere-build](https://github.com/microsphere-projects/microsphere-build).
 
@@ -133,9 +130,7 @@ Build layout follows [microsphere-build](https://github.com/microsphere-projects
 
 ## Contributing
 
-Rose follows Conventional Commits (`feat:`, `fix:`, `docs:`, …), one logical change per PR, and integration tests (`*IT`) for new dev-service connectors. Dependency bumps are handled by Renovate (`renovate.json`).
-
-Build and release: [rose-build/README.md](rose-build/README.md). Changelog: [CHANGELOG.md](CHANGELOG.md).
+See [docs/rose-conventions.md](docs/rose-conventions.md) for module layout, naming, implementation constraints, tests, and commit/PR workflow. Build and release: [wiki/rose-build/Profiles-Management.md](wiki/rose-build/Profiles-Management.md), [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md). Changelog: [CHANGELOG.md](CHANGELOG.md).
 
 ## Reference
 
@@ -164,7 +159,7 @@ mvn verify -DskipITs     # verify lifecycle without ITs
 mvn verify -Pcoverage    # optional: per-module JaCoCo; CI uploads on JDK 25 (Codecov)
 ```
 
-Publish locally: `mvn -B clean deploy -Prelease` (Central Portal token + GPG; see [rose-build/README.md](rose-build/README.md)).
+Publish locally: `mvn -B clean deploy -Prelease` (Central Portal token + GPG; see [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md)).
 
 ### License
 

@@ -25,26 +25,21 @@
 
 ---
 
-## Wiki Pages
+## Wiki by module
 
-| Page | Description |
-|---|---|
-| [Home](Home) | This page |
-| [Getting Started](Getting-Started) | Prerequisites, BOM import, local build |
-| [Consumer Guide](Consumer-Guide) | Application POM patterns and starter selection |
-| [Profiles Management](Profiles-Management) | Maven profiles (`coverage`, `release`, JDK-activated) |
-| [CI/CD Integration](CI-CD-Integration) | GitHub Actions workflows |
-| [Configuration Reference](Configuration-Reference) | `${revision}`, properties, module map |
+| Module | Pages |
+|--------|-------|
+| [rose-spring-boot](rose-spring-boot/Getting-Started) | [Getting Started](rose-spring-boot/Getting-Started), [Configuration Reference](rose-spring-boot/Configuration-Reference) |
+| [rose-bom](rose-bom/Consumer-Guide) | [Consumer Guide](rose-bom/Consumer-Guide) |
+| [rose-build](rose-build/Profiles-Management) | [Profiles Management](rose-build/Profiles-Management), [CI/CD Integration](rose-build/CI-CD-Integration) |
 
-> Wiki sources live in `wiki/*.md` and sync to GitHub Wiki on push to `main` (see `.github/workflows/publish-wiki.yml`).
+> Sources under `wiki/<module>/`. Synced to GitHub Wiki on push to `main` (`.github/workflows/publish-wiki.yml`).
 
-Design notes and ADR-style documents: [`docs/`](../docs/) in the main repository.
+Design specs: [`docs/design/`](../docs/design/). Contributing: [`docs/rose-conventions.md`](../docs/rose-conventions.md).
 
 ---
 
 ## Quick Start
-
-Import the Rose BOM and add a starter:
 
 ```xml
 <dependencyManagement>
@@ -67,7 +62,7 @@ Import the Rose BOM and add a starter:
 </dependencies>
 ```
 
-See [Getting Started](Getting-Started) and the [repository README](https://github.com/zhijun-io/rose/blob/main/README.md).
+See [Getting Started](rose-spring-boot/Getting-Started) and the [repository README](https://github.com/zhijun-io/rose/blob/main/README.md).
 
 ---
 

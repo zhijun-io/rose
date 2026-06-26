@@ -26,7 +26,7 @@ Activate with `-P<profile>` (comma-separated for multiple).
 
 ### `release`
 
-Requires GPG key and Sonatype Central Portal credentials. See [rose-build/README.md](../rose-build/README.md).
+Requires GPG key and Sonatype Central Portal credentials. See [CI-CD-Integration](CI-CD-Integration).
 
 ---
 

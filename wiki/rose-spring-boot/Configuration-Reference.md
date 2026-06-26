@@ -96,7 +96,7 @@ Delimiter: `@` (`resource.delimiter` property).
 
 ## Application Configuration (Rose runtime)
 
-See [Consumer Guide](Consumer-Guide) for starter-specific prefixes:
+See [Consumer Guide](../rose-bom/Consumer-Guide) for starter-specific prefixes:
 
 | Prefix | Scope |
 |--------|--------|
@@ -118,6 +118,9 @@ Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.pr
 
 | Document | Topic |
 |---|---|
-| [rose-spring-property-source-design.md](../docs/rose-spring-property-source-design.md) | Property sources |
-| [rose-spring-env-refresh-design.md](../docs/rose-spring-env-refresh-design.md) | Environment refresh |
-| [rose-spring-boot-bootstrap-diagnostics-design.md](../docs/rose-spring-boot-bootstrap-diagnostics-design.md) | Bootstrap diagnostics |
+| [rose-spring-property-source-design.md](../../docs/design/rose-spring-property-source-design.md) | Property sources |
+| [rose-spring-env-refresh-design.md](../../docs/design/rose-spring-env-refresh-design.md) | Environment refresh |
+| [rose-spring-boot-bootstrap-diagnostics-design.md](../../docs/design/rose-spring-boot-bootstrap-diagnostics-design.md) | Bootstrap diagnostics |
+| [rose-spring-web-handler-design.md](../../docs/design/rose-spring-web-handler-design.md) | Spring Web handler SPI |
+| [rose-i18n-design.md](../../docs/design/rose-i18n-design.md) | i18n (planned) |
+| [rose-cache-design.md](../../docs/design/rose-cache-design.md) | Cache (planned) |

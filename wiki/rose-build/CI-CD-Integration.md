@@ -8,9 +8,9 @@ Rose uses GitHub Actions workflows in `.github/workflows/`, inspired by [microsp
 
 | Workflow | Trigger | Purpose |
 |---|---|---|
-| [`maven-build.yml`](../.github/workflows/maven-build.yml) | Push/PR to `main` | Multi-JDK unit + ITs + coverage + CodeQL |
-| [`maven-publish.yml`](../.github/workflows/maven-publish.yml) | Release tag / manual | Deploy to Maven Central |
-| [`publish-wiki.yml`](../.github/workflows/publish-wiki.yml) | Push to `main` (`wiki/**`) | Sync `wiki/` → GitHub Wiki |
+| [`maven-build.yml`](../../.github/workflows/maven-build.yml) | Push/PR to `main` | Multi-JDK unit + ITs + coverage + CodeQL |
+| [`maven-publish.yml`](../../.github/workflows/maven-publish.yml) | Release tag / manual | Deploy to Maven Central |
+| [`publish-wiki.yml`](../../.github/workflows/publish-wiki.yml) | Push to `main` (`wiki/**`) | Sync `wiki/` → GitHub Wiki |
 
 ---
 
@@ -34,7 +34,7 @@ Four parallel jobs (see workflow header in `maven-build.yml`):
 
 ## Maven Publish
 
-Release flow (see [rose-build/README.md](../rose-build/README.md)):
+Release flow (see [Profiles-Management](Profiles-Management)):
 
 1. Tag release from `main`
 2. `mvn deploy -Prelease` with Central Portal credentials and GPG
@@ -46,13 +46,13 @@ Release flow (see [rose-build/README.md](../rose-build/README.md)):
 
 ## Wiki Publish
 
-Markdown files under `wiki/` are rsync'd to the repository's GitHub Wiki on every push to `main`.
+Markdown under `wiki/` (grouped by module subfolders) is rsync'd to the repository's GitHub Wiki on every push to `main`.
 
 **First-time setup:** create at least one page in the GitHub Wiki UI before the workflow can push.
 
 Local edit workflow:
 
-1. Edit `wiki/*.md` in this repository
+1. Edit `wiki/<module>/*.md` in this repository
 2. Push to `main`
 3. Workflow syncs to https://github.com/zhijun-io/rose/wiki
 

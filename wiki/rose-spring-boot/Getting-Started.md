@@ -56,7 +56,7 @@ Use a released version from [Maven Central](https://central.sonatype.com/) when 
 </dependencies>
 ```
 
-Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them **instead of** duplicating `rose-spring-boot-core`. See [Consumer Guide](Consumer-Guide).
+Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them **instead of** duplicating `rose-spring-boot-core`. See [Consumer Guide](../rose-bom/Consumer-Guide).
 
 ### Step 3 — Optional Dev Services
 
@@ -78,7 +78,7 @@ Add a connector with `runtime` + `optional` scope and the matching Spring Boot s
 - Global toggle: `rose.dev.enabled` (default `true`)
 - Per-connector: `rose.dev.<connector>.enabled` (e.g. `rose.dev.postgresql.enabled`)
 
-Details: [rose-devservice/README.md](../rose-devservice/README.md).
+Dev service connectors: [Consumer Guide — Dev Service Connectors](../rose-bom/Consumer-Guide#dev-service-connectors).
 
 ---
 
@@ -105,6 +105,6 @@ mvn test -Drevision=1.0.0-SNAPSHOT
 
 ## Next Steps
 
-- [Consumer Guide](Consumer-Guide) — starter matrix and configuration prefixes
-- [Profiles Management](Profiles-Management) — Maven profile reference
+- [Consumer Guide](../rose-bom/Consumer-Guide) — starter matrix and configuration prefixes
+- [Profiles Management](../rose-build/Profiles-Management) — Maven profile reference
 - [Configuration Reference](Configuration-Reference) — module map and property keys
