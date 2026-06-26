@@ -48,6 +48,7 @@ class ConfigurationBeanBindingSupportTests {
         assertThat(ConfigurationBeanBindingSupport.prefixAffected("app", changedKeys)).isTrue();
         assertThat(ConfigurationBeanBindingSupport.prefixAffected("other", changedKeys)).isTrue();
         assertThat(ConfigurationBeanBindingSupport.prefixAffected("application", changedKeys)).isFalse();
+        assertThat(ConfigurationBeanBindingSupport.prefixAffected("db", changedKeys)).isFalse();
     }
 
     @Test
@@ -86,5 +87,19 @@ class ConfigurationBeanBindingSupportTests {
                 false, "ignored");
 
         assertThat(resolved).containsEntry("name", "rose").containsEntry("enabled", "true");
+    }
+
+    @Test
+    void resolveBindingPropertiesExtractsSubtreeWhenMultipleIsTrue() {
+        MockEnvironment environment = new MockEnvironment();
+        environment.setProperty("users.u0.name", "Mercy");
+        environment.setProperty("users.u0.age", "18");
+        environment.setProperty("users.u1.name", "Ma");
+
+        Map<String, Object> resolved = ConfigurationBeanBindingSupport.resolveBindingProperties(environment, "users",
+                true, "u0");
+
+        assertThat(resolved).containsEntry("name", "Mercy").containsEntry("age", "18");
+        assertThat(resolved).doesNotContainKey("u1.name");
     }
 }

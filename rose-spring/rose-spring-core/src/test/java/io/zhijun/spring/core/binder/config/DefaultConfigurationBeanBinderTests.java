@@ -59,6 +59,30 @@ class DefaultConfigurationBeanBinderTests {
                 .isInstanceOf(org.springframework.beans.NotWritablePropertyException.class);
     }
 
+    @Test
+    void bindIgnoresInvalidFieldsWhenConfigured() {
+        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        SampleConfiguration target = new SampleConfiguration();
+
+        binder.bind(Collections.<String, Object>singletonMap("count", "not-a-number"), true, true, target);
+
+        assertThat(target.count).isZero();
+    }
+
+    @Test
+    void bindStillBindsValidFieldsWhenInvalidFieldsNotIgnored() {
+        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        SampleConfiguration target = new SampleConfiguration();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("count", "42");
+        properties.put("enabled", "not-a-boolean");
+
+        binder.bind(properties, true, false, target);
+
+        assertThat(target.count).isEqualTo(42);
+        assertThat(target.enabled).isFalse();
+    }
+
     static class SampleConfiguration {
 
         String name;

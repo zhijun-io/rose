@@ -66,6 +66,7 @@ class ConversionServiceResolverTests {
         ConversionService resolved = new ConversionServiceResolver(beanFactory).resolve();
 
         assertThat(resolved).isInstanceOf(DefaultFormattingConversionService.class);
+        assertThat(resolved.convert("42", Integer.class)).isEqualTo(42);
     }
 
     @Test
