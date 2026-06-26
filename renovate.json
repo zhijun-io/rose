@@ -21,10 +21,10 @@
       "matchManagers": [
         "maven"
       ],
-      "matchPackagePatterns": [
-        "/^io\\.zhijun:/"
-      ],
-      "enabled": false
+      "enabled": false,
+      "matchPackageNames": [
+        "//^io\\.zhijun://"
+      ]
     },
     {
       "description": "Maven: daily around 23:00 (hour granularity only)",
