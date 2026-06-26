@@ -21,10 +21,10 @@
       "matchManagers": [
         "maven"
       ],
-      "enabled": false,
-      "matchPackageNames": [
-        "//^io\\.zhijun://"
-      ]
+      "matchPackagePatterns": [
+        "/^io\\.zhijun:/"
+      ],
+      "enabled": false
     },
     {
       "description": "Maven: daily around 23:00 (hour granularity only)",
@@ -50,6 +50,17 @@
       "labels": [
         "dependencies"
       ]
+    },
+    {
+      "description": "Automerge GitHub Actions patch/pin updates when CI passes",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "pin"
+      ],
+      "automerge": true
     },
     {
       "description": "Spring Boot 3+ (includes 4.x on the 3.x line or higher)",
