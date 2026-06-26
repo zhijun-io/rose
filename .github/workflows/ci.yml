@@ -67,7 +67,5 @@ jobs:
         uses: codecov/codecov-action@v5.4.3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: |
-            **/target/site/jacoco/jacoco.xml
-            **/target/site/jacoco-it/jacoco.xml
           fail_ci_if_error: false
+          slug: zhijun-io/rose
