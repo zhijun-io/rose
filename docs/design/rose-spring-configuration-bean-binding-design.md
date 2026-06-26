@@ -1,4 +1,4 @@
-# Rose Spring Configuration Bean Binding — 设计
+# Rose Spring Configuration Bean Binding — 设计方案
 
 > **Artifact：** `rose-spring-core`（**不**单独拆 Maven 模块）  
 > **逻辑子域：** `configuration-bean-binding`（包 `io.zhijun.spring.core.binder.*`）  

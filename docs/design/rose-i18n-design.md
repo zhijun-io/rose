@@ -568,7 +568,7 @@ your-app.jar       → i18n/app/messages_*.properties
 | 模块 | **`rose-i18n-spring`**（不新建 Boot 模块） |
 | Core | `MessageBundleLoader` SPI、`EnvironmentMessageBundle`、`SpringMessageBundleAdapter` |
 | Loader | `YamlMessageBundleLoader`（可选依赖 `rose-spring-core` 扁平化） |
-| 热更 | `EnvironmentMessageBundleRefreshable`（`Refreshable` SPI，见 [`rose-spring-core` 规格](../docs/rose-spring-env-refresh-design.md)） |
+| 热更 | `EnvironmentMessageBundleRefreshable`（`Refreshable` SPI，见 [`rose-spring-core` 规格](rose-spring-env-refresh-design.md)） |
 | 规格 | **§16**（可执行） |
 
 **Cloud 前置：** `EnvironmentMessageBundle` 在 Phase 1.5 完成，**不**等到 Phase 2 Boot。
@@ -716,8 +716,7 @@ Phase 1.5 再增：`YamlMessageBundleLoaderTest`、`EnvironmentMessageBundleTest
 
 实施后更新：
 
-- `rose-i18n/README.md` — 主题说明与子模块索引
-- `rose-i18n/rose-i18n-spring/README.md` — 用法、约定、迁移
+- `wiki/rose-bom/Consumer-Guide` — 消费说明与 BOM 索引
 - 根 `README.md` — 增加 `rose-i18n` 条目
 
 ---
@@ -735,7 +734,7 @@ Phase 1.5 再增：`YamlMessageBundleLoaderTest`、`EnvironmentMessageBundleTest
 | META-INF | 可选 basename | 库内嵌、microsphere 迁移 |
 | 占位符默认 | MessageFormat `{0}` | Validation 一致 |
 | Cloud 集成 | `rose-i18n-spring-cloud` 监听 `EnvironmentChangeEvent` | 见 §17；不做 Feign Server |
-| 协作 | `rose-spring-core`（env-refresh + `Refreshable` SPI） | Env 热更（[env-refresh §5–§6](../docs/rose-spring-env-refresh-design.md)），非归属关系 |
+| 协作 | `rose-spring-core`（env-refresh + `Refreshable` SPI） | Env 热更（[env-refresh §5–§6](rose-spring-env-refresh-design.md)），非归属关系 |
 
 ### 13.1 复杂度与裁剪建议
 
@@ -832,7 +831,7 @@ Phase 3
 4. 更新 `rose-parent` dependencyManagement、`rose-bom`、`rose-coverage`
 5. 按 §15 实现并测试
 6. （可选下一 PR）按 §16 实现 Phase 1.5
-7. 文档：`docs/rose-i18n-design.md`、`rose-i18n/README.md`
+7. 文档：`docs/design/rose-i18n-design.md`、`wiki/rose-bom/Consumer-Guide`
 8. `mvn -pl rose-i18n/rose-i18n-spring test`
 
 ---
@@ -1841,4 +1840,4 @@ mvn -pl rose-i18n/rose-i18n-spring-cloud test
 2. 完成 Phase 2 Boot（`rose-i18n-spring-boot`，`rose.i18n.cloud.*` 配置）
 3. 根 POM 引入 `spring-cloud-context` BOM 或版本管理
 4. 实现 §17.4–§17.6
-5. §17.9 测试通过后，在 `rose-i18n/README.md` 增加 Cloud 使用说明
+5. §17.9 测试通过后，在 `wiki/rose-bom/Consumer-Guide` 增加 Cloud 使用说明

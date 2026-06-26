@@ -1,4 +1,4 @@
-# Rose Spring 环境与配置刷新 — 设计
+# Rose Spring 环境与配置刷新 — 设计方案
 
 > **Artifact：** `rose-spring-core`（**不**单独拆 Maven 模块）  
 > **逻辑子域：** `env-refresh`（包 `io.zhijun.spring.core.env.*`）  

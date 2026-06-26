@@ -1,4 +1,4 @@
-# Rose Spring PropertySource — 设计
+# Rose Spring PropertySource — 设计方案
 
 > **Artifact：** `rose-spring-core`（**不**单独拆 Maven 模块）  
 > **逻辑子域：** `property-source`（包 `io.zhijun.spring.core.propertysource.*`）  

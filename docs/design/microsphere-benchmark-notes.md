@@ -2,7 +2,7 @@
 
 **Status:** Reference notes for architecture and roadmap discussion.  
 **Audience:** Maintainers planning future Rose capabilities, module boundaries, and documentation.  
-**Related:** 根 [README.md](../README.md), [microsphere-benchmark-notes.md](microsphere-benchmark-notes.md)（本文件）.
+**Related:** 根 [README.md](../../README.md)、[microsphere-benchmark-notes.md](microsphere-benchmark-notes.md)（本文件）。
 
 This document summarizes what Rose can learn from the public Microsphere project family. The intent is **not** to copy Microsphere wholesale. The goal is to identify practices that match Rose's current position as a **Spring Boot 2.7 / Java 8 extension platform**.
 

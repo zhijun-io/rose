@@ -1,4 +1,4 @@
-# Rose Spring Web Handler — 实现规格
+# Rose Spring Web Handler — 设计方案
 
 > **模块（规划）：** `rose-spring/rose-spring-web` + `rose-spring-boot/rose-spring-boot-web`  
 > **Artifact：** `rose-spring-web` + `rose-spring-boot-web`  

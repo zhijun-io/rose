@@ -1,4 +1,4 @@
-# Rose Cache TTL — 实现规格
+# Rose Cache TTL — 设计方案
 
 > **主题目录（规划）：** `rose-cache/`  
 > **Artifact（规划）：** `rose-cache-core` + optional `rose-cache-redis` + `rose-cache-spring-boot-starter`  
