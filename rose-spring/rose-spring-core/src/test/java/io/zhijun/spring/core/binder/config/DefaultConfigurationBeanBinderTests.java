@@ -1,0 +1,70 @@
+package io.zhijun.spring.core.binder.config;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.format.support.DefaultFormattingConversionService;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+class DefaultConfigurationBeanBinderTests {
+
+    @Test
+    void bindMapsPropertiesToFields() {
+        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        SampleConfiguration target = new SampleConfiguration();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("name", "rose");
+        properties.put("enabled", "true");
+
+        binder.bind(properties, true, true, target);
+
+        assertThat(target.name).isEqualTo("rose");
+        assertThat(target.enabled).isTrue();
+    }
+
+    @Test
+    void bindUsesConfiguredConversionService() {
+        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        ConversionService conversionService = new DefaultFormattingConversionService();
+        binder.setConversionService(conversionService);
+        SampleConfiguration target = new SampleConfiguration();
+
+        binder.bind(Collections.<String, Object>singletonMap("count", "42"), true, true, target);
+
+        assertThat(target.count).isEqualTo(42);
+    }
+
+    @Test
+    void bindIgnoresUnknownFieldsWhenConfigured() {
+        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        SampleConfiguration target = new SampleConfiguration();
+
+        binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), true, true, target);
+
+        assertThat(target.name).isNull();
+    }
+
+    @Test
+    void bindRejectsUnknownFieldsWhenNotIgnored() {
+        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        SampleConfiguration target = new SampleConfiguration();
+
+        assertThatThrownBy(() -> binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), false, true,
+                target))
+                .isInstanceOf(org.springframework.beans.NotWritablePropertyException.class);
+    }
+
+    static class SampleConfiguration {
+
+        String name;
+
+        boolean enabled;
+
+        int count;
+    }
+}
