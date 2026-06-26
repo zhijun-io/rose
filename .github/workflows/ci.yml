@@ -14,12 +14,12 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
-    name: Build, test, and verify (Java ${{ matrix.java }})
+  unit:
+    name: Unit tests (Java ${{ matrix.java }})
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         java: [8, 11, 17, 21, 25]
     steps:
@@ -33,11 +33,33 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
 
+      - name: Run Maven enforcer rules
+        run: ./mvnw -B -ntp validate
+
+      - name: Build and run unit tests
+        run: ./mvnw -B -ntp verify -DskipITs
+
+  integration:
+    name: Integration tests (Java 17)
+    runs-on: ubuntu-latest
+    needs: unit
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
       - name: Build and run unit and integration tests
         run: ./mvnw -B -ntp -Pcoverage verify
 
       - name: Upload JaCoCo reports
-        if: always() && matrix.java == 17
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report-java-17
@@ -48,9 +70,9 @@ jobs:
           retention-days: 14
 
       - name: Upload coverage to Codecov
-        if: always() && matrix.java == 17
+        if: always()
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
-          slug: zhijun-io/rose # Org 级 token 必须配置
+          slug: zhijun-io/rose
