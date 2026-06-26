@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Rose: Spring Boot 2.7 / Java 8 only.",
+  "description": "Rose: Spring Boot 2.7 baseline; compile target Java 8, CI verifies JDK 8–25.",
   "extends": [
     "config:best-practices",
     ":gitSignOff"
@@ -17,6 +17,16 @@
   "configMigration": true,
   "packageRules": [
     {
+      "description": "Monorepo: skip io.zhijun reactor artifacts (versioned by ${revision}, not on Maven Central)",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchPackagePatterns": [
+        "/^io\\.zhijun:/"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Maven: daily around 23:00 (hour granularity only)",
       "matchManagers": [
         "maven"
@@ -30,7 +40,7 @@
       ]
     },
     {
-      "description": "GitHub Actions: daily around 00:30 (hour 0; minute granularity not supported)",
+      "description": "GitHub Actions: daily around 00:00 (hour 0; minute granularity not supported)",
       "matchManagers": [
         "github-actions"
       ],
