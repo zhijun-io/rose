@@ -1,0 +1,82 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: Release version (e.g. 1.0.0). Leave empty to publish the current SNAPSHOT revision.
+        required: false
+        type: string
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to Maven Central
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Determine publish mode
+        id: publish
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+            echo "revision=${VERSION}" >> "$GITHUB_OUTPUT"
+            echo "gpg_skip=false" >> "$GITHUB_OUTPUT"
+          elif [[ -n "${{ inputs.release_version }}" ]]; then
+            echo "revision=${{ inputs.release_version }}" >> "$GITHUB_OUTPUT"
+            echo "gpg_skip=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "revision=" >> "$GITHUB_OUTPUT"
+            echo "gpg_skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Java 8 for SNAPSHOT publish
+        if: steps.publish.outputs.gpg_skip == 'true'
+        uses: actions/setup-java@v4.7.1
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: maven
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+
+      - name: Set up Java 8 for release publish
+        if: steps.publish.outputs.gpg_skip != 'true'
+        uses: actions/setup-java@v4.7.1
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: maven
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Deploy to Maven Central
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: |
+          ARGS=(-B -Prelease -DskipTests)
+          if [[ -n "${{ steps.publish.outputs.revision }}" ]]; then
+            ARGS+=(-Drevision="${{ steps.publish.outputs.revision }}")
+          fi
+          if [[ "${{ steps.publish.outputs.gpg_skip }}" == "true" ]]; then
+            ARGS+=(-Dgpg.skip=true)
+          fi
+          ./mvnw "${ARGS[@]}" deploy

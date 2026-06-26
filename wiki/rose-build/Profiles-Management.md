@@ -16,7 +16,7 @@ Activate with `-P<profile>` (comma-separated for multiple).
 
 ### `coverage`
 
-- **Not** active by default; CI adds it on JDK 21.
+- **Not** active by default; CI runs `verify -Pcoverage`.
 - POM-only modules may set `<jacoco.skip>true</jacoco.skip>`.
 - Reports: `<module>/target/site/jacoco/index.html`
 

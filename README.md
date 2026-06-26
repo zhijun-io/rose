@@ -1,6 +1,6 @@
 # Rose
 
-[![Maven Build](https://github.com/zhijun-io/rose/actions/workflows/maven-build.yml/badge.svg)](https://github.com/zhijun-io/rose/actions/workflows/maven-build.yml)
+[![CI](https://github.com/zhijun-io/rose/actions/workflows/ci.yml/badge.svg)](https://github.com/zhijun-io/rose/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/zhijun-io/rose)](LICENSE)
 
 Spring Boot 2.7 / Java 8 extension libraries and starters for `io.zhijun` — bootstrap utilities, OpenTelemetry, multitenancy, MyBatis-Plus, and dev services. Import **`rose-bom`** in your application; do not inherit `rose-build` or `rose-parent`.
@@ -35,7 +35,7 @@ Full reactor list: root `pom.xml`. BOM artifact list: [wiki/rose-bom/Consumer-Gu
 | Design specs | [docs/design/README.md](docs/design/README.md) |
 | Implementation rules (中文) | [docs/rose-conventions.md](docs/rose-conventions.md) |
 
-Wiki sources under `wiki/` sync to [GitHub Wiki](https://github.com/zhijun-io/rose/wiki) on push to `main` (`.github/workflows/publish-wiki.yml`).
+Wiki sources under `wiki/` sync to [GitHub Wiki](https://github.com/zhijun-io/rose/wiki) on push to `main` (`.github/workflows/wiki.yml`).
 
 ## Getting Started
 
