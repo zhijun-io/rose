@@ -68,4 +68,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
-          slug: zhijun-io/rose
+          slug: zhijun-io/rose # Org 级 token 必须配置
