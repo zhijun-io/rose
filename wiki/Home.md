@@ -31,7 +31,7 @@
 |--------|-------|
 | [rose-spring-boot](rose-spring-boot/Getting-Started) | [Getting Started](rose-spring-boot/Getting-Started), [Configuration Reference](rose-spring-boot/Configuration-Reference) |
 | [rose-bom](rose-bom/Consumer-Guide) | [Consumer Guide](rose-bom/Consumer-Guide) |
-| [rose-build](rose-build/Profiles-Management) | [Profiles Management](rose-build/Profiles-Management), [CI/CD Integration](rose-build/CI-CD-Integration) |
+| [rose-build](rose-build/Profiles-Management) | [Profiles Management](rose-build/Profiles-Management), [CI/CD Integration](rose-build/CI-CD-Integration), [**Compatibility Matrix**](rose-build/Compatibility-Matrix) |
 
 > Sources under `wiki/<module>/`. Synced to GitHub Wiki on push to `main` (`.github/workflows/publish-wiki.yml`).
 

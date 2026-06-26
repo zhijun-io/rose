@@ -103,7 +103,7 @@
 |---|--------|------|------|
 | 0.1 | 补全 `rose-spring-core` 单测缺口 | `ConversionServiceResolver`、`ConfigurationBeanBindingSupport` 等 | Convention §6；已部分完成 |
 | 0.2 | `rose-devservice-test` 依赖 `rose-test`（compile） | 编译通过、无重复 junit/assertj | 测试支持库模式 |
-| 0.3 | 消费者兼容矩阵 | `wiki/` 或 README：Boot 2.7.x、Java 8/11/17、Testcontainers ≤1.21.4 | 对标 `microsphere-spring-cloud` 文档 |
+| 0.3 | 消费者兼容矩阵 | [wiki/rose-build/Compatibility-Matrix.md](../wiki/rose-build/Compatibility-Matrix.md) | 对标 `microsphere-spring-cloud` 文档 |
 | 0.4 | FailureAnalyzer 注册表 | 更新 [bootstrap-diagnostics-design §6](./rose-spring-boot-bootstrap-diagnostics-design.md) + wiki | 分散 → 可查询 |
 | 0.5 | CI 绿 + coverage 不回归 | `./mvnw verify -DskipITs` / `-Pcoverage` | 合并门槛 |
 

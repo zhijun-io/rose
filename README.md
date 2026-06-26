@@ -84,7 +84,7 @@ Full reactor module list: root `pom.xml`.
 | Getting started | [wiki/rose-spring-boot/Getting-Started.md](wiki/rose-spring-boot/Getting-Started.md) |
 | Configuration | [wiki/rose-spring-boot/Configuration-Reference.md](wiki/rose-spring-boot/Configuration-Reference.md) |
 | Consumer BOM | [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md) |
-| Build profiles & CI | [wiki/rose-build/Profiles-Management.md](wiki/rose-build/Profiles-Management.md) · [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md) |
+| Build profiles & CI | [wiki/rose-build/Profiles-Management.md](wiki/rose-build/Profiles-Management.md) · [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md) · [Compatibility Matrix](wiki/rose-build/Compatibility-Matrix.md) |
 | Design specs | [docs/design/README.md](docs/design/README.md) |
 | Conventions (中文) | [docs/rose-conventions.md](docs/rose-conventions.md) |
 | Changelog | [CHANGELOG.md](CHANGELOG.md) |

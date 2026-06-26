@@ -16,19 +16,21 @@ Rose uses GitHub Actions workflows in `.github/workflows/`.
 
 ## CI (`ci.yml`)
 
-Two jobs (fast failure first):
+Two jobs:
 
-| Job | Command | Purpose |
-|-----|---------|---------|
-| `enforce-project-rules` | `./mvnw -B -ntp validate` | Maven enforcer (Maven/Java version, banned deps, duplicate versions) |
-| `build-and-test` | `./mvnw -B -ntp -Pcoverage verify` | Compile, Surefire unit tests, Failsafe `*IT`, JaCoCo reports |
+| Job | JDK | Command | Purpose |
+|-----|-----|---------|---------|
+| `unit` | **8, 11, 17, 21, 25** (matrix) | `./mvnw -B -ntp validate` then `./mvnw -B -ntp verify -DskipITs` | Enforcer + Surefire unit tests |
+| `integration` | **17** | `./mvnw -B -ntp -Pcoverage verify` | Failsafe `*IT`, Testcontainers, JaCoCo, Codecov |
 
-After tests:
+After integration tests:
 
-- Artifact `jacoco-report` (`**/target/site/jacoco/jacoco.xml`, `**/target/site/jacoco-it/jacoco.xml`, 14 days)
+- Artifact `jacoco-report-java-17` (`**/target/site/jacoco/jacoco.xml`, `**/target/site/jacoco-it/jacoco.xml`, 14 days)
 - Upload to Codecov (`codecov/codecov-action`, `fail_ci_if_error: false`)
 
-**Runtime:** Temurin JDK 8, Maven Wrapper (`mvnw`, Maven 3.9.16), Maven dependency cache via `actions/setup-java`.
+**Runtime:** Temurin JDK (see matrix above), Maven Wrapper (`mvnw`), Maven dependency cache via `actions/setup-java`.
+
+See also: [Compatibility Matrix](Compatibility-Matrix) for supported Java / Boot / Testcontainers versions.
 
 **Requirements for green CI:**
 

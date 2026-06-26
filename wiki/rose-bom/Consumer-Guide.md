@@ -129,6 +129,7 @@ OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via e
 | Design specs | [docs/design/](../../docs/design/) |
 | Build & profiles | [Profiles-Management](../rose-build/Profiles-Management) |
 | CI / release | [CI-CD-Integration](../rose-build/CI-CD-Integration) |
+| **Compatibility** | [**Compatibility-Matrix**](../rose-build/Compatibility-Matrix) |
 
 ---
 
