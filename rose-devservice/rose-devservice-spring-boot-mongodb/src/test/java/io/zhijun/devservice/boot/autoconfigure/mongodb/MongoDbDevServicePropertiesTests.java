@@ -17,6 +17,7 @@ class MongoDbDevServicePropertiesTests extends BaseDevServicePropertiesTests<Mon
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
                 .imageName(MongoDbDevServiceProperties.DEFAULT_IMAGE_NAME)
+                .shared(true)
                 .build();
     }
 
