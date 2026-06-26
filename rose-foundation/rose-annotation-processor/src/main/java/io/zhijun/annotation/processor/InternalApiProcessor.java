@@ -8,7 +8,6 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -32,11 +31,15 @@ import io.zhijun.annotation.Internal;
  */
 @AutoService(Processor.class)
 @SupportedAnnotationTypes("io.zhijun.annotation.Internal")
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class InternalApiProcessor extends AbstractProcessor {
 
     private Elements elements;
     private Types types;
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latest();
+    }
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
