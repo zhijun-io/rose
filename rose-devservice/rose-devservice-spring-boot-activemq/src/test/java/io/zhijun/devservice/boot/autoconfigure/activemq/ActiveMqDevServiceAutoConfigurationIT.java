@@ -27,7 +27,7 @@ class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseActiveMqContainer.class;
+        return ActiveMqContainer.class;
     }
 
     @Override
@@ -38,8 +38,8 @@ class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
     @Test
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
-                RoseActiveMqContainer.class,
-                RoseActiveMqContainer.COMPATIBLE_IMAGE_NAME,
+                ActiveMqContainer.class,
+                ActiveMqContainer.COMPATIBLE_IMAGE_NAME,
                 container -> {
                     assertThat(container.getEnv()).anyMatch(env -> env.startsWith("ACTIVEMQ_CONNECTION_USER="));
                     assertThat(container.getBinds()).isEmpty();
@@ -55,7 +55,7 @@ class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
                 "rose.dev.activemq.username=myusername",
                 "rose.dev.activemq.password=mypassword");
 
-        assertContainerConfigurationApplied(RoseActiveMqContainer.class, properties, (context, container) -> {
+        assertContainerConfigurationApplied(ActiveMqContainer.class, properties, (context, container) -> {
             assertThat(container.getUsername()).isEqualTo("myusername");
             assertThat(container.getPassword()).isEqualTo("mypassword");
             assertThat(context.getEnvironment().getProperty("spring.activemq.broker-url")).isNotBlank();

@@ -21,7 +21,7 @@ class OpenLitDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ope
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseOpenLitContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(OpenLitContainer.COMPATIBLE_IMAGE_NAME)
                 .shared(true)
                 .startupTimeout(Duration.ofMinutes(2))
                 .build();

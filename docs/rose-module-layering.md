@@ -83,3 +83,16 @@
 - `rose-observation`：`-core`、`-spring-boot`（聚合）、`-spring-boot-otel` / `-logback` / `-micrometer-otlp` / `-micrometer-bridge` / `-conventions-otel`
 - `rose-multitenancy`：`-core` / `-spring` / `-spring-boot`
 - `rose-devservice`：`-core`、`-spring-boot`、`-test`、`-spring-boot-{actuator, postgresql, mysql, redis, mongodb, kafka, rabbitmq, artemis, activemq, ollama, mqtt, openlit, otel}`
+
+## 6. Java 类命名
+
+Maven **artifactId** / **包名**已体现 Rose（`rose-*`、`io.zhijun.*`）时，**类名不再加 `Rose` 前缀**，除非消歧必需。
+
+| 建议 | 示例 |
+|------|------|
+| 注解 / Processor | `SinceProcessor`、`InternalApiProcessor` |
+| 模块内 Testcontainers 包装 | `PostgresqlContainer`（位于 `...postgresql` 包） |
+| 与三方类同名时加场景后缀 | `DevServiceKafkaContainer`（避免与 `KafkaContainer` 混淆） |
+| 保留 `Rose` 前缀 | 历史对外 API（如 `RoseBinder`）、CHANGELOG 已发布的类型 |
+
+配置键命名空间仍为 **`rose.*`**，与类名是否带 `Rose` 无关。

@@ -19,7 +19,7 @@ class OtelCollectorDevServicePropertiesTests extends BaseDevServicePropertiesTes
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseOtelCollectorContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(OtelCollectorContainer.COMPATIBLE_IMAGE_NAME)
                 .shared(true)
                 .build();
     }
@@ -33,8 +33,8 @@ class OtelCollectorDevServicePropertiesTests extends BaseDevServicePropertiesTes
     @Test
     void shouldUpdateServiceSpecificValues() {
         OtelCollectorDevServiceProperties properties = createProperties();
-        properties.setOtlpGrpcPort(RoseOtelCollectorContainer.OTLP_GRPC_PORT);
-        assertThat(properties.getOtlpGrpcPort()).isEqualTo(RoseOtelCollectorContainer.OTLP_GRPC_PORT);
+        properties.setOtlpGrpcPort(OtelCollectorContainer.OTLP_GRPC_PORT);
+        assertThat(properties.getOtlpGrpcPort()).isEqualTo(OtelCollectorContainer.OTLP_GRPC_PORT);
     }
 
 }

@@ -14,14 +14,36 @@ import io.zhijun.annotation.Incubating;
 @Incubating
 public abstract class BaseDevServiceProperties {
 
+    /**
+     * Whether to start the Dev Service container.
+     */
     private boolean enabled = true;
+
+    /**
+     * Docker image for the Dev Service.
+     */
     private String imageName;
+
     private Map<String, String> environment = new HashMap<String, String>();
     private List<String> networkAliases = new ArrayList<String>();
+
+    /**
+     * Fixed host port; 0 selects a random port.
+     */
     private int port = 0;
+
     private List<ResourceMapping> resources = new ArrayList<ResourceMapping>();
+
+    /**
+     * Reuse a shared container across application restarts.
+     */
     private boolean shared = false;
+
+    /**
+     * Maximum time to wait for the container to become ready.
+     */
     private Duration startupTimeout = Duration.ofSeconds(30);
+
     private List<VolumeMapping> volumes = new ArrayList<VolumeMapping>();
 
     public boolean isEnabled() {

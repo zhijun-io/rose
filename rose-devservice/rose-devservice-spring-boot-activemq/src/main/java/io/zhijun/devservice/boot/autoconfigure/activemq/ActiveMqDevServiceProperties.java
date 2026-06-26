@@ -1,5 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.activemq;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
@@ -15,14 +17,19 @@ public class ActiveMqDevServiceProperties extends BaseDevServiceProperties {
     static final String DEFAULT_USERNAME = "rose";
     static final String DEFAULT_PASSWORD = "rose";
 
+    /** Fixed host port for the ActiveMQ web console; 0 selects a random port. */
     private int managementConsolePort = 0;
+
+    /** Broker username injected into connection properties. */
     private String username = DEFAULT_USERNAME;
+
+    /** Broker password injected into connection properties. */
     private String password = DEFAULT_PASSWORD;
 
     public ActiveMqDevServiceProperties() {
         setImageName("apache/activemq-classic:5.18.3");
         setShared(true);
-        setStartupTimeout(java.time.Duration.ofSeconds(60));
+        setStartupTimeout(Duration.ofSeconds(60));
     }
 
     public int getManagementConsolePort() {

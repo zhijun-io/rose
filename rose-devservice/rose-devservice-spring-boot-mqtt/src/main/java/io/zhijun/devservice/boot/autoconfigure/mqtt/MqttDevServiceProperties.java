@@ -1,5 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.mqtt;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
@@ -14,6 +16,6 @@ public class MqttDevServiceProperties extends BaseDevServiceProperties {
 
     public MqttDevServiceProperties() {
         setImageName("hivemq/hivemq-ce:2024.1");
-        setStartupTimeout(java.time.Duration.ofSeconds(60));
+        setStartupTimeout(Duration.ofSeconds(60));
     }
 }

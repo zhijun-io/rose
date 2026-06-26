@@ -24,19 +24,19 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(PostgresqlDevServicesAutoConfiguration.PostgresqlDevServiceRegistrar.class)
 public final class PostgresqlDevServicesAutoConfiguration {
 
-    private static final JdbcDevServiceConnectorDescriptor<PostgresqlDevServiceProperties, RosePostgreSqlContainer> DESCRIPTOR =
-            JdbcDevServiceConnectorDescriptor.<PostgresqlDevServiceProperties, RosePostgreSqlContainer>builder()
+    private static final JdbcDevServiceConnectorDescriptor<PostgresqlDevServiceProperties, PostgresqlContainer> DESCRIPTOR =
+            JdbcDevServiceConnectorDescriptor.<PostgresqlDevServiceProperties, PostgresqlContainer>builder()
                     .propertiesType(PostgresqlDevServiceProperties.class)
                     .configPrefix(PostgresqlDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("postgresql")
                     .displayName("PostgreSQL Dev Service")
                     .category(DevServiceCategories.JDBC)
-                    .containerClass(RosePostgreSqlContainer.class)
-                    .containerFactory(RosePostgreSqlContainer::new)
+                    .containerClass(PostgresqlContainer.class)
+                    .containerFactory(PostgresqlContainer::new)
                     .build();
 
     static final class PostgresqlDevServiceRegistrar
-            extends JdbcDevServiceRegistrar<PostgresqlDevServiceProperties, RosePostgreSqlContainer> {
+            extends JdbcDevServiceRegistrar<PostgresqlDevServiceProperties, PostgresqlContainer> {
 
         PostgresqlDevServiceRegistrar() {
             super(DESCRIPTOR);

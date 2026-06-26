@@ -17,7 +17,7 @@ class MqttDevServicePropertiesTests extends BaseDevServicePropertiesTests<MqttDe
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseHiveMQContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(HiveMqContainer.COMPATIBLE_IMAGE_NAME)
                 .startupTimeout(Duration.ofSeconds(60))
                 .build();
     }

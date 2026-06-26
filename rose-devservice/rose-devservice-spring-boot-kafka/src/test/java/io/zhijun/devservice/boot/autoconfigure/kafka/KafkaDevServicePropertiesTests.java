@@ -15,7 +15,7 @@ class KafkaDevServicePropertiesTests extends BaseDevServicePropertiesTests<Kafka
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseKafkaContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(DevServiceKafkaContainer.COMPATIBLE_IMAGE_NAME)
                 .shared(true)
                 .build();
     }

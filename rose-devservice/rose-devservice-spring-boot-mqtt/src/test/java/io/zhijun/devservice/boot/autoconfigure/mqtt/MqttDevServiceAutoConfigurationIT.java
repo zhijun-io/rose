@@ -25,7 +25,7 @@ class MqttDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationI
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseHiveMQContainer.class;
+        return HiveMqContainer.class;
     }
 
     @Override
@@ -36,15 +36,15 @@ class MqttDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationI
     @Test
     void containerAvailableWithDefaultConfiguration() {
         assertContainerAvailableWithDefaultConfiguration(
-                RoseHiveMQContainer.class,
-                RoseHiveMQContainer.COMPATIBLE_IMAGE_NAME,
+                HiveMqContainer.class,
+                HiveMqContainer.COMPATIBLE_IMAGE_NAME,
                 container -> assertThat(container.getEnv()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RoseHiveMQContainer.class,
+                HiveMqContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("mqtt.server.uri")).startsWith("tcp://");

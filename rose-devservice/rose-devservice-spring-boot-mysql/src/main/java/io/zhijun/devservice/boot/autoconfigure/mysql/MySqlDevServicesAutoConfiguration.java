@@ -24,19 +24,19 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(MySqlDevServicesAutoConfiguration.MySqlDevServiceRegistrar.class)
 public final class MySqlDevServicesAutoConfiguration {
 
-    private static final JdbcDevServiceConnectorDescriptor<MySqlDevServiceProperties, RoseMySqlContainer> DESCRIPTOR =
-            JdbcDevServiceConnectorDescriptor.<MySqlDevServiceProperties, RoseMySqlContainer>builder()
+    private static final JdbcDevServiceConnectorDescriptor<MySqlDevServiceProperties, MySqlContainer> DESCRIPTOR =
+            JdbcDevServiceConnectorDescriptor.<MySqlDevServiceProperties, MySqlContainer>builder()
                     .propertiesType(MySqlDevServiceProperties.class)
                     .configPrefix(MySqlDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("mysql")
                     .displayName("MySQL Dev Service")
                     .category(DevServiceCategories.JDBC)
-                    .containerClass(RoseMySqlContainer.class)
-                    .containerFactory(RoseMySqlContainer::new)
+                    .containerClass(MySqlContainer.class)
+                    .containerFactory(MySqlContainer::new)
                     .build();
 
     static final class MySqlDevServiceRegistrar
-            extends JdbcDevServiceRegistrar<MySqlDevServiceProperties, RoseMySqlContainer> {
+            extends JdbcDevServiceRegistrar<MySqlDevServiceProperties, MySqlContainer> {
 
         MySqlDevServiceRegistrar() {
             super(DESCRIPTOR);

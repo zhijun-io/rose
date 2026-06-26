@@ -21,7 +21,7 @@ class ActiveMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ac
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseActiveMqContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(ActiveMqContainer.COMPATIBLE_IMAGE_NAME)
                 .shared(true)
                 .startupTimeout(Duration.ofSeconds(60))
                 .build();
@@ -40,11 +40,11 @@ class ActiveMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ac
     void shouldUpdateServiceSpecificValues() {
         ActiveMqDevServiceProperties properties = createProperties();
 
-        properties.setManagementConsolePort(RoseActiveMqContainer.WEB_CONSOLE_PORT);
+        properties.setManagementConsolePort(ActiveMqContainer.WEB_CONSOLE_PORT);
         properties.setUsername("myusername");
         properties.setPassword("mypassword");
 
-        assertThat(properties.getManagementConsolePort()).isEqualTo(RoseActiveMqContainer.WEB_CONSOLE_PORT);
+        assertThat(properties.getManagementConsolePort()).isEqualTo(ActiveMqContainer.WEB_CONSOLE_PORT);
         assertThat(properties.getUsername()).isEqualTo("myusername");
         assertThat(properties.getPassword()).isEqualTo("mypassword");
     }

@@ -17,7 +17,7 @@
 |------|------|
 | `DelegatingScheduledExecutorService` | `ScheduledExecutorService` 委托包装 |
 
-契约注解（`@Since`、`@Incubating`、`@Internal`、`@Nullable`、并发语义注解）在 **`rose-annotation`**。
+契约注解（`@Since`、`@Incubating`、`@Internal`、`@Nullable`、并发语义注解）在 **`rose-annotation`**。编译期处理见 `SinceProcessor` / `InternalApiProcessor`。`@ConfigurationProperties` 的 IDE 元数据由 Spring Boot `configuration-processor` 生成。
 
 ## 消费方式
 

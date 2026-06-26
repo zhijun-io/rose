@@ -21,15 +21,15 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(MqttDevServicesAutoConfiguration.MqttDevServiceRegistrar.class)
 public final class MqttDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<MqttDevServiceProperties, RoseHiveMQContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<MqttDevServiceProperties, RoseHiveMQContainer>builder()
+    private static final DevServiceConnectorDescriptor<MqttDevServiceProperties, HiveMqContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<MqttDevServiceProperties, HiveMqContainer>builder()
                     .propertiesType(MqttDevServiceProperties.class)
                     .configPrefix(MqttDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("mqtt")
                     .displayName("MQTT Dev Service")
                     .category(DevServiceCategories.MQTT)
-                    .containerClass(RoseHiveMQContainer.class)
-                    .containerFactory(RoseHiveMQContainer::new)
+                    .containerClass(HiveMqContainer.class)
+                    .containerFactory(HiveMqContainer::new)
                     .dynamicProperties(registrar -> {
                         registrar.addDynamicProperty("mqtt.server.uri",
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
@@ -39,7 +39,7 @@ public final class MqttDevServicesAutoConfiguration {
                     .build();
 
     static final class MqttDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<MqttDevServiceProperties, RoseHiveMQContainer> {
+            extends ContainerDevServiceRegistrar<MqttDevServiceProperties, HiveMqContainer> {
 
         MqttDevServiceRegistrar() {
             super(DESCRIPTOR);

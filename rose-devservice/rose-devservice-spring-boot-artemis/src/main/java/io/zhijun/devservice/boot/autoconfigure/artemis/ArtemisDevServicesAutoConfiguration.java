@@ -24,15 +24,15 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(ArtemisDevServicesAutoConfiguration.ArtemisDevServiceRegistrar.class)
 public final class ArtemisDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<ArtemisDevServiceProperties, RoseArtemisContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<ArtemisDevServiceProperties, RoseArtemisContainer>builder()
+    private static final DevServiceConnectorDescriptor<ArtemisDevServiceProperties, ArtemisContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<ArtemisDevServiceProperties, ArtemisContainer>builder()
                     .propertiesType(ArtemisDevServiceProperties.class)
                     .configPrefix(ArtemisDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("artemis")
                     .displayName("Artemis Dev Service")
                     .category(DevServiceCategories.JMS)
-                    .containerClass(RoseArtemisContainer.class)
-                    .containerFactory(RoseArtemisContainer::new)
+                    .containerClass(ArtemisContainer.class)
+                    .containerFactory(ArtemisContainer::new)
                     .dynamicProperties(registrar -> {
                         registrar.addDynamicProperty("spring.artemis.broker-url",
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
@@ -44,7 +44,7 @@ public final class ArtemisDevServicesAutoConfiguration {
                     .build();
 
     static final class ArtemisDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<ArtemisDevServiceProperties, RoseArtemisContainer> {
+            extends ContainerDevServiceRegistrar<ArtemisDevServiceProperties, ArtemisContainer> {
 
         ArtemisDevServiceRegistrar() {
             super(DESCRIPTOR);

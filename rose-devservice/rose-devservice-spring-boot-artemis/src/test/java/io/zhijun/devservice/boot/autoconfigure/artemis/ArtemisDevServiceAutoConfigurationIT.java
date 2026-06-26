@@ -28,7 +28,7 @@ class ArtemisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseArtemisContainer.class;
+        return ArtemisContainer.class;
     }
 
     @Override
@@ -39,8 +39,8 @@ class ArtemisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
     @Test
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
-                RoseArtemisContainer.class,
-                RoseArtemisContainer.COMPATIBLE_IMAGE_NAME,
+                ArtemisContainer.class,
+                ArtemisContainer.COMPATIBLE_IMAGE_NAME,
                 container -> {
                     assertThat(container.getEnv()).anyMatch(env -> env.startsWith("AMQ_USER="));
                     assertThat(container.getBinds()).isEmpty();
@@ -56,7 +56,7 @@ class ArtemisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
                 "rose.dev.artemis.username=myusername",
                 "rose.dev.artemis.password=mypassword");
 
-        assertContainerConfigurationApplied(RoseArtemisContainer.class, properties, (context, container) -> {
+        assertContainerConfigurationApplied(ArtemisContainer.class, properties, (context, container) -> {
             assertThat(container.getUsername()).isEqualTo("myusername");
             assertThat(container.getPassword()).isEqualTo("mypassword");
             assertThat(context.getEnvironment().getProperty("spring.artemis.mode")).isEqualTo("native");

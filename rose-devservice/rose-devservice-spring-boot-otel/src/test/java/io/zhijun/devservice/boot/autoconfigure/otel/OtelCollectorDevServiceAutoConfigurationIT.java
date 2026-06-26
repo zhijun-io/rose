@@ -27,7 +27,7 @@ class OtelCollectorDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfi
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseOtelCollectorContainer.class;
+        return OtelCollectorContainer.class;
     }
 
     @Override
@@ -38,8 +38,8 @@ class OtelCollectorDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfi
     @Test
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
-                RoseOtelCollectorContainer.class,
-                RoseOtelCollectorContainer.COMPATIBLE_IMAGE_NAME,
+                OtelCollectorContainer.class,
+                OtelCollectorContainer.COMPATIBLE_IMAGE_NAME,
                 container -> {
                     assertThat(container.getEnv()).isEmpty();
                 });
@@ -48,7 +48,7 @@ class OtelCollectorDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfi
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RoseOtelCollectorContainer.class,
+                OtelCollectorContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_ENDPOINT"))

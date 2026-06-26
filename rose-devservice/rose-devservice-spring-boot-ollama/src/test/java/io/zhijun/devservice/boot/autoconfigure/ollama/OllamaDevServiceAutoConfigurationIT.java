@@ -26,7 +26,7 @@ class OllamaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguratio
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseOllamaContainer.class;
+        return OllamaContainer.class;
     }
 
     @Override
@@ -37,15 +37,15 @@ class OllamaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguratio
     @Test
     void containerActivatedWhenEnabled() {
         assertContainerAvailableInDevMode(
-                RoseOllamaContainer.class,
-                RoseOllamaContainer.COMPATIBLE_IMAGE_NAME,
+                OllamaContainer.class,
+                OllamaContainer.COMPATIBLE_IMAGE_NAME,
                 container -> assertThat(container.getEnv()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RoseOllamaContainer.class,
+                OllamaContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> assertThat(
                         context.getEnvironment().getProperty(OllamaDevServiceProperties.BASE_URL_PROPERTY))

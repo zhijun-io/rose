@@ -21,22 +21,22 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(OllamaDevServicesAutoConfiguration.OllamaDevServiceRegistrar.class)
 public final class OllamaDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<OllamaDevServiceProperties, RoseOllamaContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<OllamaDevServiceProperties, RoseOllamaContainer>builder()
+    private static final DevServiceConnectorDescriptor<OllamaDevServiceProperties, OllamaContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<OllamaDevServiceProperties, OllamaContainer>builder()
                     .propertiesType(OllamaDevServiceProperties.class)
                     .configPrefix(OllamaDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("ollama")
                     .displayName("Ollama Dev Service")
                     .category(DevServiceCategories.OLLAMA)
-                    .containerClass(RoseOllamaContainer.class)
-                    .containerFactory(RoseOllamaContainer::new)
+                    .containerClass(OllamaContainer.class)
+                    .containerFactory(OllamaContainer::new)
                     .dynamicProperties(registrar -> registrar.addDynamicProperty(
                             OllamaDevServiceProperties.BASE_URL_PROPERTY,
                             () -> registrar.requireRunningContainer().getBaseUrl()))
                     .build();
 
     static final class OllamaDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<OllamaDevServiceProperties, RoseOllamaContainer> {
+            extends ContainerDevServiceRegistrar<OllamaDevServiceProperties, OllamaContainer> {
 
         OllamaDevServiceRegistrar() {
             super(DESCRIPTOR);

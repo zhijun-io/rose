@@ -20,14 +20,14 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTr
  * Registers OTLP connection details from the OpenTelemetry Collector dev service container.
  */
 @AutoConfiguration
-@ConditionalOnBean(RoseOtelCollectorContainer.class)
+@ConditionalOnBean(OtelCollectorContainer.class)
 @AutoConfigureAfter({ DevServiceAutoConfiguration.class, OtelCollectorDevServicesAutoConfiguration.class })
 @AutoConfigureBefore({ OpenTelemetryTracingExporterAutoConfiguration.class, OpenTelemetryMetricsExporterAutoConfiguration.class })
 class OtelCollectorOtlpConnectionDetailsConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OtlpTracingConnectionDetails.class)
-    OtlpTracingConnectionDetails otelCollectorOtlpTracingConnectionDetails(RoseOtelCollectorContainer container) {
+    OtlpTracingConnectionDetails otelCollectorOtlpTracingConnectionDetails(OtelCollectorContainer container) {
         DevServiceContainerLifecycle.startIfNecessary(container);
         return OtlpContainerConnectionDetails.tracing(container.getHost(), container.getHttpPort(),
                 container.getGrpcPort());
@@ -35,7 +35,7 @@ class OtelCollectorOtlpConnectionDetailsConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OtlpMetricsConnectionDetails.class)
-    OtlpMetricsConnectionDetails otelCollectorOtlpMetricsConnectionDetails(RoseOtelCollectorContainer container) {
+    OtlpMetricsConnectionDetails otelCollectorOtlpMetricsConnectionDetails(OtelCollectorContainer container) {
         DevServiceContainerLifecycle.startIfNecessary(container);
         return OtlpContainerConnectionDetails.metrics(container.getHost(), container.getHttpPort(),
                 container.getGrpcPort());

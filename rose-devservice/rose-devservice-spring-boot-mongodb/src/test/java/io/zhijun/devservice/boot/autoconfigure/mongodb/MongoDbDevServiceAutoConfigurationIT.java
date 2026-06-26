@@ -28,7 +28,7 @@ class MongoDbDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseMongoDbContainer.class;
+        return MongoDbContainer.class;
     }
 
     @Override
@@ -40,14 +40,14 @@ class MongoDbDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
     void containerAvailableWithDefaultConfiguration() {
         assertContainerAvailableWithDefaultConfiguration(
                 MongoDBContainer.class,
-                RoseMongoDbContainer.COMPATIBLE_IMAGE_NAME,
+                MongoDbContainer.COMPATIBLE_IMAGE_NAME,
                 container -> assertThat(container.getEnv()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RoseMongoDbContainer.class,
+                MongoDbContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> assertThat(
                         context.getEnvironment().getProperty("spring.data.mongodb.uri")).isNotBlank());

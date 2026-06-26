@@ -21,7 +21,7 @@ class ArtemisDevServicePropertiesTests extends BaseDevServicePropertiesTests<Art
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseArtemisContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(ArtemisContainer.COMPATIBLE_IMAGE_NAME)
                 .shared(true)
                 .startupTimeout(Duration.ofSeconds(60))
                 .build();
@@ -40,11 +40,11 @@ class ArtemisDevServicePropertiesTests extends BaseDevServicePropertiesTests<Art
     void shouldUpdateServiceSpecificValues() {
         ArtemisDevServiceProperties properties = createProperties();
 
-        properties.setManagementConsolePort(RoseArtemisContainer.WEB_CONSOLE_PORT);
+        properties.setManagementConsolePort(ArtemisContainer.WEB_CONSOLE_PORT);
         properties.setUsername("myusername");
         properties.setPassword("mypassword");
 
-        assertThat(properties.getManagementConsolePort()).isEqualTo(RoseArtemisContainer.WEB_CONSOLE_PORT);
+        assertThat(properties.getManagementConsolePort()).isEqualTo(ArtemisContainer.WEB_CONSOLE_PORT);
         assertThat(properties.getUsername()).isEqualTo("myusername");
         assertThat(properties.getPassword()).isEqualTo("mypassword");
     }

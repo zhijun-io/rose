@@ -24,15 +24,15 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(ActiveMqDevServicesAutoConfiguration.ActiveMqDevServiceRegistrar.class)
 public final class ActiveMqDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<ActiveMqDevServiceProperties, RoseActiveMqContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<ActiveMqDevServiceProperties, RoseActiveMqContainer>builder()
+    private static final DevServiceConnectorDescriptor<ActiveMqDevServiceProperties, ActiveMqContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<ActiveMqDevServiceProperties, ActiveMqContainer>builder()
                     .propertiesType(ActiveMqDevServiceProperties.class)
                     .configPrefix(ActiveMqDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("activemq")
                     .displayName("ActiveMQ Dev Service")
                     .category(DevServiceCategories.JMS)
-                    .containerClass(RoseActiveMqContainer.class)
-                    .containerFactory(RoseActiveMqContainer::new)
+                    .containerClass(ActiveMqContainer.class)
+                    .containerFactory(ActiveMqContainer::new)
                     .dynamicProperties(registrar -> {
                         registrar.addDynamicProperty("spring.activemq.broker-url",
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
@@ -44,7 +44,7 @@ public final class ActiveMqDevServicesAutoConfiguration {
                     .build();
 
     static final class ActiveMqDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<ActiveMqDevServiceProperties, RoseActiveMqContainer> {
+            extends ContainerDevServiceRegistrar<ActiveMqDevServiceProperties, ActiveMqContainer> {
 
         ActiveMqDevServiceRegistrar() {
             super(DESCRIPTOR);

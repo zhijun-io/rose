@@ -26,7 +26,7 @@ class RedisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguration
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseRedisContainer.class;
+        return RedisContainer.class;
     }
 
     @Override
@@ -37,15 +37,15 @@ class RedisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguration
     @Test
     void containerAvailableWithDefaultConfiguration() {
         assertContainerAvailableWithDefaultConfiguration(
-                RoseRedisContainer.class,
-                RoseRedisContainer.COMPATIBLE_IMAGE_NAME,
+                RedisContainer.class,
+                RedisContainer.COMPATIBLE_IMAGE_NAME,
                 container -> assertThat(container.getEnv()).isEmpty());
     }
 
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RoseRedisContainer.class,
+                RedisContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("spring.redis.host")).isNotBlank();

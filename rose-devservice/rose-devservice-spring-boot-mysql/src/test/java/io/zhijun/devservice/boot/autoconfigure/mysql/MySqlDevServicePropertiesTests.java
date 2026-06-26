@@ -15,7 +15,7 @@ class MySqlDevServicePropertiesTests extends BaseJdbcDevServicePropertiesTests<M
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseMySqlContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(MySqlContainer.COMPATIBLE_IMAGE_NAME)
                 .build();
     }
 

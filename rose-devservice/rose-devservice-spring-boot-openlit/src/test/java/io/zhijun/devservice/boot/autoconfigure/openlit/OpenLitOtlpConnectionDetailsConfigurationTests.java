@@ -24,14 +24,14 @@ class OpenLitOtlpConnectionDetailsConfigurationTests {
 
     @Test
     void registersOtlpConnectionDetailsWhenContainerIsRunning() {
-        RoseOpenLitContainer container = mock(RoseOpenLitContainer.class);
+        OpenLitContainer container = mock(OpenLitContainer.class);
         when(container.isRunning()).thenReturn(true);
         when(container.getHost()).thenReturn("localhost");
         when(container.getOtlpHttpPort()).thenReturn(4318);
         when(container.getOtlpGrpcPort()).thenReturn(4317);
 
         contextRunner
-                .withBean(RoseOpenLitContainer.class, () -> container)
+                .withBean(OpenLitContainer.class, () -> container)
                 .run(context -> {
                     assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
                     assertThat(context).hasSingleBean(OtlpMetricsConnectionDetails.class);
@@ -48,14 +48,14 @@ class OpenLitOtlpConnectionDetailsConfigurationTests {
 
     @Test
     void startsContainerWhenNotRunning() {
-        RoseOpenLitContainer container = mock(RoseOpenLitContainer.class);
+        OpenLitContainer container = mock(OpenLitContainer.class);
         when(container.isRunning()).thenReturn(false);
         when(container.getHost()).thenReturn("localhost");
         when(container.getOtlpHttpPort()).thenReturn(4318);
         when(container.getOtlpGrpcPort()).thenReturn(4317);
 
         contextRunner
-                .withBean(RoseOpenLitContainer.class, () -> container)
+                .withBean(OpenLitContainer.class, () -> container)
                 .run(context -> {
                     assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
                     verify(container, atLeastOnce()).start();

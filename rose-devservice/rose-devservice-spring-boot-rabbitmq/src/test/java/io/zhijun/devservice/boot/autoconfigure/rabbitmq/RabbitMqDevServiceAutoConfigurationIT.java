@@ -27,7 +27,7 @@ class RabbitMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseRabbitMqContainer.class;
+        return RabbitMqContainer.class;
     }
 
     @Override
@@ -39,7 +39,7 @@ class RabbitMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
                 RabbitMQContainer.class,
-                RoseRabbitMqContainer.COMPATIBLE_IMAGE_NAME,
+                RabbitMqContainer.COMPATIBLE_IMAGE_NAME,
                 container -> {
                     assertThat(container.getEnv()).isEmpty();
                 });
@@ -48,7 +48,7 @@ class RabbitMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RoseRabbitMqContainer.class,
+                RabbitMqContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("spring.rabbitmq.host")).isNotBlank();

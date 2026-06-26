@@ -12,6 +12,7 @@ public class RabbitMqDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.rabbitmq";
 
+    /** Fixed host port for the RabbitMQ management console; 0 selects a random port. */
     private int managementConsolePort = 0;
 
     public RabbitMqDevServiceProperties() {

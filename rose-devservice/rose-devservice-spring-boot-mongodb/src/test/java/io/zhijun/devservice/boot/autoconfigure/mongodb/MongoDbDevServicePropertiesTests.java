@@ -15,7 +15,7 @@ class MongoDbDevServicePropertiesTests extends BaseDevServicePropertiesTests<Mon
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseMongoDbContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(MongoDbContainer.COMPATIBLE_IMAGE_NAME)
                 .build();
     }
 

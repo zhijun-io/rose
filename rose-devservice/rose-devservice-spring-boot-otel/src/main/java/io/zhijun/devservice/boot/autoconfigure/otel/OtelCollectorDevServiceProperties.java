@@ -12,6 +12,7 @@ public class OtelCollectorDevServiceProperties extends BaseDevServiceProperties 
 
     public static final String CONFIG_PREFIX = "rose.dev.otel-collector";
 
+    /** Fixed host port for collector OTLP gRPC; 0 selects a random port. */
     private int otlpGrpcPort = 0;
 
     public OtelCollectorDevServiceProperties() {

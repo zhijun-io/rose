@@ -15,7 +15,7 @@ class RedisDevServicePropertiesTests extends BaseDevServicePropertiesTests<Redis
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseRedisContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(RedisContainer.COMPATIBLE_IMAGE_NAME)
                 .build();
     }
 

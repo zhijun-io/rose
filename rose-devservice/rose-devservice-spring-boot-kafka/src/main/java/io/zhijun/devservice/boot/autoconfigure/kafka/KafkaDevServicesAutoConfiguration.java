@@ -24,21 +24,21 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(KafkaDevServicesAutoConfiguration.KafkaDevServiceRegistrar.class)
 public final class KafkaDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<KafkaDevServiceProperties, RoseKafkaContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<KafkaDevServiceProperties, RoseKafkaContainer>builder()
+    private static final DevServiceConnectorDescriptor<KafkaDevServiceProperties, DevServiceKafkaContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<KafkaDevServiceProperties, DevServiceKafkaContainer>builder()
                     .propertiesType(KafkaDevServiceProperties.class)
                     .configPrefix(KafkaDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("kafka")
                     .displayName("Kafka Dev Service")
                     .category(DevServiceCategories.KAFKA)
-                    .containerClass(RoseKafkaContainer.class)
-                    .containerFactory(RoseKafkaContainer::new)
+                    .containerClass(DevServiceKafkaContainer.class)
+                    .containerFactory(DevServiceKafkaContainer::new)
                     .dynamicProperties(registrar -> registrar.addDynamicProperty("spring.kafka.bootstrap-servers",
                             () -> registrar.requireRunningContainer().getBootstrapServers()))
                     .build();
 
     static final class KafkaDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<KafkaDevServiceProperties, RoseKafkaContainer> {
+            extends ContainerDevServiceRegistrar<KafkaDevServiceProperties, DevServiceKafkaContainer> {
 
         KafkaDevServiceRegistrar() {
             super(DESCRIPTOR);

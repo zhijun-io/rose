@@ -48,7 +48,7 @@ class PostgresqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConf
         getContextRunner().run(context -> {
             assertThat(context).hasSingleBean(getContainerClass());
             JdbcDatabaseContainer container = context.getBean(getJdbcContainerClass());
-            assertThat(container.getDockerImageName()).contains(RosePostgreSqlContainer.COMPATIBLE_IMAGE_NAME);
+            assertThat(container.getDockerImageName()).contains(PostgresqlContainer.COMPATIBLE_IMAGE_NAME);
             assertThat(container.getEnv()).isEmpty();
             assertThat(container.getNetworkAliases()).hasSize(1);
             assertThat(container.isShouldBeReused()).isFalse();

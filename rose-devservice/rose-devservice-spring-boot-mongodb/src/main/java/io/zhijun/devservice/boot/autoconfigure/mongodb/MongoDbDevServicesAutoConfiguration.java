@@ -27,21 +27,21 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(MongoDbDevServicesAutoConfiguration.MongoDbDevServiceRegistrar.class)
 public final class MongoDbDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<MongoDbDevServiceProperties, RoseMongoDbContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<MongoDbDevServiceProperties, RoseMongoDbContainer>builder()
+    private static final DevServiceConnectorDescriptor<MongoDbDevServiceProperties, MongoDbContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<MongoDbDevServiceProperties, MongoDbContainer>builder()
                     .propertiesType(MongoDbDevServiceProperties.class)
                     .configPrefix(MongoDbDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("mongodb")
                     .displayName("MongoDB Dev Service")
                     .category(DevServiceCategories.MONGODB)
-                    .containerClass(RoseMongoDbContainer.class)
-                    .containerFactory(RoseMongoDbContainer::new)
+                    .containerClass(MongoDbContainer.class)
+                    .containerFactory(MongoDbContainer::new)
                     .dynamicProperties(registrar -> registrar.addDynamicProperty("spring.data.mongodb.uri",
                             () -> registrar.requireRunningContainer().getReplicaSetUrl()))
                     .build();
 
     static final class MongoDbDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<MongoDbDevServiceProperties, RoseMongoDbContainer> {
+            extends ContainerDevServiceRegistrar<MongoDbDevServiceProperties, MongoDbContainer> {
 
         MongoDbDevServiceRegistrar() {
             super(DESCRIPTOR);

@@ -21,15 +21,15 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(OtelCollectorDevServicesAutoConfiguration.OtelCollectorDevServiceRegistrar.class)
 public final class OtelCollectorDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<OtelCollectorDevServiceProperties, RoseOtelCollectorContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<OtelCollectorDevServiceProperties, RoseOtelCollectorContainer>builder()
+    private static final DevServiceConnectorDescriptor<OtelCollectorDevServiceProperties, OtelCollectorContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<OtelCollectorDevServiceProperties, OtelCollectorContainer>builder()
                     .propertiesType(OtelCollectorDevServiceProperties.class)
                     .configPrefix(OtelCollectorDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("otel-collector")
                     .displayName("OpenTelemetry Collector Dev Service")
                     .category(DevServiceCategories.OPENTELEMETRY)
-                    .containerClass(RoseOtelCollectorContainer.class)
-                    .containerFactory(RoseOtelCollectorContainer::new)
+                    .containerClass(OtelCollectorContainer.class)
+                    .containerFactory(OtelCollectorContainer::new)
                     .dynamicProperties(registrar -> {
                         registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT",
                                 () -> registrar.requireRunningContainer().getOtlpHttpUrl());
@@ -39,7 +39,7 @@ public final class OtelCollectorDevServicesAutoConfiguration {
                     .build();
 
     static final class OtelCollectorDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<OtelCollectorDevServiceProperties, RoseOtelCollectorContainer> {
+            extends ContainerDevServiceRegistrar<OtelCollectorDevServiceProperties, OtelCollectorContainer> {
 
         OtelCollectorDevServiceRegistrar() {
             super(DESCRIPTOR);

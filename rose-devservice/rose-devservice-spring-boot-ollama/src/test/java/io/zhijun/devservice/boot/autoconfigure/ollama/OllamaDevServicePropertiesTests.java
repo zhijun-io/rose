@@ -21,7 +21,7 @@ class OllamaDevServicePropertiesTests extends BaseDevServicePropertiesTests<Olla
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseOllamaContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(OllamaContainer.COMPATIBLE_IMAGE_NAME)
                 .shared(true)
                 .startupTimeout(Duration.ofMinutes(2))
                 .build();

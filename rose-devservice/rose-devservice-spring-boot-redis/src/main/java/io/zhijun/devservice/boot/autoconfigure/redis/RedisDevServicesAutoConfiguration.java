@@ -23,15 +23,15 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(RedisDevServicesAutoConfiguration.RedisDevServiceRegistrar.class)
 public final class RedisDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<RedisDevServiceProperties, RoseRedisContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<RedisDevServiceProperties, RoseRedisContainer>builder()
+    private static final DevServiceConnectorDescriptor<RedisDevServiceProperties, RedisContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<RedisDevServiceProperties, RedisContainer>builder()
                     .propertiesType(RedisDevServiceProperties.class)
                     .configPrefix(RedisDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("redis")
                     .displayName("Redis Dev Service")
                     .category(DevServiceCategories.REDIS)
-                    .containerClass(RoseRedisContainer.class)
-                    .containerFactory(RoseRedisContainer::new)
+                    .containerClass(RedisContainer.class)
+                    .containerFactory(RedisContainer::new)
                     .dynamicProperties(registrar -> {
                         registrar.addDynamicProperty("spring.redis.host",
                                 () -> registrar.requireRunningContainer().getRedisHost());
@@ -41,7 +41,7 @@ public final class RedisDevServicesAutoConfiguration {
                     .build();
 
     static final class RedisDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<RedisDevServiceProperties, RoseRedisContainer> {
+            extends ContainerDevServiceRegistrar<RedisDevServiceProperties, RedisContainer> {
 
         RedisDevServiceRegistrar() {
             super(DESCRIPTOR);

@@ -1,5 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.ollama;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
@@ -15,12 +17,13 @@ public class OllamaDevServiceProperties extends BaseDevServiceProperties {
     /** Dynamic property published when the dev container is running. */
     public static final String BASE_URL_PROPERTY = CONFIG_PREFIX + ".base-url";
 
+    /** Skip Dev Service when a native Ollama endpoint is already available. */
     private boolean ignoreNativeService = false;
 
     public OllamaDevServiceProperties() {
         setImageName("ollama/ollama:0.30.7");
         setShared(true);
-        setStartupTimeout(java.time.Duration.ofMinutes(2));
+        setStartupTimeout(Duration.ofMinutes(2));
     }
 
     public boolean isIgnoreNativeService() {

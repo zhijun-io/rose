@@ -24,14 +24,14 @@ class OtelCollectorOtlpConnectionDetailsConfigurationTests {
 
     @Test
     void registersOtlpConnectionDetailsWhenContainerIsRunning() {
-        RoseOtelCollectorContainer container = mock(RoseOtelCollectorContainer.class);
+        OtelCollectorContainer container = mock(OtelCollectorContainer.class);
         when(container.isRunning()).thenReturn(true);
         when(container.getHost()).thenReturn("localhost");
         when(container.getHttpPort()).thenReturn(4318);
         when(container.getGrpcPort()).thenReturn(4317);
 
         contextRunner
-                .withBean(RoseOtelCollectorContainer.class, () -> container)
+                .withBean(OtelCollectorContainer.class, () -> container)
                 .run(context -> {
                     assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
                     assertThat(context).hasSingleBean(OtlpMetricsConnectionDetails.class);
@@ -48,14 +48,14 @@ class OtelCollectorOtlpConnectionDetailsConfigurationTests {
 
     @Test
     void startsContainerWhenNotRunning() {
-        RoseOtelCollectorContainer container = mock(RoseOtelCollectorContainer.class);
+        OtelCollectorContainer container = mock(OtelCollectorContainer.class);
         when(container.isRunning()).thenReturn(false);
         when(container.getHost()).thenReturn("localhost");
         when(container.getHttpPort()).thenReturn(4318);
         when(container.getGrpcPort()).thenReturn(4317);
 
         contextRunner
-                .withBean(RoseOtelCollectorContainer.class, () -> container)
+                .withBean(OtelCollectorContainer.class, () -> container)
                 .run(context -> {
                     assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
                     verify(container, atLeastOnce()).start();

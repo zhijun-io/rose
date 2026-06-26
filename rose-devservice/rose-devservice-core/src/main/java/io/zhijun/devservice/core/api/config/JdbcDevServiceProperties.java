@@ -15,9 +15,24 @@ public abstract class JdbcDevServiceProperties extends BaseDevServiceProperties 
     public static final String DEFAULT_PASSWORD = "rose";
     public static final String DEFAULT_DB_NAME = "rose";
 
+    /**
+     * Database username injected into the JDBC URL.
+     */
     private String username = DEFAULT_USERNAME;
+
+    /**
+     * Database password injected into the JDBC URL.
+     */
     private String password = DEFAULT_PASSWORD;
+
+    /**
+     * Database name created in the Dev Service container.
+     */
     private String dbName = DEFAULT_DB_NAME;
+
+    /**
+     * Classpath or file paths of SQL scripts run at container startup.
+     */
     private List<String> initScriptPaths = new ArrayList<String>();
 
     public String getUsername() {

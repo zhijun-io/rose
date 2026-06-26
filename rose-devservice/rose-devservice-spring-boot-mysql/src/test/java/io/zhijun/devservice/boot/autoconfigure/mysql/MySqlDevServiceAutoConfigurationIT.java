@@ -45,7 +45,7 @@ class MySqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConfigura
         getContextRunner().run(context -> {
             assertThat(context).hasSingleBean(getContainerClass());
             JdbcDatabaseContainer container = context.getBean(getJdbcContainerClass());
-            assertThat(container.getDockerImageName()).contains(RoseMySqlContainer.COMPATIBLE_IMAGE_NAME);
+            assertThat(container.getDockerImageName()).contains(MySqlContainer.COMPATIBLE_IMAGE_NAME);
             assertThat(container.getEnv()).isEmpty();
             assertThat(container.getNetworkAliases()).hasSize(1);
             assertThat(container.isShouldBeReused()).isFalse();

@@ -20,6 +20,11 @@
             <artifactId>rose-devservice-spring-boot</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-observation-spring-boot</artifactId>
             <optional>true</optional>

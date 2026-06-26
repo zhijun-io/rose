@@ -19,7 +19,7 @@ class RabbitMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ra
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RoseRabbitMqContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(RabbitMqContainer.COMPATIBLE_IMAGE_NAME)
                 .shared(true)
                 .build();
     }
@@ -33,8 +33,8 @@ class RabbitMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ra
     @Test
     void shouldUpdateServiceSpecificValues() {
         RabbitMqDevServiceProperties properties = createProperties();
-        properties.setManagementConsolePort(RoseRabbitMqContainer.HTTP_PORT);
-        assertThat(properties.getManagementConsolePort()).isEqualTo(RoseRabbitMqContainer.HTTP_PORT);
+        properties.setManagementConsolePort(RabbitMqContainer.HTTP_PORT);
+        assertThat(properties.getManagementConsolePort()).isEqualTo(RabbitMqContainer.HTTP_PORT);
     }
 
 }

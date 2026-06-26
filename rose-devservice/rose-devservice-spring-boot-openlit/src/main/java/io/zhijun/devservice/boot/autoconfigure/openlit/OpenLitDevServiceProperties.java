@@ -1,5 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.openlit;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
@@ -12,15 +14,22 @@ public class OpenLitDevServiceProperties extends BaseDevServiceProperties {
 
     public static final String CONFIG_PREFIX = "rose.dev.openlit";
 
-    /** Non-distroless image: honors CLICKHOUSE_USER/PASSWORD for Testcontainers. */
+    /**
+     * ClickHouse sidecar image used by the OpenLit stack.
+     * Non-distroless image: honors CLICKHOUSE_USER/PASSWORD for Testcontainers.
+     */
     private String clickhouseImageName = "clickhouse/clickhouse-server:24.8";
+
+    /** Fixed host port for OpenLit OTLP gRPC; 0 selects a random port. */
     private int otlpGrpcPort = 0;
+
+    /** Fixed host port for OpenLit OTLP HTTP; 0 selects a random port. */
     private int otlpHttpPort = 0;
 
     public OpenLitDevServiceProperties() {
         setImageName("ghcr.io/openlit/openlit:1.21.1");
         setShared(true);
-        setStartupTimeout(java.time.Duration.ofMinutes(2));
+        setStartupTimeout(Duration.ofMinutes(2));
     }
 
     public String getClickhouseImageName() {

@@ -23,15 +23,15 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Import(RabbitMqDevServicesAutoConfiguration.RabbitMqDevServiceRegistrar.class)
 public final class RabbitMqDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<RabbitMqDevServiceProperties, RoseRabbitMqContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<RabbitMqDevServiceProperties, RoseRabbitMqContainer>builder()
+    private static final DevServiceConnectorDescriptor<RabbitMqDevServiceProperties, RabbitMqContainer> DESCRIPTOR =
+            DevServiceConnectorDescriptor.<RabbitMqDevServiceProperties, RabbitMqContainer>builder()
                     .propertiesType(RabbitMqDevServiceProperties.class)
                     .configPrefix(RabbitMqDevServiceProperties.CONFIG_PREFIX)
                     .serviceName("rabbitmq")
                     .displayName("RabbitMQ Dev Service")
                     .category(DevServiceCategories.RABBITMQ)
-                    .containerClass(RoseRabbitMqContainer.class)
-                    .containerFactory(RoseRabbitMqContainer::new)
+                    .containerClass(RabbitMqContainer.class)
+                    .containerFactory(RabbitMqContainer::new)
                     .dynamicProperties(registrar -> {
                         registrar.addDynamicProperty("spring.rabbitmq.host",
                                 () -> registrar.requireRunningContainer().getHost());
@@ -41,7 +41,7 @@ public final class RabbitMqDevServicesAutoConfiguration {
                     .build();
 
     static final class RabbitMqDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<RabbitMqDevServiceProperties, RoseRabbitMqContainer> {
+            extends ContainerDevServiceRegistrar<RabbitMqDevServiceProperties, RabbitMqContainer> {
 
         RabbitMqDevServiceRegistrar() {
             super(DESCRIPTOR);

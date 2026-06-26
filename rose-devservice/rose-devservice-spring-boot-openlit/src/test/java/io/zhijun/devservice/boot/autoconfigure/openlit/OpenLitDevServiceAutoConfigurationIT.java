@@ -25,7 +25,7 @@ class OpenLitDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
 
     @Override
     protected Class<?> getContainerClass() {
-        return RoseOpenLitContainer.class;
+        return OpenLitContainer.class;
     }
 
     @Override
@@ -36,8 +36,8 @@ class OpenLitDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
     @Test
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
-                RoseOpenLitContainer.class,
-                RoseOpenLitContainer.COMPATIBLE_IMAGE_NAME,
+                OpenLitContainer.class,
+                OpenLitContainer.COMPATIBLE_IMAGE_NAME,
                 container -> {
                 });
     }
@@ -45,7 +45,7 @@ class OpenLitDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RoseOpenLitContainer.class,
+                OpenLitContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_ENDPOINT"))
