@@ -17,12 +17,12 @@
   "configMigration": true,
   "packageRules": [
     {
-      "description": "Maven: daily at 23:00",
+      "description": "Maven: daily around 23:00 (hour granularity only)",
       "matchManagers": [
         "maven"
       ],
       "schedule": [
-        "at 11:00pm every day"
+        "* 23 * * *"
       ],
       "labels": [
         "dependencies",
@@ -30,12 +30,12 @@
       ]
     },
     {
-      "description": "GitHub Actions: daily at 00:30",
+      "description": "GitHub Actions: daily around 00:30 (hour 0; minute granularity not supported)",
       "matchManagers": [
         "github-actions"
       ],
       "schedule": [
-        "at 12:30am every day"
+        "* 0 * * *"
       ],
       "labels": [
         "dependencies"
