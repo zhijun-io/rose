@@ -17,6 +17,7 @@ class RedisDevServicePropertiesTests extends BaseDevServicePropertiesTests<Redis
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
                 .imageName(RedisDevServiceProperties.DEFAULT_IMAGE_NAME)
+                .shared(true)
                 .build();
     }
 
