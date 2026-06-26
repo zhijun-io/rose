@@ -4,6 +4,7 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,9 +22,9 @@ class OpenLitDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ope
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(OpenLitContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(OpenLitDevServiceProperties.DEFAULT_IMAGE_NAME)
                 .shared(true)
-                .startupTimeout(Duration.ofMinutes(2))
+                .startupTimeout(BaseDevServiceProperties.HEAVY_STARTUP_TIMEOUT)
                 .build();
     }
 

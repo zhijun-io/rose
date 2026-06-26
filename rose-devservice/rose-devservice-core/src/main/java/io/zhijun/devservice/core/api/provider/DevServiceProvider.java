@@ -7,9 +7,9 @@ public interface DevServiceProvider {
 
     String name();
 
-    String category();
+    DevServiceCategory category();
 
-    static DevServiceProvider of(final String name, final String category) {
+    static DevServiceProvider of(final String name, final DevServiceCategory category) {
         return new DevServiceProvider() {
             @Override
             public String name() {
@@ -17,7 +17,7 @@ public interface DevServiceProvider {
             }
 
             @Override
-            public String category() {
+            public DevServiceCategory category() {
                 return category;
             }
         };

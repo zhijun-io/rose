@@ -9,9 +9,9 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlDevServiceProperties.DEFAULT_DB_NAME;
-import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlDevServiceProperties.DEFAULT_PASSWORD;
-import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlDevServiceProperties.DEFAULT_USERNAME;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_DB_NAME;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_PASSWORD;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

@@ -1,5 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.kafka;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
 /**
@@ -15,7 +16,7 @@ class KafkaDevServicePropertiesTests extends BaseDevServicePropertiesTests<Kafka
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(DevServiceKafkaContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(KafkaDevServiceProperties.DEFAULT_IMAGE_NAME)
                 .shared(true)
                 .build();
     }

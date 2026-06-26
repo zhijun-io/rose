@@ -9,14 +9,14 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * Ollama dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("ollama")
+@ConditionalOnDevServiceEnabled(OllamaDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(OllamaDevServiceProperties.class)
 @Import(OllamaDevServicesAutoConfiguration.OllamaDevServiceRegistrar.class)
 public final class OllamaDevServicesAutoConfiguration {
@@ -25,9 +25,9 @@ public final class OllamaDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<OllamaDevServiceProperties, OllamaContainer>builder()
                     .propertiesType(OllamaDevServiceProperties.class)
                     .configPrefix(OllamaDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("ollama")
+                    .serviceName(OllamaDevServiceProperties.SERVICE_NAME)
                     .displayName("Ollama Dev Service")
-                    .category(DevServiceCategories.OLLAMA)
+                    .category(DevServiceCategory.OLLAMA)
                     .containerClass(OllamaContainer.class)
                     .containerFactory(OllamaContainer::new)
                     .dynamicProperties(registrar -> registrar.addDynamicProperty(

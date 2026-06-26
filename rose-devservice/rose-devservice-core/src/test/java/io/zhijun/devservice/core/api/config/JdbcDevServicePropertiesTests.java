@@ -12,20 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JdbcDevServicePropertiesTests {
 
     @Test
-    void constants() {
-        assertThat(JdbcDevServiceProperties.DEFAULT_USERNAME).isEqualTo("rose");
-        assertThat(JdbcDevServiceProperties.DEFAULT_PASSWORD).isEqualTo("rose");
-        assertThat(JdbcDevServiceProperties.DEFAULT_DB_NAME).isEqualTo("rose");
-    }
-
-    @Test
     void defaultsAndSetters() {
         JdbcDevServiceProperties properties = new JdbcDevServiceProperties() {
         };
 
-        assertThat(properties.getUsername()).isEqualTo(JdbcDevServiceProperties.DEFAULT_USERNAME);
-        assertThat(properties.getPassword()).isEqualTo(JdbcDevServiceProperties.DEFAULT_PASSWORD);
-        assertThat(properties.getDbName()).isEqualTo(JdbcDevServiceProperties.DEFAULT_DB_NAME);
+        assertThat(properties.getUsername()).isEqualTo(DevServiceCredentials.DEFAULT_USERNAME);
+        assertThat(properties.getPassword()).isEqualTo(DevServiceCredentials.DEFAULT_PASSWORD);
+        assertThat(properties.getDbName()).isEqualTo(DevServiceCredentials.DEFAULT_DB_NAME);
         assertThat(properties.getInitScriptPaths()).isEmpty();
 
         properties.setUsername("other");

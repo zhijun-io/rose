@@ -1,7 +1,5 @@
 package io.zhijun.devservice.core.api.provider;
 
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
-
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,12 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class DevServiceProviderTests {
 
-  @Test
-  void of() {
-    DevServiceProvider provider = DevServiceProvider.of("postgresql", "database");
+    @Test
+    void of() {
+        DevServiceProvider provider = DevServiceProvider.of("postgresql", DevServiceCategory.JDBC);
 
-    assertThat(provider.name()).isEqualTo("postgresql");
-    assertThat(provider.category()).isEqualTo("database");
-  }
+        assertThat(provider.name()).isEqualTo("postgresql");
+        assertThat(provider.category()).isEqualTo(DevServiceCategory.JDBC);
+    }
 
 }

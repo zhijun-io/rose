@@ -1,5 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.redis;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
 /**
@@ -15,7 +16,7 @@ class RedisDevServicePropertiesTests extends BaseDevServicePropertiesTests<Redis
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(RedisContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(RedisDevServiceProperties.DEFAULT_IMAGE_NAME)
                 .build();
     }
 

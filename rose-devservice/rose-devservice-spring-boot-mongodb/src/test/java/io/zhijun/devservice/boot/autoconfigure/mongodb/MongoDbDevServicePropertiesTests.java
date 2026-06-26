@@ -1,5 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.mongodb;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
 /**
@@ -15,7 +16,7 @@ class MongoDbDevServicePropertiesTests extends BaseDevServicePropertiesTests<Mon
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(MongoDbContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(MongoDbDevServiceProperties.DEFAULT_IMAGE_NAME)
                 .build();
     }
 

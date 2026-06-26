@@ -15,13 +15,13 @@ public class MultipleDevServiceFailureAnalyzer extends AbstractFailureAnalyzer<M
         return new FailureAnalysis(
                 String.format(
                         "Multiple %s dev services detected: %s.",
-                        cause.getCategory(),
+                        cause.getCategory().id(),
                         cause.getServiceNames()),
                 String.format(
                         "Disable all but one %s dev service by setting the enabled property to false "
-                                + "(e.g., rose.dev.%s.enabled=false).",
-                        cause.getCategory(),
-                        firstService),
+                                + "(e.g., %s=false).",
+                        cause.getCategory().id(),
+                        DevServiceProperties.serviceEnabledProperty(firstService)),
                 cause);
     }
 }

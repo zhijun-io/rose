@@ -15,7 +15,8 @@ class PostgresqlDevServicePropertiesTests extends BaseJdbcDevServicePropertiesTe
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName("postgres")
+                .imageName(PostgresqlDevServiceProperties.DEFAULT_IMAGE_NAME)
+                .shared(true)
                 .build();
     }
 

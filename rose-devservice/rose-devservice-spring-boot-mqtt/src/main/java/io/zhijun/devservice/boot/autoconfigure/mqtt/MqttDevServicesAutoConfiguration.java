@@ -9,14 +9,14 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * MQTT dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("mqtt")
+@ConditionalOnDevServiceEnabled(MqttDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(MqttDevServiceProperties.class)
 @Import(MqttDevServicesAutoConfiguration.MqttDevServiceRegistrar.class)
 public final class MqttDevServicesAutoConfiguration {
@@ -25,9 +25,9 @@ public final class MqttDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<MqttDevServiceProperties, HiveMqContainer>builder()
                     .propertiesType(MqttDevServiceProperties.class)
                     .configPrefix(MqttDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("mqtt")
+                    .serviceName(MqttDevServiceProperties.SERVICE_NAME)
                     .displayName("MQTT Dev Service")
-                    .category(DevServiceCategories.MQTT)
+                    .category(DevServiceCategory.MQTT)
                     .containerClass(HiveMqContainer.class)
                     .containerFactory(HiveMqContainer::new)
                     .dynamicProperties(registrar -> {

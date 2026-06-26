@@ -9,14 +9,14 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * OpenLit dev services auto-configuration.
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("openlit")
+@ConditionalOnDevServiceEnabled(OpenLitDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(OpenLitDevServiceProperties.class)
 @Import(OpenLitDevServicesAutoConfiguration.OpenLitDevServiceRegistrar.class)
 public final class OpenLitDevServicesAutoConfiguration {
@@ -25,15 +25,15 @@ public final class OpenLitDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<OpenLitDevServiceProperties, OpenLitContainer>builder()
                     .propertiesType(OpenLitDevServiceProperties.class)
                     .configPrefix(OpenLitDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("openlit")
+                    .serviceName(OpenLitDevServiceProperties.SERVICE_NAME)
                     .displayName("OpenLit Dev Service")
-                    .category(DevServiceCategories.OPENTELEMETRY)
+                    .category(DevServiceCategory.OPENTELEMETRY)
                     .containerClass(OpenLitContainer.class)
                     .containerFactory(OpenLitContainer::new)
                     .dynamicProperties(registrar -> {
                         registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT",
                                 () -> registrar.requireRunningContainer().getOtlpHttpUrl());
-                        registrar.addDynamicProperty("rose.dev.openlit.ui-url",
+                        registrar.addDynamicProperty(OpenLitDevServiceProperties.UI_URL_PROPERTY,
                                 () -> registrar.requireRunningContainer().getOpenLitUrl());
                     })
                     .build();

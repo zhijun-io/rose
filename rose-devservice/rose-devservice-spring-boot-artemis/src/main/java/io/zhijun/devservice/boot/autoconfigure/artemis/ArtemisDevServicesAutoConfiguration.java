@@ -11,7 +11,7 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * ActiveMQ Artemis dev services auto-configuration.
@@ -19,7 +19,7 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @AutoConfigureBefore(ArtemisAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("artemis")
+@ConditionalOnDevServiceEnabled(ArtemisDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(ArtemisDevServiceProperties.class)
 @Import(ArtemisDevServicesAutoConfiguration.ArtemisDevServiceRegistrar.class)
 public final class ArtemisDevServicesAutoConfiguration {
@@ -28,9 +28,9 @@ public final class ArtemisDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<ArtemisDevServiceProperties, ArtemisContainer>builder()
                     .propertiesType(ArtemisDevServiceProperties.class)
                     .configPrefix(ArtemisDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("artemis")
+                    .serviceName(ArtemisDevServiceProperties.SERVICE_NAME)
                     .displayName("Artemis Dev Service")
-                    .category(DevServiceCategories.JMS)
+                    .category(DevServiceCategory.JMS)
                     .containerClass(ArtemisContainer.class)
                     .containerFactory(ArtemisContainer::new)
                     .dynamicProperties(registrar -> {

@@ -6,6 +6,7 @@ import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 
 import io.zhijun.annotation.Incubating;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * Declarative metadata for a non-JDBC dev service connector.
@@ -17,7 +18,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
     private final String configPrefix;
     private final String serviceName;
     private final String displayName;
-    private final String category;
+    private final DevServiceCategory category;
     private final Class<C> containerClass;
     private final Function<P, C> containerFactory;
     private final DynamicPropertyRegistrar<P, C> dynamicProperties;
@@ -58,7 +59,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
         return displayName;
     }
 
-    String category() {
+    DevServiceCategory category() {
         return category;
     }
 
@@ -80,7 +81,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
         private String configPrefix;
         private String serviceName;
         private String displayName;
-        private String category;
+        private DevServiceCategory category;
         private Class<C> containerClass;
         private Function<P, C> containerFactory;
         private DynamicPropertyRegistrar<P, C> dynamicProperties;
@@ -105,7 +106,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
             return this;
         }
 
-        public Builder<P, C> category(String category) {
+        public Builder<P, C> category(DevServiceCategory category) {
             this.category = category;
             return this;
         }

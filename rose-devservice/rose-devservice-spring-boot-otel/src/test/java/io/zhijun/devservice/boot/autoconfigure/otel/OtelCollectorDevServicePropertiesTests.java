@@ -2,6 +2,7 @@ package io.zhijun.devservice.boot.autoconfigure.otel;
 
 import org.junit.jupiter.api.Test;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +20,7 @@ class OtelCollectorDevServicePropertiesTests extends BaseDevServicePropertiesTes
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(OtelCollectorContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(OtelCollectorDevServiceProperties.DEFAULT_IMAGE_NAME)
                 .shared(true)
                 .build();
     }

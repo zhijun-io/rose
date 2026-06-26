@@ -10,7 +10,7 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * Redis dev services auto-configuration.
@@ -18,7 +18,7 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(RedisAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("redis")
+@ConditionalOnDevServiceEnabled(RedisDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(RedisDevServiceProperties.class)
 @Import(RedisDevServicesAutoConfiguration.RedisDevServiceRegistrar.class)
 public final class RedisDevServicesAutoConfiguration {
@@ -27,9 +27,9 @@ public final class RedisDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<RedisDevServiceProperties, RedisContainer>builder()
                     .propertiesType(RedisDevServiceProperties.class)
                     .configPrefix(RedisDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("redis")
+                    .serviceName(RedisDevServiceProperties.SERVICE_NAME)
                     .displayName("Redis Dev Service")
-                    .category(DevServiceCategories.REDIS)
+                    .category(DevServiceCategory.REDIS)
                     .containerClass(RedisContainer.class)
                     .containerFactory(RedisContainer::new)
                     .dynamicProperties(registrar -> {

@@ -11,7 +11,6 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.JdbcDevServiceConnectorDescriptor;
 import io.zhijun.devservice.boot.registration.JdbcDevServiceRegistrar;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 
 /**
  * MySQL dev services auto-configuration.
@@ -19,7 +18,7 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("mysql")
+@ConditionalOnDevServiceEnabled(MySqlDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(MySqlDevServiceProperties.class)
 @Import(MySqlDevServicesAutoConfiguration.MySqlDevServiceRegistrar.class)
 public final class MySqlDevServicesAutoConfiguration {
@@ -28,9 +27,8 @@ public final class MySqlDevServicesAutoConfiguration {
             JdbcDevServiceConnectorDescriptor.<MySqlDevServiceProperties, MySqlContainer>builder()
                     .propertiesType(MySqlDevServiceProperties.class)
                     .configPrefix(MySqlDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("mysql")
+                    .serviceName(MySqlDevServiceProperties.SERVICE_NAME)
                     .displayName("MySQL Dev Service")
-                    .category(DevServiceCategories.JDBC)
                     .containerClass(MySqlContainer.class)
                     .containerFactory(MySqlContainer::new)
                     .build();

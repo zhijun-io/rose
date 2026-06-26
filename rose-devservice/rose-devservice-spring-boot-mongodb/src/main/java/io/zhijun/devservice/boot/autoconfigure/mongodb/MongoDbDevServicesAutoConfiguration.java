@@ -11,7 +11,7 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * MongoDB dev services auto-configuration.
@@ -22,7 +22,7 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class
 })
-@ConditionalOnDevServiceEnabled("mongodb")
+@ConditionalOnDevServiceEnabled(MongoDbDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(MongoDbDevServiceProperties.class)
 @Import(MongoDbDevServicesAutoConfiguration.MongoDbDevServiceRegistrar.class)
 public final class MongoDbDevServicesAutoConfiguration {
@@ -31,9 +31,9 @@ public final class MongoDbDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<MongoDbDevServiceProperties, MongoDbContainer>builder()
                     .propertiesType(MongoDbDevServiceProperties.class)
                     .configPrefix(MongoDbDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("mongodb")
+                    .serviceName(MongoDbDevServiceProperties.SERVICE_NAME)
                     .displayName("MongoDB Dev Service")
-                    .category(DevServiceCategories.MONGODB)
+                    .category(DevServiceCategory.MONGODB)
                     .containerClass(MongoDbContainer.class)
                     .containerFactory(MongoDbContainer::new)
                     .dynamicProperties(registrar -> registrar.addDynamicProperty("spring.data.mongodb.uri",

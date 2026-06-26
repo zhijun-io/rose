@@ -4,6 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
+import io.zhijun.devservice.core.api.config.DevServiceCredentials;
 import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,8 +45,8 @@ class ArtemisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
                 container -> {
                     assertThat(container.getEnv()).anyMatch(env -> env.startsWith("AMQ_USER="));
                     assertThat(container.getBinds()).isEmpty();
-                    assertThat(container.getUsername()).isEqualTo(ArtemisDevServiceProperties.DEFAULT_USERNAME);
-                    assertThat(container.getPassword()).isEqualTo(ArtemisDevServiceProperties.DEFAULT_PASSWORD);
+                    assertThat(container.getUsername()).isEqualTo(DevServiceCredentials.DEFAULT_USERNAME);
+                    assertThat(container.getPassword()).isEqualTo(DevServiceCredentials.DEFAULT_PASSWORD);
                 });
     }
 

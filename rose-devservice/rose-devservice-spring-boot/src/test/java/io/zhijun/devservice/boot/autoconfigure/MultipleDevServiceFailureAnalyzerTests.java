@@ -3,11 +3,10 @@ package io.zhijun.devservice.boot.autoconfigure;
 import java.util.Arrays;
 import java.util.List;
 
-import io.zhijun.devservice.boot.autoconfigure.MultipleDevServiceException;
-import io.zhijun.devservice.boot.autoconfigure.MultipleDevServiceFailureAnalyzer;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.diagnostics.FailureAnalysis;
+
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +17,8 @@ class MultipleDevServiceFailureAnalyzerTests {
     @Test
     void shouldProduceActionableFailureAnalysis() {
         List<String> services = Arrays.asList("lgtm", "openlit");
-        MultipleDevServiceException exception = new MultipleDevServiceException("opentelemetry", services);
+        MultipleDevServiceException exception =
+                new MultipleDevServiceException(DevServiceCategory.OPENTELEMETRY, services);
 
         FailureAnalysis analysis = analyzer.analyze(exception, exception);
 

@@ -2,6 +2,7 @@ package io.zhijun.devservice.boot.autoconfigure;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.boot.registration.DevServiceContainersInitializer;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 
 /**
  * Global dev services auto-configuration.
@@ -33,16 +35,17 @@ public final class DevServiceAutoConfiguration {
     @Bean
     SmartInitializingSingleton devServicesConflictValidator(ObjectProvider<DevServiceProvider> providers) {
         return () -> {
-            Map<String, List<DevServiceProvider>> grouped = new java.util.HashMap<String, List<DevServiceProvider>>();
+            Map<DevServiceCategory, List<DevServiceProvider>> grouped =
+                    new EnumMap<DevServiceCategory, List<DevServiceProvider>>(DevServiceCategory.class);
             for (DevServiceProvider provider : providers) {
                 List<DevServiceProvider> group = grouped.get(provider.category());
                 if (group == null) {
-                    group = new ArrayList<>();
+                    group = new ArrayList<DevServiceProvider>();
                     grouped.put(provider.category(), group);
                 }
                 group.add(provider);
             }
-            for (Map.Entry<String, List<DevServiceProvider>> entry : grouped.entrySet()) {
+            for (Map.Entry<DevServiceCategory, List<DevServiceProvider>> entry : grouped.entrySet()) {
                 if (entry.getValue().size() > 1) {
                     List<String> names = new ArrayList<String>();
                     for (DevServiceProvider provider : entry.getValue()) {

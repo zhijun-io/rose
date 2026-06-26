@@ -1,13 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.autoconfigure.MultipleDevServiceException;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,23 +30,28 @@ class DevServiceAutoConfigurationTests {
     @Test
     void noConflictWithSingleProvider() {
         contextRunner
-                .withBean("lgtm", DevServiceProvider.class, () -> DevServiceProvider.of("lgtm", "opentelemetry"))
+                .withBean("lgtm", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY))
                 .run(context -> assertThat(context).hasNotFailed());
     }
 
     @Test
     void noConflictWithProvidersInDifferentCategories() {
         contextRunner
-                .withBean("lgtm", DevServiceProvider.class, () -> DevServiceProvider.of("lgtm", "opentelemetry"))
-                .withBean("postgresql", DevServiceProvider.class, () -> DevServiceProvider.of("postgresql", "jdbc"))
+                .withBean("lgtm", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY))
+                .withBean("postgresql", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("postgresql", DevServiceCategory.JDBC))
                 .run(context -> assertThat(context).hasNotFailed());
     }
 
     @Test
     void conflictDetectedWithMultipleProvidersInSameCategory() {
         contextRunner
-                .withBean("lgtm", DevServiceProvider.class, () -> DevServiceProvider.of("lgtm", "opentelemetry"))
-                .withBean("openlit", DevServiceProvider.class, () -> DevServiceProvider.of("openlit", "opentelemetry"))
+                .withBean("lgtm", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY))
+                .withBean("openlit", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("openlit", DevServiceCategory.OPENTELEMETRY))
                 .run(context -> {
                     assertThat(context).hasFailed();
                     assertThat(context.getStartupFailure())
@@ -60,8 +62,10 @@ class DevServiceAutoConfigurationTests {
     @Test
     void conflictDetectedWithMultipleJdbcProviders() {
         contextRunner
-                .withBean("postgresql", DevServiceProvider.class, () -> DevServiceProvider.of("postgresql", "jdbc"))
-                .withBean("mysql", DevServiceProvider.class, () -> DevServiceProvider.of("mysql", "jdbc"))
+                .withBean("postgresql", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("postgresql", DevServiceCategory.JDBC))
+                .withBean("mysql", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("mysql", DevServiceCategory.JDBC))
                 .run(context -> {
                     assertThat(context).hasFailed();
                     assertThat(context.getStartupFailure())
@@ -72,8 +76,10 @@ class DevServiceAutoConfigurationTests {
     @Test
     void conflictDetectedWithMultipleJmsProviders() {
         contextRunner
-                .withBean("artemis", DevServiceProvider.class, () -> DevServiceProvider.of("artemis", "jms"))
-                .withBean("activemq", DevServiceProvider.class, () -> DevServiceProvider.of("activemq", "jms"))
+                .withBean("artemis", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("artemis", DevServiceCategory.JMS))
+                .withBean("activemq", DevServiceProvider.class,
+                        () -> DevServiceProvider.of("activemq", DevServiceCategory.JMS))
                 .run(context -> {
                     assertThat(context).hasFailed();
                     assertThat(context.getStartupFailure())
@@ -82,4 +88,3 @@ class DevServiceAutoConfigurationTests {
     }
 
 }
-

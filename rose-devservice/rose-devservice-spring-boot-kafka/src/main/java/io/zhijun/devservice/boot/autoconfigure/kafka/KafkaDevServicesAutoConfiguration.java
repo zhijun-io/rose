@@ -11,7 +11,7 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * Kafka dev services auto-configuration.
@@ -19,7 +19,7 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @AutoConfigureBefore(KafkaAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("kafka")
+@ConditionalOnDevServiceEnabled(KafkaDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(KafkaDevServiceProperties.class)
 @Import(KafkaDevServicesAutoConfiguration.KafkaDevServiceRegistrar.class)
 public final class KafkaDevServicesAutoConfiguration {
@@ -28,9 +28,9 @@ public final class KafkaDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<KafkaDevServiceProperties, DevServiceKafkaContainer>builder()
                     .propertiesType(KafkaDevServiceProperties.class)
                     .configPrefix(KafkaDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("kafka")
+                    .serviceName(KafkaDevServiceProperties.SERVICE_NAME)
                     .displayName("Kafka Dev Service")
-                    .category(DevServiceCategories.KAFKA)
+                    .category(DevServiceCategory.KAFKA)
                     .containerClass(DevServiceKafkaContainer.class)
                     .containerFactory(DevServiceKafkaContainer::new)
                     .dynamicProperties(registrar -> registrar.addDynamicProperty("spring.kafka.bootstrap-servers",

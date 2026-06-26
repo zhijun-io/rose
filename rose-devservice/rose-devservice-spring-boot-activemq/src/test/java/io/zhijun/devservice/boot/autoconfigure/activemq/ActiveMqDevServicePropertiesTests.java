@@ -4,6 +4,8 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.api.config.DevServiceCredentials;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,9 +23,9 @@ class ActiveMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ac
     @Override
     protected DefaultValues getExpectedDefaults() {
         return DefaultValues.builder()
-                .imageName(ActiveMqContainer.COMPATIBLE_IMAGE_NAME)
+                .imageName(ActiveMqDevServiceProperties.DEFAULT_IMAGE_NAME)
                 .shared(true)
-                .startupTimeout(Duration.ofSeconds(60))
+                .startupTimeout(BaseDevServiceProperties.SLOW_STARTUP_TIMEOUT)
                 .build();
     }
 
@@ -31,9 +33,9 @@ class ActiveMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ac
     void shouldCreateInstanceWithServiceSpecificDefaultValues() {
         ActiveMqDevServiceProperties properties = createProperties();
 
-        assertThat(properties.getManagementConsolePort()).isZero();
-        assertThat(properties.getUsername()).isEqualTo(ActiveMqDevServiceProperties.DEFAULT_USERNAME);
-        assertThat(properties.getPassword()).isEqualTo(ActiveMqDevServiceProperties.DEFAULT_PASSWORD);
+        assertThat(properties.getManagementConsolePort()).isEqualTo(BaseDevServiceProperties.RANDOM_PORT);
+        assertThat(properties.getUsername()).isEqualTo(DevServiceCredentials.DEFAULT_USERNAME);
+        assertThat(properties.getPassword()).isEqualTo(DevServiceCredentials.DEFAULT_PASSWORD);
     }
 
     @Test

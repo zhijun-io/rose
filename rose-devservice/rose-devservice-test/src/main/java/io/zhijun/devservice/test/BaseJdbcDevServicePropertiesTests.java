@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 
-import static io.zhijun.devservice.core.api.config.JdbcDevServiceProperties.DEFAULT_DB_NAME;
-import static io.zhijun.devservice.core.api.config.JdbcDevServiceProperties.DEFAULT_PASSWORD;
-import static io.zhijun.devservice.core.api.config.JdbcDevServiceProperties.DEFAULT_USERNAME;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_DB_NAME;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_PASSWORD;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

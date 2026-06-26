@@ -10,7 +10,7 @@ import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
-import io.zhijun.devservice.core.api.provider.DevServiceCategories;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * RabbitMQ dev services auto-configuration.
@@ -18,7 +18,7 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategories;
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(RabbitAutoConfiguration.class)
-@ConditionalOnDevServiceEnabled("rabbitmq")
+@ConditionalOnDevServiceEnabled(RabbitMqDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(RabbitMqDevServiceProperties.class)
 @Import(RabbitMqDevServicesAutoConfiguration.RabbitMqDevServiceRegistrar.class)
 public final class RabbitMqDevServicesAutoConfiguration {
@@ -27,9 +27,9 @@ public final class RabbitMqDevServicesAutoConfiguration {
             DevServiceConnectorDescriptor.<RabbitMqDevServiceProperties, RabbitMqContainer>builder()
                     .propertiesType(RabbitMqDevServiceProperties.class)
                     .configPrefix(RabbitMqDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName("rabbitmq")
+                    .serviceName(RabbitMqDevServiceProperties.SERVICE_NAME)
                     .displayName("RabbitMQ Dev Service")
-                    .category(DevServiceCategories.RABBITMQ)
+                    .category(DevServiceCategory.RABBITMQ)
                     .containerClass(RabbitMqContainer.class)
                     .containerFactory(RabbitMqContainer::new)
                     .dynamicProperties(registrar -> {

@@ -1,5 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.activemq;
 
+import io.zhijun.devservice.core.api.config.DevServiceCredentials;
 import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
@@ -43,8 +44,8 @@ class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
                 container -> {
                     assertThat(container.getEnv()).anyMatch(env -> env.startsWith("ACTIVEMQ_CONNECTION_USER="));
                     assertThat(container.getBinds()).isEmpty();
-                    assertThat(container.getUsername()).isEqualTo(ActiveMqDevServiceProperties.DEFAULT_USERNAME);
-                    assertThat(container.getPassword()).isEqualTo(ActiveMqDevServiceProperties.DEFAULT_PASSWORD);
+                    assertThat(container.getUsername()).isEqualTo(DevServiceCredentials.DEFAULT_USERNAME);
+                    assertThat(container.getPassword()).isEqualTo(DevServiceCredentials.DEFAULT_PASSWORD);
                 });
     }
 
