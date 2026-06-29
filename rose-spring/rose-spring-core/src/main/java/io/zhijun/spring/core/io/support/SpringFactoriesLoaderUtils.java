@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
@@ -29,17 +28,7 @@ public abstract class SpringFactoriesLoaderUtils {
         return Collections.unmodifiableList(factories);
     }
 
-    public static <T> List<T> loadFactories(ApplicationContext applicationContext, Class<T> factoryType) {
-        if (applicationContext == null) {
-            return loadFactories(factoryType);
-        }
-        return loadFactories((BeanFactory) applicationContext, factoryType);
-    }
-
     public static <T> List<T> loadFactories(BeanFactory beanFactory, Class<T> factoryType) {
-        if (beanFactory instanceof ApplicationContext) {
-            return loadFactories((ApplicationContext) beanFactory, factoryType);
-        }
         ClassLoader classLoader = beanFactory instanceof ConfigurableBeanFactory
                 ? ((ConfigurableBeanFactory) beanFactory).getBeanClassLoader()
                 : resolveClassLoader(null);

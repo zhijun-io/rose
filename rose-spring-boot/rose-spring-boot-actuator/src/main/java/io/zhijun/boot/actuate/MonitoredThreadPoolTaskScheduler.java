@@ -1,8 +1,6 @@
 package io.zhijun.boot.actuate;
 
-import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
@@ -24,14 +22,6 @@ public class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskScheduler
     private ApplicationContext context;
 
     private volatile ScheduledExecutorService delegate;
-
-    @Override
-    protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory,
-                                                      RejectedExecutionHandler rejectedExecutionHandler) {
-        ScheduledExecutorService scheduledExecutor = super.createExecutor(poolSize, threadFactory, rejectedExecutionHandler);
-        this.delegate = scheduledExecutor;
-        return scheduledExecutor;
-    }
 
     @Override
     public ScheduledExecutorService getScheduledExecutor() throws IllegalStateException {

@@ -23,4 +23,18 @@ public class DelimitedAliasGenerator implements ConfigurationBeanAliasGenerator 
         }
         return builder.append(delimiter).append(beanName).toString();
     }
+
+    public static final class Hyphen extends DelimitedAliasGenerator {
+
+        public Hyphen() {
+            super("-");
+        }
+    }
+
+    public static final class Underscore extends DelimitedAliasGenerator {
+
+        public Underscore() {
+            super("_");
+        }
+    }
 }

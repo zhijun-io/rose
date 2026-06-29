@@ -21,10 +21,4 @@ class OpenTelemetryConventionsAutoConfigurationTests {
             assertThat(context.getBean(TelemetryConventionsBackend.class).defaultCandidate()).isTrue();
         });
     }
-
-    @Test
-    void configPrefix() {
-        assertThat(OpenTelemetryConventionsAutoConfiguration.CONFIG_PREFIX)
-                .isEqualTo("rose.observation.conventions.otel");
-    }
 }

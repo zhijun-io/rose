@@ -5,7 +5,7 @@ io.zhijun.spring.core.env.listener.LoggingEnvironmentListener,\
 io.zhijun.spring.core.env.refresh.PropertySourcesRefreshEnvironmentListener
 io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator=\
 io.zhijun.spring.core.binder.support.DefaultConfigurationBeanAliasGenerator,\
-io.zhijun.spring.core.binder.support.HyphenAliasGenerator,\
-io.zhijun.spring.core.binder.support.UnderScoreJoinAliasGenerator
+io.zhijun.spring.core.binder.support.DelimitedAliasGenerator$Hyphen,\
+io.zhijun.spring.core.binder.support.DelimitedAliasGenerator$Underscore
 io.zhijun.spring.core.env.refresh.Refreshable=\
 io.zhijun.spring.core.binder.refresh.ConfigurationBeanBindingRefreshable

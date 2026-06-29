@@ -14,8 +14,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResou
 @AutoConfiguration
 public final class OpenTelemetryConventionsAutoConfiguration {
 
-    static final String CONFIG_PREFIX = "rose.observation.conventions.otel";
-
     @Bean
     TelemetryConventionsBackend openTelemetryConventionsBackend() {
         return TelemetryConventionsBackend.of("opentelemetry", true);

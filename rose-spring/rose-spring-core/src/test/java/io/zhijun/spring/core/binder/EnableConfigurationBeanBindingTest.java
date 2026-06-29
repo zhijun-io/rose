@@ -5,7 +5,6 @@ import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;
 
-import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
 import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,11 +27,6 @@ class EnableConfigurationBeanBindingTest extends AbstractEnableConfigurationBean
                 }
             }
         };
-    }
-
-    @Bean
-    ConfigurationBeanBinder configurationBeanBinder() {
-        return new ConfigurationBeanBinder();
     }
 
     @Test

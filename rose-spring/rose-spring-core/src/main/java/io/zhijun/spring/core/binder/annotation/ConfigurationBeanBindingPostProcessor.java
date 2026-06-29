@@ -157,17 +157,11 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
     }
 
     private void initConfigurationBeanBinder() {
-        ConfigurationBeanBinder binder = configurationBeanBinder;
-        if (binder == null) {
-            try {
-                binder = beanFactory.getBean(ConfigurationBeanBinder.class);
-            } catch (BeansException ignored) {
-                binder = new ConfigurationBeanBinder();
-            }
+        if (configurationBeanBinder == null) {
+            configurationBeanBinder = new ConfigurationBeanBinder();
         }
         ConversionService conversionService = new ConversionServiceResolver(beanFactory).resolve();
-        binder.setConversionService(conversionService);
-        configurationBeanBinder = binder;
+        configurationBeanBinder.setConversionService(conversionService);
     }
 
     private void initConfigurationBeanCustomizers() {
