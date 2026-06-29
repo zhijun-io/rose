@@ -6,9 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.support.EncodedResource;
 
-import io.zhijun.spring.core.propertysource.support.JsonPropertySourceFactory;
-import io.zhijun.spring.core.propertysource.support.YamlPropertySourceFactory;
-
 import java.nio.charset.StandardCharsets;
 
 class PropertySourceFactoryTests {

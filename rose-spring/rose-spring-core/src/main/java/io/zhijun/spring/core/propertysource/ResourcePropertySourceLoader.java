@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.propertysource.support;
+package io.zhijun.spring.core.propertysource;
 
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;

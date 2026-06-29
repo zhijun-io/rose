@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.propertysource.support;
+package io.zhijun.spring.core.propertysource;
 
 import java.lang.reflect.Array;
 import java.util.LinkedHashMap;

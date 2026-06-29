@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.propertysource.support.internal;
+package io.zhijun.spring.core.propertysource.internal;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ import org.springframework.core.io.FileSystemResource;
 
 import io.zhijun.spring.core.io.watch.FileChangedEvent;
 import io.zhijun.spring.core.io.watch.FileChangedListener;
-import io.zhijun.spring.core.propertysource.support.PropertySourceReloadCallback;
+import io.zhijun.spring.core.propertysource.PropertySourceReloadCallback;
 
 /**
  * Bridges file watch notifications to property-source reload callbacks.

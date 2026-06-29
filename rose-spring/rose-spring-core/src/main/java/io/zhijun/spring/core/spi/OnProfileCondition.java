@@ -1,7 +1,7 @@
-package io.zhijun.spring.core.spi.condition;
+package io.zhijun.spring.core.spi;
 import io.zhijun.core.spi.Condition;
 import io.zhijun.spring.core.context.SpringContextHolder;
-import io.zhijun.spring.core.spi.condition.annotation.OnProfile;
+import io.zhijun.spring.core.spi.annotation.OnProfile;
 import org.springframework.core.env.Environment;
 /**
  * Profile匹配条件实现

@@ -15,8 +15,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.DefaultPropertySourceFactory;
 import org.springframework.core.io.support.PropertySourceFactory;
 
-import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
-import io.zhijun.spring.core.propertysource.support.ResourcePropertySourceLoader;
+import io.zhijun.spring.core.propertysource.DefaultResourceComparator;
+import io.zhijun.spring.core.propertysource.ResourcePropertySourceLoader;
 
 /**
  * Enhanced property source annotation.

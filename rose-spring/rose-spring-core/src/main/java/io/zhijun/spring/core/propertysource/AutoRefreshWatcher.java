@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.propertysource.support;
+package io.zhijun.spring.core.propertysource;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import io.zhijun.spring.core.io.watch.FileWatchService;
 import io.zhijun.spring.core.io.watch.StandardFileWatchService;
-import io.zhijun.spring.core.propertysource.support.internal.ResourceFileChangedListener;
+import io.zhijun.spring.core.propertysource.internal.ResourceFileChangedListener;
 
 /**
  * Watches file-backed resources and triggers reload callbacks.

@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.spring.core.propertysource.support.ResourcePropertySourcesLoader;
+import io.zhijun.spring.core.propertysource.ResourcePropertySourcesLoader;
 
 /**
  * Container for repeatable resource property sources.

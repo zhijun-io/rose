@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.zhijun.spring.core.propertysource.AutoRefreshWatcher;
+import io.zhijun.spring.core.propertysource.PropertySourceReloadCallback;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
 

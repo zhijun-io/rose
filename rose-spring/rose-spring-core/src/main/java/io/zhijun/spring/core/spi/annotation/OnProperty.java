@@ -1,6 +1,6 @@
-package io.zhijun.spring.core.spi.condition.annotation;
+package io.zhijun.spring.core.spi.annotation;
 import io.zhijun.core.spi.condition.annotation.ConditionAnnotation;
-import io.zhijun.spring.core.spi.condition.OnPropertyCondition;
+import io.zhijun.spring.core.spi.OnPropertyCondition;
 import java.lang.annotation.*;
 /**
  * SPI加载条件：指定配置项匹配时才加载实现

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import io.zhijun.spring.core.propertysource.PropertySourceMaps;
 import org.junit.jupiter.api.Test;
 
 class PropertySourceMapsTests {

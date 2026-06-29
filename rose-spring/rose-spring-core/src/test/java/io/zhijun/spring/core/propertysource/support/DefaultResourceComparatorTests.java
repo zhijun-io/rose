@@ -2,6 +2,7 @@ package io.zhijun.spring.core.propertysource.support;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.zhijun.spring.core.propertysource.DefaultResourceComparator;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;

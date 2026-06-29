@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import io.zhijun.spring.boot.constants.PropertyConstants;
-import io.zhijun.spring.core.propertysource.support.PropertySourceMaps;
+import io.zhijun.spring.core.propertysource.PropertySourceMaps;
 
 /**
  * Loads and merges {@code config/default/*} configuration resources from the classpath.

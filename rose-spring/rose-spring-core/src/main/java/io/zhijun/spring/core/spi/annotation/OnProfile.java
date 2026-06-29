@@ -1,6 +1,6 @@
-package io.zhijun.spring.core.spi.condition.annotation;
+package io.zhijun.spring.core.spi.annotation;
 import io.zhijun.core.spi.condition.annotation.ConditionAnnotation;
-import io.zhijun.spring.core.spi.condition.OnProfileCondition;
+import io.zhijun.spring.core.spi.OnProfileCondition;
 import java.lang.annotation.*;
 /**
  * SPI加载条件：指定Profile激活时才加载实现

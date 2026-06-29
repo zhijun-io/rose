@@ -12,8 +12,8 @@ import java.util.Comparator;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.Resource;
 
-import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
-import io.zhijun.spring.core.propertysource.support.YamlPropertySourceFactory;
+import io.zhijun.spring.core.propertysource.DefaultResourceComparator;
+import io.zhijun.spring.core.propertysource.YamlPropertySourceFactory;
 
 /**
  * YAML property source annotation.
