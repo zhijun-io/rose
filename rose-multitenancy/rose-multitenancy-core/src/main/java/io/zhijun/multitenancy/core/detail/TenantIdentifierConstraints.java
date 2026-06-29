@@ -1,11 +1,11 @@
 package io.zhijun.multitenancy.core.detail;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Constraints applied to tenant identifiers.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class TenantIdentifierConstraints {
 
     public static final String PATTERN = "[a-zA-Z0-9_-]+";

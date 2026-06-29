@@ -1,6 +1,6 @@
 package io.zhijun.devservice.core.api.provider;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Mutually exclusive dev service category.
@@ -8,7 +8,7 @@ import io.zhijun.annotation.Incubating;
  * Providers in the same category compete for the same Spring integration point
  * (for example {@link #JDBC} for {@code spring.datasource}).
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public enum DevServiceCategory {
     JDBC("jdbc"),
 

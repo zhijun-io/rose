@@ -5,13 +5,13 @@ import java.util.function.Function;
 import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * Declarative metadata for a non-JDBC dev service connector.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Startable> {
 
     private final Class<P> propertiesType;

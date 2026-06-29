@@ -1,0 +1,2 @@
+io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration
+io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapAutoConfiguration

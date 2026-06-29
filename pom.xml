@@ -19,6 +19,8 @@
     <properties>
         <!-- testcontainers: 1.x only; 2.x incompatible with SB2.7 Jackson 2.13 (testcontainers#11236) -->
         <testcontainers.version>1.21.4</testcontainers.version>
+        <!-- apiguardian: API stability annotations for public contracts -->
+        <apiguardian.version>1.1.2</apiguardian.version>
         <!-- mybatis-plus: align via mybatis-plus-bom; do not mix major with SB2.7 without verification -->
         <mybatis-plus.version>3.5.16</mybatis-plus.version>
         <!-- opentelemetry: SDK + instrumentation BOM versions must be upgraded together -->
@@ -44,6 +46,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apiguardian</groupId>
+                <artifactId>apiguardian-api</artifactId>
+                <version>${apiguardian.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

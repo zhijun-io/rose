@@ -1,11 +1,11 @@
 package io.zhijun.multitenancy.spring.event;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Indicates a multitenancy has been attached to the current context.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class TenantContextAttachedEvent extends TenantEvent {
 
     public TenantContextAttachedEvent(String tenantIdentifier, Object source) {

@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.multitenancy.core.MultitenancyDefaults;
 
 /**
  * Strategy used to resolve the current multitenancy from a header in an HTTP request.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class HeaderTenantResolver implements HttpRequestTenantResolver {
 
     public static final String DEFAULT_HEADER_NAME = MultitenancyDefaults.DEFAULT_HTTP_HEADER_NAME;

@@ -9,12 +9,12 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Shared exporter-type resolution for traces, metrics, and logs OTLP conditions.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class OpenTelemetryExporterConditionSupport {
 
     private static final String GENERAL_EXPORTER_TYPE = OpenTelemetryExporterProperties.TYPE_PROPERTY;

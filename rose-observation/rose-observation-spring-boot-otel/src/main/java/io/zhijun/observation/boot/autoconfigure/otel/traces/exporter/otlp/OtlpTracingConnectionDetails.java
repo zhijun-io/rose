@@ -5,6 +5,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectio
 /**
  * Connection details to establish a connection to an OTLP endpoint for tracing.
  */
+@FunctionalInterface
 public interface OtlpTracingConnectionDetails extends OtlpConnectionDetails {
 
     String TRACES_PATH = "/v1/traces";

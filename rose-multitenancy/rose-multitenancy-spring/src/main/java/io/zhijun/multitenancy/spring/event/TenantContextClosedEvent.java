@@ -1,11 +1,11 @@
 package io.zhijun.multitenancy.spring.event;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Indicates the context for the current multitenancy has been closed.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class TenantContextClosedEvent extends TenantEvent {
 
     public TenantContextClosedEvent(String tenantIdentifier, Object source) {

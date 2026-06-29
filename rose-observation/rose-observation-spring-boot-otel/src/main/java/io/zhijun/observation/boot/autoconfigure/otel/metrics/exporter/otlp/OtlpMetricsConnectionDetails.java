@@ -5,6 +5,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectio
 /**
  * Connection details to establish a connection to an OTLP endpoint for metrics.
  */
+@FunctionalInterface
 public interface OtlpMetricsConnectionDetails extends OtlpConnectionDetails {
 
     String METRICS_PATH = "/v1/metrics";

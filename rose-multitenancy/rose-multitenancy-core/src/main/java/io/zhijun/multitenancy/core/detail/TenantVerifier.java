@@ -1,13 +1,13 @@
 package io.zhijun.multitenancy.core.detail;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
 /**
  * Strategy for verifying that a resolved multitenancy identifier is valid and allowed to
  * proceed.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 @FunctionalInterface
 public interface TenantVerifier {
 

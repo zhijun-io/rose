@@ -1,11 +1,11 @@
 package io.zhijun.multitenancy.core;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Default values shared by multitenancy connectors.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class MultitenancyDefaults {
 
     public static final String DEFAULT_HTTP_HEADER_NAME = "X-TenantId";

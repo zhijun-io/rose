@@ -6,7 +6,7 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 import org.springframework.boot.info.JavaInfo;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * A {@link ResourceContributor} that contributes attributes about the Java process runtime,
@@ -21,7 +21,7 @@ import io.zhijun.annotation.Incubating;
  *
  * @link <a href="https://opentelemetry.io/docs/specs/semconv/resource/process/#process-runtimes">Resource Process Runtime Semantic Conventions</a>
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class JavaResourceContributor implements ResourceContributor {
 
     // These semantic conventions are experimental, so we define them explicitly to be able to ensure backward

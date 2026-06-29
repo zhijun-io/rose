@@ -5,14 +5,14 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
 /**
  * Default {@link TenantVerifier} implementation that checks the multitenancy exists and is
  * enabled using a {@link TenantDetailsService}.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class DefaultTenantVerifier implements TenantVerifier {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultTenantVerifier.class);

@@ -3,12 +3,12 @@ package io.zhijun.mybatisplus.core.extension;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Shared helpers for registering {@link InnerInterceptor} instances once per type.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class InnerInterceptorSupport {
 
     private InnerInterceptorSupport() {}

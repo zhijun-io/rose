@@ -4,12 +4,12 @@ import org.springframework.core.env.Environment;
 import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Registrar for non-JDBC dev service connectors backed by a single Testcontainers container.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable> extends DevServiceRegistrar {
 
     private final DevServiceConnectorDescriptor<P, C> descriptor;

@@ -4,14 +4,14 @@ import java.util.function.Function;
 
 import org.testcontainers.containers.JdbcDatabaseContainer;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
  * Declarative metadata for a JDBC dev service connector.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class JdbcDevServiceConnectorDescriptor<
         P extends JdbcDevServiceProperties, C extends JdbcDatabaseContainer<?>> {
 

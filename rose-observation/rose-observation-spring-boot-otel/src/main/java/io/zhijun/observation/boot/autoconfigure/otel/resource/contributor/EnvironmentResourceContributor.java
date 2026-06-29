@@ -16,7 +16,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceProperties;
 
 /**
@@ -37,7 +37,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResou
  * @link <a href="https://opentelemetry.io/docs/specs/semconv/resource/#service">Resource Service Semantic Conventions</a>
  * @link <a href="https://opentelemetry.io/docs/specs/semconv/resource/webengine">Resource WebEngine Semantic Conventions</a>
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class EnvironmentResourceContributor implements ResourceContributor {
 
     // These semantic conventions are experimental, so we define them explicitly to be able to ensure backward

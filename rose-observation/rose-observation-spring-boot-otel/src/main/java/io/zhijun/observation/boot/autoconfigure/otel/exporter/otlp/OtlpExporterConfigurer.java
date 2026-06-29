@@ -64,12 +64,17 @@ public final class OtlpExporterConfigurer {
             OpenTelemetryExporterProperties commonProperties,
             OtlpExporterConfig signalProperties,
             java.util.function.Consumer<MeterProvider> meterProviderConsumer) {
-        boolean metricsEnabled =
-                signalProperties.isMetrics() != null && Boolean.TRUE.equals(signalProperties.isMetrics())
-                        || signalProperties.isMetrics() == null
-                                && commonProperties.getOtlp().isMetrics();
-        if (metricsEnabled) {
+        if (isMetricsEnabled(commonProperties, signalProperties)) {
             meterProvider.ifAvailable(meterProviderConsumer);
         }
+    }
+
+    static boolean isMetricsEnabled(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
+        Boolean signalMetrics = signalProperties.isMetrics();
+        if (signalMetrics != null) {
+            return signalMetrics;
+        }
+        return commonProperties.getOtlp().isMetrics();
     }
 }

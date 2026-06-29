@@ -4,6 +4,7 @@ package io.zhijun.observation.boot.autoconfigure.conventions;
  * Pluggable telemetry conventions backend (e.g. OpenTelemetry semconv, OpenInference).
  * Modules register beans of this type; {@code rose-observation-spring-boot} selects one at startup.
  */
+@FunctionalInterface
 public interface TelemetryConventionsBackend {
 
     /**

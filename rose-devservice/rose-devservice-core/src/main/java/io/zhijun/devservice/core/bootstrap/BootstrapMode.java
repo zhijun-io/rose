@@ -2,12 +2,12 @@ package io.zhijun.devservice.core.bootstrap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Application bootstrap mode.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public enum BootstrapMode {
     DEV,
     TEST,

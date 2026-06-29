@@ -1,11 +1,11 @@
 package io.zhijun.devservice.core.api.config;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Default credentials shared by Rose Dev Service connectors.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class DevServiceCredentials {
 
     public static final String DEFAULT_USERNAME = "rose";

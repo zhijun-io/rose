@@ -1,8 +1,5 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource;
 
-import io.opentelemetry.sdk.resources.Resource;
-import io.opentelemetry.sdk.resources.ResourceBuilder;
-
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -14,6 +11,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 
+import io.opentelemetry.sdk.resources.Resource;
 import io.zhijun.observation.boot.autoconfigure.otel.ConditionalOnOpenTelemetry;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.BuildResourceContributor;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.EnvironmentResourceContributor;
@@ -22,6 +20,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.JavaRe
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.OsResourceContributor;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ProcessResourceContributor;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.template.OpenTelemetryResourceTemplate;
 
 /**
  * Auto-configuration for OpenTelemetry {@link Resource}.
@@ -37,11 +36,9 @@ public final class OpenTelemetryResourceAutoConfiguration {
     @ConditionalOnMissingBean
     Resource resource(
             ObjectProvider<ResourceContributor> resourceContributors,
-            ObjectProvider<OpenTelemetryResourceBuilderCustomizer> customizers) {
-        ResourceBuilder builder = Resource.getDefault().toBuilder();
-        resourceContributors.orderedStream().forEach(contributor -> contributor.contribute(builder));
-        customizers.orderedStream().forEach(customizer -> customizer.customize(builder));
-        return builder.build();
+            ObjectProvider<OpenTelemetryResourceBuilderCustomizer> customizers,
+            OpenTelemetryResourceProperties properties) {
+        return new OpenTelemetryResourceTemplate(properties).build(resourceContributors, customizers);
     }
 
     @Bean
@@ -90,21 +87,6 @@ public final class OpenTelemetryResourceAutoConfiguration {
 
     @Bean
     OpenTelemetryResourceBuilderCustomizer filterAttributes(OpenTelemetryResourceProperties properties) {
-        return builder -> {
-            java.util.Map<String, Boolean> attributeKeysMap = properties.getEnable();
-            Boolean allKeys = attributeKeysMap.get("all");
-            if (allKeys == null) {
-                for (java.util.Map.Entry<String, Boolean> entry : attributeKeysMap.entrySet()) {
-                    if (!entry.getValue()) {
-                        final String prefix = entry.getKey();
-                        builder.removeIf(attributeKey -> attributeKey.getKey().startsWith(prefix));
-                    }
-                }
-                return;
-            }
-            if (!allKeys) {
-                builder.removeIf(attributeKey -> true);
-            }
-        };
+        return new OpenTelemetryResourceTemplate(properties).filterAttributes();
     }
 }

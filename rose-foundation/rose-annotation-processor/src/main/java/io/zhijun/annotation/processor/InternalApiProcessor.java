@@ -24,6 +24,8 @@ import javax.tools.Diagnostic;
 
 import com.google.auto.service.AutoService;
 
+import org.apiguardian.api.API;
+
 import io.zhijun.annotation.Internal;
 
 /**
@@ -170,11 +172,20 @@ public class InternalApiProcessor extends AbstractProcessor {
         if (element.getAnnotation(Internal.class) != null) {
             return true;
         }
+        if (isInternalApi(element)) {
+            return true;
+        }
         if (element instanceof TypeElement && isInInternalPackage((TypeElement) element)) {
             return true;
         }
         return element.getEnclosingElement() != null
-                && element.getEnclosingElement().getAnnotation(Internal.class) != null;
+                && (element.getEnclosingElement().getAnnotation(Internal.class) != null
+                        || isInternalApi(element.getEnclosingElement()));
+    }
+
+    private boolean isInternalApi(Element element) {
+        API api = element.getAnnotation(API.class);
+        return api != null && api.status() == API.Status.INTERNAL;
     }
 
     private boolean isPublic(Element element) {

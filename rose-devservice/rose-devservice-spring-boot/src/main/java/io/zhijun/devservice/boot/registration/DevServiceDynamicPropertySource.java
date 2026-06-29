@@ -11,7 +11,7 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.util.Assert;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Lazy dynamic property source for dev services.
@@ -19,7 +19,7 @@ import io.zhijun.annotation.Incubating;
  * Dev service connection properties take precedence over manually configured values during
  * development and testing, matching Arconia semantics.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class DevServiceDynamicPropertySource extends MapPropertySource {
 
     public static final String PROPERTY_SOURCE_NAME = "Rose DevService Dynamic Properties";

@@ -2,14 +2,14 @@ package io.zhijun.multitenancy.core.context;
 
 import java.util.concurrent.Callable;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.annotation.Nullable;
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 /**
  * Thread-local multitenancy context for the current execution scope.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class TenantContext {
 
     private static final ThreadLocal<String> TENANT_IDENTIFIER = new ThreadLocal<String>();

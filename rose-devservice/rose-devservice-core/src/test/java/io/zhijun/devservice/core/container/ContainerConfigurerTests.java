@@ -18,7 +18,7 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.WaitStrategy;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
@@ -27,7 +27,7 @@ import io.zhijun.devservice.core.api.config.VolumeMapping;
 /**
  * Unit test for {@link ContainerConfigurer}.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 class ContainerConfigurerTests {
 
     private static Map<String, String> mapOf(String k1, String v1) {

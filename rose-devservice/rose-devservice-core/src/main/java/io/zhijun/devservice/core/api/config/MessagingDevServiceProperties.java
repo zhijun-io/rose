@@ -1,11 +1,11 @@
 package io.zhijun.devservice.core.api.config;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Dev service properties shared by message broker connector property classes.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public abstract class MessagingDevServiceProperties extends BaseDevServiceProperties {
 
     /** Fixed host port for the broker web console; 0 selects a random port. */

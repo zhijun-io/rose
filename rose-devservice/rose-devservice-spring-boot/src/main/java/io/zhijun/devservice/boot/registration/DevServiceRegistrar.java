@@ -20,12 +20,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Base registrar for dev service container beans.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware {
 
     public static final String DEV_SERVICES_REGISTRY_BEAN_NAME = "devServicesRegistry";

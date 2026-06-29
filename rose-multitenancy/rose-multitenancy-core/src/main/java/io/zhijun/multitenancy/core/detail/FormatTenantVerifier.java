@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.core.detail;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
 /**
@@ -9,7 +9,7 @@ import io.zhijun.multitenancy.core.exception.TenantVerificationException;
  * Registered by default when no {@link TenantDetailsService} is configured, so HTTP
  * resolution cannot accept arbitrary header values in production.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public final class FormatTenantVerifier implements TenantVerifier {
 
     private static final String TENANT_ID_PATTERN = TenantIdentifierConstraints.PATTERN;

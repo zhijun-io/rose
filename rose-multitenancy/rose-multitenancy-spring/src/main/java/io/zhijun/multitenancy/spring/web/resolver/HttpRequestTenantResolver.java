@@ -9,6 +9,7 @@ import io.zhijun.multitenancy.core.context.TenantResolver;
 /**
  * Strategy used to resolve the current multitenancy from an HTTP request.
  */
+@FunctionalInterface
 public interface HttpRequestTenantResolver extends TenantResolver<HttpServletRequest> {
 
     /**

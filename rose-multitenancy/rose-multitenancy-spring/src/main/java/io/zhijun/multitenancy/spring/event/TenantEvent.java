@@ -3,12 +3,12 @@ package io.zhijun.multitenancy.spring.event;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.util.Assert;
 
-import io.zhijun.annotation.Incubating;
+import org.apiguardian.api.API;
 
 /**
  * Abstract superclass for all multitenancy-related Spring application events.
  */
-@Incubating
+@API(status = API.Status.EXPERIMENTAL)
 public abstract class TenantEvent extends ApplicationEvent {
 
     private final String tenantIdentifier;
