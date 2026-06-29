@@ -1,5 +1,8 @@
 package io.zhijun.spring.core.propertysource.annotation;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Repeatable;
@@ -7,15 +10,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Comparator;
 
-import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
-import io.zhijun.spring.core.propertysource.support.ResourcePropertySourceLoader;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.DefaultPropertySourceFactory;
 import org.springframework.core.io.support.PropertySourceFactory;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
+import io.zhijun.spring.core.propertysource.support.ResourcePropertySourceLoader;
 
 /**
  * Enhanced property source annotation.

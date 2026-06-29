@@ -11,5 +11,4 @@ public final class TenantContextClosedEvent extends TenantEvent {
     public TenantContextClosedEvent(String tenantIdentifier, Object source) {
         super(tenantIdentifier, source);
     }
-
 }

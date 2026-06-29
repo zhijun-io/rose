@@ -1,5 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.bridge;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -17,8 +19,6 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.util.ReflectionUtils;
 
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link MicrometerMetricsOpenTelemetryBridgeAutoConfiguration}.
@@ -81,8 +81,7 @@ class MicrometerMetricsOpenTelemetryBridgeAutoConfigurationTests {
         contextRunner
                 .withPropertyValues(
                         "rose.otel.metrics.micrometer-bridge.base-time-unit=milliseconds",
-                        "rose.otel.metrics.micrometer-bridge.histogram-gauges=false"
-                )
+                        "rose.otel.metrics.micrometer-bridge.histogram-gauges=false")
                 .run(context -> {
                     MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
                     assertThat(registry).isNotNull();
@@ -91,17 +90,24 @@ class MicrometerMetricsOpenTelemetryBridgeAutoConfigurationTests {
 
                     OpenTelemetryMeterRegistry otelRegistry = (OpenTelemetryMeterRegistry) registry;
 
-                    Field baseTimeUnitField = ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "baseTimeUnit");
+                    Field baseTimeUnitField =
+                            ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "baseTimeUnit");
                     ReflectionUtils.makeAccessible(baseTimeUnitField);
-                    assertThat(ReflectionUtils.getField(baseTimeUnitField, otelRegistry)).isEqualTo(TimeUnit.MILLISECONDS);
+                    assertThat(ReflectionUtils.getField(baseTimeUnitField, otelRegistry))
+                            .isEqualTo(TimeUnit.MILLISECONDS);
 
-                    // Field distributionStatisticConfigModifierField = ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "distributionStatisticConfigModifier");
+                    // Field distributionStatisticConfigModifierField =
+                    // ReflectionUtils.findField(OpenTelemetryMeterRegistry.class,
+                    // "distributionStatisticConfigModifier");
                     // ReflectionUtils.makeAccessible(distributionStatisticConfigModifierField);
-                    // assertThat(ReflectionUtils.getField(distributionStatisticConfigModifierField, otelRegistry)).isEqualTo(DistributionStatisticConfigModifier.DISABLE_HISTOGRAM_GAUGES);
+                    // assertThat(ReflectionUtils.getField(distributionStatisticConfigModifierField,
+                    // otelRegistry)).isEqualTo(DistributionStatisticConfigModifier.DISABLE_HISTOGRAM_GAUGES);
 
-                    Field namingConventionField = ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "namingConvention");
+                    Field namingConventionField =
+                            ReflectionUtils.findField(OpenTelemetryMeterRegistry.class, "namingConvention");
                     ReflectionUtils.makeAccessible(namingConventionField);
-                    assertThat(ReflectionUtils.getField(namingConventionField, otelRegistry)).isEqualTo(NamingConvention.identity);
+                    assertThat(ReflectionUtils.getField(namingConventionField, otelRegistry))
+                            .isEqualTo(NamingConvention.identity);
                 });
     }
 
@@ -116,14 +122,12 @@ class MicrometerMetricsOpenTelemetryBridgeAutoConfigurationTests {
         });
 
         // OTLP exporter (explicit)
-        contextRunner
-                .withPropertyValues("rose.otel.metrics.exporter.type=otlp")
-                .run(context -> {
-                    MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
-                    assertThat(registry).isNotNull();
-                    registry = context.getBean(OpenTelemetryMeterRegistry.class);
-                    assertThat(registry).isNotNull();
-                });
+        contextRunner.withPropertyValues("rose.otel.metrics.exporter.type=otlp").run(context -> {
+            MeterRegistry registry = context.getBean(SimpleMeterRegistry.class);
+            assertThat(registry).isNotNull();
+            registry = context.getBean(OpenTelemetryMeterRegistry.class);
+            assertThat(registry).isNotNull();
+        });
 
         // Console exporter
         contextRunner
@@ -161,5 +165,4 @@ class MicrometerMetricsOpenTelemetryBridgeAutoConfigurationTests {
                 })
                 .run(context -> assertThat(context).doesNotHaveBean(MeterRegistry.class));
     }
-
 }

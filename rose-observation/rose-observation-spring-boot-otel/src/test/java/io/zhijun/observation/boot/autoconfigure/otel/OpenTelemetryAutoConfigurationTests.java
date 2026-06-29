@@ -1,5 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.otel;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.context.propagation.ContextPropagators;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
@@ -13,9 +16,6 @@ import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 /**
  * Unit test for {@link OpenTelemetryAutoConfiguration}.
@@ -35,35 +35,36 @@ class OpenTelemetryAutoConfigurationTests {
 
     @Test
     void openTelemetryWhenEnabled() {
-        contextRunner.withPropertyValues("rose.otel.enabled=true")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(OpenTelemetry.class);
-                    assertThat(context.getBean(OpenTelemetry.class)).isInstanceOf(OpenTelemetrySdk.class);
-                });
+        contextRunner.withPropertyValues("rose.otel.enabled=true").run(context -> {
+            assertThat(context).hasSingleBean(OpenTelemetry.class);
+            assertThat(context.getBean(OpenTelemetry.class)).isInstanceOf(OpenTelemetrySdk.class);
+        });
     }
 
     @Test
     void openTelemetryWhenDisabled() {
-        contextRunner.withPropertyValues("rose.otel.enabled=false")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(OpenTelemetry.class);
-                    assertThat(context.getBean(OpenTelemetry.class)).isSameAs(OpenTelemetry.noop());
-                });
+        contextRunner.withPropertyValues("rose.otel.enabled=false").run(context -> {
+            assertThat(context).hasSingleBean(OpenTelemetry.class);
+            assertThat(context.getBean(OpenTelemetry.class)).isSameAs(OpenTelemetry.noop());
+        });
     }
 
     @Test
     void customOpenTelemetryTakesPrecedence() {
-        contextRunner.withUserConfiguration(CustomOpenTelemetryConfiguration.class)
+        contextRunner
+                .withUserConfiguration(CustomOpenTelemetryConfiguration.class)
                 .run(context -> {
                     assertThat(context).hasSingleBean(OpenTelemetry.class);
                     assertThat(context.getBean(OpenTelemetry.class))
-                            .isSameAs(context.getBean(CustomOpenTelemetryConfiguration.class).customOpenTelemetry());
+                            .isSameAs(context.getBean(CustomOpenTelemetryConfiguration.class)
+                                    .customOpenTelemetry());
                 });
     }
 
     @Test
     void optionalDependenciesAreConfigured() {
-        contextRunner.withUserConfiguration(OptionalDependenciesConfiguration.class)
+        contextRunner
+                .withUserConfiguration(OptionalDependenciesConfiguration.class)
                 .run(context -> {
                     assertThat(context).hasSingleBean(OpenTelemetry.class);
                     OpenTelemetrySdk sdk = context.getBean(OpenTelemetrySdk.class);
@@ -82,7 +83,8 @@ class OpenTelemetryAutoConfigurationTests {
 
     @Test
     void clockNotAvailableWhenOpenTelemetryDisabled() {
-        contextRunner.withPropertyValues("rose.otel.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.otel.enabled=false")
                 .run(context -> assertThat(context).doesNotHaveBean(Clock.class));
     }
 
@@ -96,12 +98,11 @@ class OpenTelemetryAutoConfigurationTests {
 
     @Test
     void customClockTakesPrecedence() {
-        contextRunner.withUserConfiguration(CustomClockConfiguration.class)
-                .run(context -> {
-                    assertThat(context).hasSingleBean(Clock.class);
-                    assertThat(context.getBean(Clock.class))
-                            .isSameAs(context.getBean(CustomClockConfiguration.class).customClock());
-                });
+        contextRunner.withUserConfiguration(CustomClockConfiguration.class).run(context -> {
+            assertThat(context).hasSingleBean(Clock.class);
+            assertThat(context.getBean(Clock.class))
+                    .isSameAs(context.getBean(CustomClockConfiguration.class).customClock());
+        });
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -111,7 +112,6 @@ class OpenTelemetryAutoConfigurationTests {
         OpenTelemetry customOpenTelemetry() {
             return OpenTelemetry.noop();
         }
-
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -123,7 +123,6 @@ class OpenTelemetryAutoConfigurationTests {
         Clock customClock() {
             return customClock;
         }
-
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -153,7 +152,5 @@ class OpenTelemetryAutoConfigurationTests {
         ContextPropagators propagators() {
             return propagators;
         }
-
     }
-
 }

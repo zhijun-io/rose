@@ -4,19 +4,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 
-import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
-import org.junit.jupiter.api.Test;
-
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+
+import org.junit.jupiter.api.Test;
+
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 
 class MybatisPlusInterceptorCustomizerBeanPostProcessorTests {
 
     @Test
     void shouldApplyCustomizersToMybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        MybatisPlusInterceptorCustomizer customizer = i ->
-                i.addInnerInterceptor(new TestInnerInterceptor());
+        MybatisPlusInterceptorCustomizer customizer = i -> i.addInnerInterceptor(new TestInnerInterceptor());
 
         MybatisPlusInterceptorCustomizerBeanPostProcessor bpp =
                 new MybatisPlusInterceptorCustomizerBeanPostProcessor(Collections.singletonList(customizer));
@@ -30,8 +30,7 @@ class MybatisPlusInterceptorCustomizerBeanPostProcessorTests {
 
     @Test
     void shouldIgnoreNonInterceptorBeans() {
-        MybatisPlusInterceptorCustomizer customizer = i ->
-                i.addInnerInterceptor(new TestInnerInterceptor());
+        MybatisPlusInterceptorCustomizer customizer = i -> i.addInnerInterceptor(new TestInnerInterceptor());
         MybatisPlusInterceptorCustomizerBeanPostProcessor bpp =
                 new MybatisPlusInterceptorCustomizerBeanPostProcessor(Collections.singletonList(customizer));
 
@@ -40,7 +39,5 @@ class MybatisPlusInterceptorCustomizerBeanPostProcessorTests {
         assertThat(result).isEqualTo("not-an-interceptor");
     }
 
-    static class TestInnerInterceptor implements InnerInterceptor {
-    }
-
+    static class TestInnerInterceptor implements InnerInterceptor {}
 }

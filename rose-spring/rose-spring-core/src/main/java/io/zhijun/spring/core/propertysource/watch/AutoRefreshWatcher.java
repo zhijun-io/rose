@@ -3,17 +3,17 @@ package io.zhijun.spring.core.propertysource.watch;
 import java.io.File;
 import java.io.IOException;
 
-import io.zhijun.spring.core.io.watch.FileChangedEvent;
-import io.zhijun.spring.core.io.watch.FileChangedListener;
-import io.zhijun.spring.core.io.watch.FileWatchService;
-import io.zhijun.spring.core.io.watch.StandardFileWatchService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import io.zhijun.spring.core.io.watch.FileChangedEvent;
+import io.zhijun.spring.core.io.watch.FileChangedListener;
+import io.zhijun.spring.core.io.watch.FileWatchService;
+import io.zhijun.spring.core.io.watch.StandardFileWatchService;
 
 /**
  * Watches file-backed resources and triggers reload callbacks.
@@ -75,8 +75,7 @@ public class AutoRefreshWatcher implements AutoCloseable {
             }
             try {
                 callback.onReload(resourceValue, new FileSystemResource(watchedFile));
-            }
-            catch (Throwable ex) {
+            } catch (Throwable ex) {
                 logger.warn("Failed to reload property source for {}", resourceValue, ex);
             }
         }

@@ -23,15 +23,16 @@ import io.zhijun.devservice.boot.registration.JdbcDevServiceRegistrar;
 @Import(PostgresqlDevServicesAutoConfiguration.PostgresqlDevServiceRegistrar.class)
 public final class PostgresqlDevServicesAutoConfiguration {
 
-    private static final JdbcDevServiceConnectorDescriptor<PostgresqlDevServiceProperties, PostgresqlContainer> DESCRIPTOR =
-            JdbcDevServiceConnectorDescriptor.<PostgresqlDevServiceProperties, PostgresqlContainer>builder()
-                    .propertiesType(PostgresqlDevServiceProperties.class)
-                    .configPrefix(PostgresqlDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName(PostgresqlDevServiceProperties.SERVICE_NAME)
-                    .displayName("PostgreSQL Dev Service")
-                    .containerClass(PostgresqlContainer.class)
-                    .containerFactory(PostgresqlContainer::new)
-                    .build();
+    private static final JdbcDevServiceConnectorDescriptor<PostgresqlDevServiceProperties, PostgresqlContainer>
+            DESCRIPTOR =
+                    JdbcDevServiceConnectorDescriptor.<PostgresqlDevServiceProperties, PostgresqlContainer>builder()
+                            .propertiesType(PostgresqlDevServiceProperties.class)
+                            .configPrefix(PostgresqlDevServiceProperties.CONFIG_PREFIX)
+                            .serviceName(PostgresqlDevServiceProperties.SERVICE_NAME)
+                            .displayName("PostgreSQL Dev Service")
+                            .containerClass(PostgresqlContainer.class)
+                            .containerFactory(PostgresqlContainer::new)
+                            .build();
 
     static final class PostgresqlDevServiceRegistrar
             extends JdbcDevServiceRegistrar<PostgresqlDevServiceProperties, PostgresqlContainer> {

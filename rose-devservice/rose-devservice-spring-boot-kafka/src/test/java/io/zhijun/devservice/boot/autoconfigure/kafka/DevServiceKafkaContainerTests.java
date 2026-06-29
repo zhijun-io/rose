@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.kafka;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link DevServiceKafkaContainer}.
@@ -14,7 +14,6 @@ class DevServiceKafkaContainerTests extends BaseDevServicesContainerTests<DevSer
     @Test
     void whenExposedPortsAreNotConfigured() {
         DevServiceKafkaContainer container = new DevServiceKafkaContainer(new KafkaDevServiceProperties());
-        container.configure();
         assertNoPortBindingsConfigured(container.getPortBindings());
     }
 
@@ -24,10 +23,10 @@ class DevServiceKafkaContainerTests extends BaseDevServicesContainerTests<DevSer
         properties.setPort(1234);
 
         DevServiceKafkaContainer container = new DevServiceKafkaContainer(properties);
-        container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + DevServiceKafkaContainer.KAFKA_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(binding ->
+                                binding.startsWith(properties.getPort() + ":" + DevServiceKafkaContainer.KAFKA_PORT)));
     }
-
 }

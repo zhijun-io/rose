@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Conditional;
  * Indicates when the given resource contributor is eligible for registration.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @Conditional(OnOpenTelemetryResourceContributorCondition.class)
 public @interface ConditionalOnOpenTelemetryResourceContributor {
@@ -20,11 +20,10 @@ public @interface ConditionalOnOpenTelemetryResourceContributor {
     /**
      * The name of the resource contributor.
      */
-	String value();
+    String value();
 
     /**
      * If the condition should match if no property is defined for the resource contributor.
      */
     boolean matchIfMissing() default false;
-
 }

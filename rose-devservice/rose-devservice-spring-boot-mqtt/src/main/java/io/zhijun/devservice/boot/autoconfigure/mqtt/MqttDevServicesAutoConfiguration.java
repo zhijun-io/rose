@@ -31,9 +31,11 @@ public final class MqttDevServicesAutoConfiguration {
                     .containerClass(HiveMqContainer.class)
                     .containerFactory(HiveMqContainer::new)
                     .dynamicProperties(registrar -> {
-                        registrar.addDynamicProperty("mqtt.server.uri",
+                        registrar.addDynamicProperty(
+                                "mqtt.server.uri",
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
-                        registrar.addDynamicProperty("spring.mqtt.url",
+                        registrar.addDynamicProperty(
+                                "spring.mqtt.url",
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
                     })
                     .build();

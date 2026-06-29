@@ -1,5 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.logback;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.opentelemetry.api.OpenTelemetry;
 
 import org.junit.jupiter.api.Test;
@@ -9,8 +11,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.ApplicationListener;
 
 import ch.qos.logback.core.Appender;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import ch.qos.logback.core.Appender;
 
 /**
  * Unit test for {@link LogbackOpenTelemetryBridgeAutoConfiguration}.
@@ -23,32 +24,27 @@ class LogbackOpenTelemetryBridgeAutoConfigurationTests {
 
     @Test
     void autoConfigurationNotActivatedWhenAppenderClassMissing() {
-        contextRunner.withClassLoader(new FilteredClassLoader(Appender.class))
-                .run(context -> {
-                    assertThat(context).doesNotHaveBean(ApplicationListener.class);
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
-                });
+        contextRunner.withClassLoader(new FilteredClassLoader(Appender.class)).run(context -> {
+            assertThat(context).doesNotHaveBean(ApplicationListener.class);
+            assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
+            assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
+        });
     }
 
     @Test
     void autoConfigurationNotActivatedWhenOpenTelemetryDisabled() {
-        contextRunner
-                .withPropertyValues("rose.otel.enabled=false")
-                .run(context -> {
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
-                });
+        contextRunner.withPropertyValues("rose.otel.enabled=false").run(context -> {
+            assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
+            assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
+        });
     }
 
     @Test
     void autoConfigurationNotActivatedWhenLoggingDisabled() {
-        contextRunner
-                .withPropertyValues("rose.otel.logs.enabled=false")
-                .run(context -> {
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
-                });
+        contextRunner.withPropertyValues("rose.otel.logs.enabled=false").run(context -> {
+            assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
+            assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
+        });
     }
 
     @Test
@@ -63,12 +59,10 @@ class LogbackOpenTelemetryBridgeAutoConfigurationTests {
 
     @Test
     void autoConfigurationNotActivatedWhenLoggingExportDisabled() {
-        contextRunner
-                .withPropertyValues("rose.otel.logs.exporter.type=none")
-                .run(context -> {
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
-                    assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
-                });
+        contextRunner.withPropertyValues("rose.otel.logs.exporter.type=none").run(context -> {
+            assertThat(context).doesNotHaveBean("logbackAppenderOnReady");
+            assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
+        });
     }
 
     @Test
@@ -77,21 +71,17 @@ class LogbackOpenTelemetryBridgeAutoConfigurationTests {
             assertThat(context).hasSingleBean(OpenTelemetry.class);
             assertThat(context).hasBean("logbackAppenderOnReady");
             assertThat(context).hasBean("logbackAppenderOnFailed");
-            assertThat(context.getBean("logbackAppenderOnReady"))
-                    .isInstanceOf(ApplicationListener.class);
-            assertThat(context.getBean("logbackAppenderOnFailed"))
-                    .isInstanceOf(ApplicationListener.class);
+            assertThat(context.getBean("logbackAppenderOnReady")).isInstanceOf(ApplicationListener.class);
+            assertThat(context.getBean("logbackAppenderOnFailed")).isInstanceOf(ApplicationListener.class);
         });
     }
 
     @Test
     void listenersAvailableWithOtlpExporter() {
-        contextRunner
-                .withPropertyValues("rose.otel.logs.exporter.type=otlp")
-                .run(context -> {
-                    assertThat(context).hasBean("logbackAppenderOnReady");
-                    assertThat(context).hasBean("logbackAppenderOnFailed");
-                });
+        contextRunner.withPropertyValues("rose.otel.logs.exporter.type=otlp").run(context -> {
+            assertThat(context).hasBean("logbackAppenderOnReady");
+            assertThat(context).hasBean("logbackAppenderOnFailed");
+        });
     }
 
     @Test
@@ -103,5 +93,4 @@ class LogbackOpenTelemetryBridgeAutoConfigurationTests {
                     assertThat(context).doesNotHaveBean("logbackAppenderOnFailed");
                 });
     }
-
 }

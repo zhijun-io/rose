@@ -83,7 +83,6 @@ public final class TenantContext {
                 TenantContext.restore(previous);
             }
         }
-
     }
 
     private static void restore(@Nullable String previous) {
@@ -99,5 +98,4 @@ public final class TenantContext {
             throw new IllegalArgumentException(message);
         }
     }
-
 }

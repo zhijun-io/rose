@@ -10,5 +10,4 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 public interface ResourceContributor {
 
     void contribute(ResourceBuilder builder);
-
 }

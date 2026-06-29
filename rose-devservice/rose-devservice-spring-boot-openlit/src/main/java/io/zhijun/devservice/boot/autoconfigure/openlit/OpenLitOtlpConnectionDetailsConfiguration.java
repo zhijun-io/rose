@@ -20,24 +20,26 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTr
  */
 @AutoConfiguration
 @ConditionalOnBean(OpenLitContainer.class)
-@AutoConfigureAfter({ DevServiceAutoConfiguration.class, OpenLitDevServicesAutoConfiguration.class })
-@AutoConfigureBefore({ OpenTelemetryTracingExporterAutoConfiguration.class, OpenTelemetryMetricsExporterAutoConfiguration.class })
+@AutoConfigureAfter({DevServiceAutoConfiguration.class, OpenLitDevServicesAutoConfiguration.class})
+@AutoConfigureBefore({
+    OpenTelemetryTracingExporterAutoConfiguration.class,
+    OpenTelemetryMetricsExporterAutoConfiguration.class
+})
 class OpenLitOtlpConnectionDetailsConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OtlpTracingConnectionDetails.class)
     OtlpTracingConnectionDetails openLitOtlpTracingConnectionDetails(OpenLitContainer container) {
         DevServiceContainerLifecycle.startIfNecessary(container);
-        return OtlpContainerConnectionDetails.tracing(container.getHost(), container.getOtlpHttpPort(),
-                container.getOtlpGrpcPort());
+        return OtlpContainerConnectionDetails.tracing(
+                container.getHost(), container.getOtlpHttpPort(), container.getOtlpGrpcPort());
     }
 
     @Bean
     @ConditionalOnMissingBean(OtlpMetricsConnectionDetails.class)
     OtlpMetricsConnectionDetails openLitOtlpMetricsConnectionDetails(OpenLitContainer container) {
         DevServiceContainerLifecycle.startIfNecessary(container);
-        return OtlpContainerConnectionDetails.metrics(container.getHost(), container.getOtlpHttpPort(),
-                container.getOtlpGrpcPort());
+        return OtlpContainerConnectionDetails.metrics(
+                container.getHost(), container.getOtlpHttpPort(), container.getOtlpGrpcPort());
     }
-
 }

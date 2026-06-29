@@ -15,5 +15,4 @@ public interface TenantDetails {
     default Map<String, Object> getAttributes() {
         return Collections.emptyMap();
     }
-
 }

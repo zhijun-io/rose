@@ -14,7 +14,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.logs.ConditionalOnOpenTelem
  * Whether logs should be exported through the configured OpenTelemetry exporter type.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @ConditionalOnOpenTelemetryLogging
 @Conditional(OnOpenTelemetryLoggingExporterCondition.class)

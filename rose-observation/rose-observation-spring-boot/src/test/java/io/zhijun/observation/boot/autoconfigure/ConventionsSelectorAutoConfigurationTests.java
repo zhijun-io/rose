@@ -1,12 +1,12 @@
 package io.zhijun.observation.boot.autoconfigure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ConventionsSelectorAutoConfigurationTests {
 
@@ -16,18 +16,25 @@ class ConventionsSelectorAutoConfigurationTests {
     @Test
     void whenSingleBackendThenSelectsIt() {
         contextRunner
-                .withBean("opentelemetry", TelemetryConventionsBackend.class,
+                .withBean(
+                        "opentelemetry",
+                        TelemetryConventionsBackend.class,
                         () -> TelemetryConventionsBackend.of("opentelemetry", true))
-                .run(context -> assertThat(context.getBean(TelemetryConventionsBackend.class).id())
+                .run(context -> assertThat(context.getBean(TelemetryConventionsBackend.class)
+                                .id())
                         .isEqualTo("opentelemetry"));
     }
 
     @Test
     void whenMultipleBackendsThenThrowsUnlessConfigured() {
         contextRunner
-                .withBean("backend1", TelemetryConventionsBackend.class,
+                .withBean(
+                        "backend1",
+                        TelemetryConventionsBackend.class,
                         () -> TelemetryConventionsBackend.of("openinference"))
-                .withBean("backend2", TelemetryConventionsBackend.class,
+                .withBean(
+                        "backend2",
+                        TelemetryConventionsBackend.class,
                         () -> TelemetryConventionsBackend.of("opentelemetry"))
                 .run(context -> assertThat(context.getStartupFailure())
                         .hasRootCauseInstanceOf(AmbiguousConventionsBackendException.class));
@@ -37,11 +44,16 @@ class ConventionsSelectorAutoConfigurationTests {
     void whenBackendConfiguredThenSelectsMatchingBackend() {
         contextRunner
                 .withPropertyValues("rose.observation.conventions.backend=opentelemetry")
-                .withBean("backend1", TelemetryConventionsBackend.class,
+                .withBean(
+                        "backend1",
+                        TelemetryConventionsBackend.class,
                         () -> TelemetryConventionsBackend.of("openinference"))
-                .withBean("backend2", TelemetryConventionsBackend.class,
+                .withBean(
+                        "backend2",
+                        TelemetryConventionsBackend.class,
                         () -> TelemetryConventionsBackend.of("opentelemetry"))
-                .run(context -> assertThat(context.getBean(TelemetryConventionsBackend.class).id())
+                .run(context -> assertThat(context.getBean(TelemetryConventionsBackend.class)
+                                .id())
                         .isEqualTo("opentelemetry"));
     }
 }

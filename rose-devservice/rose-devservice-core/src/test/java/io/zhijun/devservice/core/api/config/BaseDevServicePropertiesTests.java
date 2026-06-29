@@ -1,15 +1,13 @@
 package io.zhijun.devservice.core.api.config;
 
-import java.time.Duration;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link BaseDevServiceProperties} defaults.
@@ -18,8 +16,7 @@ class BaseDevServicePropertiesTests {
 
     @Test
     void defaultMethods() {
-        BaseDevServiceProperties properties = new BaseDevServiceProperties() {
-        };
+        BaseDevServiceProperties properties = new BaseDevServiceProperties() {};
         properties.setImageName("postgres:16");
 
         assertThat(properties.isEnabled()).isTrue();
@@ -64,5 +61,4 @@ class BaseDevServicePropertiesTests {
         assertThat(BaseDevServiceProperties.isFixedPort(1234)).isTrue();
         assertThat(BaseDevServiceProperties.isFixedPort(65535)).isTrue();
     }
-
 }

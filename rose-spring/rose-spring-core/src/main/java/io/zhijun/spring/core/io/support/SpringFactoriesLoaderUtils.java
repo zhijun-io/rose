@@ -14,8 +14,7 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
  */
 public abstract class SpringFactoriesLoaderUtils {
 
-    private SpringFactoriesLoaderUtils() {
-    }
+    private SpringFactoriesLoaderUtils() {}
 
     public static <T> List<T> loadFactories(Class<T> factoryType) {
         return loadFactories(factoryType, (ClassLoader) null);

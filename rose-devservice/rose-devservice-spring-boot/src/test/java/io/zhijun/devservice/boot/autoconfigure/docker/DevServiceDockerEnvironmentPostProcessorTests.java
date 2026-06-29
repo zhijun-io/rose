@@ -1,14 +1,13 @@
 package io.zhijun.devservice.boot.autoconfigure.docker;
 
-import io.zhijun.devservice.boot.autoconfigure.docker.DevServiceDockerEnvironmentPostProcessor;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.Ordered;
 import org.springframework.mock.env.MockEnvironment;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link DevServiceDockerEnvironmentPostProcessor}.
@@ -61,5 +60,4 @@ class DevServiceDockerEnvironmentPostProcessorTests {
             System.setProperty(key, value);
         }
     }
-
 }

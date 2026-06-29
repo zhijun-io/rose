@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.devservice.boot.actuator.DevServicesEndpoint;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.ConditionalOnDevMode;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.devservice.boot.autoconfigure.bootstrap.ConditionalOnDevMode;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 
 /**
  * Auto-configuration for the Dev Services Actuator endpoint.

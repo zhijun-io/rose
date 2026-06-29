@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.activemq;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link ActiveMqContainer}.
@@ -26,11 +26,12 @@ class ActiveMqContainerTests extends BaseDevServicesContainerTests<ActiveMqConta
 
         ActiveMqContainer container = new ActiveMqContainer(properties);
         container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + ActiveMqContainer.OPENWIRE_PORT))
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getManagementConsolePort() + ":" + ActiveMqContainer.WEB_CONSOLE_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(binding ->
+                                binding.startsWith(properties.getPort() + ":" + ActiveMqContainer.OPENWIRE_PORT))
+                        .anyMatch(binding -> binding.startsWith(
+                                properties.getManagementConsolePort() + ":" + ActiveMqContainer.WEB_CONSOLE_PORT)));
     }
-
 }

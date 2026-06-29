@@ -19,13 +19,14 @@ class OnEnabledOpenTelemetryCondition extends SpringBootCondition {
         boolean checkForEnabled = attributes != null && (boolean) attributes.get("enabled");
 
         String openTelemetryEnabledKey = OpenTelemetryProperties.ENABLED_PROPERTY;
-        boolean openTelemetryEnabled = context.getEnvironment().getProperty(openTelemetryEnabledKey, boolean.class, true);
+        boolean openTelemetryEnabled =
+                context.getEnvironment().getProperty(openTelemetryEnabledKey, boolean.class, true);
 
         boolean enabled = checkForEnabled == openTelemetryEnabled;
-        return new ConditionOutcome(enabled,
+        return new ConditionOutcome(
+                enabled,
                 ConditionMessage.forCondition(ConditionalOnOpenTelemetry.class)
                         .because(openTelemetryEnabledKey + " is " + openTelemetryEnabled
                                 + " and annotation requested enabled to be " + checkForEnabled));
     }
-
 }

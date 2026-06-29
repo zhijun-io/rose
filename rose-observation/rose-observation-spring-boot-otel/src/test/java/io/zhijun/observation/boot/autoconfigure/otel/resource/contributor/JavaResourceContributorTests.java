@@ -1,5 +1,11 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource.contributor;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import io.opentelemetry.sdk.resources.ResourceBuilder;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.info.JavaInfo;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link JavaResourceContributor}.
@@ -69,8 +69,10 @@ class JavaResourceContributorTests {
 
         contributor.contribute(resourceBuilder);
 
-        verify(resourceBuilder).put(JavaResourceContributor.PROCESS_RUNTIME_DESCRIPTION,
-            "Eclipse Adoptium OpenJDK Runtime Environment 17.0.1");
+        verify(resourceBuilder)
+                .put(
+                        JavaResourceContributor.PROCESS_RUNTIME_DESCRIPTION,
+                        "Eclipse Adoptium OpenJDK Runtime Environment 17.0.1");
     }
 
     @Test
@@ -181,8 +183,9 @@ class JavaResourceContributorTests {
 
         verify(resourceBuilder).put(JavaResourceContributor.PROCESS_RUNTIME_NAME, "OpenJDK Runtime Environment");
         verify(resourceBuilder).put(JavaResourceContributor.PROCESS_RUNTIME_VERSION, "17.0.1");
-        verify(resourceBuilder).put(JavaResourceContributor.PROCESS_RUNTIME_DESCRIPTION,
-            "Eclipse Adoptium OpenJDK Runtime Environment 17.0.1");
+        verify(resourceBuilder)
+                .put(
+                        JavaResourceContributor.PROCESS_RUNTIME_DESCRIPTION,
+                        "Eclipse Adoptium OpenJDK Runtime Environment 17.0.1");
     }
-
 }

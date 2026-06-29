@@ -1,17 +1,17 @@
 package io.zhijun.spring.core.env.event;
 
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.zhijun.spring.core.env.event.PropertySourceDiffSupport;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.core.env.PropertySource;
+
+import io.zhijun.spring.core.env.event.internal.PropertySourceDiffSupport;
 
 /**
  * Bulk property source change event.
@@ -89,12 +89,14 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
                 continue;
             }
             PropertySource<?> propertySource = event.getKind() == PropertySourceChangedEvent.Kind.REMOVED
-                    ? event.getOldPropertySource() : event.getNewPropertySource();
+                    ? event.getOldPropertySource()
+                    : event.getNewPropertySource();
             if (propertySource == null) {
                 continue;
             }
             if (propertySource instanceof org.springframework.core.env.EnumerablePropertySource) {
-                org.springframework.core.env.EnumerablePropertySource<?> enumerable = (org.springframework.core.env.EnumerablePropertySource<?>) propertySource;
+                org.springframework.core.env.EnumerablePropertySource<?> enumerable =
+                        (org.springframework.core.env.EnumerablePropertySource<?>) propertySource;
                 for (String name : enumerable.getPropertyNames()) {
                     if (!properties.containsKey(name)) {
                         properties.put(name, enumerable.getProperty(name));
@@ -125,8 +127,8 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
                     keys.addAll(PropertySourceDiffSupport.keysRemoved(sub.getOldPropertySource()));
                     break;
                 case REPLACED:
-                    keys.addAll(PropertySourceDiffSupport.diffReplaced(sub.getOldPropertySource(),
-                            sub.getNewPropertySource()));
+                    keys.addAll(PropertySourceDiffSupport.diffReplaced(
+                            sub.getOldPropertySource(), sub.getNewPropertySource()));
                     break;
                 default:
                     break;

@@ -1,8 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.logback;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link LogbackOpenTelemetryBridgeProperties}.
@@ -11,8 +11,7 @@ class LogbackOpenTelemetryBridgePropertiesTests {
 
     @Test
     void shouldHaveCorrectConfigPrefix() {
-        assertThat(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX)
-                .isEqualTo("rose.otel.logs.logback-bridge");
+        assertThat(LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX).isEqualTo("rose.otel.logs.logback-bridge");
     }
 
     @Test
@@ -27,5 +26,4 @@ class LogbackOpenTelemetryBridgePropertiesTests {
         properties.setEnabled(false);
         assertThat(properties.isEnabled()).isFalse();
     }
-
 }

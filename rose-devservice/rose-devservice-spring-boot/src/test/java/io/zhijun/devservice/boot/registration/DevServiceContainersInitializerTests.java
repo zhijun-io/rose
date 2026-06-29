@@ -1,17 +1,17 @@
 package io.zhijun.devservice.boot.registration;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import io.opentelemetry.api.trace.Tracer;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationContext;
 import org.testcontainers.containers.GenericContainer;
-
-import io.opentelemetry.api.trace.Tracer;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link DevServiceContainersInitializer}.
@@ -46,5 +46,4 @@ class DevServiceContainersInitializerTests {
         verify(stoppedContainer).start();
         verify(runningContainer, never()).start();
     }
-
 }

@@ -1,5 +1,7 @@
 package io.zhijun.boot.autoconfigure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +10,6 @@ import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
 import org.springframework.mock.env.MockEnvironment;
 
 import io.zhijun.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * End-to-end test for {@code config/default/*} exclusions and {@link ConfigurableAutoConfigurationImportFilter}.
@@ -65,15 +65,14 @@ class RoseAutoConfigurationExcludeIntegrationTests {
         new DefaultConfigPropertiesEnvironmentPostProcessor()
                 .postProcessEnvironment(environment, new SpringApplication());
 
-        assertThat(environment.getProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME))
+        assertThat(environment.getProperty(
+                        ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME))
                 .contains(GSON_AUTO_CONFIGURATION);
 
         ConfigurableAutoConfigurationImportFilter filter = new ConfigurableAutoConfigurationImportFilter();
         filter.setEnvironment(environment);
 
-        boolean[] results = filter.match(
-                new String[] { GSON_AUTO_CONFIGURATION, WEB_MVC_AUTO_CONFIGURATION },
-                METADATA);
+        boolean[] results = filter.match(new String[] {GSON_AUTO_CONFIGURATION, WEB_MVC_AUTO_CONFIGURATION}, METADATA);
 
         assertThat(results).containsExactly(false, true);
     }

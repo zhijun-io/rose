@@ -1,11 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.otel;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link OtelCollectorDevServicesAutoConfiguration}.
@@ -38,9 +38,7 @@ class OtelCollectorDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfi
     @Test
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
-                OtelCollectorContainer.class,
-                OtelCollectorContainer.COMPATIBLE_IMAGE_NAME,
-                container -> {
+                OtelCollectorContainer.class, OtelCollectorContainer.COMPATIBLE_IMAGE_NAME, container -> {
                     assertThat(container.getEnv()).isEmpty();
                 });
     }
@@ -48,9 +46,7 @@ class OtelCollectorDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfi
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                OtelCollectorContainer.class,
-                commonConfigurationProperties(),
-                (context, container) -> {
+                OtelCollectorContainer.class, commonConfigurationProperties(), (context, container) -> {
                     assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_ENDPOINT"))
                             .startsWith("http://");
                     assertThat(context.getEnvironment().getProperty("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"))

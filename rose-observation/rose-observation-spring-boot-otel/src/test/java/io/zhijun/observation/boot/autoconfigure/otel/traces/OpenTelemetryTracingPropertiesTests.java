@@ -1,10 +1,10 @@
 package io.zhijun.observation.boot.autoconfigure.otel.traces;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OpenTelemetryTracingProperties}.
@@ -25,7 +25,8 @@ class OpenTelemetryTracingPropertiesTests {
         assertThat(properties.getProcessor()).isNotNull();
 
         OpenTelemetryTracingProperties.Sampling sampling = properties.getSampling();
-        assertThat(sampling.getStrategy()).isEqualTo(OpenTelemetryTracingProperties.SamplingStrategy.PARENT_BASED_ALWAYS_ON);
+        assertThat(sampling.getStrategy())
+                .isEqualTo(OpenTelemetryTracingProperties.SamplingStrategy.PARENT_BASED_ALWAYS_ON);
 
         OpenTelemetryTracingProperties.SpanLimits spanLimits = properties.getLimits();
         assertThat(spanLimits.getMaxNumberOfAttributes()).isEqualTo(128);
@@ -80,5 +81,4 @@ class OpenTelemetryTracingPropertiesTests {
         assertThat(processor.getMaxExportBatchSize()).isEqualTo(1024);
         assertThat(processor.isMetrics()).isTrue();
     }
-
 }

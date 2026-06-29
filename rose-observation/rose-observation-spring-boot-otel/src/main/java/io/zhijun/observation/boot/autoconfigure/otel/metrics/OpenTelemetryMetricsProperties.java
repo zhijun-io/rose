@@ -66,7 +66,6 @@ public class OpenTelemetryMetricsProperties {
         public void setFilter(ExemplarFilter filter) {
             this.filter = filter;
         }
-
     }
 
     /**
@@ -88,7 +87,5 @@ public class OpenTelemetryMetricsProperties {
          * Filter that only accepts measurements where there is a span in context that is being sampled.
          */
         TRACE_BASED;
-
     }
-
 }

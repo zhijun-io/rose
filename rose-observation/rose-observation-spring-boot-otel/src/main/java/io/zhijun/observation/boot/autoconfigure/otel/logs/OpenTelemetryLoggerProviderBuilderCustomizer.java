@@ -9,6 +9,5 @@ import io.opentelemetry.sdk.logs.SdkLoggerProviderBuilder;
 @FunctionalInterface
 public interface OpenTelemetryLoggerProviderBuilderCustomizer {
 
-	void customize(SdkLoggerProviderBuilder builder);
-
+    void customize(SdkLoggerProviderBuilder builder);
 }

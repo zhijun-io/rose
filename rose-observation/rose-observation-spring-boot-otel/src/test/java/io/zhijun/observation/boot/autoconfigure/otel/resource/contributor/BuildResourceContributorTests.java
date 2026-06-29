@@ -1,5 +1,10 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource.contributor;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+
 import java.util.Properties;
 
 import io.opentelemetry.sdk.resources.ResourceBuilder;
@@ -7,11 +12,6 @@ import io.opentelemetry.semconv.ServiceAttributes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.info.BuildProperties;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link BuildResourceContributor}.
@@ -66,5 +66,4 @@ class BuildResourceContributorTests {
 
         verifyNoInteractions(resourceBuilder);
     }
-
 }

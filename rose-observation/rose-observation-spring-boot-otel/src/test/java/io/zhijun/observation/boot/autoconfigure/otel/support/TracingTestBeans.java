@@ -1,9 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.support;
 
+import io.opentelemetry.sdk.trace.export.SpanExporter;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import io.opentelemetry.sdk.trace.export.SpanExporter;
 
 /**
  * Beans required by tracing auto-configuration unit test.
@@ -15,5 +15,4 @@ public final class TracingTestBeans {
     SpanExporter spanExporter() {
         return OtelExporterMocks.spanExporter();
     }
-
 }

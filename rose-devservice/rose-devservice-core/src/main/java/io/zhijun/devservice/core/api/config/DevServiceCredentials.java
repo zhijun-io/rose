@@ -14,7 +14,5 @@ public final class DevServiceCredentials {
 
     public static final String DEFAULT_DB_NAME = "rose";
 
-    private DevServiceCredentials() {
-    }
-
+    private DevServiceCredentials() {}
 }

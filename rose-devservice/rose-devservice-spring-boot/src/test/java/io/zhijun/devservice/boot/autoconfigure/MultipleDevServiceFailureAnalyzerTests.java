@@ -1,5 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class MultipleDevServiceFailureAnalyzerTests {
 

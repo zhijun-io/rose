@@ -30,5 +30,4 @@ class RoseMybatisPlusAutoConfigurationIT {
                 .withPropertyValues("rose.mybatis-plus.enabled=false")
                 .run(context -> assertThat(context).doesNotHaveBean(RoseMybatisPlusAutoConfiguration.class));
     }
-
 }

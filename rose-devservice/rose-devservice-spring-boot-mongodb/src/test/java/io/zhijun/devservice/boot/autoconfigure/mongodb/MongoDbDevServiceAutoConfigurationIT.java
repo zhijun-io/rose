@@ -1,20 +1,20 @@
 package io.zhijun.devservice.boot.autoconfigure.mongodb;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.containers.MongoDBContainer;
 
 import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Integration test for {@link MongoDbDevServicesAutoConfiguration}.
  */
 class MongoDbDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationIT {
 
-    private final ApplicationContextRunner contextRunner = defaultContextRunner(
-            MongoDbDevServicesAutoConfiguration.class);
+    private final ApplicationContextRunner contextRunner =
+            defaultContextRunner(MongoDbDevServicesAutoConfiguration.class);
 
     @Override
     protected ApplicationContextRunner getContextRunner() {
@@ -49,7 +49,7 @@ class MongoDbDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurati
         assertContainerConfigurationApplied(
                 MongoDbContainer.class,
                 commonConfigurationProperties(),
-                (context, container) -> assertThat(
-                        context.getEnvironment().getProperty("spring.data.mongodb.uri")).isNotBlank());
+                (context, container) -> assertThat(context.getEnvironment().getProperty("spring.data.mongodb.uri"))
+                        .isNotBlank());
     }
 }

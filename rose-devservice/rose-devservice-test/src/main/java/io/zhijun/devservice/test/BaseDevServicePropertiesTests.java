@@ -1,5 +1,7 @@
 package io.zhijun.devservice.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
 import io.zhijun.devservice.core.api.config.VolumeMapping;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Abstract base test class for testing {@link BaseDevServiceProperties} implementations.
@@ -29,8 +29,7 @@ public abstract class BaseDevServicePropertiesTests<T extends BaseDevServiceProp
     private static final Duration TEST_STARTUP_TIMEOUT = Duration.ofMinutes(1);
     private static final ResourceMapping TEST_RESOURCE =
             new ResourceMapping("test-resource.txt", "/tmp/test-resource.txt");
-    private static final VolumeMapping TEST_VOLUME =
-            new VolumeMapping("/host/path", "/container/path");
+    private static final VolumeMapping TEST_VOLUME = new VolumeMapping("/host/path", "/container/path");
 
     protected abstract T createProperties();
 

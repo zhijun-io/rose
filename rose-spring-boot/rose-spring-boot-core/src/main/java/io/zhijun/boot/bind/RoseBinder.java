@@ -1,11 +1,12 @@
 package io.zhijun.boot.bind;
 
-import io.zhijun.annotation.Incubating;
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
+
+import io.zhijun.annotation.Incubating;
 
 /**
  * Lightweight helpers around Spring Boot {@link Binder}.

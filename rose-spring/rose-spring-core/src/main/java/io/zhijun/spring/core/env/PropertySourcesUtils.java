@@ -6,26 +6,23 @@ import java.util.Map;
 
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.PropertySources;
-import org.springframework.core.env.PropertySourcesPropertyResolver;
 
 /**
  * Utilities for working with {@link PropertySources}.
  */
 public abstract class PropertySourcesUtils {
 
-    private PropertySourcesUtils() {
-    }
+    private PropertySourcesUtils() {}
 
     public static Map<String, Object> getSubProperties(ConfigurableEnvironment environment, String prefix) {
         return getSubProperties(environment.getPropertySources(), environment, prefix);
     }
 
-    public static Map<String, Object> getSubProperties(PropertySources propertySources, PropertyResolver propertyResolver,
-            String prefix) {
+    public static Map<String, Object> getSubProperties(
+            PropertySources propertySources, PropertyResolver propertyResolver, String prefix) {
         Map<String, Object> subProperties = new LinkedHashMap<String, Object>();
         String normalizedPrefix = normalizePrefix(prefix);
         Iterator<PropertySource<?>> iterator = propertySources.iterator();

@@ -4,16 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 
-import org.junit.jupiter.api.Test;
-
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+
+import org.junit.jupiter.api.Test;
 
 class TenantLineInnerInterceptorRegistrarTests {
 
     @Test
     void shouldRegisterTenantLineInnerInterceptor() {
-        RoseTenantLineHandler handler = new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.<String>emptySet());
+        RoseTenantLineHandler handler =
+                new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.<String>emptySet());
         TenantLineInnerInterceptorRegistrar registrar = new TenantLineInnerInterceptorRegistrar(handler);
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
 
@@ -25,7 +26,8 @@ class TenantLineInnerInterceptorRegistrarTests {
 
     @Test
     void shouldNotRegisterDuplicateTenantLineInnerInterceptor() {
-        RoseTenantLineHandler handler = new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.<String>emptySet());
+        RoseTenantLineHandler handler =
+                new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.<String>emptySet());
         TenantLineInnerInterceptorRegistrar registrar = new TenantLineInnerInterceptorRegistrar(handler);
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new TenantLineInnerInterceptor(handler));
@@ -34,5 +36,4 @@ class TenantLineInnerInterceptorRegistrarTests {
 
         assertThat(interceptor.getInterceptors()).hasSize(1);
     }
-
 }

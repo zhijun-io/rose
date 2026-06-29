@@ -8,8 +8,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTr
  */
 public final class OtlpContainerConnectionDetails {
 
-    private OtlpContainerConnectionDetails() {
-    }
+    private OtlpContainerConnectionDetails() {}
 
     public static OtlpTracingConnectionDetails tracing(String host, int httpPort, int grpcPort) {
         return protocol -> {

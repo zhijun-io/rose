@@ -14,7 +14,8 @@ class AuditMetaObjectHandlerTests {
     void shouldFillAuditFieldsOnInsert() {
         AuditableEntity entity = new AuditableEntity();
         MetaObject metaObject = SystemMetaObject.forObject(entity);
-        AuditMetaObjectHandler handler = new AuditMetaObjectHandler(() -> "tester", () -> LocalDateTime.of(2026, 6, 17, 10, 0));
+        AuditMetaObjectHandler handler =
+                new AuditMetaObjectHandler(() -> "tester", () -> LocalDateTime.of(2026, 6, 17, 10, 0));
 
         handler.insertFill(metaObject);
 
@@ -42,7 +43,8 @@ class AuditMetaObjectHandlerTests {
         AuditableEntity entity = new AuditableEntity();
         entity.setUpdater("old");
         MetaObject metaObject = SystemMetaObject.forObject(entity);
-        AuditMetaObjectHandler handler = new AuditMetaObjectHandler(() -> "new-user", () -> LocalDateTime.of(2026, 6, 17, 11, 0));
+        AuditMetaObjectHandler handler =
+                new AuditMetaObjectHandler(() -> "new-user", () -> LocalDateTime.of(2026, 6, 17, 11, 0));
 
         handler.updateFill(metaObject);
 

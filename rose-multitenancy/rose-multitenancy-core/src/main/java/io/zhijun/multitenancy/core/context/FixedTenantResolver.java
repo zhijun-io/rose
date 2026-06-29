@@ -27,5 +27,4 @@ public final class FixedTenantResolver implements TenantResolver<Object> {
     public String resolveTenantIdentifier(Object source) {
         return fixedTenantIdentifier;
     }
-
 }

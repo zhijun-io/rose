@@ -2,7 +2,6 @@ package io.zhijun.observation.boot.autoconfigure.logback;
 
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender;
 
-import org.springframework.lang.Nullable;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
@@ -12,8 +11,10 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.GenericApplicationListener;
 import org.springframework.core.ResolvableType;
+import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
+import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.Logger;
 
 import io.zhijun.boot.bind.RoseBinder;
@@ -71,12 +72,12 @@ class LogbackOpenTelemetryBridgeApplicationListener implements GenericApplicatio
                 LogbackOpenTelemetryBridgeProperties.CAPTURE_KEY_VALUE_PAIR_ATTRIBUTES_PROPERTY, false);
         openTelemetryAppender.setCaptureKeyValuePairAttributes(captureKeyValuePairAttributes);
 
-        boolean captureMarkerAttribute = binder.bindBoolean(
-                LogbackOpenTelemetryBridgeProperties.CAPTURE_MARKER_ATTRIBUTE_PROPERTY, false);
+        boolean captureMarkerAttribute =
+                binder.bindBoolean(LogbackOpenTelemetryBridgeProperties.CAPTURE_MARKER_ATTRIBUTE_PROPERTY, false);
         openTelemetryAppender.setCaptureMarkerAttribute(captureMarkerAttribute);
 
-        String captureMdcAttributes = binder.bindString(
-                LogbackOpenTelemetryBridgeProperties.CAPTURE_MDC_ATTRIBUTES_PROPERTY, null);
+        String captureMdcAttributes =
+                binder.bindString(LogbackOpenTelemetryBridgeProperties.CAPTURE_MDC_ATTRIBUTES_PROPERTY, null);
         openTelemetryAppender.setCaptureMdcAttributes(captureMdcAttributes);
     }
 
@@ -115,5 +116,4 @@ class LogbackOpenTelemetryBridgeApplicationListener implements GenericApplicatio
     public int getOrder() {
         return LoggingApplicationListener.DEFAULT_ORDER + 1;
     }
-
 }

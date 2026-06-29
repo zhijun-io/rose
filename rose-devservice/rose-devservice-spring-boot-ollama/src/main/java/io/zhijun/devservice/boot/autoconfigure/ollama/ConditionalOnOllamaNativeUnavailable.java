@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Conditional;
  * Whether Ollama native connection is unavailable when running the application in dev mode.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @Conditional(OnOllamaNativeUnavailable.class)
-public @interface ConditionalOnOllamaNativeUnavailable {
-}
+public @interface ConditionalOnOllamaNativeUnavailable {}

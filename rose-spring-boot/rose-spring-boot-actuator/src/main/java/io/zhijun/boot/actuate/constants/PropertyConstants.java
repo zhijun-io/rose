@@ -21,5 +21,4 @@ public interface PropertyConstants {
      * Canonical Rose Spring Boot Actuator prefix {@code rose.spring.boot.actuator.}.
      */
     String ROSE_SPRING_BOOT_ACTUATOR_PROPERTY_NAME_PREFIX = ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX + "actuator.";
-
 }

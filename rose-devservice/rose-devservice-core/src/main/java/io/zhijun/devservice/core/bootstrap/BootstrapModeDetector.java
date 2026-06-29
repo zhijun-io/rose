@@ -5,10 +5,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -18,13 +17,13 @@ final class BootstrapModeDetector {
 
     private static final Logger logger = LoggerFactory.getLogger(BootstrapModeDetector.class);
 
-    private static final Set<String> TEST_CLASS_PREFIXES = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
-            "org.junit.runners.",
-            "org.junit.jupiter.",
-            "org.junit.platform.",
-            "org.springframework.boot.test.",
-            "cucumber.runtime."
-    )));
+    private static final Set<String> TEST_CLASS_PREFIXES =
+            Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
+                    "org.junit.runners.",
+                    "org.junit.jupiter.",
+                    "org.junit.platform.",
+                    "org.springframework.boot.test.",
+                    "cucumber.runtime.")));
 
     private static volatile BootstrapMode cachedMode;
     private static final Object LOCK = new Object();
@@ -49,7 +48,8 @@ final class BootstrapModeDetector {
     }
 
     private static BootstrapMode doDetect(StackTraceElement[] stackTraceElements) {
-        String modeProperty = System.getenv(BootstrapMode.PROPERTY_KEY.toUpperCase().replace(".", "_"));
+        String modeProperty =
+                System.getenv(BootstrapMode.PROPERTY_KEY.toUpperCase().replace(".", "_"));
         if (!StringUtils.isNotBlank(modeProperty)) {
             modeProperty = System.getProperty(BootstrapMode.PROPERTY_KEY);
         }
@@ -58,8 +58,10 @@ final class BootstrapModeDetector {
             if (BootstrapMode.isValid(normalized)) {
                 return BootstrapMode.valueOf(normalized);
             }
-            logger.warn("Invalid {} property value: '{}'. Defaulting to PROD mode.",
-                    BootstrapMode.PROPERTY_KEY, modeProperty);
+            logger.warn(
+                    "Invalid {} property value: '{}'. Defaulting to PROD mode.",
+                    BootstrapMode.PROPERTY_KEY,
+                    modeProperty);
             return BootstrapMode.PROD;
         }
 
@@ -70,14 +72,14 @@ final class BootstrapModeDetector {
         for (StackTraceElement element : stackTrace) {
             String className = element.getClassName();
             if (className.contains("SpringApplicationAotProcessor")) {
-                logger.debug("Prod bootstrap mode detection from stack trace took {} ns",
-                        System.nanoTime() - startTime);
+                logger.debug(
+                        "Prod bootstrap mode detection from stack trace took {} ns", System.nanoTime() - startTime);
                 return BootstrapMode.PROD;
             }
             for (String prefix : TEST_CLASS_PREFIXES) {
                 if (className.startsWith(prefix)) {
-                    logger.debug("Test bootstrap mode detection from stack trace took {} ns",
-                            System.nanoTime() - startTime);
+                    logger.debug(
+                            "Test bootstrap mode detection from stack trace took {} ns", System.nanoTime() - startTime);
                     return BootstrapMode.TEST;
                 }
             }

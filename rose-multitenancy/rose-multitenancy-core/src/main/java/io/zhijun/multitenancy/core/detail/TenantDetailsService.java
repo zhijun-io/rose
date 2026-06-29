@@ -19,5 +19,4 @@ public interface TenantDetailsService {
      */
     @Nullable
     TenantDetails loadTenantByIdentifier(String tenantIdentifier);
-
 }

@@ -1,5 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.logback;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,18 +24,19 @@ import org.springframework.mock.env.MockEnvironment;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryProperties;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 /**
  * Unit test for {@link LogbackOpenTelemetryBridgeApplicationListener}.
  */
 class LogbackOpenTelemetryBridgeApplicationListenerTests {
 
-    private final LogbackOpenTelemetryBridgeApplicationListener listener = new LogbackOpenTelemetryBridgeApplicationListener();
+    private final LogbackOpenTelemetryBridgeApplicationListener listener =
+            new LogbackOpenTelemetryBridgeApplicationListener();
 
     private final Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 
@@ -95,9 +99,9 @@ class LogbackOpenTelemetryBridgeApplicationListenerTests {
     @Test
     void registeredAppenderIsStarted() {
         listener.onApplicationEvent(createEvent(new MockEnvironment()));
-        assertThat(findOpenTelemetryAppender()).isNotNull().satisfies(appender ->
-                assertThat(appender.isStarted()).isTrue()
-        );
+        assertThat(findOpenTelemetryAppender())
+                .isNotNull()
+                .satisfies(appender -> assertThat(appender.isStarted()).isTrue());
     }
 
     @Test
@@ -124,10 +128,7 @@ class LogbackOpenTelemetryBridgeApplicationListenerTests {
 
     private ApplicationEnvironmentPreparedEvent createEvent(MockEnvironment environment) {
         return new ApplicationEnvironmentPreparedEvent(
-                new DefaultBootstrapContext(),
-                mock(SpringApplication.class),
-                new String[0],
-                environment);
+                new DefaultBootstrapContext(), mock(SpringApplication.class), new String[0], environment);
     }
 
     private boolean hasOpenTelemetryAppender() {
@@ -144,5 +145,4 @@ class LogbackOpenTelemetryBridgeApplicationListenerTests {
         }
         return null;
     }
-
 }

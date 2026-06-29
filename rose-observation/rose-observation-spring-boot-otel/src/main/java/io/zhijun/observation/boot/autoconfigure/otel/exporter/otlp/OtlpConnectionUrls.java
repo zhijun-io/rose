@@ -13,15 +13,20 @@ public final class OtlpConnectionUrls {
 
     private OtlpConnectionUrls() {}
 
-    public static String resolve(Protocol protocol, OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties, String httpProtobufPath, String defaultHttpProtobufEndpoint,
+    public static String resolve(
+            Protocol protocol,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties,
+            String httpProtobufPath,
+            String defaultHttpProtobufEndpoint,
             String defaultGrpcEndpoint) {
         Protocol configuredProtocol = signalProperties.getProtocol() != null
                 ? signalProperties.getProtocol()
                 : commonProperties.getOtlp().getProtocol();
-        Assert.state(protocol == configuredProtocol,
-                String.format("Requested protocol %s doesn't match configured protocol %s", protocol,
-                        configuredProtocol));
+        Assert.state(
+                protocol == configuredProtocol,
+                String.format(
+                        "Requested protocol %s doesn't match configured protocol %s", protocol, configuredProtocol));
 
         if (signalProperties.getEndpoint() != null) {
             return signalProperties.getEndpoint().toString();
@@ -36,5 +41,4 @@ public final class OtlpConnectionUrls {
         }
         return configuredProtocol == Protocol.HTTP_PROTOBUF ? defaultHttpProtobufEndpoint : defaultGrpcEndpoint;
     }
-
 }

@@ -1,5 +1,8 @@
 package io.zhijun.devservice.boot.actuator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DevServicesEndpointTests {
 
@@ -33,7 +33,8 @@ class DevServicesEndpointTests {
     @Test
     void devServicesReturnsSingleServiceWhenOneRegistration() {
         ContainerInfo containerInfo = createContainerInfo("container-1", "postgres:18", "running");
-        registrations.put("postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
+        registrations.put(
+                "postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
 
         Map<String, DevServicesEndpoint.ServiceInfoSummary> result = endpoint.devServices();
 
@@ -49,7 +50,8 @@ class DevServicesEndpointTests {
     @Test
     void devServiceReturnsServiceInfoWhenServiceExists() {
         ContainerInfo containerInfo = createContainerInfo("container-1", "postgres:18", "running");
-        registrations.put("postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
+        registrations.put(
+                "postgres", new DevServiceRegistration("postgres", "PostgreSQL Database", () -> containerInfo));
 
         DevServicesEndpoint.ServiceInfo result = endpoint.devService("postgres");
 

@@ -1,18 +1,19 @@
 package io.zhijun.spring.core.propertysource.annotation;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Comparator;
 
-import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
-import io.zhijun.spring.core.propertysource.support.YamlPropertySourceFactory;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.Resource;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import io.zhijun.spring.core.propertysource.support.DefaultResourceComparator;
+import io.zhijun.spring.core.propertysource.support.YamlPropertySourceFactory;
 
 /**
  * YAML property source annotation.

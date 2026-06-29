@@ -33,9 +33,11 @@ public final class RedisDevServicesAutoConfiguration {
                     .containerClass(RedisContainer.class)
                     .containerFactory(RedisContainer::new)
                     .dynamicProperties(registrar -> {
-                        registrar.addDynamicProperty("spring.redis.host",
+                        registrar.addDynamicProperty(
+                                "spring.redis.host",
                                 () -> registrar.requireRunningContainer().getRedisHost());
-                        registrar.addDynamicProperty("spring.redis.port",
+                        registrar.addDynamicProperty(
+                                "spring.redis.port",
                                 () -> registrar.requireRunningContainer().getRedisPort());
                     })
                     .build();

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -11,16 +13,13 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-
 import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 
 /**
  * {@link BeanPostProcessor} that applies all registered {@link MybatisPlusInterceptorCustomizer}s
  * to the {@link MybatisPlusInterceptor} bean after initialization.
  */
-public final class MybatisPlusInterceptorCustomizerBeanPostProcessor
-        implements BeanPostProcessor, BeanFactoryAware {
+public final class MybatisPlusInterceptorCustomizerBeanPostProcessor implements BeanPostProcessor, BeanFactoryAware {
 
     private final List<MybatisPlusInterceptorCustomizer> factoryCustomizers;
 
@@ -36,8 +35,7 @@ public final class MybatisPlusInterceptorCustomizerBeanPostProcessor
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory instanceof ListableBeanFactory
-                ? (ListableBeanFactory) beanFactory : null;
+        this.beanFactory = beanFactory instanceof ListableBeanFactory ? (ListableBeanFactory) beanFactory : null;
     }
 
     @Override
@@ -56,8 +54,9 @@ public final class MybatisPlusInterceptorCustomizerBeanPostProcessor
         List<MybatisPlusInterceptorCustomizer> all =
                 new ArrayList<MybatisPlusInterceptorCustomizer>(factoryCustomizers);
         if (beanFactory != null) {
-            for (MybatisPlusInterceptorCustomizer beanCustomizer :
-                    beanFactory.getBeansOfType(MybatisPlusInterceptorCustomizer.class).values()) {
+            for (MybatisPlusInterceptorCustomizer beanCustomizer : beanFactory
+                    .getBeansOfType(MybatisPlusInterceptorCustomizer.class)
+                    .values()) {
                 if (!factoryCustomizers.contains(beanCustomizer)) {
                     all.add(beanCustomizer);
                 }
@@ -66,5 +65,4 @@ public final class MybatisPlusInterceptorCustomizerBeanPostProcessor
         AnnotationAwareOrderComparator.sort(all);
         return all;
     }
-
 }

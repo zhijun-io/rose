@@ -43,9 +43,8 @@ public class TenantDetailsProperties {
     }
 
     public enum Source {
-
-        NONE, PROPERTIES
-
+        NONE,
+        PROPERTIES
     }
 
     public static class TenantConfig {
@@ -81,7 +80,5 @@ public class TenantDetailsProperties {
             Assert.notNull(attributes, "attributes cannot be null");
             this.attributes = attributes;
         }
-
     }
-
 }

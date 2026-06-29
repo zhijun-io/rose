@@ -34,5 +34,4 @@ public class ProxyConfig {
     public void setPort(int port) {
         this.port = port;
     }
-
 }

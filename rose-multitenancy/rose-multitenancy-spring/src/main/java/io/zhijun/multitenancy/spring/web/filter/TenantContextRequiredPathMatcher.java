@@ -55,8 +55,8 @@ public final class TenantContextRequiredPathMatcher {
             return Collections.emptyList();
         }
         PathPatternParser parser = PathPatternParser.defaultInstance;
-        return patterns.stream().map(pattern -> parser.parse(parser.initFullPathPattern(pattern)))
+        return patterns.stream()
+                .map(pattern -> parser.parse(parser.initFullPathPattern(pattern)))
                 .collect(Collectors.toList());
     }
-
 }

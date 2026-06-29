@@ -12,11 +12,13 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.boot.constants.PropertyConstants;
+import io.zhijun.boot.diagnostics.internal.ClasspathMavenArtifactScanner;
 
 /**
  * Detects duplicate Maven coordinates on the classpath during application startup.
  */
-public final class ArtifactsCollisionDiagnosisListener implements ApplicationListener<ApplicationContextInitializedEvent> {
+public final class ArtifactsCollisionDiagnosisListener
+        implements ApplicationListener<ApplicationContextInitializedEvent> {
 
     public static final String ENABLED_PROPERTY = PropertyConstants.ARTIFACTS_COLLISION_ENABLED_PROPERTY_NAME;
 
@@ -37,10 +39,10 @@ public final class ArtifactsCollisionDiagnosisListener implements ApplicationLis
             }
             logger.error("Classpath artifact collision detected: {}", collisions);
             throw new ArtifactsCollisionException(
-                    "Classpath artifact collision detected for coordinates: " + StringUtils.collectionToCommaDelimitedString(collisions),
+                    "Classpath artifact collision detected for coordinates: "
+                            + StringUtils.collectionToCommaDelimitedString(collisions),
                     collisions);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new IllegalStateException("Failed to scan classpath for artifact collisions", ex);
         }
     }
@@ -48,6 +50,8 @@ public final class ArtifactsCollisionDiagnosisListener implements ApplicationLis
     private static boolean isEnabled(ApplicationContextInitializedEvent event) {
         ConfigurableApplicationContext context = event.getApplicationContext();
         ConfigurableEnvironment environment = context.getEnvironment();
-        return environment.getProperty(ENABLED_PROPERTY, Boolean.class, Boolean.FALSE).booleanValue();
+        return environment
+                .getProperty(ENABLED_PROPERTY, Boolean.class, Boolean.FALSE)
+                .booleanValue();
     }
 }

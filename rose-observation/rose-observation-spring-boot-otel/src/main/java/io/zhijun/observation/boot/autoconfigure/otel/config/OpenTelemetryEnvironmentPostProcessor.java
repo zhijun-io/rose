@@ -3,8 +3,8 @@ package io.zhijun.observation.boot.autoconfigure.otel.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
@@ -32,13 +32,20 @@ public class OpenTelemetryEnvironmentPostProcessor implements EnvironmentPostPro
         }
 
         Map<String, Object> roseProperties = new HashMap<String, Object>();
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.general(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.batchSpanProcessor(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.attributeLimits(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.spanLimits(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.exporterSelection(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.metrics(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.otlpExporter(environment).getRoseProperties());
+        roseProperties.putAll(
+                OpenTelemetryEnvironmentPropertyAdapters.general(environment).getRoseProperties());
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.batchSpanProcessor(environment)
+                .getRoseProperties());
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.attributeLimits(environment)
+                .getRoseProperties());
+        roseProperties.putAll(
+                OpenTelemetryEnvironmentPropertyAdapters.spanLimits(environment).getRoseProperties());
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.exporterSelection(environment)
+                .getRoseProperties());
+        roseProperties.putAll(
+                OpenTelemetryEnvironmentPropertyAdapters.metrics(environment).getRoseProperties());
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.otlpExporter(environment)
+                .getRoseProperties());
 
         MapPropertySource propertySource = new MapPropertySource(PROPERTY_SOURCE_NAME, roseProperties);
         MutablePropertySources propertySources = environment.getPropertySources();

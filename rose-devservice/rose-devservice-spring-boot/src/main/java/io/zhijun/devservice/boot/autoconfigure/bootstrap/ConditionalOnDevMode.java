@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Conditional;
  * Whether the application is running in dev mode.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @Conditional(OnDevModeCondition.class)
-public @interface ConditionalOnDevMode {
-}
+public @interface ConditionalOnDevMode {}

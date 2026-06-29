@@ -1,14 +1,14 @@
 package io.zhijun.observation.boot.autoconfigure.otel.traces.exporter;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterAutoConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.console.ConsoleTracingExporterConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTracingExporterConfiguration;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterAutoConfiguration;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.console.ConsoleTracingExporterConfiguration;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTracingExporterConfiguration;
 
 /**
  * Unit test for {@link OpenTelemetryTracingExporterAutoConfiguration}.
@@ -16,22 +16,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OpenTelemetryTracingExporterAutoConfigurationTests {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(OpenTelemetryExporterAutoConfiguration.class,
-                OpenTelemetryTracingExporterAutoConfiguration.class));
+            .withConfiguration(AutoConfigurations.of(
+                    OpenTelemetryExporterAutoConfiguration.class, OpenTelemetryTracingExporterAutoConfiguration.class));
 
     @Test
     void autoConfigurationNotActivatedWhenOpenTelemetryDisabled() {
         contextRunner
-            .withPropertyValues("rose.otel.enabled=false")
-            .run(context -> assertThat(context).doesNotHaveBean(OpenTelemetryTracingExporterAutoConfiguration.class));
+                .withPropertyValues("rose.otel.enabled=false")
+                .run(context ->
+                        assertThat(context).doesNotHaveBean(OpenTelemetryTracingExporterAutoConfiguration.class));
     }
 
     @Test
     void autoConfigurationNotActivatedWhenTracingDisabled() {
         contextRunner
-            .withPropertyValues("rose.otel.traces.enabled=false")
-            .withPropertyValues("management.tracing.enabled=true")
-            .run(context -> assertThat(context).doesNotHaveBean(OpenTelemetryTracingExporterAutoConfiguration.class));
+                .withPropertyValues("rose.otel.traces.enabled=false")
+                .withPropertyValues("management.tracing.enabled=true")
+                .run(context ->
+                        assertThat(context).doesNotHaveBean(OpenTelemetryTracingExporterAutoConfiguration.class));
     }
 
     @Test
@@ -45,11 +47,11 @@ class OpenTelemetryTracingExporterAutoConfigurationTests {
     @Test
     void consoleExporterConfigurationImportedWhenEnabled() {
         contextRunner
-            .withPropertyValues("rose.otel.traces.exporter.type=console")
-            .run(context -> {
-                assertThat(context).hasSingleBean(ConsoleTracingExporterConfiguration.class);
-                assertThat(context).doesNotHaveBean(OtlpTracingExporterConfiguration.class);
-            });
+                .withPropertyValues("rose.otel.traces.exporter.type=console")
+                .run(context -> {
+                    assertThat(context).hasSingleBean(ConsoleTracingExporterConfiguration.class);
+                    assertThat(context).doesNotHaveBean(OtlpTracingExporterConfiguration.class);
+                });
     }
 
     @Test
@@ -62,12 +64,9 @@ class OpenTelemetryTracingExporterAutoConfigurationTests {
 
     @Test
     void otlpExporterConfigurationImportedWhenEnabled() {
-        contextRunner
-            .withPropertyValues("rose.otel.traces.exporter.type=otlp")
-            .run(context -> {
-                assertThat(context).doesNotHaveBean(ConsoleTracingExporterConfiguration.class);
-                assertThat(context).hasSingleBean(OtlpTracingExporterConfiguration.class);
-            });
+        contextRunner.withPropertyValues("rose.otel.traces.exporter.type=otlp").run(context -> {
+            assertThat(context).doesNotHaveBean(ConsoleTracingExporterConfiguration.class);
+            assertThat(context).hasSingleBean(OtlpTracingExporterConfiguration.class);
+        });
     }
-
 }

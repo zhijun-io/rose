@@ -1,13 +1,13 @@
 package io.zhijun.spring.core.propertysource.watch;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class AutoRefreshWatcherLifecycleTest {
 

@@ -1,13 +1,14 @@
 package io.zhijun.spring.core.binder.annotation;
 
+import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_IGNORE_INVALID_FIELDS;
+import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_IGNORE_UNKNOWN_FIELDS;
+import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_MULTIPLE;
+import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.generateBeanName;
+
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator;
-import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
-import io.zhijun.spring.core.env.PropertySourcesUtils;
-import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -22,10 +23,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
-import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_IGNORE_INVALID_FIELDS;
-import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_IGNORE_UNKNOWN_FIELDS;
-import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_MULTIPLE;
-import static org.springframework.beans.factory.support.BeanDefinitionReaderUtils.generateBeanName;
+import io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator;
+import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
+import io.zhijun.spring.core.env.PropertySourcesUtils;
+import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 
 /**
  * {@link ImportBeanDefinitionRegistrar} for {@link EnableConfigurationBeanBinding}.
@@ -35,7 +36,8 @@ import static org.springframework.beans.factory.support.BeanDefinitionReaderUtil
  * registers bean aliases via {@link io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator},
  * and ensures {@link ConfigurationBeanBindingPostProcessor} is present.
  */
-public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware {
+public class ConfigurationBeanBindingRegistrar
+        implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware {
 
     public static final Class<?> ENABLE_CONFIGURATION_BINDING_CLASS = EnableConfigurationBeanBinding.class;
 
@@ -70,55 +72,77 @@ public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRe
         }
 
         boolean multiple = getBooleanAttribute(attributes, "multiple", DEFAULT_MULTIPLE);
-        boolean ignoreUnknownFields = getBooleanAttribute(attributes, "ignoreUnknownFields", DEFAULT_IGNORE_UNKNOWN_FIELDS);
-        boolean ignoreInvalidFields = getBooleanAttribute(attributes, "ignoreInvalidFields", DEFAULT_IGNORE_INVALID_FIELDS);
+        boolean ignoreUnknownFields =
+                getBooleanAttribute(attributes, "ignoreUnknownFields", DEFAULT_IGNORE_UNKNOWN_FIELDS);
+        boolean ignoreInvalidFields =
+                getBooleanAttribute(attributes, "ignoreInvalidFields", DEFAULT_IGNORE_INVALID_FIELDS);
 
         registerConfigurationBeans(prefix, configClass, multiple, ignoreUnknownFields, ignoreInvalidFields, registry);
     }
 
-    private void registerConfigurationBeans(String prefix, Class<?> configClass, boolean multiple,
-            boolean ignoreUnknownFields, boolean ignoreInvalidFields, BeanDefinitionRegistry registry) {
+    private void registerConfigurationBeans(
+            String prefix,
+            Class<?> configClass,
+            boolean multiple,
+            boolean ignoreUnknownFields,
+            boolean ignoreInvalidFields,
+            BeanDefinitionRegistry registry) {
         Map<String, Object> configurationProperties = PropertySourcesUtils.getSubProperties(environment, prefix);
-        Set<String> beanNames = multiple ? resolveMultipleBeanNames(configurationProperties)
+        Set<String> beanNames = multiple
+                ? resolveMultipleBeanNames(configurationProperties)
                 : singletonSet(resolveSingleBeanName(configurationProperties, configClass, registry));
 
         for (String beanName : beanNames) {
-            registerConfigurationBean(beanName, configClass, prefix, multiple, ignoreUnknownFields, ignoreInvalidFields,
-                    configurationProperties, registry);
+            registerConfigurationBean(
+                    beanName,
+                    configClass,
+                    prefix,
+                    multiple,
+                    ignoreUnknownFields,
+                    ignoreInvalidFields,
+                    configurationProperties,
+                    registry);
             registerConfigurationBeanAlias(beanName, configClass, prefix, registry);
         }
 
         registerConfigurationBindingBeanPostProcessor(registry);
     }
 
-    private void registerConfigurationBean(String beanName, Class<?> configClass, String prefix, boolean multiple,
-            boolean ignoreUnknownFields, boolean ignoreInvalidFields, Map<String, Object> configurationProperties,
+    private void registerConfigurationBean(
+            String beanName,
+            Class<?> configClass,
+            String prefix,
+            boolean multiple,
+            boolean ignoreUnknownFields,
+            boolean ignoreInvalidFields,
+            Map<String, Object> configurationProperties,
             BeanDefinitionRegistry registry) {
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(configClass);
         AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
         beanDefinition.setSource(ConfigurationBeanBindingSupport.CONFIGURATION_BEAN_SOURCE);
 
-        Map<String, Object> subProperties = ConfigurationBeanBindingSupport.resolveSubProperties(multiple, beanName,
-                configurationProperties, environment);
-        ConfigurationBeanBindingPostProcessor.initBeanMetadataAttributes(beanDefinition, subProperties,
-                ignoreUnknownFields, ignoreInvalidFields, prefix, multiple);
+        Map<String, Object> subProperties = ConfigurationBeanBindingSupport.resolveSubProperties(
+                multiple, beanName, configurationProperties, environment);
+        ConfigurationBeanBindingPostProcessor.initBeanMetadataAttributes(
+                beanDefinition, subProperties, ignoreUnknownFields, ignoreInvalidFields, prefix, multiple);
         registry.registerBeanDefinition(beanName, beanDefinition);
     }
 
-    private void registerConfigurationBeanAlias(String beanName, Class<?> configClass, String prefix,
-            BeanDefinitionRegistry registry) {
-        for (ConfigurationBeanAliasGenerator aliasGenerator : SpringFactoriesLoaderUtils.loadFactories(beanFactory,
-                ConfigurationBeanAliasGenerator.class)) {
+    private void registerConfigurationBeanAlias(
+            String beanName, Class<?> configClass, String prefix, BeanDefinitionRegistry registry) {
+        for (ConfigurationBeanAliasGenerator aliasGenerator :
+                SpringFactoriesLoaderUtils.loadFactories(beanFactory, ConfigurationBeanAliasGenerator.class)) {
             registry.registerAlias(beanName, aliasGenerator.generateAlias(prefix, beanName, configClass));
         }
     }
 
     private void registerConfigurationBindingBeanPostProcessor(BeanDefinitionRegistry registry) {
         if (!registry.containsBeanDefinition(ConfigurationBeanBindingPostProcessor.BEAN_NAME)) {
-            BeanDefinitionBuilder builder = BeanDefinitionBuilder
-                    .rootBeanDefinition(ConfigurationBeanBindingPostProcessor.class);
+            BeanDefinitionBuilder builder =
+                    BeanDefinitionBuilder.rootBeanDefinition(ConfigurationBeanBindingPostProcessor.class);
             builder.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-            registry.registerBeanDefinition(ConfigurationBeanBindingPostProcessor.BEAN_NAME, builder.getBeanDefinition());
+            registry.registerBeanDefinition(
+                    ConfigurationBeanBindingPostProcessor.BEAN_NAME, builder.getBeanDefinition());
         }
     }
 
@@ -133,8 +157,8 @@ public class ConfigurationBeanBindingRegistrar implements ImportBeanDefinitionRe
         return beanNames;
     }
 
-    private String resolveSingleBeanName(Map<String, Object> properties, Class<?> configClass,
-            BeanDefinitionRegistry registry) {
+    private String resolveSingleBeanName(
+            Map<String, Object> properties, Class<?> configClass, BeanDefinitionRegistry registry) {
         Object id = properties.get("id");
         if (id instanceof String && StringUtils.hasText((String) id)) {
             return (String) id;

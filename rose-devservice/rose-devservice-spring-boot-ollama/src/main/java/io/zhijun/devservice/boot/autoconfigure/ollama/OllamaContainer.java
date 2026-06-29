@@ -4,16 +4,16 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
-import io.zhijun.devservice.core.container.ContainerConfigurer;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 
 /**
  * Ollama container configured for Rose DevService.
  */
 final class OllamaContainer extends GenericContainer<OllamaContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(OllamaDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
+    static final String COMPATIBLE_IMAGE_NAME =
+            DockerImageName.parse(OllamaDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int OLLAMA_PORT = 11434;
 

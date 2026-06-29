@@ -44,15 +44,23 @@ public final class OtlpMetricsExporterConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OtlpMetricsConnectionDetails.class)
-    PropertiesOtlpMetricsConnectionDetails otlpMetricsConnectionDetails(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties) {
+    PropertiesOtlpMetricsConnectionDetails otlpMetricsConnectionDetails(
+            OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties) {
         return new PropertiesOtlpMetricsConnectionDetails(commonProperties, properties);
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpMetricsConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.HTTP_PROTOBUF, matchIfMissing = true)
-    OtlpHttpMetricExporter otlpHttpMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails) {
+    @ConditionalOnProperty(
+            prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX,
+            name = "protocol",
+            havingValue = ProtocolNames.HTTP_PROTOBUF,
+            matchIfMissing = true)
+    OtlpHttpMetricExporter otlpHttpMetricExporter(
+            OpenTelemetryExporterProperties commonProperties,
+            OpenTelemetryMetricsExporterProperties properties,
+            OtlpMetricsConnectionDetails connectionDetails) {
         OtlpHttpMetricExporterBuilder builder = OtlpHttpMetricExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.HTTP_PROTOBUF))
                 .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
@@ -63,15 +71,23 @@ public final class OtlpMetricsExporterConfiguration {
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
         OtlpExporterTransportConfigurer.configureHttpMetricTransport(builder, commonProperties, properties.getOtlp());
-        logger.info("Configuring OpenTelemetry HTTP/Protobuf metric exporter with endpoint: {}", connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
+        logger.info(
+                "Configuring OpenTelemetry HTTP/Protobuf metric exporter with endpoint: {}",
+                connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
         return builder.build();
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpMetricsConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.GRPC)
-    OtlpGrpcMetricExporter otlpGrpcMetricExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties, OtlpMetricsConnectionDetails connectionDetails) {
+    @ConditionalOnProperty(
+            prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX,
+            name = "protocol",
+            havingValue = ProtocolNames.GRPC)
+    OtlpGrpcMetricExporter otlpGrpcMetricExporter(
+            OpenTelemetryExporterProperties commonProperties,
+            OpenTelemetryMetricsExporterProperties properties,
+            OtlpMetricsConnectionDetails connectionDetails) {
         OtlpGrpcMetricExporterBuilder builder = OtlpGrpcMetricExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.GRPC))
                 .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
@@ -82,11 +98,14 @@ public final class OtlpMetricsExporterConfiguration {
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
         OtlpExporterTransportConfigurer.configureGrpcMetricTransport(builder, commonProperties, properties.getOtlp());
-        logger.info("Configuring OpenTelemetry gRPC metric exporter with endpoint: {}", connectionDetails.getUrl(Protocol.GRPC));
+        logger.info(
+                "Configuring OpenTelemetry gRPC metric exporter with endpoint: {}",
+                connectionDetails.getUrl(Protocol.GRPC));
         return builder.build();
     }
 
-    AggregationTemporalitySelector getAggregationTemporalitySelector(OpenTelemetryMetricsExporterProperties properties) {
+    AggregationTemporalitySelector getAggregationTemporalitySelector(
+            OpenTelemetryMetricsExporterProperties properties) {
         switch (properties.getAggregationTemporality()) {
             case CUMULATIVE:
                 return AggregationTemporalitySelector.alwaysCumulative();
@@ -99,11 +118,10 @@ public final class OtlpMetricsExporterConfiguration {
     }
 
     @Bean
-    OpenTelemetryMeterProviderBuilderCustomizer histogramAggregation(OpenTelemetryMetricsExporterProperties properties) {
+    OpenTelemetryMeterProviderBuilderCustomizer histogramAggregation(
+            OpenTelemetryMetricsExporterProperties properties) {
         return builder -> builder.registerView(
-                InstrumentSelector.builder()
-                        .setType(InstrumentType.HISTOGRAM)
-                        .build(),
+                InstrumentSelector.builder().setType(InstrumentType.HISTOGRAM).build(),
                 View.builder()
                         .setAggregation(resolveHistogramAggregation(properties))
                         .build());
@@ -111,8 +129,7 @@ public final class OtlpMetricsExporterConfiguration {
 
     private static io.opentelemetry.sdk.metrics.Aggregation resolveHistogramAggregation(
             OpenTelemetryMetricsExporterProperties properties) {
-        if (properties.getHistogramAggregation()
-                == HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM) {
+        if (properties.getHistogramAggregation() == HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM) {
             return Base2ExponentialHistogramAggregation.getDefault();
         }
         return ExplicitBucketHistogramAggregation.getDefault();
@@ -126,18 +143,21 @@ public final class OtlpMetricsExporterConfiguration {
         private final OpenTelemetryExporterProperties commonProperties;
         private final OpenTelemetryMetricsExporterProperties properties;
 
-        PropertiesOtlpMetricsConnectionDetails(OpenTelemetryExporterProperties commonProperties,
-                OpenTelemetryMetricsExporterProperties properties) {
+        PropertiesOtlpMetricsConnectionDetails(
+                OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties) {
             this.commonProperties = commonProperties;
             this.properties = properties;
         }
 
         @Override
         public String getUrl(Protocol protocol) {
-            return OtlpConnectionUrls.resolve(protocol, commonProperties, properties.getOtlp(), METRICS_PATH,
-                    DEFAULT_HTTP_PROTOBUF_ENDPOINT, DEFAULT_GRPC_ENDPOINT);
+            return OtlpConnectionUrls.resolve(
+                    protocol,
+                    commonProperties,
+                    properties.getOtlp(),
+                    METRICS_PATH,
+                    DEFAULT_HTTP_PROTOBUF_ENDPOINT,
+                    DEFAULT_GRPC_ENDPOINT);
         }
-
     }
-
 }

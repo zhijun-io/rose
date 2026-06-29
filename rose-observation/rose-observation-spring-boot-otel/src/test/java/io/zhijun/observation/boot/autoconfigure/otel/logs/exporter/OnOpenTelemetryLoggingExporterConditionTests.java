@@ -1,5 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.logs.exporter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +12,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.mock.env.MockEnvironment;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link OnOpenTelemetryLoggingExporterCondition}.
@@ -38,8 +38,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.logs.exporter.type is set to CONSOLE");
+        assertThat(outcome.getMessage()).contains("rose.otel.logs.exporter.type is set to CONSOLE");
     }
 
     @Test
@@ -56,8 +55,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.exporter.type is set to OTLP");
+        assertThat(outcome.getMessage()).contains("rose.otel.exporter.type is set to OTLP");
     }
 
     @Test
@@ -73,8 +71,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.exporter.type is set to OTLP");
+        assertThat(outcome.getMessage()).contains("rose.otel.exporter.type is set to OTLP");
     }
 
     @Test
@@ -91,8 +88,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.logs.exporter.type is set to CONSOLE, but requested none");
+        assertThat(outcome.getMessage()).contains("rose.otel.logs.exporter.type is set to CONSOLE, but requested none");
     }
 
     @Test
@@ -108,8 +104,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid exporter type is not specified");
+        assertThat(outcome.getMessage()).contains("a valid exporter type is not specified");
     }
 
     @Test
@@ -125,8 +120,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid exporter type is not specified");
+        assertThat(outcome.getMessage()).contains("a valid exporter type is not specified");
     }
 
     @Test
@@ -142,8 +136,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid exporter type is not specified");
+        assertThat(outcome.getMessage()).contains("a valid exporter type is not specified");
     }
 
     @Test
@@ -157,8 +150,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid exporter type is not specified");
+        assertThat(outcome.getMessage()).contains("a valid exporter type is not specified");
     }
 
     @Test
@@ -176,8 +168,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.logs.exporter.type is set to OTLP");
+        assertThat(outcome.getMessage()).contains("rose.otel.logs.exporter.type is set to OTLP");
     }
 
     @Test
@@ -194,8 +185,7 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.logs.exporter.type is set to CONSOLE");
+        assertThat(outcome.getMessage()).contains("rose.otel.logs.exporter.type is set to CONSOLE");
     }
 
     @Test
@@ -211,8 +201,6 @@ class OnOpenTelemetryLoggingExporterConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.exporter.type is set to OTLP");
+        assertThat(outcome.getMessage()).contains("rose.otel.exporter.type is set to OTLP");
     }
-
 }

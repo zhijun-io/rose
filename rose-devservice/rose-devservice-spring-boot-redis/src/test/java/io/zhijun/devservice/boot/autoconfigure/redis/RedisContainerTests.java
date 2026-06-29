@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.redis;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link RedisContainer}.
@@ -25,9 +25,10 @@ class RedisContainerTests extends BaseDevServicesContainerTests<RedisContainer> 
 
         RedisContainer container = new RedisContainer(properties);
         container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + RedisContainer.REDIS_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(
+                                binding -> binding.startsWith(properties.getPort() + ":" + RedisContainer.REDIS_PORT)));
     }
-
 }

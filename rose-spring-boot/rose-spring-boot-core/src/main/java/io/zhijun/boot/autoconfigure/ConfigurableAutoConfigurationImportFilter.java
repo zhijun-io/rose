@@ -53,10 +53,14 @@ public final class ConfigurableAutoConfigurationImportFilter
         Assert.isInstanceOf(ConfigurableEnvironment.class, environment, "environment must be configurable");
         ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
         Set<String> allExcludedClasses = new LinkedHashSet<>();
-        addExcludedAutoConfigurationClasses(environment,
-                getExcludedAutoConfigurationClassesFromPropertySources(configurableEnvironment), allExcludedClasses);
-        addExcludedAutoConfigurationClasses(environment,
-                getExcludedAutoConfigurationClassesFromBinder(configurableEnvironment), allExcludedClasses);
+        addExcludedAutoConfigurationClasses(
+                environment,
+                getExcludedAutoConfigurationClassesFromPropertySources(configurableEnvironment),
+                allExcludedClasses);
+        addExcludedAutoConfigurationClasses(
+                environment,
+                getExcludedAutoConfigurationClassesFromBinder(configurableEnvironment),
+                allExcludedClasses);
         if (allExcludedClasses.isEmpty()) {
             return Collections.emptySet();
         }
@@ -84,8 +88,8 @@ public final class ConfigurableAutoConfigurationImportFilter
         return HIGHEST_PRECEDENCE + 99;
     }
 
-    private static void addExcludedAutoConfigurationClasses(Environment environment, String[] excludedClasses,
-            Set<String> allExcludedClasses) {
+    private static void addExcludedAutoConfigurationClasses(
+            Environment environment, String[] excludedClasses, Set<String> allExcludedClasses) {
         for (String excludedClass : excludedClasses) {
             if (!StringUtils.hasText(excludedClass)) {
                 continue;
@@ -95,7 +99,8 @@ public final class ConfigurableAutoConfigurationImportFilter
         }
     }
 
-    private static String[] getExcludedAutoConfigurationClassesFromPropertySources(ConfigurableEnvironment environment) {
+    private static String[] getExcludedAutoConfigurationClassesFromPropertySources(
+            ConfigurableEnvironment environment) {
         Set<String> excludedClasses = new LinkedHashSet<>();
         MutablePropertySources propertySources = environment.getPropertySources();
         for (PropertySource<?> propertySource : propertySources) {
@@ -119,8 +124,7 @@ public final class ConfigurableAutoConfigurationImportFilter
                 && excludedAutoConfigurationClasses.contains(autoConfigurationClassName);
     }
 
-    private static final class ExcludedAutoConfigurationClassesPropertySource
-            extends PropertySource<Set<String>> {
+    private static final class ExcludedAutoConfigurationClassesPropertySource extends PropertySource<Set<String>> {
 
         private static final String NAME = AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME;
 

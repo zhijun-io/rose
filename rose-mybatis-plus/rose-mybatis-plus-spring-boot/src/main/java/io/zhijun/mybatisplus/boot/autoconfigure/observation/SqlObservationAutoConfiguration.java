@@ -1,6 +1,7 @@
 package io.zhijun.mybatisplus.boot.autoconfigure.observation;
 
-import io.zhijun.mybatisplus.boot.autoconfigure.ConditionalOnMybatisPlusEnabled;
+import io.micrometer.core.instrument.MeterRegistry;
+
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.AnyNestedCondition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
-import io.micrometer.core.instrument.MeterRegistry;
+import io.zhijun.mybatisplus.boot.autoconfigure.ConditionalOnMybatisPlusEnabled;
 import io.zhijun.mybatisplus.core.observation.SqlObservationInterceptor;
 
 /**
@@ -28,11 +29,14 @@ public final class SqlObservationAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(SqlObservationInterceptor.class)
-    SqlObservationInterceptor sqlObservationInterceptor(SqlObservationProperties properties,
+    SqlObservationInterceptor sqlObservationInterceptor(
+            SqlObservationProperties properties,
             ObjectProvider<MeterRegistry> meterRegistryProvider,
             ObjectProvider<io.opentelemetry.api.trace.Tracer> tracerProvider) {
-        return new SqlObservationInterceptor(tracerProvider.getIfAvailable(),
-                meterRegistryProvider.getIfAvailable(), properties.getSlowQueryThresholdMillis());
+        return new SqlObservationInterceptor(
+                tracerProvider.getIfAvailable(),
+                meterRegistryProvider.getIfAvailable(),
+                properties.getSlowQueryThresholdMillis());
     }
 
     static final class OnTracerOrMeterRegistry extends AnyNestedCondition {
@@ -42,13 +46,10 @@ public final class SqlObservationAutoConfiguration {
         }
 
         @ConditionalOnBean(MeterRegistry.class)
-        static final class OnMeterRegistry {
-        }
+        static final class OnMeterRegistry {}
 
         @ConditionalOnClass(name = "io.opentelemetry.api.trace.Tracer")
         @ConditionalOnBean(type = "io.opentelemetry.api.trace.Tracer")
-        static final class OnTracer {
-        }
+        static final class OnTracer {}
     }
-
 }

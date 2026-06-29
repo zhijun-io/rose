@@ -5,8 +5,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.lang.Nullable;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.lang.Nullable;
 
 /**
  * Configuration properties for exporting OpenTelemetry telemetry data using OTLP.
@@ -150,5 +150,4 @@ public class OtlpExporterConfig {
     public ProxyConfig getProxy() {
         return proxy;
     }
-
 }

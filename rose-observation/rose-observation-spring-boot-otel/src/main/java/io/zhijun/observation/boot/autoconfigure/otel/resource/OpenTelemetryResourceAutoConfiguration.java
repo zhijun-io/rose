@@ -35,9 +35,9 @@ public final class OpenTelemetryResourceAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    Resource resource(ObjectProvider<ResourceContributor> resourceContributors,
-                      ObjectProvider<OpenTelemetryResourceBuilderCustomizer> customizers
-    ) {
+    Resource resource(
+            ObjectProvider<ResourceContributor> resourceContributors,
+            ObjectProvider<OpenTelemetryResourceBuilderCustomizer> customizers) {
         ResourceBuilder builder = Resource.getDefault().toBuilder();
         resourceContributors.orderedStream().forEach(contributor -> contributor.contribute(builder));
         customizers.orderedStream().forEach(customizer -> customizer.customize(builder));
@@ -55,7 +55,8 @@ public final class OpenTelemetryResourceAutoConfiguration {
     @Bean
     @ConditionalOnOpenTelemetryResourceContributor(value = "environment", matchIfMissing = true)
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    EnvironmentResourceContributor environmentResourceContributor(Environment environment, OpenTelemetryResourceProperties properties) {
+    EnvironmentResourceContributor environmentResourceContributor(
+            Environment environment, OpenTelemetryResourceProperties properties) {
         return new EnvironmentResourceContributor(environment, properties);
     }
 
@@ -106,5 +107,4 @@ public final class OpenTelemetryResourceAutoConfiguration {
             }
         };
     }
-
 }

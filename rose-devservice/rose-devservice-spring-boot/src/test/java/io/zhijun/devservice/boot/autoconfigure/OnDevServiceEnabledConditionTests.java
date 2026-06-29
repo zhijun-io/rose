@@ -1,20 +1,19 @@
 package io.zhijun.devservice.boot.autoconfigure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
-import io.zhijun.devservice.boot.autoconfigure.OnDevServiceEnabledCondition;
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.mock.env.MockEnvironment;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 
 /**
  * Unit test for {@link OnDevServiceEnabledCondition}.
@@ -42,8 +41,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.dev.test-service.enabled is set to true");
+        assertThat(outcome.getMessage()).contains("rose.dev.test-service.enabled is set to true");
     }
 
     @Test
@@ -61,8 +59,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("rose.dev.test-service.enabled is set to false");
+        assertThat(outcome.getMessage()).contains("rose.dev.test-service.enabled is set to false");
     }
 
     @Test
@@ -80,8 +77,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("rose.dev.enabled is set to false");
+        assertThat(outcome.getMessage()).contains("rose.dev.enabled is set to false");
     }
 
     @Test
@@ -99,8 +95,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("rose.dev.enabled is set to false");
+        assertThat(outcome.getMessage()).contains("rose.dev.enabled is set to false");
     }
 
     @Test
@@ -139,8 +134,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("enabled in TEST bootstrap mode");
+        assertThat(outcome.getMessage()).contains("enabled in TEST bootstrap mode");
     }
 
     @Test
@@ -156,8 +150,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid dev services name is not specified");
+        assertThat(outcome.getMessage()).contains("a valid dev services name is not specified");
     }
 
     @Test
@@ -173,8 +166,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid dev services name is not specified");
+        assertThat(outcome.getMessage()).contains("a valid dev services name is not specified");
     }
 
     @Test
@@ -190,8 +182,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid dev services name is not specified");
+        assertThat(outcome.getMessage()).contains("a valid dev services name is not specified");
     }
 
     @Test
@@ -205,8 +196,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("a valid dev services name is not specified");
+        assertThat(outcome.getMessage()).contains("a valid dev services name is not specified");
     }
 
     @Test
@@ -223,8 +213,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("enabled in TEST bootstrap mode");
+        assertThat(outcome.getMessage()).contains("enabled in TEST bootstrap mode");
     }
 
     @Test
@@ -241,8 +230,7 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("rose.dev.enabled is set to false");
+        assertThat(outcome.getMessage()).contains("rose.dev.enabled is set to false");
     }
 
     @Test
@@ -259,8 +247,6 @@ class OnDevServiceEnabledConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.dev.test-service.enabled is set to true");
+        assertThat(outcome.getMessage()).contains("rose.dev.test-service.enabled is set to true");
     }
-
 }

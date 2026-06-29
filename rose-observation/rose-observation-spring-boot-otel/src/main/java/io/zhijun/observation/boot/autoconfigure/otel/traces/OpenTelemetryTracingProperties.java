@@ -149,16 +149,15 @@ public class OpenTelemetryTracingProperties {
         public void setMaxNumberOfAttributesPerLink(int maxNumberOfAttributesPerLink) {
             this.maxNumberOfAttributesPerLink = maxNumberOfAttributesPerLink;
         }
-
     }
 
     public enum SamplingStrategy {
-            ALWAYS_ON,
-            ALWAYS_OFF,
-            TRACE_ID_RATIO,
-            PARENT_BASED_ALWAYS_ON,
-            PARENT_BASED_ALWAYS_OFF,
-            PARENT_BASED_TRACE_ID_RATIO;
+        ALWAYS_ON,
+        ALWAYS_OFF,
+        TRACE_ID_RATIO,
+        PARENT_BASED_ALWAYS_ON,
+        PARENT_BASED_ALWAYS_OFF,
+        PARENT_BASED_TRACE_ID_RATIO;
     }
 
     /**
@@ -243,7 +242,5 @@ public class OpenTelemetryTracingProperties {
         public void setMetrics(boolean metrics) {
             this.metrics = metrics;
         }
-
     }
-
 }

@@ -6,5 +6,4 @@ import org.springframework.cache.interceptor.KeyGenerator;
  * Cache key generator for multitenancy-aware Spring Cache keys.
  */
 @FunctionalInterface
-public interface TenantKeyGenerator extends KeyGenerator {
-}
+public interface TenantKeyGenerator extends KeyGenerator {}

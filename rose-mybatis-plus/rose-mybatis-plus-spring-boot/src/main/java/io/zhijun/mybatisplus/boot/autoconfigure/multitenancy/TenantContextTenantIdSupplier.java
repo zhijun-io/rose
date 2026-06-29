@@ -12,5 +12,4 @@ final class TenantContextTenantIdSupplier implements TenantIdSupplier {
     public String getTenantId() {
         return TenantContext.getRequiredTenantId();
     }
-
 }

@@ -1,12 +1,12 @@
 package io.zhijun.spring.core.env;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.StaticApplicationContext;
@@ -14,7 +14,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.ConfigurablePropertyResolver;
 import org.springframework.core.env.MutablePropertySources;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 class ListenableConfigurableEnvironmentTests {
 
@@ -29,7 +29,8 @@ class ListenableConfigurableEnvironmentTests {
             }
 
             @Override
-            public void afterGetPropertySources(ConfigurableEnvironment environment, MutablePropertySources propertySources) {
+            public void afterGetPropertySources(
+                    ConfigurableEnvironment environment, MutablePropertySources propertySources) {
                 callbacks.add("after");
             }
         };
@@ -58,7 +59,11 @@ class ListenableConfigurableEnvironmentTests {
                 callbacks.add("set");
             }
 
-            public void beforeGetProperty(ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType, Object defaultValue) {
+            public void beforeGetProperty(
+                    ConfigurablePropertyResolver propertyResolver,
+                    String name,
+                    Class<?> targetType,
+                    Object defaultValue) {
                 callbacks.add("get:" + name);
             }
         };

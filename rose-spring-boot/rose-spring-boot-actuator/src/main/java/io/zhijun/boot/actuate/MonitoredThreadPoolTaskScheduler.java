@@ -51,5 +51,4 @@ public class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskScheduler
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
     }
-
 }

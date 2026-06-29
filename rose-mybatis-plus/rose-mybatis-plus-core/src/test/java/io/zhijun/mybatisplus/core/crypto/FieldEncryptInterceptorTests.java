@@ -58,8 +58,8 @@ class FieldEncryptInterceptorTests {
         SampleEntity resultEntity = new SampleEntity();
         resultEntity.setPhone(ciphertext);
 
-        Invocation invocation = buildInvocation(SqlCommandType.SELECT, new Object(),
-                Collections.singletonList(resultEntity));
+        Invocation invocation =
+                buildInvocation(SqlCommandType.SELECT, new Object(), Collections.singletonList(resultEntity));
         FieldEncryptInterceptor interceptor = new FieldEncryptInterceptor(encryptor, keyResolver);
 
         Object result = interceptor.intercept(invocation);
@@ -103,8 +103,9 @@ class FieldEncryptInterceptorTests {
 
     private static MappedStatement buildMappedStatement(SqlCommandType commandType) {
         SqlSource sqlSource = parameterObject -> new org.apache.ibatis.mapping.BoundSql(CONFIG, "SELECT 1", null, null);
-        return new MappedStatement.Builder(CONFIG, "io.example.Mapper." + commandType.name().toLowerCase(),
-                sqlSource, commandType).build();
+        return new MappedStatement.Builder(
+                        CONFIG, "io.example.Mapper." + commandType.name().toLowerCase(), sqlSource, commandType)
+                .build();
     }
 
     /**
@@ -127,9 +128,8 @@ class FieldEncryptInterceptorTests {
         private final RuntimeException failure;
 
         TestInvocation(MappedStatement ms, Object parameter, Object result) {
-            super(new Object() {
-            }, EXECUTOR_UPDATE_METHOD, new Object[]{ms, parameter});
-            this.args = new Object[]{ms, parameter};
+            super(new Object() {}, EXECUTOR_UPDATE_METHOD, new Object[] {ms, parameter});
+            this.args = new Object[] {ms, parameter};
             this.result = result;
             this.failure = (result instanceof RuntimeException) ? (RuntimeException) result : null;
         }

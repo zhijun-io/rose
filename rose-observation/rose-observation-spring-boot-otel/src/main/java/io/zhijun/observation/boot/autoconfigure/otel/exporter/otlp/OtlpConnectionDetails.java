@@ -10,5 +10,4 @@ public interface OtlpConnectionDetails {
     int DEFAULT_HTTP_PORT = 4318;
 
     String getUrl(Protocol protocol);
-
 }

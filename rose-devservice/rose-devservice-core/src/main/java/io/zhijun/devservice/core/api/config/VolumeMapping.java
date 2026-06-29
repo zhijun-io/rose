@@ -8,8 +8,7 @@ public final class VolumeMapping {
     private String hostPath;
     private String containerPath;
 
-    public VolumeMapping() {
-    }
+    public VolumeMapping() {}
 
     public VolumeMapping(String hostPath, String containerPath) {
         this.hostPath = hostPath;

@@ -16,5 +16,4 @@ public interface TenantVerifier {
      * @throws TenantVerificationException if the multitenancy is invalid or disabled
      */
     void verify(String tenantIdentifier);
-
 }

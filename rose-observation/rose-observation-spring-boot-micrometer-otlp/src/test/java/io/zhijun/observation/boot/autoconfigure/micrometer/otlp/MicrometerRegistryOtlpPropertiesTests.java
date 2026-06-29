@@ -1,10 +1,10 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link MicrometerRegistryOtlpProperties}.
@@ -32,5 +32,4 @@ class MicrometerRegistryOtlpPropertiesTests {
 
         assertThat(properties.isEnabled()).isFalse();
     }
-
 }

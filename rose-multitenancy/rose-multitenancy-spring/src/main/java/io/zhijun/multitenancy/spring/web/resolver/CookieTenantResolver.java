@@ -39,10 +39,9 @@ public final class CookieTenantResolver implements HttpRequestTenantResolver {
             return null;
         }
         return Arrays.stream(cookies)
-            .filter(cookie -> cookie.getName().equals(tenantCookieName))
-            .map(Cookie::getValue)
-            .findFirst()
-            .orElse(null);
+                .filter(cookie -> cookie.getName().equals(tenantCookieName))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
     }
-
 }

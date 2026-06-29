@@ -6,8 +6,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -16,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
 import io.zhijun.multitenancy.core.context.TenantContext;
+import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
 
 class MultitenancyAsyncConfigurationTests {
 
@@ -36,10 +34,11 @@ class MultitenancyAsyncConfigurationTests {
             AtomicReference<String> capturedTenant = new AtomicReference<String>();
             CountDownLatch latch = new CountDownLatch(1);
 
-            TenantContext.where("acme").run(() -> executor.execute(() -> {
-                capturedTenant.set(TenantContext.getTenantId());
-                latch.countDown();
-            }));
+            TenantContext.where("acme")
+                    .run(() -> executor.execute(() -> {
+                        capturedTenant.set(TenantContext.getTenantId());
+                        latch.countDown();
+                    }));
 
             assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
             assertThat(capturedTenant.get()).isEqualTo("acme");
@@ -48,7 +47,8 @@ class MultitenancyAsyncConfigurationTests {
 
     @Test
     void shouldDisablePropagationWhenPropertyIsFalse() {
-        contextRunner.withPropertyValues("rose.multitenancy.async.propagation-enabled=false")
+        contextRunner
+                .withPropertyValues("rose.multitenancy.async.propagation-enabled=false")
                 .run(context -> assertThat(context).doesNotHaveBean(TenantContextTaskDecorator.class));
     }
 
@@ -59,10 +59,11 @@ class MultitenancyAsyncConfigurationTests {
             AtomicReference<String> capturedTenant = new AtomicReference<String>();
             CountDownLatch latch = new CountDownLatch(1);
 
-            TenantContext.where("acme").run(() -> executor.execute(() -> {
-                capturedTenant.set(TenantContext.getTenantId());
-                latch.countDown();
-            }));
+            TenantContext.where("acme")
+                    .run(() -> executor.execute(() -> {
+                        capturedTenant.set(TenantContext.getTenantId());
+                        latch.countDown();
+                    }));
 
             assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
             assertThat(capturedTenant.get()).isEqualTo("acme");
@@ -77,10 +78,11 @@ class MultitenancyAsyncConfigurationTests {
             AtomicReference<String> capturedTenant = new AtomicReference<String>();
             CountDownLatch latch = new CountDownLatch(1);
 
-            TenantContext.where("acme").run(() -> executor.execute(() -> {
-                capturedTenant.set(TenantContext.getTenantId());
-                latch.countDown();
-            }));
+            TenantContext.where("acme")
+                    .run(() -> executor.execute(() -> {
+                        capturedTenant.set(TenantContext.getTenantId());
+                        latch.countDown();
+                    }));
 
             assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
             assertThat(capturedTenant.get()).isEqualTo("acme");
@@ -121,5 +123,4 @@ class MultitenancyAsyncConfigurationTests {
             return executor;
         }
     }
-
 }

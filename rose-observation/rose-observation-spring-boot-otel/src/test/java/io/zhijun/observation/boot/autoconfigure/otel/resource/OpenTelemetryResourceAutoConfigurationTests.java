@@ -1,5 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Properties;
 
 import io.opentelemetry.api.common.AttributeKey;
@@ -20,8 +22,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.JavaRe
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.OsResourceContributor;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ProcessResourceContributor;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Unit test for {@link OpenTelemetryResourceAutoConfiguration}.
  */
@@ -34,8 +34,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
     @Test
     void autoConfigurationNotActivatedWhenOpenTelemetryDisabled() {
         contextRunner
-            .withPropertyValues("rose.otel.enabled=false")
-            .run(context -> assertThat(context).doesNotHaveBean(Resource.class));
+                .withPropertyValues("rose.otel.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(Resource.class));
     }
 
     @Test
@@ -54,7 +54,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void buildResourceContributorCreatedWhenEnabledAndBuildPropertiesAvailable() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.build.enabled=true")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.build.enabled=true")
                 .withUserConfiguration(BuildPropertiesConfiguration.class)
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
@@ -64,7 +65,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void buildResourceContributorNotCreatedWhenDisabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.build.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.build.enabled=false")
                 .withUserConfiguration(BuildPropertiesConfiguration.class)
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
@@ -74,7 +76,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void buildResourceContributorNotCreatedWhenBuildPropertiesNotAvailable() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.build.enabled=true")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.build.enabled=true")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).doesNotHaveBean(BuildResourceContributor.class);
@@ -83,7 +86,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void environmentResourceContributorCreatedWhenEnabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.environment.enabled=true")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.environment.enabled=true")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).hasSingleBean(EnvironmentResourceContributor.class);
@@ -92,7 +96,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void environmentResourceContributorNotCreatedWhenDisabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.environment.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.environment.enabled=false")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).doesNotHaveBean(EnvironmentResourceContributor.class);
@@ -101,7 +106,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void hostResourceContributorCreatedWhenEnabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.host.enabled=true")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.host.enabled=true")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).hasSingleBean(HostResourceContributor.class);
@@ -110,7 +116,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void hostResourceContributorNotCreatedWhenDisabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.host.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.host.enabled=false")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).doesNotHaveBean(HostResourceContributor.class);
@@ -119,7 +126,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void javaResourceContributorCreatedWhenEnabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.java.enabled=true")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.java.enabled=true")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).hasSingleBean(JavaResourceContributor.class);
@@ -128,7 +136,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void javaResourceContributorNotCreatedWhenDisabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.java.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.java.enabled=false")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).doesNotHaveBean(JavaResourceContributor.class);
@@ -137,7 +146,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void osResourceContributorCreatedWhenEnabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.os.enabled=true")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.os.enabled=true")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).hasSingleBean(OsResourceContributor.class);
@@ -146,7 +156,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void osResourceContributorNotCreatedWhenDisabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.os.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.os.enabled=false")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).doesNotHaveBean(OsResourceContributor.class);
@@ -155,7 +166,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void processResourceContributorCreatedWhenEnabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.process.enabled=true")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.process.enabled=true")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).hasSingleBean(ProcessResourceContributor.class);
@@ -164,7 +176,8 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void processResourceContributorNotCreatedWhenDisabled() {
-        contextRunner.withPropertyValues("rose.otel.resource.contributors.process.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.otel.resource.contributors.process.enabled=false")
                 .run(context -> {
                     assertThat(context).hasSingleBean(Resource.class);
                     assertThat(context).doesNotHaveBean(ProcessResourceContributor.class);
@@ -173,50 +186,54 @@ class OpenTelemetryResourceAutoConfigurationTests {
 
     @Test
     void customResourceTakesPrecedence() {
-        contextRunner.withUserConfiguration(CustomResourceConfiguration.class)
-                .run(context -> {
-                    assertThat(context).hasSingleBean(Resource.class);
-                    assertThat(context.getBean(Resource.class))
-                            .isSameAs(context.getBean(CustomResourceConfiguration.class).customResource());
-                });
-    }
-
-    @Test
-    void attributeFilteringAppliedWhenSpecificAttributesDisabled() {
-        contextRunner.withPropertyValues(
-                "rose.otel.resource.enable.host=false",
-                "rose.otel.resource.enable.process.pid=false"
-        ).run(context -> {
+        contextRunner.withUserConfiguration(CustomResourceConfiguration.class).run(context -> {
             assertThat(context).hasSingleBean(Resource.class);
-            assertThat(context).hasSingleBean(OpenTelemetryResourceBuilderCustomizer.class);
-
-            OpenTelemetryResourceBuilderCustomizer customizer = context.getBean(OpenTelemetryResourceBuilderCustomizer.class);
-            ResourceBuilder builder = Resource.getDefault().toBuilder();
-            builder.put("host.name", "test-host");
-            builder.put("host.id", "test-id");
-            builder.put("process.pid", "123");
-            builder.put("process.user", "johnny");
-            builder.put("service.name", "test-service");
-
-            customizer.customize(builder);
-            Resource resource = builder.build();
-
-            // Attributes starting with disabled prefixes should be removed
-            assertThat(resource.getAttribute(AttributeKey.stringKey("host.name"))).isNull();
-            assertThat(resource.getAttribute(AttributeKey.stringKey("host.id"))).isNull();
-            assertThat(resource.getAttribute(AttributeKey.stringKey("process.pid"))).isNull();
-            // Other attributes should remain
-            assertThat(resource.getAttribute(AttributeKey.stringKey("process.user"))).isEqualTo("johnny");
-            assertThat(resource.getAttribute(AttributeKey.stringKey("service.name"))).isEqualTo("test-service");
+            assertThat(context.getBean(Resource.class))
+                    .isSameAs(context.getBean(CustomResourceConfiguration.class).customResource());
         });
     }
 
     @Test
+    void attributeFilteringAppliedWhenSpecificAttributesDisabled() {
+        contextRunner
+                .withPropertyValues(
+                        "rose.otel.resource.enable.host=false", "rose.otel.resource.enable.process.pid=false")
+                .run(context -> {
+                    assertThat(context).hasSingleBean(Resource.class);
+                    assertThat(context).hasSingleBean(OpenTelemetryResourceBuilderCustomizer.class);
+
+                    OpenTelemetryResourceBuilderCustomizer customizer =
+                            context.getBean(OpenTelemetryResourceBuilderCustomizer.class);
+                    ResourceBuilder builder = Resource.getDefault().toBuilder();
+                    builder.put("host.name", "test-host");
+                    builder.put("host.id", "test-id");
+                    builder.put("process.pid", "123");
+                    builder.put("process.user", "johnny");
+                    builder.put("service.name", "test-service");
+
+                    customizer.customize(builder);
+                    Resource resource = builder.build();
+
+                    // Attributes starting with disabled prefixes should be removed
+                    assertThat(resource.getAttribute(AttributeKey.stringKey("host.name")))
+                            .isNull();
+                    assertThat(resource.getAttribute(AttributeKey.stringKey("host.id")))
+                            .isNull();
+                    assertThat(resource.getAttribute(AttributeKey.stringKey("process.pid")))
+                            .isNull();
+                    // Other attributes should remain
+                    assertThat(resource.getAttribute(AttributeKey.stringKey("process.user")))
+                            .isEqualTo("johnny");
+                    assertThat(resource.getAttribute(AttributeKey.stringKey("service.name")))
+                            .isEqualTo("test-service");
+                });
+    }
+
+    @Test
     void attributeFilteringNotAppliedWhenAllEnabled() {
-        contextRunner.withPropertyValues(
-                "rose.otel.resource.enable.all=true"
-        ).run(context -> {
-            OpenTelemetryResourceBuilderCustomizer customizer = context.getBean(OpenTelemetryResourceBuilderCustomizer.class);
+        contextRunner.withPropertyValues("rose.otel.resource.enable.all=true").run(context -> {
+            OpenTelemetryResourceBuilderCustomizer customizer =
+                    context.getBean(OpenTelemetryResourceBuilderCustomizer.class);
             ResourceBuilder builder = Resource.getDefault().toBuilder();
             builder.put("host.name", "test-host");
             builder.put("process.pid", "123");
@@ -226,18 +243,20 @@ class OpenTelemetryResourceAutoConfigurationTests {
             Resource resource = builder.build();
 
             // All attributes should be preserved when all=true
-            assertThat(resource.getAttribute(AttributeKey.stringKey("host.name"))).isEqualTo("test-host");
-            assertThat(resource.getAttribute(AttributeKey.stringKey("process.pid"))).isEqualTo("123");
-            assertThat(resource.getAttribute(AttributeKey.stringKey("service.name"))).isEqualTo("test-service");
+            assertThat(resource.getAttribute(AttributeKey.stringKey("host.name")))
+                    .isEqualTo("test-host");
+            assertThat(resource.getAttribute(AttributeKey.stringKey("process.pid")))
+                    .isEqualTo("123");
+            assertThat(resource.getAttribute(AttributeKey.stringKey("service.name")))
+                    .isEqualTo("test-service");
         });
     }
 
     @Test
     void allAttributesRemovedWhenAllDisabled() {
-        contextRunner.withPropertyValues(
-                "rose.otel.resource.enable.all=false"
-        ).run(context -> {
-            OpenTelemetryResourceBuilderCustomizer customizer = context.getBean(OpenTelemetryResourceBuilderCustomizer.class);
+        contextRunner.withPropertyValues("rose.otel.resource.enable.all=false").run(context -> {
+            OpenTelemetryResourceBuilderCustomizer customizer =
+                    context.getBean(OpenTelemetryResourceBuilderCustomizer.class);
             ResourceBuilder builder = Resource.getDefault().toBuilder();
             builder.put("host.name", "test-host");
             builder.put("process.pid", "123");
@@ -247,9 +266,12 @@ class OpenTelemetryResourceAutoConfigurationTests {
             Resource resource = builder.build();
 
             // All attributes should be removed when all=false
-            assertThat(resource.getAttribute(AttributeKey.stringKey("host.name"))).isNull();
-            assertThat(resource.getAttribute(AttributeKey.stringKey("process.pid"))).isNull();
-            assertThat(resource.getAttribute(AttributeKey.stringKey("service.name"))).isNull();
+            assertThat(resource.getAttribute(AttributeKey.stringKey("host.name")))
+                    .isNull();
+            assertThat(resource.getAttribute(AttributeKey.stringKey("process.pid")))
+                    .isNull();
+            assertThat(resource.getAttribute(AttributeKey.stringKey("service.name")))
+                    .isNull();
         });
     }
 
@@ -263,8 +285,10 @@ class OpenTelemetryResourceAutoConfigurationTests {
                     Resource resource = context.getBean(Resource.class);
 
                     // Verify the final resource has attributes from both contributors and customizers
-                    assertThat(resource.getAttribute(AttributeKey.stringKey("custom.attribute"))).isEqualTo("another-value");
-                    assertThat(context.getBean(EnvironmentResourceContributor.class)).isNotNull();
+                    assertThat(resource.getAttribute(AttributeKey.stringKey("custom.attribute")))
+                            .isEqualTo("another-value");
+                    assertThat(context.getBean(EnvironmentResourceContributor.class))
+                            .isNotNull();
                 });
     }
 
@@ -275,7 +299,6 @@ class OpenTelemetryResourceAutoConfigurationTests {
         OpenTelemetryResourceBuilderCustomizer orderedCustomizer() {
             return builder -> builder.put("custom.attribute", "another-value");
         }
-
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -285,7 +308,6 @@ class OpenTelemetryResourceAutoConfigurationTests {
         Resource customResource() {
             return Resource.empty();
         }
-
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -297,7 +319,5 @@ class OpenTelemetryResourceAutoConfigurationTests {
             properties.setProperty("version", "1.0.0");
             return new BuildProperties(properties);
         }
-
     }
-
 }

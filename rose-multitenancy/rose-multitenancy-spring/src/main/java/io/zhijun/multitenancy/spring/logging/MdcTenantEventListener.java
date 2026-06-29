@@ -43,5 +43,4 @@ public final class MdcTenantEventListener {
         logger.trace("Removing current multitenancy from MDC");
         MDC.remove(tenantIdentifierKey);
     }
-
 }

@@ -14,7 +14,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.ConditionalOnOpenTel
  * Whether OpenTelemetry traces should be exported using the specified exporter type.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @ConditionalOnOpenTelemetryTracing
 @Conditional(OnOpenTelemetryTracingExporterCondition.class)
@@ -24,5 +24,4 @@ public @interface ConditionalOnOpenTelemetryTracingExporter {
      * The type name of the OpenTelemetry traces exporter.
      */
     String value();
-
 }

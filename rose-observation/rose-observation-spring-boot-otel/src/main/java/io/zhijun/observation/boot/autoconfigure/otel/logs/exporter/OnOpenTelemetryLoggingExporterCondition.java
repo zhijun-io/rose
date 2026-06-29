@@ -14,9 +14,10 @@ class OnOpenTelemetryLoggingExporterCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        return OpenTelemetryExporterConditionSupport.evaluate(context, metadata,
+        return OpenTelemetryExporterConditionSupport.evaluate(
+                context,
+                metadata,
                 ConditionalOnOpenTelemetryLoggingExporter.class,
                 OpenTelemetryLoggingExporterProperties.TYPE_PROPERTY);
     }
-
 }

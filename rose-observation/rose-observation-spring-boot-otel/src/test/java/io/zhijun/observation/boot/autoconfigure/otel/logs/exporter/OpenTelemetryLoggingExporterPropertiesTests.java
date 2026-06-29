@@ -1,11 +1,11 @@
 package io.zhijun.observation.boot.autoconfigure.otel.logs.exporter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterType;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfig;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OpenTelemetryLoggingExporterProperties}.
@@ -31,5 +31,4 @@ class OpenTelemetryLoggingExporterPropertiesTests {
         properties.setType(ExporterType.NONE);
         assertThat(properties.getType()).isEqualTo(ExporterType.NONE);
     }
-
 }

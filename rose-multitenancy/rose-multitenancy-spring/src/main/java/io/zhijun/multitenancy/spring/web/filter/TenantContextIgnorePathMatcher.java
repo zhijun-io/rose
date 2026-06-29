@@ -34,10 +34,11 @@ public class TenantContextIgnorePathMatcher {
         Assert.notNull(httpServletRequest, "httpServletRequest cannot be null");
         String requestUri = httpServletRequest.getRequestURI();
         PathContainer pathContainer = PathContainer.parsePath(requestUri);
-        boolean matchesIgnorePaths = ignorePathPatterns.stream()
-                .anyMatch(pathPattern -> pathPattern.matches(pathContainer));
+        boolean matchesIgnorePaths =
+                ignorePathPatterns.stream().anyMatch(pathPattern -> pathPattern.matches(pathContainer));
         if (matchesIgnorePaths) {
-            logger.debug("Request '{}' matches one of the paths to ignore when attaching a multitenancy context",
+            logger.debug(
+                    "Request '{}' matches one of the paths to ignore when attaching a multitenancy context",
                     sanitizeForLog(requestUri));
         }
         return matchesIgnorePaths;
@@ -55,5 +56,4 @@ public class TenantContextIgnorePathMatcher {
         pattern = parser.initFullPathPattern(pattern);
         return parser.parse(pattern);
     }
-
 }

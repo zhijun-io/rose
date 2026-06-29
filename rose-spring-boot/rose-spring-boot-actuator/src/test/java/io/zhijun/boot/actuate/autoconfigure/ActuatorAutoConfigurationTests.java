@@ -1,5 +1,10 @@
 package io.zhijun.boot.actuate.autoconfigure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -8,20 +13,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import io.zhijun.boot.actuate.MonitoredThreadPoolTaskScheduler;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ActuatorAutoConfigurationTests {
 
-    private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(ActuatorAutoConfiguration.class));
+    private final ApplicationContextRunner contextRunner =
+            new ApplicationContextRunner().withConfiguration(AutoConfigurations.of(ActuatorAutoConfiguration.class));
 
     @Test
     void shouldNotRegisterActuatorTaskSchedulerWithoutMeterRegistry() {
-        contextRunner.run(context -> assertThat(context).doesNotHaveBean(ActuatorAutoConfiguration.ACTUATOR_TASK_SCHEDULER_SERVICE_BEAN_NAME));
+        contextRunner.run(context -> assertThat(context)
+                .doesNotHaveBean(ActuatorAutoConfiguration.ACTUATOR_TASK_SCHEDULER_SERVICE_BEAN_NAME));
     }
 
     @Test
@@ -35,7 +37,8 @@ class ActuatorAutoConfigurationTests {
 
     @Test
     void shouldApplyTaskSchedulerProperties() {
-        contextRunner.withUserConfiguration(MeterRegistryConfiguration.class)
+        contextRunner
+                .withUserConfiguration(MeterRegistryConfiguration.class)
                 .withPropertyValues(
                         "rose.actuator.task-scheduler.pool-size=3",
                         "rose.actuator.task-scheduler.thread-name-prefix=custom-actuator-")
@@ -52,12 +55,14 @@ class ActuatorAutoConfigurationTests {
 
     @Test
     void shouldNotReplaceApplicationTaskScheduler() {
-        contextRunner.withUserConfiguration(MeterRegistryConfiguration.class, ApplicationTaskSchedulerConfiguration.class)
+        contextRunner
+                .withUserConfiguration(MeterRegistryConfiguration.class, ApplicationTaskSchedulerConfiguration.class)
                 .run(context -> {
                     assertThat(context).hasBean("applicationTaskScheduler");
                     assertThat(context).hasBean(ActuatorAutoConfiguration.ACTUATOR_TASK_SCHEDULER_SERVICE_BEAN_NAME);
                     assertThat(context.getBean("applicationTaskScheduler", TaskScheduler.class))
-                            .isNotSameAs(context.getBean(ActuatorAutoConfiguration.ACTUATOR_TASK_SCHEDULER_SERVICE_BEAN_NAME));
+                            .isNotSameAs(context.getBean(
+                                    ActuatorAutoConfiguration.ACTUATOR_TASK_SCHEDULER_SERVICE_BEAN_NAME));
                 });
     }
 
@@ -81,5 +86,4 @@ class ActuatorAutoConfigurationTests {
             return scheduler;
         }
     }
-
 }

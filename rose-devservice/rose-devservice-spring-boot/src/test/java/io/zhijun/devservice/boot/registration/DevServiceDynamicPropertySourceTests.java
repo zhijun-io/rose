@@ -1,18 +1,17 @@
 package io.zhijun.devservice.boot.registration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.zhijun.devservice.boot.registration.DevServiceDynamicPropertySource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
 
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit test for {@link DevServiceDynamicPropertySource}.
@@ -146,8 +145,7 @@ class DevServiceDynamicPropertySourceTests {
         MockEnvironment environment = new MockEnvironment();
         DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> propertySource.add(null, () -> "value"));
+        assertThatIllegalArgumentException().isThrownBy(() -> propertySource.add(null, () -> "value"));
     }
 
     @Test
@@ -155,8 +153,7 @@ class DevServiceDynamicPropertySourceTests {
         MockEnvironment environment = new MockEnvironment();
         DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> propertySource.add("", () -> "value"));
+        assertThatIllegalArgumentException().isThrownBy(() -> propertySource.add("", () -> "value"));
     }
 
     @Test
@@ -164,18 +161,18 @@ class DevServiceDynamicPropertySourceTests {
         MockEnvironment environment = new MockEnvironment();
         DevServiceDynamicPropertySource propertySource = DevServiceDynamicPropertySource.getOrCreate(environment);
 
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> propertySource.add("my.property", null));
+        assertThatIllegalArgumentException().isThrownBy(() -> propertySource.add("my.property", null));
     }
 
     @Test
     void getOrCreateThrowsWhenConflictingPropertySourceExists() {
         MockEnvironment environment = new MockEnvironment();
-        environment.getPropertySources().addFirst(
-                new MapPropertySource(DevServiceDynamicPropertySource.PROPERTY_SOURCE_NAME, new java.util.HashMap<String, Object>()));
+        environment
+                .getPropertySources()
+                .addFirst(new MapPropertySource(
+                        DevServiceDynamicPropertySource.PROPERTY_SOURCE_NAME, new java.util.HashMap<String, Object>()));
 
-        assertThatIllegalStateException()
-                .isThrownBy(() -> DevServiceDynamicPropertySource.getOrCreate(environment));
+        assertThatIllegalStateException().isThrownBy(() -> DevServiceDynamicPropertySource.getOrCreate(environment));
     }
 
     @Test
@@ -188,5 +185,4 @@ class DevServiceDynamicPropertySourceTests {
 
         assertThat(environment.getProperty("my.property")).isEqualTo("from-dev-service");
     }
-
 }

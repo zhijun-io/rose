@@ -1,14 +1,14 @@
 package io.zhijun.observation.boot.autoconfigure.otel.metrics;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.mock.env.MockEnvironment;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link OnOpenTelemetryMetricsCondition}.
@@ -31,8 +31,7 @@ class OnOpenTelemetryMetricsConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.metrics.enabled is true");
+        assertThat(outcome.getMessage()).contains("rose.otel.metrics.enabled is true");
     }
 
     @Test
@@ -43,8 +42,7 @@ class OnOpenTelemetryMetricsConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.metrics.enabled is false");
+        assertThat(outcome.getMessage()).contains("rose.otel.metrics.enabled is false");
     }
 
     @Test
@@ -54,8 +52,6 @@ class OnOpenTelemetryMetricsConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("OpenTelemetry metrics are enabled by default");
+        assertThat(outcome.getMessage()).contains("OpenTelemetry metrics are enabled by default");
     }
-
 }

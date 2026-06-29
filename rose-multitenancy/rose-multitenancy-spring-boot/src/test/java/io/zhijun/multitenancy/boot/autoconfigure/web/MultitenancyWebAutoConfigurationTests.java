@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
-import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -8,28 +8,29 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
 import io.zhijun.multitenancy.spring.web.filter.TenantContextIgnorePathMatcher;
 import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link MultitenancyWebAutoConfiguration}.
  */
 class MultitenancyWebAutoConfigurationTests {
 
-    private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner().withConfiguration(
-            AutoConfigurations.of(MultitenancyCoreAutoConfiguration.class, MultitenancyWebAutoConfiguration.class));
+    private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
+            .withConfiguration(AutoConfigurations.of(
+                    MultitenancyCoreAutoConfiguration.class, MultitenancyWebAutoConfiguration.class));
 
     @Test
     void whenNoServletContextThenBackOff() {
-        ApplicationContextRunner nonServletContextRunner = new ApplicationContextRunner().withConfiguration(
-                AutoConfigurations.of(MultitenancyCoreAutoConfiguration.class, MultitenancyWebAutoConfiguration.class));
+        ApplicationContextRunner nonServletContextRunner = new ApplicationContextRunner()
+                .withConfiguration(AutoConfigurations.of(
+                        MultitenancyCoreAutoConfiguration.class, MultitenancyWebAutoConfiguration.class));
 
-        nonServletContextRunner
-                .run(context -> assertThat(context).doesNotHaveBean(HttpTenantResolutionConfiguration.class));
+        nonServletContextRunner.run(
+                context -> assertThat(context).doesNotHaveBean(HttpTenantResolutionConfiguration.class));
     }
 
     @Test
@@ -41,7 +42,8 @@ class MultitenancyWebAutoConfigurationTests {
 
     @Test
     void httpTenantResolutionDisabled() {
-        contextRunner.withPropertyValues("rose.multitenancy.resolution.http.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.multitenancy.resolution.http.enabled=false")
                 .run(context -> assertThat(context).doesNotHaveBean(HttpTenantResolutionConfiguration.class));
     }
 
@@ -54,19 +56,23 @@ class MultitenancyWebAutoConfigurationTests {
 
     @Test
     void httpRequestTenantResolverCookie() {
-        contextRunner.withPropertyValues("rose.multitenancy.resolution.http.resolution-mode=cookie").run(context -> {
-            assertThat(context).hasSingleBean(CookieTenantResolver.class);
-        });
+        contextRunner
+                .withPropertyValues("rose.multitenancy.resolution.http.resolution-mode=cookie")
+                .run(context -> {
+                    assertThat(context).hasSingleBean(CookieTenantResolver.class);
+                });
     }
 
     @Test
     void httpRequestTenantResolverFixed() {
         contextRunner
-                .withPropertyValues("rose.multitenancy.resolution.fixed.enabled=true",
+                .withPropertyValues(
+                        "rose.multitenancy.resolution.fixed.enabled=true",
                         "rose.multitenancy.resolution.fixed.tenantIdentifier=myTenant")
                 .run(context -> {
                     assertThat(context).hasSingleBean(HttpRequestTenantResolver.class);
-                    HttpRequestTenantResolver httpRequestTenantResolver = context.getBean(HttpRequestTenantResolver.class);
+                    HttpRequestTenantResolver httpRequestTenantResolver =
+                            context.getBean(HttpRequestTenantResolver.class);
                     assertThat(httpRequestTenantResolver.resolveTenantIdentifier(new MockHttpServletRequest()))
                             .isEqualTo("myTenant");
                 });
@@ -85,23 +91,26 @@ class MultitenancyWebAutoConfigurationTests {
                 .withPropertyValues("rose.multitenancy.resolution.http.filter.ignore-paths=/actuator/**,/status")
                 .run(context -> {
                     assertThat(context).hasSingleBean(TenantContextIgnorePathMatcher.class);
-                    TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher = context.getBean(TenantContextIgnorePathMatcher.class);
+                    TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher =
+                            context.getBean(TenantContextIgnorePathMatcher.class);
                     MockHttpServletRequest mockRequest = new MockHttpServletRequest();
                     mockRequest.setRequestURI("/actuator/prometheus");
-                    assertThat(tenantContextIgnorePathMatcher.matches(mockRequest)).isTrue();
+                    assertThat(tenantContextIgnorePathMatcher.matches(mockRequest))
+                            .isTrue();
                 });
     }
 
     @Test
     void tenantContextFilterDisabled() {
-        contextRunner.withPropertyValues("rose.multitenancy.resolution.http.filter.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.multitenancy.resolution.http.filter.enabled=false")
                 .run(context -> assertThat(context).doesNotHaveBean("tenantContextFilterRegistration"));
     }
 
     @Test
     void tenantContextIgnorePathMatcherDisabled() {
-        contextRunner.withPropertyValues("rose.multitenancy.resolution.http.filter.enabled=false")
+        contextRunner
+                .withPropertyValues("rose.multitenancy.resolution.http.filter.enabled=false")
                 .run(context -> assertThat(context).doesNotHaveBean(TenantContextIgnorePathMatcher.class));
     }
-
 }

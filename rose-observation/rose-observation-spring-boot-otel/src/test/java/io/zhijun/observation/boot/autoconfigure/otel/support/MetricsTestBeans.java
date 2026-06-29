@@ -1,11 +1,12 @@
 package io.zhijun.observation.boot.autoconfigure.otel.support;
 
+import io.opentelemetry.sdk.metrics.InstrumentType;
+import io.opentelemetry.sdk.metrics.export.CardinalityLimitSelector;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
-import io.opentelemetry.sdk.metrics.InstrumentType;
-import io.opentelemetry.sdk.metrics.export.CardinalityLimitSelector;
 
 /**
  * Beans required by metrics exporter auto-configuration test.
@@ -18,7 +19,8 @@ public final class MetricsTestBeans {
         return new CardinalityLimitSelector() {
             @Override
             public int getCardinalityLimit(InstrumentType instrumentType) {
-                return CardinalityLimitSelector.defaultCardinalityLimitSelector().getCardinalityLimit(instrumentType);
+                return CardinalityLimitSelector.defaultCardinalityLimitSelector()
+                        .getCardinalityLimit(instrumentType);
             }
         };
     }
@@ -27,5 +29,4 @@ public final class MetricsTestBeans {
     OpenTelemetryMetricsProperties openTelemetryMetricsProperties() {
         return new OpenTelemetryMetricsProperties();
     }
-
 }

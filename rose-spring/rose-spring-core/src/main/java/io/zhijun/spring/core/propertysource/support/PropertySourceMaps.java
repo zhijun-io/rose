@@ -9,8 +9,7 @@ import java.util.Map;
  */
 public abstract class PropertySourceMaps {
 
-    private PropertySourceMaps() {
-    }
+    private PropertySourceMaps() {}
 
     public static Map<String, Object> flatten(Map<?, ?> source) {
         Map<String, Object> target = new LinkedHashMap<String, Object>();

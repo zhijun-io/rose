@@ -13,6 +13,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.otlp.OtlpLogg
  */
 @AutoConfiguration
 @ConditionalOnOpenTelemetryLogging
-@Import({ ConsoleLoggingExporterConfiguration.class, OtlpLoggingExporterConfiguration.class })
+@Import({ConsoleLoggingExporterConfiguration.class, OtlpLoggingExporterConfiguration.class})
 @EnableConfigurationProperties(OpenTelemetryLoggingExporterProperties.class)
 public final class OpenTelemetryLoggingExporterAutoConfiguration {}

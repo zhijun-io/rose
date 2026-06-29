@@ -1,13 +1,13 @@
 package io.zhijun.observation.boot.autoconfigure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
 import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class AmbiguousConventionsBackendFailureAnalyzerTests {
 
@@ -17,8 +17,7 @@ class AmbiguousConventionsBackendFailureAnalyzerTests {
     @Test
     void analyzesAmbiguousBackends() {
         AmbiguousConventionsBackendException exception = new AmbiguousConventionsBackendException(Arrays.asList(
-                TelemetryConventionsBackend.of("openinference"),
-                TelemetryConventionsBackend.of("opentelemetry")));
+                TelemetryConventionsBackend.of("openinference"), TelemetryConventionsBackend.of("opentelemetry")));
 
         FailureAnalysis analysis = analyzer.analyze(exception);
 

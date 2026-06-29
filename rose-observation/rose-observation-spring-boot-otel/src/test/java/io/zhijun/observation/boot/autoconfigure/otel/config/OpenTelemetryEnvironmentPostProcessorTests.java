@@ -1,9 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class OpenTelemetryEnvironmentPostProcessorTests {
 

@@ -34,11 +34,14 @@ public final class ArtemisDevServicesAutoConfiguration {
                     .containerClass(ArtemisContainer.class)
                     .containerFactory(ArtemisContainer::new)
                     .dynamicProperties(registrar -> {
-                        registrar.addDynamicProperty("spring.artemis.broker-url",
+                        registrar.addDynamicProperty(
+                                "spring.artemis.broker-url",
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
-                        registrar.addDynamicProperty("spring.artemis.user",
+                        registrar.addDynamicProperty(
+                                "spring.artemis.user",
                                 () -> registrar.requireRunningContainer().getUsername());
-                        registrar.addDynamicProperty("spring.artemis.password",
+                        registrar.addDynamicProperty(
+                                "spring.artemis.password",
                                 () -> registrar.requireRunningContainer().getPassword());
                     })
                     .build();

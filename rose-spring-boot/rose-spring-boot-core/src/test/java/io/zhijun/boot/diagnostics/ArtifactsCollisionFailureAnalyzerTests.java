@@ -1,11 +1,11 @@
 package io.zhijun.boot.diagnostics;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.diagnostics.FailureAnalysis;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.diagnostics.FailureAnalysis;
 
 class ArtifactsCollisionFailureAnalyzerTests {
 
@@ -13,8 +13,8 @@ class ArtifactsCollisionFailureAnalyzerTests {
 
     @Test
     void shouldAnalyzeArtifactsCollisionException() {
-        ArtifactsCollisionException exception = new ArtifactsCollisionException("collision",
-                Collections.singleton("com.example:demo"));
+        ArtifactsCollisionException exception =
+                new ArtifactsCollisionException("collision", Collections.singleton("com.example:demo"));
 
         FailureAnalysis analysis = analyzer.analyze(exception, exception);
 

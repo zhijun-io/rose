@@ -45,5 +45,4 @@ public class SqlObservationProperties {
     public long getSlowQueryThresholdMillis() {
         return slowQueryThreshold == null ? 0 : slowQueryThreshold.toMillis();
     }
-
 }

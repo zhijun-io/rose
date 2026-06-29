@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.stream.Stream;
 
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.MutablePropertySources;
@@ -16,6 +14,7 @@ import org.springframework.core.env.PropertySource;
 
 import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
 import io.zhijun.spring.core.env.refresh.EnvRefreshProperties;
 
 /**
@@ -29,7 +28,9 @@ public class ListenableMutablePropertySources extends MutablePropertySources {
 
     private final List<EnvironmentListener> listeners;
 
-    public ListenableMutablePropertySources(MutablePropertySources delegate, ApplicationContext applicationContext,
+    public ListenableMutablePropertySources(
+            MutablePropertySources delegate,
+            ApplicationContext applicationContext,
             List<EnvironmentListener> listeners) {
         this.delegate = delegate;
         this.applicationContext = applicationContext;
@@ -115,15 +116,14 @@ public class ListenableMutablePropertySources extends MutablePropertySources {
         delegate.replace(name, propertySource);
         if (old != null) {
             publish(PropertySourceChangedEvent.replaced(applicationContext, propertySource, old));
-        }
-        else {
+        } else {
             publish(PropertySourceChangedEvent.added(applicationContext, propertySource));
         }
     }
 
     private void publish(PropertySourceChangedEvent event) {
-        PropertySourcesChangedEvent bulkEvent = new PropertySourcesChangedEvent(applicationContext,
-                Collections.singletonList(event));
+        PropertySourcesChangedEvent bulkEvent =
+                new PropertySourcesChangedEvent(applicationContext, Collections.singletonList(event));
         for (EnvironmentListener listener : listeners) {
             listener.onPropertySourceChanged(event);
             listener.onPropertySourcesChanged(bulkEvent);

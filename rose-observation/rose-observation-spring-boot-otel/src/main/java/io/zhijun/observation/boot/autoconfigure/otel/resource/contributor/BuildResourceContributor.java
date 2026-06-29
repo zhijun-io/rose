@@ -33,5 +33,4 @@ public final class BuildResourceContributor implements ResourceContributor {
             builder.put(ServiceAttributes.SERVICE_VERSION, buildProperties.getVersion());
         }
     }
-
 }

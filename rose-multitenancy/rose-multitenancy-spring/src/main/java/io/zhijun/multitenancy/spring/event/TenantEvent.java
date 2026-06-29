@@ -22,5 +22,4 @@ public abstract class TenantEvent extends ApplicationEvent {
     public String getTenantIdentifier() {
         return tenantIdentifier;
     }
-
 }

@@ -3,11 +3,11 @@ package io.zhijun.mybatisplus.core.audit;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.reflection.MetaObject;
-
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 
 /**
  * Default audit field auto-fill handler.

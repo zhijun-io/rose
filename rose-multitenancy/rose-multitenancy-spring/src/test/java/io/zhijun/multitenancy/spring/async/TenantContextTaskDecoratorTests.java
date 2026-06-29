@@ -21,10 +21,11 @@ class TenantContextTaskDecoratorTests {
         SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
         executor.setTaskDecorator(decorator);
 
-        TenantContext.where("acme").run(() -> executor.execute(() -> {
-            capturedTenant.set(TenantContext.getTenantId());
-            latch.countDown();
-        }));
+        TenantContext.where("acme")
+                .run(() -> executor.execute(() -> {
+                    capturedTenant.set(TenantContext.getTenantId());
+                    latch.countDown();
+                }));
 
         assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
         assertThat(capturedTenant.get()).isEqualTo("acme");
@@ -37,5 +38,4 @@ class TenantContextTaskDecoratorTests {
 
         assertThat(decorator.decorate(runnable)).isSameAs(runnable);
     }
-
 }

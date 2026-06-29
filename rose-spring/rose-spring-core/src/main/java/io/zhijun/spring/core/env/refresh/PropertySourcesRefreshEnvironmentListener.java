@@ -3,16 +3,15 @@ package io.zhijun.spring.core.env.refresh;
 import java.util.List;
 import java.util.Set;
 
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
-import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
+import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 
 /**
  * Dispatches property source changes to {@link Refreshable} extensions.
@@ -24,8 +23,7 @@ public final class PropertySourcesRefreshEnvironmentListener implements Environm
 
     private volatile List<Refreshable> refreshables;
 
-    public PropertySourcesRefreshEnvironmentListener() {
-    }
+    public PropertySourcesRefreshEnvironmentListener() {}
 
     public PropertySourcesRefreshEnvironmentListener(List<Refreshable> refreshables) {
         this.refreshables = refreshables;
@@ -74,8 +72,7 @@ public final class PropertySourcesRefreshEnvironmentListener implements Environm
                 if (refreshable.supports(changedKeys)) {
                     refreshable.refresh(changedKeys);
                 }
-            }
-            catch (RuntimeException ex) {
+            } catch (RuntimeException ex) {
                 logger.warn("Refreshable {} failed", refreshable.getClass().getName(), ex);
             }
         }

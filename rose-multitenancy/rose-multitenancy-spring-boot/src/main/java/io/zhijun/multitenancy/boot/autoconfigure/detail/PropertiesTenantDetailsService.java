@@ -31,20 +31,18 @@ public final class PropertiesTenantDetailsService implements TenantDetailsServic
     @Override
     public TenantDetails loadTenantByIdentifier(String tenantIdentifier) {
         Assert.hasText(tenantIdentifier, "tenantIdentifier cannot be null or empty");
-        return tenantDetailsProperties.getTenants()
-            .stream()
-            .map(this::toTenant)
-            .filter(tenant -> tenant.getIdentifier().equals(tenantIdentifier))
-            .findFirst()
-            .orElse(null);
+        return tenantDetailsProperties.getTenants().stream()
+                .map(this::toTenant)
+                .filter(tenant -> tenant.getIdentifier().equals(tenantIdentifier))
+                .findFirst()
+                .orElse(null);
     }
 
     private Tenant toTenant(TenantDetailsProperties.TenantConfig tenantConfig) {
         return Tenant.builder()
-            .identifier(tenantConfig.getIdentifier())
-            .enabled(tenantConfig.isEnabled())
-            .attributes(tenantConfig.getAttributes())
-            .build();
+                .identifier(tenantConfig.getIdentifier())
+                .enabled(tenantConfig.isEnabled())
+                .attributes(tenantConfig.getAttributes())
+                .build();
     }
-
 }

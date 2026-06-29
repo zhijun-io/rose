@@ -52,8 +52,10 @@ public class DevServicesEndpoint {
     public static final class ServiceInfoSummary {
 
         private final String name;
+
         @Nullable
         private final String description;
+
         private final ContainerInfoSummary containerInfo;
 
         public ServiceInfoSummary(String name, @Nullable String description, ContainerInfoSummary containerInfo) {
@@ -82,10 +84,7 @@ public class DevServicesEndpoint {
         private final String imageName;
         private final List<ContainerInfo.ContainerPort> exposedPorts;
 
-        public ContainerInfoSummary(
-                String id,
-                String imageName,
-                List<ContainerInfo.ContainerPort> exposedPorts) {
+        public ContainerInfoSummary(String id, String imageName, List<ContainerInfo.ContainerPort> exposedPorts) {
             this.id = id;
             this.imageName = imageName;
             this.exposedPorts = new ArrayList<ContainerInfo.ContainerPort>(exposedPorts);
@@ -93,9 +92,7 @@ public class DevServicesEndpoint {
 
         public static ContainerInfoSummary from(ContainerInfo containerInfo) {
             return new ContainerInfoSummary(
-                    containerInfo.getId(),
-                    containerInfo.getImageName(),
-                    containerInfo.getExposedPorts());
+                    containerInfo.getId(), containerInfo.getImageName(), containerInfo.getExposedPorts());
         }
 
         public String getId() {
@@ -114,8 +111,10 @@ public class DevServicesEndpoint {
     public static final class ServiceInfo {
 
         private final String name;
+
         @Nullable
         private final String description;
+
         private final ContainerInfo containerInfo;
 
         public ServiceInfo(String name, @Nullable String description, ContainerInfo containerInfo) {

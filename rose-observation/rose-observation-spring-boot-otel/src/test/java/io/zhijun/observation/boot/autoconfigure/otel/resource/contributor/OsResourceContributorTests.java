@@ -1,5 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource.contributor;
 
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import io.opentelemetry.sdk.resources.ResourceBuilder;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.info.OsInfo;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link OsResourceContributor}.
@@ -68,7 +68,8 @@ class OsResourceContributorTests {
 
         contributor.contribute(resourceBuilder);
 
-        verify(resourceBuilder).put(OsResourceContributor.OS_DESCRIPTION, "Mac OS X [Version: 14.2.1, Architecture: aarch64]");
+        verify(resourceBuilder)
+                .put(OsResourceContributor.OS_DESCRIPTION, "Mac OS X [Version: 14.2.1, Architecture: aarch64]");
     }
 
     @Test
@@ -139,7 +140,8 @@ class OsResourceContributorTests {
         verify(resourceBuilder).put(OsResourceContributor.OS_NAME, "Mac OS X");
         verify(resourceBuilder).put(OsResourceContributor.OS_TYPE, "darwin");
         verify(resourceBuilder).put(OsResourceContributor.OS_VERSION, "14.2.1");
-        verify(resourceBuilder).put(OsResourceContributor.OS_DESCRIPTION, "Mac OS X [Version: 14.2.1, Architecture: aarch64]");
+        verify(resourceBuilder)
+                .put(OsResourceContributor.OS_DESCRIPTION, "Mac OS X [Version: 14.2.1, Architecture: aarch64]");
     }
 
     @Test
@@ -177,5 +179,4 @@ class OsResourceContributorTests {
 
         verify(resourceBuilder).put(OsResourceContributor.OS_TYPE, "freebsd");
     }
-
 }

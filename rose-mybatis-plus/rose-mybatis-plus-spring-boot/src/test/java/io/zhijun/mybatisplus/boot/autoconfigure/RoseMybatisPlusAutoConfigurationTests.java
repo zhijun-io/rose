@@ -3,14 +3,14 @@ package io.zhijun.mybatisplus.boot.autoconfigure;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 
 import io.zhijun.mybatisplus.core.crypto.EncryptionKeyResolver;
 import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
@@ -34,22 +34,18 @@ class RoseMybatisPlusAutoConfigurationTests {
                 .withPropertyValues("rose.mybatis-plus.multitenancy.enabled=false")
                 .withUserConfiguration(CustomizerConfig.class, MybatisPlusInterceptorConfig.class)
                 .run(context -> {
-                    MybatisPlusInterceptor interceptor =
-                            context.getBean(MybatisPlusInterceptor.class);
+                    MybatisPlusInterceptor interceptor = context.getBean(MybatisPlusInterceptor.class);
                     assertThat(interceptor.getInterceptors()).hasSize(1);
-                    assertThat(interceptor.getInterceptors().get(0))
-                            .isInstanceOf(TestInnerInterceptor.class);
+                    assertThat(interceptor.getInterceptors().get(0)).isInstanceOf(TestInnerInterceptor.class);
                 });
     }
 
     @Test
     void shouldDisableWhenPropertyIsFalse() {
-        contextRunner
-                .withPropertyValues("rose.mybatis-plus.enabled=false")
-                .run(context -> {
-                    assertThat(context).doesNotHaveBean(RoseMybatisPlusAutoConfiguration.class);
-                    assertThat(context).doesNotHaveBean(MybatisPlusInterceptorCustomizerBeanPostProcessor.class);
-                });
+        contextRunner.withPropertyValues("rose.mybatis-plus.enabled=false").run(context -> {
+            assertThat(context).doesNotHaveBean(RoseMybatisPlusAutoConfiguration.class);
+            assertThat(context).doesNotHaveBean(MybatisPlusInterceptorCustomizerBeanPostProcessor.class);
+        });
     }
 
     @Test
@@ -90,6 +86,5 @@ class RoseMybatisPlusAutoConfigurationTests {
         }
     }
 
-    static class TestInnerInterceptor implements InnerInterceptor {
-    }
+    static class TestInnerInterceptor implements InnerInterceptor {}
 }

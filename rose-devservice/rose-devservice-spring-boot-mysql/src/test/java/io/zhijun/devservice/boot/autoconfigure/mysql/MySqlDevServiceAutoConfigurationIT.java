@@ -1,5 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.mysql;
 
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_DB_NAME;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_PASSWORD;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_USERNAME;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -8,17 +13,13 @@ import org.testcontainers.containers.MySQLContainer;
 
 import io.zhijun.devservice.test.BaseJdbcDevServiceAutoConfigurationIT;
 
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_DB_NAME;
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_PASSWORD;
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_USERNAME;
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Integration test for {@link MySqlDevServicesAutoConfiguration}.
  */
 class MySqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConfigurationIT {
 
-    private final ApplicationContextRunner contextRunner = defaultContextRunner(MySqlDevServicesAutoConfiguration.class);
+    private final ApplicationContextRunner contextRunner =
+            defaultContextRunner(MySqlDevServicesAutoConfiguration.class);
 
     @Override
     protected ApplicationContextRunner getContextRunner() {
@@ -61,23 +62,27 @@ class MySqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConfigura
 
     @Test
     void containerConfigurationApplied() {
-        String[] properties = ArrayUtils.addAll(
-                commonConfigurationProperties(), commonJdbcConfigurationProperties());
+        String[] properties = ArrayUtils.addAll(commonConfigurationProperties(), commonJdbcConfigurationProperties());
 
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    JdbcDatabaseContainer container = context.getBean(getJdbcContainerClass());
-                    container.start();
-                    assertThatConfigurationIsApplied((org.testcontainers.containers.GenericContainer<?>) container);
-                    assertThatJdbcConfigurationIsApplied(container);
-                    assertThat(((MySQLContainer<?>) container).execInContainer(
-                                    "mysql", "-u", "mytest", "-pmytest", "mytest", "-N", "-e",
+        getContextRunner().withPropertyValues(properties).run(context -> {
+            JdbcDatabaseContainer container = context.getBean(getJdbcContainerClass());
+            container.start();
+            assertThatConfigurationIsApplied((org.testcontainers.containers.GenericContainer<?>) container);
+            assertThatJdbcConfigurationIsApplied(container);
+            assertThat(((MySQLContainer<?>) container)
+                            .execInContainer(
+                                    "mysql",
+                                    "-u",
+                                    "mytest",
+                                    "-pmytest",
+                                    "mytest",
+                                    "-N",
+                                    "-e",
                                     "SELECT IF(EXISTS (SELECT 1 FROM information_schema.tables "
                                             + "WHERE table_schema = 'mytest' AND table_name = 'BOOK'), 'true', 'false')")
                             .getStdout())
-                            .contains("true");
-                    container.stop();
-                });
+                    .contains("true");
+            container.stop();
+        });
     }
 }

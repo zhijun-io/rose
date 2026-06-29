@@ -68,7 +68,6 @@ public class RetryConfig {
         public void setMultiplier(double multiplier) {
             this.multiplier = multiplier;
         }
-
     }
 
     public static RetryPolicy buildRetryPolicy(RetryConfig retryConfig) {
@@ -79,5 +78,4 @@ public class RetryConfig {
                 .setBackoffMultiplier(retryConfig.getBackoffConfig().getMultiplier())
                 .build();
     }
-
 }

@@ -1,15 +1,15 @@
 package io.zhijun.spring.core.propertysource.watch;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import io.zhijun.spring.core.io.watch.FakeFileWatchService;
-import io.zhijun.spring.core.io.watch.FileChangedEvent;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.spring.core.io.watch.FakeFileWatchService;
+import io.zhijun.spring.core.io.watch.FileChangedEvent;
 
 class AutoRefreshWatcherMultiLocationTest {
 

@@ -11,5 +11,4 @@ public interface OtlpTracingConnectionDetails extends OtlpConnectionDetails {
 
     String DEFAULT_GRPC_ENDPOINT = "http://localhost:" + DEFAULT_GRPC_PORT;
     String DEFAULT_HTTP_PROTOBUF_ENDPOINT = "http://localhost:" + DEFAULT_HTTP_PORT + TRACES_PATH;
-
 }

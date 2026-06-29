@@ -1,5 +1,11 @@
 package io.zhijun.spring.core.binder.support;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -10,12 +16,6 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.format.support.DefaultFormattingConversionService;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ConversionServiceResolverTests {
@@ -35,7 +35,8 @@ class ConversionServiceResolverTests {
     void resolveReturnsConversionServiceBeanWhenBeanFactoryHasNone() {
         ConversionService conversionService = mock(ConversionService.class);
         when(beanFactory.getConversionService()).thenReturn(null);
-        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME)).thenReturn(true);
+        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME))
+                .thenReturn(true);
         when(beanFactory.getBean(ConversionService.class)).thenReturn(conversionService);
 
         assertThat(new ConversionServiceResolver(beanFactory).resolve()).isSameAs(conversionService);
@@ -46,8 +47,10 @@ class ConversionServiceResolverTests {
         ConfigurableConversionService conversionService = new DefaultFormattingConversionService();
         ConfigurableEnvironment environment = mock(ConfigurableEnvironment.class);
         when(beanFactory.getConversionService()).thenReturn(null);
-        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME)).thenReturn(false);
-        when(beanFactory.containsBean(ConfigurableApplicationContext.ENVIRONMENT_BEAN_NAME)).thenReturn(true);
+        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME))
+                .thenReturn(false);
+        when(beanFactory.containsBean(ConfigurableApplicationContext.ENVIRONMENT_BEAN_NAME))
+                .thenReturn(true);
         when(beanFactory.getBean(ConfigurableEnvironment.class)).thenReturn(environment);
         when(environment.getConversionService()).thenReturn(conversionService);
 
@@ -58,8 +61,10 @@ class ConversionServiceResolverTests {
     void resolveFallsBackToDefaultFormattingConversionService() {
         ConfigurableEnvironment environment = mock(ConfigurableEnvironment.class);
         when(beanFactory.getConversionService()).thenReturn(null);
-        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME)).thenReturn(false);
-        when(beanFactory.containsBean(ConfigurableApplicationContext.ENVIRONMENT_BEAN_NAME)).thenReturn(true);
+        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME))
+                .thenReturn(false);
+        when(beanFactory.containsBean(ConfigurableApplicationContext.ENVIRONMENT_BEAN_NAME))
+                .thenReturn(true);
         when(beanFactory.getBean(ConfigurableEnvironment.class)).thenReturn(environment);
         when(environment.getConversionService()).thenReturn(null);
 
@@ -81,8 +86,10 @@ class ConversionServiceResolverTests {
     @Test
     void resolveUsesDefaultWhenNoEnvironmentBean() {
         when(beanFactory.getConversionService()).thenReturn(null);
-        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME)).thenReturn(false);
-        when(beanFactory.containsBean(ConfigurableApplicationContext.ENVIRONMENT_BEAN_NAME)).thenReturn(false);
+        when(beanFactory.containsBean(ConfigurableApplicationContext.CONVERSION_SERVICE_BEAN_NAME))
+                .thenReturn(false);
+        when(beanFactory.containsBean(ConfigurableApplicationContext.ENVIRONMENT_BEAN_NAME))
+                .thenReturn(false);
 
         ConversionService resolved = new ConversionServiceResolver(beanFactory).resolve();
 

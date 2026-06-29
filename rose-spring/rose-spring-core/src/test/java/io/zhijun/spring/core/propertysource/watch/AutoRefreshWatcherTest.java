@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.propertysource.watch;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,15 +9,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class AutoRefreshWatcherTest {
 
     @Test
     void shouldTriggerReloadCallbackForFileBackedResource() throws Exception {
         File file = File.createTempFile("app", ".properties");
         List<String> callbacks = new ArrayList<String>();
-        io.zhijun.spring.core.io.watch.FakeFileWatchService watchService = new io.zhijun.spring.core.io.watch.FakeFileWatchService();
+        io.zhijun.spring.core.io.watch.FakeFileWatchService watchService =
+                new io.zhijun.spring.core.io.watch.FakeFileWatchService();
 
         AutoRefreshWatcher watcher = new AutoRefreshWatcher(
                 new org.springframework.core.io.support.PathMatchingResourcePatternResolver(), watchService);

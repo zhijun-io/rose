@@ -3,10 +3,10 @@ package io.zhijun.spring.core.env;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
-
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
+
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 public class FactoryLoadedEnvironmentListener implements EnvironmentListener {
 

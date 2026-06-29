@@ -14,8 +14,12 @@ public class AmbiguousConventionsBackendException extends RuntimeException {
 
     public AmbiguousConventionsBackendException(List<TelemetryConventionsBackend> backends) {
         super("Multiple telemetry conventions backends detected: "
-                + backends.stream().map(TelemetryConventionsBackend::id).sorted().collect(Collectors.toList()));
-        this.backendIds = backends.stream().map(TelemetryConventionsBackend::id).sorted().collect(Collectors.toList());
+                + backends.stream()
+                        .map(TelemetryConventionsBackend::id)
+                        .sorted()
+                        .collect(Collectors.toList()));
+        this.backendIds =
+                backends.stream().map(TelemetryConventionsBackend::id).sorted().collect(Collectors.toList());
     }
 
     public List<String> getBackendIds() {

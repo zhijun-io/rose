@@ -9,12 +9,13 @@ import io.zhijun.spring.core.env.refresh.RefreshableContextHolderLifecycle;
 /**
  * Initializes the listenable environment.
  */
-public class ListenableConfigurableEnvironmentInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class ListenableConfigurableEnvironmentInitializer
+        implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        applicationContext.setEnvironment(new ListenableConfigurableEnvironment(applicationContext.getEnvironment(),
-                applicationContext));
+        applicationContext.setEnvironment(
+                new ListenableConfigurableEnvironment(applicationContext.getEnvironment(), applicationContext));
         RefreshableContextHolder.bind(applicationContext);
         applicationContext.addApplicationListener(new RefreshableContextHolderLifecycle());
     }

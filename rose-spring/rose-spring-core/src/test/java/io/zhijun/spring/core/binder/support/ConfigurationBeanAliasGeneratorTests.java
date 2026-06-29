@@ -1,8 +1,8 @@
 package io.zhijun.spring.core.binder.support;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 class ConfigurationBeanAliasGeneratorTests {
 
@@ -17,16 +17,17 @@ class ConfigurationBeanAliasGeneratorTests {
     void hyphenGeneratorJoinsPrefixSegmentsAndBeanName() {
         DelimitedAliasGenerator.Hyphen generator = new DelimitedAliasGenerator.Hyphen();
 
-        assertThat(generator.generateAlias("rose.app", "primary", UserProperties.class)).isEqualTo("roseApp-primary");
+        assertThat(generator.generateAlias("rose.app", "primary", UserProperties.class))
+                .isEqualTo("roseApp-primary");
     }
 
     @Test
     void underscoreGeneratorUsesUnderscoreDelimiter() {
         DelimitedAliasGenerator.Underscore generator = new DelimitedAliasGenerator.Underscore();
 
-        assertThat(generator.generateAlias("rose.app", "primary", UserProperties.class)).isEqualTo("roseApp_primary");
+        assertThat(generator.generateAlias("rose.app", "primary", UserProperties.class))
+                .isEqualTo("roseApp_primary");
     }
 
-    static class UserProperties {
-    }
+    static class UserProperties {}
 }

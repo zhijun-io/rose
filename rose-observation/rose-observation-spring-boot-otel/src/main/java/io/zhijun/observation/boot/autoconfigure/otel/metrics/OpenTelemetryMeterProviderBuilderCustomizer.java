@@ -9,6 +9,5 @@ import io.opentelemetry.sdk.metrics.SdkMeterProviderBuilder;
 @FunctionalInterface
 public interface OpenTelemetryMeterProviderBuilderCustomizer {
 
-	void customize(SdkMeterProviderBuilder builder);
-
+    void customize(SdkMeterProviderBuilder builder);
 }

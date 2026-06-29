@@ -1,5 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.Duration;
 
 import io.micrometer.registry.otlp.OtlpMeterRegistry;
@@ -8,16 +10,14 @@ import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.resources.Resource;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link MicrometerRegistryOtlpAutoConfiguration}.
@@ -26,10 +26,11 @@ class MicrometerRegistryOtlpAutoConfigurationTests {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
             .withConfiguration(AutoConfigurations.of(
-                    MetricsAutoConfiguration.class,
-                    MicrometerRegistryOtlpAutoConfiguration.class))
-            .withBean(OtlpMetricsConnectionDetails.class, () -> protocol ->
-                    protocol == Protocol.GRPC ? "http://localhost:4317" : "http://localhost:4318/v1/metrics")
+                    MetricsAutoConfiguration.class, MicrometerRegistryOtlpAutoConfiguration.class))
+            .withBean(
+                    OtlpMetricsConnectionDetails.class,
+                    () -> protocol ->
+                            protocol == Protocol.GRPC ? "http://localhost:4317" : "http://localhost:4318/v1/metrics")
             .withBean(OpenTelemetryExporterProperties.class, OpenTelemetryExporterProperties::new)
             .withBean(OpenTelemetryMetricsExporterProperties.class, OpenTelemetryMetricsExporterProperties::new);
 
@@ -90,19 +91,17 @@ class MicrometerRegistryOtlpAutoConfigurationTests {
 
     @Test
     void beansAvailableWithDefaultConfiguration() {
-        contextRunner
-                .withBean(Resource.class, Resource::getDefault)
-                .run(context -> {
-                    assertThat(context).hasSingleBean(MicrometerOtlpConfig.class);
-                    assertThat(context).hasSingleBean(OtlpMeterRegistry.class);
+        contextRunner.withBean(Resource.class, Resource::getDefault).run(context -> {
+            assertThat(context).hasSingleBean(MicrometerOtlpConfig.class);
+            assertThat(context).hasSingleBean(OtlpMeterRegistry.class);
 
-                    MicrometerOtlpConfig config = context.getBean(MicrometerOtlpConfig.class);
-                    assertThat(config).isNotNull();
-                    assertThat(config.url()).isEqualTo("http://localhost:4318/v1/metrics");
+            MicrometerOtlpConfig config = context.getBean(MicrometerOtlpConfig.class);
+            assertThat(config).isNotNull();
+            assertThat(config.url()).isEqualTo("http://localhost:4318/v1/metrics");
 
-                    OtlpMeterRegistry registry = context.getBean(OtlpMeterRegistry.class);
-                    assertThat(registry).isNotNull();
-                });
+            OtlpMeterRegistry registry = context.getBean(OtlpMeterRegistry.class);
+            assertThat(registry).isNotNull();
+        });
     }
 
     @Test
@@ -121,15 +120,14 @@ class MicrometerRegistryOtlpAutoConfigurationTests {
     @Test
     void otlpConfigWithResourceAttributes() {
         contextRunner
-                .withBean(Resource.class, () -> Resource.create(
-                        Attributes.of(
+                .withBean(
+                        Resource.class,
+                        () -> Resource.create(Attributes.of(
                                 AttributeKey.stringKey("service.name"), "test-service",
                                 AttributeKey.stringKey("service.version"), "1.0.0",
                                 AttributeKey.stringKey("telemetry.sdk.language"), "custom",
                                 AttributeKey.stringKey("telemetry.sdk.name"), "custom",
-                                AttributeKey.stringKey("telemetry.sdk.version"), "2.1.0"
-                        )
-                ))
+                                AttributeKey.stringKey("telemetry.sdk.version"), "2.1.0")))
                 .run(context -> {
                     assertThat(context).hasSingleBean(MicrometerOtlpConfig.class);
 
@@ -141,5 +139,4 @@ class MicrometerRegistryOtlpAutoConfigurationTests {
                     assertThat(config.resourceAttributes()).doesNotContainKey("telemetry.sdk.version");
                 });
     }
-
 }

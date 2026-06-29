@@ -19,8 +19,8 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @org.springframework.boot.autoconfigure.AutoConfigureBefore({
-        MongoAutoConfiguration.class,
-        MongoDataAutoConfiguration.class
+    MongoAutoConfiguration.class,
+    MongoDataAutoConfiguration.class
 })
 @ConditionalOnDevServiceEnabled(MongoDbDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(MongoDbDevServiceProperties.class)
@@ -36,7 +36,8 @@ public final class MongoDbDevServicesAutoConfiguration {
                     .category(DevServiceCategory.MONGODB)
                     .containerClass(MongoDbContainer.class)
                     .containerFactory(MongoDbContainer::new)
-                    .dynamicProperties(registrar -> registrar.addDynamicProperty("spring.data.mongodb.uri",
+                    .dynamicProperties(registrar -> registrar.addDynamicProperty(
+                            "spring.data.mongodb.uri",
                             () -> registrar.requireRunningContainer().getReplicaSetUrl()))
                     .build();
 

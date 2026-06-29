@@ -17,8 +17,11 @@ public final class ConfigurationBeanBinder {
         this.conversionService = conversionService;
     }
 
-    public void bind(Map<String, Object> configurationProperties, boolean ignoreUnknownFields,
-            boolean ignoreInvalidFields, Object configurationBean) {
+    public void bind(
+            Map<String, Object> configurationProperties,
+            boolean ignoreUnknownFields,
+            boolean ignoreInvalidFields,
+            Object configurationBean) {
         DataBinder dataBinder = new DataBinder(configurationBean);
         dataBinder.setIgnoreUnknownFields(ignoreUnknownFields);
         dataBinder.setIgnoreInvalidFields(ignoreInvalidFields);

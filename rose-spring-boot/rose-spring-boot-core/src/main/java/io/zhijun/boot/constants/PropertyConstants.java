@@ -24,5 +24,4 @@ public interface PropertyConstants {
      * Whether classpath artifact collision diagnosis is enabled.
      */
     String ARTIFACTS_COLLISION_ENABLED_PROPERTY_NAME = "rose.diagnostics.artifacts-collision.enabled";
-
 }

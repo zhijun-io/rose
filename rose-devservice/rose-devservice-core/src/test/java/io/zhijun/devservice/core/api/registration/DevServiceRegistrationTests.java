@@ -1,26 +1,23 @@
 package io.zhijun.devservice.core.api.registration;
 
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
-
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.junit.jupiter.api.Test;
+
 class DevServiceRegistrationTests {
 
-  private final java.util.function.Supplier<ContainerInfo> containerInfoSupplier =
-          new java.util.function.Supplier<ContainerInfo>() {
-              @Override
-              public ContainerInfo get() {
-                  return ContainerInfo.builder()
-                          .id("id")
-                          .imageName("img")
-                          .status("running")
-                          .build();
-              }
-          };
+    private final java.util.function.Supplier<ContainerInfo> containerInfoSupplier =
+            new java.util.function.Supplier<ContainerInfo>() {
+                @Override
+                public ContainerInfo get() {
+                    return ContainerInfo.builder()
+                            .id("id")
+                            .imageName("img")
+                            .status("running")
+                            .build();
+                }
+            };
 
     @Test
     void rejectsNullName() {

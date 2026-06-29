@@ -28,5 +28,4 @@ class TaskDecoratorChainTests {
         TenantContextTaskDecorator tenantDecorator = new TenantContextTaskDecorator();
         assertThat(TaskDecoratorChain.merge(tenantDecorator, tenantDecorator)).isSameAs(tenantDecorator);
     }
-
 }

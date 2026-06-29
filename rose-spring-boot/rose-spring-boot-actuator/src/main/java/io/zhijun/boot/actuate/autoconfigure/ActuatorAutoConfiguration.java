@@ -1,5 +1,8 @@
 package io.zhijun.boot.actuate.autoconfigure;
 
+import static io.zhijun.boot.actuate.constants.PropertyConstants.TASK_SCHEDULER_PROPERTY_NAME_PREFIX;
+import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -7,9 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import io.zhijun.boot.actuate.MonitoredThreadPoolTaskScheduler;
-
-import static io.zhijun.boot.actuate.constants.PropertyConstants.TASK_SCHEDULER_PROPERTY_NAME_PREFIX;
-import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 /**
  * Actuator Spring Boot auto-configuration.
@@ -21,8 +21,8 @@ public class ActuatorAutoConfiguration {
 
     static final String TASK_SCHEDULER_POOL_SIZE_PROPERTY_NAME = TASK_SCHEDULER_PROPERTY_NAME_PREFIX + "pool-size";
 
-    static final String TASK_SCHEDULER_POOL_SIZE_VALUE_EXPRESSION = "${"
-            + TASK_SCHEDULER_POOL_SIZE_PROPERTY_NAME + ":" + DEFAULT_TASK_SCHEDULER_POOL_SIZE + "}";
+    static final String TASK_SCHEDULER_POOL_SIZE_VALUE_EXPRESSION =
+            "${" + TASK_SCHEDULER_POOL_SIZE_PROPERTY_NAME + ":" + DEFAULT_TASK_SCHEDULER_POOL_SIZE + "}";
 
     static final String DEFAULT_TASK_SCHEDULER_THREAD_NAME_PREFIX = "rose-spring-boot-actuator-task-";
 
@@ -50,5 +50,4 @@ public class ActuatorAutoConfiguration {
         threadPoolTaskScheduler.setThreadNamePrefix(threadNamePrefix);
         return threadPoolTaskScheduler;
     }
-
 }

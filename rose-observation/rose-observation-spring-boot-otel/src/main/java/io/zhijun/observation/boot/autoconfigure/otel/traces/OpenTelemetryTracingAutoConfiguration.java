@@ -37,8 +37,8 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.propagation.OpenTele
 @ConditionalOnOpenTelemetryTracing
 @EnableConfigurationProperties(OpenTelemetryTracingProperties.class)
 @Import({
-        OpenTelemetryPropagationConfiguration.PropagationConfiguration.class,
-        OpenTelemetryPropagationConfiguration.NoPropagation.class
+    OpenTelemetryPropagationConfiguration.PropagationConfiguration.class,
+    OpenTelemetryPropagationConfiguration.NoPropagation.class
 })
 public final class OpenTelemetryTracingAutoConfiguration {
 
@@ -46,12 +46,13 @@ public final class OpenTelemetryTracingAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    SdkTracerProvider tracerProvider(Clock clock,
-                                     Resource resource,
-                                     Sampler sampler,
-                                     SpanLimits spanLimits,
-                                     ObjectProvider<SpanProcessor> spanProcessors,
-                                     ObjectProvider<OpenTelemetryTracerProviderBuilderCustomizer> customizers) {
+    SdkTracerProvider tracerProvider(
+            Clock clock,
+            Resource resource,
+            Sampler sampler,
+            SpanLimits spanLimits,
+            ObjectProvider<SpanProcessor> spanProcessors,
+            ObjectProvider<OpenTelemetryTracerProviderBuilderCustomizer> customizers) {
         SdkTracerProviderBuilder builder = SdkTracerProvider.builder()
                 .setResource(resource)
                 .setSampler(sampler)
@@ -77,9 +78,11 @@ public final class OpenTelemetryTracingAutoConfiguration {
             case PARENT_BASED_ALWAYS_OFF:
                 return Sampler.parentBased(Sampler.alwaysOff());
             case PARENT_BASED_TRACE_ID_RATIO:
-                return Sampler.parentBased(Sampler.traceIdRatioBased(properties.getSampling().getProbability()));
+                return Sampler.parentBased(
+                        Sampler.traceIdRatioBased(properties.getSampling().getProbability()));
             default:
-                return Sampler.parentBased(Sampler.traceIdRatioBased(properties.getSampling().getProbability()));
+                return Sampler.parentBased(
+                        Sampler.traceIdRatioBased(properties.getSampling().getProbability()));
         }
     }
 
@@ -99,9 +102,10 @@ public final class OpenTelemetryTracingAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(SpanExporter.class)
-    BatchSpanProcessor batchSpanProcessor(OpenTelemetryTracingProperties properties,
-                                        ObjectProvider<SpanExporter> spanExporters,
-                                        ObjectProvider<MeterProvider> meterProvider) {
+    BatchSpanProcessor batchSpanProcessor(
+            OpenTelemetryTracingProperties properties,
+            ObjectProvider<SpanExporter> spanExporters,
+            ObjectProvider<MeterProvider> meterProvider) {
         List<SpanExporter> exporters = spanExporters.orderedStream().collect(Collectors.toList());
         SpanExporter composite = SpanExporter.composite(exporters);
         BatchSpanProcessorBuilder spanProcessorBuilder = BatchSpanProcessor.builder(composite)

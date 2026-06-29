@@ -1,10 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.mqtt;
 
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 
 /**
  * Integration test for {@link MqttDevServicesAutoConfiguration}.
@@ -44,11 +45,11 @@ class MqttDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationI
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                HiveMqContainer.class,
-                commonConfigurationProperties(),
-                (context, container) -> {
-                    assertThat(context.getEnvironment().getProperty("mqtt.server.uri")).startsWith("tcp://");
-                    assertThat(context.getEnvironment().getProperty("spring.mqtt.url")).startsWith("tcp://");
+                HiveMqContainer.class, commonConfigurationProperties(), (context, container) -> {
+                    assertThat(context.getEnvironment().getProperty("mqtt.server.uri"))
+                            .startsWith("tcp://");
+                    assertThat(context.getEnvironment().getProperty("spring.mqtt.url"))
+                            .startsWith("tcp://");
                 });
     }
 }

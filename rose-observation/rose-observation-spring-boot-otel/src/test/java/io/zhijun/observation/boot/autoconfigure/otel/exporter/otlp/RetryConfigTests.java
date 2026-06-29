@@ -1,12 +1,12 @@
 package io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp;
 
-import java.time.Duration;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
+import java.time.Duration;
 
 import io.opentelemetry.sdk.common.export.RetryPolicy;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link RetryConfig}.
@@ -52,5 +52,4 @@ class RetryConfigTests {
         assertThat(policy.getMaxBackoff()).isEqualTo(Duration.ofSeconds(3));
         assertThat(policy.getBackoffMultiplier()).isEqualTo(2.5);
     }
-
 }

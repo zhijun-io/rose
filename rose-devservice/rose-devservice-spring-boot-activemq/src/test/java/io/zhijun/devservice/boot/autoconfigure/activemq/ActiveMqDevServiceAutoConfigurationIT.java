@@ -1,20 +1,21 @@
 package io.zhijun.devservice.boot.autoconfigure.activemq;
 
-import io.zhijun.devservice.core.api.config.DevServiceCredentials;
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.devservice.core.api.config.DevServiceCredentials;
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 
 /**
  * Integration test for {@link ActiveMqDevServicesAutoConfiguration}.
  */
 class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationIT {
 
-    private final ApplicationContextRunner contextRunner = defaultContextRunner(
-            ActiveMqDevServicesAutoConfiguration.class);
+    private final ApplicationContextRunner contextRunner =
+            defaultContextRunner(ActiveMqDevServicesAutoConfiguration.class);
 
     @Override
     protected ApplicationContextRunner getContextRunner() {
@@ -39,9 +40,7 @@ class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
     @Test
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
-                ActiveMqContainer.class,
-                ActiveMqContainer.COMPATIBLE_IMAGE_NAME,
-                container -> {
+                ActiveMqContainer.class, ActiveMqContainer.COMPATIBLE_IMAGE_NAME, container -> {
                     assertThat(container.getEnv()).anyMatch(env -> env.startsWith("ACTIVEMQ_CONNECTION_USER="));
                     assertThat(container.getBinds()).isEmpty();
                     assertThat(container.getUsername()).isEqualTo(DevServiceCredentials.DEFAULT_USERNAME);
@@ -59,9 +58,12 @@ class ActiveMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
         assertContainerConfigurationApplied(ActiveMqContainer.class, properties, (context, container) -> {
             assertThat(container.getUsername()).isEqualTo("myusername");
             assertThat(container.getPassword()).isEqualTo("mypassword");
-            assertThat(context.getEnvironment().getProperty("spring.activemq.broker-url")).isNotBlank();
-            assertThat(context.getEnvironment().getProperty("spring.activemq.user")).isEqualTo("myusername");
-            assertThat(context.getEnvironment().getProperty("spring.activemq.password")).isEqualTo("mypassword");
+            assertThat(context.getEnvironment().getProperty("spring.activemq.broker-url"))
+                    .isNotBlank();
+            assertThat(context.getEnvironment().getProperty("spring.activemq.user"))
+                    .isEqualTo("myusername");
+            assertThat(context.getEnvironment().getProperty("spring.activemq.password"))
+                    .isEqualTo("mypassword");
         });
     }
 }

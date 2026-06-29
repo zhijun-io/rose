@@ -14,10 +14,8 @@ import io.zhijun.observation.boot.autoconfigure.otel.ConditionalOnOpenTelemetry;
  * Whether OpenTelemetry tracing annotation is eligible for registration.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @ConditionalOnOpenTelemetry
 @Conditional(OnOpenTelemetryTracingCondition.class)
-public @interface ConditionalOnOpenTelemetryTracing {
-
-}
+public @interface ConditionalOnOpenTelemetryTracing {}

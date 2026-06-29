@@ -6,10 +6,12 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 
+import org.apache.commons.lang3.StringUtils;
+
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
 
@@ -24,8 +26,8 @@ public final class RoseTenantLineHandler implements TenantLineHandler {
 
     private final Set<String> ignoreTables;
 
-    public RoseTenantLineHandler(TenantIdSupplier tenantIdSupplier, String tenantIdColumn,
-            Collection<String> ignoreTables) {
+    public RoseTenantLineHandler(
+            TenantIdSupplier tenantIdSupplier, String tenantIdColumn, Collection<String> ignoreTables) {
         Objects.requireNonNull(tenantIdSupplier, "tenantIdSupplier cannot be null");
         if (StringUtils.isBlank(tenantIdColumn)) {
             throw new IllegalArgumentException("tenantIdColumn cannot be null or empty");
@@ -49,5 +51,4 @@ public final class RoseTenantLineHandler implements TenantLineHandler {
     public boolean ignoreTable(String tableName) {
         return ignoreTables.contains(tableName);
     }
-
 }

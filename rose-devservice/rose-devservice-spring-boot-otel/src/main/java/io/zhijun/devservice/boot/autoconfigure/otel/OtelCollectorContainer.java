@@ -4,9 +4,8 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
-import io.zhijun.devservice.core.container.ContainerConfigurer;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 import io.zhijun.devservice.core.util.OtlpPorts;
 
 /**
@@ -14,8 +13,9 @@ import io.zhijun.devservice.core.util.OtlpPorts;
  */
 final class OtelCollectorContainer extends GenericContainer<OtelCollectorContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME =
-            DockerImageName.parse(OtelCollectorDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(
+                    OtelCollectorDevServiceProperties.DEFAULT_IMAGE_NAME)
+            .getUnversionedPart();
 
     static final int OTLP_GRPC_PORT = OtlpPorts.GRPC;
 

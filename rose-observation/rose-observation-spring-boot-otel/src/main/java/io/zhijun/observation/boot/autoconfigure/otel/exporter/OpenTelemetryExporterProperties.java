@@ -7,9 +7,9 @@ import java.util.Map;
 
 import io.opentelemetry.sdk.common.export.MemoryMode;
 
-import org.springframework.lang.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.lang.Nullable;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Compression;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
@@ -195,7 +195,5 @@ public class OpenTelemetryExporterProperties {
         public ProxyConfig getProxy() {
             return proxy;
         }
-
     }
-
 }

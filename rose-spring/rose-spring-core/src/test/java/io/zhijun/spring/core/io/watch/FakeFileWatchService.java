@@ -15,12 +15,10 @@ public class FakeFileWatchService implements FileWatchService {
     }
 
     @Override
-    public void start() {
-    }
+    public void start() {}
 
     @Override
-    public void close() throws IOException {
-    }
+    public void close() throws IOException {}
 
     public void publish(File file, FileChangedEvent.Kind kind) {
         FileChangedListener listener = listeners.get(file);

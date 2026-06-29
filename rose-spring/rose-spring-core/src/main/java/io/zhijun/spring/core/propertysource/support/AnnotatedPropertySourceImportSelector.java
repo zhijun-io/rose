@@ -6,9 +6,9 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ImportSelector;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
@@ -17,8 +17,8 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * Lightweight {@link ImportSelector} base for annotation-driven property source loading.
  */
-public abstract class AnnotatedPropertySourceImportSelector<A extends Annotation> implements ImportSelector,
-        EnvironmentAware, BeanClassLoaderAware, ResourceLoaderAware {
+public abstract class AnnotatedPropertySourceImportSelector<A extends Annotation>
+        implements ImportSelector, EnvironmentAware, BeanClassLoaderAware, ResourceLoaderAware {
 
     private static final String[] NO_IMPORTS = new String[0];
 
@@ -58,7 +58,8 @@ public abstract class AnnotatedPropertySourceImportSelector<A extends Annotation
     }
 
     protected final ResourceLoader getResourceLoader() {
-        return resourceLoader == null ? new org.springframework.core.io.DefaultResourceLoader(getClassLoader())
+        return resourceLoader == null
+                ? new org.springframework.core.io.DefaultResourceLoader(getClassLoader())
                 : resourceLoader;
     }
 
@@ -86,8 +87,8 @@ public abstract class AnnotatedPropertySourceImportSelector<A extends Annotation
     }
 
     private AnnotationAttributes resolveAnnotationAttributes(AnnotationMetadata metadata) {
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(
-                metadata.getAnnotationAttributes(annotationType.getName()));
+        AnnotationAttributes attributes =
+                AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotationType.getName()));
         if (attributes != null) {
             return attributes;
         }

@@ -15,7 +15,10 @@ public class UnknownConventionsBackendException extends RuntimeException {
 
     public UnknownConventionsBackendException(String configuredBackend, List<TelemetryConventionsBackend> available) {
         super("Unknown telemetry conventions backend '" + configuredBackend + "'. Available: "
-                + available.stream().map(TelemetryConventionsBackend::id).sorted().collect(Collectors.toList()));
+                + available.stream()
+                        .map(TelemetryConventionsBackend::id)
+                        .sorted()
+                        .collect(Collectors.toList()));
         this.configuredBackend = configuredBackend;
         this.availableBackendIds =
                 available.stream().map(TelemetryConventionsBackend::id).sorted().collect(Collectors.toList());

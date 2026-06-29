@@ -20,8 +20,7 @@ public final class TenantLineInnerInterceptorRegistrar implements MybatisPlusInt
 
     @Override
     public void customize(MybatisPlusInterceptor interceptor) {
-        InnerInterceptorSupport.addIfAbsent(interceptor, new TenantLineInnerInterceptor(tenantLineHandler),
-                TenantLineInnerInterceptor.class);
+        InnerInterceptorSupport.addIfAbsent(
+                interceptor, new TenantLineInnerInterceptor(tenantLineHandler), TenantLineInnerInterceptor.class);
     }
-
 }

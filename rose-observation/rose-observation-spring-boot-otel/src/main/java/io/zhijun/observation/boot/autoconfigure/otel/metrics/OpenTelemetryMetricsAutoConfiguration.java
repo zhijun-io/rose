@@ -27,15 +27,15 @@ public final class OpenTelemetryMetricsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    SdkMeterProvider meterProvider(Clock clock,
-                                   OpenTelemetryMetricsProperties properties,
-                                   Resource resource,
-                                   ObjectProvider<OpenTelemetryMeterProviderBuilderCustomizer> customizers) {
-        SdkMeterProviderBuilder builder = SdkMeterProvider.builder()
-                .setClock(clock)
-                .setResource(resource);
-        for (OpenTelemetryMeterProviderBuilderCustomizer customizer : customizers.orderedStream()
-                .collect(java.util.stream.Collectors.toList())) {
+    SdkMeterProvider meterProvider(
+            Clock clock,
+            OpenTelemetryMetricsProperties properties,
+            Resource resource,
+            ObjectProvider<OpenTelemetryMeterProviderBuilderCustomizer> customizers) {
+        SdkMeterProviderBuilder builder =
+                SdkMeterProvider.builder().setClock(clock).setResource(resource);
+        for (OpenTelemetryMeterProviderBuilderCustomizer customizer :
+                customizers.orderedStream().collect(java.util.stream.Collectors.toList())) {
             customizer.customize(builder);
         }
         return builder.build();

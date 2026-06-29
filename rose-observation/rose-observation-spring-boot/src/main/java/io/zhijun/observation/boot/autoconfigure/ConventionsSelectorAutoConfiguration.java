@@ -28,8 +28,7 @@ public class ConventionsSelectorAutoConfiguration {
     @ConditionalOnMissingBean(name = "primaryTelemetryConventionsBackend")
     TelemetryConventionsBackend primaryTelemetryConventionsBackend(
             ObservationProperties properties, ObjectProvider<TelemetryConventionsBackend> backends) {
-        List<TelemetryConventionsBackend> candidates =
-                backends.orderedStream().collect(Collectors.toList());
+        List<TelemetryConventionsBackend> candidates = backends.orderedStream().collect(Collectors.toList());
 
         String configured = properties.getConventions().getBackend();
         if (configured != null && !configured.trim().isEmpty()) {

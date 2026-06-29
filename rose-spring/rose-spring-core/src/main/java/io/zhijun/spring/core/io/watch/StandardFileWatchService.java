@@ -42,8 +42,11 @@ public class StandardFileWatchService implements FileWatchService {
         }
         listeners.put(filePath, listener);
         if (!watchKeys.containsValue(parent)) {
-            WatchKey key = parent.register(watchService, StandardWatchEventKinds.ENTRY_CREATE,
-                    StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
+            WatchKey key = parent.register(
+                    watchService,
+                    StandardWatchEventKinds.ENTRY_CREATE,
+                    StandardWatchEventKinds.ENTRY_MODIFY,
+                    StandardWatchEventKinds.ENTRY_DELETE);
             watchKeys.put(key, parent);
         }
     }
@@ -51,12 +54,14 @@ public class StandardFileWatchService implements FileWatchService {
     @Override
     public void start() {
         if (running.compareAndSet(false, true)) {
-            worker = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    loop();
-                }
-            }, "rose-file-watch-service");
+            worker = new Thread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            loop();
+                        }
+                    },
+                    "rose-file-watch-service");
             worker.setDaemon(true);
             worker.start();
         }

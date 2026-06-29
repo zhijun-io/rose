@@ -1,10 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link DevServiceProperties}.
@@ -23,5 +21,4 @@ class DevServicePropertiesTests {
         properties.setEnabled(false);
         assertThat(properties.isEnabled()).isFalse();
     }
-
 }

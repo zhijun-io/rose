@@ -1,10 +1,10 @@
 package io.zhijun.observation.boot.autoconfigure.otel.logs;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OpenTelemetryLoggingProperties}.
@@ -59,5 +59,4 @@ class OpenTelemetryLoggingPropertiesTests {
         assertThat(processor.getMaxExportBatchSize()).isEqualTo(1024);
         assertThat(processor.isMetrics()).isTrue();
     }
-
 }

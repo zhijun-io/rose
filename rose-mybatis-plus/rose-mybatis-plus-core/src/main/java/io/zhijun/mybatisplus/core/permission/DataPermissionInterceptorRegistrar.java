@@ -23,7 +23,7 @@ public final class DataPermissionInterceptorRegistrar implements MybatisPlusInte
 
     @Override
     public void customize(MybatisPlusInterceptor interceptor) {
-        InnerInterceptorSupport.addIfAbsent(interceptor, new DataPermissionInterceptor(dataPermissionHandler),
-                DataPermissionInterceptor.class);
+        InnerInterceptorSupport.addIfAbsent(
+                interceptor, new DataPermissionInterceptor(dataPermissionHandler), DataPermissionInterceptor.class);
     }
 }

@@ -1,5 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.otel.config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +23,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracing
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingProperties.SamplingStrategy;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterProperties;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 class OpenTelemetryEnvironmentPropertyAdaptersTests {
 
     @Test
@@ -35,12 +35,14 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
                 .withProperty("otel.tracer.sampler", "traceidratio")
                 .withProperty("otel.tracer.sampler.arg", "0.5");
 
-        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.general(environment).getRoseProperties();
+        Map<String, Object> properties =
+                OpenTelemetryEnvironmentPropertyAdapters.general(environment).getRoseProperties();
 
         assertThat(properties.get(OpenTelemetryProperties.ENABLED_PROPERTY)).isEqualTo(false);
         assertThat(properties.get(OpenTelemetryResourceProperties.ATTRIBUTES_PROPERTY))
                 .isEqualTo(mapOf("key1", "value1", "key2", "value2"));
-        assertThat(properties.get(OpenTelemetryResourceProperties.SERVICE_NAME_PROPERTY)).isEqualTo("test-service");
+        assertThat(properties.get(OpenTelemetryResourceProperties.SERVICE_NAME_PROPERTY))
+                .isEqualTo("test-service");
         assertThat((List<PropagationType>) properties.get("rose.otel.traces.propagation.produce"))
                 .containsExactlyInAnyOrder(PropagationType.W3C, PropagationType.B3);
         assertThat(properties.get(OpenTelemetryTracingProperties.CONFIG_PREFIX + ".sampling.strategy"))
@@ -52,11 +54,12 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
     @Test
     void generalShouldThrowExceptionWhenEnvironmentIsNull() {
         assertThatThrownBy(new org.assertj.core.api.ThrowableAssert.ThrowingCallable() {
-            @Override
-            public void call() {
-                OpenTelemetryEnvironmentPropertyAdapters.general(null);
-            }
-        }).isInstanceOf(IllegalArgumentException.class)
+                    @Override
+                    public void call() {
+                        OpenTelemetryEnvironmentPropertyAdapters.general(null);
+                    }
+                })
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("environment cannot be null");
     }
 
@@ -68,7 +71,8 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
                 .withProperty("otel.bsp.max.export.batch.size", "512")
                 .withProperty("otel.bsp.export.timeout", "30000");
 
-        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.batchSpanProcessor(environment).getRoseProperties();
+        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.batchSpanProcessor(environment)
+                .getRoseProperties();
 
         assertThat(properties.get(OpenTelemetryTracingProperties.CONFIG_PREFIX + ".processor.schedule-delay"))
                 .isEqualTo(Duration.ofSeconds(5));
@@ -90,14 +94,19 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
                 .withProperty("otel.exporter.otlp.timeout", "10000")
                 .withProperty("otel.exporter.otlp.traces.endpoint", "http://collector:4318/v1/traces");
 
-        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.otlpExporter(environment).getRoseProperties();
+        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.otlpExporter(environment)
+                .getRoseProperties();
 
-        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.protocol")).isEqualTo(Protocol.GRPC);
-        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.endpoint")).isEqualTo("http://collector:4317");
+        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.protocol"))
+                .isEqualTo(Protocol.GRPC);
+        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.endpoint"))
+                .isEqualTo("http://collector:4317");
         assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.headers"))
                 .isEqualTo(singleEntryMap("api-key", "secret"));
-        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.compression")).isEqualTo(Compression.GZIP);
-        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.timeout")).isEqualTo(Duration.ofSeconds(10));
+        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.compression"))
+                .isEqualTo(Compression.GZIP);
+        assertThat(properties.get(OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.timeout"))
+                .isEqualTo(Duration.ofSeconds(10));
         assertThat(properties.get(OpenTelemetryTracingExporterProperties.CONFIG_PREFIX + ".otlp.endpoint"))
                 .isEqualTo("http://collector:4318/v1/traces");
     }
@@ -108,10 +117,13 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
                 .withProperty("otel.traces.exporter", "otlp")
                 .withProperty("otel.metrics.exporter", "none");
 
-        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.exporterSelection(environment).getRoseProperties();
+        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.exporterSelection(environment)
+                .getRoseProperties();
 
-        assertThat(properties.get(OpenTelemetryTracingExporterProperties.TYPE_PROPERTY)).isEqualTo(ExporterType.OTLP);
-        assertThat(properties.get(OpenTelemetryMetricsExporterProperties.TYPE_PROPERTY)).isEqualTo(ExporterType.NONE);
+        assertThat(properties.get(OpenTelemetryTracingExporterProperties.TYPE_PROPERTY))
+                .isEqualTo(ExporterType.OTLP);
+        assertThat(properties.get(OpenTelemetryMetricsExporterProperties.TYPE_PROPERTY))
+                .isEqualTo(ExporterType.NONE);
     }
 
     @Test
@@ -121,7 +133,8 @@ class OpenTelemetryEnvironmentPropertyAdaptersTests {
                 .withProperty("otel.metric.export.interval", "60000")
                 .withProperty("otel.metric.export.timeout", "30000");
 
-        Map<String, Object> properties = OpenTelemetryEnvironmentPropertyAdapters.metrics(environment).getRoseProperties();
+        Map<String, Object> properties =
+                OpenTelemetryEnvironmentPropertyAdapters.metrics(environment).getRoseProperties();
 
         assertThat(properties.get(OpenTelemetryMetricsProperties.CONFIG_PREFIX + ".exemplars.filter"))
                 .isEqualTo(OpenTelemetryMetricsProperties.ExemplarFilter.TRACE_BASED);

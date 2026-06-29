@@ -33,7 +33,8 @@ public final class KafkaDevServicesAutoConfiguration {
                     .category(DevServiceCategory.KAFKA)
                     .containerClass(DevServiceKafkaContainer.class)
                     .containerFactory(DevServiceKafkaContainer::new)
-                    .dynamicProperties(registrar -> registrar.addDynamicProperty("spring.kafka.bootstrap-servers",
+                    .dynamicProperties(registrar -> registrar.addDynamicProperty(
+                            "spring.kafka.bootstrap-servers",
                             () -> registrar.requireRunningContainer().getBootstrapServers()))
                     .build();
 

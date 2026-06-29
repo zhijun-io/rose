@@ -1,13 +1,13 @@
 package io.zhijun.boot.env;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class DefaultConfigPropertiesEnvironmentPostProcessorTests {
 
@@ -21,7 +21,8 @@ class DefaultConfigPropertiesEnvironmentPostProcessorTests {
         processor.postProcessEnvironment(environment, new SpringApplication());
 
         assertThat(environment.getProperty("server.shutdown")).isEqualTo("graceful");
-        assertThat(environment.getProperty("spring.lifecycle.timeout-per-shutdown-phase")).isEqualTo("60s");
+        assertThat(environment.getProperty("spring.lifecycle.timeout-per-shutdown-phase"))
+                .isEqualTo("60s");
     }
 
     @Test
@@ -37,8 +38,10 @@ class DefaultConfigPropertiesEnvironmentPostProcessorTests {
     @Test
     void shouldAllowHigherPrioritySourcesToOverrideDefaults() {
         MockEnvironment environment = new MockEnvironment();
-        environment.getPropertySources().addFirst(new MapPropertySource("application",
-                Collections.singletonMap("server.shutdown", "immediate")));
+        environment
+                .getPropertySources()
+                .addFirst(
+                        new MapPropertySource("application", Collections.singletonMap("server.shutdown", "immediate")));
 
         processor.postProcessEnvironment(environment, new SpringApplication());
 

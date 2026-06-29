@@ -23,5 +23,4 @@ public class MultitenancyAsyncProperties {
     public void setPropagationEnabled(boolean propagationEnabled) {
         this.propagationEnabled = propagationEnabled;
     }
-
 }

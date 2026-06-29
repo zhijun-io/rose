@@ -85,5 +85,4 @@ public final class Tenant implements TenantDetails {
             return new Tenant(identifier, enabled, attributes);
         }
     }
-
 }

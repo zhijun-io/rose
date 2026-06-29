@@ -12,8 +12,8 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
  * Declarative metadata for a JDBC dev service connector.
  */
 @Incubating
-public final class JdbcDevServiceConnectorDescriptor<P extends JdbcDevServiceProperties,
-        C extends JdbcDatabaseContainer<?>> {
+public final class JdbcDevServiceConnectorDescriptor<
+        P extends JdbcDevServiceProperties, C extends JdbcDatabaseContainer<?>> {
 
     private final Class<P> propertiesType;
     private final String configPrefix;
@@ -103,12 +103,15 @@ public final class JdbcDevServiceConnectorDescriptor<P extends JdbcDevServicePro
         }
 
         public JdbcDevServiceConnectorDescriptor<P, C> build() {
-            if (propertiesType == null || configPrefix == null || serviceName == null || displayName == null
-                    || containerClass == null || containerFactory == null) {
+            if (propertiesType == null
+                    || configPrefix == null
+                    || serviceName == null
+                    || displayName == null
+                    || containerClass == null
+                    || containerFactory == null) {
                 throw new IllegalStateException("JdbcDevServiceConnectorDescriptor is missing required fields");
             }
             return new JdbcDevServiceConnectorDescriptor<P, C>(this);
         }
     }
-
 }

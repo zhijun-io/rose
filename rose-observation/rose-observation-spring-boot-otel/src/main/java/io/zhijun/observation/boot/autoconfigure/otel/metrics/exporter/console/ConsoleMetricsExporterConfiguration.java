@@ -13,7 +13,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.Conditiona
  * Auto-configuration for exporting metrics to the console.
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass({ LoggingMetricExporter.class })
+@ConditionalOnClass({LoggingMetricExporter.class})
 @ConditionalOnOpenTelemetryMetricsExporter("console")
 public final class ConsoleMetricsExporterConfiguration {
 
@@ -22,5 +22,4 @@ public final class ConsoleMetricsExporterConfiguration {
     LoggingMetricExporter consoleMetricExporter() {
         return LoggingMetricExporter.create();
     }
-
 }

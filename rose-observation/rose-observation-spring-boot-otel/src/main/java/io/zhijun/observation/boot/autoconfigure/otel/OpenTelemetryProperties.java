@@ -12,7 +12,8 @@ public class OpenTelemetryProperties {
 
     public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
 
-    public static final String COMPATIBILITY_ENV_VAR_SPEC_PROPERTY = CONFIG_PREFIX + ".compatibility.environment-variable-specification";
+    public static final String COMPATIBILITY_ENV_VAR_SPEC_PROPERTY =
+            CONFIG_PREFIX + ".compatibility.environment-variable-specification";
 
     private boolean enabled = true;
 
@@ -23,5 +24,4 @@ public class OpenTelemetryProperties {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
 }

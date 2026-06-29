@@ -1,7 +1,6 @@
 package io.zhijun.spring.core.env.refresh;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Static holder for {@link ApplicationContext}, used by {@link Refreshable} factories instances.
@@ -10,8 +9,7 @@ public final class RefreshableContextHolder {
 
     private static volatile ApplicationContext applicationContext;
 
-    private RefreshableContextHolder() {
-    }
+    private RefreshableContextHolder() {}
 
     /**
      * Binds the root application context only ({@code getParent() == null}).

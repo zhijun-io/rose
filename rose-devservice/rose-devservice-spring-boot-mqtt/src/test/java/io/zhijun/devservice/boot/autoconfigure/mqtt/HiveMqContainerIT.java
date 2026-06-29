@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.mqtt;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.DockerTestSupport;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link HiveMqContainer}.
@@ -21,10 +21,8 @@ class HiveMqContainerIT {
         container.start();
         try {
             assertThat(container.getBrokerUrl()).startsWith("tcp://");
-        }
-        finally {
+        } finally {
             container.stop();
         }
     }
-
 }

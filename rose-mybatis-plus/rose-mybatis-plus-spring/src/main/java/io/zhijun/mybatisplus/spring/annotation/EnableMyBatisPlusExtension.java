@@ -39,5 +39,4 @@ import io.zhijun.mybatisplus.spring.extension.MyBatisPlusExtensionConfiguration;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(MyBatisPlusExtensionConfiguration.class)
-public @interface EnableMyBatisPlusExtension {
-}
+public @interface EnableMyBatisPlusExtension {}

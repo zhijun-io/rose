@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Scope;
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
@@ -21,16 +26,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.zhijun.annotation.Incubating;
 import io.zhijun.multitenancy.core.context.TenantContext;
+import io.zhijun.multitenancy.core.detail.TenantVerifier;
+import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
-import io.zhijun.multitenancy.core.exception.TenantVerificationException;
-import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
-
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.StatusCode;
-import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.context.Scope;
 
 /**
  * Establish a multitenancy context from an HTTP request, if multitenancy information is available.
@@ -61,11 +61,14 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private TenantContextFilter(HttpRequestTenantResolver httpRequestTenantResolver,
+    private TenantContextFilter(
+            HttpRequestTenantResolver httpRequestTenantResolver,
             TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
             @Nullable TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher,
-            ApplicationEventPublisher eventPublisher, @Nullable TenantVerifier tenantVerifier,
-            @Nullable TenantContextMissingTenantHandler missingTenantHandler, @Nullable Tracer tracer) {
+            ApplicationEventPublisher eventPublisher,
+            @Nullable TenantVerifier tenantVerifier,
+            @Nullable TenantContextMissingTenantHandler missingTenantHandler,
+            @Nullable Tracer tracer) {
         Assert.notNull(httpRequestTenantResolver, "httpRequestTenantResolver cannot be null");
         Assert.notNull(tenantContextIgnorePathMatcher, "ignorePathMatcher cannot be null");
         Assert.notNull(eventPublisher, "eventPublisher cannot be null");
@@ -138,8 +141,9 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         }
     }
 
-    private void runWithTenantContext(String tenantIdentifier, HttpServletRequest request,
-            HttpServletResponse response, FilterChain filterChain) throws Exception {
+    private void runWithTenantContext(
+            String tenantIdentifier, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws Exception {
         TenantContext.where(tenantIdentifier).call(new java.util.concurrent.Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -164,8 +168,8 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
             missingTenantHandler.handle(request, response);
             return;
         }
-        handleTenantVerificationException(response,
-                String.format(MISSING_TENANT_ERROR_MESSAGE, request.getRequestURI()));
+        handleTenantVerificationException(
+                response, String.format(MISSING_TENANT_ERROR_MESSAGE, request.getRequestURI()));
     }
 
     private void handleTenantVerificationException(HttpServletResponse response, String exceptionMessage)
@@ -246,9 +250,14 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         }
 
         public TenantContextFilter build() {
-            return new TenantContextFilter(httpRequestTenantResolver, tenantContextIgnorePathMatcher,
-                    tenantContextRequiredPathMatcher, eventPublisher, tenantVerifier, missingTenantHandler, tracer);
+            return new TenantContextFilter(
+                    httpRequestTenantResolver,
+                    tenantContextIgnorePathMatcher,
+                    tenantContextRequiredPathMatcher,
+                    eventPublisher,
+                    tenantVerifier,
+                    missingTenantHandler,
+                    tracer);
         }
     }
-
 }

@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.env;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,8 +15,6 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.MapPropertySource;
 
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ListenableMutablePropertySourcesPublishTest {
 
@@ -68,14 +68,16 @@ class ListenableMutablePropertySourcesPublishTest {
         capturedEvents.clear();
         context = new GenericApplicationContext();
         new ListenableConfigurableEnvironmentInitializer().initialize(context);
-        context.getEnvironment().getPropertySources().addFirst(
-                new MapPropertySource("config", Collections.singletonMap(
-                        "rose.spring.env.publish-property-source-event", "false")));
+        context.getEnvironment()
+                .getPropertySources()
+                .addFirst(new MapPropertySource(
+                        "config", Collections.singletonMap("rose.spring.env.publish-property-source-event", "false")));
         context.addApplicationListener((ApplicationListener<PropertySourcesChangedEvent>) capturedEvents::add);
         context.refresh();
 
-        context.getEnvironment().getPropertySources().addLast(
-                new MapPropertySource("demo", Collections.singletonMap("demo.key", "v")));
+        context.getEnvironment()
+                .getPropertySources()
+                .addLast(new MapPropertySource("demo", Collections.singletonMap("demo.key", "v")));
 
         assertThat(capturedEvents).isEmpty();
     }

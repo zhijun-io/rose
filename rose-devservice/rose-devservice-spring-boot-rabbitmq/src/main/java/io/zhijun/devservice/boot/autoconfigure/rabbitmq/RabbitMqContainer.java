@@ -1,15 +1,14 @@
 package io.zhijun.devservice.boot.autoconfigure.rabbitmq;
 
+import com.github.dockerjava.api.command.InspectContainerResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import com.github.dockerjava.api.command.InspectContainerResponse;
-
-import io.zhijun.devservice.core.container.ContainerConfigurer;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 
 /**
  * RabbitMQ container configured for Rose DevService.
@@ -18,7 +17,8 @@ final class RabbitMqContainer extends RabbitMQContainer {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMqContainer.class);
 
-    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(RabbitMqDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(RabbitMqDevServiceProperties.DEFAULT_IMAGE_NAME)
+            .getUnversionedPart();
 
     static final int AMQP_PORT = 5672;
 

@@ -1,10 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapProperties;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link BootstrapProperties}.
@@ -21,5 +19,4 @@ class BootstrapPropertiesTests {
 
         assertThat(properties.getProfiles().isEnabled()).isFalse();
     }
-
 }

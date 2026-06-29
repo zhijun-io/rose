@@ -7,10 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import io.zhijun.spring.core.propertysource.watch.AutoRefreshWatcher;
-import io.zhijun.spring.core.propertysource.watch.AutoRefreshWatcherLifecycle;
-import io.zhijun.spring.core.propertysource.watch.PropertySourceReloadCallback;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.CompositePropertySource;
@@ -24,16 +20,22 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.spring.core.propertysource.watch.AutoRefreshWatcher;
+import io.zhijun.spring.core.propertysource.watch.AutoRefreshWatcherLifecycle;
+import io.zhijun.spring.core.propertysource.watch.PropertySourceReloadCallback;
+
 /**
  * Shared loading logic for {@code @ResourcePropertySource}.
  */
 final class PropertySourceLoading {
 
-    private PropertySourceLoading() {
-    }
+    private PropertySourceLoading() {}
 
-    static void loadPropertySource(AnnotatedPropertySourceImportSelector<?> context, Class<?> importingClass,
-            AnnotationAttributes attributes, Class<? extends Annotation> annotationType) {
+    static void loadPropertySource(
+            AnnotatedPropertySourceImportSelector<?> context,
+            Class<?> importingClass,
+            AnnotationAttributes attributes,
+            Class<? extends Annotation> annotationType) {
         try {
             String propertySourceName = resolvePropertySourceName(importingClass, attributes, annotationType);
             List<Resource> resources = resolveResources(context, attributes);
@@ -41,8 +43,8 @@ final class PropertySourceLoading {
                 return;
             }
             MutablePropertySources propertySources = context.getEnvironment().getPropertySources();
-            PropertySource<?> propertySource = createCompositePropertySource(context, propertySourceName, attributes,
-                    resources);
+            PropertySource<?> propertySource =
+                    createCompositePropertySource(context, propertySourceName, attributes, resources);
             addPropertySource(attributes, propertySources, propertySource);
             registerAutoRefreshIfNeeded(context, propertySourceName, attributes, annotationType);
         } catch (Exception ex) {
@@ -50,43 +52,47 @@ final class PropertySourceLoading {
         }
     }
 
-    static void copyContextFrom(AnnotatedPropertySourceImportSelector<?> target,
-            AnnotatedPropertySourceImportSelector<?> source) {
+    static void copyContextFrom(
+            AnnotatedPropertySourceImportSelector<?> target, AnnotatedPropertySourceImportSelector<?> source) {
         target.setEnvironment(source.getEnvironment());
         target.setBeanClassLoader(source.getClassLoader());
         target.setResourceLoader(source.getResourceLoader());
     }
 
-    private static PropertySource<?> createCompositePropertySource(AnnotatedPropertySourceImportSelector<?> context,
-            String propertySourceName, AnnotationAttributes attributes, List<Resource> resources) throws Exception {
+    private static PropertySource<?> createCompositePropertySource(
+            AnnotatedPropertySourceImportSelector<?> context,
+            String propertySourceName,
+            AnnotationAttributes attributes,
+            List<Resource> resources)
+            throws Exception {
         @SuppressWarnings("unchecked")
-        Class<? extends PropertySourceFactory> factoryType = (Class<? extends PropertySourceFactory>) attributes
-                .getClass("factory");
+        Class<? extends PropertySourceFactory> factoryType =
+                (Class<? extends PropertySourceFactory>) attributes.getClass("factory");
         PropertySourceFactory factory = BeanUtils.instantiateClass(factoryType);
         if (resources.size() == 1) {
             Resource resource = resources.get(0);
             String sourceName = propertySourceName + "@" + resource.getDescription();
-            return factory.createPropertySource(sourceName,
-                    new EncodedResource(resource, resolveEncoding(context, attributes)));
+            return factory.createPropertySource(
+                    sourceName, new EncodedResource(resource, resolveEncoding(context, attributes)));
         }
         CompositePropertySource compositePropertySource = new CompositePropertySource(propertySourceName);
         for (Resource resource : resources) {
             String sourceName = propertySourceName + "@" + resource.getDescription();
-            PropertySource<?> propertySource = factory.createPropertySource(sourceName,
-                    new EncodedResource(resource, resolveEncoding(context, attributes)));
+            PropertySource<?> propertySource = factory.createPropertySource(
+                    sourceName, new EncodedResource(resource, resolveEncoding(context, attributes)));
             compositePropertySource.addPropertySource(propertySource);
         }
         return compositePropertySource;
     }
 
-    private static List<Resource> resolveResources(AnnotatedPropertySourceImportSelector<?> context,
-            AnnotationAttributes attributes) {
+    private static List<Resource> resolveResources(
+            AnnotatedPropertySourceImportSelector<?> context, AnnotationAttributes attributes) {
         String[] locations = attributes.getStringArray("value");
         if (locations == null || locations.length < 1) {
             return Collections.emptyList();
         }
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(
-                context.getResourceLoader());
+        PathMatchingResourcePatternResolver resolver =
+                new PathMatchingResourcePatternResolver(context.getResourceLoader());
         List<Resource> resources = new ArrayList<Resource>();
         try {
             for (String location : locations) {
@@ -98,8 +104,8 @@ final class PropertySourceLoading {
                 Collections.addAll(resources, resolved);
             }
             @SuppressWarnings("unchecked")
-            Class<? extends Comparator<Resource>> comparatorType = (Class<? extends Comparator<Resource>>) attributes
-                    .getClass("resourceComparator");
+            Class<? extends Comparator<Resource>> comparatorType =
+                    (Class<? extends Comparator<Resource>>) attributes.getClass("resourceComparator");
             sortResources(resources, comparatorType);
         } catch (IOException ex) {
             throw new IllegalStateException("Failed to resolve resources", ex);
@@ -109,8 +115,8 @@ final class PropertySourceLoading {
         return resources;
     }
 
-    private static String resolvePropertySourceName(Class<?> importingClass, AnnotationAttributes attributes,
-            Class<? extends Annotation> annotationType) {
+    private static String resolvePropertySourceName(
+            Class<?> importingClass, AnnotationAttributes attributes, Class<? extends Annotation> annotationType) {
         String name = attributes.getString("name");
         if (StringUtils.hasText(name)) {
             return name;
@@ -118,8 +124,8 @@ final class PropertySourceLoading {
         return importingClass.getName() + "@" + annotationType.getName();
     }
 
-    private static void addPropertySource(AnnotationAttributes attributes, MutablePropertySources propertySources,
-            PropertySource<?> propertySource) {
+    private static void addPropertySource(
+            AnnotationAttributes attributes, MutablePropertySources propertySources, PropertySource<?> propertySource) {
         if (attributes.getBoolean("first")) {
             propertySources.addFirst(propertySource);
             return;
@@ -137,8 +143,10 @@ final class PropertySourceLoading {
         propertySources.addLast(propertySource);
     }
 
-    private static void registerAutoRefreshIfNeeded(final AnnotatedPropertySourceImportSelector<?> context,
-            final String propertySourceName, final AnnotationAttributes attributes,
+    private static void registerAutoRefreshIfNeeded(
+            final AnnotatedPropertySourceImportSelector<?> context,
+            final String propertySourceName,
+            final AnnotationAttributes attributes,
             final Class<? extends Annotation> annotationType) {
         if (!attributes.getBoolean("autoRefreshed")) {
             return;
@@ -166,14 +174,19 @@ final class PropertySourceLoading {
         }
     }
 
-    private static void reload(AnnotatedPropertySourceImportSelector<?> context, String propertySourceName,
-            AnnotationAttributes attributes, Class<? extends Annotation> annotationType) throws Exception {
+    private static void reload(
+            AnnotatedPropertySourceImportSelector<?> context,
+            String propertySourceName,
+            AnnotationAttributes attributes,
+            Class<? extends Annotation> annotationType)
+            throws Exception {
         ConfigurableEnvironment environment = context.getEnvironment();
         MutablePropertySources propertySources = environment.getPropertySources();
         List<Resource> resources = resolveResources(context, attributes);
         if (resources.isEmpty()) {
             if (propertySources.contains(propertySourceName)) {
-                propertySources.replace(propertySourceName,
+                propertySources.replace(
+                        propertySourceName,
                         new MapPropertySource(propertySourceName, Collections.<String, Object>emptyMap()));
             }
             return;
@@ -190,8 +203,8 @@ final class PropertySourceLoading {
         return context.getEnvironment().resolvePlaceholders(value);
     }
 
-    private static String resolveEncoding(AnnotatedPropertySourceImportSelector<?> context,
-            AnnotationAttributes attributes) {
+    private static String resolveEncoding(
+            AnnotatedPropertySourceImportSelector<?> context, AnnotationAttributes attributes) {
         return resolvePlaceholders(context, attributes.getString("encoding"));
     }
 

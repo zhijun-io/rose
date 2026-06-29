@@ -1,9 +1,5 @@
 package io.zhijun.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
@@ -16,23 +12,17 @@ import static java.lang.annotation.ElementType.TYPE_PARAMETER;
 import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 /**
  * Indicates the version in which an API element was introduced.
  *
  * @see Incubating
  */
 @Retention(RUNTIME)
-@Target({
-        TYPE,
-        FIELD,
-        METHOD,
-        PARAMETER,
-        CONSTRUCTOR,
-        LOCAL_VARIABLE,
-        ANNOTATION_TYPE,
-        PACKAGE,
-        TYPE_PARAMETER,
-        TYPE_USE
+@Target({TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, ANNOTATION_TYPE, PACKAGE, TYPE_PARAMETER, TYPE_USE
 })
 @Documented
 public @interface Since {

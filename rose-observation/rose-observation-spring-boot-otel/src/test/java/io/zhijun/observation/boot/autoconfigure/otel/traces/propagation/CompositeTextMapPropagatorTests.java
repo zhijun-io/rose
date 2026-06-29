@@ -1,5 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.otel.traces.propagation;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,8 +19,6 @@ import org.mockito.Mockito;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties.PropagationType;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Unit test for {@link CompositeTextMapPropagator}.
  */
@@ -27,16 +27,14 @@ class CompositeTextMapPropagatorTests {
     @Test
     void collectsAllFields() {
         CompositeTextMapPropagator propagator = new CompositeTextMapPropagator(
-                Collections.singletonList(fieldPropagator("a")),
-                Collections.singletonList(fieldPropagator("b")));
+                Collections.singletonList(fieldPropagator("a")), Collections.singletonList(fieldPropagator("b")));
         assertThat(propagator.fields()).containsExactly("a", "b");
     }
 
     @Test
     void injectAllFields() {
         CompositeTextMapPropagator propagator = new CompositeTextMapPropagator(
-                Arrays.asList(fieldPropagator("a"), fieldPropagator("b")),
-                Collections.<TextMapPropagator>emptyList());
+                Arrays.asList(fieldPropagator("a"), fieldPropagator("b")), Collections.<TextMapPropagator>emptyList());
         TextMapSetter<Object> setter = Mockito.mock(TextMapSetter.class);
         Object carrier = new Object();
         propagator.inject(Context.current(), carrier, setter);
@@ -48,8 +46,7 @@ class CompositeTextMapPropagatorTests {
     @Test
     void extractUsesFirstMatchingExtractor() {
         CompositeTextMapPropagator propagator = new CompositeTextMapPropagator(
-                Collections.<TextMapPropagator>emptyList(),
-                Arrays.asList(fieldPropagator("a"), fieldPropagator("b")));
+                Collections.<TextMapPropagator>emptyList(), Arrays.asList(fieldPropagator("a"), fieldPropagator("b")));
         Map<String, String> carrier = mapOf("a", "a-value", "b", "b-value");
         Context result = propagator.extract(Context.current(), carrier, new MapTextMapGetter());
         assertThat(result).isNotSameAs(Context.current());
@@ -68,7 +65,7 @@ class CompositeTextMapPropagatorTests {
         assertThat(composite.fields()).contains("traceparent", "b3");
     }
 
-  private static TextMapPropagator fieldPropagator(String field) {
+    private static TextMapPropagator fieldPropagator(String field) {
         return new TextMapPropagator() {
             @Override
             public java.util.Collection<String> fields() {
@@ -109,7 +106,5 @@ class CompositeTextMapPropagatorTests {
         public String get(Map<String, String> carrier, String key) {
             return carrier == null ? null : carrier.get(key);
         }
-
     }
-
 }

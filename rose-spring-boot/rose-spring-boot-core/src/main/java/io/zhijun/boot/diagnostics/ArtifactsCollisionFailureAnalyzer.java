@@ -14,8 +14,8 @@ public final class ArtifactsCollisionFailureAnalyzer extends AbstractFailureAnal
     }
 
     private static String buildAction(ArtifactsCollisionException cause) {
-        StringBuilder action = new StringBuilder(
-                "Analyze conflicting artifacts with Maven dependency tree, for example:");
+        StringBuilder action =
+                new StringBuilder("Analyze conflicting artifacts with Maven dependency tree, for example:");
         action.append(System.lineSeparator());
         action.append("mvn dependency:tree -Dincludes=");
         boolean first = true;

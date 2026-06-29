@@ -23,7 +23,10 @@ public class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable>
         registry.registerDevServiceProvider(descriptor.serviceName(), descriptor.category());
 
         P properties = bindProperties(descriptor.configPrefix(), descriptor.propertiesType());
-        registry.registerDevService(descriptor.serviceName(), descriptor.displayName(), descriptor.containerClass(),
+        registry.registerDevService(
+                descriptor.serviceName(),
+                descriptor.displayName(),
+                descriptor.containerClass(),
                 () -> descriptor.containerFactory().apply(properties));
 
         if (descriptor.dynamicProperties() != null) {
@@ -39,5 +42,4 @@ public class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable>
         ensureContainerStarted(container, descriptor.serviceName());
         return container;
     }
-
 }

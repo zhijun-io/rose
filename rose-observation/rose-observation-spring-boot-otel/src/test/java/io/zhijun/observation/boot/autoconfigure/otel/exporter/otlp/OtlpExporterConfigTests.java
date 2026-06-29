@@ -1,13 +1,13 @@
 package io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.net.URI;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OtlpExporterConfig}.
@@ -66,5 +66,4 @@ class OtlpExporterConfigTests {
                 .containsEntry("Custom-Header", "value");
         assertThat(config.isMetrics()).isTrue();
     }
-
 }

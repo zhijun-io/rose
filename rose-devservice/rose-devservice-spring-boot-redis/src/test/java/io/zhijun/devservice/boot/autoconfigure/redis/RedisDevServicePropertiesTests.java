@@ -1,6 +1,5 @@
 package io.zhijun.devservice.boot.autoconfigure.redis;
 
-import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
 /**
@@ -20,5 +19,4 @@ class RedisDevServicePropertiesTests extends BaseDevServicePropertiesTests<Redis
                 .shared(true)
                 .build();
     }
-
 }

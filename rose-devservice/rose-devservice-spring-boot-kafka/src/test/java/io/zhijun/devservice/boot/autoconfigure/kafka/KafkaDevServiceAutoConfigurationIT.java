@@ -1,20 +1,20 @@
 package io.zhijun.devservice.boot.autoconfigure.kafka;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.testcontainers.containers.KafkaContainer;
+import org.testcontainers.kafka.ConfluentKafkaContainer;
 
 import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link KafkaDevServicesAutoConfiguration}.
  */
 class KafkaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationIT {
 
-    private final ApplicationContextRunner contextRunner = defaultContextRunner(
-            KafkaDevServicesAutoConfiguration.class);
+    private final ApplicationContextRunner contextRunner =
+            defaultContextRunner(KafkaDevServicesAutoConfiguration.class);
 
     @Override
     protected ApplicationContextRunner getContextRunner() {
@@ -38,8 +38,10 @@ class KafkaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguration
 
     @Test
     void containerAvailableInDevMode() {
-        assertContainerAvailableInDevMode(KafkaContainer.class, "confluentinc/cp-kafka", container ->
-                assertThat(container.getBinds()).isEmpty());
+        assertContainerAvailableInDevMode(
+                ConfluentKafkaContainer.class,
+                "confluentinc/cp-kafka",
+                container -> assertThat(container.getBinds()).isEmpty());
     }
 
     @Test
@@ -48,6 +50,7 @@ class KafkaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguration
                 DevServiceKafkaContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> assertThat(
-                        context.getEnvironment().getProperty("spring.kafka.bootstrap-servers")).isNotBlank());
+                                context.getEnvironment().getProperty("spring.kafka.bootstrap-servers"))
+                        .isNotBlank());
     }
 }

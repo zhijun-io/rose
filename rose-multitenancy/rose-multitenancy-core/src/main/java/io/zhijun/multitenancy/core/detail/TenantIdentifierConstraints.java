@@ -10,7 +10,5 @@ public final class TenantIdentifierConstraints {
 
     public static final String PATTERN = "[a-zA-Z0-9_-]+";
 
-    private TenantIdentifierConstraints() {
-    }
-
+    private TenantIdentifierConstraints() {}
 }

@@ -19,5 +19,4 @@ class PostgresqlDevServicePropertiesTests extends BaseJdbcDevServicePropertiesTe
                 .shared(true)
                 .build();
     }
-
 }

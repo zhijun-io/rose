@@ -26,10 +26,11 @@ public final class OpenTelemetryAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(OpenTelemetry.class)
     @ConditionalOnOpenTelemetry
-    OpenTelemetrySdk openTelemetrySdk(ObjectProvider<SdkLoggerProvider> loggerProvider,
-                                      ObjectProvider<SdkMeterProvider> meterProvider,
-                                      ObjectProvider<SdkTracerProvider> tracerProvider,
-                                      ObjectProvider<ContextPropagators> propagators) {
+    OpenTelemetrySdk openTelemetrySdk(
+            ObjectProvider<SdkLoggerProvider> loggerProvider,
+            ObjectProvider<SdkMeterProvider> meterProvider,
+            ObjectProvider<SdkTracerProvider> tracerProvider,
+            ObjectProvider<ContextPropagators> propagators) {
         OpenTelemetrySdkBuilder openTelemetryBuilder = OpenTelemetrySdk.builder();
         loggerProvider.ifAvailable(openTelemetryBuilder::setLoggerProvider);
         meterProvider.ifAvailable(openTelemetryBuilder::setMeterProvider);
@@ -62,5 +63,4 @@ public final class OpenTelemetryAutoConfiguration {
     Resource resource() {
         return Resource.empty();
     }
-
 }

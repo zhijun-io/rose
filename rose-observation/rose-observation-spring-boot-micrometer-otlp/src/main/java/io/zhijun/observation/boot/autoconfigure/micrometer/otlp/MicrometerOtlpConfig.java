@@ -110,7 +110,5 @@ class MicrometerOtlpConfig implements OtlpConfig {
         MicrometerOtlpConfig build() {
             return new MicrometerOtlpConfig(this);
         }
-
     }
-
 }

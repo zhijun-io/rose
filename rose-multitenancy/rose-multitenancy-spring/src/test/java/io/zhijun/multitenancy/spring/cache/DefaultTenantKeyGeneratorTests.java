@@ -1,14 +1,14 @@
 package io.zhijun.multitenancy.spring.cache;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DefaultTenantKeyGeneratorTests {
 
@@ -17,8 +17,7 @@ class DefaultTenantKeyGeneratorTests {
     static {
         try {
             DUMMY_METHOD = DefaultTenantKeyGeneratorTests.class.getDeclaredMethod("dummyMethod", String.class);
-        }
-        catch (NoSuchMethodException ex) {
+        } catch (NoSuchMethodException ex) {
             throw new ExceptionInInitializerError(ex);
         }
     }
@@ -49,11 +48,9 @@ class DefaultTenantKeyGeneratorTests {
     }
 
     @SuppressWarnings("unused")
-    private void dummyMethod(String argument) {
-    }
+    private void dummyMethod(String argument) {}
 
     private Object generateCacheKey(Object[] arguments) {
         return keyGenerator.generate(this, DUMMY_METHOD, arguments);
     }
-
 }

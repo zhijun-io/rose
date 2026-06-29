@@ -7,10 +7,10 @@ import java.util.function.Supplier;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.sdk.resources.ResourceBuilder;
 
-import org.springframework.lang.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.info.OsInfo;
+import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.annotation.Incubating;
@@ -70,5 +70,4 @@ public final class HostResourceContributor implements ResourceContributor {
             return null;
         }
     }
-
 }

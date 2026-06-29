@@ -19,5 +19,4 @@ class MySqlDevServicePropertiesTests extends BaseJdbcDevServicePropertiesTests<M
                 .shared(true)
                 .build();
     }
-
 }

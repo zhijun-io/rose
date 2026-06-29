@@ -9,7 +9,5 @@ public final class OtlpPorts {
 
     public static final int HTTP = 4318;
 
-    private OtlpPorts() {
-    }
-
+    private OtlpPorts() {}
 }

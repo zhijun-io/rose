@@ -1,7 +1,5 @@
 package io.zhijun.devservice.boot.autoconfigure.mqtt;
 
-import java.time.Duration;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
 
@@ -22,5 +20,4 @@ class MqttDevServicePropertiesTests extends BaseDevServicePropertiesTests<MqttDe
                 .startupTimeout(BaseDevServiceProperties.SLOW_STARTUP_TIMEOUT)
                 .build();
     }
-
 }

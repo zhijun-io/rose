@@ -1,5 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,16 +13,13 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.mock.env.MockEnvironment;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Unit test for {@link OnOpenTelemetryResourceContributorCondition}.
  */
 class OnOpenTelemetryResourceContributorConditionTests {
 
-    private final OnOpenTelemetryResourceContributorCondition condition = new OnOpenTelemetryResourceContributorCondition();
+    private final OnOpenTelemetryResourceContributorCondition condition =
+            new OnOpenTelemetryResourceContributorCondition();
 
     private final MockEnvironment environment = new MockEnvironment();
 
@@ -39,8 +40,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.resource.contributors.test-contributor.enabled is true");
+        assertThat(outcome.getMessage()).contains("rose.otel.resource.contributors.test-contributor.enabled is true");
     }
 
     @Test
@@ -58,8 +58,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("rose.otel.resource.contributors.test-contributor.enabled is false");
+        assertThat(outcome.getMessage()).contains("rose.otel.resource.contributors.test-contributor.enabled is false");
     }
 
     @Test
@@ -76,8 +75,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("resource contributor is disabled by default");
+        assertThat(outcome.getMessage()).contains("resource contributor is disabled by default");
     }
 
     @Test
@@ -94,8 +92,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("no resource contributor name provided");
+        assertThat(outcome.getMessage()).contains("no resource contributor name provided");
     }
 
     @Test
@@ -112,8 +109,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("resource contributor is disabled by default");
+        assertThat(outcome.getMessage()).contains("resource contributor is disabled by default");
     }
 
     @Test
@@ -127,8 +123,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("no resource contributor name provided");
+        assertThat(outcome.getMessage()).contains("no resource contributor name provided");
     }
 
     @Test
@@ -145,8 +140,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("no resource contributor name provided");
+        assertThat(outcome.getMessage()).contains("no resource contributor name provided");
     }
 
     @Test
@@ -163,8 +157,7 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isTrue();
-        assertThat(outcome.getMessage())
-                .contains("resource contributor is enabled by default");
+        assertThat(outcome.getMessage()).contains("resource contributor is enabled by default");
     }
 
     @Test
@@ -181,8 +174,6 @@ class OnOpenTelemetryResourceContributorConditionTests {
         ConditionOutcome outcome = condition.getMatchOutcome(context, metadata);
 
         assertThat(outcome.isMatch()).isFalse();
-        assertThat(outcome.getMessage())
-                .contains("resource contributor is disabled by default");
+        assertThat(outcome.getMessage()).contains("resource contributor is disabled by default");
     }
-
 }

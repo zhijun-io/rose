@@ -1,17 +1,19 @@
 package io.zhijun.devservice.boot.autoconfigure.ollama;
 
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 
 /**
  * Integration test for {@link OllamaDevServicesAutoConfiguration}.
  */
 class OllamaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationIT {
 
-    private final ApplicationContextRunner contextRunner = defaultContextRunner(OllamaDevServicesAutoConfiguration.class)
+    private final ApplicationContextRunner contextRunner = defaultContextRunner(
+                    OllamaDevServicesAutoConfiguration.class)
             .withPropertyValues("rose.dev.ollama.ignore-native-service=true");
 
     @Override
@@ -48,7 +50,7 @@ class OllamaDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguratio
                 OllamaContainer.class,
                 commonConfigurationProperties(),
                 (context, container) -> assertThat(
-                        context.getEnvironment().getProperty(OllamaDevServiceProperties.BASE_URL_PROPERTY))
+                                context.getEnvironment().getProperty(OllamaDevServiceProperties.BASE_URL_PROPERTY))
                         .startsWith("http://"));
     }
 }

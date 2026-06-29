@@ -10,8 +10,8 @@ import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
  * Registrar for JDBC dev service connectors that expose {@code spring.datasource.*}.
  */
 @Incubating
-public class JdbcDevServiceRegistrar<P extends JdbcDevServiceProperties,
-        C extends JdbcDatabaseContainer<?>> extends DevServiceRegistrar {
+public class JdbcDevServiceRegistrar<P extends JdbcDevServiceProperties, C extends JdbcDatabaseContainer<?>>
+        extends DevServiceRegistrar {
 
     private final JdbcDevServiceConnectorDescriptor<P, C> descriptor;
 
@@ -24,12 +24,17 @@ public class JdbcDevServiceRegistrar<P extends JdbcDevServiceProperties,
         registry.registerDevServiceProvider(descriptor.serviceName(), descriptor.category());
 
         P properties = bindProperties(descriptor.configPrefix(), descriptor.propertiesType());
-        registry.registerDevService(descriptor.serviceName(), descriptor.displayName(), descriptor.containerClass(),
+        registry.registerDevService(
+                descriptor.serviceName(),
+                descriptor.displayName(),
+                descriptor.containerClass(),
                 () -> descriptor.containerFactory().apply(properties));
 
         addDynamicProperty("spring.datasource.url", () -> runningContainer().getJdbcUrl());
-        addDynamicProperty("spring.datasource.username", () -> runningContainer().getUsername());
-        addDynamicProperty("spring.datasource.password", () -> runningContainer().getPassword());
+        addDynamicProperty(
+                "spring.datasource.username", () -> runningContainer().getUsername());
+        addDynamicProperty(
+                "spring.datasource.password", () -> runningContainer().getPassword());
     }
 
     private C runningContainer() {
@@ -37,5 +42,4 @@ public class JdbcDevServiceRegistrar<P extends JdbcDevServiceProperties,
         ensureContainerStarted(container, descriptor.serviceName());
         return container;
     }
-
 }

@@ -1,15 +1,14 @@
 package io.zhijun.spring.core.binder.annotation;
 
+import static org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncludingAncestors;
+import static org.springframework.util.ObjectUtils.nullSafeEquals;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
-import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
-import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
-import io.zhijun.spring.core.binder.support.ConversionServiceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -25,8 +24,10 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.ClassUtils;
 
-import static org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncludingAncestors;
-import static org.springframework.util.ObjectUtils.nullSafeEquals;
+import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
+import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
+import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
+import io.zhijun.spring.core.binder.support.ConversionServiceResolver;
 
 /**
  * Binds {@link EnableConfigurationBeanBinding} beans and runs {@link io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer}
@@ -98,14 +99,19 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
     }
 
     public void setConfigurationBeanCustomizers(Collection<ConfigurationBeanCustomizer> configurationBeanCustomizers) {
-        List<ConfigurationBeanCustomizer> customizers = new ArrayList<ConfigurationBeanCustomizer>(configurationBeanCustomizers);
+        List<ConfigurationBeanCustomizer> customizers =
+                new ArrayList<ConfigurationBeanCustomizer>(configurationBeanCustomizers);
         AnnotationAwareOrderComparator.sort(customizers);
         this.configurationBeanCustomizers = Collections.unmodifiableList(customizers);
     }
 
-    static void initBeanMetadataAttributes(AbstractBeanDefinition beanDefinition,
-            Map<String, Object> configurationProperties, boolean ignoreUnknownFields, boolean ignoreInvalidFields,
-            String prefix, boolean multiple) {
+    static void initBeanMetadataAttributes(
+            AbstractBeanDefinition beanDefinition,
+            Map<String, Object> configurationProperties,
+            boolean ignoreUnknownFields,
+            boolean ignoreInvalidFields,
+            String prefix,
+            boolean multiple) {
         beanDefinition.setAttribute(CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME, configurationProperties);
         beanDefinition.setAttribute(IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME, ignoreUnknownFields);
         beanDefinition.setAttribute(IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME, ignoreInvalidFields);
@@ -124,8 +130,8 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
         }
         String prefix = getAttribute(beanDefinition, ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_PREFIX);
         boolean multiple = getAttribute(beanDefinition, ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_MULTIPLE);
-        Map<String, Object> subProperties = ConfigurationBeanBindingSupport.resolveBindingProperties(environment, prefix,
-                multiple, beanName);
+        Map<String, Object> subProperties =
+                ConfigurationBeanBindingSupport.resolveBindingProperties(environment, prefix, multiple, beanName);
         boolean ignoreUnknownFields = getAttribute(beanDefinition, IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME);
         boolean ignoreInvalidFields = getAttribute(beanDefinition, IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME);
         Object configurationBean = beanFactory.getBean(beanName);
@@ -142,17 +148,20 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
 
     private boolean isConfigurationBean(Object bean, BeanDefinition beanDefinition) {
         return ConfigurationBeanBindingSupport.isConfigurationBeanDefinition(beanDefinition)
-                && nullSafeEquals(ClassUtils.getUserClass(bean.getClass()).getName(), beanDefinition.getBeanClassName());
+                && nullSafeEquals(
+                        ClassUtils.getUserClass(bean.getClass()).getName(), beanDefinition.getBeanClassName());
     }
 
     private void bindConfigurationBean(Object configurationBean, BeanDefinition beanDefinition) {
-        Map<String, Object> configurationProperties = getAttribute(beanDefinition, CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME);
+        Map<String, Object> configurationProperties =
+                getAttribute(beanDefinition, CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME);
         boolean ignoreUnknownFields = getAttribute(beanDefinition, IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME);
         boolean ignoreInvalidFields = getAttribute(beanDefinition, IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME);
-        getConfigurationBeanBinder().bind(configurationProperties, ignoreUnknownFields, ignoreInvalidFields,
-                configurationBean);
+        getConfigurationBeanBinder()
+                .bind(configurationProperties, ignoreUnknownFields, ignoreInvalidFields, configurationBean);
         if (logger.isDebugEnabled()) {
-            logger.debug("Bound configuration bean [{}] with properties {}", configurationBean, configurationProperties);
+            logger.debug(
+                    "Bound configuration bean [{}] with properties {}", configurationBean, configurationProperties);
         }
     }
 
@@ -165,8 +174,9 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
     }
 
     private void initConfigurationBeanCustomizers() {
-        Collection<ConfigurationBeanCustomizer> customizers = beansOfTypeIncludingAncestors(beanFactory,
-                ConfigurationBeanCustomizer.class).values();
+        Collection<ConfigurationBeanCustomizer> customizers = beansOfTypeIncludingAncestors(
+                        beanFactory, ConfigurationBeanCustomizer.class)
+                .values();
         setConfigurationBeanCustomizers(customizers);
     }
 

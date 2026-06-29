@@ -9,15 +9,19 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
-
-import io.zhijun.annotation.Incubating;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Parenthesis;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+
+import io.zhijun.annotation.Incubating;
 
 /**
  * SPI-based data permission handler.
@@ -41,8 +45,8 @@ public class RoseDataPermissionHandler implements DataPermissionHandler {
     private final Set<String> defaultIgnoredMethods = new HashSet<String>(Arrays.asList(
             "selectById", "selectBatchIds", "selectOne", "deleteById", "deleteByMap", "delete", "deleteBatchIds"));
 
-    public RoseDataPermissionHandler(DataPermissionPrincipalResolver principalResolver,
-            DataPermissionConditionResolver conditionResolver) {
+    public RoseDataPermissionHandler(
+            DataPermissionPrincipalResolver principalResolver, DataPermissionConditionResolver conditionResolver) {
         this.principalResolver = principalResolver;
         this.conditionResolver = conditionResolver;
     }

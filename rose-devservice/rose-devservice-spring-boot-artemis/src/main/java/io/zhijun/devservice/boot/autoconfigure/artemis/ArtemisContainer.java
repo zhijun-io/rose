@@ -1,16 +1,15 @@
 package io.zhijun.devservice.boot.autoconfigure.artemis;
 
+import com.github.dockerjava.api.command.InspectContainerResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
-import com.github.dockerjava.api.command.InspectContainerResponse;
-
-import io.zhijun.devservice.core.container.ContainerConfigurer;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 
 /**
  * ActiveMQ Artemis container for Rose DevService.
@@ -19,7 +18,8 @@ final class ArtemisContainer extends GenericContainer<ArtemisContainer> {
 
     private static final Logger logger = LoggerFactory.getLogger(ArtemisContainer.class);
 
-    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(ArtemisDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(ArtemisDevServiceProperties.DEFAULT_IMAGE_NAME)
+            .getUnversionedPart();
 
     static final int TCP_PORT = 61616;
 

@@ -1,15 +1,14 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import java.util.Arrays;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import io.zhijun.multitenancy.boot.autoconfigure.detail.PropertiesTenantDetailsService;
-import io.zhijun.multitenancy.boot.autoconfigure.detail.TenantDetailsProperties;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import io.zhijun.multitenancy.boot.autoconfigure.detail.PropertiesTenantDetailsService;
+import io.zhijun.multitenancy.boot.autoconfigure.detail.TenantDetailsProperties;
 import io.zhijun.multitenancy.core.detail.TenantDetails;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link PropertiesTenantDetailsService}.
@@ -19,9 +18,11 @@ class PropertiesTenantDetailsServiceTests {
     @Test
     void loadAllTenants() {
         TenantDetailsProperties tenantDetailsProperties = new TenantDetailsProperties();
-        tenantDetailsProperties.setTenants(Arrays.asList(buildTenantConfig("acme", true), buildTenantConfig("sam", false)));
+        tenantDetailsProperties.setTenants(
+                Arrays.asList(buildTenantConfig("acme", true), buildTenantConfig("sam", false)));
 
-        PropertiesTenantDetailsService tenantDetailsService = new PropertiesTenantDetailsService(tenantDetailsProperties);
+        PropertiesTenantDetailsService tenantDetailsService =
+                new PropertiesTenantDetailsService(tenantDetailsProperties);
         java.util.List<? extends TenantDetails> tenants = tenantDetailsService.loadAllTenants();
 
         assertThat(tenants).isNotNull();
@@ -33,7 +34,8 @@ class PropertiesTenantDetailsServiceTests {
         TenantDetailsProperties tenantDetailsProperties = new TenantDetailsProperties();
         tenantDetailsProperties.setTenants(Arrays.asList(buildTenantConfig("acme", true)));
 
-        PropertiesTenantDetailsService tenantDetailsService = new PropertiesTenantDetailsService(tenantDetailsProperties);
+        PropertiesTenantDetailsService tenantDetailsService =
+                new PropertiesTenantDetailsService(tenantDetailsProperties);
         TenantDetails tenant = tenantDetailsService.loadTenantByIdentifier("acme");
 
         assertThat(tenant).isNotNull();
@@ -44,7 +46,8 @@ class PropertiesTenantDetailsServiceTests {
         TenantDetailsProperties tenantDetailsProperties = new TenantDetailsProperties();
         tenantDetailsProperties.setTenants(Arrays.asList(buildTenantConfig("acme", false)));
 
-        PropertiesTenantDetailsService tenantDetailsService = new PropertiesTenantDetailsService(tenantDetailsProperties);
+        PropertiesTenantDetailsService tenantDetailsService =
+                new PropertiesTenantDetailsService(tenantDetailsProperties);
         TenantDetails tenant = tenantDetailsService.loadTenantByIdentifier("acme");
 
         assertThat(tenant).isNotNull();
@@ -56,5 +59,4 @@ class PropertiesTenantDetailsServiceTests {
         tenantConfig.setEnabled(enabled);
         return tenantConfig;
     }
-
 }

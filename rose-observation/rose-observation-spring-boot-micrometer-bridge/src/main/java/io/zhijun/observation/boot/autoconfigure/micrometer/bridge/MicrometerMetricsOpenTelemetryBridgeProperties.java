@@ -51,5 +51,4 @@ public class MicrometerMetricsOpenTelemetryBridgeProperties {
     public void setHistogramGauges(boolean histogramGauges) {
         this.histogramGauges = histogramGauges;
     }
-
 }

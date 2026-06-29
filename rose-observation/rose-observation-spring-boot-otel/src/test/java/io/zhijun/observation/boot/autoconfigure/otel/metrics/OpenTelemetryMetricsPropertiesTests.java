@@ -1,9 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.metrics;
 
-import org.junit.jupiter.api.Test;
-
 import static io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties.ExemplarFilter;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link OpenTelemetryMetricsProperties}.
@@ -34,5 +34,4 @@ class OpenTelemetryMetricsPropertiesTests {
         assertThat(properties.getExemplars().isEnabled()).isFalse();
         assertThat(properties.getExemplars().getFilter()).isEqualTo(ExemplarFilter.ALWAYS_ON);
     }
-
 }

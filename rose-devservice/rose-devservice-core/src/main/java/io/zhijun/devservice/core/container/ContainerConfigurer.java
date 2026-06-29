@@ -3,12 +3,11 @@ package io.zhijun.devservice.core.container;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.apache.commons.lang3.Validate;
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.utility.MountableFile;
-
-import org.apache.commons.lang3.Validate;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
@@ -40,10 +39,10 @@ public final class ContainerConfigurer {
 
     public static void resources(GenericContainer<?> container, BaseDevServiceProperties properties) {
         for (ResourceMapping resource : properties.getResources()) {
-            Validate.notBlank(resource.getSourcePath(),
-                    "the source path in a resource mapping cannot be null or empty.");
-            Validate.notBlank(resource.getContainerPath(),
-                    "the container path in a resource mapping cannot be null or empty.");
+            Validate.notBlank(
+                    resource.getSourcePath(), "the source path in a resource mapping cannot be null or empty.");
+            Validate.notBlank(
+                    resource.getContainerPath(), "the container path in a resource mapping cannot be null or empty.");
 
             MountableFile mountableFile = resolveMountableFile(resource.getSourcePath());
             container.withCopyFileToContainer(mountableFile, resource.getContainerPath());
@@ -98,6 +97,5 @@ public final class ContainerConfigurer {
         return BootstrapMode.DEV.equals(BootstrapMode.detect());
     }
 
-    private ContainerConfigurer() {
-    }
+    private ContainerConfigurer() {}
 }

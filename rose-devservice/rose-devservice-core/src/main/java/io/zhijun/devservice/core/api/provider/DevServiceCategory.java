@@ -10,7 +10,6 @@ import io.zhijun.annotation.Incubating;
  */
 @Incubating
 public enum DevServiceCategory {
-
     JDBC("jdbc"),
 
     REDIS("redis"),
@@ -41,5 +40,4 @@ public enum DevServiceCategory {
     public String id() {
         return id;
     }
-
 }

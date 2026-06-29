@@ -1,6 +1,11 @@
 package io.zhijun.spring.core.propertysource;
 
-import io.zhijun.spring.core.propertysource.annotation.ResourcePropertySource;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.core.env.StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME;
+import static org.springframework.core.env.StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME;
+
+import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
@@ -12,14 +17,8 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 
 import io.zhijun.spring.core.propertysource.annotation.JsonPropertySource;
+import io.zhijun.spring.core.propertysource.annotation.ResourcePropertySource;
 import io.zhijun.spring.core.propertysource.annotation.YamlPropertySource;
-
-import java.util.Iterator;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.springframework.core.env.StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME;
-import static org.springframework.core.env.StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME;
 
 class ResourcePropertySourceLoaderTests {
 
@@ -42,10 +41,11 @@ class ResourcePropertySourceLoaderTests {
         assertThat(environment.getProperty("b")).isEqualTo("3");
 
         PropertySource<?> propertySource = lastPropertySource(environment);
-        assertThat(propertySource.getName()).isEqualTo(DefaultConfig.class.getName() + "@"
-                + ResourcePropertySource.class.getName());
+        assertThat(propertySource.getName())
+                .isEqualTo(DefaultConfig.class.getName() + "@" + ResourcePropertySource.class.getName());
         assertThat(propertySource).isInstanceOf(CompositePropertySource.class);
-        assertThat(((CompositePropertySource) propertySource).getPropertySources()).hasSize(2);
+        assertThat(((CompositePropertySource) propertySource).getPropertySources())
+                .hasSize(2);
     }
 
     @Test
@@ -63,8 +63,8 @@ class ResourcePropertySourceLoaderTests {
 
         Iterator<PropertySource<?>> iterator = environment.getPropertySources().iterator();
         PropertySource<?> first = iterator.next();
-        assertThat(first.getName()).isEqualTo(FirstConfig.class.getName() + "@"
-                + ResourcePropertySource.class.getName());
+        assertThat(first.getName())
+                .isEqualTo(FirstConfig.class.getName() + "@" + ResourcePropertySource.class.getName());
         assertThat(environment.getProperty("a")).isEqualTo("1");
     }
 
@@ -74,7 +74,9 @@ class ResourcePropertySourceLoaderTests {
         MutablePropertySources propertySources = environment.getPropertySources();
 
         assertThat(propertySources).hasSize(3);
-        assertPropertySourceBefore(propertySources, SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME,
+        assertPropertySourceBefore(
+                propertySources,
+                SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME,
                 BeforeConfig.class.getName() + "@" + ResourcePropertySource.class.getName());
         assertThat(environment.getProperty("a")).isEqualTo("1");
     }
@@ -85,7 +87,9 @@ class ResourcePropertySourceLoaderTests {
         MutablePropertySources propertySources = environment.getPropertySources();
 
         assertThat(propertySources).hasSize(3);
-        assertPropertySourceAfter(propertySources, SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME,
+        assertPropertySourceAfter(
+                propertySources,
+                SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME,
                 AfterConfig.class.getName() + "@" + ResourcePropertySource.class.getName());
         assertThat(environment.getProperty("a")).isEqualTo("1");
     }
@@ -95,14 +99,15 @@ class ResourcePropertySourceLoaderTests {
         ConfigurableEnvironment environment = start(IgnoreResourceNotFoundConfig.class);
 
         assertThat(environment.getPropertySources()).hasSize(2);
-        assertThat(environment.getPropertySources().get(SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)).isNotNull();
-        assertThat(environment.getPropertySources().get(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)).isNotNull();
+        assertThat(environment.getPropertySources().get(SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME))
+                .isNotNull();
+        assertThat(environment.getPropertySources().get(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME))
+                .isNotNull();
     }
 
     @Test
     void shouldFailWhenResourceMissing() {
-        assertThatThrownBy(() -> start(NotFoundConfig.class))
-                .isInstanceOf(BeanDefinitionStoreException.class);
+        assertThatThrownBy(() -> start(NotFoundConfig.class)).isInstanceOf(BeanDefinitionStoreException.class);
     }
 
     @Test
@@ -140,8 +145,8 @@ class ResourcePropertySourceLoaderTests {
         return last;
     }
 
-    private static void assertPropertySourceBefore(MutablePropertySources propertySources, String anchorName,
-            String expectedName) {
+    private static void assertPropertySourceBefore(
+            MutablePropertySources propertySources, String anchorName, String expectedName) {
         PropertySource<?> previous = null;
         for (PropertySource<?> propertySource : propertySources) {
             if (anchorName.equals(propertySource.getName())) {
@@ -154,8 +159,8 @@ class ResourcePropertySourceLoaderTests {
         throw new AssertionError("Anchor property source not found: " + anchorName);
     }
 
-    private static void assertPropertySourceAfter(MutablePropertySources propertySources, String anchorName,
-            String expectedName) {
+    private static void assertPropertySourceAfter(
+            MutablePropertySources propertySources, String anchorName, String expectedName) {
         boolean foundAnchor = false;
         for (PropertySource<?> propertySource : propertySources) {
             if (foundAnchor) {
@@ -171,57 +176,54 @@ class ResourcePropertySourceLoaderTests {
 
     @Configuration
     @ResourcePropertySource("classpath*:/META-INF/wildcard/*.properties")
-    static class WildcardConfig {
-    }
+    static class WildcardConfig {}
 
     @Configuration
     @ResourcePropertySource(value = {LOCATION_A, LOCATION_B})
-    static class DefaultConfig {
-    }
+    static class DefaultConfig {}
 
     @Configuration
-    @ResourcePropertySource(name = "test-property-source", value = {LOCATION_A, LOCATION_B})
-    static class NamedConfig {
-    }
+    @ResourcePropertySource(
+            name = "test-property-source",
+            value = {LOCATION_A, LOCATION_B})
+    static class NamedConfig {}
 
     @Configuration
-    @ResourcePropertySource(value = {LOCATION_A, LOCATION_B}, first = true)
-    static class FirstConfig {
-    }
+    @ResourcePropertySource(
+            value = {LOCATION_A, LOCATION_B},
+            first = true)
+    static class FirstConfig {}
 
     @Configuration
-    @ResourcePropertySource(value = {LOCATION_A, LOCATION_B}, before = SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)
-    static class BeforeConfig {
-    }
+    @ResourcePropertySource(
+            value = {LOCATION_A, LOCATION_B},
+            before = SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)
+    static class BeforeConfig {}
 
     @Configuration
-    @ResourcePropertySource(value = {LOCATION_A, LOCATION_B}, after = SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)
-    static class AfterConfig {
-    }
+    @ResourcePropertySource(
+            value = {LOCATION_A, LOCATION_B},
+            after = SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)
+    static class AfterConfig {}
 
     @Configuration
     @ResourcePropertySource(value = "classpath*:/not-found.properties", ignoreResourceNotFound = true)
-    static class IgnoreResourceNotFoundConfig {
-    }
+    static class IgnoreResourceNotFoundConfig {}
 
     @Configuration
     @ResourcePropertySource("classpath*:/not-found.properties")
-    static class NotFoundConfig {
-    }
+    static class NotFoundConfig {}
 
     @Configuration
     @YamlPropertySource("classpath:/META-INF/test/app.yml")
-    static class YamlConfig {
-    }
+    static class YamlConfig {}
 
     @Configuration
     @JsonPropertySource("classpath:/META-INF/test/app.json")
-    static class JsonConfig {
-    }
+    static class JsonConfig {}
 
     @Configuration
     @ResourcePropertySource("classpath:/META-INF/test/a.properties")
     @ResourcePropertySource(name = "repeatable", value = "classpath:/META-INF/test/repeatable.properties")
-    static class RepeatableConfig {
-    }
+    static class RepeatableConfig {}
 }

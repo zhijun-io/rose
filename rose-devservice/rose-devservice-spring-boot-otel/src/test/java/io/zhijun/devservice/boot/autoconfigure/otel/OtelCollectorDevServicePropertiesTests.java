@@ -1,11 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.otel;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OtelCollectorDevServiceProperties}.
@@ -37,5 +36,4 @@ class OtelCollectorDevServicePropertiesTests extends BaseDevServicePropertiesTes
         properties.setOtlpGrpcPort(OtelCollectorContainer.OTLP_GRPC_PORT);
         assertThat(properties.getOtlpGrpcPort()).isEqualTo(OtelCollectorContainer.OTLP_GRPC_PORT);
     }
-
 }

@@ -1,8 +1,8 @@
 package io.zhijun.multitenancy.core.exception;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link TenantNotFoundException}.
@@ -21,5 +21,4 @@ class TenantNotFoundExceptionTests {
         TenantNotFoundException exception = new TenantNotFoundException(message);
         assertThat(exception).hasMessageContaining(message);
     }
-
 }

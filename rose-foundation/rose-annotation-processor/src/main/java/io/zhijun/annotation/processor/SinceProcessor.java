@@ -35,10 +35,9 @@ public class SinceProcessor extends AbstractProcessor {
                 continue;
             }
             if (since.value() == null || since.value().trim().isEmpty()) {
-                processingEnv.getMessager().printMessage(
-                        Diagnostic.Kind.ERROR,
-                        "@Since.value() must not be blank",
-                        element);
+                processingEnv
+                        .getMessager()
+                        .printMessage(Diagnostic.Kind.ERROR, "@Since.value() must not be blank", element);
             }
         }
         return false;

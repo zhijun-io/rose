@@ -27,5 +27,4 @@ public final class OpenTelemetryTestBeans {
     OpenTelemetry openTelemetry() {
         return OpenTelemetry.noop();
     }
-
 }

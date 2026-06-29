@@ -30,12 +30,12 @@ public final class OpenTelemetryLoggingAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    SdkLoggerProvider loggerProvider(Clock clock,
-                                     LogLimits logLimits,
-                                     Resource resource,
-                                     ObjectProvider<LogRecordProcessor> logRecordProcessors,
-                                     ObjectProvider<OpenTelemetryLoggerProviderBuilderCustomizer> customizers
-    ) {
+    SdkLoggerProvider loggerProvider(
+            Clock clock,
+            LogLimits logLimits,
+            Resource resource,
+            ObjectProvider<LogRecordProcessor> logRecordProcessors,
+            ObjectProvider<OpenTelemetryLoggerProviderBuilderCustomizer> customizers) {
         SdkLoggerProviderBuilder loggerProviderBuilder = SdkLoggerProvider.builder()
                 .setClock(clock)
                 .setLogLimits(() -> logLimits)
@@ -57,19 +57,19 @@ public final class OpenTelemetryLoggingAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(LogRecordExporter.class)
-    BatchLogRecordProcessor logRecordProcessor(OpenTelemetryLoggingProperties properties,
-                                               ObjectProvider<LogRecordExporter> logRecordExporters,
-                                               ObjectProvider<MeterProvider> meterProvider) {
-        BatchLogRecordProcessorBuilder builder = BatchLogRecordProcessor.builder(
-                LogRecordExporter.composite(logRecordExporters.orderedStream().collect(Collectors.toList())))
-            .setExporterTimeout(properties.getProcessor().getExportTimeout())
-            .setScheduleDelay(properties.getProcessor().getScheduleDelay())
-            .setMaxExportBatchSize(properties.getProcessor().getMaxExportBatchSize())
-            .setMaxQueueSize(properties.getProcessor().getMaxQueueSize());
+    BatchLogRecordProcessor logRecordProcessor(
+            OpenTelemetryLoggingProperties properties,
+            ObjectProvider<LogRecordExporter> logRecordExporters,
+            ObjectProvider<MeterProvider> meterProvider) {
+        BatchLogRecordProcessorBuilder builder = BatchLogRecordProcessor.builder(LogRecordExporter.composite(
+                        logRecordExporters.orderedStream().collect(Collectors.toList())))
+                .setExporterTimeout(properties.getProcessor().getExportTimeout())
+                .setScheduleDelay(properties.getProcessor().getScheduleDelay())
+                .setMaxExportBatchSize(properties.getProcessor().getMaxExportBatchSize())
+                .setMaxQueueSize(properties.getProcessor().getMaxQueueSize());
         if (properties.getProcessor().isMetrics()) {
             meterProvider.ifAvailable(builder::setMeterProvider);
         }
         return builder.build();
     }
-
 }

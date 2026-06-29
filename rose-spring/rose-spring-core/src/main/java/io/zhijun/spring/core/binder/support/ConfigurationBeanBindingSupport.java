@@ -3,14 +3,14 @@ package io.zhijun.spring.core.binder.support;
 import java.util.Map;
 import java.util.Set;
 
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.env.PropertySourcesUtils;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
+
+import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
+import io.zhijun.spring.core.env.PropertySourcesUtils;
 
 /**
  * Shared rules for {@link EnableConfigurationBeanBinding} registration and env hot-reload.
@@ -30,8 +30,7 @@ public final class ConfigurationBeanBindingSupport {
     /** Annotation {@code multiple} flag stored at registration time. */
     public static final String CONFIGURATION_BINDING_MULTIPLE = "configurationBindingMultiple";
 
-    private ConfigurationBeanBindingSupport() {
-    }
+    private ConfigurationBeanBindingSupport() {}
 
     public static boolean isConfigurationBeanDefinition(BeanDefinition beanDefinition) {
         return beanDefinition != null && CONFIGURATION_BEAN_SOURCE.equals(beanDefinition.getSource());
@@ -57,20 +56,20 @@ public final class ConfigurationBeanBindingSupport {
      * When {@code multiple} is false, returns the full map; otherwise extracts the subtree for
      * {@code beanName} (first-level segment under the annotation prefix).
      */
-    public static Map<String, Object> resolveSubProperties(boolean multiple, String beanName,
-            Map<String, Object> configurationProperties, Environment environment) {
+    public static Map<String, Object> resolveSubProperties(
+            boolean multiple, String beanName, Map<String, Object> configurationProperties, Environment environment) {
         if (!multiple) {
             return configurationProperties;
         }
         MutablePropertySources propertySources = new MutablePropertySources();
         propertySources.addLast(new MapPropertySource("_", configurationProperties));
-        return PropertySourcesUtils.getSubProperties(propertySources, environment,
-                PropertySourcesUtils.normalizePrefix(beanName));
+        return PropertySourcesUtils.getSubProperties(
+                propertySources, environment, PropertySourcesUtils.normalizePrefix(beanName));
     }
 
     /** Reads current {@code prefix.*} from {@code environment} and applies {@link #resolveSubProperties}. */
-    public static Map<String, Object> resolveBindingProperties(ConfigurableEnvironment environment, String prefix,
-            boolean multiple, String beanName) {
+    public static Map<String, Object> resolveBindingProperties(
+            ConfigurableEnvironment environment, String prefix, boolean multiple, String beanName) {
         Map<String, Object> configurationProperties = PropertySourcesUtils.getSubProperties(environment, prefix);
         return resolveSubProperties(multiple, beanName, configurationProperties, environment);
     }

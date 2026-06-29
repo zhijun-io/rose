@@ -1,13 +1,13 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource.contributor;
 
+import static org.mockito.Mockito.verify;
+
 import io.opentelemetry.sdk.resources.ResourceBuilder;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link ProcessResourceContributor}.
@@ -28,12 +28,12 @@ class ProcessResourceContributorTests {
     }
 
     private static long currentPid() {
-        String jvmName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+        String jvmName =
+                java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
         try {
             return Long.parseLong(jvmName.split("@")[0]);
         } catch (Exception e) {
             return -1;
         }
     }
-
 }

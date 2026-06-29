@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import io.zhijun.multitenancy.spring.async.TaskExecutorDecoratorSupport;
 import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
@@ -15,8 +14,11 @@ import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
  * Auto-configuration for propagating multitenancy context to asynchronous executors.
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(prefix = MultitenancyAsyncProperties.CONFIG_PREFIX, name = "propagation-enabled",
-        havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(
+        prefix = MultitenancyAsyncProperties.CONFIG_PREFIX,
+        name = "propagation-enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 public final class MultitenancyAsyncConfiguration {
 
     @Bean
@@ -45,7 +47,5 @@ public final class MultitenancyAsyncConfiguration {
             }
             return bean;
         }
-
     }
-
 }

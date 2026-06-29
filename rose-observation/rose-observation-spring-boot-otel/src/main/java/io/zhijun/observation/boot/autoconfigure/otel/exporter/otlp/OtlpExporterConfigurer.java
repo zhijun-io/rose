@@ -18,20 +18,22 @@ public final class OtlpExporterConfigurer {
 
     private OtlpExporterConfigurer() {}
 
-    public static Duration timeout(OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
+    public static Duration timeout(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
         return signalProperties.getTimeout() != null
                 ? signalProperties.getTimeout()
                 : commonProperties.getOtlp().getTimeout();
     }
 
-    public static Duration connectTimeout(OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties) {
+    public static Duration connectTimeout(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
         return signalProperties.getConnectTimeout() != null
                 ? signalProperties.getConnectTimeout()
                 : commonProperties.getOtlp().getConnectTimeout();
     }
 
-    public static String compression(OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
+    public static String compression(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
         Compression compression = signalProperties.getCompression() != null
                 ? signalProperties.getCompression()
                 : commonProperties.getOtlp().getCompression();
@@ -42,27 +44,32 @@ public final class OtlpExporterConfigurer {
         return commonProperties.getMemoryMode();
     }
 
-    public static io.opentelemetry.sdk.common.export.RetryPolicy retryPolicy(OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties) {
+    public static io.opentelemetry.sdk.common.export.RetryPolicy retryPolicy(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
         return signalProperties.getRetry() != null
                 ? RetryConfig.buildRetryPolicy(signalProperties.getRetry())
                 : RetryConfig.buildRetryPolicy(commonProperties.getOtlp().getRetry());
     }
 
-    public static void applyHeaders(BiConsumer<String, String> headerConsumer, OpenTelemetryExporterProperties commonProperties,
+    public static void applyHeaders(
+            BiConsumer<String, String> headerConsumer,
+            OpenTelemetryExporterProperties commonProperties,
             OtlpExporterConfig signalProperties) {
         commonProperties.getOtlp().getHeaders().forEach(headerConsumer);
         signalProperties.getHeaders().forEach(headerConsumer);
     }
 
-    public static void configureExporterMetrics(ObjectProvider<MeterProvider> meterProvider,
-            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties,
+    public static void configureExporterMetrics(
+            ObjectProvider<MeterProvider> meterProvider,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties,
             java.util.function.Consumer<MeterProvider> meterProviderConsumer) {
-        boolean metricsEnabled = signalProperties.isMetrics() != null && Boolean.TRUE.equals(signalProperties.isMetrics())
-                || signalProperties.isMetrics() == null && commonProperties.getOtlp().isMetrics();
+        boolean metricsEnabled =
+                signalProperties.isMetrics() != null && Boolean.TRUE.equals(signalProperties.isMetrics())
+                        || signalProperties.isMetrics() == null
+                                && commonProperties.getOtlp().isMetrics();
         if (metricsEnabled) {
             meterProvider.ifAvailable(meterProviderConsumer);
         }
     }
-
 }

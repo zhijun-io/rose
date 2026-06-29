@@ -26,5 +26,4 @@ public enum AggregationTemporalityStrategy {
      * @see AggregationTemporalitySelector#lowMemory()
      */
     LOW_MEMORY
-
 }

@@ -1,5 +1,8 @@
 package io.zhijun.multitenancy.spring.web.filter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.io.IOException;
 import java.util.Collections;
 
@@ -15,15 +18,12 @@ import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import io.zhijun.multitenancy.core.detail.TenantVerifier;
+import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
-import io.zhijun.multitenancy.core.exception.TenantVerificationException;
-import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test for {@link TenantContextFilter}.
@@ -35,11 +35,11 @@ class TenantContextFilterTests {
         TenantContextIgnorePathMatcher noTenantPathMatcher = Mockito.mock(TenantContextIgnorePathMatcher.class);
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         assertThatThrownBy(() -> TenantContextFilter.builder()
-            .tenantContextIgnorePathMatcher(noTenantPathMatcher)
-            .eventPublisher(eventPublisher)
-            .build())
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("httpRequestTenantResolver cannot be null");
+                        .tenantContextIgnorePathMatcher(noTenantPathMatcher)
+                        .eventPublisher(eventPublisher)
+                        .build())
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("httpRequestTenantResolver cannot be null");
     }
 
     @Test
@@ -47,11 +47,11 @@ class TenantContextFilterTests {
         HttpRequestTenantResolver httpRequestTenantResolver = Mockito.mock(HttpRequestTenantResolver.class);
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         assertThatThrownBy(() -> TenantContextFilter.builder()
-            .httpRequestTenantResolver(httpRequestTenantResolver)
-            .eventPublisher(eventPublisher)
-            .build())
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("ignorePathMatcher cannot be null");
+                        .httpRequestTenantResolver(httpRequestTenantResolver)
+                        .eventPublisher(eventPublisher)
+                        .build())
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("ignorePathMatcher cannot be null");
     }
 
     @Test
@@ -59,11 +59,11 @@ class TenantContextFilterTests {
         HttpRequestTenantResolver httpRequestTenantResolver = Mockito.mock(HttpRequestTenantResolver.class);
         TenantContextIgnorePathMatcher noTenantPathMatcher = Mockito.mock(TenantContextIgnorePathMatcher.class);
         assertThatThrownBy(() -> TenantContextFilter.builder()
-            .httpRequestTenantResolver(httpRequestTenantResolver)
-            .tenantContextIgnorePathMatcher(noTenantPathMatcher)
-            .build())
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("eventPublisher cannot be null");
+                        .httpRequestTenantResolver(httpRequestTenantResolver)
+                        .tenantContextIgnorePathMatcher(noTenantPathMatcher)
+                        .build())
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("eventPublisher cannot be null");
     }
 
     @Test
@@ -75,10 +75,10 @@ class TenantContextFilterTests {
         MockFilterChain filterChain = new MockFilterChain();
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         TenantContextFilter filter = TenantContextFilter.builder()
-            .httpRequestTenantResolver(new HeaderTenantResolver())
-            .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
-            .eventPublisher(eventPublisher)
-            .build();
+                .httpRequestTenantResolver(new HeaderTenantResolver())
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .eventPublisher(eventPublisher)
+                .build();
 
         filter.doFilter(request, response, filterChain);
 
@@ -86,16 +86,16 @@ class TenantContextFilterTests {
         Mockito.verify(eventPublisher, Mockito.times(2)).publishEvent(eventCaptor.capture());
 
         assertThat(eventCaptor.getAllValues().get(0))
-            .isExactlyInstanceOf(TenantContextAttachedEvent.class)
-            .extracting(event -> (TenantContextAttachedEvent) event)
-            .matches(event -> event.getTenantIdentifier().equals(tenantIdentifier))
-            .matches(event -> event.getSource().equals(request));
+                .isExactlyInstanceOf(TenantContextAttachedEvent.class)
+                .extracting(event -> (TenantContextAttachedEvent) event)
+                .matches(event -> event.getTenantIdentifier().equals(tenantIdentifier))
+                .matches(event -> event.getSource().equals(request));
 
         assertThat(eventCaptor.getAllValues().get(1))
-            .isExactlyInstanceOf(TenantContextClosedEvent.class)
-            .extracting(event -> (TenantContextClosedEvent) event)
-            .matches(event -> event.getTenantIdentifier().equals(tenantIdentifier))
-            .matches(event -> event.getSource().equals(request));
+                .isExactlyInstanceOf(TenantContextClosedEvent.class)
+                .extracting(event -> (TenantContextClosedEvent) event)
+                .matches(event -> event.getTenantIdentifier().equals(tenantIdentifier))
+                .matches(event -> event.getSource().equals(request));
     }
 
     @Test
@@ -110,11 +110,11 @@ class TenantContextFilterTests {
             throw new TenantVerificationException("The resolved multitenancy is invalid or disabled");
         };
         TenantContextFilter filter = TenantContextFilter.builder()
-            .httpRequestTenantResolver(new HeaderTenantResolver())
-            .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
-            .eventPublisher(eventPublisher)
-            .tenantVerifier(tenantVerifier)
-            .build();
+                .httpRequestTenantResolver(new HeaderTenantResolver())
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .eventPublisher(eventPublisher)
+                .tenantVerifier(tenantVerifier)
+                .build();
 
         filter.doFilter(request, response, filterChain);
 
@@ -131,14 +131,14 @@ class TenantContextFilterTests {
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockFilterChain filterChain = new MockFilterChain();
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
-        TenantContextRequiredPathMatcher requiredPathMatcher = new TenantContextRequiredPathMatcher(
-                Collections.singleton("/secured/**"), Collections.emptySet());
+        TenantContextRequiredPathMatcher requiredPathMatcher =
+                new TenantContextRequiredPathMatcher(Collections.singleton("/secured/**"), Collections.emptySet());
         TenantContextFilter filter = TenantContextFilter.builder()
-            .httpRequestTenantResolver(new HeaderTenantResolver())
-            .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
-            .tenantContextRequiredPathMatcher(requiredPathMatcher)
-            .eventPublisher(eventPublisher)
-            .build();
+                .httpRequestTenantResolver(new HeaderTenantResolver())
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .tenantContextRequiredPathMatcher(requiredPathMatcher)
+                .eventPublisher(eventPublisher)
+                .build();
 
         filter.doFilter(request, response, filterChain);
 
@@ -153,10 +153,10 @@ class TenantContextFilterTests {
         MockFilterChain filterChain = new MockFilterChain();
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         TenantContextFilter filter = TenantContextFilter.builder()
-            .httpRequestTenantResolver(new HeaderTenantResolver())
-            .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
-            .eventPublisher(eventPublisher)
-            .build();
+                .httpRequestTenantResolver(new HeaderTenantResolver())
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .eventPublisher(eventPublisher)
+                .build();
 
         filter.doFilter(request, response, filterChain);
 
@@ -175,14 +175,13 @@ class TenantContextFilterTests {
         MockFilterChain filterChain = new MockFilterChain();
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         TenantContextFilter filter = TenantContextFilter.builder()
-            .httpRequestTenantResolver(new HeaderTenantResolver())
-            .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.singleton(path)))
-            .eventPublisher(eventPublisher)
-            .build();
+                .httpRequestTenantResolver(new HeaderTenantResolver())
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.singleton(path)))
+                .eventPublisher(eventPublisher)
+                .build();
 
         filter.doFilter(request, response, filterChain);
 
         Mockito.verify(eventPublisher, Mockito.times(0)).publishEvent(Mockito.any(ApplicationEvent.class));
     }
-
 }

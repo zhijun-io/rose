@@ -34,5 +34,4 @@ public final class TenantContextTaskDecorator implements TaskDecorator {
             }
         }
     }
-
 }

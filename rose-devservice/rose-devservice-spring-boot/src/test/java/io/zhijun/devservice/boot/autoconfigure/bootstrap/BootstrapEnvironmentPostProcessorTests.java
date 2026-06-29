@@ -1,6 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapEnvironmentPostProcessor;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -13,10 +15,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.mock.env.MockEnvironment;
 
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
 
 /**
  * Unit test for {@link BootstrapEnvironmentPostProcessor}.
@@ -129,8 +127,7 @@ class BootstrapEnvironmentPostProcessorTests {
                     processor.postProcessEnvironment(context.getEnvironment(), application);
                 })
                 .run(context -> {
-                    assertThat(context.getEnvironment().getActiveProfiles())
-                            .contains("dev1", "dev2", "dev3");
+                    assertThat(context.getEnvironment().getActiveProfiles()).contains("dev1", "dev2", "dev3");
                 });
     }
 
@@ -225,8 +222,7 @@ class BootstrapEnvironmentPostProcessorTests {
                     processor.postProcessEnvironment(context.getEnvironment(), application);
                 })
                 .run(context -> {
-                    assertThat(context.getEnvironment().getActiveProfiles())
-                            .contains("test1", "test2", "test3");
+                    assertThat(context.getEnvironment().getActiveProfiles()).contains("test1", "test2", "test3");
                 });
     }
 
@@ -247,7 +243,5 @@ class BootstrapEnvironmentPostProcessorTests {
     }
 
     @Configuration
-    static class TestConfig {
-    }
-
+    static class TestConfig {}
 }

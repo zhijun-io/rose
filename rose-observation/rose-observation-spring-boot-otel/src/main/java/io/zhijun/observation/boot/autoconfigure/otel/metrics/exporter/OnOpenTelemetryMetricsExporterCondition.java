@@ -14,9 +14,10 @@ class OnOpenTelemetryMetricsExporterCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        return OpenTelemetryExporterConditionSupport.evaluate(context, metadata,
+        return OpenTelemetryExporterConditionSupport.evaluate(
+                context,
+                metadata,
                 ConditionalOnOpenTelemetryMetricsExporter.class,
                 OpenTelemetryMetricsExporterProperties.TYPE_PROPERTY);
     }
-
 }

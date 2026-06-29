@@ -1,10 +1,8 @@
 package io.zhijun.devservice.core.bootstrap;
 
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link BootstrapMode}.
@@ -30,5 +28,4 @@ class BootstrapModeTests {
         assertThat(BootstrapMode.isValid("")).isFalse();
         assertThat(BootstrapMode.isValid(null)).isFalse();
     }
-
 }

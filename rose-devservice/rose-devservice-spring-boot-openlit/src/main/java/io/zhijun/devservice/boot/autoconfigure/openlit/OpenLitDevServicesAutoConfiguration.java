@@ -31,9 +31,11 @@ public final class OpenLitDevServicesAutoConfiguration {
                     .containerClass(OpenLitContainer.class)
                     .containerFactory(OpenLitContainer::new)
                     .dynamicProperties(registrar -> {
-                        registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT",
+                        registrar.addDynamicProperty(
+                                "OTEL_EXPORTER_OTLP_ENDPOINT",
                                 () -> registrar.requireRunningContainer().getOtlpHttpUrl());
-                        registrar.addDynamicProperty(OpenLitDevServiceProperties.UI_URL_PROPERTY,
+                        registrar.addDynamicProperty(
+                                OpenLitDevServiceProperties.UI_URL_PROPERTY,
                                 () -> registrar.requireRunningContainer().getOpenLitUrl());
                     })
                     .build();

@@ -37,5 +37,4 @@ public class FixedTenantResolutionProperties {
     public void setTenantIdentifier(String tenantIdentifier) {
         this.tenantIdentifier = tenantIdentifier;
     }
-
 }

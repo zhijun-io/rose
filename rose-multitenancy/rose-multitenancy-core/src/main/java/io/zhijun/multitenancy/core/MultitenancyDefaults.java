@@ -14,7 +14,5 @@ public final class MultitenancyDefaults {
 
     public static final String DEFAULT_MDC_TENANT_KEY = "tenantId";
 
-    private MultitenancyDefaults() {
-    }
-
+    private MultitenancyDefaults() {}
 }

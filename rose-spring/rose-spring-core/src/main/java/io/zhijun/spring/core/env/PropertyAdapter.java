@@ -63,8 +63,8 @@ public class PropertyAdapter {
             return this;
         }
 
-        public <T> Builder mapEnum(String externalKey, String roseKey,
-                Function<String, Function<String, T>> converterFactory) {
+        public <T> Builder mapEnum(
+                String externalKey, String roseKey, Function<String, Function<String, T>> converterFactory) {
             Assert.notNull(converterFactory, "converterFactory cannot be null");
             return mapProperty(externalKey, roseKey, converterFactory.apply(externalKey));
         }
@@ -82,8 +82,7 @@ public class PropertyAdapter {
             return mapProperty(externalKey, roseKey, value -> {
                 try {
                     return Integer.parseInt(value);
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     logUnsupportedValue(externalKey, value);
                     return null;
                 }
@@ -94,8 +93,7 @@ public class PropertyAdapter {
             return mapProperty(externalKey, roseKey, value -> {
                 try {
                     return Double.parseDouble(value);
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     logUnsupportedValue(externalKey, value);
                     return null;
                 }
@@ -124,8 +122,7 @@ public class PropertyAdapter {
                         return null;
                     }
                     return Duration.ofMillis(Long.parseLong(value));
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     logUnsupportedValue(externalKey, value);
                     return null;
                 }
@@ -149,18 +146,17 @@ public class PropertyAdapter {
             return mapMap(externalKey, roseKey, null);
         }
 
-        public Builder mapMap(String externalKey, String roseKey,
-                Function<Map<String, String>, Map<String, String>> postProcessor) {
+        public Builder mapMap(
+                String externalKey, String roseKey, Function<Map<String, String>, Map<String, String>> postProcessor) {
             return mapProperty(externalKey, roseKey, value -> {
                 Map<String, String> propertyMap = new HashMap<String, String>();
                 String[] keyValuePairs = StringUtils.tokenizeToStringArray(value, ",");
                 for (String pair : keyValuePairs) {
                     String[] entry = pair.split("=", 2);
                     if (entry.length == 2 && StringUtils.hasText(entry[0]) && StringUtils.hasText(entry[1])) {
-                        propertyMap.put(entry[0].trim(),
-                                StringUtils.uriDecode(entry[1].trim(), StandardCharsets.UTF_8));
-                    }
-                    else {
+                        propertyMap.put(
+                                entry[0].trim(), StringUtils.uriDecode(entry[1].trim(), StandardCharsets.UTF_8));
+                    } else {
                         logger.warn("Invalid key-value pair in {}: {}", externalKey, pair);
                     }
                 }

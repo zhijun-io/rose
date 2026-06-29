@@ -9,7 +9,5 @@ public final class MybatisPlusProperties {
 
     public static final String ENABLED_PROPERTY = CONFIG_PREFIX + ".enabled";
 
-    private MybatisPlusProperties() {
-    }
-
+    private MybatisPlusProperties() {}
 }

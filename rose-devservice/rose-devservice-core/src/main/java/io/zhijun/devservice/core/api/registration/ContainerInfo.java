@@ -69,9 +69,9 @@ public final class ContainerInfo {
         return status;
     }
 
-  /**
-   * Holds information about a container port.
-   */
+    /**
+     * Holds information about a container port.
+     */
     public static final class ContainerPort {
 
         private final String ip;
@@ -82,11 +82,7 @@ public final class ContainerInfo {
 
         private final String type;
 
-        public ContainerPort(
-                String ip,
-                Integer privatePort,
-                Integer publicPort,
-                String type) {
+        public ContainerPort(String ip, Integer privatePort, Integer publicPort, String type) {
             this.ip = ip;
             this.privatePort = privatePort;
             this.publicPort = publicPort;

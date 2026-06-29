@@ -1,6 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.postgresql;
 
-import io.zhijun.devservice.test.BaseJdbcDevServiceAutoConfigurationIT;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_DB_NAME;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_PASSWORD;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_USERNAME;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.devtools.restart.RestartScope;
@@ -9,10 +13,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_DB_NAME;
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_PASSWORD;
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_USERNAME;
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.devservice.test.BaseJdbcDevServiceAutoConfigurationIT;
 
 /**
  * Integration test for {@link PostgresqlDevServicesAutoConfiguration}.
@@ -20,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PostgresqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConfigurationIT {
 
     private final ApplicationContextRunner contextRunner = defaultContextRunner(
-            PostgresqlDevServicesAutoConfiguration.class)
+                    PostgresqlDevServicesAutoConfiguration.class)
             .withClassLoader(new FilteredClassLoader(RestartScope.class));
 
     @Override
@@ -64,23 +65,28 @@ class PostgresqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConf
 
     @Test
     void containerConfigurationApplied() {
-        String[] properties = ArrayUtils.addAll(
-                commonConfigurationProperties(), commonJdbcConfigurationProperties());
+        String[] properties = ArrayUtils.addAll(commonConfigurationProperties(), commonJdbcConfigurationProperties());
 
-        getContextRunner()
-                .withPropertyValues(properties)
-                .run(context -> {
-                    JdbcDatabaseContainer container = context.getBean(getJdbcContainerClass());
-                    container.start();
-                    assertThatConfigurationIsApplied((org.testcontainers.containers.GenericContainer<?>) container);
-                    assertThatJdbcConfigurationIsApplied(container);
-                    assertThat(((PostgreSQLContainer) container).execInContainer(
-                            "psql", "-U", "mytest", "-d", "mytest", "-t", "-A", "-c",
-                            "SELECT EXISTS (SELECT FROM pg_tables WHERE tablename = 'book')::text")
+        getContextRunner().withPropertyValues(properties).run(context -> {
+            JdbcDatabaseContainer container = context.getBean(getJdbcContainerClass());
+            container.start();
+            assertThatConfigurationIsApplied((org.testcontainers.containers.GenericContainer<?>) container);
+            assertThatJdbcConfigurationIsApplied(container);
+            assertThat(((PostgreSQLContainer) container)
+                            .execInContainer(
+                                    "psql",
+                                    "-U",
+                                    "mytest",
+                                    "-d",
+                                    "mytest",
+                                    "-t",
+                                    "-A",
+                                    "-c",
+                                    "SELECT EXISTS (SELECT FROM pg_tables WHERE tablename = 'book')::text")
                             .getStdout())
-                            .contains("true");
-                    container.stop();
-                });
+                    .contains("true");
+            container.stop();
+        });
     }
 
     @Test

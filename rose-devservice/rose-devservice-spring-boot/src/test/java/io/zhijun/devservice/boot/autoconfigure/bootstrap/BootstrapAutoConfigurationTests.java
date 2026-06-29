@@ -1,7 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapAutoConfiguration;
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapProperties;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -10,15 +9,13 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import io.zhijun.devservice.boot.autoconfigure.bootstrap.dev.BootstrapDevProperties;
 import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestProperties;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Unit test for {@link BootstrapAutoConfiguration}.
  */
 class BootstrapAutoConfigurationTests {
 
-    private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(BootstrapAutoConfiguration.class));
+    private final ApplicationContextRunner contextRunner =
+            new ApplicationContextRunner().withConfiguration(AutoConfigurations.of(BootstrapAutoConfiguration.class));
 
     @Test
     void registersBootstrapPropertiesBeans() {
@@ -28,5 +25,4 @@ class BootstrapAutoConfigurationTests {
             assertThat(context).hasSingleBean(BootstrapTestProperties.class);
         });
     }
-
 }

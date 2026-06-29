@@ -56,10 +56,12 @@ public class DevServiceRegistry {
      * Convenience overload that avoids nested anonymous {@link Consumer}/{@link Supplier} classes
      * for the common case of registering a named service with a single container.
      */
-    public void registerDevService(String name, String description,
-            Class<? extends Container<?>> type, Supplier<? extends Container<?>> supplier) {
-        registerDevService(service -> service
-                .name(name)
+    public void registerDevService(
+            String name,
+            String description,
+            Class<? extends Container<?>> type,
+            Supplier<? extends Container<?>> supplier) {
+        registerDevService(service -> service.name(name)
                 .description(description)
                 .container(container -> container.type(type).supplier(supplier)));
     }
@@ -81,8 +83,7 @@ public class DevServiceRegistry {
         if (beanDefinitionRegistry.containsBeanDefinition(descriptionBeanName)) {
             throw new IllegalStateException("Dev service registration already registered: " + service.getName());
         }
-        RootBeanDefinition descriptionBeanDefinition =
-                createDescriptionBeanDefinition(service, containerBeanName);
+        RootBeanDefinition descriptionBeanDefinition = createDescriptionBeanDefinition(service, containerBeanName);
         beanDefinitionRegistry.registerBeanDefinition(descriptionBeanName, descriptionBeanDefinition);
     }
 
@@ -128,7 +129,8 @@ public class DevServiceRegistry {
     static ContainerInfo extractContainerInfoById(String containerId) {
         try {
             DockerClient dockerClient = DockerClientFactory.lazyClient();
-            com.github.dockerjava.api.model.Container dockerContainer = dockerClient.listContainersCmd()
+            com.github.dockerjava.api.model.Container dockerContainer = dockerClient
+                    .listContainersCmd()
                     .withIdFilter(Collections.singleton(containerId))
                     .withShowAll(true)
                     .exec()
@@ -145,24 +147,15 @@ public class DevServiceRegistry {
             if (dockerContainer.getPorts() != null) {
                 for (com.github.dockerjava.api.model.ContainerPort port : dockerContainer.getPorts()) {
                     exposedPorts.add(new ContainerInfo.ContainerPort(
-                            port.getIp(),
-                            port.getPrivatePort(),
-                            port.getPublicPort(),
-                            port.getType()));
+                            port.getIp(), port.getPrivatePort(), port.getPublicPort(), port.getType()));
                 }
             }
 
-            Map<String, String> labels = dockerContainer.getLabels() != null
-                    ? dockerContainer.getLabels()
-                    : new HashMap<String, String>();
+            Map<String, String> labels =
+                    dockerContainer.getLabels() != null ? dockerContainer.getLabels() : new HashMap<String, String>();
 
             return new ContainerInfo(
-                    containerId,
-                    dockerContainer.getImage(),
-                    names,
-                    exposedPorts,
-                    labels,
-                    dockerContainer.getStatus());
+                    containerId, dockerContainer.getImage(), names, exposedPorts, labels, dockerContainer.getStatus());
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to extract container information for ID: " + containerId, ex);
         }
@@ -174,8 +167,7 @@ public class DevServiceRegistry {
         private String description;
         private ContainerSpec containerSpec;
 
-        private ServiceSpec() {
-        }
+        private ServiceSpec() {}
 
         public ServiceSpec name(String name) {
             this.name = name;
@@ -212,8 +204,7 @@ public class DevServiceRegistry {
         private Class<? extends Container<?>> type;
         private Supplier<? extends Container<?>> supplier;
 
-        private ContainerSpec() {
-        }
+        private ContainerSpec() {}
 
         public ContainerSpec type(Class<? extends Container<?>> type) {
             this.type = type;

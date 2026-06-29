@@ -71,9 +71,8 @@ public class DefaultFieldEncryptor implements FieldEncryptor {
             RANDOM.nextBytes(iv);
 
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-            cipher.init(Cipher.ENCRYPT_MODE,
-                    new SecretKeySpec(keyBytes, "AES"),
-                    new GCMParameterSpec(GCM_TAG_LENGTH, iv));
+            cipher.init(
+                    Cipher.ENCRYPT_MODE, new SecretKeySpec(keyBytes, "AES"), new GCMParameterSpec(GCM_TAG_LENGTH, iv));
 
             byte[] ciphertext = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
 
@@ -96,9 +95,8 @@ public class DefaultFieldEncryptor implements FieldEncryptor {
             byte[] keyBytes = deriveKey(secret);
 
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-            cipher.init(Cipher.DECRYPT_MODE,
-                    new SecretKeySpec(keyBytes, "AES"),
-                    new GCMParameterSpec(GCM_TAG_LENGTH, iv));
+            cipher.init(
+                    Cipher.DECRYPT_MODE, new SecretKeySpec(keyBytes, "AES"), new GCMParameterSpec(GCM_TAG_LENGTH, iv));
 
             return new String(cipher.doFinal(ciphertext), StandardCharsets.UTF_8);
         } catch (Exception ex) {
@@ -118,8 +116,7 @@ public class DefaultFieldEncryptor implements FieldEncryptor {
 
     private static String requireSecret(EncryptAlgorithm algorithm, String secret) {
         if (StringUtils.isBlank(secret)) {
-            throw new IllegalArgumentException(
-                    "A non-empty secret is required for " + algorithm + " encryption");
+            throw new IllegalArgumentException("A non-empty secret is required for " + algorithm + " encryption");
         }
         return secret;
     }

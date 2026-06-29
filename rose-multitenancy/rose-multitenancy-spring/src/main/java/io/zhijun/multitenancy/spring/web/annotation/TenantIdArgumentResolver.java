@@ -1,7 +1,7 @@
 package io.zhijun.multitenancy.spring.web.annotation;
 
-import org.springframework.lang.Nullable;
 import org.springframework.core.MethodParameter;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -37,9 +37,11 @@ public final class TenantIdArgumentResolver implements HandlerMethodArgumentReso
 
     @Nullable
     @Override
-    public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(
+            MethodParameter parameter,
+            @Nullable ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest,
+            @Nullable WebDataBinderFactory binderFactory) {
         return TenantContext.getTenantId();
     }
-
 }

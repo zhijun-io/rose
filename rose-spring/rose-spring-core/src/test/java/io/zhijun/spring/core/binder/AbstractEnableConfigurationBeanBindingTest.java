@@ -22,8 +22,10 @@ abstract class AbstractEnableConfigurationBeanBindingTest {
             @Override
             protected void customizePropertySources(MutablePropertySources propertySources) {
                 try {
-                    propertySources.addFirst(new ResourcePropertySource("temp",
-                            new DefaultResourceLoader().getResource("classpath:/enable-configuration-bean-binding.properties")));
+                    propertySources.addFirst(new ResourcePropertySource(
+                            "temp",
+                            new DefaultResourceLoader()
+                                    .getResource("classpath:/enable-configuration-bean-binding.properties")));
                 } catch (IOException ex) {
                     throw new IllegalStateException(ex);
                 }

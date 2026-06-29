@@ -6,10 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
-import io.zhijun.spring.core.env.listener.ProfileListener;
-import io.zhijun.spring.core.env.listener.PropertyResolverListener;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -18,6 +14,9 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.Profiles;
 import org.springframework.lang.Nullable;
 
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
+import io.zhijun.spring.core.env.listener.ProfileListener;
+import io.zhijun.spring.core.env.listener.PropertyResolverListener;
 import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 
 /**
@@ -38,39 +37,51 @@ public class ListenableConfigurableEnvironment implements ConfigurableEnvironmen
 
     private final MutablePropertySources propertySources;
 
-    public ListenableConfigurableEnvironment(ConfigurableEnvironment delegate, ApplicationContext applicationContext,
+    public ListenableConfigurableEnvironment(
+            ConfigurableEnvironment delegate,
+            ApplicationContext applicationContext,
             List<EnvironmentListener> listeners) {
         this.delegate = delegate;
-        this.environmentListeners = listeners == null ? Collections.emptyList() : new ArrayList<EnvironmentListener>(listeners);
+        this.environmentListeners =
+                listeners == null ? Collections.emptyList() : new ArrayList<EnvironmentListener>(listeners);
         this.profileListeners = loadProfileListeners(applicationContext, this.environmentListeners);
         this.propertyResolverListeners = loadPropertyResolverListeners(applicationContext, this.environmentListeners);
-        this.propertySources = new ListenableMutablePropertySources(delegate.getPropertySources(), applicationContext,
-                this.environmentListeners);
+        this.propertySources = new ListenableMutablePropertySources(
+                delegate.getPropertySources(), applicationContext, this.environmentListeners);
     }
 
     public ListenableConfigurableEnvironment(ConfigurableEnvironment delegate, ApplicationContext applicationContext) {
-        this(delegate, applicationContext, SpringFactoriesLoaderUtils.loadFactories(EnvironmentListener.class,
-                applicationContext == null ? null : applicationContext.getClassLoader()));
+        this(
+                delegate,
+                applicationContext,
+                SpringFactoriesLoaderUtils.loadFactories(
+                        EnvironmentListener.class,
+                        applicationContext == null ? null : applicationContext.getClassLoader()));
     }
 
-    private List<ProfileListener> loadProfileListeners(ApplicationContext applicationContext,
-            List<EnvironmentListener> environmentListeners) {
+    private List<ProfileListener> loadProfileListeners(
+            ApplicationContext applicationContext, List<EnvironmentListener> environmentListeners) {
         List<ProfileListener> profileListeners = new ArrayList<ProfileListener>(environmentListeners);
-        profileListeners.addAll(SpringFactoriesLoaderUtils.loadFactories(ProfileListener.class,
-                applicationContext == null ? null : applicationContext.getClassLoader()));
+        profileListeners.addAll(SpringFactoriesLoaderUtils.loadFactories(
+                ProfileListener.class, applicationContext == null ? null : applicationContext.getClassLoader()));
         if (profileListeners.size() > 1) {
-            Collections.sort(profileListeners, org.springframework.core.annotation.AnnotationAwareOrderComparator.INSTANCE);
+            Collections.sort(
+                    profileListeners, org.springframework.core.annotation.AnnotationAwareOrderComparator.INSTANCE);
         }
         return profileListeners;
     }
 
-    private List<PropertyResolverListener> loadPropertyResolverListeners(ApplicationContext applicationContext,
-            List<EnvironmentListener> environmentListeners) {
-        List<PropertyResolverListener> propertyResolverListeners = new ArrayList<PropertyResolverListener>(environmentListeners);
-        propertyResolverListeners.addAll(SpringFactoriesLoaderUtils.loadFactories(PropertyResolverListener.class,
+    private List<PropertyResolverListener> loadPropertyResolverListeners(
+            ApplicationContext applicationContext, List<EnvironmentListener> environmentListeners) {
+        List<PropertyResolverListener> propertyResolverListeners =
+                new ArrayList<PropertyResolverListener>(environmentListeners);
+        propertyResolverListeners.addAll(SpringFactoriesLoaderUtils.loadFactories(
+                PropertyResolverListener.class,
                 applicationContext == null ? null : applicationContext.getClassLoader()));
         if (propertyResolverListeners.size() > 1) {
-            Collections.sort(propertyResolverListeners, org.springframework.core.annotation.AnnotationAwareOrderComparator.INSTANCE);
+            Collections.sort(
+                    propertyResolverListeners,
+                    org.springframework.core.annotation.AnnotationAwareOrderComparator.INSTANCE);
         }
         return propertyResolverListeners;
     }
@@ -148,6 +159,7 @@ public class ListenableConfigurableEnvironment implements ConfigurableEnvironmen
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean acceptsProfiles(String... profiles) {
         return delegate.acceptsProfiles(profiles);
     }
@@ -166,15 +178,18 @@ public class ListenableConfigurableEnvironment implements ConfigurableEnvironmen
     public String getProperty(String key) {
         forEachPropertyResolverListener(listener -> listener.beforeGetProperty(delegate, key, String.class, null));
         String value = delegate.getProperty(key);
-        forEachPropertyResolverListener(listener -> listener.afterGetProperty(delegate, key, String.class, value, null));
+        forEachPropertyResolverListener(
+                listener -> listener.afterGetProperty(delegate, key, String.class, value, null));
         return value;
     }
 
     @Override
     public String getProperty(String key, String defaultValue) {
-        forEachPropertyResolverListener(listener -> listener.beforeGetProperty(delegate, key, String.class, defaultValue));
+        forEachPropertyResolverListener(
+                listener -> listener.beforeGetProperty(delegate, key, String.class, defaultValue));
         String value = delegate.getProperty(key, defaultValue);
-        forEachPropertyResolverListener(listener -> listener.afterGetProperty(delegate, key, String.class, value, defaultValue));
+        forEachPropertyResolverListener(
+                listener -> listener.afterGetProperty(delegate, key, String.class, value, defaultValue));
         return value;
     }
 
@@ -188,9 +203,11 @@ public class ListenableConfigurableEnvironment implements ConfigurableEnvironmen
 
     @Override
     public <T> T getProperty(String key, Class<T> targetType, T defaultValue) {
-        forEachPropertyResolverListener(listener -> listener.beforeGetProperty(delegate, key, targetType, defaultValue));
+        forEachPropertyResolverListener(
+                listener -> listener.beforeGetProperty(delegate, key, targetType, defaultValue));
         T value = delegate.getProperty(key, targetType, defaultValue);
-        forEachPropertyResolverListener(listener -> listener.afterGetProperty(delegate, key, targetType, value, defaultValue));
+        forEachPropertyResolverListener(
+                listener -> listener.afterGetProperty(delegate, key, targetType, value, defaultValue));
         return value;
     }
 
@@ -198,7 +215,8 @@ public class ListenableConfigurableEnvironment implements ConfigurableEnvironmen
     public String getRequiredProperty(String key) {
         forEachPropertyResolverListener(listener -> listener.beforeGetRequiredProperty(delegate, key, String.class));
         String value = delegate.getRequiredProperty(key);
-        forEachPropertyResolverListener(listener -> listener.afterGetRequiredProperty(delegate, key, String.class, value));
+        forEachPropertyResolverListener(
+                listener -> listener.afterGetRequiredProperty(delegate, key, String.class, value));
         return value;
     }
 
@@ -206,7 +224,8 @@ public class ListenableConfigurableEnvironment implements ConfigurableEnvironmen
     public <T> T getRequiredProperty(String key, Class<T> targetType) {
         forEachPropertyResolverListener(listener -> listener.beforeGetRequiredProperty(delegate, key, targetType));
         T value = delegate.getRequiredProperty(key, targetType);
-        forEachPropertyResolverListener(listener -> listener.afterGetRequiredProperty(delegate, key, targetType, value));
+        forEachPropertyResolverListener(
+                listener -> listener.afterGetRequiredProperty(delegate, key, targetType, value));
         return value;
     }
 
@@ -264,11 +283,11 @@ public class ListenableConfigurableEnvironment implements ConfigurableEnvironmen
 
     @Override
     public void setIgnoreUnresolvableNestedPlaceholders(boolean ignoreUnresolvableNestedPlaceholders) {
-        forEachPropertyResolverListener(listener -> listener.beforeSetIgnoreUnresolvableNestedPlaceholders(delegate,
-                ignoreUnresolvableNestedPlaceholders));
+        forEachPropertyResolverListener(listener ->
+                listener.beforeSetIgnoreUnresolvableNestedPlaceholders(delegate, ignoreUnresolvableNestedPlaceholders));
         delegate.setIgnoreUnresolvableNestedPlaceholders(ignoreUnresolvableNestedPlaceholders);
-        forEachPropertyResolverListener(listener -> listener.afterSetIgnoreUnresolvableNestedPlaceholders(delegate,
-                ignoreUnresolvableNestedPlaceholders));
+        forEachPropertyResolverListener(listener ->
+                listener.afterSetIgnoreUnresolvableNestedPlaceholders(delegate, ignoreUnresolvableNestedPlaceholders));
     }
 
     @Override

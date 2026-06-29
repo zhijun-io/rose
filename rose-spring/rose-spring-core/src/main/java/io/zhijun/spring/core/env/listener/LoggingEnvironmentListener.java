@@ -35,7 +35,8 @@ public class LoggingEnvironmentListener implements EnvironmentListener {
     }
 
     @Override
-    public void afterGetSystemProperties(ConfigurableEnvironment environment, java.util.Map<String, Object> systemProperties) {
+    public void afterGetSystemProperties(
+            ConfigurableEnvironment environment, java.util.Map<String, Object> systemProperties) {
         log("afterGetSystemProperties()");
     }
 
@@ -45,7 +46,8 @@ public class LoggingEnvironmentListener implements EnvironmentListener {
     }
 
     @Override
-    public void afterGetSystemEnvironment(ConfigurableEnvironment environment, java.util.Map<String, Object> systemEnvironmentVariables) {
+    public void afterGetSystemEnvironment(
+            ConfigurableEnvironment environment, java.util.Map<String, Object> systemEnvironmentVariables) {
         log("afterGetSystemEnvironment()");
     }
 
@@ -110,22 +112,30 @@ public class LoggingEnvironmentListener implements EnvironmentListener {
     }
 
     @Override
-    public void beforeGetProperty(ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType, Object defaultValue) {
+    public void beforeGetProperty(
+            ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType, Object defaultValue) {
         log("beforeGetProperty()");
     }
 
     @Override
-    public void afterGetProperty(ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType, Object value, Object defaultValue) {
+    public void afterGetProperty(
+            ConfigurablePropertyResolver propertyResolver,
+            String name,
+            Class<?> targetType,
+            Object value,
+            Object defaultValue) {
         log("afterGetProperty()");
     }
 
     @Override
-    public void beforeGetRequiredProperty(ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType) {
+    public void beforeGetRequiredProperty(
+            ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType) {
         log("beforeGetRequiredProperty()");
     }
 
     @Override
-    public void afterGetRequiredProperty(ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType, Object value) {
+    public void afterGetRequiredProperty(
+            ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType, Object value) {
         log("afterGetRequiredProperty()");
     }
 
@@ -145,7 +155,8 @@ public class LoggingEnvironmentListener implements EnvironmentListener {
     }
 
     @Override
-    public void afterResolveRequiredPlaceholders(ConfigurablePropertyResolver propertyResolver, String text, String result) {
+    public void afterResolveRequiredPlaceholders(
+            ConfigurablePropertyResolver propertyResolver, String text, String result) {
         log("afterResolveRequiredPlaceholders()");
     }
 
@@ -175,17 +186,20 @@ public class LoggingEnvironmentListener implements EnvironmentListener {
     }
 
     @Override
-    public void afterGetConversionService(ConfigurablePropertyResolver propertyResolver, ConfigurableConversionService conversionService) {
+    public void afterGetConversionService(
+            ConfigurablePropertyResolver propertyResolver, ConfigurableConversionService conversionService) {
         log("afterGetConversionService()");
     }
 
     @Override
-    public void beforeSetConversionService(ConfigurablePropertyResolver propertyResolver, ConfigurableConversionService conversionService) {
+    public void beforeSetConversionService(
+            ConfigurablePropertyResolver propertyResolver, ConfigurableConversionService conversionService) {
         log("beforeSetConversionService()");
     }
 
     @Override
-    public void afterSetConversionService(ConfigurablePropertyResolver propertyResolver, ConfigurableConversionService conversionService) {
+    public void afterSetConversionService(
+            ConfigurablePropertyResolver propertyResolver, ConfigurableConversionService conversionService) {
         log("afterSetConversionService()");
     }
 
@@ -210,12 +224,14 @@ public class LoggingEnvironmentListener implements EnvironmentListener {
     }
 
     @Override
-    public void beforeSetIgnoreUnresolvableNestedPlaceholders(ConfigurablePropertyResolver propertyResolver, boolean ignoreUnresolvableNestedPlaceholders) {
+    public void beforeSetIgnoreUnresolvableNestedPlaceholders(
+            ConfigurablePropertyResolver propertyResolver, boolean ignoreUnresolvableNestedPlaceholders) {
         log("beforeSetIgnoreUnresolvableNestedPlaceholders()");
     }
 
     @Override
-    public void afterSetIgnoreUnresolvableNestedPlaceholders(ConfigurablePropertyResolver propertyResolver, boolean ignoreUnresolvableNestedPlaceholders) {
+    public void afterSetIgnoreUnresolvableNestedPlaceholders(
+            ConfigurablePropertyResolver propertyResolver, boolean ignoreUnresolvableNestedPlaceholders) {
         log("afterSetIgnoreUnresolvableNestedPlaceholders()");
     }
 

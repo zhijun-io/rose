@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Import;
 
 import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
-
 import io.zhijun.multitenancy.spring.web.filter.TenantContextFilter;
 
 /**
@@ -15,5 +14,5 @@ import io.zhijun.multitenancy.spring.web.filter.TenantContextFilter;
 @AutoConfiguration(after = MultitenancyCoreAutoConfiguration.class)
 @ConditionalOnClass(TenantContextFilter.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-@Import({ HttpTenantResolutionConfiguration.class, WebMvcConfiguration.class })
+@Import({HttpTenantResolutionConfiguration.class, WebMvcConfiguration.class})
 public final class MultitenancyWebAutoConfiguration {}

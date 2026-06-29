@@ -13,7 +13,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.ConditionalOn
  * Configuration for exporting logs to the console.
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass({ SystemOutLogRecordExporter.class })
+@ConditionalOnClass({SystemOutLogRecordExporter.class})
 @ConditionalOnOpenTelemetryLoggingExporter("console")
 public final class ConsoleLoggingExporterConfiguration {
 
@@ -22,5 +22,4 @@ public final class ConsoleLoggingExporterConfiguration {
     SystemOutLogRecordExporter consoleLogRecordExporter() {
         return SystemOutLogRecordExporter.create();
     }
-
 }

@@ -13,6 +13,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTr
  */
 @AutoConfiguration
 @ConditionalOnOpenTelemetryTracing
-@Import({ ConsoleTracingExporterConfiguration.class, OtlpTracingExporterConfiguration.class })
+@Import({ConsoleTracingExporterConfiguration.class, OtlpTracingExporterConfiguration.class})
 @EnableConfigurationProperties(OpenTelemetryTracingExporterProperties.class)
 public final class OpenTelemetryTracingExporterAutoConfiguration {}

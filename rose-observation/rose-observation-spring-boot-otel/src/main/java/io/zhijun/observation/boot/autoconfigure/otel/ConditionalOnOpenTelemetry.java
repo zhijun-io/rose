@@ -12,11 +12,10 @@ import org.springframework.context.annotation.Conditional;
  * Indicates when OpenTelemetry annotation is eligible for registration.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @Conditional(OnEnabledOpenTelemetryCondition.class)
 public @interface ConditionalOnOpenTelemetry {
 
     boolean enabled() default true;
-
 }

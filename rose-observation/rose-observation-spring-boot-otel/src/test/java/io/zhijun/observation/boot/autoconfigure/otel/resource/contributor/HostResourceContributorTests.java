@@ -1,5 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource.contributor;
 
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import io.opentelemetry.sdk.resources.ResourceBuilder;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.info.OsInfo;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link HostResourceContributor}.
@@ -94,5 +94,4 @@ class HostResourceContributorTests {
         verify(resourceBuilder).put(HostResourceContributor.HOST_ARCH, "aarch64");
         verify(resourceBuilder).put(HostResourceContributor.HOST_NAME, "test-host");
     }
-
 }

@@ -4,21 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import io.opentelemetry.api.trace.Tracer;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.DefaultPropertiesPropertySource;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
-
-import io.opentelemetry.api.trace.Tracer;
 
 import io.zhijun.annotation.Incubating;
 
@@ -89,8 +89,7 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
 
     public void addDynamicProperty(String name, Supplier<Object> valueSupplier) {
         Assert.notNull(environment, "environment has not been initialized");
-        Assert.state(environment instanceof ConfigurableEnvironment,
-                "environment must be a ConfigurableEnvironment");
+        Assert.state(environment instanceof ConfigurableEnvironment, "environment must be a ConfigurableEnvironment");
         DevServiceDynamicPropertySource.getOrCreate((ConfigurableEnvironment) environment)
                 .add(name, valueSupplier);
     }

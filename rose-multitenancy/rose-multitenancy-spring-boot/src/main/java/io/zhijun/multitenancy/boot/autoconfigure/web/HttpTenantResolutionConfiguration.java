@@ -4,6 +4,8 @@ import java.util.HashSet;
 
 import javax.servlet.DispatcherType;
 
+import io.opentelemetry.api.trace.Tracer;
+
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -25,42 +27,57 @@ import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 
-import io.opentelemetry.api.trace.Tracer;
-
 /**
  * Configuration for HTTP multitenancy resolution.
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(HttpTenantResolutionProperties.class)
-@ConditionalOnProperty(prefix = HttpTenantResolutionProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(
+        prefix = HttpTenantResolutionProperties.CONFIG_PREFIX,
+        name = "enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 public final class HttpTenantResolutionConfiguration {
 
     @Bean
     @ConditionalOnBean(FixedTenantResolver.class)
-    @ConditionalOnProperty(prefix = FixedTenantResolutionProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(
+            prefix = FixedTenantResolutionProperties.CONFIG_PREFIX,
+            name = "enabled",
+            havingValue = "true")
     HttpRequestTenantResolver fixedHttpRequestTenantResolver(final FixedTenantResolver fixedTenantResolver) {
         return request -> fixedTenantResolver.resolveTenantIdentifier(request);
     }
 
     @Bean
     @ConditionalOnMissingBean(HttpRequestTenantResolver.class)
-    @ConditionalOnProperty(prefix = HttpTenantResolutionProperties.CONFIG_PREFIX, name = "resolution-mode",
-            havingValue = "header", matchIfMissing = true)
+    @ConditionalOnProperty(
+            prefix = HttpTenantResolutionProperties.CONFIG_PREFIX,
+            name = "resolution-mode",
+            havingValue = "header",
+            matchIfMissing = true)
     HeaderTenantResolver headerTenantResolver(HttpTenantResolutionProperties httpTenantResolutionProperties) {
-        return new HeaderTenantResolver(httpTenantResolutionProperties.getHeader().getHeaderName());
+        return new HeaderTenantResolver(
+                httpTenantResolutionProperties.getHeader().getHeaderName());
     }
 
     @Bean
     @ConditionalOnMissingBean(HttpRequestTenantResolver.class)
-    @ConditionalOnProperty(prefix = HttpTenantResolutionProperties.CONFIG_PREFIX, name = "resolution-mode",
+    @ConditionalOnProperty(
+            prefix = HttpTenantResolutionProperties.CONFIG_PREFIX,
+            name = "resolution-mode",
             havingValue = "cookie")
     CookieTenantResolver cookieTenantResolver(HttpTenantResolutionProperties httpTenantResolutionProperties) {
-        return new CookieTenantResolver(httpTenantResolutionProperties.getCookie().getCookieName());
+        return new CookieTenantResolver(
+                httpTenantResolutionProperties.getCookie().getCookieName());
     }
 
     @Configuration(proxyBeanMethods = false)
-    @ConditionalOnProperty(prefix = HttpTenantResolutionProperties.CONFIG_PREFIX, name = "filter.enabled",
-            havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(
+            prefix = HttpTenantResolutionProperties.CONFIG_PREFIX,
+            name = "filter.enabled",
+            havingValue = "true",
+            matchIfMissing = true)
     static class HttpTenantFilterConfiguration {
 
         @Bean
@@ -69,7 +86,8 @@ public final class HttpTenantResolutionConfiguration {
                 HttpRequestTenantResolver httpRequestTenantResolver,
                 TenantContextIgnorePathMatcher tenantContextIgnorePathMatcher,
                 ObjectProvider<TenantContextRequiredPathMatcher> tenantContextRequiredPathMatcher,
-                ApplicationEventPublisher eventPublisher, ObjectProvider<TenantVerifier> tenantVerifier,
+                ApplicationEventPublisher eventPublisher,
+                ObjectProvider<TenantVerifier> tenantVerifier,
                 ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler,
                 ObjectProvider<Tracer> tracer) {
             TenantContextFilter filter = TenantContextFilter.builder()
@@ -81,7 +99,8 @@ public final class HttpTenantResolutionConfiguration {
                     .missingTenantHandler(missingTenantHandler.getIfAvailable())
                     .tracer(tracer.getIfAvailable())
                     .build();
-            FilterRegistrationBean<TenantContextFilter> registration = new FilterRegistrationBean<TenantContextFilter>();
+            FilterRegistrationBean<TenantContextFilter> registration =
+                    new FilterRegistrationBean<TenantContextFilter>();
             registration.setFilter(filter);
             registration.addUrlPatterns("/*");
             registration.setDispatcherTypes(DispatcherType.REQUEST);
@@ -102,7 +121,8 @@ public final class HttpTenantResolutionConfiguration {
 
         @Bean
         @ConditionalOnMissingBean
-        @ConditionalOnProperty(prefix = HttpTenantResolutionProperties.CONFIG_PREFIX + ".filter",
+        @ConditionalOnProperty(
+                prefix = HttpTenantResolutionProperties.CONFIG_PREFIX + ".filter",
                 name = "required-include-paths")
         TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher(
                 HttpTenantResolutionProperties httpTenantResolutionProperties) {
@@ -111,5 +131,4 @@ public final class HttpTenantResolutionConfiguration {
                     httpTenantResolutionProperties.getFilter().getRequiredExcludePaths());
         }
     }
-
 }

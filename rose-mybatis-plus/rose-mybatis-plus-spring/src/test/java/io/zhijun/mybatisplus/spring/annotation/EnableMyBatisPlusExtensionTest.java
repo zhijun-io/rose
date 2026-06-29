@@ -2,13 +2,13 @@ package io.zhijun.mybatisplus.spring.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 
 import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 import io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
@@ -17,23 +17,19 @@ class EnableMyBatisPlusExtensionTest {
 
     @Test
     void shouldRegisterBeanPostProcessorAndApplyCustomizers() {
-        try (AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(TestConfig.class)) {
+        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class)) {
             MybatisPlusInterceptor interceptor =
                     context.getBean("mybatisPlusInterceptor", MybatisPlusInterceptor.class);
 
             assertThat(interceptor.getInterceptors()).hasSize(1);
-            assertThat(interceptor.getInterceptors().get(0))
-                    .isInstanceOf(TestInnerInterceptor.class);
+            assertThat(interceptor.getInterceptors().get(0)).isInstanceOf(TestInnerInterceptor.class);
         }
     }
 
     @Test
     void shouldRegisterBeanPostProcessorOnlyOnce() {
-        try (AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(TestConfig.class)) {
-            String[] names = context.getBeanNamesForType(
-                    MybatisPlusInterceptorCustomizerBeanPostProcessor.class);
+        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class)) {
+            String[] names = context.getBeanNamesForType(MybatisPlusInterceptorCustomizerBeanPostProcessor.class);
             assertThat(names).hasSize(1);
         }
     }
@@ -53,6 +49,5 @@ class EnableMyBatisPlusExtensionTest {
         }
     }
 
-    static class TestInnerInterceptor implements InnerInterceptor {
-    }
+    static class TestInnerInterceptor implements InnerInterceptor {}
 }

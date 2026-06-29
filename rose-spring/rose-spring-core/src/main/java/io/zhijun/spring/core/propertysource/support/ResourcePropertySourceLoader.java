@@ -21,8 +21,7 @@ public class ResourcePropertySourceLoader extends AnnotatedPropertySourceImportS
     }
 
     void loadPropertySource(Class<?> importingClass, AnnotationAttributes attributes) {
-        PropertySourceLoading.loadPropertySource(this, importingClass, attributes,
-                ResourcePropertySource.class);
+        PropertySourceLoading.loadPropertySource(this, importingClass, attributes, ResourcePropertySource.class);
     }
 
     void copyContextFrom(AnnotatedPropertySourceImportSelector<?> source) {

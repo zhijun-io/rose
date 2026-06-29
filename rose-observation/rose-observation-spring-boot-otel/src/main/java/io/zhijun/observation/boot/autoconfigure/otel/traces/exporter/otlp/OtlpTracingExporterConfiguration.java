@@ -37,15 +37,24 @@ public final class OtlpTracingExporterConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OtlpTracingConnectionDetails.class)
-    PropertiesOtlpTracingConnectionDetails otlpTracingConnectionDetails(OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties) {
+    PropertiesOtlpTracingConnectionDetails otlpTracingConnectionDetails(
+            OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties) {
         return new PropertiesOtlpTracingConnectionDetails(commonProperties, properties);
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpTracingConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryTracingExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.HTTP_PROTOBUF, matchIfMissing = true)
-    OtlpHttpSpanExporter otlpHttpSpanExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties, OtlpTracingConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
+    @ConditionalOnProperty(
+            prefix = OpenTelemetryTracingExporterProperties.OTLP_CONFIG_PREFIX,
+            name = "protocol",
+            havingValue = ProtocolNames.HTTP_PROTOBUF,
+            matchIfMissing = true)
+    OtlpHttpSpanExporter otlpHttpSpanExporter(
+            OpenTelemetryExporterProperties commonProperties,
+            OpenTelemetryTracingExporterProperties properties,
+            OtlpTracingConnectionDetails connectionDetails,
+            ObjectProvider<MeterProvider> meterProvider) {
         OtlpHttpSpanExporterBuilder builder = OtlpHttpSpanExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.HTTP_PROTOBUF))
                 .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
@@ -55,17 +64,26 @@ public final class OtlpTracingExporterConfiguration {
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
         OtlpExporterTransportConfigurer.configureHttpTraceTransport(builder, commonProperties, properties.getOtlp());
-        OtlpExporterConfigurer.configureExporterMetrics(meterProvider, commonProperties, properties.getOtlp(),
-                builder::setMeterProvider);
-        logger.info("Configuring OpenTelemetry HTTP/Protobuf span exporter with endpoint: {}", connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
+        OtlpExporterConfigurer.configureExporterMetrics(
+                meterProvider, commonProperties, properties.getOtlp(), builder::setMeterProvider);
+        logger.info(
+                "Configuring OpenTelemetry HTTP/Protobuf span exporter with endpoint: {}",
+                connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
         return builder.build();
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(OtlpTracingConnectionDetails.class)
-    @ConditionalOnProperty(prefix = OpenTelemetryTracingExporterProperties.OTLP_CONFIG_PREFIX, name = "protocol", havingValue = ProtocolNames.GRPC)
-    OtlpGrpcSpanExporter otlpGrpcSpanExporter(OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties, OtlpTracingConnectionDetails connectionDetails, ObjectProvider<MeterProvider> meterProvider) {
+    @ConditionalOnProperty(
+            prefix = OpenTelemetryTracingExporterProperties.OTLP_CONFIG_PREFIX,
+            name = "protocol",
+            havingValue = ProtocolNames.GRPC)
+    OtlpGrpcSpanExporter otlpGrpcSpanExporter(
+            OpenTelemetryExporterProperties commonProperties,
+            OpenTelemetryTracingExporterProperties properties,
+            OtlpTracingConnectionDetails connectionDetails,
+            ObjectProvider<MeterProvider> meterProvider) {
         OtlpGrpcSpanExporterBuilder builder = OtlpGrpcSpanExporter.builder()
                 .setEndpoint(connectionDetails.getUrl(Protocol.GRPC))
                 .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
@@ -75,9 +93,11 @@ public final class OtlpTracingExporterConfiguration {
         builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
         OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
         OtlpExporterTransportConfigurer.configureGrpcTraceTransport(builder, commonProperties, properties.getOtlp());
-        OtlpExporterConfigurer.configureExporterMetrics(meterProvider, commonProperties, properties.getOtlp(),
-                builder::setMeterProvider);
-        logger.info("Configuring OpenTelemetry gRPC span exporter with endpoint: {}", connectionDetails.getUrl(Protocol.GRPC));
+        OtlpExporterConfigurer.configureExporterMetrics(
+                meterProvider, commonProperties, properties.getOtlp(), builder::setMeterProvider);
+        logger.info(
+                "Configuring OpenTelemetry gRPC span exporter with endpoint: {}",
+                connectionDetails.getUrl(Protocol.GRPC));
         return builder.build();
     }
 
@@ -89,18 +109,21 @@ public final class OtlpTracingExporterConfiguration {
         private final OpenTelemetryExporterProperties commonProperties;
         private final OpenTelemetryTracingExporterProperties properties;
 
-        PropertiesOtlpTracingConnectionDetails(OpenTelemetryExporterProperties commonProperties,
-                OpenTelemetryTracingExporterProperties properties) {
+        PropertiesOtlpTracingConnectionDetails(
+                OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties) {
             this.commonProperties = commonProperties;
             this.properties = properties;
         }
 
         @Override
         public String getUrl(Protocol protocol) {
-            return OtlpConnectionUrls.resolve(protocol, commonProperties, properties.getOtlp(), TRACES_PATH,
-                    DEFAULT_HTTP_PROTOBUF_ENDPOINT, DEFAULT_GRPC_ENDPOINT);
+            return OtlpConnectionUrls.resolve(
+                    protocol,
+                    commonProperties,
+                    properties.getOtlp(),
+                    TRACES_PATH,
+                    DEFAULT_HTTP_PROTOBUF_ENDPOINT,
+                    DEFAULT_GRPC_ENDPOINT);
         }
-
     }
-
 }

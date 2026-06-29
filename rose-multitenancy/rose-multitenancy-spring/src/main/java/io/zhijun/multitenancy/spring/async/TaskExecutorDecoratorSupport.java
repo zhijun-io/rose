@@ -10,8 +10,7 @@ import org.springframework.util.ReflectionUtils;
  */
 public final class TaskExecutorDecoratorSupport {
 
-    private TaskExecutorDecoratorSupport() {
-    }
+    private TaskExecutorDecoratorSupport() {}
 
     public static boolean supportsTaskDecoration(Object executor) {
         return ReflectionUtils.findMethod(executor.getClass(), "setTaskDecorator", TaskDecorator.class) != null;
@@ -35,10 +34,11 @@ public final class TaskExecutorDecoratorSupport {
     }
 
     private static void setTaskDecorator(Object executor, TaskDecorator decorator) {
-        java.lang.reflect.Method setter = ReflectionUtils.findMethod(executor.getClass(), "setTaskDecorator",
-                TaskDecorator.class);
+        java.lang.reflect.Method setter =
+                ReflectionUtils.findMethod(executor.getClass(), "setTaskDecorator", TaskDecorator.class);
         if (setter == null) {
-            throw new IllegalStateException("Executor does not expose setTaskDecorator: " + executor.getClass().getName());
+            throw new IllegalStateException("Executor does not expose setTaskDecorator: "
+                    + executor.getClass().getName());
         }
         ReflectionUtils.invokeMethod(setter, executor, decorator);
     }
@@ -52,5 +52,4 @@ public final class TaskExecutorDecoratorSupport {
         ReflectionUtils.makeAccessible(field);
         return (TaskDecorator) ReflectionUtils.getField(field, executor);
     }
-
 }

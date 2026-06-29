@@ -25,5 +25,4 @@ class FormatTenantVerifierTests {
     void shouldRejectInvalidCharacters() {
         assertThatThrownBy(() -> verifier.verify("tenant;drop")).isInstanceOf(TenantVerificationException.class);
     }
-
 }

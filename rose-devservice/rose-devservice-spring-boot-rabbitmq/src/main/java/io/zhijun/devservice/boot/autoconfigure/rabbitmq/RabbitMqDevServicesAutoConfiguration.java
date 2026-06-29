@@ -33,9 +33,11 @@ public final class RabbitMqDevServicesAutoConfiguration {
                     .containerClass(RabbitMqContainer.class)
                     .containerFactory(RabbitMqContainer::new)
                     .dynamicProperties(registrar -> {
-                        registrar.addDynamicProperty("spring.rabbitmq.host",
+                        registrar.addDynamicProperty(
+                                "spring.rabbitmq.host",
                                 () -> registrar.requireRunningContainer().getHost());
-                        registrar.addDynamicProperty("spring.rabbitmq.port",
+                        registrar.addDynamicProperty(
+                                "spring.rabbitmq.port",
                                 () -> registrar.requireRunningContainer().getAmqpPort());
                     })
                     .build();

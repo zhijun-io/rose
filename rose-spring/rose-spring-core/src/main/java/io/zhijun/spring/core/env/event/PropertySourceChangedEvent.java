@@ -24,7 +24,10 @@ public class PropertySourceChangedEvent extends ApplicationContextEvent {
 
     private final PropertySource<?> oldPropertySource;
 
-    protected PropertySourceChangedEvent(ApplicationContext source, Kind kind, PropertySource<?> newPropertySource,
+    protected PropertySourceChangedEvent(
+            ApplicationContext source,
+            Kind kind,
+            PropertySource<?> newPropertySource,
             PropertySource<?> oldPropertySource) {
         super(source);
         this.kind = kind;
@@ -37,8 +40,8 @@ public class PropertySourceChangedEvent extends ApplicationContextEvent {
         return new PropertySourceChangedEvent(source, Kind.ADDED, newPropertySource, null);
     }
 
-    public static PropertySourceChangedEvent replaced(ApplicationContext source, PropertySource<?> newPropertySource,
-            PropertySource<?> oldPropertySource) {
+    public static PropertySourceChangedEvent replaced(
+            ApplicationContext source, PropertySource<?> newPropertySource, PropertySource<?> oldPropertySource) {
         Assert.notNull(newPropertySource, "newPropertySource cannot be null");
         Assert.notNull(oldPropertySource, "oldPropertySource cannot be null");
         return new PropertySourceChangedEvent(source, Kind.REPLACED, newPropertySource, oldPropertySource);
@@ -70,7 +73,8 @@ public class PropertySourceChangedEvent extends ApplicationContextEvent {
             return false;
         }
         PropertySourceChangedEvent that = (PropertySourceChangedEvent) o;
-        return kind == that.kind && Objects.equals(newPropertySource, that.newPropertySource)
+        return kind == that.kind
+                && Objects.equals(newPropertySource, that.newPropertySource)
                 && Objects.equals(oldPropertySource, that.oldPropertySource);
     }
 

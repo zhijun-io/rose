@@ -14,7 +14,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.metrics.ConditionalOnOpenTe
  * Whether OpenTelemetry metrics should be exported using the specified exporter type.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @ConditionalOnOpenTelemetryMetrics
 @Conditional(OnOpenTelemetryMetricsExporterCondition.class)
@@ -24,5 +24,4 @@ public @interface ConditionalOnOpenTelemetryMetricsExporter {
      * The type name of the OpenTelemetry metrics exporter.
      */
     String value();
-
 }

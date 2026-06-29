@@ -1,11 +1,11 @@
 package io.zhijun.multitenancy.spring.web.filter;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  * Unit test for {@link TenantContextRequiredPathMatcher}.
@@ -14,8 +14,8 @@ class TenantContextRequiredPathMatcherTests {
 
     @Test
     void whenIncludeDoesNotMatchThenTenantNotRequired() {
-        TenantContextRequiredPathMatcher matcher = new TenantContextRequiredPathMatcher(
-                Collections.singleton("/v1/**"), Collections.emptySet());
+        TenantContextRequiredPathMatcher matcher =
+                new TenantContextRequiredPathMatcher(Collections.singleton("/v1/**"), Collections.emptySet());
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRequestURI("/public/ping");
 
@@ -41,5 +41,4 @@ class TenantContextRequiredPathMatcherTests {
 
         assertThat(matcher.requires(request)).isFalse();
     }
-
 }

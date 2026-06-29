@@ -1,8 +1,9 @@
 package io.zhijun.mybatisplus.core.extension;
 
-import io.zhijun.annotation.Incubating;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+
+import io.zhijun.annotation.Incubating;
 
 /**
  * Shared helpers for registering {@link InnerInterceptor} instances once per type.
@@ -10,8 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 @Incubating
 public final class InnerInterceptorSupport {
 
-    private InnerInterceptorSupport() {
-    }
+    private InnerInterceptorSupport() {}
 
     public static boolean contains(MybatisPlusInterceptor interceptor, Class<? extends InnerInterceptor> type) {
         for (InnerInterceptor innerInterceptor : interceptor.getInterceptors()) {
@@ -22,11 +22,10 @@ public final class InnerInterceptorSupport {
         return false;
     }
 
-    public static void addIfAbsent(MybatisPlusInterceptor interceptor, InnerInterceptor toAdd,
-            Class<? extends InnerInterceptor> type) {
+    public static void addIfAbsent(
+            MybatisPlusInterceptor interceptor, InnerInterceptor toAdd, Class<? extends InnerInterceptor> type) {
         if (!contains(interceptor, type)) {
             interceptor.addInnerInterceptor(toAdd);
         }
     }
-
 }

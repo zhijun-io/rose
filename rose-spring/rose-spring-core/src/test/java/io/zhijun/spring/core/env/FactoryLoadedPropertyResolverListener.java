@@ -3,9 +3,9 @@ package io.zhijun.spring.core.env;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.zhijun.spring.core.env.listener.PropertyResolverListener;
-
 import org.springframework.core.env.ConfigurablePropertyResolver;
+
+import io.zhijun.spring.core.env.listener.PropertyResolverListener;
 
 public class FactoryLoadedPropertyResolverListener implements PropertyResolverListener {
 
@@ -20,14 +20,18 @@ public class FactoryLoadedPropertyResolverListener implements PropertyResolverLi
     }
 
     @Override
-    public void beforeGetProperty(ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType,
-            Object defaultValue) {
+    public void beforeGetProperty(
+            ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType, Object defaultValue) {
         CALLBACKS.add("beforeGetProperty");
     }
 
     @Override
-    public void afterGetProperty(ConfigurablePropertyResolver propertyResolver, String name, Class<?> targetType,
-            Object value, Object defaultValue) {
+    public void afterGetProperty(
+            ConfigurablePropertyResolver propertyResolver,
+            String name,
+            Class<?> targetType,
+            Object value,
+            Object defaultValue) {
         CALLBACKS.add("afterGetProperty");
     }
 }

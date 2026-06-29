@@ -1,10 +1,10 @@
 package io.zhijun.multitenancy.spring.web.resolver;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  * Unit test for {@link HeaderTenantResolver}.
@@ -13,14 +13,16 @@ class HeaderTenantResolverTests {
 
     @Test
     void whenNullCustomHeaderThenThrow() {
-        assertThatThrownBy(() -> new HeaderTenantResolver(null)).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("tenantHeaderName cannot be null or empty");
+        assertThatThrownBy(() -> new HeaderTenantResolver(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("tenantHeaderName cannot be null or empty");
     }
 
     @Test
     void whenEmptyCustomHeaderThenThrow() {
-        assertThatThrownBy(() -> new HeaderTenantResolver("")).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("tenantHeaderName cannot be null or empty");
+        assertThatThrownBy(() -> new HeaderTenantResolver(""))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("tenantHeaderName cannot be null or empty");
     }
 
     @Test
@@ -63,8 +65,7 @@ class HeaderTenantResolverTests {
         HeaderTenantResolver headerTenantResolver = new HeaderTenantResolver();
 
         assertThatThrownBy(() -> headerTenantResolver.resolveTenantIdentifier(null))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("request cannot be null");
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("request cannot be null");
     }
-
 }

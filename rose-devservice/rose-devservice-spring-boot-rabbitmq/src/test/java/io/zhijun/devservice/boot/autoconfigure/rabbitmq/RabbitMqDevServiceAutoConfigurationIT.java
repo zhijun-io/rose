@@ -1,19 +1,20 @@
 package io.zhijun.devservice.boot.autoconfigure.rabbitmq;
 
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.containers.RabbitMQContainer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 
 /**
  * Integration test for {@link RabbitMqDevServicesAutoConfiguration}.
  */
 class RabbitMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationIT {
 
-    private final ApplicationContextRunner contextRunner = defaultContextRunner(
-            RabbitMqDevServicesAutoConfiguration.class);
+    private final ApplicationContextRunner contextRunner =
+            defaultContextRunner(RabbitMqDevServicesAutoConfiguration.class);
 
     @Override
     protected ApplicationContextRunner getContextRunner() {
@@ -38,9 +39,7 @@ class RabbitMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
     @Test
     void containerAvailableInDevMode() {
         assertContainerAvailableInDevMode(
-                RabbitMQContainer.class,
-                RabbitMqContainer.COMPATIBLE_IMAGE_NAME,
-                container -> {
+                RabbitMQContainer.class, RabbitMqContainer.COMPATIBLE_IMAGE_NAME, container -> {
                     assertThat(container.getEnv()).isEmpty();
                 });
     }
@@ -48,11 +47,11 @@ class RabbitMqDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurat
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RabbitMqContainer.class,
-                commonConfigurationProperties(),
-                (context, container) -> {
-                    assertThat(context.getEnvironment().getProperty("spring.rabbitmq.host")).isNotBlank();
-                    assertThat(context.getEnvironment().getProperty("spring.rabbitmq.port")).isNotBlank();
+                RabbitMqContainer.class, commonConfigurationProperties(), (context, container) -> {
+                    assertThat(context.getEnvironment().getProperty("spring.rabbitmq.host"))
+                            .isNotBlank();
+                    assertThat(context.getEnvironment().getProperty("spring.rabbitmq.port"))
+                            .isNotBlank();
                 });
     }
 }

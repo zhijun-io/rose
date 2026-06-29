@@ -1,13 +1,13 @@
 package io.zhijun.multitenancy.core.detail;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
-
-import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link DefaultTenantVerifier}.
@@ -16,8 +16,9 @@ class DefaultTenantVerifierTests {
 
     @Test
     void whenNullTenantDetailsServiceThenThrow() {
-        assertThatThrownBy(() -> new DefaultTenantVerifier(null)).isInstanceOf(NullPointerException.class)
-            .hasMessageContaining("tenantDetailsService cannot be null");
+        assertThatThrownBy(() -> new DefaultTenantVerifier(null))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessageContaining("tenantDetailsService cannot be null");
     }
 
     @Test
@@ -25,8 +26,10 @@ class DefaultTenantVerifierTests {
         TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
-        assertThatThrownBy(() -> verifier.verify(null)).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+        assertThatThrownBy(() -> verifier.verify(null))
+                .isInstanceOf(TenantVerificationException.class)
+                .hasMessageContaining(
+                        "The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
     }
 
     @Test
@@ -34,8 +37,10 @@ class DefaultTenantVerifierTests {
         TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
-        assertThatThrownBy(() -> verifier.verify("acme\nmalicious")).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
+        assertThatThrownBy(() -> verifier.verify("acme\nmalicious"))
+                .isInstanceOf(TenantVerificationException.class)
+                .hasMessageContaining(
+                        "The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
     }
 
     @Test
@@ -65,8 +70,9 @@ class DefaultTenantVerifierTests {
         when(service.loadTenantByIdentifier("acme")).thenReturn(tenant);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
-        assertThatThrownBy(() -> verifier.verify("acme")).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The resolved multitenancy is invalid or disabled");
+        assertThatThrownBy(() -> verifier.verify("acme"))
+                .isInstanceOf(TenantVerificationException.class)
+                .hasMessageContaining("The resolved multitenancy is invalid or disabled");
     }
 
     @Test
@@ -75,8 +81,8 @@ class DefaultTenantVerifierTests {
         when(service.loadTenantByIdentifier("unknown")).thenReturn(null);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
-        assertThatThrownBy(() -> verifier.verify("unknown")).isInstanceOf(TenantVerificationException.class)
-            .hasMessageContaining("The resolved multitenancy is invalid or disabled");
+        assertThatThrownBy(() -> verifier.verify("unknown"))
+                .isInstanceOf(TenantVerificationException.class)
+                .hasMessageContaining("The resolved multitenancy is invalid or disabled");
     }
-
 }

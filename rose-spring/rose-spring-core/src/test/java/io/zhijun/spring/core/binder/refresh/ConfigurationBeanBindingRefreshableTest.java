@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.binder.refresh;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +19,6 @@ import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
 import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
 import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
 import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ConfigurationBeanBindingRefreshableTest {
 
@@ -103,8 +103,7 @@ class ConfigurationBeanBindingRefreshableTest {
 
     @Configuration
     @EnableConfigurationBeanBinding(prefix = "usr", type = User.class)
-    static class RefreshBindingConfig {
-    }
+    static class RefreshBindingConfig {}
 
     @Configuration
     @EnableConfigurationBeanBinding(prefix = "usr", type = User.class)

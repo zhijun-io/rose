@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.rabbitmq;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link RabbitMqContainer}.
@@ -26,11 +26,12 @@ class RabbitMqContainerTests extends BaseDevServicesContainerTests<RabbitMqConta
 
         RabbitMqContainer container = new RabbitMqContainer(properties);
         container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + RabbitMqContainer.AMQP_PORT))
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getManagementConsolePort() + ":" + RabbitMqContainer.HTTP_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(
+                                binding -> binding.startsWith(properties.getPort() + ":" + RabbitMqContainer.AMQP_PORT))
+                        .anyMatch(binding -> binding.startsWith(
+                                properties.getManagementConsolePort() + ":" + RabbitMqContainer.HTTP_PORT)));
     }
-
 }

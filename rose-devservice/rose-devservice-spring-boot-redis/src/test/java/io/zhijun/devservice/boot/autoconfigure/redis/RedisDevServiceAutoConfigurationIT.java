@@ -1,18 +1,19 @@
 package io.zhijun.devservice.boot.autoconfigure.redis;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link RedisDevServicesAutoConfiguration}.
  */
 class RedisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfigurationIT {
 
-    private final ApplicationContextRunner contextRunner = defaultContextRunner(RedisDevServicesAutoConfiguration.class);
+    private final ApplicationContextRunner contextRunner =
+            defaultContextRunner(RedisDevServicesAutoConfiguration.class);
 
     @Override
     protected ApplicationContextRunner getContextRunner() {
@@ -45,11 +46,11 @@ class RedisDevServiceAutoConfigurationIT extends BaseDevServiceAutoConfiguration
     @Test
     void containerConfigurationApplied() {
         assertContainerConfigurationApplied(
-                RedisContainer.class,
-                commonConfigurationProperties(),
-                (context, container) -> {
-                    assertThat(context.getEnvironment().getProperty("spring.redis.host")).isNotBlank();
-                    assertThat(context.getEnvironment().getProperty("spring.redis.port")).isNotBlank();
+                RedisContainer.class, commonConfigurationProperties(), (context, container) -> {
+                    assertThat(context.getEnvironment().getProperty("spring.redis.host"))
+                            .isNotBlank();
+                    assertThat(context.getEnvironment().getProperty("spring.redis.port"))
+                            .isNotBlank();
                 });
     }
 }

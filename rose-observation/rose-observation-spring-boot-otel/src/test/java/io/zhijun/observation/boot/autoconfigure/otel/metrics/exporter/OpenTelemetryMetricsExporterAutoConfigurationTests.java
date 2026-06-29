@@ -1,6 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter;
 
-import io.zhijun.observation.boot.autoconfigure.otel.support.MetricsTestBeans;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -9,8 +10,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExpor
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.console.ConsoleMetricsExporterConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsExporterConfiguration;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.observation.boot.autoconfigure.otel.support.MetricsTestBeans;
 
 /**
  * Unit test for {@link OpenTelemetryMetricsExporterAutoConfiguration}.
@@ -18,22 +18,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OpenTelemetryMetricsExporterAutoConfigurationTests {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(OpenTelemetryExporterAutoConfiguration.class,
-                OpenTelemetryMetricsExporterAutoConfiguration.class))
+            .withConfiguration(AutoConfigurations.of(
+                    OpenTelemetryExporterAutoConfiguration.class, OpenTelemetryMetricsExporterAutoConfiguration.class))
             .withUserConfiguration(MetricsTestBeans.class);
 
     @Test
     void autoConfigurationNotActivatedWhenOpenTelemetryDisabled() {
         contextRunner
-            .withPropertyValues("rose.otel.enabled=false")
-            .run(context -> assertThat(context).doesNotHaveBean(OtlpMetricsExporterConfiguration.class));
+                .withPropertyValues("rose.otel.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(OtlpMetricsExporterConfiguration.class));
     }
 
     @Test
     void autoConfigurationNotActivatedWhenMetricsDisabled() {
         contextRunner
-            .withPropertyValues("rose.otel.metrics.enabled=false")
-            .run(context -> assertThat(context).doesNotHaveBean(OtlpMetricsExporterConfiguration.class));
+                .withPropertyValues("rose.otel.metrics.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(OtlpMetricsExporterConfiguration.class));
     }
 
     @Test
@@ -47,12 +47,12 @@ class OpenTelemetryMetricsExporterAutoConfigurationTests {
     @Test
     void consoleExporterConfigurationImportedWhenEnabled() {
         contextRunner
-            .withPropertyValues("rose.otel.metrics.exporter.type=console")
-            .run(context -> {
-                assertThat(context).hasSingleBean(ConsoleMetricsExporterConfiguration.class);
-                assertThat(context).doesNotHaveBean(OtlpMetricsExporterConfiguration.class);
-                assertThat(context).hasSingleBean(OpenTelemetryMeterProviderBuilderCustomizer.class);
-            });
+                .withPropertyValues("rose.otel.metrics.exporter.type=console")
+                .run(context -> {
+                    assertThat(context).hasSingleBean(ConsoleMetricsExporterConfiguration.class);
+                    assertThat(context).doesNotHaveBean(OtlpMetricsExporterConfiguration.class);
+                    assertThat(context).hasSingleBean(OpenTelemetryMeterProviderBuilderCustomizer.class);
+                });
     }
 
     @Test
@@ -65,12 +65,9 @@ class OpenTelemetryMetricsExporterAutoConfigurationTests {
 
     @Test
     void otlpExporterConfigurationImportedWhenEnabled() {
-        contextRunner
-            .withPropertyValues("rose.otel.metrics.exporter.type=otlp")
-            .run(context -> {
-                assertThat(context).doesNotHaveBean(ConsoleMetricsExporterConfiguration.class);
-                assertThat(context).hasSingleBean(OtlpMetricsExporterConfiguration.class);
-            });
+        contextRunner.withPropertyValues("rose.otel.metrics.exporter.type=otlp").run(context -> {
+            assertThat(context).doesNotHaveBean(ConsoleMetricsExporterConfiguration.class);
+            assertThat(context).hasSingleBean(OtlpMetricsExporterConfiguration.class);
+        });
     }
-
 }

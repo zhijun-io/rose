@@ -1,5 +1,13 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource.contributor;
 
+import static io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.EnvironmentResourceContributor.WEBENGINE_NAME;
+import static io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.EnvironmentResourceContributor.WEBENGINE_VERSION;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.resources.ResourceBuilder;
@@ -12,14 +20,6 @@ import org.springframework.boot.SpringBootVersion;
 import org.springframework.mock.env.MockEnvironment;
 
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceProperties;
-
-import static io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.EnvironmentResourceContributor.WEBENGINE_NAME;
-import static io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.EnvironmentResourceContributor.WEBENGINE_VERSION;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 /**
  * Unit test for {@link EnvironmentResourceContributor}.
@@ -167,7 +167,8 @@ class EnvironmentResourceContributorTests {
 
         ArgumentCaptor<Attributes> attributesCaptor = ArgumentCaptor.forClass(Attributes.class);
         verify(resourceBuilder).putAll(attributesCaptor.capture());
-        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_NAME)).isEqualTo("attribute-service");
+        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_NAME))
+                .isEqualTo("attribute-service");
     }
 
     @Test
@@ -185,7 +186,8 @@ class EnvironmentResourceContributorTests {
 
         ArgumentCaptor<Attributes> attributesCaptor = ArgumentCaptor.forClass(Attributes.class);
         verify(resourceBuilder).putAll(attributesCaptor.capture());
-        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_NAME)).isEqualTo("attribute-service");
+        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_NAME))
+                .isEqualTo("attribute-service");
     }
 
     @Test
@@ -203,7 +205,8 @@ class EnvironmentResourceContributorTests {
 
         ArgumentCaptor<Attributes> attributesCaptor = ArgumentCaptor.forClass(Attributes.class);
         verify(resourceBuilder).putAll(attributesCaptor.capture());
-        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_NAMESPACE)).isEqualTo("attribute-namespace");
+        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_NAMESPACE))
+                .isEqualTo("attribute-namespace");
     }
 
     @Test
@@ -220,7 +223,8 @@ class EnvironmentResourceContributorTests {
 
         ArgumentCaptor<Attributes> attributesCaptor = ArgumentCaptor.forClass(Attributes.class);
         verify(resourceBuilder).putAll(attributesCaptor.capture());
-        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_INSTANCE_ID)).isEqualTo("custom-instance-id");
+        assertThat(attributesCaptor.getValue().get(ServiceAttributes.SERVICE_INSTANCE_ID))
+                .isEqualTo("custom-instance-id");
     }
 
     @Test
@@ -232,7 +236,8 @@ class EnvironmentResourceContributorTests {
 
         ArgumentCaptor<Attributes> attributesCaptor = ArgumentCaptor.forClass(Attributes.class);
         verify(resourceBuilder).putAll(attributesCaptor.capture());
-        assertThat(attributesCaptor.getValue().get(AttributeKey.stringKey("test.key"))).isEqualTo("encoded value");
+        assertThat(attributesCaptor.getValue().get(AttributeKey.stringKey("test.key")))
+                .isEqualTo("encoded value");
     }
 
     @Test
@@ -245,8 +250,9 @@ class EnvironmentResourceContributorTests {
 
         ArgumentCaptor<Attributes> attributesCaptor = ArgumentCaptor.forClass(Attributes.class);
         verify(resourceBuilder).putAll(attributesCaptor.capture());
-        assertThat(attributesCaptor.getValue().get(AttributeKey.stringKey("custom.key1"))).isEqualTo("value1");
-        assertThat(attributesCaptor.getValue().get(AttributeKey.stringKey("custom.key2"))).isEqualTo("value2");
+        assertThat(attributesCaptor.getValue().get(AttributeKey.stringKey("custom.key1")))
+                .isEqualTo("value1");
+        assertThat(attributesCaptor.getValue().get(AttributeKey.stringKey("custom.key2")))
+                .isEqualTo("value2");
     }
-
 }

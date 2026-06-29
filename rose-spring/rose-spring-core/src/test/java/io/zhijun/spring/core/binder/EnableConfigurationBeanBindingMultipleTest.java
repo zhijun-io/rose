@@ -1,19 +1,22 @@
 package io.zhijun.spring.core.binder;
 
-import java.util.Collection;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
+import java.util.Collection;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;
 
+import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
+import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
 import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@EnableConfigurationBeanBinding(prefix = "users", type = User.class, multiple = true, ignoreUnknownFields = false,
+@EnableConfigurationBeanBinding(
+        prefix = "users",
+        type = User.class,
+        multiple = true,
+        ignoreUnknownFields = false,
         ignoreInvalidFields = false)
 class EnableConfigurationBeanBindingMultipleTest extends AbstractEnableConfigurationBeanBindingTest {
 
@@ -42,7 +45,10 @@ class EnableConfigurationBeanBindingMultipleTest extends AbstractEnableConfigura
         assertThat(aUser.getAge()).isEqualTo(1);
         assertThat(bUser.getName()).isEqualTo("name-b");
         assertThat(bUser.getAge()).isEqualTo(2);
-        assertThat(context.getBean(ConfigurationBeanBindingPostProcessor.BEAN_NAME,
-                ConfigurationBeanBindingPostProcessor.class).getConfigurationBeanBinder()).isNotNull();
+        assertThat(context.getBean(
+                                ConfigurationBeanBindingPostProcessor.BEAN_NAME,
+                                ConfigurationBeanBindingPostProcessor.class)
+                        .getConfigurationBeanBinder())
+                .isNotNull();
     }
 }

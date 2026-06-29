@@ -1,14 +1,12 @@
 package io.zhijun.devservice.boot.autoconfigure.activemq;
 
-import java.time.Duration;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.DevServiceCredentials;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link ActiveMqDevServiceProperties}.
@@ -50,5 +48,4 @@ class ActiveMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ac
         assertThat(properties.getUsername()).isEqualTo("myusername");
         assertThat(properties.getPassword()).isEqualTo("mypassword");
     }
-
 }

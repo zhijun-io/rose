@@ -17,10 +17,12 @@ public class TenantLoggingConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = TenantLoggingProperties.CONFIG_PREFIX, name = "mdc.enabled", havingValue = "true",
+    @ConditionalOnProperty(
+            prefix = TenantLoggingProperties.CONFIG_PREFIX,
+            name = "mdc.enabled",
+            havingValue = "true",
             matchIfMissing = true)
     MdcTenantEventListener mdcTenantEventListener(TenantLoggingProperties tenantLoggingProperties) {
         return new MdcTenantEventListener(tenantLoggingProperties.getMdc().getKeyName());
     }
-
 }

@@ -15,8 +15,8 @@ import org.springframework.core.type.AnnotationMetadata;
  * Delegates each element of {@link EnableConfigurationBeanBindings#value()} to
  * {@link ConfigurationBeanBindingRegistrar}.
  */
-public class ConfigurationBeanBindingsRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware,
-        BeanFactoryAware {
+public class ConfigurationBeanBindingsRegistrar
+        implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware {
 
     private ConfigurableEnvironment environment;
 
@@ -24,8 +24,8 @@ public class ConfigurationBeanBindingsRegistrar implements ImportBeanDefinitionR
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-        AnnotationAttributes attributes = AnnotationAttributes
-                .fromMap(metadata.getAnnotationAttributes(EnableConfigurationBeanBindings.class.getName()));
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(
+                metadata.getAnnotationAttributes(EnableConfigurationBeanBindings.class.getName()));
         if (attributes == null) {
             return;
         }

@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.github.dockerjava.api.command.InspectContainerResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
@@ -11,11 +13,8 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.images.builder.Transferable;
 import org.testcontainers.utility.DockerImageName;
 
-import com.github.dockerjava.api.command.InspectContainerResponse;
-
-import io.zhijun.devservice.core.container.ContainerConfigurer;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 import io.zhijun.devservice.core.util.OtlpPorts;
 
 /**
@@ -25,8 +24,8 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenLitContainer.class);
 
-    static final String COMPATIBLE_IMAGE_NAME =
-            DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
+    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_IMAGE_NAME)
+            .getUnversionedPart();
 
     static final int UI_PORT = 3000;
 
@@ -54,50 +53,49 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
 
     private static final String OTEL_COLLECTOR_CONFIG_PATH = "/etc/otel/otel-collector-config.yaml";
 
-    private static final String OTEL_COLLECTOR_CONFIG_TEMPLATE =
-            "receivers:\n"
-                    + "  otlp:\n"
-                    + "    protocols:\n"
-                    + "      grpc:\n"
-                    + "        endpoint: 0.0.0.0:4317\n"
-                    + "      http:\n"
-                    + "        endpoint: 0.0.0.0:4318\n"
-                    + "processors:\n"
-                    + "  batch:\n"
-                    + "  memory_limiter:\n"
-                    + "    limit_mib: 1500\n"
-                    + "    spike_limit_mib: 512\n"
-                    + "    check_interval: 5s\n"
-                    + "exporters:\n"
-                    + "  clickhouse:\n"
-                    + "    endpoint: tcp://%s:9000?dial_timeout=10s\n"
-                    + "    database: %s\n"
-                    + "    username: %s\n"
-                    + "    password: %s\n"
-                    + "    ttl: 730h\n"
-                    + "    logs_table_name: otel_logs\n"
-                    + "    traces_table_name: otel_traces\n"
-                    + "    metrics_table_name: otel_metrics\n"
-                    + "    timeout: 5s\n"
-                    + "    retry_on_failure:\n"
-                    + "      enabled: true\n"
-                    + "      initial_interval: 5s\n"
-                    + "      max_interval: 30s\n"
-                    + "      max_elapsed_time: 300s\n"
-                    + "service:\n"
-                    + "  pipelines:\n"
-                    + "    logs:\n"
-                    + "      receivers: [otlp]\n"
-                    + "      processors: [batch]\n"
-                    + "      exporters: [clickhouse]\n"
-                    + "    traces:\n"
-                    + "      receivers: [otlp]\n"
-                    + "      processors: [memory_limiter, batch]\n"
-                    + "      exporters: [clickhouse]\n"
-                    + "    metrics:\n"
-                    + "      receivers: [otlp]\n"
-                    + "      processors: [memory_limiter, batch]\n"
-                    + "      exporters: [clickhouse]\n";
+    private static final String OTEL_COLLECTOR_CONFIG_TEMPLATE = "receivers:\n"
+            + "  otlp:\n"
+            + "    protocols:\n"
+            + "      grpc:\n"
+            + "        endpoint: 0.0.0.0:4317\n"
+            + "      http:\n"
+            + "        endpoint: 0.0.0.0:4318\n"
+            + "processors:\n"
+            + "  batch:\n"
+            + "  memory_limiter:\n"
+            + "    limit_mib: 1500\n"
+            + "    spike_limit_mib: 512\n"
+            + "    check_interval: 5s\n"
+            + "exporters:\n"
+            + "  clickhouse:\n"
+            + "    endpoint: tcp://%s:9000?dial_timeout=10s\n"
+            + "    database: %s\n"
+            + "    username: %s\n"
+            + "    password: %s\n"
+            + "    ttl: 730h\n"
+            + "    logs_table_name: otel_logs\n"
+            + "    traces_table_name: otel_traces\n"
+            + "    metrics_table_name: otel_metrics\n"
+            + "    timeout: 5s\n"
+            + "    retry_on_failure:\n"
+            + "      enabled: true\n"
+            + "      initial_interval: 5s\n"
+            + "      max_interval: 30s\n"
+            + "      max_elapsed_time: 300s\n"
+            + "service:\n"
+            + "  pipelines:\n"
+            + "    logs:\n"
+            + "      receivers: [otlp]\n"
+            + "      processors: [batch]\n"
+            + "      exporters: [clickhouse]\n"
+            + "    traces:\n"
+            + "      receivers: [otlp]\n"
+            + "      processors: [memory_limiter, batch]\n"
+            + "      exporters: [clickhouse]\n"
+            + "    metrics:\n"
+            + "      receivers: [otlp]\n"
+            + "      processors: [memory_limiter, batch]\n"
+            + "      exporters: [clickhouse]\n";
 
     private final OpenLitDevServiceProperties properties;
 
@@ -125,9 +123,9 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
             network = getNetwork();
         }
 
-        ClickHouseSidecar clickHouseContainer = new ClickHouseSidecar(
-                clickHouseImageName.asCompatibleSubstituteFor(
-                        DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_CLICKHOUSE_IMAGE_NAME).getUnversionedPart()));
+        ClickHouseSidecar clickHouseContainer = new ClickHouseSidecar(clickHouseImageName.asCompatibleSubstituteFor(
+                DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_CLICKHOUSE_IMAGE_NAME)
+                        .getUnversionedPart()));
         clickHouseContainer.withNetwork(network);
         clickHouseContainer.withNetworkAliases(CLICKHOUSE_NETWORK_ALIAS);
         clickHouseContainer.withStartupTimeout(Duration.ofMinutes(3));
@@ -220,5 +218,4 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
             withEnv("CLICKHOUSE_PASSWORD", CLICKHOUSE_PASSWORD);
         }
     }
-
 }

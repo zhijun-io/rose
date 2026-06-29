@@ -1,8 +1,8 @@
 package io.zhijun.devservice.core.api.provider;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link DevServiceProvider}.
@@ -16,5 +16,4 @@ class DevServiceProviderTests {
         assertThat(provider.name()).isEqualTo("postgresql");
         assertThat(provider.category()).isEqualTo(DevServiceCategory.JDBC);
     }
-
 }

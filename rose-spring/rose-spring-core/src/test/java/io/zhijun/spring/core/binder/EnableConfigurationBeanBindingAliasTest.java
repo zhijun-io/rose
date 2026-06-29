@@ -1,15 +1,19 @@
 package io.zhijun.spring.core.binder;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
 
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
 
-@EnableConfigurationBeanBinding(prefix = "users", type = User.class, multiple = true, ignoreUnknownFields = false,
+@EnableConfigurationBeanBinding(
+        prefix = "users",
+        type = User.class,
+        multiple = true,
+        ignoreUnknownFields = false,
         ignoreInvalidFields = false)
 class EnableConfigurationBeanBindingAliasTest extends AbstractEnableConfigurationBeanBindingTest {
 

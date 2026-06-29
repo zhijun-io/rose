@@ -3,6 +3,12 @@ package io.zhijun.mybatisplus.core.observation;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Scope;
+
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -14,17 +20,10 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.context.Scope;
-
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Timer;
-
-import io.zhijun.annotation.Incubating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.zhijun.annotation.Incubating;
 
 /**
  * MyBatis {@link Interceptor} that records SQL execution as OpenTelemetry spans and
@@ -50,13 +49,25 @@ import org.slf4j.LoggerFactory;
  */
 @Incubating
 @Intercepts({
-        @Signature(type = Executor.class, method = "update",
-                args = {MappedStatement.class, Object.class}),
-        @Signature(type = Executor.class, method = "query",
-                args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class,
-                        org.apache.ibatis.cache.CacheKey.class, BoundSql.class}),
-        @Signature(type = Executor.class, method = "query",
-                args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
+    @Signature(
+            type = Executor.class,
+            method = "update",
+            args = {MappedStatement.class, Object.class}),
+    @Signature(
+            type = Executor.class,
+            method = "query",
+            args = {
+                MappedStatement.class,
+                Object.class,
+                RowBounds.class,
+                ResultHandler.class,
+                org.apache.ibatis.cache.CacheKey.class,
+                BoundSql.class
+            }),
+    @Signature(
+            type = Executor.class,
+            method = "query",
+            args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
 })
 public class SqlObservationInterceptor implements Interceptor {
 
@@ -102,8 +113,7 @@ public class SqlObservationInterceptor implements Interceptor {
      * @param meterRegistry the Micrometer registry; if {@code null}, metrics are not recorded
      * @param slowQueryThresholdMillis threshold in millis; {@code <= 0} disables detection
      */
-    public SqlObservationInterceptor(Tracer tracer, MeterRegistry meterRegistry,
-            long slowQueryThresholdMillis) {
+    public SqlObservationInterceptor(Tracer tracer, MeterRegistry meterRegistry, long slowQueryThresholdMillis) {
         this.tracer = tracer;
         this.meterRegistry = meterRegistry;
         this.slowQueryThresholdMillis = slowQueryThresholdMillis;
@@ -151,8 +161,11 @@ public class SqlObservationInterceptor implements Interceptor {
             if (slowQueryThresholdMillis > 0) {
                 long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos);
                 if (elapsedMillis >= slowQueryThresholdMillis) {
-                    logger.warn("Slow SQL detected: {} took {}ms (threshold: {}ms)",
-                            operation, elapsedMillis, slowQueryThresholdMillis);
+                    logger.warn(
+                            "Slow SQL detected: {} took {}ms (threshold: {}ms)",
+                            operation,
+                            elapsedMillis,
+                            slowQueryThresholdMillis);
                     if (span != null) {
                         span.setAttribute("db.slow_query", true);
                     }
@@ -163,10 +176,9 @@ public class SqlObservationInterceptor implements Interceptor {
             }
             if (span != null) {
                 if (sqlText != null) {
-                    span.setAttribute("db.statement",
-                            sqlText.length() > MAX_SQL_LENGTH
-                                    ? sqlText.substring(0, MAX_SQL_LENGTH)
-                                    : sqlText);
+                    span.setAttribute(
+                            "db.statement",
+                            sqlText.length() > MAX_SQL_LENGTH ? sqlText.substring(0, MAX_SQL_LENGTH) : sqlText);
                 }
                 span.end();
             }

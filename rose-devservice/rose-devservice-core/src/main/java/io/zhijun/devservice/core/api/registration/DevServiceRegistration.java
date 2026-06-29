@@ -16,10 +16,7 @@ public final class DevServiceRegistration {
     private final String description;
     private final Supplier<ContainerInfo> containerInfo;
 
-    public DevServiceRegistration(
-            String name,
-            String description,
-            Supplier<ContainerInfo> containerInfo) {
+    public DevServiceRegistration(String name, String description, Supplier<ContainerInfo> containerInfo) {
         Validate.notBlank(name, "name cannot be null or empty");
         Validate.notNull(containerInfo, "containerInfo cannot be null");
         this.name = name;

@@ -45,8 +45,14 @@ public final class OsResourceContributor implements ResourceContributor {
             builder.put(OS_VERSION, osInfo.getVersion());
         }
 
-        if (StringUtils.hasText(osInfo.getName()) && StringUtils.hasText(osInfo.getVersion()) && StringUtils.hasText(osInfo.getArch())) {
-            builder.put(OS_DESCRIPTION, String.format("%s [Version: %s, Architecture: %s]", osInfo.getName(), osInfo.getVersion(), osInfo.getArch()));
+        if (StringUtils.hasText(osInfo.getName())
+                && StringUtils.hasText(osInfo.getVersion())
+                && StringUtils.hasText(osInfo.getArch())) {
+            builder.put(
+                    OS_DESCRIPTION,
+                    String.format(
+                            "%s [Version: %s, Architecture: %s]",
+                            osInfo.getName(), osInfo.getVersion(), osInfo.getArch()));
         } else if (StringUtils.hasText(osInfo.getName()) && StringUtils.hasText(osInfo.getVersion())) {
             builder.put(OS_DESCRIPTION, String.format("%s [Version: %s]", osInfo.getName(), osInfo.getVersion()));
         } else if (StringUtils.hasText(osInfo.getName())) {
@@ -111,5 +117,4 @@ public final class OsResourceContributor implements ResourceContributor {
             return matcher;
         }
     }
-
 }

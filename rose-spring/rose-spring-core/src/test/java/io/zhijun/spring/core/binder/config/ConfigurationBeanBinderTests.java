@@ -1,5 +1,8 @@
 package io.zhijun.spring.core.binder.config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,9 +10,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.format.support.DefaultFormattingConversionService;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ConfigurationBeanBinderTests {
 
@@ -54,8 +54,8 @@ class ConfigurationBeanBinderTests {
         ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
 
-        assertThatThrownBy(() -> binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), false, true,
-                target))
+        assertThatThrownBy(() ->
+                        binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), false, true, target))
                 .isInstanceOf(org.springframework.beans.NotWritablePropertyException.class);
     }
 

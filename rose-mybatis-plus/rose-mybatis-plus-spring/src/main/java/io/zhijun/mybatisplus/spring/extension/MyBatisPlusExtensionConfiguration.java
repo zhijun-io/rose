@@ -2,7 +2,6 @@ package io.zhijun.mybatisplus.spring.extension;
 
 import java.util.List;
 
-import io.zhijun.mybatisplus.spring.annotation.EnableMyBatisPlusExtension;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
 import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
+import io.zhijun.mybatisplus.spring.annotation.EnableMyBatisPlusExtension;
 import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 
 /**
@@ -29,5 +29,4 @@ public final class MyBatisPlusExtensionConfiguration {
                 SpringFactoriesLoaderUtils.loadFactories(beanFactory, MybatisPlusInterceptorCustomizer.class);
         return new MybatisPlusInterceptorCustomizerBeanPostProcessor(factoryCustomizers);
     }
-
 }

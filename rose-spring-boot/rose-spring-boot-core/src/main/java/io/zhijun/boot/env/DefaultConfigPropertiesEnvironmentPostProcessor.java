@@ -42,12 +42,12 @@ public final class DefaultConfigPropertiesEnvironmentPostProcessor implements En
     public static final String META_INF_DEFAULT_YAML_PATTERN = "classpath*:META-INF/config/default/*.yaml";
 
     public static final String[] DEFAULT_LOCATION_PATTERNS = {
-            DEFAULT_PROPERTIES_PATTERN,
-            DEFAULT_YML_PATTERN,
-            DEFAULT_YAML_PATTERN,
-            META_INF_DEFAULT_PROPERTIES_PATTERN,
-            META_INF_DEFAULT_YML_PATTERN,
-            META_INF_DEFAULT_YAML_PATTERN
+        DEFAULT_PROPERTIES_PATTERN,
+        DEFAULT_YML_PATTERN,
+        DEFAULT_YAML_PATTERN,
+        META_INF_DEFAULT_PROPERTIES_PATTERN,
+        META_INF_DEFAULT_YML_PATTERN,
+        META_INF_DEFAULT_YAML_PATTERN
     };
 
     private final DefaultConfigPropertiesLoader loader = new DefaultConfigPropertiesLoader();

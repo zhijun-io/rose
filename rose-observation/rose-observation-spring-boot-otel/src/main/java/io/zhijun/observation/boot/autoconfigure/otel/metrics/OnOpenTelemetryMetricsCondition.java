@@ -13,16 +13,18 @@ class OnOpenTelemetryMetricsCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Boolean openTelemetryMetricsEnabled = context.getEnvironment().getProperty(OpenTelemetryMetricsProperties.ENABLED_PROPERTY, Boolean.class);
+        Boolean openTelemetryMetricsEnabled =
+                context.getEnvironment().getProperty(OpenTelemetryMetricsProperties.ENABLED_PROPERTY, Boolean.class);
 
         if (openTelemetryMetricsEnabled != null) {
-            return new ConditionOutcome(openTelemetryMetricsEnabled,
+            return new ConditionOutcome(
+                    openTelemetryMetricsEnabled,
                     ConditionMessage.forCondition(ConditionalOnOpenTelemetryMetrics.class)
-                            .because(OpenTelemetryMetricsProperties.CONFIG_PREFIX + ".enabled is " + openTelemetryMetricsEnabled));
+                            .because(OpenTelemetryMetricsProperties.CONFIG_PREFIX + ".enabled is "
+                                    + openTelemetryMetricsEnabled));
         }
 
         return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnOpenTelemetryMetrics.class)
                 .because("OpenTelemetry metrics are enabled by default"));
     }
-
 }

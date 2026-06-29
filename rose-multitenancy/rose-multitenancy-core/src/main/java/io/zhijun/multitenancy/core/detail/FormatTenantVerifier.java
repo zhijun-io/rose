@@ -21,5 +21,4 @@ public final class FormatTenantVerifier implements TenantVerifier {
                     "The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
         }
     }
-
 }

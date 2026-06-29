@@ -1,12 +1,12 @@
 package io.zhijun.spring.core.env;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.StaticApplicationContext;
@@ -14,8 +14,7 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
 import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 class ListenableMutablePropertySourcesTests {
 
@@ -30,8 +29,8 @@ class ListenableMutablePropertySourcesTests {
                 events.add(event);
             }
         };
-        ListenableMutablePropertySources propertySources = new ListenableMutablePropertySources(delegate, context,
-                Collections.singletonList(listener));
+        ListenableMutablePropertySources propertySources =
+                new ListenableMutablePropertySources(delegate, context, Collections.singletonList(listener));
 
         Map<String, Object> first = new HashMap<String, Object>();
         first.put("a", "b");

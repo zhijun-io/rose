@@ -11,10 +11,6 @@ import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestConfi
  * Auto-configuration for Dev Services bootstrap.
  */
 @Configuration(proxyBeanMethods = false)
-@Import({
-        BootstrapDevConfiguration.class,
-        BootstrapTestConfiguration.class
-})
+@Import({BootstrapDevConfiguration.class, BootstrapTestConfiguration.class})
 @EnableConfigurationProperties(BootstrapProperties.class)
-public final class BootstrapAutoConfiguration {
-}
+public final class BootstrapAutoConfiguration {}

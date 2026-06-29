@@ -11,13 +11,11 @@ import io.zhijun.annotation.Incubating;
 @Incubating
 public final class DevServiceContainerLifecycle {
 
-    private DevServiceContainerLifecycle() {
-    }
+    private DevServiceContainerLifecycle() {}
 
     public static void startIfNecessary(Container<?> container) {
         if (!container.isRunning()) {
             ((Startable) container).start();
         }
     }
-
 }

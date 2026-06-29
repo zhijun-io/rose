@@ -1,14 +1,12 @@
 package io.zhijun.devservice.boot.registration;
 
-import io.zhijun.devservice.boot.registration.DevServiceRegistry;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link DevServiceRegistry}.
@@ -29,8 +27,7 @@ class DevServiceRegistryIT {
             assertThat(info.getId()).isEqualTo(container.getContainerId());
             assertThat(info.getImageName()).isNotBlank();
             assertThat(info.getStatus()).isNotBlank();
-        }
-        finally {
+        } finally {
             container.stop();
         }
     }
@@ -40,5 +37,4 @@ class DevServiceRegistryIT {
             super("postgres:latest");
         }
     }
-
 }

@@ -1,12 +1,12 @@
 package io.zhijun.multitenancy.spring.web.resolver;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import javax.servlet.http.Cookie;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test for {@link CookieTenantResolver}.
@@ -15,14 +15,16 @@ class CookieTenantResolverTests {
 
     @Test
     void whenNullCustomCookieThenThrow() {
-        assertThatThrownBy(() -> new CookieTenantResolver(null)).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("tenantCookieName cannot be null or empty");
+        assertThatThrownBy(() -> new CookieTenantResolver(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("tenantCookieName cannot be null or empty");
     }
 
     @Test
     void whenEmptyCustomCookieThenThrow() {
-        assertThatThrownBy(() -> new CookieTenantResolver("")).isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("tenantCookieName cannot be null or empty");
+        assertThatThrownBy(() -> new CookieTenantResolver(""))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("tenantCookieName cannot be null or empty");
     }
 
     @Test
@@ -65,8 +67,7 @@ class CookieTenantResolverTests {
         CookieTenantResolver cookieTenantResolver = new CookieTenantResolver();
 
         assertThatThrownBy(() -> cookieTenantResolver.resolveTenantIdentifier(null))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("request cannot be null");
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("request cannot be null");
     }
-
 }

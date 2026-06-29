@@ -40,8 +40,11 @@ public final class OtlpExporterTransportConfigurer {
         void setProxy(B builder, ProxyOptions proxyOptions);
     }
 
-    public static <B> void applyTls(B builder, OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties, TrustedCertificatesSetter<B> trustedCertificatesSetter,
+    public static <B> void applyTls(
+            B builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties,
+            TrustedCertificatesSetter<B> trustedCertificatesSetter,
             ClientTlsSetter<B> clientTlsSetter) {
         byte[] trustedCertificates = readBytes(resolveTrustedCertificates(commonProperties, signalProperties));
         if (trustedCertificates != null) {
@@ -55,8 +58,11 @@ public final class OtlpExporterTransportConfigurer {
         }
     }
 
-    public static <B> void applyProxy(B builder, OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties, ProxySetter<B> proxySetter) {
+    public static <B> void applyProxy(
+            B builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties,
+            ProxySetter<B> proxySetter) {
         ProxyOptions proxyOptions = resolveProxy(commonProperties, signalProperties);
         if (proxyOptions != null) {
             proxySetter.setProxy(builder, proxyOptions);
@@ -64,26 +70,32 @@ public final class OtlpExporterTransportConfigurer {
     }
 
     @Nullable
-    static String resolveTrustedCertificates(OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties) {
-        return firstNonEmpty(signalProperties.getTls().getTrustedCertificates(),
+    static String resolveTrustedCertificates(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
+        return firstNonEmpty(
+                signalProperties.getTls().getTrustedCertificates(),
                 commonProperties.getOtlp().getTls().getTrustedCertificates());
     }
 
     @Nullable
-    static String resolveClientCertificate(OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties) {
-        return firstNonEmpty(signalProperties.getTls().getCertificate(),
+    static String resolveClientCertificate(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
+        return firstNonEmpty(
+                signalProperties.getTls().getCertificate(),
                 commonProperties.getOtlp().getTls().getCertificate());
     }
 
     @Nullable
-    static String resolveClientKey(OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
-        return firstNonEmpty(signalProperties.getTls().getKey(), commonProperties.getOtlp().getTls().getKey());
+    static String resolveClientKey(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
+        return firstNonEmpty(
+                signalProperties.getTls().getKey(),
+                commonProperties.getOtlp().getTls().getKey());
     }
 
     @Nullable
-    static ProxyOptions resolveProxy(OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
+    static ProxyOptions resolveProxy(
+            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
         ProxyConfig signalProxy = signalProperties.getProxy();
         if (StringUtils.hasText(signalProxy.getHost())) {
             return ProxyOptions.create(new InetSocketAddress(signalProxy.getHost(), signalProxy.getPort()));
@@ -95,52 +107,98 @@ public final class OtlpExporterTransportConfigurer {
         return null;
     }
 
-    public static <B> void configureHttpTransport(B builder, OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties, TrustedCertificatesSetter<B> trustedCertificatesSetter,
-            ClientTlsSetter<B> clientTlsSetter, ProxySetter<B> proxySetter) {
+    public static <B> void configureHttpTransport(
+            B builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties,
+            TrustedCertificatesSetter<B> trustedCertificatesSetter,
+            ClientTlsSetter<B> clientTlsSetter,
+            ProxySetter<B> proxySetter) {
         applyTls(builder, commonProperties, signalProperties, trustedCertificatesSetter, clientTlsSetter);
         applyProxy(builder, commonProperties, signalProperties, proxySetter);
     }
 
-    public static <B> void configureGrpcTransport(B builder, OpenTelemetryExporterProperties commonProperties,
-            OtlpExporterConfig signalProperties, TrustedCertificatesSetter<B> trustedCertificatesSetter,
+    public static <B> void configureGrpcTransport(
+            B builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties,
+            TrustedCertificatesSetter<B> trustedCertificatesSetter,
             ClientTlsSetter<B> clientTlsSetter) {
         applyTls(builder, commonProperties, signalProperties, trustedCertificatesSetter, clientTlsSetter);
     }
 
-    public static void configureHttpTraceTransport(OtlpHttpSpanExporterBuilder builder,
-            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
-        configureHttpTransport(builder, commonProperties, signalProperties, OtlpHttpSpanExporterBuilder::setTrustedCertificates,
-                OtlpHttpSpanExporterBuilder::setClientTls, OtlpHttpSpanExporterBuilder::setProxy);
+    public static void configureHttpTraceTransport(
+            OtlpHttpSpanExporterBuilder builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties) {
+        configureHttpTransport(
+                builder,
+                commonProperties,
+                signalProperties,
+                OtlpHttpSpanExporterBuilder::setTrustedCertificates,
+                OtlpHttpSpanExporterBuilder::setClientTls,
+                OtlpHttpSpanExporterBuilder::setProxy);
     }
 
-    public static void configureGrpcTraceTransport(OtlpGrpcSpanExporterBuilder builder,
-            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
-        configureGrpcTransport(builder, commonProperties, signalProperties, OtlpGrpcSpanExporterBuilder::setTrustedCertificates,
+    public static void configureGrpcTraceTransport(
+            OtlpGrpcSpanExporterBuilder builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties) {
+        configureGrpcTransport(
+                builder,
+                commonProperties,
+                signalProperties,
+                OtlpGrpcSpanExporterBuilder::setTrustedCertificates,
                 OtlpGrpcSpanExporterBuilder::setClientTls);
     }
 
-    public static void configureHttpMetricTransport(OtlpHttpMetricExporterBuilder builder,
-            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
-        configureHttpTransport(builder, commonProperties, signalProperties, OtlpHttpMetricExporterBuilder::setTrustedCertificates,
-                OtlpHttpMetricExporterBuilder::setClientTls, OtlpHttpMetricExporterBuilder::setProxyOptions);
+    public static void configureHttpMetricTransport(
+            OtlpHttpMetricExporterBuilder builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties) {
+        configureHttpTransport(
+                builder,
+                commonProperties,
+                signalProperties,
+                OtlpHttpMetricExporterBuilder::setTrustedCertificates,
+                OtlpHttpMetricExporterBuilder::setClientTls,
+                OtlpHttpMetricExporterBuilder::setProxyOptions);
     }
 
-    public static void configureGrpcMetricTransport(OtlpGrpcMetricExporterBuilder builder,
-            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
-        configureGrpcTransport(builder, commonProperties, signalProperties, OtlpGrpcMetricExporterBuilder::setTrustedCertificates,
+    public static void configureGrpcMetricTransport(
+            OtlpGrpcMetricExporterBuilder builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties) {
+        configureGrpcTransport(
+                builder,
+                commonProperties,
+                signalProperties,
+                OtlpGrpcMetricExporterBuilder::setTrustedCertificates,
                 OtlpGrpcMetricExporterBuilder::setClientTls);
     }
 
-    public static void configureHttpLogTransport(OtlpHttpLogRecordExporterBuilder builder,
-            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
-        configureHttpTransport(builder, commonProperties, signalProperties, OtlpHttpLogRecordExporterBuilder::setTrustedCertificates,
-                OtlpHttpLogRecordExporterBuilder::setClientTls, OtlpHttpLogRecordExporterBuilder::setProxyOptions);
+    public static void configureHttpLogTransport(
+            OtlpHttpLogRecordExporterBuilder builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties) {
+        configureHttpTransport(
+                builder,
+                commonProperties,
+                signalProperties,
+                OtlpHttpLogRecordExporterBuilder::setTrustedCertificates,
+                OtlpHttpLogRecordExporterBuilder::setClientTls,
+                OtlpHttpLogRecordExporterBuilder::setProxyOptions);
     }
 
-    public static void configureGrpcLogTransport(OtlpGrpcLogRecordExporterBuilder builder,
-            OpenTelemetryExporterProperties commonProperties, OtlpExporterConfig signalProperties) {
-        configureGrpcTransport(builder, commonProperties, signalProperties, OtlpGrpcLogRecordExporterBuilder::setTrustedCertificates,
+    public static void configureGrpcLogTransport(
+            OtlpGrpcLogRecordExporterBuilder builder,
+            OpenTelemetryExporterProperties commonProperties,
+            OtlpExporterConfig signalProperties) {
+        configureGrpcTransport(
+                builder,
+                commonProperties,
+                signalProperties,
+                OtlpGrpcLogRecordExporterBuilder::setTrustedCertificates,
                 OtlpGrpcLogRecordExporterBuilder::setClientTls);
     }
 
@@ -173,5 +231,4 @@ public final class OtlpExporterTransportConfigurer {
         }
         return new FileSystemResource(location);
     }
-
 }

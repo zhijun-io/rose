@@ -1,12 +1,15 @@
 package io.zhijun.devservice.core.container;
 
-import java.util.Collections;
-import java.util.Arrays;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.lang.reflect.Field;
 import java.time.Duration;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -20,10 +23,6 @@ import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
 import io.zhijun.devservice.core.api.config.VolumeMapping;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test for {@link ContainerConfigurer}.
@@ -44,39 +43,33 @@ class ContainerConfigurerTests {
         return map;
     }
 
-
-
     @Test
     void baseConfigurationShouldApplyEnvironmentVariables() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
-        BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withEnvironment(mapOf("KEY1", "VALUE1", "KEY2", "VALUE2"));
+        BaseDevServiceProperties properties =
+                new TestBaseDevServiceProperties().withEnvironment(mapOf("KEY1", "VALUE1", "KEY2", "VALUE2"));
 
         ContainerConfigurer.base(container, properties);
 
-        assertThat(container.getEnvMap())
-                .containsEntry("KEY1", "VALUE1")
-                .containsEntry("KEY2", "VALUE2");
+        assertThat(container.getEnvMap()).containsEntry("KEY1", "VALUE1").containsEntry("KEY2", "VALUE2");
     }
 
     @Test
     void baseConfigurationShouldApplyNetworkAliases() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
-        BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withNetworkAliases(Arrays.asList("alias1", "alias2", "alias3"));
+        BaseDevServiceProperties properties =
+                new TestBaseDevServiceProperties().withNetworkAliases(Arrays.asList("alias1", "alias2", "alias3"));
 
         ContainerConfigurer.base(container, properties);
 
-        assertThat(container.getNetworkAliases())
-                .contains("alias1", "alias2", "alias3");
+        assertThat(container.getNetworkAliases()).contains("alias1", "alias2", "alias3");
     }
 
     @Test
     void baseConfigurationShouldApplyStartupTimeout() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         Duration customTimeout = Duration.ofMinutes(2);
-        BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withStartupTimeout(customTimeout);
+        BaseDevServiceProperties properties = new TestBaseDevServiceProperties().withStartupTimeout(customTimeout);
 
         ContainerConfigurer.base(container, properties);
 
@@ -125,8 +118,8 @@ class ContainerConfigurerTests {
     @Test
     void baseConfigurationShouldApplyEmptyEnvironmentVariables() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
-        BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withEnvironment(Collections.emptyMap());
+        BaseDevServiceProperties properties =
+                new TestBaseDevServiceProperties().withEnvironment(Collections.emptyMap());
 
         ContainerConfigurer.base(container, properties);
 
@@ -136,8 +129,8 @@ class ContainerConfigurerTests {
     @Test
     void baseConfigurationShouldApplyEmptyNetworkAliases() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
-        BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withNetworkAliases(Collections.emptyList());
+        BaseDevServiceProperties properties =
+                new TestBaseDevServiceProperties().withNetworkAliases(Collections.emptyList());
 
         ContainerConfigurer.base(container, properties);
 
@@ -148,31 +141,26 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldCopyClasspathResourceWithExplicitPrefix() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(
-                        new ResourceMapping("classpath:test-resource.txt", "/etc/config/test.txt")
-                ));
+                .withResources(
+                        Arrays.asList(new ResourceMapping("classpath:test-resource.txt", "/etc/config/test.txt")));
 
         ContainerConfigurer.resources(container, properties);
 
         // Then
         assertThat(container.getCopyToFileContainerPathMap()).isNotEmpty();
-        assertThat(container.getCopyToFileContainerPathMap().values())
-                .contains("/etc/config/test.txt");
+        assertThat(container.getCopyToFileContainerPathMap().values()).contains("/etc/config/test.txt");
     }
 
     @Test
     void resourcesConfigurationShouldCopyClasspathResourceWithoutPrefix() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(
-                        new ResourceMapping("test-resource.txt", "/etc/config/test.txt")
-                ));
+                .withResources(Arrays.asList(new ResourceMapping("test-resource.txt", "/etc/config/test.txt")));
 
         ContainerConfigurer.resources(container, properties);
 
         assertThat(container.getCopyToFileContainerPathMap()).isNotEmpty();
-        assertThat(container.getCopyToFileContainerPathMap().values())
-                .contains("/etc/config/test.txt");
+        assertThat(container.getCopyToFileContainerPathMap().values()).contains("/etc/config/test.txt");
     }
 
     @Test
@@ -181,8 +169,7 @@ class ContainerConfigurerTests {
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
                 .withResources(Arrays.asList(
                         new ResourceMapping("classpath:test-resource.txt", "/etc/config/test1.txt"),
-                        new ResourceMapping("test-resource.txt", "/etc/config/test2.txt")
-                ));
+                        new ResourceMapping("test-resource.txt", "/etc/config/test2.txt")));
 
         ContainerConfigurer.resources(container, properties);
 
@@ -195,9 +182,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenSourcePathIsNull() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(
-                        new ResourceMapping(null, "/etc/config/test.txt")
-                ));
+                .withResources(Arrays.asList(new ResourceMapping(null, "/etc/config/test.txt")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(NullPointerException.class)
@@ -208,9 +193,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenSourcePathIsEmpty() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(
-                        new ResourceMapping("", "/etc/config/test.txt")
-                ));
+                .withResources(Arrays.asList(new ResourceMapping("", "/etc/config/test.txt")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -221,9 +204,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenContainerPathIsNull() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(
-                        new ResourceMapping("test-resource.txt", null)
-                ));
+                .withResources(Arrays.asList(new ResourceMapping("test-resource.txt", null)));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(NullPointerException.class)
@@ -234,9 +215,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenContainerPathIsEmpty() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(
-                        new ResourceMapping("test-resource.txt", "")
-                ));
+                .withResources(Arrays.asList(new ResourceMapping("test-resource.txt", "")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -247,9 +226,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenResourceNotFound() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(
-                        new ResourceMapping("non-existent-resource.txt", "/etc/config/test.txt")
-                ));
+                .withResources(Arrays.asList(new ResourceMapping("non-existent-resource.txt", "/etc/config/test.txt")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -259,8 +236,7 @@ class ContainerConfigurerTests {
     @Test
     void resourcesConfigurationShouldHandleEmptyResourcesList() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
-        BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Collections.emptyList());
+        BaseDevServiceProperties properties = new TestBaseDevServiceProperties().withResources(Collections.emptyList());
 
         ContainerConfigurer.resources(container, properties);
 
@@ -271,9 +247,7 @@ class ContainerConfigurerTests {
     void volumesConfigurationShouldBindSingleVolume() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withVolumes(Arrays.asList(
-                        new VolumeMapping("/host/path", "/container/path")
-                ));
+                .withVolumes(Arrays.asList(new VolumeMapping("/host/path", "/container/path")));
 
         ContainerConfigurer.volumes(container, properties);
 
@@ -290,8 +264,7 @@ class ContainerConfigurerTests {
                 .withVolumes(Arrays.asList(
                         new VolumeMapping("/host/path1", "/container/path1"),
                         new VolumeMapping("/host/path2", "/container/path2"),
-                        new VolumeMapping("/host/path3", "/container/path3")
-                ));
+                        new VolumeMapping("/host/path3", "/container/path3")));
 
         ContainerConfigurer.volumes(container, properties);
 
@@ -310,8 +283,7 @@ class ContainerConfigurerTests {
     @Test
     void volumesConfigurationShouldHandleEmptyVolumesList() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
-        BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withVolumes(Collections.emptyList());
+        BaseDevServiceProperties properties = new TestBaseDevServiceProperties().withVolumes(Collections.emptyList());
 
         ContainerConfigurer.volumes(container, properties);
 
@@ -321,8 +293,7 @@ class ContainerConfigurerTests {
     @Test
     void jdbcConfigurationShouldApplyUsername() {
         JdbcDatabaseContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
-        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties()
-                .withUsername("testuser");
+        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties().withUsername("testuser");
 
         ContainerConfigurer.jdbc(container, properties);
 
@@ -332,8 +303,7 @@ class ContainerConfigurerTests {
     @Test
     void jdbcConfigurationShouldApplyPassword() {
         JdbcDatabaseContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
-        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties()
-                .withPassword("testpassword");
+        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties().withPassword("testpassword");
 
         ContainerConfigurer.jdbc(container, properties);
 
@@ -343,8 +313,7 @@ class ContainerConfigurerTests {
     @Test
     void jdbcConfigurationShouldApplyDatabaseName() {
         JdbcDatabaseContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
-        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties()
-                .withDbName("testdb");
+        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties().withDbName("testdb");
 
         ContainerConfigurer.jdbc(container, properties);
 
@@ -354,23 +323,22 @@ class ContainerConfigurerTests {
     @Test
     void jdbcConfigurationShouldApplyInitScripts() {
         JdbcDatabaseContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
-        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties()
-                .withInitScriptPaths(Arrays.asList("init1.sql", "init2.sql"));
+        JdbcDevServiceProperties properties =
+                new TestJdbcDevServiceProperties().withInitScriptPaths(Arrays.asList("init1.sql", "init2.sql"));
 
         ContainerConfigurer.jdbc(container, properties);
 
         String[] initScripts = getInitScripts(container);
-        assertThat(initScripts)
-                .containsExactly("init1.sql", "init2.sql");
+        assertThat(initScripts).containsExactly("init1.sql", "init2.sql");
     }
+
     @Test
     void jdbcConfigurationShouldHandleEmptyInitScripts() {
         JdbcDatabaseContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
-        JdbcDevServiceProperties properties = new TestJdbcDevServiceProperties()
-                .withInitScriptPaths(Collections.emptyList());
+        JdbcDevServiceProperties properties =
+                new TestJdbcDevServiceProperties().withInitScriptPaths(Collections.emptyList());
 
-        assertThatCode(() -> ContainerConfigurer.jdbc(container, properties))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> ContainerConfigurer.jdbc(container, properties)).doesNotThrowAnyException();
 
         String[] initScripts = getInitScripts(container);
         assertThat(initScripts).isEmpty();
@@ -457,5 +425,4 @@ class ContainerConfigurerTests {
             return this;
         }
     }
-
 }

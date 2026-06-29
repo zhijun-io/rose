@@ -51,5 +51,4 @@ public class TlsConfig {
     public void setKey(@Nullable String key) {
         this.key = key;
     }
-
 }

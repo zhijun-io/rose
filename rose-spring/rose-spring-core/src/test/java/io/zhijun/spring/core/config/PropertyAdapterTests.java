@@ -1,11 +1,13 @@
 package io.zhijun.spring.core.config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
+
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import io.zhijun.spring.core.env.PropertyAdapter;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
+import io.zhijun.spring.core.env.PropertyAdapter;
 
 /**
  * Unit test for {@link PropertyAdapter}.
@@ -63,7 +63,8 @@ class PropertyAdapterTests {
 
     @Test
     void whenNullConverterThenThrow() {
-        assertThatThrownBy(() -> PropertyAdapter.builder(environment).mapProperty("external.custom", "rose.custom", null))
+        assertThatThrownBy(
+                        () -> PropertyAdapter.builder(environment).mapProperty("external.custom", "rose.custom", null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("converter cannot be null");
     }
@@ -79,7 +80,9 @@ class PropertyAdapterTests {
     void shouldMapStringProperty() {
         when(environment.getProperty("external.string")).thenReturn("test-value");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapString("external.string", "rose.string").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapString("external.string", "rose.string")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.string", "test-value");
     }
@@ -88,7 +91,9 @@ class PropertyAdapterTests {
     void shouldHandleNullInputForString() {
         when(environment.getProperty("external.string")).thenReturn(null);
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapString("external.string", "rose.string").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapString("external.string", "rose.string")
+                .build();
 
         assertThat(adapter.getRoseProperties()).doesNotContainKey("rose.string");
     }
@@ -97,7 +102,9 @@ class PropertyAdapterTests {
     void shouldHandleBlankInputForString() {
         when(environment.getProperty("external.string")).thenReturn("   ");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapString("external.string", "rose.string").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapString("external.string", "rose.string")
+                .build();
 
         assertThat(adapter.getRoseProperties()).doesNotContainKey("rose.string");
     }
@@ -106,7 +113,9 @@ class PropertyAdapterTests {
     void shouldMapBooleanProperty() {
         when(environment.getProperty("external.boolean")).thenReturn("true");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapBoolean("external.boolean", "rose.boolean").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapBoolean("external.boolean", "rose.boolean")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.boolean", true);
     }
@@ -115,7 +124,9 @@ class PropertyAdapterTests {
     void shouldMapFalseBooleanProperty() {
         when(environment.getProperty("external.boolean")).thenReturn("false");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapBoolean("external.boolean", "rose.boolean").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapBoolean("external.boolean", "rose.boolean")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.boolean", false);
     }
@@ -124,7 +135,9 @@ class PropertyAdapterTests {
     void shouldMapInvalidBooleanPropertyAsFalse() {
         when(environment.getProperty("external.boolean")).thenReturn("yes");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapBoolean("external.boolean", "rose.boolean").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapBoolean("external.boolean", "rose.boolean")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.boolean", false);
     }
@@ -133,7 +146,9 @@ class PropertyAdapterTests {
     void shouldMapDoubleProperty() {
         when(environment.getProperty("external.double")).thenReturn("42.5");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapDouble("external.double", "rose.double").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapDouble("external.double", "rose.double")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.double", 42.5);
     }
@@ -142,7 +157,9 @@ class PropertyAdapterTests {
     void shouldHandleInvalidDoubleProperty() {
         when(environment.getProperty("external.double")).thenReturn("invalid");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapDouble("external.double", "rose.double").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapDouble("external.double", "rose.double")
+                .build();
 
         assertThat(adapter.getRoseProperties()).doesNotContainKey("rose.double");
     }
@@ -151,7 +168,9 @@ class PropertyAdapterTests {
     void shouldMapDurationPropertyWithMilliseconds() {
         when(environment.getProperty("external.duration")).thenReturn("60000");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapDuration("external.duration", "rose.duration").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapDuration("external.duration", "rose.duration")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.duration", Duration.ofMillis(60000));
     }
@@ -160,7 +179,9 @@ class PropertyAdapterTests {
     void shouldMapDurationPropertyWithUnit() {
         when(environment.getProperty("external.duration")).thenReturn("60s");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapDuration("external.duration", "rose.duration").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapDuration("external.duration", "rose.duration")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.duration", Duration.ofSeconds(60));
     }
@@ -169,7 +190,9 @@ class PropertyAdapterTests {
     void shouldHandleInvalidDurationProperty() {
         when(environment.getProperty("external.duration")).thenReturn("invalid");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapDuration("external.duration", "rose.duration").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapDuration("external.duration", "rose.duration")
+                .build();
 
         assertThat(adapter.getRoseProperties()).doesNotContainKey("rose.duration");
     }
@@ -178,7 +201,9 @@ class PropertyAdapterTests {
     void shouldMapIntegerProperty() {
         when(environment.getProperty("external.integer")).thenReturn("42");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapInteger("external.integer", "rose.integer").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapInteger("external.integer", "rose.integer")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.integer", 42);
     }
@@ -187,7 +212,9 @@ class PropertyAdapterTests {
     void shouldHandleInvalidIntegerProperty() {
         when(environment.getProperty("external.integer")).thenReturn("invalid");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapInteger("external.integer", "rose.integer").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapInteger("external.integer", "rose.integer")
+                .build();
 
         assertThat(adapter.getRoseProperties()).doesNotContainKey("rose.integer");
     }
@@ -196,7 +223,9 @@ class PropertyAdapterTests {
     void shouldMapListProperty() {
         when(environment.getProperty("external.list")).thenReturn("value1,value2,value3");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapList("external.list", "rose.list").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapList("external.list", "rose.list")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.list", Arrays.asList("value1", "value2", "value3"));
     }
@@ -205,7 +234,9 @@ class PropertyAdapterTests {
     void shouldIgnoreBlankListEntries() {
         when(environment.getProperty("external.list")).thenReturn("value1, ,value2");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapList("external.list", "rose.list").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapList("external.list", "rose.list")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.list", Arrays.asList("value1", "value2"));
     }
@@ -214,7 +245,9 @@ class PropertyAdapterTests {
     void shouldHandleListWithOnlyDelimiters() {
         when(environment.getProperty("external.list")).thenReturn(",");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapList("external.list", "rose.list").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapList("external.list", "rose.list")
+                .build();
 
         assertThat(adapter.getRoseProperties()).doesNotContainKey("rose.list");
     }
@@ -223,7 +256,9 @@ class PropertyAdapterTests {
     void shouldMapMapProperty() {
         when(environment.getProperty("external.map")).thenReturn("key1=value1,key2=value2");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapMap("external.map", "rose.map").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapMap("external.map", "rose.map")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.map", mapOf("key1", "value1", "key2", "value2"));
     }
@@ -232,7 +267,9 @@ class PropertyAdapterTests {
     void shouldHandleInvalidMapProperty() {
         when(environment.getProperty("external.map")).thenReturn("invalid,key2=value2");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapMap("external.map", "rose.map").build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapMap("external.map", "rose.map")
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.map", mapOf("key2", "value2"));
     }
@@ -241,7 +278,9 @@ class PropertyAdapterTests {
     void shouldHandleNullMapFromPostProcessor() {
         when(environment.getProperty("external.map")).thenReturn("key1=value1,key2=value2");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapMap("external.map", "rose.map", map -> null).build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapMap("external.map", "rose.map", map -> null)
+                .build();
 
         assertThat(adapter.getRoseProperties()).doesNotContainKey("rose.map");
     }
@@ -254,8 +293,7 @@ class PropertyAdapterTests {
                 .mapEnum("external.enum", "rose.enum", key -> value -> {
                     try {
                         return TestEnum.valueOf(value);
-                    }
-                    catch (IllegalArgumentException e) {
+                    } catch (IllegalArgumentException e) {
                         return null;
                     }
                 })
@@ -268,14 +306,15 @@ class PropertyAdapterTests {
     void shouldMapCustomProperty() {
         when(environment.getProperty("external.custom")).thenReturn("42");
 
-        PropertyAdapter adapter = PropertyAdapter.builder(environment).mapProperty("external.custom", "rose.custom", value -> {
-            try {
-                return Integer.parseInt(value);
-            }
-            catch (NumberFormatException e) {
-                return null;
-            }
-        }).build();
+        PropertyAdapter adapter = PropertyAdapter.builder(environment)
+                .mapProperty("external.custom", "rose.custom", value -> {
+                    try {
+                        return Integer.parseInt(value);
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                })
+                .build();
 
         assertThat(adapter.getRoseProperties()).containsEntry("rose.custom", 42);
     }
@@ -310,7 +349,6 @@ class PropertyAdapterTests {
     }
 
     private enum TestEnum {
-
         TEST_VALUE
     }
 }

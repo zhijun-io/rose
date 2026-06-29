@@ -34,11 +34,14 @@ public final class ActiveMqDevServicesAutoConfiguration {
                     .containerClass(ActiveMqContainer.class)
                     .containerFactory(ActiveMqContainer::new)
                     .dynamicProperties(registrar -> {
-                        registrar.addDynamicProperty("spring.activemq.broker-url",
+                        registrar.addDynamicProperty(
+                                "spring.activemq.broker-url",
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
-                        registrar.addDynamicProperty("spring.activemq.user",
+                        registrar.addDynamicProperty(
+                                "spring.activemq.user",
                                 () -> registrar.requireRunningContainer().getUsername());
-                        registrar.addDynamicProperty("spring.activemq.password",
+                        registrar.addDynamicProperty(
+                                "spring.activemq.password",
                                 () -> registrar.requireRunningContainer().getPassword());
                     })
                     .build();

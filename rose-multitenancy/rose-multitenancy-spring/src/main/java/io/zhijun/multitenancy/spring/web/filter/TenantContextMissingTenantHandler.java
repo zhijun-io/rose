@@ -15,5 +15,4 @@ import io.zhijun.annotation.Incubating;
 public interface TenantContextMissingTenantHandler {
 
     void handle(HttpServletRequest request, HttpServletResponse response) throws IOException;
-
 }

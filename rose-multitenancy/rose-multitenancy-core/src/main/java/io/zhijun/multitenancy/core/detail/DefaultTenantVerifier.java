@@ -35,5 +35,4 @@ public final class DefaultTenantVerifier implements TenantVerifier {
             throw new TenantVerificationException("The resolved multitenancy is invalid or disabled");
         }
     }
-
 }

@@ -1,8 +1,8 @@
 package io.zhijun.devservice.core.api.provider;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link DevServiceCategory}.
@@ -14,5 +14,4 @@ class DevServiceCategoryTests {
         assertThat(DevServiceCategory.JDBC.id()).isEqualTo("jdbc");
         assertThat(DevServiceCategory.OPENTELEMETRY.id()).isEqualTo("opentelemetry");
     }
-
 }

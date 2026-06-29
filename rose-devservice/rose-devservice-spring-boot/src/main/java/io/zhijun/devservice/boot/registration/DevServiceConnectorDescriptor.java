@@ -127,12 +127,16 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
         }
 
         public DevServiceConnectorDescriptor<P, C> build() {
-            if (propertiesType == null || configPrefix == null || serviceName == null || displayName == null
-                    || category == null || containerClass == null || containerFactory == null) {
+            if (propertiesType == null
+                    || configPrefix == null
+                    || serviceName == null
+                    || displayName == null
+                    || category == null
+                    || containerClass == null
+                    || containerFactory == null) {
                 throw new IllegalStateException("DevServiceConnectorDescriptor is missing required fields");
             }
             return new DevServiceConnectorDescriptor<P, C>(this);
         }
     }
-
 }

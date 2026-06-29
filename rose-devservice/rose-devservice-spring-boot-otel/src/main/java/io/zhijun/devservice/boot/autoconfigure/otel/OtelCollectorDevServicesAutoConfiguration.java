@@ -21,22 +21,29 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @Import(OtelCollectorDevServicesAutoConfiguration.OtelCollectorDevServiceRegistrar.class)
 public final class OtelCollectorDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<OtelCollectorDevServiceProperties, OtelCollectorContainer> DESCRIPTOR =
-            DevServiceConnectorDescriptor.<OtelCollectorDevServiceProperties, OtelCollectorContainer>builder()
-                    .propertiesType(OtelCollectorDevServiceProperties.class)
-                    .configPrefix(OtelCollectorDevServiceProperties.CONFIG_PREFIX)
-                    .serviceName(OtelCollectorDevServiceProperties.SERVICE_NAME)
-                    .displayName("OpenTelemetry Collector Dev Service")
-                    .category(DevServiceCategory.OPENTELEMETRY)
-                    .containerClass(OtelCollectorContainer.class)
-                    .containerFactory(OtelCollectorContainer::new)
-                    .dynamicProperties(registrar -> {
-                        registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_ENDPOINT",
-                                () -> registrar.requireRunningContainer().getOtlpHttpUrl());
-                        registrar.addDynamicProperty("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
-                                () -> registrar.requireRunningContainer().getOtlpHttpUrl());
-                    })
-                    .build();
+    private static final DevServiceConnectorDescriptor<OtelCollectorDevServiceProperties, OtelCollectorContainer>
+            DESCRIPTOR =
+                    DevServiceConnectorDescriptor.<OtelCollectorDevServiceProperties, OtelCollectorContainer>builder()
+                            .propertiesType(OtelCollectorDevServiceProperties.class)
+                            .configPrefix(OtelCollectorDevServiceProperties.CONFIG_PREFIX)
+                            .serviceName(OtelCollectorDevServiceProperties.SERVICE_NAME)
+                            .displayName("OpenTelemetry Collector Dev Service")
+                            .category(DevServiceCategory.OPENTELEMETRY)
+                            .containerClass(OtelCollectorContainer.class)
+                            .containerFactory(OtelCollectorContainer::new)
+                            .dynamicProperties(registrar -> {
+                                registrar.addDynamicProperty(
+                                        "OTEL_EXPORTER_OTLP_ENDPOINT",
+                                        () -> registrar
+                                                .requireRunningContainer()
+                                                .getOtlpHttpUrl());
+                                registrar.addDynamicProperty(
+                                        "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
+                                        () -> registrar
+                                                .requireRunningContainer()
+                                                .getOtlpHttpUrl());
+                            })
+                            .build();
 
     static final class OtelCollectorDevServiceRegistrar
             extends ContainerDevServiceRegistrar<OtelCollectorDevServiceProperties, OtelCollectorContainer> {

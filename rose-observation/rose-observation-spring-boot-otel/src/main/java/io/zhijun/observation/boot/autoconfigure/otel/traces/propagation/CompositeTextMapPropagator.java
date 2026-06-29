@@ -29,8 +29,7 @@ class CompositeTextMapPropagator implements TextMapPropagator {
     private final Collection<TextMapPropagator> extractors;
     private final Set<String> fields;
 
-    CompositeTextMapPropagator(Collection<TextMapPropagator> injectors,
-                               Collection<TextMapPropagator> extractors) {
+    CompositeTextMapPropagator(Collection<TextMapPropagator> injectors, Collection<TextMapPropagator> extractors) {
         this.injectors = injectors;
         this.extractors = extractors;
         Set<String> initFields = new LinkedHashSet<String>();

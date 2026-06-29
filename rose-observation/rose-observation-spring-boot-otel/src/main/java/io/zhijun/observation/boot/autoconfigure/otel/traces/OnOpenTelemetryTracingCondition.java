@@ -13,16 +13,18 @@ class OnOpenTelemetryTracingCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Boolean openTelemetryTracesEnabled = context.getEnvironment().getProperty(OpenTelemetryTracingProperties.ENABLED_PROPERTY, Boolean.class);
+        Boolean openTelemetryTracesEnabled =
+                context.getEnvironment().getProperty(OpenTelemetryTracingProperties.ENABLED_PROPERTY, Boolean.class);
 
         if (openTelemetryTracesEnabled != null) {
-            return new ConditionOutcome(openTelemetryTracesEnabled,
+            return new ConditionOutcome(
+                    openTelemetryTracesEnabled,
                     ConditionMessage.forCondition(ConditionalOnOpenTelemetryTracing.class)
-                            .because(OpenTelemetryTracingProperties.CONFIG_PREFIX + ".enabled is " + openTelemetryTracesEnabled));
+                            .because(OpenTelemetryTracingProperties.CONFIG_PREFIX + ".enabled is "
+                                    + openTelemetryTracesEnabled));
         }
 
         return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnOpenTelemetryTracing.class)
                 .because("OpenTelemetry tracing is enabled by default"));
     }
-
 }

@@ -1,8 +1,8 @@
 package io.zhijun.devservice.test;
 
-import org.testcontainers.containers.JdbcDatabaseContainer;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.testcontainers.containers.JdbcDatabaseContainer;
 
 /**
  * Base JDBC dev services integration test.
@@ -19,10 +19,10 @@ public abstract class BaseJdbcDevServiceAutoConfigurationIT extends BaseDevServi
     protected String[] commonJdbcConfigurationProperties() {
         String prefix = "rose.dev." + getServiceName();
         return new String[] {
-                prefix + ".username=mytest",
-                prefix + ".password=mytest",
-                prefix + ".db-name=mytest",
-                prefix + ".init-script-paths=sql/init.sql"
+            prefix + ".username=mytest",
+            prefix + ".password=mytest",
+            prefix + ".db-name=mytest",
+            prefix + ".init-script-paths=sql/init.sql"
         };
     }
 

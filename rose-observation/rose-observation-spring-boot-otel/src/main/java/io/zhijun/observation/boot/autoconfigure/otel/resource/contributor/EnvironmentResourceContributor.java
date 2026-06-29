@@ -11,9 +11,9 @@ import io.opentelemetry.api.common.AttributesBuilder;
 import io.opentelemetry.sdk.resources.ResourceBuilder;
 import io.opentelemetry.semconv.ServiceAttributes;
 
-import org.springframework.lang.Nullable;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.env.Environment;
+import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.annotation.Incubating;
@@ -84,9 +84,11 @@ public final class EnvironmentResourceContributor implements ResourceContributor
      */
     private Attributes computeAttributes() {
         Map<AttributeKey<String>, String> attributesMap = new java.util.HashMap<AttributeKey<String>, String>();
-        for (java.util.Map.Entry<String, String> entry : properties.getAttributes().entrySet()) {
+        for (java.util.Map.Entry<String, String> entry :
+                properties.getAttributes().entrySet()) {
             try {
-                attributesMap.put(AttributeKey.stringKey(entry.getKey()),
+                attributesMap.put(
+                        AttributeKey.stringKey(entry.getKey()),
                         URLDecoder.decode(entry.getValue(), StandardCharsets.UTF_8.name()));
             } catch (java.io.UnsupportedEncodingException ex) {
                 throw new IllegalStateException("UTF-8 charset not supported", ex);
@@ -125,5 +127,4 @@ public final class EnvironmentResourceContributor implements ResourceContributor
         }
         return serviceInstanceId;
     }
-
 }

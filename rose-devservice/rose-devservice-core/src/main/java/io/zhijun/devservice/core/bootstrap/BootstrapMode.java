@@ -9,7 +9,6 @@ import io.zhijun.annotation.Incubating;
  */
 @Incubating
 public enum BootstrapMode {
-
     DEV,
     TEST,
     PROD;

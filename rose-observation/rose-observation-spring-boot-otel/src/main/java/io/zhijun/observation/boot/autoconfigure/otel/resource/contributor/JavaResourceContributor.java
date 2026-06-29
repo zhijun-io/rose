@@ -27,9 +27,11 @@ public final class JavaResourceContributor implements ResourceContributor {
     // These semantic conventions are experimental, so we define them explicitly to be able to ensure backward
     // compatibility rather than using the constants from OpenTelemetry SemConv project that may change in the future
     // without considering backward compatibility.
-    public static final AttributeKey<String> PROCESS_RUNTIME_DESCRIPTION = AttributeKey.stringKey("process.runtime.description");
+    public static final AttributeKey<String> PROCESS_RUNTIME_DESCRIPTION =
+            AttributeKey.stringKey("process.runtime.description");
     public static final AttributeKey<String> PROCESS_RUNTIME_NAME = AttributeKey.stringKey("process.runtime.name");
-    public static final AttributeKey<String> PROCESS_RUNTIME_VERSION = AttributeKey.stringKey("process.runtime.version");
+    public static final AttributeKey<String> PROCESS_RUNTIME_VERSION =
+            AttributeKey.stringKey("process.runtime.version");
 
     private final JavaInfo javaInfo = new JavaInfo();
 
@@ -42,10 +44,16 @@ public final class JavaResourceContributor implements ResourceContributor {
             builder.put(PROCESS_RUNTIME_VERSION, javaInfo.getRuntime().getVersion());
         }
 
-        if (StringUtils.hasText(javaInfo.getJvm().getVendor()) && StringUtils.hasText(javaInfo.getJvm().getName()) && StringUtils.hasText(javaInfo.getJvm().getVersion())) {
-            builder.put(PROCESS_RUNTIME_DESCRIPTION, String.format("%s %s %s", javaInfo.getJvm().getVendor(),
-                    javaInfo.getJvm().getName(), javaInfo.getJvm().getVersion()));
+        if (StringUtils.hasText(javaInfo.getJvm().getVendor())
+                && StringUtils.hasText(javaInfo.getJvm().getName())
+                && StringUtils.hasText(javaInfo.getJvm().getVersion())) {
+            builder.put(
+                    PROCESS_RUNTIME_DESCRIPTION,
+                    String.format(
+                            "%s %s %s",
+                            javaInfo.getJvm().getVendor(),
+                            javaInfo.getJvm().getName(),
+                            javaInfo.getJvm().getVersion()));
         }
     }
-
 }

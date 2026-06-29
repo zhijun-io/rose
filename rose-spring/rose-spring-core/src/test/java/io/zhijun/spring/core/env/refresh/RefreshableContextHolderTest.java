@@ -1,6 +1,7 @@
 package io.zhijun.spring.core.env.refresh;
 
-import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
 
 class RefreshableContextHolderTest {
 

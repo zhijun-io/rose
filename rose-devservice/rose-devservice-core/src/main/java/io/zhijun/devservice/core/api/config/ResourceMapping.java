@@ -8,8 +8,7 @@ public final class ResourceMapping {
     private String sourcePath;
     private String containerPath;
 
-    public ResourceMapping() {
-    }
+    public ResourceMapping() {}
 
     public ResourceMapping(String sourcePath, String containerPath) {
         this.sourcePath = sourcePath;

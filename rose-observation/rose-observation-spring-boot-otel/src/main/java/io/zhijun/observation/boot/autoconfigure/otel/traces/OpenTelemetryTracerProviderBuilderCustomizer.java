@@ -9,6 +9,5 @@ import io.opentelemetry.sdk.trace.SdkTracerProviderBuilder;
 @FunctionalInterface
 public interface OpenTelemetryTracerProviderBuilderCustomizer {
 
-	void customize(SdkTracerProviderBuilder builder);
-
+    void customize(SdkTracerProviderBuilder builder);
 }

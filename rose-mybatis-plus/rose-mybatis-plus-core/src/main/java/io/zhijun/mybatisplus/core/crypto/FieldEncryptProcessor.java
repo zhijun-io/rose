@@ -14,7 +14,8 @@ import org.apache.ibatis.mapping.SqlCommandType;
  */
 public final class FieldEncryptProcessor {
 
-    private static final Map<Class<?>, List<EncryptedField>> CACHE = new ConcurrentHashMap<Class<?>, List<EncryptedField>>();
+    private static final Map<Class<?>, List<EncryptedField>> CACHE =
+            new ConcurrentHashMap<Class<?>, List<EncryptedField>>();
 
     private FieldEncryptProcessor() {}
 
@@ -79,8 +80,8 @@ public final class FieldEncryptProcessor {
      * {@code WHERE} clauses match stored ciphertext) and returns a {@link Runnable} that restores
      * the original plaintext values after the SQL has executed.
      */
-    public static Runnable processParameter(Object parameter, SqlCommandType commandType,
-            FieldEncryptor encryptor, EncryptionKeyResolver keyResolver) {
+    public static Runnable processParameter(
+            Object parameter, SqlCommandType commandType, FieldEncryptor encryptor, EncryptionKeyResolver keyResolver) {
         if (!shouldProcess(commandType) || parameter == null) {
             return () -> {};
         }

@@ -31,10 +31,10 @@ public class MultitenancyAutoConfiguration {
     @Bean
     @ConditionalOnBean(TenantIdSupplier.class)
     @ConditionalOnMissingBean(TenantLineHandler.class)
-    public RoseTenantLineHandler roseTenantLineHandler(TenantIdSupplier tenantIdSupplier,
-                                                       MultitenancyLineProperties multitenancyLineProperties) {
-        return new RoseTenantLineHandler(tenantIdSupplier, multitenancyLineProperties.getColumn(),
-                multitenancyLineProperties.getIgnoreTables());
+    public RoseTenantLineHandler roseTenantLineHandler(
+            TenantIdSupplier tenantIdSupplier, MultitenancyLineProperties multitenancyLineProperties) {
+        return new RoseTenantLineHandler(
+                tenantIdSupplier, multitenancyLineProperties.getColumn(), multitenancyLineProperties.getIgnoreTables());
     }
 
     @Bean

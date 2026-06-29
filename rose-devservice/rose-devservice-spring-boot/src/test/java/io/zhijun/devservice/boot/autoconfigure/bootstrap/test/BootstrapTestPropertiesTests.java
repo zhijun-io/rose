@@ -1,12 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestProperties;
-
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link BootstrapTestProperties}.
@@ -23,5 +21,4 @@ class BootstrapTestPropertiesTests {
 
         assertThat(properties.getProfiles()).containsExactly("integration", "test");
     }
-
 }

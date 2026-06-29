@@ -35,5 +35,4 @@ public final class TenantDetailsConfiguration {
     FormatTenantVerifier formatTenantVerifier() {
         return new FormatTenantVerifier();
     }
-
 }

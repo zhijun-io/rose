@@ -1,11 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.openlit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
 import io.zhijun.devservice.test.DockerTestSupport;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link OpenLitContainer}.
@@ -32,10 +32,13 @@ class OpenLitContainerIT extends BaseDevServicesContainerTests<OpenLitContainer>
 
         OpenLitContainer container = new OpenLitContainer(properties);
         container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(properties.getPort() + ":" + OpenLitContainer.UI_PORT))
-                .anyMatch(binding -> binding.startsWith(properties.getOtlpGrpcPort() + ":" + OpenLitContainer.OTLP_GRPC_PORT))
-                .anyMatch(binding -> binding.startsWith(properties.getOtlpHttpPort() + ":" + OpenLitContainer.OTLP_HTTP_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(binding -> binding.startsWith(properties.getPort() + ":" + OpenLitContainer.UI_PORT))
+                        .anyMatch(binding -> binding.startsWith(
+                                properties.getOtlpGrpcPort() + ":" + OpenLitContainer.OTLP_GRPC_PORT))
+                        .anyMatch(binding -> binding.startsWith(
+                                properties.getOtlpHttpPort() + ":" + OpenLitContainer.OTLP_HTTP_PORT)));
     }
-
 }

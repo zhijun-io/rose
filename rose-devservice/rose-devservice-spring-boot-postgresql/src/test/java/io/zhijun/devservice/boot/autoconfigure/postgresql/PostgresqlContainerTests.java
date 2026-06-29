@@ -1,19 +1,19 @@
 package io.zhijun.devservice.boot.autoconfigure.postgresql;
 
+import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.READY_REGEX;
+import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.SKIPPING_INITIALIZATION_REGEX;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.lang.reflect.Field;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ReflectionUtils;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-
-import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.READY_REGEX;
-import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.SKIPPING_INITIALIZATION_REGEX;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link PostgresqlContainer}.
@@ -34,9 +34,11 @@ class PostgresqlContainerTests extends BaseDevServicesContainerTests<PostgresqlC
 
         PostgresqlContainer container = new PostgresqlContainer(properties);
         container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + PostgreSQLContainer.POSTGRESQL_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(binding ->
+                                binding.startsWith(properties.getPort() + ":" + PostgreSQLContainer.POSTGRESQL_PORT)));
     }
 
     @Test
@@ -94,5 +96,4 @@ class PostgresqlContainerTests extends BaseDevServicesContainerTests<PostgresqlC
         ReflectionUtils.makeAccessible(timesField);
         return (Integer) ReflectionUtils.getField(timesField, waitStrategy);
     }
-
 }

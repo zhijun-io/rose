@@ -10,5 +10,4 @@ public interface TenantIdSupplier {
      * Returns the multitenancy identifier for the current execution context.
      */
     String getTenantId();
-
 }

@@ -20,7 +20,8 @@ class OnOpenTelemetryResourceContributorCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnOpenTelemetryResourceContributor.class.getName());
+        Map<String, Object> attributes =
+                metadata.getAnnotationAttributes(ConditionalOnOpenTelemetryResourceContributor.class.getName());
         String contributorName = attributes != null ? (String) attributes.get("value") : null;
         boolean matchIfMissing = attributes != null && (boolean) attributes.get("matchIfMissing");
 
@@ -28,21 +29,25 @@ class OnOpenTelemetryResourceContributorCondition extends SpringBootCondition {
             Boolean contributorEnabled = context.getEnvironment()
                     .getProperty(String.format(CONTRIBUTOR_PROPERTY, contributorName), Boolean.class);
             if (contributorEnabled != null) {
-                return new ConditionOutcome(contributorEnabled,
+                return new ConditionOutcome(
+                        contributorEnabled,
                         ConditionMessage.forCondition(ConditionalOnOpenTelemetryResourceContributor.class)
-                                .because(String.format(CONTRIBUTOR_PROPERTY, contributorName) + " is " + contributorEnabled));
+                                .because(String.format(CONTRIBUTOR_PROPERTY, contributorName) + " is "
+                                        + contributorEnabled));
             }
             if (matchIfMissing) {
-                return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnOpenTelemetryResourceContributor.class)
-                        .because("resource contributor is enabled by default"));
+                return ConditionOutcome.match(
+                        ConditionMessage.forCondition(ConditionalOnOpenTelemetryResourceContributor.class)
+                                .because("resource contributor is enabled by default"));
             } else {
-                return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnOpenTelemetryResourceContributor.class)
-                        .because("resource contributor is disabled by default"));
+                return ConditionOutcome.noMatch(
+                        ConditionMessage.forCondition(ConditionalOnOpenTelemetryResourceContributor.class)
+                                .because("resource contributor is disabled by default"));
             }
         }
 
-        return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnOpenTelemetryResourceContributor.class)
-                .because("no resource contributor name provided"));
+        return ConditionOutcome.noMatch(
+                ConditionMessage.forCondition(ConditionalOnOpenTelemetryResourceContributor.class)
+                        .because("no resource contributor name provided"));
     }
-
 }

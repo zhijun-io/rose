@@ -62,8 +62,7 @@ final class DefaultConfigPropertiesLoader {
             }
             try {
                 Collections.addAll(resources, resourcePatternResolver.getResources(pattern.trim()));
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 throw new IllegalStateException("Failed to resolve default config location pattern: " + pattern, ex);
             }
         }
@@ -99,8 +98,7 @@ final class DefaultConfigPropertiesLoader {
             for (String name : properties.stringPropertyNames()) {
                 putMerged(merged, resource, name, properties.getProperty(name));
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new IllegalStateException("Failed to load default config from " + resource.getDescription(), ex);
         }
     }
@@ -120,34 +118,47 @@ final class DefaultConfigPropertiesLoader {
                 }
                 Map<String, Object> flattened = PropertySourceMaps.flatten((Map<?, ?>) document);
                 for (Map.Entry<String, Object> entry : flattened.entrySet()) {
-                    putMerged(merged, resource, entry.getKey(), PropertySourceMaps.normalizePropertyValue(entry.getValue()));
+                    putMerged(
+                            merged,
+                            resource,
+                            entry.getKey(),
+                            PropertySourceMaps.normalizePropertyValue(entry.getValue()));
                 }
                 mergedDocument = true;
             }
             if (!mergedDocument && logger.isDebugEnabled()) {
                 logger.debug("No YAML documents loaded from {}", resource.getDescription());
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new IllegalStateException("Failed to load default config from " + resource.getDescription(), ex);
         }
     }
 
     private static void putMerged(Map<String, Object> merged, Resource resource, String key, Object value) {
         Object previous = merged.get(key);
-        if (previous != null && ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME.equals(key)) {
+        if (previous != null
+                && ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME.equals(key)) {
             Object accumulated = accumulateExcludeValues(previous, value);
             merged.put(key, accumulated);
             if (!valuesEqual(previous, accumulated) && logger.isDebugEnabled()) {
-                logger.debug("Rose default config key '{}' accumulated in {} (previous: {}, added: {}, result: {})",
-                        key, resource.getDescription(), previous, value, accumulated);
+                logger.debug(
+                        "Rose default config key '{}' accumulated in {} (previous: {}, added: {}, result: {})",
+                        key,
+                        resource.getDescription(),
+                        previous,
+                        value,
+                        accumulated);
             }
             return;
         }
         previous = merged.put(key, value);
         if (previous != null && !valuesEqual(previous, value) && logger.isDebugEnabled()) {
-            logger.debug("Rose default config key '{}' overridden in {} (previous: {}, new: {})",
-                    key, resource.getDescription(), previous, value);
+            logger.debug(
+                    "Rose default config key '{}' overridden in {} (previous: {}, new: {})",
+                    key,
+                    resource.getDescription(),
+                    previous,
+                    value);
         }
     }
 

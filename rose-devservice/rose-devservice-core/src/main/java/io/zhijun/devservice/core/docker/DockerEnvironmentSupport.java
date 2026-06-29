@@ -12,11 +12,9 @@ public final class DockerEnvironmentSupport {
 
     private static final String DOCKER_API_VERSION = "1.44";
 
-    private static final String ORBSTACK_SOCKET = System.getProperty("user.home")
-            + "/.orbstack/run/docker.sock";
+    private static final String ORBSTACK_SOCKET = System.getProperty("user.home") + "/.orbstack/run/docker.sock";
 
-    private DockerEnvironmentSupport() {
-    }
+    private DockerEnvironmentSupport() {}
 
     /**
      * Applies defaults when Docker env vars are not already set (e.g. local dev, Surefire, CI).
@@ -48,8 +46,7 @@ public final class DockerEnvironmentSupport {
         }
         String socket = resolveDockerSocket();
         if (socket != null) {
-            TestcontainersConfiguration.getInstance()
-                    .updateUserConfig("docker.host", "unix://" + socket);
+            TestcontainersConfiguration.getInstance().updateUserConfig("docker.host", "unix://" + socket);
         }
     }
 

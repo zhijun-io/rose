@@ -18,5 +18,4 @@ public final class DefaultTenantKeyGenerator implements TenantKeyGenerator {
     public Object generate(Object target, Method method, @Nullable Object... params) {
         return SimpleKeyGenerator.generateKey(TenantContext.getRequiredTenantId(), params);
     }
-
 }

@@ -1,10 +1,10 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.bridge;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link MicrometerMetricsOpenTelemetryBridgeProperties}.
@@ -19,7 +19,8 @@ class MicrometerMetricsOpenTelemetryBridgePropertiesTests {
 
     @Test
     void shouldCreateInstanceWithDefaultValues() {
-        MicrometerMetricsOpenTelemetryBridgeProperties properties = new MicrometerMetricsOpenTelemetryBridgeProperties();
+        MicrometerMetricsOpenTelemetryBridgeProperties properties =
+                new MicrometerMetricsOpenTelemetryBridgeProperties();
 
         assertThat(properties.isEnabled()).isTrue();
         assertThat(properties.getBaseTimeUnit()).isEqualTo(TimeUnit.SECONDS);
@@ -28,7 +29,8 @@ class MicrometerMetricsOpenTelemetryBridgePropertiesTests {
 
     @Test
     void shouldUpdateValue() {
-        MicrometerMetricsOpenTelemetryBridgeProperties properties = new MicrometerMetricsOpenTelemetryBridgeProperties();
+        MicrometerMetricsOpenTelemetryBridgeProperties properties =
+                new MicrometerMetricsOpenTelemetryBridgeProperties();
 
         properties.setEnabled(false);
         properties.setBaseTimeUnit(TimeUnit.MILLISECONDS);
@@ -38,5 +40,4 @@ class MicrometerMetricsOpenTelemetryBridgePropertiesTests {
         assertThat(properties.getBaseTimeUnit()).isEqualTo(TimeUnit.MILLISECONDS);
         assertThat(properties.isHistogramGauges()).isFalse();
     }
-
 }

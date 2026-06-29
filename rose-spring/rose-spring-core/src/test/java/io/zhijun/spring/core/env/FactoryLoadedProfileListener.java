@@ -3,10 +3,10 @@ package io.zhijun.spring.core.env;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.zhijun.spring.core.env.listener.ProfileListener;
-
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+
+import io.zhijun.spring.core.env.listener.ProfileListener;
 
 public class FactoryLoadedProfileListener implements ProfileListener {
 

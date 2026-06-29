@@ -4,16 +4,16 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
-import io.zhijun.devservice.core.container.ContainerConfigurer;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 
 /**
  * HiveMQ CE container configured for Rose DevService.
  */
 final class HiveMqContainer extends GenericContainer<HiveMqContainer> {
 
-    static final String COMPATIBLE_IMAGE_NAME = DockerImageName.parse(MqttDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
+    static final String COMPATIBLE_IMAGE_NAME =
+            DockerImageName.parse(MqttDevServiceProperties.DEFAULT_IMAGE_NAME).getUnversionedPart();
 
     static final int MQTT_PORT = 1883;
 

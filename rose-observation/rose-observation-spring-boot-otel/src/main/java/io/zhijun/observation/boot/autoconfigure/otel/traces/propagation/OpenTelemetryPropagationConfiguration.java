@@ -1,11 +1,11 @@
 package io.zhijun.observation.boot.autoconfigure.otel.traces.propagation;
 
+import io.opentelemetry.context.propagation.TextMapPropagator;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import io.opentelemetry.context.propagation.TextMapPropagator;
 
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.ConditionalOnOpenTelemetryTracingExporter;

@@ -1,5 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.bridge;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.context.annotation.ConditionContext;
@@ -8,10 +12,6 @@ import org.springframework.mock.env.MockEnvironment;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link OnMicrometerMetricsBridgeEnabledCondition}.
@@ -69,5 +69,4 @@ class OnMicrometerMetricsBridgeEnabledConditionTests {
         assertThat(outcome.isMatch()).isFalse();
         assertThat(outcome.getMessage()).contains("no supported metrics exporter enabled");
     }
-
 }

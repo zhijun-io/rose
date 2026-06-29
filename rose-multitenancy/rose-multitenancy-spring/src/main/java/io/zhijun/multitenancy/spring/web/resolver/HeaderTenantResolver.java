@@ -33,5 +33,4 @@ public final class HeaderTenantResolver implements HttpRequestTenantResolver {
         Assert.notNull(request, "request cannot be null");
         return request.getHeader(tenantHeaderName);
     }
-
 }

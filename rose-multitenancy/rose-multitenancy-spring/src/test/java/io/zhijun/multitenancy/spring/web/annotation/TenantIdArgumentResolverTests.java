@@ -1,5 +1,7 @@
 package io.zhijun.multitenancy.spring.web.annotation;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
@@ -7,8 +9,6 @@ import org.springframework.core.MethodParameter;
 import org.springframework.util.ReflectionUtils;
 
 import io.zhijun.multitenancy.core.context.TenantContext;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link TenantIdArgumentResolver}.
@@ -19,32 +19,35 @@ class TenantIdArgumentResolverTests {
 
     @Test
     void doesNotSupportParameterWithoutAnnotation() {
-        assertThat(argumentResolver.supportsParameter(showTenantIdentifierNoAnnotation())).isFalse();
+        assertThat(argumentResolver.supportsParameter(showTenantIdentifierNoAnnotation()))
+                .isFalse();
     }
 
     @Test
     void supportsParameterWithAnnotation() {
-        assertThat(argumentResolver.supportsParameter(showTenantIdentifierAnnotation())).isTrue();
+        assertThat(argumentResolver.supportsParameter(showTenantIdentifierAnnotation()))
+                .isTrue();
     }
 
     @Test
     void doesNotSupportParameterWithWrongType() {
-        assertThat(argumentResolver.supportsParameter(showTenantIdentifierErrorOnInvalidType())).isFalse();
+        assertThat(argumentResolver.supportsParameter(showTenantIdentifierErrorOnInvalidType()))
+                .isFalse();
     }
 
     @Test
     void resolveTenantIdentifierArgument() {
         TenantContext.where("acme").run(() -> {
-            String actualTenantIdentifier = (String) argumentResolver
-                .resolveArgument(showTenantIdentifierAnnotation(), null, null, null);
+            String actualTenantIdentifier =
+                    (String) argumentResolver.resolveArgument(showTenantIdentifierAnnotation(), null, null, null);
             assertThat(actualTenantIdentifier).isEqualTo("acme");
         });
     }
 
     @Test
     void resolveTenantIdentifierWhenNoContextBound() {
-        String actualTenantIdentifier = (String) argumentResolver.resolveArgument(showTenantIdentifierAnnotation(),
-                null, null, null);
+        String actualTenantIdentifier =
+                (String) argumentResolver.resolveArgument(showTenantIdentifierAnnotation(), null, null, null);
         assertThat(actualTenantIdentifier).isNull();
     }
 
@@ -67,15 +70,10 @@ class TenantIdArgumentResolverTests {
 
     static class TestController {
 
-        public void showTenantIdentifierNoAnnotation(String tenantIdentifier) {
-        }
+        public void showTenantIdentifierNoAnnotation(String tenantIdentifier) {}
 
-        public void showTenantIdentifierAnnotation(@TenantId String tenantIdentifier) {
-        }
+        public void showTenantIdentifierAnnotation(@TenantId String tenantIdentifier) {}
 
-        public void showTenantIdentifierErrorOnInvalidType(@TenantId Long tenantIdentifier) {
-        }
-
+        public void showTenantIdentifierErrorOnInvalidType(@TenantId Long tenantIdentifier) {}
     }
-
 }

@@ -3,6 +3,9 @@ package io.zhijun.mybatisplus.core.observation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -11,9 +14,6 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Test;
-
-import io.micrometer.core.instrument.Timer;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
 class SqlObservationInterceptorTests {
 
@@ -54,8 +54,7 @@ class SqlObservationInterceptorTests {
         MappedStatement ms = buildMappedStatement(SqlCommandType.DELETE, "io.example.UserMapper.delete");
         Invocation invocation = new TestInvocation(ms, failure);
 
-        assertThatThrownBy(() -> interceptor.intercept(invocation))
-                .isSameAs(failure);
+        assertThatThrownBy(() -> interceptor.intercept(invocation)).isSameAs(failure);
 
         assertThat(meterRegistry.find("db.sql.execution").timers()).hasSize(1);
         assertThat(meterRegistry.find("db.sql.execution").timer().getId().getTag("sql.operation"))
@@ -100,17 +99,15 @@ class SqlObservationInterceptorTests {
         private final RuntimeException failure;
 
         TestInvocation(MappedStatement ms, Object result) {
-            super(new Object() {
-            }, EXECUTOR_UPDATE_METHOD, new Object[]{ms, null});
-            this.args = new Object[]{ms, new Object()};
+            super(new Object() {}, EXECUTOR_UPDATE_METHOD, new Object[] {ms, null});
+            this.args = new Object[] {ms, new Object()};
             this.result = result;
             this.failure = null;
         }
 
         TestInvocation(MappedStatement ms, RuntimeException failure) {
-            super(new Object() {
-            }, EXECUTOR_UPDATE_METHOD, new Object[]{ms, null});
-            this.args = new Object[]{ms, new Object()};
+            super(new Object() {}, EXECUTOR_UPDATE_METHOD, new Object[] {ms, null});
+            this.args = new Object[] {ms, new Object()};
             this.result = null;
             this.failure = failure;
         }

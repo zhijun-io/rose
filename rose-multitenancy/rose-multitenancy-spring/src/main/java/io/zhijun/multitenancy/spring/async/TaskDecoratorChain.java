@@ -8,8 +8,7 @@ import org.springframework.lang.Nullable;
  */
 public final class TaskDecoratorChain {
 
-    private TaskDecoratorChain() {
-    }
+    private TaskDecoratorChain() {}
 
     /**
      * Applies {@code outer} before {@code inner} when the decorated task runs.
@@ -30,5 +29,4 @@ public final class TaskDecoratorChain {
         }
         return chain(tenantDecorator, existing);
     }
-
 }

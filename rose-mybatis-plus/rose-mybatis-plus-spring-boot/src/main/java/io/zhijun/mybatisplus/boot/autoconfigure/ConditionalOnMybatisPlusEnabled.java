@@ -21,5 +21,4 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ConditionalOnProperty(prefix = MybatisPlusProperties.CONFIG_PREFIX, name = "enabled", matchIfMissing = true)
-public @interface ConditionalOnMybatisPlusEnabled {
-}
+public @interface ConditionalOnMybatisPlusEnabled {}

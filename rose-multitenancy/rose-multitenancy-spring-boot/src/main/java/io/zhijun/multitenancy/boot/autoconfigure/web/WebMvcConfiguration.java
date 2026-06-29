@@ -18,5 +18,4 @@ public final class WebMvcConfiguration implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new TenantIdArgumentResolver());
     }
-
 }

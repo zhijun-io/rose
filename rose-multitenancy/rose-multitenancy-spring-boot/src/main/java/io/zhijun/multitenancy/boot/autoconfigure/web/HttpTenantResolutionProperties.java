@@ -84,7 +84,6 @@ public class HttpTenantResolutionProperties {
         public void setHeaderName(String headerName) {
             this.headerName = headerName;
         }
-
     }
 
     public static class Cookie {
@@ -101,7 +100,6 @@ public class HttpTenantResolutionProperties {
         public void setCookieName(String cookieName) {
             this.cookieName = cookieName;
         }
-
     }
 
     public static class Filter {
@@ -182,12 +180,10 @@ public class HttpTenantResolutionProperties {
         public void setRequiredExcludePaths(Set<String> requiredExcludePaths) {
             this.requiredExcludePaths = requiredExcludePaths;
         }
-
     }
 
     public enum HttpResolutionMode {
         COOKIE,
         HEADER;
     }
-
 }

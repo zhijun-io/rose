@@ -6,8 +6,7 @@ public class User {
 
     private int age;
 
-    public User() {
-    }
+    public User() {}
 
     public User(String name, int age) {
         this.name = name;

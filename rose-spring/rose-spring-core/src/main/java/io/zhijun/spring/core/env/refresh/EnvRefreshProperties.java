@@ -12,8 +12,7 @@ public final class EnvRefreshProperties {
 
     public static final String REFRESH_ENABLED = "rose.spring.env.refresh.enabled";
 
-    private EnvRefreshProperties() {
-    }
+    private EnvRefreshProperties() {}
 
     public static boolean isPublishPropertySourceEvents(ApplicationContext context) {
         if (context == null) {

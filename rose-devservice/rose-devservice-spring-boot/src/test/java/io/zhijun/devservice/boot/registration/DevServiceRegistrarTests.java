@@ -1,11 +1,11 @@
 package io.zhijun.devservice.boot.registration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+
 import java.util.Map;
 import java.util.function.Consumer;
 
-import io.zhijun.devservice.boot.registration.DevServiceRegistrar;
-import io.zhijun.devservice.boot.registration.DevServiceRegistrationFactoryBean;
-import io.zhijun.devservice.boot.registration.DevServiceRegistry;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -15,9 +15,6 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.testcontainers.containers.GenericContainer;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit test for {@link DevServiceRegistrar}.
@@ -30,17 +27,16 @@ class DevServiceRegistrarTests {
 
     @Test
     void basicRegistration() {
-        doRegister(registry -> registry.registerDevService(service ->
-                service.name("docling")
-                        .description("Docling")
-                        .container(container -> container
-                                .type(TestDoclingContainer.class)
-                                .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
-                                    @Override
-                                    public GenericContainer<?> get() {
-                                        return new TestDoclingContainer();
-                                    }
-                                }))));
+        doRegister(registry -> registry.registerDevService(service -> service.name("docling")
+                .description("Docling")
+                .container(container -> container
+                        .type(TestDoclingContainer.class)
+                        .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
+                            @Override
+                            public GenericContainer<?> get() {
+                                return new TestDoclingContainer();
+                            }
+                        }))));
 
         assertRegistryExists();
         assertContainerBeanDefinition("docling", TestDoclingContainer.class);
@@ -51,29 +47,27 @@ class DevServiceRegistrarTests {
     @Test
     void multipleRegistrationsFromSingleRegistryInvocation() {
         doRegister(registry -> {
-            registry.registerDevService(service ->
-                    service.name("docling")
-                            .description("Docling")
-                            .container(container -> container
-                                    .type(TestDoclingContainer.class)
-                                    .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
-                                        @Override
-                                        public GenericContainer<?> get() {
-                                            return new TestDoclingContainer();
-                                        }
-                                    })));
+            registry.registerDevService(service -> service.name("docling")
+                    .description("Docling")
+                    .container(container -> container
+                            .type(TestDoclingContainer.class)
+                            .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
+                                @Override
+                                public GenericContainer<?> get() {
+                                    return new TestDoclingContainer();
+                                }
+                            })));
 
-            registry.registerDevService(service ->
-                    service.name("postgres")
-                            .description("PostgreSQL database")
-                            .container(container -> container
-                                    .type(TestPostgresContainer.class)
-                                    .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
-                                        @Override
-                                        public GenericContainer<?> get() {
-                                            return new TestPostgresContainer();
-                                        }
-                                    })));
+            registry.registerDevService(service -> service.name("postgres")
+                    .description("PostgreSQL database")
+                    .container(container -> container
+                            .type(TestPostgresContainer.class)
+                            .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
+                                @Override
+                                public GenericContainer<?> get() {
+                                    return new TestPostgresContainer();
+                                }
+                            })));
         });
 
         assertRegistryExists();
@@ -86,30 +80,26 @@ class DevServiceRegistrarTests {
 
     @Test
     void whenDuplicateRegistrationThenThrow() {
-        doRegister(
-                registry -> registry.registerDevService(service ->
-                        service.name("docling")
-                                .container(container -> container
-                                        .type(TestDoclingContainer.class)
-                                        .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
-                                            @Override
-                                            public GenericContainer<?> get() {
-                                                return new TestDoclingContainer();
-                                            }
-                                        }))));
+        doRegister(registry -> registry.registerDevService(service -> service.name("docling")
+                .container(container -> container
+                        .type(TestDoclingContainer.class)
+                        .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
+                            @Override
+                            public GenericContainer<?> get() {
+                                return new TestDoclingContainer();
+                            }
+                        }))));
 
         assertThatIllegalStateException()
-                .isThrownBy(() -> doRegister(
-                        registry -> registry.registerDevService(service ->
-                                service.name("docling")
-                                        .container(container -> container
-                                                .type(TestDoclingContainer.class)
-                                                .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
-                                                    @Override
-                                                    public GenericContainer<?> get() {
-                                                        return new TestDoclingContainer();
-                                                    }
-                                                })))))
+                .isThrownBy(() -> doRegister(registry -> registry.registerDevService(service -> service.name("docling")
+                        .container(container -> container
+                                .type(TestDoclingContainer.class)
+                                .supplier(new java.util.function.Supplier<GenericContainer<?>>() {
+                                    @Override
+                                    public GenericContainer<?> get() {
+                                        return new TestDoclingContainer();
+                                    }
+                                })))))
                 .withMessageContaining("Dev service already registered: docling");
     }
 
@@ -117,8 +107,7 @@ class DevServiceRegistrarTests {
     void noRegistrations() {
         doRegister(new Consumer<DevServiceRegistry>() {
             @Override
-            public void accept(DevServiceRegistry registry) {
-            }
+            public void accept(DevServiceRegistry registry) {}
         });
 
         assertRegistryExists();
@@ -127,11 +116,13 @@ class DevServiceRegistrarTests {
 
     @Test
     void setDefaultPropertyAddsToDefaultPropertiesSource() {
-        TestRegistrar registrar = new TestRegistrar(new Consumer<DevServiceRegistry>() {
-            @Override
-            public void accept(DevServiceRegistry registry) {
-            }
-        }, environment, beanDefinitionRegistry);
+        TestRegistrar registrar = new TestRegistrar(
+                new Consumer<DevServiceRegistry>() {
+                    @Override
+                    public void accept(DevServiceRegistry registry) {}
+                },
+                environment,
+                beanDefinitionRegistry);
         registrar.registerBeanDefinitions(AnnotationMetadata.introspect(this.getClass()), beanDefinitionRegistry);
 
         registrar.setDefaultProperty("spring.datasource.url", "jdbc:h2:mem:test");
@@ -146,11 +137,13 @@ class DevServiceRegistrarTests {
         userConfig.put("spring.datasource.url", "jdbc:postgresql://user-host/db");
         sources.addFirst(new MapPropertySource("userConfig", userConfig));
 
-        TestRegistrar registrar = new TestRegistrar(new Consumer<DevServiceRegistry>() {
-            @Override
-            public void accept(DevServiceRegistry registry) {
-            }
-        }, environment, beanDefinitionRegistry);
+        TestRegistrar registrar = new TestRegistrar(
+                new Consumer<DevServiceRegistry>() {
+                    @Override
+                    public void accept(DevServiceRegistry registry) {}
+                },
+                environment,
+                beanDefinitionRegistry);
         registrar.registerBeanDefinitions(AnnotationMetadata.introspect(this.getClass()), beanDefinitionRegistry);
 
         registrar.setDefaultProperty("spring.datasource.url", "jdbc:h2:mem:default");
@@ -192,15 +185,18 @@ class DevServiceRegistrarTests {
     }
 
     private void assertRegistryExists() {
-        assertThat(beanDefinitionRegistry.containsSingleton(DevServiceRegistrar.DEV_SERVICES_REGISTRY_BEAN_NAME)).isTrue();
+        assertThat(beanDefinitionRegistry.containsSingleton(DevServiceRegistrar.DEV_SERVICES_REGISTRY_BEAN_NAME))
+                .isTrue();
     }
 
     private static class TestRegistrar extends DevServiceRegistrar {
 
         private final Consumer<DevServiceRegistry> registrar;
 
-        TestRegistrar(Consumer<DevServiceRegistry> registrar, Environment environment,
-                      DefaultListableBeanFactory beanDefinitionRegistry) {
+        TestRegistrar(
+                Consumer<DevServiceRegistry> registrar,
+                Environment environment,
+                DefaultListableBeanFactory beanDefinitionRegistry) {
             this.registrar = registrar;
             setEnvironment(environment);
             setBeanFactory(beanDefinitionRegistry);

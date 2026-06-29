@@ -1,24 +1,25 @@
 package io.zhijun.devservice.boot.registration;
 
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.lang.Nullable;
 import org.testcontainers.containers.Container;
 
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 
 /**
  * Creates {@link DevServiceRegistration} after the container bean is available (Boot 2.7 compatible).
  */
-final class DevServiceRegistrationFactoryBean
-        implements FactoryBean<DevServiceRegistration>, BeanFactoryAware {
+final class DevServiceRegistrationFactoryBean implements FactoryBean<DevServiceRegistration>, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     private String name;
+
     @Nullable
     private String description;
+
     private String containerBeanName;
 
     public void setName(String name) {

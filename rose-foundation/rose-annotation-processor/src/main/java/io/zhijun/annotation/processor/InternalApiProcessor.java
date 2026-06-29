@@ -27,10 +27,10 @@ import com.google.auto.service.AutoService;
 import io.zhijun.annotation.Internal;
 
 /**
- * Warns when {@link Internal} types leak into public project API surface.
+ * Warns when {@link Internal} types or {@code *.internal.*} package types leak into public project API surface.
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("io.zhijun.annotation.Internal")
+@SupportedAnnotationTypes("*")
 public class InternalApiProcessor extends AbstractProcessor {
 
     private Elements elements;
@@ -55,10 +55,6 @@ public class InternalApiProcessor extends AbstractProcessor {
             if (element instanceof TypeElement) {
                 internalTypes.add((TypeElement) element);
             }
-        }
-
-        if (internalTypes.isEmpty()) {
-            return false;
         }
 
         for (Element root : roundEnv.getRootElements()) {
@@ -111,15 +107,17 @@ public class InternalApiProcessor extends AbstractProcessor {
             return;
         }
         if (containsInternalType(referenced, internalTypes)) {
-            processingEnv.getMessager().printMessage(
-                    Diagnostic.Kind.WARNING,
-                    "Public API must not expose @Internal type: " + referenced.getQualifiedName(),
-                    context);
+            processingEnv
+                    .getMessager()
+                    .printMessage(
+                            Diagnostic.Kind.WARNING,
+                            "Public API must not expose internal type: " + referenced.getQualifiedName(),
+                            context);
         }
     }
 
     private boolean containsInternalType(TypeElement type, Set<TypeElement> internalTypes) {
-        if (internalTypes.contains(type) || isInternal(type)) {
+        if (internalTypes.contains(type) || isInternal(type) || isInInternalPackage(type)) {
             return true;
         }
         for (TypeMirror iface : type.getInterfaces()) {
@@ -154,9 +152,28 @@ public class InternalApiProcessor extends AbstractProcessor {
         return packageName.startsWith("io.zhijun");
     }
 
+    private boolean isInInternalPackage(TypeElement type) {
+        return isInternalPackageName(
+                elements.getPackageOf(type).getQualifiedName().toString());
+    }
+
+    private static boolean isInternalPackageName(String packageName) {
+        for (String segment : packageName.split("\\.")) {
+            if ("internal".equals(segment)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean isInternal(Element element) {
-        return element.getAnnotation(Internal.class) != null
-                || element.getEnclosingElement() != null
+        if (element.getAnnotation(Internal.class) != null) {
+            return true;
+        }
+        if (element instanceof TypeElement && isInInternalPackage((TypeElement) element)) {
+            return true;
+        }
+        return element.getEnclosingElement() != null
                 && element.getEnclosingElement().getAnnotation(Internal.class) != null;
     }
 

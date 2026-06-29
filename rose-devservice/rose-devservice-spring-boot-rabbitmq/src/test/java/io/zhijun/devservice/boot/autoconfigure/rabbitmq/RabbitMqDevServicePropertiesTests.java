@@ -1,11 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.rabbitmq;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.test.BaseDevServicePropertiesTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link RabbitMqDevServiceProperties}.
@@ -37,5 +36,4 @@ class RabbitMqDevServicePropertiesTests extends BaseDevServicePropertiesTests<Ra
         properties.setManagementConsolePort(RabbitMqContainer.HTTP_PORT);
         assertThat(properties.getManagementConsolePort()).isEqualTo(RabbitMqContainer.HTTP_PORT);
     }
-
 }

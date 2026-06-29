@@ -1,7 +1,7 @@
 package io.zhijun.devservice.core.bootstrap;
 
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
-import io.zhijun.devservice.core.bootstrap.BootstrapModeDetector;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mockStatic;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mockStatic;
 
 /**
  * Unit test for {@link BootstrapModeDetector}.
@@ -93,8 +90,16 @@ class BootstrapModeDetectorTests {
     @Test
     void testModeWhenJUnitPlatformInStackTrace() {
         StackTraceElement[] testStackTrace = new StackTraceElement[] {
-            new StackTraceElement("org.junit.platform.engine.annotation.hierarchical.ThrowableCollector", "execute", "ThrowableCollector.java", 73),
-            new StackTraceElement("org.junit.platform.engine.annotation.hierarchical.NodeTestTask", "executeRecursively", "NodeTestTask.java", 125)
+            new StackTraceElement(
+                    "org.junit.platform.engine.annotation.hierarchical.ThrowableCollector",
+                    "execute",
+                    "ThrowableCollector.java",
+                    73),
+            new StackTraceElement(
+                    "org.junit.platform.engine.annotation.hierarchical.NodeTestTask",
+                    "executeRecursively",
+                    "NodeTestTask.java",
+                    125)
         };
         assertThat(BootstrapModeDetector.detect(testStackTrace)).isEqualTo(BootstrapMode.TEST);
     }
@@ -102,17 +107,19 @@ class BootstrapModeDetectorTests {
     @Test
     void testModeWhenSpringBootTestInStackTrace() {
         StackTraceElement[] testStackTrace = new StackTraceElement[] {
-            new StackTraceElement("org.springframework.boot.test.context.SpringBootTestContextBootstrapper",
-                    "buildTestContext", "SpringBootTestContextBootstrapper.java", 99)
+            new StackTraceElement(
+                    "org.springframework.boot.test.context.SpringBootTestContextBootstrapper",
+                    "buildTestContext",
+                    "SpringBootTestContextBootstrapper.java",
+                    99)
         };
         assertThat(BootstrapModeDetector.detect(testStackTrace)).isEqualTo(BootstrapMode.TEST);
     }
 
     @Test
     void testModeWhenCucumberInStackTrace() {
-        StackTraceElement[] testStackTrace = new StackTraceElement[] {
-            new StackTraceElement("cucumber.runtime.Runtime", "run", "Runtime.java", 300)
-        };
+        StackTraceElement[] testStackTrace =
+                new StackTraceElement[] {new StackTraceElement("cucumber.runtime.Runtime", "run", "Runtime.java", 300)};
         assertThat(BootstrapModeDetector.detect(testStackTrace)).isEqualTo(BootstrapMode.TEST);
     }
 
@@ -121,8 +128,11 @@ class BootstrapModeDetectorTests {
         StackTraceElement[] testStackTrace = new StackTraceElement[] {
             new StackTraceElement("com.example.MyClass", "myMethod", "MyClass.java", 42),
             new StackTraceElement("org.junit.runners.ParentRunner", "run", "ParentRunner.java", 363),
-            new StackTraceElement("org.springframework.boot.test.context.SpringBootTestContextBootstrapper",
-                    "buildTestContext", "SpringBootTestContextBootstrapper.java", 99)
+            new StackTraceElement(
+                    "org.springframework.boot.test.context.SpringBootTestContextBootstrapper",
+                    "buildTestContext",
+                    "SpringBootTestContextBootstrapper.java",
+                    99)
         };
         assertThat(BootstrapModeDetector.detect(testStackTrace)).isEqualTo(BootstrapMode.TEST);
     }
@@ -141,8 +151,11 @@ class BootstrapModeDetectorTests {
     @Test
     void testModeOverridesDevelopmentContextWhenTestFrameworkInStackTrace() {
         StackTraceElement[] testStackTrace = new StackTraceElement[] {
-            new StackTraceElement("org.springframework.boot.test.context.SpringBootTestContextBootstrapper",
-                    "buildTestContext", "SpringBootTestContextBootstrapper.java", 99),
+            new StackTraceElement(
+                    "org.springframework.boot.test.context.SpringBootTestContextBootstrapper",
+                    "buildTestContext",
+                    "SpringBootTestContextBootstrapper.java",
+                    99),
             new StackTraceElement("com.example.TestClass", "testMethod", "TestClass.java", 42)
         };
 
@@ -161,8 +174,11 @@ class BootstrapModeDetectorTests {
     @Test
     void prodModeWhenAotProcessorInStackTrace() {
         StackTraceElement[] testStackTrace = new StackTraceElement[] {
-            new StackTraceElement("org.springframework.boot.SpringApplicationAotProcessor",
-                    "process", "SpringApplicationAotProcessor.java", 107)
+            new StackTraceElement(
+                    "org.springframework.boot.SpringApplicationAotProcessor",
+                    "process",
+                    "SpringApplicationAotProcessor.java",
+                    107)
         };
         assertThat(BootstrapModeDetector.detect(testStackTrace)).isEqualTo(BootstrapMode.PROD);
     }
@@ -170,8 +186,11 @@ class BootstrapModeDetectorTests {
     @Test
     void prodModeWhenAotProcessorOverridesNativeAndDevelopmentContext() {
         StackTraceElement[] aotStackTrace = new StackTraceElement[] {
-            new StackTraceElement("org.springframework.boot.SpringApplicationAotProcessor",
-                    "process", "SpringApplicationAotProcessor.java", 107),
+            new StackTraceElement(
+                    "org.springframework.boot.SpringApplicationAotProcessor",
+                    "process",
+                    "SpringApplicationAotProcessor.java",
+                    107),
             new StackTraceElement("com.example.Application", "main", "Application.java", 10)
         };
 
@@ -216,8 +235,11 @@ class BootstrapModeDetectorTests {
     @Test
     void cacheIsUsedForSubsequentCalls() {
         StackTraceElement[] prodStackTrace = new StackTraceElement[] {
-            new StackTraceElement("org.springframework.boot.SpringApplicationAotProcessor",
-                    "process", "SpringApplicationAotProcessor.java", 107)
+            new StackTraceElement(
+                    "org.springframework.boot.SpringApplicationAotProcessor",
+                    "process",
+                    "SpringApplicationAotProcessor.java",
+                    107)
         };
 
         BootstrapMode firstResult = BootstrapModeDetector.detect(prodStackTrace);
@@ -243,7 +265,8 @@ class BootstrapModeDetectorTests {
         if (mockedBootstrapModeDetector == null) {
             mockedBootstrapModeDetector = mockStatic(BootstrapModeDetector.class, Mockito.CALLS_REAL_METHODS);
         }
-        mockedBootstrapModeDetector.when(BootstrapModeDetector::isDevelopmentContext).thenReturn(isDevelopment);
+        mockedBootstrapModeDetector
+                .when(BootstrapModeDetector::isDevelopmentContext)
+                .thenReturn(isDevelopment);
     }
-
 }

@@ -1,16 +1,14 @@
 package io.zhijun.devservice.boot.registration;
 
-import io.zhijun.devservice.boot.registration.DevServiceRegistrationFactoryBean;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.testcontainers.containers.Container;
 
 import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link DevServiceRegistrationFactoryBean}.
@@ -45,5 +43,4 @@ class DevServiceRegistrationFactoryBeanTests {
         assertThat(registration.getDescription()).isEqualTo("Redis");
         assertThat(registration.getContainerInfo()).isNotNull();
     }
-
 }

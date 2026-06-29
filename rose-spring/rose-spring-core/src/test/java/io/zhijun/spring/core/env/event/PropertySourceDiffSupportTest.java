@@ -1,4 +1,6 @@
-package io.zhijun.spring.core.env.event;
+package io.zhijun.spring.core.env.event.internal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,8 +10,6 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class PropertySourceDiffSupportTest {
 
@@ -22,8 +22,8 @@ class PropertySourceDiffSupportTest {
         newMap.put("a", "1");
         newMap.put("b", "changed");
 
-        Set<String> diff = PropertySourceDiffSupport.diffReplaced(new MapPropertySource("demo", oldMap),
-                new MapPropertySource("demo", newMap));
+        Set<String> diff = PropertySourceDiffSupport.diffReplaced(
+                new MapPropertySource("demo", oldMap), new MapPropertySource("demo", newMap));
 
         assertThat(diff).containsExactly("b");
     }
@@ -32,8 +32,8 @@ class PropertySourceDiffSupportTest {
     void diffReplacedReturnsEmptyWhenUnchanged() {
         Map<String, Object> map = Collections.singletonMap("a", "1");
 
-        Set<String> diff = PropertySourceDiffSupport.diffReplaced(new MapPropertySource("demo", map),
-                new MapPropertySource("demo", map));
+        Set<String> diff = PropertySourceDiffSupport.diffReplaced(
+                new MapPropertySource("demo", map), new MapPropertySource("demo", map));
 
         assertThat(diff).isEmpty();
     }
@@ -45,8 +45,8 @@ class PropertySourceDiffSupportTest {
         Map<String, Object> newMap = new HashMap<String, Object>();
         newMap.put("nullable", null);
 
-        Set<String> diff = PropertySourceDiffSupport.diffReplaced(new MapPropertySource("demo", oldMap),
-                new MapPropertySource("demo", newMap));
+        Set<String> diff = PropertySourceDiffSupport.diffReplaced(
+                new MapPropertySource("demo", oldMap), new MapPropertySource("demo", newMap));
 
         assertThat(diff).isEmpty();
     }
@@ -59,8 +59,8 @@ class PropertySourceDiffSupportTest {
         Map<String, Object> newMap = new HashMap<String, Object>();
         newMap.put("kept", "1");
 
-        Set<String> diff = PropertySourceDiffSupport.diffReplaced(new MapPropertySource("demo", oldMap),
-                new MapPropertySource("demo", newMap));
+        Set<String> diff = PropertySourceDiffSupport.diffReplaced(
+                new MapPropertySource("demo", oldMap), new MapPropertySource("demo", newMap));
 
         assertThat(diff).containsExactly("removed");
     }
@@ -86,7 +86,8 @@ class PropertySourceDiffSupportTest {
         map.put("x", "1");
         map.put("y", "2");
 
-        assertThat(PropertySourceDiffSupport.keysAdded(new MapPropertySource("demo", map))).containsExactly("x", "y");
+        assertThat(PropertySourceDiffSupport.keysAdded(new MapPropertySource("demo", map)))
+                .containsExactly("x", "y");
     }
 
     @Test
@@ -95,6 +96,7 @@ class PropertySourceDiffSupportTest {
         map.put("x", "1");
         map.put("y", "2");
 
-        assertThat(PropertySourceDiffSupport.keysRemoved(new MapPropertySource("demo", map))).containsExactly("x", "y");
+        assertThat(PropertySourceDiffSupport.keysRemoved(new MapPropertySource("demo", map)))
+                .containsExactly("x", "y");
     }
 }

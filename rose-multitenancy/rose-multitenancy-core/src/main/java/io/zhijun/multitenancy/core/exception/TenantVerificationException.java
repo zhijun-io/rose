@@ -12,5 +12,4 @@ public class TenantVerificationException extends IllegalStateException {
     public TenantVerificationException(String message) {
         super(message);
     }
-
 }

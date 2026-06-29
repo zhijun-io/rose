@@ -1,10 +1,10 @@
 package io.zhijun.devservice.core.api.config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link JdbcDevServiceProperties}.
@@ -13,8 +13,7 @@ class JdbcDevServicePropertiesTests {
 
     @Test
     void defaultsAndSetters() {
-        JdbcDevServiceProperties properties = new JdbcDevServiceProperties() {
-        };
+        JdbcDevServiceProperties properties = new JdbcDevServiceProperties() {};
 
         assertThat(properties.getUsername()).isEqualTo(DevServiceCredentials.DEFAULT_USERNAME);
         assertThat(properties.getPassword()).isEqualTo(DevServiceCredentials.DEFAULT_PASSWORD);
@@ -31,5 +30,4 @@ class JdbcDevServicePropertiesTests {
         assertThat(properties.getDbName()).isEqualTo("other-db");
         assertThat(properties.getInitScriptPaths()).containsExactly("other.sql");
     }
-
 }

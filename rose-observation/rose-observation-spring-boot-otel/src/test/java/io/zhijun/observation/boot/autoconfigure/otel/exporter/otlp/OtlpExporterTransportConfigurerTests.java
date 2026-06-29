@@ -1,5 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.net.InetSocketAddress;
 import java.net.URI;
 
@@ -8,9 +11,6 @@ import io.opentelemetry.sdk.common.export.ProxyOptions;
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test for {@link OtlpExporterTransportConfigurer}.
@@ -31,10 +31,15 @@ class OtlpExporterTransportConfigurerTests {
         commonProperties.getOtlp().getProxy().setHost("proxy.local");
         commonProperties.getOtlp().getProxy().setPort(3128);
 
-        ProxyOptions proxyOptions = OtlpExporterTransportConfigurer.resolveProxy(commonProperties, new OtlpExporterConfig());
+        ProxyOptions proxyOptions =
+                OtlpExporterTransportConfigurer.resolveProxy(commonProperties, new OtlpExporterConfig());
 
         assertThat(proxyOptions).isNotNull();
-        assertThat(proxyOptions.getProxySelector().select(URI.create("http://collector")).get(0).address())
+        assertThat(proxyOptions
+                        .getProxySelector()
+                        .select(URI.create("http://collector"))
+                        .get(0)
+                        .address())
                 .isEqualTo(new InetSocketAddress("proxy.local", 3128));
     }
 
@@ -51,7 +56,11 @@ class OtlpExporterTransportConfigurerTests {
         ProxyOptions proxyOptions = OtlpExporterTransportConfigurer.resolveProxy(commonProperties, signalProperties);
 
         assertThat(proxyOptions).isNotNull();
-        assertThat(proxyOptions.getProxySelector().select(URI.create("http://collector")).get(0).address())
+        assertThat(proxyOptions
+                        .getProxySelector()
+                        .select(URI.create("http://collector"))
+                        .get(0)
+                        .address())
                 .isEqualTo(new InetSocketAddress("signal-proxy", 9090));
     }
 
@@ -73,5 +82,4 @@ class OtlpExporterTransportConfigurerTests {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("Failed to read OTLP transport file");
     }
-
 }

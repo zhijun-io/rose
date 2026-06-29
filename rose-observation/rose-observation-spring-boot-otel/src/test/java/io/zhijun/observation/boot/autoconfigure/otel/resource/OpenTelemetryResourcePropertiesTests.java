@@ -1,8 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.otel.resource;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link OpenTelemetryResourceProperties}.
@@ -41,9 +41,9 @@ class OpenTelemetryResourcePropertiesTests {
         properties.getAttributes().put("key2", "value2");
 
         assertThat(properties.getAttributes())
-            .hasSize(2)
-            .containsEntry("key1", "value1")
-            .containsEntry("key2", "value2");
+                .hasSize(2)
+                .containsEntry("key1", "value1")
+                .containsEntry("key2", "value2");
     }
 
     @Test
@@ -54,9 +54,8 @@ class OpenTelemetryResourcePropertiesTests {
         properties.getEnable().put("process", false);
 
         assertThat(properties.getEnable())
-            .hasSize(2)
-            .containsEntry("host", true)
-            .containsEntry("process", false);
+                .hasSize(2)
+                .containsEntry("host", true)
+                .containsEntry("process", false);
     }
-
 }

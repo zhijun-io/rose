@@ -1,5 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.otel.exporter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.net.URI;
 import java.time.Duration;
 import java.util.HashMap;
@@ -11,8 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Compression;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OpenTelemetryExporterProperties}.
@@ -79,5 +79,4 @@ class OpenTelemetryExporterPropertiesTests {
         assertThat(properties.getOtlp().isMetrics()).isTrue();
         assertThat(properties.getMemoryMode()).isEqualTo(MemoryMode.IMMUTABLE_DATA);
     }
-
 }

@@ -20,8 +20,8 @@ class OnDevServiceEnabledCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Map<String, Object> attributes = metadata.getAnnotationAttributes(
-                ConditionalOnDevServiceEnabled.class.getName());
+        Map<String, Object> attributes =
+                metadata.getAnnotationAttributes(ConditionalOnDevServiceEnabled.class.getName());
         String devServicesName = attributes != null ? (String) attributes.get("value") : null;
 
         if (!StringUtils.hasText(devServicesName)) {
@@ -49,8 +49,8 @@ class OnDevServiceEnabledCondition extends SpringBootCondition {
         if (devServiceProperty == null) {
             if (BootstrapMode.isTest() || BootstrapMode.isDev()) {
                 return ConditionOutcome.match(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
-                        .because("enabled in " + BootstrapMode.detect() + " bootstrap mode ("
-                                + serviceEnabledProperty + " is not set)"));
+                        .because("enabled in " + BootstrapMode.detect() + " bootstrap mode (" + serviceEnabledProperty
+                                + " is not set)"));
             }
             return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnDevServiceEnabled.class)
                     .because("disabled by default in production (set " + DevServiceProperties.ENABLED_PROPERTY

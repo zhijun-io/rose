@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.springframework.lang.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.lang.Nullable;
 
 /**
  * Configuration properties for OpenTelemetry Resource.
@@ -54,5 +54,4 @@ public class OpenTelemetryResourceProperties {
     public Map<String, Boolean> getEnable() {
         return enable;
     }
-
 }

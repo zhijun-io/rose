@@ -1,12 +1,12 @@
 package io.zhijun.spring.core.binder;
 
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBindings;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Configuration;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
+import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBindings;
 
 @EnableConfigurationBeanBindings(@EnableConfigurationBeanBinding(prefix = "usr", type = User.class))
 @Configuration

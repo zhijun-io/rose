@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.env.refresh;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +17,6 @@ import org.springframework.core.env.MapPropertySource;
 import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
 import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class PropertySourcesRefreshEnvironmentListenerTest {
 
@@ -39,16 +39,19 @@ class PropertySourcesRefreshEnvironmentListenerTest {
                 count.incrementAndGet();
             }
         };
-        PropertySourcesRefreshEnvironmentListener listener = new PropertySourcesRefreshEnvironmentListener(
-                Collections.singletonList(refreshable));
+        PropertySourcesRefreshEnvironmentListener listener =
+                new PropertySourcesRefreshEnvironmentListener(Collections.singletonList(refreshable));
 
         StaticApplicationContext context = new StaticApplicationContext();
         context.refresh();
         RefreshableContextHolder.bind(context);
         Map<String, Object> props = new HashMap<String, Object>();
         props.put("app.messages.welcome", "hi");
-        PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(context, Collections.singletonList(
-                PropertySourceChangedEvent.replaced(context, new MapPropertySource("demo", props),
+        PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(
+                context,
+                Collections.singletonList(PropertySourceChangedEvent.replaced(
+                        context,
+                        new MapPropertySource("demo", props),
                         new MapPropertySource("demo", Collections.emptyMap()))));
 
         listener.onPropertySourcesChanged(event);
@@ -70,15 +73,16 @@ class PropertySourcesRefreshEnvironmentListenerTest {
                 count.incrementAndGet();
             }
         };
-        PropertySourcesRefreshEnvironmentListener listener = new PropertySourcesRefreshEnvironmentListener(
-                Collections.singletonList(refreshable));
+        PropertySourcesRefreshEnvironmentListener listener =
+                new PropertySourcesRefreshEnvironmentListener(Collections.singletonList(refreshable));
 
         StaticApplicationContext context = new StaticApplicationContext();
         context.refresh();
         RefreshableContextHolder.bind(context);
-        PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(context, Collections.singletonList(
-                PropertySourceChangedEvent.added(context,
-                        new MapPropertySource("demo", Collections.singletonMap("server.port", "8080")))));
+        PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(
+                context,
+                Collections.singletonList(PropertySourceChangedEvent.added(
+                        context, new MapPropertySource("demo", Collections.singletonMap("server.port", "8080")))));
 
         listener.onPropertySourcesChanged(event);
 
@@ -99,16 +103,20 @@ class PropertySourcesRefreshEnvironmentListenerTest {
                 count.incrementAndGet();
             }
         };
-        PropertySourcesRefreshEnvironmentListener listener = new PropertySourcesRefreshEnvironmentListener(
-                Collections.singletonList(refreshable));
+        PropertySourcesRefreshEnvironmentListener listener =
+                new PropertySourcesRefreshEnvironmentListener(Collections.singletonList(refreshable));
 
         StaticApplicationContext context = new StaticApplicationContext();
-        context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("config",
-                Collections.singletonMap(EnvRefreshProperties.REFRESH_ENABLED, "false")));
+        context.getEnvironment()
+                .getPropertySources()
+                .addFirst(new MapPropertySource(
+                        "config", Collections.singletonMap(EnvRefreshProperties.REFRESH_ENABLED, "false")));
         context.refresh();
         RefreshableContextHolder.bind(context);
-        PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(context, Collections.singletonList(
-                PropertySourceChangedEvent.added(context,
+        PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(
+                context,
+                Collections.singletonList(PropertySourceChangedEvent.added(
+                        context,
                         new MapPropertySource("demo", Collections.singletonMap("app.messages.welcome", "hi")))));
 
         listener.onPropertySourcesChanged(event);
@@ -120,8 +128,8 @@ class PropertySourcesRefreshEnvironmentListenerTest {
     void onEnvironmentChangeKeysDispatchesWhenEnabled() {
         AtomicInteger count = new AtomicInteger();
         Refreshable refreshable = prefixRefreshable("app.messages.", count);
-        PropertySourcesRefreshEnvironmentListener listener = new PropertySourcesRefreshEnvironmentListener(
-                Collections.singletonList(refreshable));
+        PropertySourcesRefreshEnvironmentListener listener =
+                new PropertySourcesRefreshEnvironmentListener(Collections.singletonList(refreshable));
 
         StaticApplicationContext context = new StaticApplicationContext();
         context.refresh();
@@ -136,12 +144,14 @@ class PropertySourcesRefreshEnvironmentListenerTest {
     void onEnvironmentChangeKeysSkipsWhenRefreshDisabled() {
         AtomicInteger count = new AtomicInteger();
         Refreshable refreshable = prefixRefreshable("app.messages.", count);
-        PropertySourcesRefreshEnvironmentListener listener = new PropertySourcesRefreshEnvironmentListener(
-                Collections.singletonList(refreshable));
+        PropertySourcesRefreshEnvironmentListener listener =
+                new PropertySourcesRefreshEnvironmentListener(Collections.singletonList(refreshable));
 
         StaticApplicationContext context = new StaticApplicationContext();
-        context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("config",
-                Collections.singletonMap(EnvRefreshProperties.REFRESH_ENABLED, "false")));
+        context.getEnvironment()
+                .getPropertySources()
+                .addFirst(new MapPropertySource(
+                        "config", Collections.singletonMap(EnvRefreshProperties.REFRESH_ENABLED, "false")));
         context.refresh();
         RefreshableContextHolder.bind(context);
 
@@ -154,8 +164,8 @@ class PropertySourcesRefreshEnvironmentListenerTest {
     void onEnvironmentChangeKeysSkipsWhenContextNotActive() {
         AtomicInteger count = new AtomicInteger();
         Refreshable refreshable = prefixRefreshable("app.messages.", count);
-        PropertySourcesRefreshEnvironmentListener listener = new PropertySourcesRefreshEnvironmentListener(
-                Collections.singletonList(refreshable));
+        PropertySourcesRefreshEnvironmentListener listener =
+                new PropertySourcesRefreshEnvironmentListener(Collections.singletonList(refreshable));
 
         GenericApplicationContext context = new GenericApplicationContext();
         new ListenableConfigurableEnvironmentInitializer().initialize(context);

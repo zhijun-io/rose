@@ -11,6 +11,4 @@ import io.zhijun.observation.boot.autoconfigure.otel.ConditionalOnOpenTelemetry;
 @AutoConfiguration
 @ConditionalOnOpenTelemetry
 @EnableConfigurationProperties(OpenTelemetryExporterProperties.class)
-public final class OpenTelemetryExporterAutoConfiguration {
-
-}
+public final class OpenTelemetryExporterAutoConfiguration {}

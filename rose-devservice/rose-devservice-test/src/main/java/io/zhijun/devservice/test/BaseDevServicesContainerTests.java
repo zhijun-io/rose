@@ -1,11 +1,11 @@
 package io.zhijun.devservice.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.testcontainers.containers.GenericContainer;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Abstract base test class for container configuration unit test.
@@ -22,5 +22,4 @@ public abstract class BaseDevServicesContainerTests<T extends GenericContainer<?
         assertThat(portBindings).isNotNull();
         assertions.accept(portBindings);
     }
-
 }

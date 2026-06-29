@@ -1,5 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.otel.metrics;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.sdk.metrics.InstrumentType;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
@@ -13,9 +16,6 @@ import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.observation.boot.autoconfigure.otel.support.OpenTelemetryTestBeans;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
 /**
  * Unit test for {@link OpenTelemetryMetricsAutoConfiguration}.
  */
@@ -28,15 +28,15 @@ class OpenTelemetryMetricsAutoConfigurationTests {
     @Test
     void autoConfigurationNotActivatedWhenOpenTelemetryDisabled() {
         contextRunner
-            .withPropertyValues("rose.otel.enabled=false")
-            .run(context -> assertThat(context).doesNotHaveBean(SdkMeterProvider.class));
+                .withPropertyValues("rose.otel.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(SdkMeterProvider.class));
     }
 
     @Test
     void autoConfigurationNotActivatedWhenMetricsDisabled() {
         contextRunner
-            .withPropertyValues("rose.otel.metrics.enabled=false")
-            .run(context -> assertThat(context).doesNotHaveBean(SdkMeterProvider.class));
+                .withPropertyValues("rose.otel.metrics.enabled=false")
+                .run(context -> assertThat(context).doesNotHaveBean(SdkMeterProvider.class));
     }
 
     @Test
@@ -54,19 +54,21 @@ class OpenTelemetryMetricsAutoConfigurationTests {
                 .withPropertyValues("rose.otel.metrics.cardinality-limit=200")
                 .run(context -> {
                     CardinalityLimitSelector cardinalityLimitSelector = context.getBean(CardinalityLimitSelector.class);
-                    assertThat(cardinalityLimitSelector.getCardinalityLimit(InstrumentType.COUNTER)).isEqualTo(200);
+                    assertThat(cardinalityLimitSelector.getCardinalityLimit(InstrumentType.COUNTER))
+                            .isEqualTo(200);
                 });
     }
 
     @Test
     void customCardinalityLimitSelectorAvailable() {
         contextRunner
-            .withUserConfiguration(CustomCardinalityLimitSelectorConfiguration.class)
-            .run(context -> {
-                assertThat(context).hasSingleBean(CardinalityLimitSelector.class);
-                assertThat(context.getBean(CardinalityLimitSelector.class))
-                    .isSameAs(context.getBean(CustomCardinalityLimitSelectorConfiguration.class).customCardinalityLimitSelector());
-            });
+                .withUserConfiguration(CustomCardinalityLimitSelectorConfiguration.class)
+                .run(context -> {
+                    assertThat(context).hasSingleBean(CardinalityLimitSelector.class);
+                    assertThat(context.getBean(CardinalityLimitSelector.class))
+                            .isSameAs(context.getBean(CustomCardinalityLimitSelectorConfiguration.class)
+                                    .customCardinalityLimitSelector());
+                });
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -78,7 +80,6 @@ class OpenTelemetryMetricsAutoConfigurationTests {
         CardinalityLimitSelector customCardinalityLimitSelector() {
             return customCardinalityLimitSelector;
         }
-
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -91,7 +92,5 @@ class OpenTelemetryMetricsAutoConfigurationTests {
         OpenTelemetryMeterProviderBuilderCustomizer customMetricBuilderCustomizer() {
             return customMetricBuilderCustomizer;
         }
-
     }
-
 }

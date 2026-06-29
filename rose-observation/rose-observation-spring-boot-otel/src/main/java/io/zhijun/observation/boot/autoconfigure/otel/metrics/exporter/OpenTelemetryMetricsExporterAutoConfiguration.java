@@ -22,7 +22,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpM
  */
 @AutoConfiguration
 @ConditionalOnOpenTelemetryMetrics
-@Import({ ConsoleMetricsExporterConfiguration.class, OtlpMetricsExporterConfiguration.class })
+@Import({ConsoleMetricsExporterConfiguration.class, OtlpMetricsExporterConfiguration.class})
 @EnableConfigurationProperties(OpenTelemetryMetricsExporterProperties.class)
 public final class OpenTelemetryMetricsExporterAutoConfiguration {
 
@@ -30,12 +30,11 @@ public final class OpenTelemetryMetricsExporterAutoConfiguration {
 
     @Bean
     OpenTelemetryMeterProviderBuilderCustomizer metricReaderCustomizer(
-            OpenTelemetryMetricsExporterProperties properties,
-            ObjectProvider<MetricExporter> metricExporters) {
+            OpenTelemetryMetricsExporterProperties properties, ObjectProvider<MetricExporter> metricExporters) {
         NamedThreadFactory threadFactory = new NamedThreadFactory(THREAD_NAME_PREFIX);
         return builder -> {
-            for (MetricExporter metricExporter : metricExporters.orderedStream()
-                    .collect(java.util.stream.Collectors.toList())) {
+            for (MetricExporter metricExporter :
+                    metricExporters.orderedStream().collect(java.util.stream.Collectors.toList())) {
                 builder.registerMetricReader(PeriodicMetricReader.builder(metricExporter)
                         .setInterval(properties.getInterval())
                         .setExecutor(Executors.newSingleThreadScheduledExecutor(threadFactory))

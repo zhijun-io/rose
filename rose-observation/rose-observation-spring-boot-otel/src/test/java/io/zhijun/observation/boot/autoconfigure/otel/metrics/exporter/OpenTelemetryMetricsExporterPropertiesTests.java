@@ -1,11 +1,11 @@
 package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterType;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfig;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OpenTelemetryMetricsExporterProperties}.
@@ -23,7 +23,8 @@ class OpenTelemetryMetricsExporterPropertiesTests {
 
         assertThat(properties.getType()).isNull();
         assertThat(properties.getAggregationTemporality()).isEqualTo(AggregationTemporalityStrategy.CUMULATIVE);
-        assertThat(properties.getHistogramAggregation()).isEqualTo(HistogramAggregationStrategy.EXPLICIT_BUCKET_HISTOGRAM);
+        assertThat(properties.getHistogramAggregation())
+                .isEqualTo(HistogramAggregationStrategy.EXPLICIT_BUCKET_HISTOGRAM);
         assertThat(properties.getOtlp()).isNotNull().isInstanceOf(OtlpExporterConfig.class);
     }
 
@@ -37,7 +38,7 @@ class OpenTelemetryMetricsExporterPropertiesTests {
 
         assertThat(properties.getType()).isEqualTo(ExporterType.NONE);
         assertThat(properties.getAggregationTemporality()).isEqualTo(AggregationTemporalityStrategy.DELTA);
-        assertThat(properties.getHistogramAggregation()).isEqualTo(HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM);
+        assertThat(properties.getHistogramAggregation())
+                .isEqualTo(HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM);
     }
-
 }

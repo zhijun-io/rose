@@ -13,7 +13,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.Conditional
  * Auto-configuration for exporting traces to the console.
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass({ LoggingSpanExporter.class })
+@ConditionalOnClass({LoggingSpanExporter.class})
 @ConditionalOnOpenTelemetryTracingExporter("console")
 public final class ConsoleTracingExporterConfiguration {
 
@@ -22,5 +22,4 @@ public final class ConsoleTracingExporterConfiguration {
     LoggingSpanExporter consoleSpanExporter() {
         return LoggingSpanExporter.create();
     }
-
 }

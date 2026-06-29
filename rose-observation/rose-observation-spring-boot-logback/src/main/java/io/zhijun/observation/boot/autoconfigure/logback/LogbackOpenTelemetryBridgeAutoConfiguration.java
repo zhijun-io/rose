@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 
 import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.Appender;
 
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryAutoConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.ConditionalOnOpenTelemetryLoggingExporter;
@@ -23,7 +24,11 @@ import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.ConditionalOn
  */
 @AutoConfiguration(after = OpenTelemetryAutoConfiguration.class)
 @ConditionalOnClass(Appender.class)
-@ConditionalOnProperty(prefix = LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(
+        prefix = LogbackOpenTelemetryBridgeProperties.CONFIG_PREFIX,
+        name = "enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 @ConditionalOnOpenTelemetryLoggingExporter("otlp")
 @EnableConfigurationProperties(LogbackOpenTelemetryBridgeProperties.class)
 public final class LogbackOpenTelemetryBridgeAutoConfiguration {
@@ -39,5 +44,4 @@ public final class LogbackOpenTelemetryBridgeAutoConfiguration {
     ApplicationListener<ApplicationFailedEvent> logbackAppenderOnFailed(OpenTelemetry openTelemetry) {
         return event -> OpenTelemetryAppender.install(openTelemetry);
     }
-
 }

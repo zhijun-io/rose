@@ -1,16 +1,14 @@
 package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.time.Duration;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test for {@link MicrometerOtlpConfig}.
@@ -29,9 +27,7 @@ class MicrometerOtlpConfigTests {
     @Test
     void shouldCreateInstanceWithDefaultValues() {
         String url = "http://localhost:4318/v1/metrics";
-        MicrometerOtlpConfig config = MicrometerOtlpConfig.builder()
-                .url(url)
-                .build();
+        MicrometerOtlpConfig config = MicrometerOtlpConfig.builder().url(url).build();
 
         assertThat(config.enabled()).isTrue();
         assertThat(config.url()).isEqualTo(url);
@@ -126,5 +122,4 @@ class MicrometerOtlpConfigTests {
         assertThatThrownBy(() -> config.resourceAttributes().put("extra", "value"))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
-
 }

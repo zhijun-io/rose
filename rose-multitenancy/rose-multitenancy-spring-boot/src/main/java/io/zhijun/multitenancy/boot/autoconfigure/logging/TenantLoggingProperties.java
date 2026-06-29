@@ -48,7 +48,5 @@ public class TenantLoggingProperties {
         public void setKeyName(String keyName) {
             this.keyName = keyName;
         }
-
     }
-
 }

@@ -20,5 +20,4 @@ public enum HistogramAggregationStrategy {
      * @see ExplicitBucketHistogramAggregation#getDefault()
      */
     EXPLICIT_BUCKET_HISTOGRAM
-
 }

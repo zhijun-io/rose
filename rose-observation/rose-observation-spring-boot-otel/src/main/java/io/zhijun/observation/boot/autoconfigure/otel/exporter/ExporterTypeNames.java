@@ -13,7 +13,5 @@ public final class ExporterTypeNames {
 
     public static final String DEFAULT = OTLP;
 
-    private ExporterTypeNames() {
-    }
-
+    private ExporterTypeNames() {}
 }

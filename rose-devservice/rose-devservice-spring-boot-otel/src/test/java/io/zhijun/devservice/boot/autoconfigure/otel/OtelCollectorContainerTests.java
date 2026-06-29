@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.otel;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OtelCollectorContainer}.
@@ -26,11 +26,12 @@ class OtelCollectorContainerTests extends BaseDevServicesContainerTests<OtelColl
 
         OtelCollectorContainer container = new OtelCollectorContainer(properties);
         container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + OtelCollectorContainer.OTLP_HTTP_PORT))
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getOtlpGrpcPort() + ":" + OtelCollectorContainer.OTLP_GRPC_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(binding ->
+                                binding.startsWith(properties.getPort() + ":" + OtelCollectorContainer.OTLP_HTTP_PORT))
+                        .anyMatch(binding -> binding.startsWith(
+                                properties.getOtlpGrpcPort() + ":" + OtelCollectorContainer.OTLP_GRPC_PORT)));
     }
-
 }

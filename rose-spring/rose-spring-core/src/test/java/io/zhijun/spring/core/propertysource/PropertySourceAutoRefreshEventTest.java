@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.propertysource;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -11,8 +13,6 @@ import org.springframework.core.env.MapPropertySource;
 
 import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Verifies {@code propertySources.replace()} on Listenable Environment publishes event with
@@ -36,8 +36,9 @@ class PropertySourceAutoRefreshEventTest {
 
         Map<String, Object> updated = new HashMap<String, Object>();
         updated.put("event.key", "new");
-        context.getEnvironment().getPropertySources().replace("reload-test",
-                new MapPropertySource("reload-test", updated));
+        context.getEnvironment()
+                .getPropertySources()
+                .replace("reload-test", new MapPropertySource("reload-test", updated));
 
         PropertySourcesChangedEvent event = captured.get();
         assertThat(event).isNotNull();

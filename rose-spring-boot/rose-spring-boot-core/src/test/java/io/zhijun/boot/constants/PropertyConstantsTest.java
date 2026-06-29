@@ -1,8 +1,8 @@
 package io.zhijun.boot.constants;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 class PropertyConstantsTest {
 

@@ -7,8 +7,7 @@ import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
  */
 public final class DockerTestSupport {
 
-    private DockerTestSupport() {
-    }
+    private DockerTestSupport() {}
 
     static {
         configureIfNeeded();

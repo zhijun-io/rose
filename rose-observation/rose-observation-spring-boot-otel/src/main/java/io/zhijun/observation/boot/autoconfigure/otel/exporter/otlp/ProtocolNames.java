@@ -9,7 +9,5 @@ public final class ProtocolNames {
 
     public static final String HTTP_PROTOBUF = "http_protobuf";
 
-    private ProtocolNames() {
-    }
-
+    private ProtocolNames() {}
 }

@@ -3,14 +3,13 @@ package io.zhijun.mybatisplus.core.crypto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.ibatis.mapping.SqlCommandType;
-
 import org.junit.jupiter.api.Test;
 
 class FieldEncryptProcessorTests {
 
     private final DefaultFieldEncryptor encryptor = new DefaultFieldEncryptor();
 
-  private final EncryptionKeyResolver keyResolver = secretRef -> null;
+    private final EncryptionKeyResolver keyResolver = secretRef -> null;
 
     @Test
     void shouldEncryptAnnotatedFieldBeforeWrite() {
@@ -38,8 +37,8 @@ class FieldEncryptProcessorTests {
         account.setPhone("13800138000");
         String original = account.getPhone();
 
-        Runnable restore = FieldEncryptProcessor.processParameter(account, SqlCommandType.INSERT,
-                encryptor, keyResolver);
+        Runnable restore =
+                FieldEncryptProcessor.processParameter(account, SqlCommandType.INSERT, encryptor, keyResolver);
 
         assertThat(account.getPhone()).isNotEqualTo(original);
         restore.run();
@@ -51,8 +50,8 @@ class FieldEncryptProcessorTests {
         SampleAccount account = new SampleAccount();
         account.setPhone("13800138000");
 
-        Runnable restore = FieldEncryptProcessor.processParameter(account, SqlCommandType.SELECT,
-                encryptor, keyResolver);
+        Runnable restore =
+                FieldEncryptProcessor.processParameter(account, SqlCommandType.SELECT, encryptor, keyResolver);
 
         // SELECT params must be encrypted so WHERE matches stored ciphertext
         assertThat(account.getPhone()).isNotEqualTo("13800138000");

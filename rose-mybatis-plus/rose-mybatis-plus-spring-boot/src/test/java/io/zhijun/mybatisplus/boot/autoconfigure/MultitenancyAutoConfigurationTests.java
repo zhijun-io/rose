@@ -2,14 +2,14 @@ package io.zhijun.mybatisplus.boot.autoconfigure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 
 import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.mybatisplus.core.multitenancy.TenantIdSupplier;
@@ -22,16 +22,14 @@ class MultitenancyAutoConfigurationTests {
 
     @Test
     void shouldRegisterTenantLineWhenMultitenancyOnClasspath() {
-        contextRunner
-                .withUserConfiguration(MybatisPlusInterceptorConfig.class)
-                .run(context -> {
-                    assertThat(context).hasSingleBean(TenantIdSupplier.class);
-                    assertThat(context).hasSingleBean(TenantLineInnerInterceptorRegistrar.class);
+        contextRunner.withUserConfiguration(MybatisPlusInterceptorConfig.class).run(context -> {
+            assertThat(context).hasSingleBean(TenantIdSupplier.class);
+            assertThat(context).hasSingleBean(TenantLineInnerInterceptorRegistrar.class);
 
-                    MybatisPlusInterceptor interceptor = context.getBean(MybatisPlusInterceptor.class);
-                    assertThat(interceptor.getInterceptors()).hasSize(1);
-                    assertThat(interceptor.getInterceptors().get(0)).isInstanceOf(TenantLineInnerInterceptor.class);
-                });
+            MybatisPlusInterceptor interceptor = context.getBean(MybatisPlusInterceptor.class);
+            assertThat(interceptor.getInterceptors()).hasSize(1);
+            assertThat(interceptor.getInterceptors().get(0)).isInstanceOf(TenantLineInnerInterceptor.class);
+        });
     }
 
     @Test
@@ -72,5 +70,4 @@ class MultitenancyAutoConfigurationTests {
             return () -> "custom";
         }
     }
-
 }

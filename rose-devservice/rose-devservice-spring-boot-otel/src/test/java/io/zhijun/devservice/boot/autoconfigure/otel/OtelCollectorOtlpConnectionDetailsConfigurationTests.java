@@ -1,5 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.otel;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -7,12 +13,6 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTracingConnectionDetails;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link OtelCollectorOtlpConnectionDetailsConfiguration}.
@@ -30,20 +30,16 @@ class OtelCollectorOtlpConnectionDetailsConfigurationTests {
         when(container.getHttpPort()).thenReturn(4318);
         when(container.getGrpcPort()).thenReturn(4317);
 
-        contextRunner
-                .withBean(OtelCollectorContainer.class, () -> container)
-                .run(context -> {
-                    assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
-                    assertThat(context).hasSingleBean(OtlpMetricsConnectionDetails.class);
+        contextRunner.withBean(OtelCollectorContainer.class, () -> container).run(context -> {
+            assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
+            assertThat(context).hasSingleBean(OtlpMetricsConnectionDetails.class);
 
-                    OtlpTracingConnectionDetails tracing = context.getBean(OtlpTracingConnectionDetails.class);
-                    OtlpMetricsConnectionDetails metrics = context.getBean(OtlpMetricsConnectionDetails.class);
+            OtlpTracingConnectionDetails tracing = context.getBean(OtlpTracingConnectionDetails.class);
+            OtlpMetricsConnectionDetails metrics = context.getBean(OtlpMetricsConnectionDetails.class);
 
-                    assertThat(tracing.getUrl(Protocol.HTTP_PROTOBUF))
-                            .isEqualTo("http://localhost:4318/v1/traces");
-                    assertThat(metrics.getUrl(Protocol.HTTP_PROTOBUF))
-                            .isEqualTo("http://localhost:4318/v1/metrics");
-                });
+            assertThat(tracing.getUrl(Protocol.HTTP_PROTOBUF)).isEqualTo("http://localhost:4318/v1/traces");
+            assertThat(metrics.getUrl(Protocol.HTTP_PROTOBUF)).isEqualTo("http://localhost:4318/v1/metrics");
+        });
     }
 
     @Test
@@ -54,12 +50,9 @@ class OtelCollectorOtlpConnectionDetailsConfigurationTests {
         when(container.getHttpPort()).thenReturn(4318);
         when(container.getGrpcPort()).thenReturn(4317);
 
-        contextRunner
-                .withBean(OtelCollectorContainer.class, () -> container)
-                .run(context -> {
-                    assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
-                    verify(container, atLeastOnce()).start();
-                });
+        contextRunner.withBean(OtelCollectorContainer.class, () -> container).run(context -> {
+            assertThat(context).hasSingleBean(OtlpTracingConnectionDetails.class);
+            verify(container, atLeastOnce()).start();
+        });
     }
-
 }

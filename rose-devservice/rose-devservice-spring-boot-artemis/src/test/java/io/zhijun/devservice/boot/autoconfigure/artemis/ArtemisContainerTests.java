@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.artemis;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link ArtemisContainer}.
@@ -26,11 +26,11 @@ class ArtemisContainerTests extends BaseDevServicesContainerTests<ArtemisContain
 
         ArtemisContainer container = new ArtemisContainer(properties);
         container.configure();
-        assertPortBindingsConfigured(container.getPortBindings(), portBindings -> assertThat(portBindings)
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getPort() + ":" + ArtemisContainer.TCP_PORT))
-                .anyMatch(binding -> binding.startsWith(
-                        properties.getManagementConsolePort() + ":" + ArtemisContainer.WEB_CONSOLE_PORT)));
+        assertPortBindingsConfigured(
+                container.getPortBindings(),
+                portBindings -> assertThat(portBindings)
+                        .anyMatch(binding -> binding.startsWith(properties.getPort() + ":" + ArtemisContainer.TCP_PORT))
+                        .anyMatch(binding -> binding.startsWith(
+                                properties.getManagementConsolePort() + ":" + ArtemisContainer.WEB_CONSOLE_PORT)));
     }
-
 }

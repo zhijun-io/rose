@@ -2,13 +2,13 @@ package io.zhijun.devservice.boot.registration;
 
 import java.util.Map;
 
+import io.opentelemetry.api.trace.Tracer;
+
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.testcontainers.containers.GenericContainer;
-
-import io.opentelemetry.api.trace.Tracer;
 
 /**
  * Starts dev service containers before datasource initialization.
@@ -48,5 +48,4 @@ public class DevServiceContainersInitializer implements ApplicationContextAware,
         }
         return beanName;
     }
-
 }

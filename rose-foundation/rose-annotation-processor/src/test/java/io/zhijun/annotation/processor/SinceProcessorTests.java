@@ -1,5 +1,7 @@
 package io.zhijun.annotation.processor;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -7,8 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class SinceProcessorTests {
 
