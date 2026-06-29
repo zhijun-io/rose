@@ -28,7 +28,7 @@
         <opentelemetry-instrumentation.version>2.29.0</opentelemetry-instrumentation.version>
         <opentelemetry-semconv.version>1.42.0</opentelemetry-semconv.version>
         <!-- kotlin-stdlib: test/runtime only (OTel OkHttp exporter); not part of Rose public API -->
-        <kotlin.version>2.2.21</kotlin.version>
+        <kotlin.version>2.4.0</kotlin.version>
     </properties>
 
     <!-- Reactor modules for building Rose itself. Consumer applications import rose-bom instead. -->
