@@ -15,9 +15,8 @@ import io.zhijun.core.annotation.Nullable;
 import org.springframework.util.ClassUtils;
 
 import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.Logger;
 
-import io.zhijun.boot.bind.RoseBinder;
+import io.zhijun.spring.boot.bind.RoseBinder;
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryProperties;
 
 /**

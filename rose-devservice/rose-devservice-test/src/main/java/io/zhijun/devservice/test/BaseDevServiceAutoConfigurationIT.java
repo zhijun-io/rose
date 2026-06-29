@@ -19,7 +19,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StreamUtils;
 import org.testcontainers.containers.GenericContainer;
 
-import io.zhijun.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
+import io.zhijun.spring.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 

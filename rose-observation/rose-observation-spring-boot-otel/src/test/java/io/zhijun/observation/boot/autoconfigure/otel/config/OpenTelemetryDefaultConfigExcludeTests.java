@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter;
-import io.zhijun.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
+import io.zhijun.spring.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter;
+import io.zhijun.spring.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
 
 /**
  * Verifies {@code config/default/opentelemetry.properties} exclusions load with Rose Spring Boot core.

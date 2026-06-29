@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.boot.actuate.autoconfigure.ActuatorAutoConfiguration
+io.zhijun.spring.boot.actuate.autoconfigure.ActuatorAutoConfiguration

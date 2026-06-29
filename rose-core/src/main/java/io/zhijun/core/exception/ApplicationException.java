@@ -20,11 +20,12 @@ import java.util.Map;
  *     <li>a {@link #isRetryable() retryable} flag for upper-layer retry frameworks</li>
  *     <li>immutable {@link #getDetails() details} for structured context</li>
  *     <li>typed {@link #getDetail(String, Class)} detail access for callers</li>
+ *     <li>a {@link #toErrorResponse()} adapter for framework-neutral error responses</li>
  * </ul>
  *
  * <p>TODO:
  * <ul>
- *     <li>support standardized detail keys and machine-readable metadata</li>
+ *     <li>expand standardized detail keys and machine-readable metadata</li>
  *     <li>integrate with framework-specific exception mapping and observability conventions</li>
  * </ul>
  */
@@ -83,6 +84,10 @@ public class ApplicationException extends RuntimeException {
                     "Detail '" + key + "' is not of required type " + type.getName());
         }
         return type.cast(value);
+    }
+
+    public ErrorResponse toErrorResponse() {
+        return ErrorResponse.from(this);
     }
 
     private ApplicationException(
