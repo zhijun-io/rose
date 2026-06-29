@@ -5,6 +5,7 @@ import org.springframework.core.io.Resource;
 /**
  * Callback when a file-backed property source location changes.
  */
+@FunctionalInterface
 public interface PropertySourceReloadCallback {
 
     void onReload(String resourceValue, Resource resource) throws Throwable;

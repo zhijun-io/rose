@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
  * @see io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor
  * @since 0.0.1
  */
+@FunctionalInterface
 public interface MybatisPlusInterceptorCustomizer {
 
     /**
