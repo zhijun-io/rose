@@ -1,4 +1,4 @@
-package io.zhijun.observation.core;
+package io.zhijun.observation.boot.autoconfigure.conventions;
 
 /**
  * Pluggable telemetry conventions backend (e.g. OpenTelemetry semconv, OpenInference).

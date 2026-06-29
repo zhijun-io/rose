@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import io.zhijun.observation.core.TelemetryConventionsBackend;
+import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
 
 /**
  * Selects a single {@link TelemetryConventionsBackend} from registered candidates.

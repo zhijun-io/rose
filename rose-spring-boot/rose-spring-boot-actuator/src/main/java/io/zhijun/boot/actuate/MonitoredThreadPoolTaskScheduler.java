@@ -13,8 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import io.zhijun.core.concurrent.DelegatingScheduledExecutorService;
-
 /**
  * {@link ThreadPoolTaskScheduler} with Micrometer executor metrics.
  */
@@ -25,19 +23,23 @@ public class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskScheduler
 
     private ApplicationContext context;
 
-    private DelegatingScheduledExecutorService delegate;
+    private volatile ScheduledExecutorService delegate;
 
     @Override
     protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory,
                                                       RejectedExecutionHandler rejectedExecutionHandler) {
         ScheduledExecutorService scheduledExecutor = super.createExecutor(poolSize, threadFactory, rejectedExecutionHandler);
-        this.delegate = new DelegatingScheduledExecutorService(scheduledExecutor);
+        this.delegate = scheduledExecutor;
         return scheduledExecutor;
     }
 
     @Override
     public ScheduledExecutorService getScheduledExecutor() throws IllegalStateException {
-        return delegate;
+        ScheduledExecutorService executor = this.delegate;
+        if (executor != null) {
+            return executor;
+        }
+        return super.getScheduledExecutor();
     }
 
     @Override
@@ -46,8 +48,7 @@ public class MonitoredThreadPoolTaskScheduler extends ThreadPoolTaskScheduler
             return;
         }
         MeterRegistry registry = context.getBean(MeterRegistry.class);
-        ScheduledExecutorService scheduledExecutor = super.getScheduledExecutor();
-        this.delegate.setDelegate(ExecutorServiceMetrics.monitor(registry, scheduledExecutor, beanName));
+        this.delegate = ExecutorServiceMetrics.monitor(registry, super.getScheduledExecutor(), beanName);
     }
 
     @Override

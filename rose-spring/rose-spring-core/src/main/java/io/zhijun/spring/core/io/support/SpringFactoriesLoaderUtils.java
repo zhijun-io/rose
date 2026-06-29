@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -17,41 +15,7 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
  */
 public abstract class SpringFactoriesLoaderUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(SpringFactoriesLoaderUtils.class);
-
     private SpringFactoriesLoaderUtils() {
-    }
-
-    public static <T> List<String> loadFactoryNames(Class<T> factoryType) {
-        return loadFactoryNames(factoryType, null);
-    }
-
-    public static <T> List<String> loadFactoryNames(Class<T> factoryType, ClassLoader classLoader) {
-        ClassLoader resolvedClassLoader = resolveClassLoader(classLoader);
-        List<String> factoryNames = SpringFactoriesLoader.loadFactoryNames(factoryType, resolvedClassLoader);
-        if (logger.isTraceEnabled()) {
-            logger.trace("Loaded factory names for {}: {}", factoryType.getName(), factoryNames);
-        }
-        return factoryNames;
-    }
-
-    public static <T> List<Class<? extends T>> loadFactoryClasses(Class<T> factoryType) {
-        return loadFactoryClasses(factoryType, null);
-    }
-
-    public static <T> List<Class<? extends T>> loadFactoryClasses(Class<T> factoryType, ClassLoader classLoader) {
-        List<String> factoryNames = loadFactoryNames(factoryType, classLoader);
-        List<Class<? extends T>> factoryClasses = new ArrayList<Class<? extends T>>(factoryNames.size());
-        ClassLoader resolvedClassLoader = resolveClassLoader(classLoader);
-        for (String factoryName : factoryNames) {
-            try {
-                Class<?> factoryClass = Class.forName(factoryName, false, resolvedClassLoader);
-                factoryClasses.add((Class<? extends T>) factoryClass);
-            } catch (ClassNotFoundException ex) {
-                throw new IllegalStateException("Failed to load factory class " + factoryName, ex);
-            }
-        }
-        return factoryClasses;
     }
 
     public static <T> List<T> loadFactories(Class<T> factoryType) {

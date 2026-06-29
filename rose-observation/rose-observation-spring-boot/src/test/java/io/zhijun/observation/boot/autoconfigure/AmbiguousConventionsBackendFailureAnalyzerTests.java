@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
-import io.zhijun.observation.core.TelemetryConventionsBackend;
+import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

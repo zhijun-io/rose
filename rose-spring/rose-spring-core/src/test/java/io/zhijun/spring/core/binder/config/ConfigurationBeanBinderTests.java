@@ -11,11 +11,11 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class DefaultConfigurationBeanBinderTests {
+class ConfigurationBeanBinderTests {
 
     @Test
     void bindMapsPropertiesToFields() {
-        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("name", "rose");
@@ -29,7 +29,7 @@ class DefaultConfigurationBeanBinderTests {
 
     @Test
     void bindUsesConfiguredConversionService() {
-        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         ConversionService conversionService = new DefaultFormattingConversionService();
         binder.setConversionService(conversionService);
         SampleConfiguration target = new SampleConfiguration();
@@ -41,7 +41,7 @@ class DefaultConfigurationBeanBinderTests {
 
     @Test
     void bindIgnoresUnknownFieldsWhenConfigured() {
-        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
 
         binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), true, true, target);
@@ -51,7 +51,7 @@ class DefaultConfigurationBeanBinderTests {
 
     @Test
     void bindRejectsUnknownFieldsWhenNotIgnored() {
-        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
 
         assertThatThrownBy(() -> binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), false, true,
@@ -61,7 +61,7 @@ class DefaultConfigurationBeanBinderTests {
 
     @Test
     void bindIgnoresInvalidFieldsWhenConfigured() {
-        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
 
         binder.bind(Collections.<String, Object>singletonMap("count", "not-a-number"), true, true, target);
@@ -71,7 +71,7 @@ class DefaultConfigurationBeanBinderTests {
 
     @Test
     void bindStillBindsValidFieldsWhenInvalidFieldsNotIgnored() {
-        DefaultConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("count", "42");

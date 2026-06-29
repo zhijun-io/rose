@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 
 import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
 import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
-import io.zhijun.spring.core.binder.config.DefaultConfigurationBeanBinder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +32,7 @@ class EnableConfigurationBeanBindingTest extends AbstractEnableConfigurationBean
 
     @Bean
     ConfigurationBeanBinder configurationBeanBinder() {
-        return new DefaultConfigurationBeanBinder();
+        return new ConfigurationBeanBinder();
     }
 
     @Test

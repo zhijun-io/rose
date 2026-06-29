@@ -7,6 +7,7 @@ import io.zhijun.spring.core.env.listener.LoggingEnvironmentListener;
 import io.zhijun.spring.core.env.refresh.PropertySourcesRefreshEnvironmentListener;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.support.SpringFactoriesLoader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,7 +15,7 @@ class SpringFactoriesLoaderUtilsTests {
 
     @Test
     void shouldLoadFactoryNamesFromSpringFactories() {
-        List<String> names = SpringFactoriesLoaderUtils.loadFactoryNames(EnvironmentListener.class,
+        List<String> names = SpringFactoriesLoader.loadFactoryNames(EnvironmentListener.class,
                 getClass().getClassLoader());
 
         assertThat(names).contains("io.zhijun.spring.core.env.FactoryLoadedEnvironmentListener");
@@ -32,7 +33,7 @@ class SpringFactoriesLoaderUtilsTests {
 
     @Test
     void shouldRegisterPropertySourcesRefreshEnvironmentListenerInMainSpringFactories() {
-        List<String> names = SpringFactoriesLoaderUtils.loadFactoryNames(EnvironmentListener.class,
+        List<String> names = SpringFactoriesLoader.loadFactoryNames(EnvironmentListener.class,
                 LoggingEnvironmentListener.class.getClassLoader());
 
         assertThat(names).contains(PropertySourcesRefreshEnvironmentListener.class.getName());
@@ -40,7 +41,7 @@ class SpringFactoriesLoaderUtilsTests {
 
     @Test
     void shouldReturnEmptyWhenFactoryNotFound() {
-        List<String> names = SpringFactoriesLoaderUtils.loadFactoryNames(UnknownFactory.class, getClass().getClassLoader());
+        List<String> names = SpringFactoriesLoader.loadFactoryNames(UnknownFactory.class, getClass().getClassLoader());
         List<UnknownFactory> factories = SpringFactoriesLoaderUtils.loadFactories(UnknownFactory.class,
                 getClass().getClassLoader());
 

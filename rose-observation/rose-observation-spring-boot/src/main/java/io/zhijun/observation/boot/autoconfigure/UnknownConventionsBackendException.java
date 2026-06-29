@@ -3,7 +3,7 @@ package io.zhijun.observation.boot.autoconfigure;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.zhijun.observation.core.TelemetryConventionsBackend;
+import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
 
 /**
  * Thrown when {@code rose.observation.conventions.backend} does not match any registered backend.

@@ -16,10 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.zhijun</groupId>
-            <artifactId>rose-observation-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.opentelemetry.semconv</groupId>
             <artifactId>opentelemetry-semconv</artifactId>
         </dependency>

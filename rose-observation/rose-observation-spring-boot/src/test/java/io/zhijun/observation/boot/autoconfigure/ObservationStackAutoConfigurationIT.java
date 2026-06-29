@@ -3,7 +3,7 @@ package io.zhijun.observation.boot.autoconfigure;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryAutoConfiguration;
-import io.zhijun.observation.core.TelemetryConventionsBackend;
+import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

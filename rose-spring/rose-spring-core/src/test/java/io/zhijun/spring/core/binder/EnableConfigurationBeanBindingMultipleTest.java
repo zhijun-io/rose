@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;
 
-import io.zhijun.spring.core.binder.config.DefaultConfigurationBeanBinder;
+import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,7 +24,7 @@ class EnableConfigurationBeanBindingMultipleTest extends AbstractEnableConfigura
     @Bean
     ConfigurationBeanBindingPostProcessor configurationBeanBindingPostProcessor() {
         ConfigurationBeanBindingPostProcessor processor = new ConfigurationBeanBindingPostProcessor();
-        processor.setConfigurationBeanBinder(new DefaultConfigurationBeanBinder());
+        processor.setConfigurationBeanBinder(new ConfigurationBeanBinder());
         return processor;
     }
 

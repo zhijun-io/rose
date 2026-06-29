@@ -5,7 +5,13 @@ import org.springframework.util.StringUtils;
 /**
  * Joins prefix segments and bean name with a configurable delimiter.
  */
-public abstract class JoinAliasGenerator implements ConfigurationBeanAliasGenerator {
+public class DelimitedAliasGenerator implements ConfigurationBeanAliasGenerator {
+
+    private final String delimiter;
+
+    public DelimitedAliasGenerator(String delimiter) {
+        this.delimiter = delimiter;
+    }
 
     @Override
     public String generateAlias(String prefix, String beanName, Class<?> configClass) {
@@ -15,8 +21,6 @@ public abstract class JoinAliasGenerator implements ConfigurationBeanAliasGenera
         for (int i = 1; i < prefixArray.length; i++) {
             builder.append(StringUtils.capitalize(prefixArray[i]));
         }
-        return builder.append(delimiter()).append(beanName).toString();
+        return builder.append(delimiter).append(beanName).toString();
     }
-
-    protected abstract String delimiter();
 }

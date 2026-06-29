@@ -8,7 +8,6 @@ import java.util.Map;
 
 import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
 import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
-import io.zhijun.spring.core.binder.config.DefaultConfigurationBeanBinder;
 import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.binder.support.ConversionServiceResolver;
 import org.slf4j.Logger;
@@ -163,7 +162,7 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
             try {
                 binder = beanFactory.getBean(ConfigurationBeanBinder.class);
             } catch (BeansException ignored) {
-                binder = new DefaultConfigurationBeanBinder();
+                binder = new ConfigurationBeanBinder();
             }
         }
         ConversionService conversionService = new ConversionServiceResolver(beanFactory).resolve();

@@ -18,7 +18,6 @@
 
     <modules>
         <module>rose-annotation</module>
-        <module>rose-core</module>
         <module>rose-annotation-processor</module>
         <module>rose-test</module>
     </modules>

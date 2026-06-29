@@ -3,10 +3,9 @@ package io.zhijun.spring.core.binder.support;
 /**
  * Alias generator using underscore as delimiter.
  */
-public class UnderScoreJoinAliasGenerator extends JoinAliasGenerator {
+public final class UnderScoreJoinAliasGenerator extends DelimitedAliasGenerator {
 
-    @Override
-    protected String delimiter() {
-        return "_";
+    public UnderScoreJoinAliasGenerator() {
+        super("_");
     }
 }
