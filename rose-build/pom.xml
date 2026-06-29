@@ -575,10 +575,10 @@
         </profile>
 
         <profile>
-            <id>spotless-check</id>
-            <activation>
-                <jdk>[11,</jdk>
-            </activation>
+           <id>spotless-check</id>
+           <activation>
+                <jdk>[17,</jdk>
+           </activation>
             <build>
                 <plugins>
                     <plugin>
