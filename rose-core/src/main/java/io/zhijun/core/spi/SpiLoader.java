@@ -47,6 +47,7 @@ public final class SpiLoader<S> {
      */
     private static final List<InstanceCreator> INSTANCE_CREATORS = loadInstanceCreators();
     private static final ConcurrentHashMap<LoaderKey, SpiLoader<?>> LOADERS = new ConcurrentHashMap<>();
+    private static final Set<String> REPORTED_PRIORITY_CONFLICTS = ConcurrentHashMap.newKeySet();
     private final Class<S> serviceType;
     private final ClassLoader classLoader;
     private final Set<String> excludedImplementationClassNames;
@@ -181,6 +182,7 @@ public final class SpiLoader<S> {
      */
     public static void clearCache() {
         LOADERS.clear();
+        REPORTED_PRIORITY_CONFLICTS.clear();
     }
 
     /**
@@ -339,16 +341,8 @@ public final class SpiLoader<S> {
             if (spiImpl != null && !spiImpl.enabled()) {
                 return ImplementationDefinition.disabled(implementationType);
             }
-            // Check load conditions from condition annotations on implementation class
-            for (Annotation annotation : implementationType.getAnnotations()) {
-                ConditionAnnotation conditionMeta = annotation.annotationType().getAnnotation(ConditionAnnotation.class);
-                if (conditionMeta == null) {
-                    continue;
-                }
-                Class<? extends Condition> conditionClass = conditionMeta.value();
-                if (!matchCondition(implementationType, conditionClass)) {
-                    return ImplementationDefinition.disabled(implementationType);
-                }
+            if (!matchesConditionAnnotations(implementationType)) {
+                return ImplementationDefinition.disabled(implementationType);
             }
             int priority = resolvePriority(spiImpl);
             boolean singleton = spiImpl != null ? spiImpl.singleton() : DEFAULT_SINGLETON;
@@ -469,26 +463,7 @@ public final class SpiLoader<S> {
                             className, serviceType.getName()));
                     continue;
                 }
-                boolean conditionMatch = true;
-                for (String conditionClass : entry.getConditions()) {
-                    try {
-                        Class<?> condClass = Class.forName(conditionClass, true, classLoader);
-                        if (!Condition.class.isAssignableFrom(condClass)) {
-                            continue;
-                        }
-                        Condition condition = (Condition) condClass.getDeclaredConstructor().newInstance();
-                        if (!condition.matches((Class<?>) implClass)) {
-                            conditionMatch = false;
-                            break;
-                        }
-                    } catch (Exception e) {
-                        LOGGER.warning(String.format("Failed to check condition %s for %s: %s",
-                                conditionClass, className, e.getMessage()));
-                        conditionMatch = false;
-                        break;
-                    }
-                }
-                if (!entry.isEnabled() || !conditionMatch) {
+                if (!entry.isEnabled() || !matchesConditionClassNames(implClass, className, entry.getConditions())) {
                     continue;
                 }
                 ImplementationDefinition<S> definition = new ImplementationDefinition<>(
@@ -538,7 +513,8 @@ public final class SpiLoader<S> {
                 String implementationNames = group.stream()
                         .map(def -> def.implementationType.getName())
                         .collect(Collectors.joining(", "));
-                if (LOGGER.isLoggable(Level.WARNING)) {
+                String conflictKey = serviceType.getName() + "|" + priority + "|" + implementationNames;
+                if (LOGGER.isLoggable(Level.WARNING) && REPORTED_PRIORITY_CONFLICTS.add(conflictKey)) {
                     LOGGER.warning(String.format(
                             "[SPI: %s] Multiple implementations with same priority %d: %s. " +
                                     "Order will be determined by class name.",
@@ -547,6 +523,42 @@ public final class SpiLoader<S> {
             }
         });
     }
+
+    private boolean matchesConditionAnnotations(Class<? extends S> implementationType) {
+        for (Annotation annotation : implementationType.getAnnotations()) {
+            ConditionAnnotation conditionMeta = annotation.annotationType().getAnnotation(ConditionAnnotation.class);
+            if (conditionMeta == null) {
+                continue;
+            }
+            if (!matchCondition(implementationType, conditionMeta.value())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean matchesConditionClassNames(Class<?> implementationType, String className, List<String> conditionClassNames) {
+        for (String conditionClassName : conditionClassNames) {
+            try {
+                Class<?> conditionType = Class.forName(conditionClassName, true, classLoader);
+                if (!Condition.class.isAssignableFrom(conditionType)) {
+                    continue;
+                }
+                @SuppressWarnings("unchecked")
+                Class<? extends Condition> typedCondition = (Class<? extends Condition>) conditionType;
+                if (!matchCondition(implementationType, typedCondition)) {
+                    return false;
+                }
+            } catch (Exception e) {
+                LOGGER.warning(String.format(
+                        "Failed to check condition %s for %s: %s",
+                        conditionClassName, className, e.getMessage()));
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static ClassLoader stableClassLoader(Class<?> serviceType) {
         ClassLoader serviceClassLoader = serviceType.getClassLoader();
         return serviceClassLoader != null ? serviceClassLoader : ClassLoader.getSystemClassLoader();
@@ -612,7 +624,7 @@ public final class SpiLoader<S> {
         private final int priority;
         private final boolean singleton;
         private final boolean enabled;
-        private volatile Lazy<S> singletonLazy;
+        private volatile S singletonInstance;
         private ImplementationDefinition(Class<? extends S> implementationType, int priority, boolean singleton) {
             this(implementationType, priority, singleton, true);
         }
@@ -622,11 +634,7 @@ public final class SpiLoader<S> {
             this.priority = priority;
             this.singleton = singleton;
             this.enabled = enabled;
-            if (singleton) {
-                this.singletonLazy = new Lazy<>(this::instantiate);
-            } else {
-                this.singletonLazy = null;
-            }
+            this.singletonInstance = null;
         }
         private static <S> ImplementationDefinition<S> disabled(Class<? extends S> implementationType) {
             return new ImplementationDefinition<>(implementationType, Integer.MAX_VALUE, true, false);
@@ -637,7 +645,16 @@ public final class SpiLoader<S> {
                         + implementationType.getName());
             }
             if (singleton) {
-                return singletonLazy.get();
+                S instance = singletonInstance;
+                if (instance == null) {
+                    synchronized (this) {
+                        instance = singletonInstance;
+                        if (instance == null) {
+                            singletonInstance = instance = instantiate();
+                        }
+                    }
+                }
+                return instance;
             } else {
                 return instantiate();
             }
@@ -690,8 +707,8 @@ public final class SpiLoader<S> {
          * 销毁单例实例，调用生命周期回调
          */
         private void destroy() {
-            if (singleton && singletonLazy.isInitialized()) {
-                S instance = singletonLazy.get();
+            S instance = singletonInstance;
+            if (singleton && instance != null) {
                 if (instance instanceof SpiLifecycle) {
                     try {
                         ((SpiLifecycle) instance).destroy();
@@ -703,7 +720,7 @@ public final class SpiLoader<S> {
                         }
                     }
                 }
-                singletonLazy = new Lazy<>(this::instantiate);
+                singletonInstance = null;
             }
         }
     }

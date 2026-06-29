@@ -2,12 +2,11 @@ package io.zhijun.observation.boot.autoconfigure.otel.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.zhijun.spring.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter;
 import io.zhijun.spring.boot.bootstrap.config.DefaultConfigEnvironmentPostProcessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.mock.env.MockEnvironment;
-
-import io.zhijun.spring.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter;
 
 /**
  * Verifies {@code config/default/opentelemetry.properties} exclusions load with Rose Spring Boot core.

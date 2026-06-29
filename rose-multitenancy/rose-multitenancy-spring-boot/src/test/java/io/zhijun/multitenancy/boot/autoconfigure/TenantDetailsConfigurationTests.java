@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.multitenancy.boot.autoconfigure.detail.TenantDetailsConfiguration;
+import io.zhijun.multitenancy.core.detail.DefaultTenantVerifier;
 import io.zhijun.multitenancy.core.detail.TenantDetailsService;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
 
@@ -48,6 +49,7 @@ class TenantDetailsConfigurationTests {
                 .withPropertyValues("rose.multitenancy.details.source=properties")
                 .run(context -> {
                     assertThat(context).hasSingleBean(TenantVerifier.class);
+                    assertThat(context).hasSingleBean(DefaultTenantVerifier.class);
                 });
     }
 }
