@@ -6,11 +6,11 @@ Rose uses GitHub Actions workflows in `.github/workflows/`.
 
 ## Workflows
 
-| Workflow | Trigger | Purpose |
-|---|---|---|
-| [`ci.yml`](../../.github/workflows/ci.yml) | Push/PR to `main` | Enforcer, build, unit + ITs, JaCoCo, Codecov |
-| [`publish.yml`](../../.github/workflows/publish.yml) | Tag `v*` / manual | Deploy to Maven Central |
-| [`wiki.yml`](../../.github/workflows/wiki.yml) | Push to `main` (`wiki/**`) | Sync `wiki/` → GitHub Wiki |
+| Workflow                                             | Trigger                    | Purpose                                      |
+|------------------------------------------------------|----------------------------|----------------------------------------------|
+| [`ci.yml`](../../.github/workflows/ci.yml)           | Push/PR to `main`          | Enforcer, build, unit + ITs, JaCoCo, Codecov |
+| [`publish.yml`](../../.github/workflows/publish.yml) | Tag `v*` / manual          | Deploy to Maven Central                      |
+| [`wiki.yml`](../../.github/workflows/wiki.yml)       | Push to `main` (`wiki/**`) | Sync `wiki/` → GitHub Wiki                   |
 
 ---
 
@@ -18,10 +18,10 @@ Rose uses GitHub Actions workflows in `.github/workflows/`.
 
 Two jobs:
 
-| Job | JDK | Command | Purpose |
-|-----|-----|---------|---------|
-| `unit` | **8, 11, 17, 21, 25** (matrix) | `./mvnw -B -ntp validate` then `./mvnw -B -ntp verify -DskipITs` | Enforcer + Surefire unit tests |
-| `integration` | **17** | `./mvnw -B -ntp -Pcoverage verify` | Failsafe `*IT`, Testcontainers, JaCoCo, Codecov |
+| Job           | JDK                            | Command                                                          | Purpose                                         |
+|---------------|--------------------------------|------------------------------------------------------------------|-------------------------------------------------|
+| `unit`        | **8, 11, 17, 21, 25** (matrix) | `./mvnw -B -ntp validate` then `./mvnw -B -ntp verify -DskipITs` | Enforcer + Surefire unit tests                  |
+| `integration` | **17**                         | `./mvnw -B -ntp -Pcoverage verify`                               | Failsafe `*IT`, Testcontainers, JaCoCo, Codecov |
 
 After integration tests:
 
@@ -41,13 +41,14 @@ See also: [Compatibility Matrix](Compatibility-Matrix) for supported Java / Boot
 
 ## Maven Publish (`publish.yml`)
 
-Separate from CI. Credentials via `actions/setup-java` (`server-id: central`, matching `publishingServerId` in `rose-build/pom.xml`).
+Separate from CI. Credentials via `actions/setup-java` (`server-id: central`, matching `publishingServerId` in
+`rose-build/pom.xml`).
 
-| Trigger | Behavior |
-|---|---|
-| Push tag `v1.0.0` | Release `1.0.0` with GPG signing |
-| `workflow_dispatch` + `release_version` | Manual release of that version |
-| `workflow_dispatch`, version empty | Publish current SNAPSHOT (`-Dgpg.skip=true`) |
+| Trigger                                 | Behavior                                     |
+|-----------------------------------------|----------------------------------------------|
+| Push tag `v1.0.0`                       | Release `1.0.0` with GPG signing             |
+| `workflow_dispatch` + `release_version` | Manual release of that version               |
+| `workflow_dispatch`, version empty      | Publish current SNAPSHOT (`-Dgpg.skip=true`) |
 
 Command: `./mvnw -B -ntp -Prelease -DskipTests deploy` (add `-Drevision=…` for releases).
 
@@ -57,7 +58,8 @@ See [Profiles-Management](Profiles-Management) for the `release` profile.
 
 ## Wiki Publish
 
-Markdown under `wiki/` (grouped by module subfolders) is rsync'd to the repository's GitHub Wiki on every push to `main` that touches `wiki/**`.
+Markdown under `wiki/` (grouped by module subfolders) is rsync'd to the repository's GitHub Wiki on every push to `main`
+that touches `wiki/**`.
 
 **First-time setup:** create at least one page in the GitHub Wiki UI before the workflow can push.
 
@@ -73,13 +75,13 @@ Local edit workflow:
 
 Use these **exact** secret names (org- or repo-level) so workflows stay consistent across repositories:
 
-| Secret | Used by |
-|---|---|
-| `CODECOV_TOKEN` | Codecov upload in `ci.yml` (optional on public repos) |
-| `MAVEN_USERNAME` | Sonatype Central portal token username (`publish.yml`) |
-| `MAVEN_CENTRAL_TOKEN` | Sonatype Central portal token password (`publish.yml`) |
-| `MAVEN_GPG_PRIVATE_KEY` | GPG private key for signed releases (`publish.yml`) |
-| `MAVEN_GPG_PASSPHRASE` | GPG key passphrase (`publish.yml`) |
+| Secret                  | Used by                                                |
+|-------------------------|--------------------------------------------------------|
+| `CODECOV_TOKEN`         | Codecov upload in `ci.yml` (optional on public repos)  |
+| `MAVEN_USERNAME`        | Sonatype Central portal token username (`publish.yml`) |
+| `MAVEN_CENTRAL_TOKEN`   | Sonatype Central portal token password (`publish.yml`) |
+| `MAVEN_GPG_PRIVATE_KEY` | GPG private key for signed releases (`publish.yml`)    |
+| `MAVEN_GPG_PASSPHRASE`  | GPG key passphrase (`publish.yml`)                     |
 
 ---
 

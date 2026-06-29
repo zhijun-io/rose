@@ -9,11 +9,11 @@ This guide covers two audiences:
 
 ## Prerequisites
 
-| Requirement | Minimum | Notes |
-|---|---|---|
-| **JDK** | 8 | CI unit: 8, 11, 17, 21; coverage + CodeQL: 25 |
-| **Maven** | 3.6+ | Enforced by `rose-build` enforcer |
-| **Docker** | — | Required for `*IT` integration tests and dev-service connectors |
+| Requirement | Minimum | Notes                                                           |
+|-------------|---------|-----------------------------------------------------------------|
+| **JDK**     | 8       | CI unit: 8, 11, 17, 21; coverage + CodeQL: 25                   |
+| **Maven**   | 3.6+    | Enforced by `rose-build` enforcer                               |
+| **Docker**  | —       | Required for `*IT` integration tests and dev-service connectors |
 
 ---
 
@@ -56,7 +56,8 @@ Use a released version from [Maven Central](https://central.sonatype.com/) when 
 </dependencies>
 ```
 
-Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them **instead of** duplicating `rose-spring-boot-core`. See [Consumer Guide](../rose-bom/Consumer-Guide).
+Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them *
+*instead of** duplicating `rose-spring-boot-core`. See [Consumer Guide](../rose-bom/Consumer-Guide).
 
 ### Step 3 — Optional Dev Services
 

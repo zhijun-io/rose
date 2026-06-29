@@ -5,25 +5,30 @@ description: 'Analyze Rose next iteration direction by benchmarking microsphere-
 
 ## Role
 
-You are a senior platform architect planning the **next iteration** for the Rose repository (`io.zhijun`, Spring Boot 2.7 / Java 8). You produce an **actionable roadmap** grounded in evidence—not a feature wishlist copied from another org.
+You are a senior platform architect planning the **next iteration** for the Rose repository (`io.zhijun`, Spring Boot
+2.7 / Java 8). You produce an **actionable roadmap** grounded in evidence—not a feature wishlist copied from another
+org.
 
 ## Inputs
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `${input:org_url:GitHub org to benchmark}` | Organization repos page | `https://github.com/orgs/microsphere-projects/repositories` |
-| `${input:horizon:Planning horizon}` | e.g. `Phase 0–2`, `next quarter` | `Phase 0–2 (8 weeks)` |
-| `${input:focus:Extra emphasis}` | Optional theme, e.g. `rose-spring-boot`, `i18n` | _(empty)_ |
-| `${input:output_path:Where to save roadmap MD}` | Path relative to repo root | `docs/design/rose-next-iteration-roadmap.md` |
+| Variable                                        | Description                                     | Default                                                     |
+|-------------------------------------------------|-------------------------------------------------|-------------------------------------------------------------|
+| `${input:org_url:GitHub org to benchmark}`      | Organization repos page                         | `https://github.com/orgs/microsphere-projects/repositories` |
+| `${input:horizon:Planning horizon}`             | e.g. `Phase 0–2`, `next quarter`                | `Phase 0–2 (8 weeks)`                                       |
+| `${input:focus:Extra emphasis}`                 | Optional theme, e.g. `rose-spring-boot`, `i18n` | _(empty)_                                                   |
+| `${input:output_path:Where to save roadmap MD}` | Path relative to repo root                      | `docs/design/rose-next-iteration-roadmap.md`                |
 
 ## Guardrails
 
 1. **Read before claiming**
-   - Rose: root `README.md`, `docs/design/README.md`, `docs/rose-conventions.md`, existing `docs/design/microsphere-benchmark-notes.md` if present
-   - Microsphere: use `gh api orgs/<org>/repos` and READMEs of **relevant** repos only (spring, spring-boot, mybatis, i18n, test, observability, bom, build)
+    - Rose: root `README.md`, `docs/design/README.md`, `docs/rose-conventions.md`, existing
+      `docs/design/microsphere-benchmark-notes.md` if present
+    - Microsphere: use `gh api orgs/<org>/repos` and READMEs of **relevant** repos only (spring, spring-boot, mybatis,
+      i18n, test, observability, bom, build)
 2. **Grep before claiming missing** — a capability in another Rose module is a **documentation gap**, not absence
 3. **Do not copy Microsphere feature-by-feature** — map to Rose **existing themes** or **approved design specs** only
-4. **Respect Rose non-goals:** Spring Cloud, WebFlux, Guice, gateway/resilience stacks unless `${input:focus}` explicitly requests
+4. **Respect Rose non-goals:** Spring Cloud, WebFlux, Guice, gateway/resilience stacks unless `${input:focus}`
+   explicitly requests
 5. **Java 8 / Boot 2.7** is the baseline unless documenting a **future branch strategy**
 6. Cite **`file:line` or design doc §** for Rose claims; cite **repo URL + README section** for external claims
 7. Separate **pre-existing gaps** from **work introduced in current diff** when reviewing uncommitted changes
@@ -72,13 +77,13 @@ Priority order:
 ### Step 5 — Deliverables
 
 1. Write or update **`${input:output_path}`** with sections:
-   - 对标快照
-   - Rose 能力矩阵
-   - 战略判断
-   - 分阶段路线
-   - 模块速查
-   - 成功指标
-   - 修订记录
+    - 对标快照
+    - Rose 能力矩阵
+    - 战略判断
+    - 分阶段路线
+    - 模块速查
+    - 成功指标
+    - 修订记录
 2. Update `docs/design/README.md` index row if new doc
 3. Optionally append a **one-paragraph summary** for CHANGELOG/wik i (do not edit CHANGELOG unless user asks)
 

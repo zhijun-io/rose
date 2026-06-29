@@ -9,13 +9,15 @@
 
 ## 1. 背景
 
-Spring Boot `@ConfigurationProperties` 需类上注解 + `@EnableConfigurationProperties` 或 `@ConfigurationPropertiesScan`。Rose 提供 **Import 驱动** 的绑定方式，借鉴 microsphere，适用于：
+Spring Boot `@ConfigurationProperties` 需类上注解 + `@EnableConfigurationProperties` 或 `@ConfigurationPropertiesScan`
+。Rose 提供 **Import 驱动** 的绑定方式，借鉴 microsphere，适用于：
 
 - 纯 Spring Framework 项目（无 Boot）
 - 同一前缀绑定 **多个** Bean（`multiple = true`）
 - 与 `PropertySourcesUtils` / Listenable Environment 同栈
 
-绑定在启动时由 Registrar 注册 Bean、PostProcessor 完成属性注入；配置变更时由 `ConfigurationBeanBindingRefreshable` 在同一 Bean 实例上 **rebind**，不重新解析 `@Configuration`。
+绑定在启动时由 Registrar 注册 Bean、PostProcessor 完成属性注入；配置变更时由 `ConfigurationBeanBindingRefreshable` 在同一
+Bean 实例上 **rebind**，不重新解析 `@Configuration`。
 
 ---
 
@@ -23,13 +25,13 @@ Spring Boot `@ConfigurationProperties` 需类上注解 + `@EnableConfigurationPr
 
 ### 2.1 目标
 
-| 目标 | 说明 |
-|------|------|
-| 声明式绑定 | `@EnableConfigurationBeanBinding(prefix, type)` |
-| 多 Bean | `multiple = true` 按一级子前缀拆分 |
-| 扩展 | `ConfigurationBeanBinder` / `ConfigurationBeanCustomizer` / `ConfigurationBeanAliasGenerator` |
-| Env 热更 | prefix 相关 key 变更 → `Refreshable` rebind |
-| Java 8 | 与 Rose 基线一致 |
+| 目标     | 说明                                                                                            |
+|--------|-----------------------------------------------------------------------------------------------|
+| 声明式绑定  | `@EnableConfigurationBeanBinding(prefix, type)`                                               |
+| 多 Bean | `multiple = true` 按一级子前缀拆分                                                                    |
+| 扩展     | `ConfigurationBeanBinder` / `ConfigurationBeanCustomizer` / `ConfigurationBeanAliasGenerator` |
+| Env 热更 | prefix 相关 key 变更 → `Refreshable` rebind                                                       |
+| Java 8 | 与 Rose 基线一致                                                                                   |
 
 ### 2.2 非目标
 
@@ -65,11 +67,11 @@ io/zhijun/spring/core/binder/
 
 **协作类型：**
 
-| 类型 | 包 | 职责 |
-|------|-----|------|
-| `PropertySourcesUtils` | `core.env` | `getSubProperties` / `normalizePrefix` |
-| `Refreshable` / `PropertySourcesRefreshEnvironmentListener` | `core.env.refresh` | 变更 key 分发 |
-| `RoseBinder` | `rose-spring-boot-core` | Boot 侧 `Binder` 便捷封装；**不**参与本注解绑定链 |
+| 类型                                                          | 包                       | 职责                                     |
+|-------------------------------------------------------------|-------------------------|----------------------------------------|
+| `PropertySourcesUtils`                                      | `core.env`              | `getSubProperties` / `normalizePrefix` |
+| `Refreshable` / `PropertySourcesRefreshEnvironmentListener` | `core.env.refresh`      | 变更 key 分发                              |
+| `RoseBinder`                                                | `rose-spring-boot-core` | Boot 侧 `Binder` 便捷封装；**不**参与本注解绑定链     |
 
 **热更链路：**
 
@@ -108,7 +110,8 @@ public @interface EnableConfigurationBeanBinding {
 
 ### 4.2 `@EnableConfigurationBeanBindings`
 
-容器注解，`value()` 为 `@EnableConfigurationBeanBinding[]`；由 `ConfigurationBeanBindingsRegistrar` 按数组顺序委托 Registrar。
+容器注解，`value()` 为 `@EnableConfigurationBeanBinding[]`；由 `ConfigurationBeanBindingsRegistrar` 按数组顺序委托
+Registrar。
 
 ---
 
@@ -116,12 +119,12 @@ public @interface EnableConfigurationBeanBinding {
 
 ### 5.1 属性解析
 
-| 属性 | 规则 |
-|------|------|
-| `prefix` | 必填；`environment.resolvePlaceholders` |
-| `type` | 必填；绑定目标类 |
-| `multiple` | 默认 `false` |
-| `ignoreUnknownFields` / `ignoreInvalidFields` | 默认 `true` |
+| 属性                                            | 规则                                   |
+|-----------------------------------------------|--------------------------------------|
+| `prefix`                                      | 必填；`environment.resolvePlaceholders` |
+| `type`                                        | 必填；绑定目标类                             |
+| `multiple`                                    | 默认 `false`                           |
+| `ignoreUnknownFields` / `ignoreInvalidFields` | 默认 `true`                            |
 
 `configurationProperties = PropertySourcesUtils.getSubProperties(environment, prefix)`。
 
@@ -150,13 +153,13 @@ return PropertySourcesUtils.getSubProperties(propertySources, environment, norma
 
 ### 5.4 BeanDefinition 元数据
 
-| Attribute | 内容 |
-|-----------|------|
-| `source` | `EnableConfigurationBeanBinding.class`（识别标记） |
-| `configurationProperties` | 待绑定的 flat `Map<String,Object>` |
-| `configurationBindingPrefix` | 已 resolve 的 `prefix` |
-| `configurationBindingMultiple` | `multiple` 标志 |
-| `ignoreUnknownFields` / `ignoreInvalidFields` | boolean |
+| Attribute                                     | 内容                                           |
+|-----------------------------------------------|----------------------------------------------|
+| `source`                                      | `EnableConfigurationBeanBinding.class`（识别标记） |
+| `configurationProperties`                     | 待绑定的 flat `Map<String,Object>`               |
+| `configurationBindingPrefix`                  | 已 resolve 的 `prefix`                         |
+| `configurationBindingMultiple`                | `multiple` 标志                                |
+| `ignoreUnknownFields` / `ignoreInvalidFields` | boolean                                      |
 
 ### 5.5 别名与基础设施
 
@@ -199,11 +202,11 @@ beanDefinition.source == EnableConfigurationBeanBinding.class
 
 ### 6.5 与 `RoseBinder` 的边界
 
-| 能力 | `@EnableConfigurationBeanBinding` | `RoseBinder`（Boot） |
-|------|-----------------------------------|----------------------|
-| 场景 | 注册 **Spring Bean** | 一次性读取配置值 |
-| 依赖 | `spring-context` | `spring-boot` |
-| 热更 | `ConfigurationBeanBindingRefreshable` | 无 |
+| 能力 | `@EnableConfigurationBeanBinding`     | `RoseBinder`（Boot） |
+|----|---------------------------------------|--------------------|
+| 场景 | 注册 **Spring Bean**                    | 一次性读取配置值           |
+| 依赖 | `spring-context`                      | `spring-boot`      |
+| 热更 | `ConfigurationBeanBindingRefreshable` | 无                  |
 
 ---
 
@@ -213,9 +216,11 @@ beanDefinition.source == EnableConfigurationBeanBinding.class
 
 实现 `Refreshable`，经 `spring.factories` 注册。
 
-**`supports(changedKeys)`：** 遍历 Configuration Bean 的 BeanDefinition；若任一 bean 的 `configurationBindingPrefix` 满足 `key.equals(prefix)` 或 `key.startsWith(prefix + ".")`，返回 true。
+**`supports(changedKeys)`：** 遍历 Configuration Bean 的 BeanDefinition；若任一 bean 的 `configurationBindingPrefix` 满足
+`key.equals(prefix)` 或 `key.startsWith(prefix + ".")`，返回 true。
 
-**`refresh(changedKeys)`：** 对每个受影响的 bean 调用 `PostProcessor.rebindConfigurationBean`；依赖 `RefreshableContextHolder` 获取 `ApplicationContext`。
+**`refresh(changedKeys)`：** 对每个受影响的 bean 调用 `PostProcessor.rebindConfigurationBean`；依赖
+`RefreshableContextHolder` 获取 `ApplicationContext`。
 
 ### 7.2 非目标
 
@@ -226,11 +231,11 @@ beanDefinition.source == EnableConfigurationBeanBinding.class
 
 ## 8. 决策摘要
 
-| 决策 | 选择 | 理由 |
-|------|------|------|
-| 注册方式 | `ImportBeanDefinitionRegistrar` | 无 Boot 依赖，与 microsphere 一致 |
-| 绑定时机 | `BeanPostProcessor` before init | 在 `@PostConstruct` 前完成首次绑定 |
-| 热更 | 同实例 rebind + Customizer 重跑 | 避免 Bean 生命周期重复，行为可预期 |
-| prefix 匹配 | 全前缀或 `prefix.` 子树 | 与 `getSubProperties` 语义一致 |
-| 共享逻辑 | `ConfigurationBeanBindingSupport` | Registrar 与 Refreshable 同一套 subProperties 规则 |
-| SPI 扩展 | Binder / Customizer / AliasGenerator | 绑定算法与命名可替换 |
+| 决策        | 选择                                   | 理由                                           |
+|-----------|--------------------------------------|----------------------------------------------|
+| 注册方式      | `ImportBeanDefinitionRegistrar`      | 无 Boot 依赖，与 microsphere 一致                   |
+| 绑定时机      | `BeanPostProcessor` before init      | 在 `@PostConstruct` 前完成首次绑定                   |
+| 热更        | 同实例 rebind + Customizer 重跑           | 避免 Bean 生命周期重复，行为可预期                         |
+| prefix 匹配 | 全前缀或 `prefix.` 子树                    | 与 `getSubProperties` 语义一致                    |
+| 共享逻辑      | `ConfigurationBeanBindingSupport`    | Registrar 与 Refreshable 同一套 subProperties 规则 |
+| SPI 扩展    | Binder / Customizer / AliasGenerator | 绑定算法与命名可替换                                   |

@@ -6,12 +6,12 @@ Key properties, module layout, and customization points for the Rose repository.
 
 ## Version (`${revision}`)
 
-| Item | Location |
-|---|---|
-| Source of truth | `rose-build/pom.xml` → `<revision>` |
-| Current value | `0.0.1-SNAPSHOT` |
-| Override at build | `mvn test -Drevision=1.0.0-SNAPSHOT` |
-| Flattening | `flatten-maven-plugin` (`resolveCiFriendliesOnly`) |
+| Item              | Location                                           |
+|-------------------|----------------------------------------------------|
+| Source of truth   | `rose-build/pom.xml` → `<revision>`                |
+| Current value     | `0.0.1-SNAPSHOT`                                   |
+| Override at build | `mvn test -Drevision=1.0.0-SNAPSHOT`               |
+| Flattening        | `flatten-maven-plugin` (`resolveCiFriendliesOnly`) |
 
 Consumer applications pin **`rose-bom`** version in `dependencyManagement`; they do not use `${revision}`.
 
@@ -19,27 +19,27 @@ Consumer applications pin **`rose-bom`** version in `dependencyManagement`; they
 
 ## Three-Layer Maven Layout
 
-| Layer | Artifact | Path | Consumer inherits? |
-|---|---|---|---|
-| Build | `rose-build` | `rose-build/` | No |
-| Parent | `rose-parent` | root `pom.xml` | No (reactor only) |
-| BOM | `rose-bom` | `rose-bom/` | Yes (import) |
+| Layer  | Artifact      | Path           | Consumer inherits? |
+|--------|---------------|----------------|--------------------|
+| Build  | `rose-build`  | `rose-build/`  | No                 |
+| Parent | `rose-parent` | root `pom.xml` | No (reactor only)  |
+| BOM    | `rose-bom`    | `rose-bom/`    | Yes (import)       |
 
 ---
 
 ## Reactor Modules
 
-| Directory | Description |
-|---|---|
-| `rose-build` | Shared build parent POM |
-| `rose-bom` | Bill of Materials for consumers |
-| `rose-core` | Core utilities |
-| `rose-spring` | Spring Framework extensions |
-| `rose-spring-boot` | Spring Boot utilities and starters |
-| `rose-mybatis-plus` | MyBatis-Plus extensions |
-| `rose-observation` | Observation / OpenTelemetry integration |
-| `rose-multitenancy` | Multitenancy core, spring, starter |
-| `rose-devservice` | Testcontainers dev services |
+| Directory           | Description                             |
+|---------------------|-----------------------------------------|
+| `rose-build`        | Shared build parent POM                 |
+| `rose-bom`          | Bill of Materials for consumers         |
+| `rose-core`         | Core utilities                          |
+| `rose-spring`       | Spring Framework extensions             |
+| `rose-spring-boot`  | Spring Boot utilities and starters      |
+| `rose-mybatis-plus` | MyBatis-Plus extensions                 |
+| `rose-observation`  | Observation / OpenTelemetry integration |
+| `rose-multitenancy` | Multitenancy core, spring, starter      |
+| `rose-devservice`   | Testcontainers dev services             |
 
 ---
 
@@ -47,14 +47,15 @@ Consumer applications pin **`rose-bom`** version in `dependencyManagement`; they
 
 Defined in root `rose-parent` `properties`:
 
-| Property | Purpose |
-|---|---|
-| `spring-boot.version` | Spring Boot BOM (2.7.18; includes Micrometer) |
-| `testcontainers.version` | Testcontainers BOM |
-| `opentelemetry.version` | OpenTelemetry SDK BOM |
-| `mybatis-plus.version` | MyBatis-Plus |
+| Property                 | Purpose                                       |
+|--------------------------|-----------------------------------------------|
+| `spring-boot.version`    | Spring Boot BOM (2.7.18; includes Micrometer) |
+| `testcontainers.version` | Testcontainers BOM                            |
+| `opentelemetry.version`  | OpenTelemetry SDK BOM                         |
+| `mybatis-plus.version`   | MyBatis-Plus                                  |
 
-Third-party versions are **not** re-exported through `rose-bom`; consumers rely on `spring-boot-starter-parent` for non-`io.zhijun` coordinates.
+Third-party versions are **not** re-exported through `rose-bom`; consumers rely on `spring-boot-starter-parent` for non-
+`io.zhijun` coordinates.
 
 ---
 
@@ -85,12 +86,12 @@ Delimiter: `@` (`resource.delimiter` property).
 
 ## Enforcer Rules (`validate` phase)
 
-| Rule | Constraint |
-|---|---|
-| `requireMavenVersion` | Maven ≥ 3.6 |
-| `requireJavaVersion` | Build JDK ≥ 8 |
+| Rule                                | Constraint                                |
+|-------------------------------------|-------------------------------------------|
+| `requireMavenVersion`               | Maven ≥ 3.6                               |
+| `requireJavaVersion`                | Build JDK ≥ 8                             |
 | `banDuplicatePomDependencyVersions` | No duplicate dependency versions in a POM |
-| `bannedDependencies` | Placeholder for future restrictions |
+| `bannedDependencies`                | Placeholder for future restrictions       |
 
 ---
 
@@ -98,17 +99,17 @@ Delimiter: `@` (`resource.delimiter` property).
 
 See [Consumer Guide](../rose-bom/Consumer-Guide) for starter-specific prefixes:
 
-| Prefix | Scope |
-|--------|--------|
-| `rose.observation.*` | Observation domain toggle and conventions backend selection |
-| `rose.otel.*` | OpenTelemetry SDK (traces, metrics, logs, exporters, resource) |
-| `rose.otel.exporter.otlp.micrometer.*` | Micrometer OTLP registry (when bridge disabled) |
-| `rose.otel.exporter.otlp.tls.*` | OTLP TLS (`trusted-certificates`, `certificate`, `key`) |
-| `rose.otel.exporter.otlp.proxy.*` | OTLP HTTP proxy (`host`, `port`) |
-| `rose.mybatis-plus.observation.*` | SQL observation (MyBatis interceptor) |
-| `rose.multitenancy.*` | Multitenancy resolution, MDC logging, async propagation |
-| `rose.dev.enabled` | Global dev services toggle |
-| `rose.dev.<connector>.*` | Per-connector dev service settings |
+| Prefix                                 | Scope                                                          |
+|----------------------------------------|----------------------------------------------------------------|
+| `rose.observation.*`                   | Observation domain toggle and conventions backend selection    |
+| `rose.otel.*`                          | OpenTelemetry SDK (traces, metrics, logs, exporters, resource) |
+| `rose.otel.exporter.otlp.micrometer.*` | Micrometer OTLP registry (when bridge disabled)                |
+| `rose.otel.exporter.otlp.tls.*`        | OTLP TLS (`trusted-certificates`, `certificate`, `key`)        |
+| `rose.otel.exporter.otlp.proxy.*`      | OTLP HTTP proxy (`host`, `port`)                               |
+| `rose.mybatis-plus.observation.*`      | SQL observation (MyBatis interceptor)                          |
+| `rose.multitenancy.*`                  | Multitenancy resolution, MDC logging, async propagation        |
+| `rose.dev.enabled`                     | Global dev services toggle                                     |
+| `rose.dev.<connector>.*`               | Per-connector dev service settings                             |
 
 Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.properties` (see `rose-spring-boot-core`).
 
@@ -116,11 +117,11 @@ Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.pr
 
 ## Design Documents
 
-| Document | Topic |
-|---|---|
-| [rose-spring-property-source-design.md](../../docs/design/rose-spring-property-source-design.md) | Property sources |
-| [rose-spring-env-refresh-design.md](../../docs/design/rose-spring-env-refresh-design.md) | Environment refresh |
-| [rose-spring-boot-bootstrap-diagnostics-design.md](../../docs/design/rose-spring-boot-bootstrap-diagnostics-design.md) | Bootstrap diagnostics |
-| [rose-spring-web-handler-design.md](../../docs/design/rose-spring-web-handler-design.md) | Spring Web handler SPI |
-| [rose-i18n-design.md](../../docs/design/rose-i18n-design.md) | i18n (planned) |
-| [rose-cache-design.md](../../docs/design/rose-cache-design.md) | Cache (planned) |
+| Document                                                                                                               | Topic                  |
+|------------------------------------------------------------------------------------------------------------------------|------------------------|
+| [rose-spring-property-source-design.md](../../docs/design/rose-spring-property-source-design.md)                       | Property sources       |
+| [rose-spring-env-refresh-design.md](../../docs/design/rose-spring-env-refresh-design.md)                               | Environment refresh    |
+| [rose-spring-boot-bootstrap-diagnostics-design.md](../../docs/design/rose-spring-boot-bootstrap-diagnostics-design.md) | Bootstrap diagnostics  |
+| [rose-spring-web-handler-design.md](../../docs/design/rose-spring-web-handler-design.md)                               | Spring Web handler SPI |
+| [rose-i18n-design.md](../../docs/design/rose-i18n-design.md)                                                           | i18n (planned)         |
+| [rose-cache-design.md](../../docs/design/rose-cache-design.md)                                                         | Cache (planned)        |

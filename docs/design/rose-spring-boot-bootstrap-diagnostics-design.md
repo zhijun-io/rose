@@ -2,16 +2,17 @@
 
 > **Artifact：** `rose-spring-boot`（Bootstrap）；各主题模块注册 **FailureAnalyzer**  
 > **定位：** 应用模式检测（dev/test/prod）、Profile 激活、启动失败可行动诊断；**不**替代 Spring Boot 自身 diagnostics。  
-> **关联：** [env-refresh §5.2 Initializer 顺序](./rose-spring-env-refresh-design.md#52-refreshablecontextholder-与-initializer-钩子)
+> **关联：
+** [env-refresh §5.2 Initializer 顺序](./rose-spring-env-refresh-design.md#52-refreshablecontextholder-与-initializer-钩子)
 
 ## 如何使用本文档编码
 
-| 步骤 | 章节 | 说明 |
-|------|------|------|
-| 1 | **§4–§5** | Bootstrap 模式与 EnvironmentPostProcessor |
-| 2 | **§6** | FailureAnalyzer 注册规范 |
-| 3 | **§7** | 启动顺序与 Initializer 协作 |
-| 4 | **§8** | 并行初始化范围（P3 澄清） |
+| 步骤 | 章节        | 说明                                     |
+|----|-----------|----------------------------------------|
+| 1  | **§4–§5** | Bootstrap 模式与 EnvironmentPostProcessor |
+| 2  | **§6**    | FailureAnalyzer 注册规范                   |
+| 3  | **§7**    | 启动顺序与 Initializer 协作                   |
+| 4  | **§8**    | 并行初始化范围（P3 澄清）                         |
 
 **验收：**
 
@@ -19,15 +20,14 @@
 mvn -pl rose-spring-boot/rose-spring-boot-core,rose-devservice/rose-devservice-core test
 ```
 
-
 ### 实现状态
 
-| 能力 | 代码 |
-|------|------|
-| Bootstrap 模式 / EPP | ✅ |
-| FailureAnalyzer（dev-services、observation） | ✅ |
-| Dev Services 并行启动 | ❌ 远期 §8.1 |
-| 统一 Analyzer 注册表文档 | ✅ 本文 §6 |
+| 能力                                        | 代码        |
+|-------------------------------------------|-----------|
+| Bootstrap 模式 / EPP                        | ✅         |
+| FailureAnalyzer（dev-services、observation） | ✅         |
+| Dev Services 并行启动                         | ❌ 远期 §8.1 |
+| 统一 Analyzer 注册表文档                         | ✅ 本文 §6   |
 
 ---
 
@@ -50,31 +50,32 @@ Rose 应用在 **Boot 2.7 / Java 8** 上运行。`rose-spring-boot` 负责：
 
 ### 2.1 目标
 
-| 目标 | 说明 |
-|------|------|
-| Bootstrap 模式 | `DEV` / `TEST` / `PROD`，可 `rose.bootstrap.mode` 覆盖 |
-| Profile 激活 | dev/test 默认 profile，可配置关闭 |
-| FailureAnalyzer | Rose 自有异常 → 可行动 `FailureAnalysis` |
-| 启动顺序文档 | EPP → Context refresh → Initializer 链 |
-| Java 8 | 与 Rose 一致 |
+| 目标              | 说明                                                 |
+|-----------------|----------------------------------------------------|
+| Bootstrap 模式    | `DEV` / `TEST` / `PROD`，可 `rose.bootstrap.mode` 覆盖 |
+| Profile 激活      | dev/test 默认 profile，可配置关闭                          |
+| FailureAnalyzer | Rose 自有异常 → 可行动 `FailureAnalysis`                  |
+| 启动顺序文档          | EPP → Context refresh → Initializer 链              |
+| Java 8          | 与 Rose 一致                                          |
 
 ### 2.2 非目标
 
 - 替换 Spring Boot `FailureAnalyzers` 基础设施
 - Spring Boot 3 式 **全局 parallel application context refresh**
 - 统一 Actuator `/health` 聚合（属各主题）
-- 在 `rose-spring-boot` 放置普通业务 AutoConfiguration（见 [docs/rose-conventions.md](../docs/rose-conventions.md) **边界**）
+- 在 `rose-spring-boot` 放置普通业务 AutoConfiguration（见 [docs/rose-conventions.md](../docs/rose-conventions.md) **边界
+  **）
 
 ---
 
 ## 3. 模块边界
 
-| 模块 | 职责 |
-|------|------|
-| `rose-spring-boot` | Bootstrap EPP、AutoConfiguration、条件注解、`RoseBinder` |
-| `rose-devservice-core` | Dev Services 注册、容器生命周期、Dev Services FailureAnalyzer |
-| `rose-observation-spring-boot` | Ambiguous conventions backend FailureAnalyzer |
-| `rose-spring-core` | `ListenableConfigurableEnvironmentInitializer`（Framework 层） |
+| 模块                             | 职责                                                          |
+|--------------------------------|-------------------------------------------------------------|
+| `rose-spring-boot`             | Bootstrap EPP、AutoConfiguration、条件注解、`RoseBinder`           |
+| `rose-devservice-core`         | Dev Services 注册、容器生命周期、Dev Services FailureAnalyzer         |
+| `rose-observation-spring-boot` | Ambiguous conventions backend FailureAnalyzer               |
+| `rose-spring-core`             | `ListenableConfigurableEnvironmentInitializer`（Framework 层） |
 
 ---
 
@@ -82,24 +83,24 @@ Rose 应用在 **Boot 2.7 / Java 8** 上运行。`rose-spring-boot` 负责：
 
 ### 4.1 `BootstrapMode`
 
-| 模式 | 检测顺序 |
-|------|----------|
-| 显式 | 系统属性 / Env：`rose.bootstrap.mode` = `DEV` \| `TEST` \| `PROD` |
-| 推断 TEST | 调用栈含 JUnit / Spring Test / `@SpringBootTest` bootstrapper |
-| 推断 DEV | `BootstrapModeDetector.isDevelopmentContext()`（IDE / spring-boot-devtools 等） |
-| 默认 | `PROD` |
+| 模式      | 检测顺序                                                                         |
+|---------|------------------------------------------------------------------------------|
+| 显式      | 系统属性 / Env：`rose.bootstrap.mode` = `DEV` \| `TEST` \| `PROD`                 |
+| 推断 TEST | 调用栈含 JUnit / Spring Test / `@SpringBootTest` bootstrapper                    |
+| 推断 DEV  | `BootstrapModeDetector.isDevelopmentContext()`（IDE / spring-boot-devtools 等） |
+| 默认      | `PROD`                                                                       |
 
 **缓存：** `BootstrapModeDetector` 进程内缓存检测结果；测试用 `BootstrapMode.clear()` / `clearCache()`。
 
 ### 4.2 配置前缀
 
-| 前缀 | 用途 |
-|------|------|
-| `rose.bootstrap` | 总开关 |
-| `rose.bootstrap.profiles.enabled` | 是否按模式追加 profile（默认 `true`） |
-| `rose.bootstrap.mode` | 强制模式 |
-| `rose.dev.profiles` | DEV 模式追加的 profile 列表（默认 `dev`） |
-| `rose.test.profiles` | TEST 模式追加的 profile 列表（默认 `test`） |
+| 前缀                                | 用途                               |
+|-----------------------------------|----------------------------------|
+| `rose.bootstrap`                  | 总开关                              |
+| `rose.bootstrap.profiles.enabled` | 是否按模式追加 profile（默认 `true`）       |
+| `rose.bootstrap.mode`             | 强制模式                             |
+| `rose.dev.profiles`               | DEV 模式追加的 profile 列表（默认 `dev`）   |
+| `rose.test.profiles`              | TEST 模式追加的 profile 列表（默认 `test`） |
 
 ---
 
@@ -127,7 +128,8 @@ public int getOrder() {
 }
 ```
 
-**含义：** 在 Config Data 处理 **之后**追加 profile，避免覆盖用户 `spring.profiles.active` 已显式设置的优先级逻辑（仅 **追加** 未激活的 profile）。
+**含义：** 在 Config Data 处理 **之后**追加 profile，避免覆盖用户 `spring.profiles.active` 已显式设置的优先级逻辑（仅 **追加
+** 未激活的 profile）。
 
 ### 5.3 spring.factories（`rose-spring-boot`）
 
@@ -141,10 +143,10 @@ io.zhijun.boot.autoconfigure.bootstrap.BootstrapAutoConfiguration
 
 ### 5.4 条件注解
 
-| 注解 | 条件 |
-|------|------|
-| `@ConditionalOnDevMode` | `BootstrapMode.DEV == detect()`（`OnDevModeCondition`） |
-| TEST 模式 | 无独立 `@ConditionalOnTestMode`；由 profile / `BootstrapMode.TEST` 驱动 dev-services 等行为 |
+| 注解                      | 条件                                                                                |
+|-------------------------|-----------------------------------------------------------------------------------|
+| `@ConditionalOnDevMode` | `BootstrapMode.DEV == detect()`（`OnDevModeCondition`）                             |
+| TEST 模式                 | 无独立 `@ConditionalOnTestMode`；由 profile / `BootstrapMode.TEST` 驱动 dev-services 等行为 |
 
 Dev Services connector **仅在** dev/test 模式启动容器（见 `ContainerConfigurer`）。
 
@@ -165,10 +167,10 @@ fully.qualified.AnalyzerClass
 
 ### 6.2 现有 Analyzer 清单
 
-| Analyzer | 模块 | 异常类型 | Action 要点 |
-|----------|------|----------|-------------|
-| `MultipleDevServiceFailureAnalyzer` | rose-devservice-spring-boot | `MultipleDevServiceException` | 同 category 只启用一个 connector |
-| `AmbiguousConventionsBackendFailureAnalyzer` | observation-spring-boot | `AmbiguousConventionsBackendException` | 设置 `rose.observation.conventions.backend` 或移除多余 backend |
+| Analyzer                                     | 模块                          | 异常类型                                   | Action 要点                                               |
+|----------------------------------------------|-----------------------------|----------------------------------------|---------------------------------------------------------|
+| `MultipleDevServiceFailureAnalyzer`          | rose-devservice-spring-boot | `MultipleDevServiceException`          | 同 category 只启用一个 connector                              |
+| `AmbiguousConventionsBackendFailureAnalyzer` | observation-spring-boot     | `AmbiguousConventionsBackendException` | 设置 `rose.observation.conventions.backend` 或移除多余 backend |
 
 ### 6.3 新增 Analyzer 模板
 
@@ -193,11 +195,11 @@ public final class ExampleFailureAnalyzer extends AbstractFailureAnalyzer<Exampl
 
 ### 6.4 规划中的 Analyzer（未实现）
 
-| 场景 | 建议模块 | 优先级 |
-|------|----------|--------|
-| Listenable Initializer 未运行 | rose-spring-core | 低 |
-| env-refresh orchestrator 循环 refresh | rose-spring-core | 低 |
-| Dev services Docker 不可用 | rose-devservice-spring-boot | 中 |
+| 场景                                  | 建议模块                        | 优先级 |
+|-------------------------------------|-----------------------------|-----|
+| Listenable Initializer 未运行          | rose-spring-core            | 低   |
+| env-refresh orchestrator 循环 refresh | rose-spring-core            | 低   |
+| Dev services Docker 不可用             | rose-devservice-spring-boot | 中   |
 
 ---
 
@@ -218,7 +220,8 @@ public final class ExampleFailureAnalyzer extends AbstractFailureAnalyzer<Exampl
 **约束：**
 
 - Bootstrap **只**改 Environment（profile）；不依赖 Listenable。
-- `@ResourcePropertySource` / Configuration Bean 绑定发生在 Initializer **之后** 的 refresh 阶段，依赖已包装的 `ListenableMutablePropertySources`（测试须显式注册 Initializer，见 property-source §11）。
+- `@ResourcePropertySource` / Configuration Bean 绑定发生在 Initializer **之后** 的 refresh 阶段，依赖已包装的
+  `ListenableMutablePropertySources`（测试须显式注册 Initializer，见 property-source §11）。
 
 ---
 
@@ -226,11 +229,11 @@ public final class ExampleFailureAnalyzer extends AbstractFailureAnalyzer<Exampl
 
 Rose **当前不做** 也 **不在本规格规划** 以下能力：
 
-| 误解 | 说明 |
-|------|------|
+| 误解                                            | 说明              |
+|-----------------------------------------------|-----------------|
 | Boot 3 `spring.main.lazy-initialization` 平台封装 | 应用自行配置；Rose 不包装 |
-| 多 ApplicationContext 并行 refresh | 不支持 |
-| Bean 默认异步初始化 | 不支持 |
+| 多 ApplicationContext 并行 refresh               | 不支持             |
+| Bean 默认异步初始化                                  | 不支持             |
 
 **本规格中的「并行」仅指以下可选项（远期）：**
 
@@ -262,13 +265,13 @@ DevServicesBootstrapCoordinator
 
 ## 9. 测试矩阵
 
-| # | 测试类 | 场景 |
-|---|--------|------|
-| 1 | `BootstrapModeDetectorTests` | 栈检测 / 属性覆盖 |
-| 2 | `BootstrapEnvironmentPostProcessorTests` | DEV/TEST profile 追加 |
-| 3 | `BootstrapAutoConfigurationTests` | 属性绑定 |
-| 4 | `MultipleDevServiceFailureAnalyzerTests` | 文案与 action |
-| 5 | `AmbiguousConventionsBackendFailureAnalyzerTests` | 同上 |
+| # | 测试类                                               | 场景                  |
+|---|---------------------------------------------------|---------------------|
+| 1 | `BootstrapModeDetectorTests`                      | 栈检测 / 属性覆盖          |
+| 2 | `BootstrapEnvironmentPostProcessorTests`          | DEV/TEST profile 追加 |
+| 3 | `BootstrapAutoConfigurationTests`                 | 属性绑定                |
+| 4 | `MultipleDevServiceFailureAnalyzerTests`          | 文案与 action          |
+| 5 | `AmbiguousConventionsBackendFailureAnalyzerTests` | 同上                  |
 
 ---
 
