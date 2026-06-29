@@ -26,11 +26,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.google.testing.compile</groupId>
-            <artifactId>compile-testing</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-test</artifactId>
             <scope>test</scope>
