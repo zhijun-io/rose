@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MyBatis-Plus upgraded to `3.5.15` (`mybatis-plus-bom`); Micrometer versions follow Spring Boot 2.7.18 BOM (no separate `micrometer-bom` pin).
 - Multitenancy: removed Micrometer Observation enrichment (`rose.multitenancy.observations.*`); MDC logging remains under `rose.multitenancy.logging.mdc.*`.
 - Observation OTLP Micrometer registry adapted to Micrometer 1.9.17 (Boot 2.7); removed `rose.otel.exporter.otlp.micrometer.{base-time-unit,max-scale,max-bucket-count}`.
-- `rose-spring-web` and `rose-spring-boot-web` removed from `rose-bom` until implemented (reactor scaffolds unchanged).
+- Removed `rose-spring-web` and `rose-spring-boot-web` reactor scaffolds (directories and reactor entries deleted; these modules were never in `rose-bom`).
 - Removed `rose-coverage` aggregator module; Codecov upload uses per-module `jacoco.xml` from `coverage` CI job (JDK 25, `-Pcoverage`).
 - **Foundation split (breaking)**: annotations moved to `rose-annotation` (`io.zhijun.annotation`); new `rose-foundation` aggregator with `rose-test` and `rose-annotation-processor`. Replace `io.zhijun.core.annotation.*` imports.
 - `rose-annotation-processor` registers `Processor` SPI via Google Auto Service; includes `SinceProcessor` and `InternalApiProcessor`.
@@ -100,7 +100,7 @@ First public release of Rose — a Spring Boot 2.7 / Java 8 extension platform (
 
 - Applications should use `spring-boot-starter-parent` and **import** `rose-bom`; they do not inherit `rose-parent`.
 - Auto-configuration is registered via `META-INF/spring.factories` (Spring Boot 2.7).
-- `rose-spring-web` and `rose-spring-boot-web` are reactor scaffolds only — excluded from `rose-bom` until implemented.
+- `rose-spring-web` and `rose-spring-boot-web` reactor scaffolds have been removed; see `docs/design/rose-spring-web-handler-design.md` for the planned module design.
 
 [Unreleased]: https://github.com/zhijun-io/rose/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/zhijun-io/rose/releases/tag/v0.1.0

@@ -126,8 +126,8 @@ ClassUtils.isPresent("com.example.Foo", classLoader);
 |----|------|
 | 构建 | `rose-build`、`rose-parent`、`rose-bom` |
 | Foundation | `rose-annotation`、`rose-core`、`rose-annotation-processor`、`rose-test` |
-| Spring | `rose-spring-core`、`rose-spring-web`（占位，不在 BOM） |
-| Spring Boot | `rose-spring-boot-core`、`rose-spring-boot-actuator`、`rose-spring-boot-web`（占位） |
+| Spring | `rose-spring-core` |
+| Spring Boot | `rose-spring-boot-core`、`rose-spring-boot-actuator` |
 | MyBatis-Plus | `-core` / `-spring` / `-spring-boot` |
 | Observation | `-core`、`-spring-boot` 及 otel / logback / micrometer-* slice |
 | Multitenancy | `-core` / `-spring` / `-spring-boot` |

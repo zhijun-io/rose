@@ -17,7 +17,6 @@
 
     <modules>
         <module>rose-spring-core</module>
-        <module>rose-spring-web</module>
     </modules>
 
     <dependencies>

@@ -117,7 +117,6 @@ OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via e
 | Artifact | Reason |
 |----------|--------|
 | `rose-build` / `rose-parent` | Build-only |
-| `rose-spring-web` / `rose-spring-boot-web` | Incubating scaffolds |
 
 ---
 
