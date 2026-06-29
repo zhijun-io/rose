@@ -3,6 +3,7 @@ package io.zhijun.observation.boot.autoconfigure.otel.config;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -27,149 +28,72 @@ class OpenTelemetryEnvironmentPropertyConverters {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenTelemetryEnvironmentPropertyConverters.class);
 
+    private static final Map<String, PropagationType> PROPAGATION_MAP = Map.of(
+            "baggage", PropagationType.W3C,
+            "tracecontext", PropagationType.W3C,
+            "b3", PropagationType.B3,
+            "b3multi", PropagationType.B3_MULTI);
+
     static Function<String, ExporterType> exporterType(String externalKey) {
-        Assert.hasText(externalKey, "externalKey cannot be null or empty");
-        return value -> {
-            ExporterType exporterType;
-            String normalized = value.trim().toLowerCase();
-            if ("console".equals(normalized)) {
-                exporterType = ExporterType.CONSOLE;
-            } else if ("none".equals(normalized)) {
-                exporterType = ExporterType.NONE;
-            } else if ("otlp".equals(normalized)) {
-                exporterType = ExporterType.OTLP;
-            } else {
-                exporterType = null;
-            }
-            if (exporterType == null) {
-                logUnsupportedValue(externalKey, value);
-            }
-            return exporterType;
-        };
+        return matcher(
+                externalKey,
+                Map.of(
+                        "console", ExporterType.CONSOLE,
+                        "none", ExporterType.NONE,
+                        "otlp", ExporterType.OTLP),
+                false);
     }
 
     static Function<String, Protocol> protocol(String externalKey) {
-        Assert.hasText(externalKey, "externalKey cannot be null or empty");
-        return value -> {
-            Protocol protocol;
-            String normalized = value.trim().toLowerCase();
-            if ("grpc".equals(normalized)) {
-                protocol = Protocol.GRPC;
-            } else if ("http/protobuf".equals(normalized)) {
-                protocol = Protocol.HTTP_PROTOBUF;
-            } else {
-                protocol = null;
-            }
-            if (protocol == null) {
-                logUnsupportedValue(externalKey, value);
-            }
-            return protocol;
-        };
+        return matcher(
+                externalKey,
+                Map.of("grpc", Protocol.GRPC, "http/protobuf", Protocol.HTTP_PROTOBUF),
+                false);
     }
 
     static Function<String, Compression> compression(String externalKey) {
-        Assert.hasText(externalKey, "externalKey cannot be null or empty");
-        return value -> {
-            Compression compression;
-            String normalized = value.trim().toLowerCase();
-            if ("gzip".equals(normalized)) {
-                compression = Compression.GZIP;
-            } else if ("none".equals(normalized)) {
-                compression = Compression.NONE;
-            } else {
-                compression = null;
-            }
-            if (compression == null) {
-                logUnsupportedValue(externalKey, value);
-            }
-            return compression;
-        };
+        return matcher(
+                externalKey, Map.of("gzip", Compression.GZIP, "none", Compression.NONE), false);
     }
 
     static Function<String, HistogramAggregationStrategy> histogramAggregation(String externalKey) {
-        Assert.hasText(externalKey, "externalKey cannot be null or empty");
-        return value -> {
-            HistogramAggregationStrategy strategy;
-            String normalized = value.trim().toUpperCase();
-            if ("BASE2_EXPONENTIAL_BUCKET_HISTOGRAM".equals(normalized)) {
-                strategy = HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM;
-            } else if ("EXPLICIT_BUCKET_HISTOGRAM".equals(normalized)) {
-                strategy = HistogramAggregationStrategy.EXPLICIT_BUCKET_HISTOGRAM;
-            } else {
-                strategy = null;
-            }
-            if (strategy == null) {
-                logUnsupportedValue(externalKey, value);
-            }
-            return strategy;
-        };
+        return matcher(
+                externalKey,
+                Map.of(
+                        "BASE2_EXPONENTIAL_BUCKET_HISTOGRAM", HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM,
+                        "EXPLICIT_BUCKET_HISTOGRAM", HistogramAggregationStrategy.EXPLICIT_BUCKET_HISTOGRAM),
+                true);
     }
 
     static Function<String, AggregationTemporalityStrategy> aggregationTemporality(String externalKey) {
-        Assert.hasText(externalKey, "externalKey cannot be null or empty");
-        return value -> {
-            AggregationTemporalityStrategy strategy;
-            String normalized = value.trim().toUpperCase();
-            if ("CUMULATIVE".equals(normalized)) {
-                strategy = AggregationTemporalityStrategy.CUMULATIVE;
-            } else if ("DELTA".equals(normalized)) {
-                strategy = AggregationTemporalityStrategy.DELTA;
-            } else if ("LOWMEMORY".equals(normalized)) {
-                strategy = AggregationTemporalityStrategy.LOW_MEMORY;
-            } else {
-                strategy = null;
-            }
-            if (strategy == null) {
-                logUnsupportedValue(externalKey, value);
-            }
-            return strategy;
-        };
+        return matcher(
+                externalKey,
+                Map.of(
+                        "CUMULATIVE", AggregationTemporalityStrategy.CUMULATIVE,
+                        "DELTA", AggregationTemporalityStrategy.DELTA,
+                        "LOWMEMORY", AggregationTemporalityStrategy.LOW_MEMORY),
+                true);
     }
 
     static Function<String, SamplingStrategy> samplingStrategy(String externalKey) {
-        Assert.hasText(externalKey, "externalKey cannot be null or empty");
-        return value -> {
-            SamplingStrategy strategy;
-            String normalized = value.toLowerCase().trim();
-            if ("always_on".equals(normalized)) {
-                strategy = SamplingStrategy.ALWAYS_ON;
-            } else if ("always_off".equals(normalized)) {
-                strategy = SamplingStrategy.ALWAYS_OFF;
-            } else if ("traceidratio".equals(normalized)) {
-                strategy = SamplingStrategy.TRACE_ID_RATIO;
-            } else if ("parentbased_always_on".equals(normalized)) {
-                strategy = SamplingStrategy.PARENT_BASED_ALWAYS_ON;
-            } else if ("parentbased_always_off".equals(normalized)) {
-                strategy = SamplingStrategy.PARENT_BASED_ALWAYS_OFF;
-            } else if ("parentbased_traceidratio".equals(normalized)) {
-                strategy = SamplingStrategy.PARENT_BASED_TRACE_ID_RATIO;
-            } else {
-                strategy = null;
-            }
-            if (strategy == null) {
-                logUnsupportedValue(externalKey, value);
-            }
-            return strategy;
-        };
+        return matcher(
+                externalKey,
+                Map.of(
+                        "always_on", SamplingStrategy.ALWAYS_ON,
+                        "always_off", SamplingStrategy.ALWAYS_OFF,
+                        "traceidratio", SamplingStrategy.TRACE_ID_RATIO,
+                        "parentbased_always_on", SamplingStrategy.PARENT_BASED_ALWAYS_ON,
+                        "parentbased_always_off", SamplingStrategy.PARENT_BASED_ALWAYS_OFF,
+                        "parentbased_traceidratio", SamplingStrategy.PARENT_BASED_TRACE_ID_RATIO),
+                false);
     }
 
     static Function<String, List<PropagationType>> propagationType(String externalKey) {
         Assert.hasText(externalKey, "externalKey cannot be null or empty");
         return value -> {
             Set<PropagationType> propagators = new HashSet<PropagationType>();
-            String[] items = value.trim().toLowerCase().split("\\s*,\\s*");
-            for (String item : items) {
-                PropagationType propagator;
-                String trimmed = item.trim();
-                if ("baggage".equals(trimmed) || "tracecontext".equals(trimmed)) {
-                    propagator = PropagationType.W3C;
-                } else if ("b3".equals(trimmed)) {
-                    propagator = PropagationType.B3;
-                } else if ("b3multi".equals(trimmed)) {
-                    propagator = PropagationType.B3_MULTI;
-                } else {
-                    propagator = null;
-                }
+            for (String item : value.trim().toLowerCase().split("\\s*,\\s*")) {
+                PropagationType propagator = PROPAGATION_MAP.get(item.trim());
                 if (propagator == null) {
                     logUnsupportedValue(externalKey, value);
                 } else {
@@ -182,23 +106,24 @@ class OpenTelemetryEnvironmentPropertyConverters {
     }
 
     static Function<String, OpenTelemetryMetricsProperties.ExemplarFilter> exemplarFilter(String externalKey) {
+        return matcher(
+                externalKey,
+                Map.of(
+                        "always_on", OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_ON,
+                        "always_off", OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_OFF,
+                        "trace_based", OpenTelemetryMetricsProperties.ExemplarFilter.TRACE_BASED),
+                false);
+    }
+
+    private static <E> Function<String, E> matcher(String externalKey, Map<String, E> mapping, boolean upper) {
         Assert.hasText(externalKey, "externalKey cannot be null or empty");
         return value -> {
-            OpenTelemetryMetricsProperties.ExemplarFilter filter;
-            String normalized = value.trim().toLowerCase();
-            if ("always_on".equals(normalized)) {
-                filter = OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_ON;
-            } else if ("always_off".equals(normalized)) {
-                filter = OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_OFF;
-            } else if ("trace_based".equals(normalized)) {
-                filter = OpenTelemetryMetricsProperties.ExemplarFilter.TRACE_BASED;
-            } else {
-                filter = null;
-            }
-            if (filter == null) {
+            String normalized = upper ? value.trim().toUpperCase() : value.trim().toLowerCase();
+            E result = mapping.get(normalized);
+            if (result == null) {
                 logUnsupportedValue(externalKey, value);
             }
-            return filter;
+            return result;
         };
     }
 

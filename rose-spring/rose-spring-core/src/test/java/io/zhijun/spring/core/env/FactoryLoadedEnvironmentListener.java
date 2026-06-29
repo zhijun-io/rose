@@ -3,9 +3,7 @@ package io.zhijun.spring.core.env;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.MutablePropertySources;
-
+import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
 import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 public class FactoryLoadedEnvironmentListener implements EnvironmentListener {
@@ -21,12 +19,7 @@ public class FactoryLoadedEnvironmentListener implements EnvironmentListener {
     }
 
     @Override
-    public void beforeGetPropertySources(ConfigurableEnvironment environment) {
-        CALLBACKS.add("beforeGetPropertySources");
-    }
-
-    @Override
-    public void afterGetPropertySources(ConfigurableEnvironment environment, MutablePropertySources propertySources) {
-        CALLBACKS.add("afterGetPropertySources");
+    public void onPropertySourcesChanged(PropertySourcesChangedEvent event) {
+        CALLBACKS.add("onPropertySourcesChanged");
     }
 }

@@ -26,7 +26,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectio
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterTransportConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.ConditionalOnOpenTelemetryMetricsExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.HistogramAggregationStrategy;
@@ -55,7 +54,7 @@ public final class OtlpMetricsExporterConfiguration {
     @ConditionalOnProperty(
             prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX,
             name = "protocol",
-            havingValue = ProtocolNames.HTTP_PROTOBUF,
+            havingValue = Protocol.HTTP_PROTOBUF.configValue(),
             matchIfMissing = true)
     OtlpHttpMetricExporter otlpHttpMetricExporter(
             OpenTelemetryExporterProperties commonProperties,
@@ -83,7 +82,7 @@ public final class OtlpMetricsExporterConfiguration {
     @ConditionalOnProperty(
             prefix = OpenTelemetryMetricsExporterProperties.OTLP_CONFIG_PREFIX,
             name = "protocol",
-            havingValue = ProtocolNames.GRPC)
+            havingValue = Protocol.GRPC.configValue())
     OtlpGrpcMetricExporter otlpGrpcMetricExporter(
             OpenTelemetryExporterProperties commonProperties,
             OpenTelemetryMetricsExporterProperties properties,

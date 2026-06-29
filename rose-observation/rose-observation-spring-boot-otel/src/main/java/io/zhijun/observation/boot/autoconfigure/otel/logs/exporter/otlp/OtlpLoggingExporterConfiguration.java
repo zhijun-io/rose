@@ -21,7 +21,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectio
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterTransportConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
 import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.ConditionalOnOpenTelemetryLoggingExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.OpenTelemetryLoggingExporterProperties;
 
@@ -48,7 +47,7 @@ public final class OtlpLoggingExporterConfiguration {
     @ConditionalOnProperty(
             prefix = OpenTelemetryLoggingExporterProperties.OTLP_CONFIG_PREFIX,
             name = "protocol",
-            havingValue = ProtocolNames.HTTP_PROTOBUF,
+            havingValue = Protocol.HTTP_PROTOBUF.configValue(),
             matchIfMissing = true)
     OtlpHttpLogRecordExporter otlpHttpLogRecordExporter(
             OpenTelemetryExporterProperties commonProperties,
@@ -78,7 +77,7 @@ public final class OtlpLoggingExporterConfiguration {
     @ConditionalOnProperty(
             prefix = OpenTelemetryLoggingExporterProperties.OTLP_CONFIG_PREFIX,
             name = "protocol",
-            havingValue = ProtocolNames.GRPC)
+            havingValue = Protocol.GRPC.configValue())
     OtlpGrpcLogRecordExporter otlpGrpcLogRecordExporter(
             OpenTelemetryExporterProperties commonProperties,
             OpenTelemetryLoggingExporterProperties properties,

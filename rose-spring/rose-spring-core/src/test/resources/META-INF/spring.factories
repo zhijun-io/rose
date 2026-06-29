@@ -1,4 +1,2 @@
 io.zhijun.spring.core.env.listener.EnvironmentListener=io.zhijun.spring.core.env.FactoryLoadedEnvironmentListener
-io.zhijun.spring.core.env.listener.ProfileListener=io.zhijun.spring.core.env.FactoryLoadedProfileListener
-io.zhijun.spring.core.env.listener.PropertyResolverListener=io.zhijun.spring.core.env.FactoryLoadedPropertyResolverListener
 io.zhijun.spring.core.env.refresh.Refreshable=io.zhijun.spring.core.env.refresh.TestRefreshable

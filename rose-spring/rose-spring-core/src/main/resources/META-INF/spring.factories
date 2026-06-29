@@ -1,7 +1,6 @@
 org.springframework.context.ApplicationContextInitializer=io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer
 org.springframework.context.ApplicationListener=io.zhijun.spring.core.propertysource.watch.AutoRefreshWatcherLifecycle
 io.zhijun.spring.core.env.listener.EnvironmentListener=\
-io.zhijun.spring.core.env.listener.LoggingEnvironmentListener,\
 io.zhijun.spring.core.env.refresh.PropertySourcesRefreshEnvironmentListener
 io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator=\
 io.zhijun.spring.core.binder.support.DefaultConfigurationBeanAliasGenerator,\

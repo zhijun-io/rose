@@ -13,6 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -20,13 +21,13 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator;
 import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.env.PropertySourcesUtils;
-import io.zhijun.spring.core.io.support.SpringFactoriesLoaderUtils;
 
 /**
  * {@link ImportBeanDefinitionRegistrar} for {@link EnableConfigurationBeanBinding}.
@@ -130,8 +131,11 @@ public class ConfigurationBeanBindingRegistrar
 
     private void registerConfigurationBeanAlias(
             String beanName, Class<?> configClass, String prefix, BeanDefinitionRegistry registry) {
+        ClassLoader classLoader = beanFactory instanceof ConfigurableBeanFactory
+                ? ((ConfigurableBeanFactory) beanFactory).getBeanClassLoader()
+                : null;
         for (ConfigurationBeanAliasGenerator aliasGenerator :
-                SpringFactoriesLoaderUtils.loadFactories(beanFactory, ConfigurationBeanAliasGenerator.class)) {
+                SpringFactoriesLoader.loadFactories(ConfigurationBeanAliasGenerator.class, classLoader)) {
             registry.registerAlias(beanName, aliasGenerator.generateAlias(prefix, beanName, configClass));
         }
     }
