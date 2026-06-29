@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.env;
+package io.zhijun.spring.boot.bootstrap.config;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +14,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.core.annotation.Internal;
 import io.zhijun.spring.boot.constants.PropertyConstants;
 
 /**
@@ -23,7 +24,8 @@ import io.zhijun.spring.boot.constants.PropertyConstants;
  * Runs before {@code application.yml} is loaded; disable with {@code -Drose.default-config.enabled=false}
  * or {@code ROSE_DEFAULT_CONFIG_ENABLED=false}.
  */
-public final class DefaultConfigPropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+@Internal
+public final class DefaultConfigEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
     public static final String ENABLED_PROPERTY = PropertyConstants.DEFAULT_CONFIG_ENABLED_PROPERTY_NAME;
 
@@ -50,7 +52,7 @@ public final class DefaultConfigPropertiesEnvironmentPostProcessor implements En
         META_INF_DEFAULT_YAML_PATTERN
     };
 
-    private final DefaultConfigPropertiesLoader loader = new DefaultConfigPropertiesLoader();
+    private final DefaultConfigLoader loader = new DefaultConfigLoader();
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {

@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.env;
+package io.zhijun.spring.boot.bootstrap.config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,23 +23,26 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import io.zhijun.spring.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter;
+import io.zhijun.spring.boot.constants.PropertyConstants;
 import io.zhijun.spring.core.propertysource.support.PropertySourceMaps;
 
 /**
  * Loads and merges {@code config/default/*} configuration resources from the classpath.
  */
-final class DefaultConfigPropertiesLoader {
+final class DefaultConfigLoader {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultConfigPropertiesLoader.class);
+    private static final String AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME =
+            PropertyConstants.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME;
+
+    private static final Logger logger = LoggerFactory.getLogger(DefaultConfigLoader.class);
 
     private final ResourcePatternResolver resourcePatternResolver;
 
-    DefaultConfigPropertiesLoader() {
+    DefaultConfigLoader() {
         this(new PathMatchingResourcePatternResolver());
     }
 
-    DefaultConfigPropertiesLoader(ResourcePatternResolver resourcePatternResolver) {
+    DefaultConfigLoader(ResourcePatternResolver resourcePatternResolver) {
         Assert.notNull(resourcePatternResolver, "resourcePatternResolver cannot be null");
         this.resourcePatternResolver = resourcePatternResolver;
     }
@@ -136,8 +139,7 @@ final class DefaultConfigPropertiesLoader {
 
     private static void putMerged(Map<String, Object> merged, Resource resource, String key, Object value) {
         Object previous = merged.get(key);
-        if (previous != null
-                && ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME.equals(key)) {
+        if (previous != null && AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME.equals(key)) {
             Object accumulated = accumulateExcludeValues(previous, value);
             merged.put(key, accumulated);
             if (!valuesEqual(previous, accumulated) && logger.isDebugEnabled()) {

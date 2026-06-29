@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
 
-import io.zhijun.spring.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
+import io.zhijun.spring.boot.bootstrap.config.DefaultConfigEnvironmentPostProcessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
@@ -59,9 +59,9 @@ class RoseAutoConfigurationExcludeIntegrationTests {
     void shouldExcludeAutoConfigurationDeclaredInRoseDefaults() {
         MockEnvironment environment = new MockEnvironment();
         environment.setProperty(
-                DefaultConfigPropertiesEnvironmentPostProcessor.LOCATIONS_PROPERTY,
+                DefaultConfigEnvironmentPostProcessor.LOCATIONS_PROPERTY,
                 "classpath*:config/default/integration-exclude.properties");
-        new DefaultConfigPropertiesEnvironmentPostProcessor()
+        new DefaultConfigEnvironmentPostProcessor()
                 .postProcessEnvironment(environment, new SpringApplication());
 
         ConfigurableAutoConfigurationImportFilter filter = new ConfigurableAutoConfigurationImportFilter();

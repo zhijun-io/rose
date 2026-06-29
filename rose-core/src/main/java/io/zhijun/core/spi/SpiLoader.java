@@ -22,7 +22,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.lang.annotation.Annotation;
 import java.util.concurrent.ConcurrentHashMap;
+import io.zhijun.core.spi.condition.annotation.ConditionAnnotation;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -334,27 +336,23 @@ public final class SpiLoader<S> {
             if (spiImpl != null && !spiImpl.enabled()) {
                 return ImplementationDefinition.disabled(implementationType);
             }
-            // Check load conditions
+            // Check load conditions: 1. @SpiImpl.conditions attribute
             if (spiImpl != null && spiImpl.conditions().length > 0) {
                 for (Class<? extends Condition> conditionClass : spiImpl.conditions()) {
-                    try {
-                        Condition condition = conditionClass.getDeclaredConstructor().newInstance();
-                        if (!condition.matches(implementationType)) {
-                            if (LOGGER.isLoggable(Level.FINE)) {
-                                LOGGER.fine(String.format(
-                                        "[SPI: %s] Implementation %s skipped, condition %s not matched",
-                                        serviceType.getName(), implementationType.getName(), conditionClass.getName()));
-                            }
-                            return ImplementationDefinition.disabled(implementationType);
-                        }
-                    } catch (Exception e) {
-                        if (LOGGER.isLoggable(Level.WARNING)) {
-                            LOGGER.warning(String.format(
-                                    "[SPI: %s] Failed to check condition %s for implementation %s: %s. Skipping implementation.",
-                                    serviceType.getName(), conditionClass.getName(), implementationType.getName(), e.getMessage()));
-                        }
+                    if (!matchCondition(implementationType, conditionClass)) {
                         return ImplementationDefinition.disabled(implementationType);
                     }
+                }
+            }
+            // Check load conditions: 2. Condition annotations on implementation class
+            for (Annotation annotation : implementationType.getAnnotations()) {
+                ConditionAnnotation conditionMeta = annotation.annotationType().getAnnotation(ConditionAnnotation.class);
+                if (conditionMeta == null) {
+                    continue;
+                }
+                Class<? extends Condition> conditionClass = conditionMeta.value();
+                if (!matchCondition(implementationType, conditionClass)) {
+                    return ImplementationDefinition.disabled(implementationType);
                 }
             }
             int priority = resolvePriority(spiImpl);
@@ -372,6 +370,31 @@ public final class SpiLoader<S> {
     private int resolvePriority(SpiImpl spiImpl) {
         return spiImpl != null && spiImpl.priority() != DEFAULT_PRIORITY
                 ? spiImpl.priority() : DEFAULT_PRIORITY;
+    }
+    /**
+     * 检查条件是否匹配
+     * @return true表示匹配可以加载，false表示不匹配跳过
+     */
+    private boolean matchCondition(Class<?> implementationType, Class<? extends Condition> conditionClass) {
+        try {
+            Condition condition = conditionClass.getDeclaredConstructor().newInstance();
+            if (!condition.matches(implementationType)) {
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine(String.format(
+                            "[SPI: %s] Implementation %s skipped, condition %s not matched",
+                            serviceType.getName(), implementationType.getName(), conditionClass.getName()));
+                }
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            if (LOGGER.isLoggable(Level.WARNING)) {
+                LOGGER.warning(String.format(
+                        "[SPI: %s] Failed to check condition %s for implementation %s: %s. Skipping implementation.",
+                        serviceType.getName(), conditionClass.getName(), implementationType.getName(), e.getMessage()));
+            }
+            return false;
+        }
     }
     private List<String> readImplementationClassNames() {
         String resourceName = "META-INF/services/" + serviceType.getName();

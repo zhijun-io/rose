@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.env;
+package io.zhijun.spring.boot.bootstrap.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-class DefaultConfigPropertiesLoaderTests {
+class DefaultConfigLoaderTests {
 
-    private final DefaultConfigPropertiesLoader loader =
-            new DefaultConfigPropertiesLoader(new PathMatchingResourcePatternResolver(new DefaultResourceLoader()));
+    private final DefaultConfigLoader loader =
+            new DefaultConfigLoader(new PathMatchingResourcePatternResolver(new DefaultResourceLoader()));
 
     @Test
     void shouldLoadCoreDefaultsFromClasspath() {
         Map<String, Object> properties =
-                loader.load(DefaultConfigPropertiesEnvironmentPostProcessor.DEFAULT_PROPERTIES_PATTERN);
+                loader.load(DefaultConfigEnvironmentPostProcessor.DEFAULT_PROPERTIES_PATTERN);
 
         assertThat(properties).containsEntry("server.shutdown", "graceful");
         assertThat(properties).containsEntry("spring.lifecycle.timeout-per-shutdown-phase", "60s");
@@ -25,7 +25,7 @@ class DefaultConfigPropertiesLoaderTests {
     @Test
     void shouldLoadYamlDefaultsFromClasspath() {
         Map<String, Object> properties =
-                loader.load(DefaultConfigPropertiesEnvironmentPostProcessor.DEFAULT_YML_PATTERN);
+                loader.load(DefaultConfigEnvironmentPostProcessor.DEFAULT_YML_PATTERN);
 
         assertThat(properties).containsEntry("rose.test.yaml-key", "from-yaml");
         assertThat(properties).containsEntry("server.port", "18080");
@@ -50,7 +50,7 @@ class DefaultConfigPropertiesLoaderTests {
     @Test
     void shouldLoadAllDefaultPatternsFromClasspath() {
         Map<String, Object> properties =
-                loader.load(DefaultConfigPropertiesEnvironmentPostProcessor.DEFAULT_LOCATION_PATTERNS);
+                loader.load(DefaultConfigEnvironmentPostProcessor.DEFAULT_LOCATION_PATTERNS);
 
         assertThat(properties).containsEntry("server.shutdown", "graceful");
         assertThat(properties).containsEntry("rose.test.yaml-key", "from-yaml");
@@ -60,7 +60,7 @@ class DefaultConfigPropertiesLoaderTests {
     @Test
     void shouldLoadMetaInfDefaultPropertiesFromClasspath() {
         Map<String, Object> properties =
-                loader.load(DefaultConfigPropertiesEnvironmentPostProcessor.META_INF_DEFAULT_PROPERTIES_PATTERN);
+                loader.load(DefaultConfigEnvironmentPostProcessor.META_INF_DEFAULT_PROPERTIES_PATTERN);
 
         assertThat(properties).containsEntry("rose.test.meta-inf-default-key", "from-meta-inf");
     }

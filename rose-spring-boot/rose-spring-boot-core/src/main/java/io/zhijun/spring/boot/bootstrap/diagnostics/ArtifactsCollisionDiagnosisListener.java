@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.diagnostics;
+package io.zhijun.spring.boot.bootstrap.diagnostics;
 
 import java.io.IOException;
 import java.util.Set;
@@ -11,12 +11,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.core.annotation.Internal;
 import io.zhijun.spring.boot.constants.PropertyConstants;
-import io.zhijun.spring.boot.diagnostics.internal.ClasspathMavenArtifactScanner;
+import io.zhijun.spring.boot.bootstrap.diagnostics.internal.ClasspathMavenArtifactScanner;
 
 /**
- * Detects duplicate Maven coordinates on the classpath during application startup.
+ * Internal Boot listener that detects duplicate Maven coordinates on the classpath during application startup.
  */
+@Internal
 public final class ArtifactsCollisionDiagnosisListener
         implements ApplicationListener<ApplicationContextInitializedEvent> {
 

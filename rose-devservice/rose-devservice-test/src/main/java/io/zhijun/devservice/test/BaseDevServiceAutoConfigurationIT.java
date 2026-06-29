@@ -1,10 +1,8 @@
 package io.zhijun.devservice.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
+import io.zhijun.spring.boot.bootstrap.config.DefaultConfigEnvironmentPostProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -19,9 +17,10 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StreamUtils;
 import org.testcontainers.containers.GenericContainer;
 
-import io.zhijun.spring.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
-import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Base integration test for dev services auto-configuration.
@@ -206,7 +205,7 @@ public abstract class BaseDevServiceAutoConfigurationIT {
                 .withClassLoader(new FilteredClassLoader(RestartScope.class))
                 .withInitializer(context -> {
                     if (context.getEnvironment() instanceof ConfigurableEnvironment) {
-                        new DefaultConfigPropertiesEnvironmentPostProcessor()
+                        new DefaultConfigEnvironmentPostProcessor()
                                 .postProcessEnvironment(
                                     context.getEnvironment(), new SpringApplication());
                     }

@@ -1,11 +1,14 @@
-package io.zhijun.spring.boot.diagnostics;
+package io.zhijun.spring.boot.bootstrap.diagnostics;
 
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
+import io.zhijun.core.annotation.Internal;
+
 /**
- * Failure analyzer for {@link ArtifactsCollisionException}.
+ * Internal failure analyzer for {@link ArtifactsCollisionException}.
  */
+@Internal
 public final class ArtifactsCollisionFailureAnalyzer extends AbstractFailureAnalyzer<ArtifactsCollisionException> {
 
     @Override

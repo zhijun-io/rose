@@ -1,8 +1,8 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-io.zhijun.spring.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor
+io.zhijun.spring.boot.bootstrap.config.DefaultConfigEnvironmentPostProcessor
 
 org.springframework.context.ApplicationListener=\
-io.zhijun.spring.boot.diagnostics.ArtifactsCollisionDiagnosisListener
+io.zhijun.spring.boot.bootstrap.diagnostics.ArtifactsCollisionDiagnosisListener
 
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-io.zhijun.spring.boot.diagnostics.ArtifactsCollisionFailureAnalyzer
+io.zhijun.spring.boot.bootstrap.diagnostics.ArtifactsCollisionFailureAnalyzer

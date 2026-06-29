@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.env;
+package io.zhijun.spring.boot.bootstrap.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,10 +9,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
 
-class DefaultConfigPropertiesEnvironmentPostProcessorTests {
+class DefaultConfigEnvironmentPostProcessorTests {
 
-    private final DefaultConfigPropertiesEnvironmentPostProcessor processor =
-            new DefaultConfigPropertiesEnvironmentPostProcessor();
+    private final DefaultConfigEnvironmentPostProcessor processor =
+            new DefaultConfigEnvironmentPostProcessor();
 
     @Test
     void shouldLoadRoseDefaultPropertiesIntoEnvironment() {
@@ -28,7 +28,7 @@ class DefaultConfigPropertiesEnvironmentPostProcessorTests {
     @Test
     void shouldNotLoadWhenDisabled() {
         MockEnvironment environment = new MockEnvironment()
-                .withProperty(DefaultConfigPropertiesEnvironmentPostProcessor.ENABLED_PROPERTY, "false");
+                .withProperty(DefaultConfigEnvironmentPostProcessor.ENABLED_PROPERTY, "false");
 
         processor.postProcessEnvironment(environment, new SpringApplication());
 

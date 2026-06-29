@@ -1,10 +1,10 @@
-package io.zhijun.spring.boot.diagnostics;
+package io.zhijun.spring.boot.bootstrap.diagnostics;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
 
-import io.zhijun.spring.boot.diagnostics.internal.ClasspathMavenArtifactScanner;
+import io.zhijun.spring.boot.bootstrap.diagnostics.internal.ClasspathMavenArtifactScanner;
 import org.junit.jupiter.api.Test;
 
 class ClasspathMavenArtifactScannerTests {

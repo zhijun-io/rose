@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.diagnostics.internal;
+package io.zhijun.spring.boot.bootstrap.diagnostics.internal;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,9 +16,12 @@ import java.util.jar.JarFile;
 
 import org.springframework.util.StringUtils;
 
+import io.zhijun.core.annotation.Internal;
+
 /**
- * Scans the classpath for duplicate Maven coordinates using META-INF/maven pom.properties entries.
+ * Internal scanner for duplicate Maven coordinates using Maven {@code pom.properties} metadata entries.
  */
+@Internal
 public final class ClasspathMavenArtifactScanner {
 
     private static final String POM_PROPERTIES_SUFFIX = "/pom.properties";

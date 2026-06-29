@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.diagnostics;
+package io.zhijun.spring.boot.bootstrap.diagnostics;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
