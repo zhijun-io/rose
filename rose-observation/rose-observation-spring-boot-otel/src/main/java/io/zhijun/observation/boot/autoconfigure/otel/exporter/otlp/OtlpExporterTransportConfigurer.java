@@ -28,14 +28,17 @@ public final class OtlpExporterTransportConfigurer {
 
     private OtlpExporterTransportConfigurer() {}
 
+    @FunctionalInterface
     public interface TrustedCertificatesSetter<B> {
         void setTrustedCertificates(B builder, byte[] trustedCertificates);
     }
 
+    @FunctionalInterface
     public interface ClientTlsSetter<B> {
         void setClientTls(B builder, byte[] privateKey, byte[] certificate);
     }
 
+    @FunctionalInterface
     public interface ProxySetter<B> {
         void setProxy(B builder, ProxyOptions proxyOptions);
     }

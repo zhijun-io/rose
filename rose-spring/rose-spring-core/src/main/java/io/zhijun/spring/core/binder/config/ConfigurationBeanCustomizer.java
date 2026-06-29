@@ -8,6 +8,7 @@ import org.springframework.core.Ordered;
  * <p>
  * Implement {@link Ordered} to control callback order. Register as a Spring bean.
  */
+@FunctionalInterface
 public interface ConfigurationBeanCustomizer extends Ordered {
 
     void customize(String beanName, Object configurationBean);
