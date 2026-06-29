@@ -1,5 +1,4 @@
 package io.zhijun.core.spi.annotation;
-import io.zhijun.core.spi.Condition;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,9 +32,4 @@ public @interface SpiImpl {
      * Whether this implementation overrides lower priority implementations with the same alias.
      */
     boolean override() default false;
-    /**
-     * Conditions that must be matched to load this implementation.
-     * All conditions must return true to load.
-     */
-    Class<? extends Condition>[] conditions() default {};
 }

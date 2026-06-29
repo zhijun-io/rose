@@ -1,6 +1,5 @@
 package io.zhijun.core.annotation.processor;
 import com.google.auto.service.AutoService;
-import io.zhijun.core.spi.Condition;
 import io.zhijun.core.spi.annotation.Spi;
 import io.zhijun.core.spi.annotation.SpiImpl;
 import javax.annotation.processing.*;
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
  *     <li>Compile time validation for SPI implementations</li>
  *     <li>Generates spi-metadata.json for faster runtime loading</li>
  *     <li>Alias duplicate check</li>
- *     <li>Condition class validation</li>
  * </ul>
  */
 @AutoService(Processor.class)
@@ -33,7 +31,6 @@ import java.util.stream.Collectors;
 public class SpiImplProcessor extends AbstractProcessor {
     private static final String SERVICES_DIRECTORY = "META-INF/services/";
     private static final String METADATA_PATH = "META-INF/rose/spi-metadata.json";
-    private static final String CONDITION_INTERFACE_NAME = Condition.class.getName();
     private Elements elements;
     private Types types;
     private Filer filer;
@@ -69,7 +66,7 @@ public class SpiImplProcessor extends AbstractProcessor {
             List<TypeElement> spiTypes = findSpiTypes(implementationType);
             if (spiTypes.isEmpty()) {
                 messager.printMessage(Diagnostic.Kind.ERROR,
-                        "@SpiImpl must implement at least one interface annotated with @Spi",
+                        "@SpiImpl must implement at least one interface or superclass annotated with @Spi",
                         implementationType);
                 continue;
             }
@@ -79,11 +76,7 @@ public class SpiImplProcessor extends AbstractProcessor {
             if (!validateSpiImplConfig(implementationType, spiImpl)) {
                 continue;
             }
-            // 5. 检查条件类合法性（如果配置了条件）
-            if (!validateConditions(implementationType, spiImpl)) {
-                continue;
-            }
-            // 6. 注册实现
+            // 5. 注册实现
             String implementationClassName = elements.getBinaryName(implementationType).toString();
             String alias = getAlias(implementationType, spiImpl);
             for (TypeElement spiType : spiTypes) {
@@ -100,7 +93,7 @@ public class SpiImplProcessor extends AbstractProcessor {
                 meta.setSingleton(spiImpl.singleton());
                 meta.setEnabled(spiImpl.enabled());
                 meta.setOverride(spiImpl.override());
-                meta.setConditions(getConditionClassNames(spiImpl));
+                meta.setConditions(Collections.emptyList());
                 spiMetadata.computeIfAbsent(spiClassName, k -> new ArrayList<>()).add(meta);
             }
         }
@@ -144,7 +137,7 @@ public class SpiImplProcessor extends AbstractProcessor {
         // 必须有公共无参构造函数
         if (!hasNoArgsConstructor(implementationType)) {
             messager.printMessage(Diagnostic.Kind.ERROR,
-                    "@SpiImpl class must have an accessible no-args constructor", implementationType);
+                    "@SpiImpl class must declare an accessible no-args constructor", implementationType);
             return false;
         }
         return true;
@@ -232,47 +225,6 @@ public class SpiImplProcessor extends AbstractProcessor {
         return true;
     }
     /**
-     * 验证条件类是否合法
-     */
-    private boolean validateConditions(TypeElement implementationType, SpiImpl spiImpl) {
-        Class<?>[] conditionClasses = spiImpl.conditions();
-        if (conditionClasses.length == 0) {
-            return true;
-        }
-        TypeElement conditionInterface = elements.getTypeElement(CONDITION_INTERFACE_NAME);
-        if (conditionInterface == null) {
-            return true;
-        }
-        for (Class<?> conditionClass : conditionClasses) {
-            String conditionClassName = conditionClass.getName();
-            TypeElement conditionType = elements.getTypeElement(conditionClassName);
-            if (conditionType == null) {
-                messager.printMessage(Diagnostic.Kind.ERROR,
-                        "Condition class not found: " + conditionClassName, implementationType);
-                return false;
-            }
-            // 必须实现Condition接口
-            if (!types.isSubtype(conditionType.asType(), conditionInterface.asType())) {
-                messager.printMessage(Diagnostic.Kind.ERROR,
-                        "Condition class must implement " + CONDITION_INTERFACE_NAME, implementationType);
-                return false;
-            }
-            // 必须有公共无参构造
-            if (!hasNoArgsConstructor(conditionType)) {
-                messager.printMessage(Diagnostic.Kind.ERROR,
-                        "Condition class must have public no-args constructor: " + conditionClassName, implementationType);
-                return false;
-            }
-            // 不能是抽象类
-            if (conditionType.getModifiers().contains(Modifier.ABSTRACT)) {
-                messager.printMessage(Diagnostic.Kind.ERROR,
-                        "Condition class cannot be abstract: " + conditionClassName, implementationType);
-                return false;
-            }
-        }
-        return true;
-    }
-    /**
      * 检查别名是否重复
      */
     private boolean checkAliasDuplicate(String spiClassName, String alias, String implementationClassName, TypeElement element) {
@@ -305,20 +257,6 @@ public class SpiImplProcessor extends AbstractProcessor {
         }
         char firstChar = simpleName.charAt(0);
         return Character.toLowerCase(firstChar) + simpleName.substring(1);
-    }
-    /**
-     * 获取条件类名列表
-     */
-    private List<String> getConditionClassNames(SpiImpl spiImpl) {
-        Class<?>[] conditions = spiImpl.conditions();
-        if (conditions.length == 0) {
-            return Collections.emptyList();
-        }
-        List<String> classNames = new ArrayList<>();
-        for (Class<?> condition : conditions) {
-            classNames.add(condition.getName());
-        }
-        return classNames;
     }
     /**
      * 生成META-INF/services配置文件

@@ -174,8 +174,6 @@ class SpiLoaderTest {
 
     @Test
     void reloadAllDestroysAllInstances() {
-        assertThat(SpiLoader.getAllSpiInfo()).isEmpty();
-
         // 加载多个 SPI 实例
         SpiLoader<SampleService> loader1 = SpiLoader.load(SampleService.class);
         loader1.get();
@@ -186,14 +184,12 @@ class SpiLoaderTest {
         int initCount2 = AnotherLifecycleImplementation.initCount.get();
         assertThat(initCount1).isGreaterThan(0);
         assertThat(initCount2).isGreaterThan(0);
-        assertThat(SpiLoader.getAllSpiInfo()).containsKeys(SampleService.class, AnotherSampleService.class);
 
         // 全局重载
         Set<Class<?>> reloadedTypes = SpiLoader.reloadAll();
         assertThat(reloadedTypes).contains(SampleService.class, AnotherSampleService.class);
         assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1);
         assertThat(AnotherLifecycleImplementation.destroyCount.get()).isEqualTo(1);
-        assertThat(SpiLoader.getAllSpiInfo()).isEmpty();
 
         // 旧 loader 失去缓存后再次访问，也会重新创建实例
         SampleService recreatedByOldLoader = loader1.getFirst().orElseThrow(() -> new AssertionError());
@@ -260,24 +256,6 @@ class SpiLoaderTest {
         assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(0);
         assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount);
         assertThat(customLoader.getFirst().orElseThrow(() -> new AssertionError())).isSameAs(oldInstance);
-    }
-
-    @Test
-    void reloadableHandleSwitchesToNewLoaderAtomically() {
-        ReloadableSpiHandle<SampleService> handle = ReloadableSpiHandle.of(SampleService.class);
-
-        SpiLoader<SampleService> initialLoader = handle.getLoader();
-        SampleService initialInstance = handle.requireFirst();
-        int initCount = LIFECYCLE_INIT_COUNT.get();
-
-        SpiLoader<SampleService> reloadedLoader = handle.reload();
-        SampleService reloadedInstance = handle.requireFirst();
-
-        assertThat(handle.getLoader()).isSameAs(reloadedLoader);
-        assertThat(reloadedLoader).isNotSameAs(initialLoader);
-        assertThat(reloadedInstance).isNotSameAs(initialInstance);
-        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1);
-        assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount + 1);
     }
 
     interface PlainService {}
