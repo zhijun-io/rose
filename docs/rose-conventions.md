@@ -8,11 +8,11 @@
 
 | 层 | artifactId 后缀 | 职责 | 上游依赖 |
 |----|------------------|------|----------|
-| 核心 | `-core` | 纯逻辑，不依赖 Spring Boot | `rose-core` / 三方库 |
+| 核心 | `-core` | 纯逻辑，不依赖 Spring Boot | `rose-annotation` / 三方库 |
 | Spring 集成 | `-spring` | Spring Framework 扩展（非 Boot） | 对应 `-core` |
 | Boot 自动配置 | `-spring-boot` | `AutoConfiguration` / starter | 对应 `-spring` + `rose-spring-boot-core` |
 
-公共基础：`rose-annotation`、`rose-core`、`rose-test`、`rose-spring-core`、`rose-spring-boot-core`。
+公共基础：`rose-annotation`、`rose-test`、`rose-spring-core`、`rose-spring-boot-core`。
 
 `rose-devservice-core` 无 Boot 自动配置（Testcontainers + SLF4J；必要时最小 `spring-core` 依赖须在 PR 说明）。
 
@@ -21,7 +21,6 @@
 | artifactId 段 | Java 包名段 |
 |---------------|-------------|
 | `rose-annotation` | `io.zhijun.annotation` |
-| `rose-core` | `io.zhijun.core` |
 | `rose-test` | `io.zhijun.test` |
 | `rose-spring-*` | `io.zhijun.spring.*` |
 | `rose-spring-boot-*` | `io.zhijun.boot.*` |
@@ -100,6 +99,38 @@ BaseDevServiceProperties.isFixedPort(port);
 ClassUtils.isPresent("com.example.Foo", classLoader);
 ```
 
+### Spring Boot 自动配置双注册
+
+每个 `-spring-boot` 模块在保留 `META-INF/spring.factories` 的 `EnableAutoConfiguration` 条目的同时，**同步维护**：
+
+`META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+
+- 两类文件列出**相同**的全限定 `AutoConfiguration` 类名（每行一个）。
+- Spring Boot 2.7+ 优先读 `.imports`；Spring Boot 3 仅读 `.imports`；双注册为零成本 SB3 过渡。
+- 新增 `AutoConfiguration` 时两处一起改；非自动配置条目（`EnvironmentPostProcessor`、`FailureAnalyzer` 等）仍只写在 `spring.factories`。
+
+### `internal` 包边界
+
+实现细节、非稳定 API 放在 `*.internal.*` 子包；公共 SPI 与 `@ConfigurationProperties` 留在对外包。与 `@Incubating` / `InternalApiProcessor` 互补——包名一眼可辨，处理器可校验 `internal` 不被模块外引用。
+
+### 依赖兼容下界（BOM 对齐版本）
+
+Rose 构建锁 **Spring Boot 2.7.18** / **Java 8+**。BOM 对齐版本附带以下升级约束（与 `renovate.json` 一致）：
+
+| 依赖 | Rose 锁定 | 兼容下界 / 约束 |
+|------|-----------|-----------------|
+| Spring Boot | 2.7.18 | `<3.0.0`（Reactor 不验证 SB3） |
+| Testcontainers | 1.21.4 | `1.x`；**2.x 与 SB2.7 Jackson 2.13 不兼容**（[testcontainers#11236](https://github.com/testcontainers/testcontainers-java/issues/11236)） |
+| OpenTelemetry SDK | `${opentelemetry.version}` | 随 BOM；instrumentation BOM 须与 SDK 配套 |
+| MyBatis-Plus | `${mybatis-plus.version}` | 随 `mybatis-plus-bom` |
+| Micrometer / Logback / SLF4J | SB2.7 BOM 传递 | Renovate 禁止 major 跃迁（见 `renovate.json` `allowedVersions`） |
+
+下游若自行覆盖版本，须自行验证与 SB2.7 的传递依赖是否冲突。
+
+### Starter / 聚合模块
+
+`-spring-boot` 模块承载 `AutoConfiguration`；**不得**在仅做依赖聚合的模块（如 `rose-spring-boot-web` 占位）写业务逻辑。当前 `rose-spring-boot-web` 仅 `package-info`，符合极薄 starter 原则。
+
 ## 6. 测试
 
 | 插件 | 阶段 | 类名 | 命令 |
@@ -114,22 +145,27 @@ ClassUtils.isPresent("com.example.Foo", classLoader);
 
 构建 profile 与 CI 详见 [wiki/rose-build/Profiles-Management.md](../wiki/rose-build/Profiles-Management.md)、[wiki/rose-build/CI-CD-Integration.md](../wiki/rose-build/CI-CD-Integration.md)。
 
-## 7. 提交流程
+## 7. 编译与静态检查
+
+- `maven-compiler-plugin`：`-parameters`、`-Xlint:deprecation`、`-Werror`（弃用 API 编译即失败）。
+- 格式化 / Error Prone 门禁见 [inspiration-sdk-java.md](inspiration-sdk-java.md) 第二批规划。
+
+## 8. 提交流程
 
 - **Conventional Commits**：`feat:`、`fix:`、`docs:`、`chore:`、`refactor:` 等。
 - **一 PR 一主题**；依赖升级由 Renovate 处理。
 - 应用不继承 `rose-parent` / `rose-build`；消费方 `import rose-bom`（见 [wiki/rose-bom/Consumer-Guide.md](../wiki/rose-bom/Consumer-Guide.md)）。
 
-## 8. Reactor 模块清单
+## 9. Reactor 模块清单
 
 | 域 | 模块 |
 |----|------|
 | 构建 | `rose-build`、`rose-parent`、`rose-bom` |
-| Foundation | `rose-annotation`、`rose-core`、`rose-annotation-processor`、`rose-test` |
+| Foundation | `rose-annotation`、`rose-annotation-processor`、`rose-test` |
 | Spring | `rose-spring-core` |
 | Spring Boot | `rose-spring-boot-core`、`rose-spring-boot-actuator` |
 | MyBatis-Plus | `-core` / `-spring` / `-spring-boot` |
-| Observation | `-core`、`-spring-boot` 及 otel / logback / micrometer-* slice |
+| Observation | `-spring-boot` 及 otel / logback / micrometer-* / conventions-otel slice |
 | Multitenancy | `-core` / `-spring` / `-spring-boot` |
 | DevService | `-core`、`-spring-boot`、`-test`、`-spring-boot-{connector,actuator}` |
 

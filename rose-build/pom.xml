@@ -130,6 +130,8 @@
                     <configuration>
                         <compilerArgs>
                             <compilerArg>-parameters</compilerArg>
+                            <compilerArg>-Xlint:deprecation</compilerArg>
+                            <compilerArg>-Werror</compilerArg>
                         </compilerArgs>
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
