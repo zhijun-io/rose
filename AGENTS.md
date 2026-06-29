@@ -1,6 +1,6 @@
 # Repository Guidelines
 
-Operating guide for AI agents in **zhijun-io/rose**. Human overview: [README.md](README.md). Detailed implementation conventions: [docs/rose-conventions.md](docs/rose-conventions.md). Build and CI reference: [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md).
+Operating guide for AI agents in **zhijun-io/rose**. Human overview: [README.md](README.md). Build and CI reference: [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md).
 
 ## Context
 
@@ -8,7 +8,7 @@ Operating guide for AI agents in **zhijun-io/rose**. Human overview: [README.md]
 - This repository is a **Maven multi-module reactor**. Consumer applications should import **`rose-bom`**; they should not use `rose-build` or `rose-parent` as the application parent.
 - The codebase is organized around `core` / `spring` / `spring-boot` layers. `-spring-boot` modules own auto-configuration and starters.
 - Treat package paths containing `.internal.` as non-public implementation detail.
-- Keep root guidance high-level; module-specific conventions live in the code and [docs/rose-conventions.md](docs/rose-conventions.md). A single root `AGENTS.md` is enough here.
+- Keep root guidance high-level; module-specific conventions live in the code and package docs. A single root `AGENTS.md` is enough here.
 
 ## Structure
 

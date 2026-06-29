@@ -3,6 +3,7 @@ package io.zhijun.spring.core.propertysource.support;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ class PropertySourceMapsTests {
         host.put("name", "primary");
         host.put("port", 5432);
         Map<String, Object> source = new LinkedHashMap<String, Object>();
-        source.put("servers", Arrays.asList(host));
+        source.put("servers", Collections.singletonList(host));
 
         Map<String, Object> flattened = PropertySourceMaps.flatten(source);
 

@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceBuilderCustomizer;
 
 class OpenTelemetryConventionsAutoConfigurationTests {
 
@@ -17,6 +18,7 @@ class OpenTelemetryConventionsAutoConfigurationTests {
     void registersTelemetryConventionsBackend() {
         contextRunner.run(context -> {
             assertThat(context).hasSingleBean(TelemetryConventionsBackend.class);
+            assertThat(context).hasSingleBean(OpenTelemetryResourceBuilderCustomizer.class);
             assertThat(context.getBean(TelemetryConventionsBackend.class).id()).isEqualTo("opentelemetry");
             assertThat(context.getBean(TelemetryConventionsBackend.class).defaultCandidate())
                     .isTrue();

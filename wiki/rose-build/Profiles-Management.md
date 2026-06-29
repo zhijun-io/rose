@@ -51,6 +51,8 @@ These activate automatically based on the JDK running Maven.
 | Surefire | `test`                       | `*Test`, `*Tests` (excludes `*IT`) | `mvn test`   |
 | Failsafe | `integration-test`, `verify` | `*IT`                              | `mvn verify` |
 
+Skip unit tests only: `mvn verify -DskipSurefireTests=true`
+
 Skip integration tests: `mvn verify -DskipITs`
 
 ---

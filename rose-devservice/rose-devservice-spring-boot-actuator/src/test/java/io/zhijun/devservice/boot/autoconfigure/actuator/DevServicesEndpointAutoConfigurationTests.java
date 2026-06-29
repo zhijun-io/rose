@@ -2,6 +2,7 @@ package io.zhijun.devservice.boot.autoconfigure.actuator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -118,8 +119,8 @@ class DevServicesEndpointAutoConfigurationTests {
                     return new ContainerInfo(
                             containerId,
                             imageName,
-                            java.util.Arrays.asList("/" + imageName.split(":")[0]),
-                            java.util.Arrays.asList(new ContainerInfo.ContainerPort("0.0.0.0", 5432, 5432, "tcp")),
+                        Collections.singletonList("/" + imageName.split(":")[0]),
+                        Collections.singletonList(new ContainerInfo.ContainerPort("0.0.0.0", 5432, 5432, "tcp")),
                             createSingleMap("test", "label"),
                             "running");
                 }

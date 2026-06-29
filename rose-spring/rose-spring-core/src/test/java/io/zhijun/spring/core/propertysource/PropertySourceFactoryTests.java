@@ -9,6 +9,8 @@ import org.springframework.core.io.support.EncodedResource;
 import io.zhijun.spring.core.propertysource.support.JsonPropertySourceFactory;
 import io.zhijun.spring.core.propertysource.support.YamlPropertySourceFactory;
 
+import java.nio.charset.StandardCharsets;
+
 class PropertySourceFactoryTests {
 
     @Test
@@ -17,7 +19,7 @@ class PropertySourceFactoryTests {
         String yaml = "app:\n  name: rose\n  nested:\n    enabled: true\n";
 
         org.springframework.core.env.PropertySource<?> propertySource = factory.createPropertySource(
-                "yaml", new EncodedResource(new ByteArrayResource(yaml.getBytes("UTF-8"))));
+                "yaml", new EncodedResource(new ByteArrayResource(yaml.getBytes(StandardCharsets.UTF_8))));
 
         assertThat(propertySource.getProperty("app.name")).isEqualTo("rose");
         assertThat(propertySource.getProperty("app.nested.enabled")).isEqualTo(true);
@@ -29,7 +31,7 @@ class PropertySourceFactoryTests {
         String json = "{\"app\":{\"name\":\"rose\",\"nested\":{\"enabled\":true}}}";
 
         org.springframework.core.env.PropertySource<?> propertySource = factory.createPropertySource(
-                "json", new EncodedResource(new ByteArrayResource(json.getBytes("UTF-8"))));
+                "json", new EncodedResource(new ByteArrayResource(json.getBytes(StandardCharsets.UTF_8))));
 
         assertThat(propertySource.getProperty("app.name")).isEqualTo("rose");
         assertThat(propertySource.getProperty("app.nested.enabled")).isEqualTo(true);

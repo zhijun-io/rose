@@ -67,7 +67,7 @@ final class PropertySourceLoading {
             throws Exception {
         @SuppressWarnings("unchecked")
         Class<? extends PropertySourceFactory> factoryType =
-                (Class<? extends PropertySourceFactory>) attributes.getClass("factory");
+            attributes.getClass("factory");
         PropertySourceFactory factory = BeanUtils.instantiateClass(factoryType);
         if (resources.size() == 1) {
             Resource resource = resources.get(0);
@@ -105,7 +105,7 @@ final class PropertySourceLoading {
             }
             @SuppressWarnings("unchecked")
             Class<? extends Comparator<Resource>> comparatorType =
-                    (Class<? extends Comparator<Resource>>) attributes.getClass("resourceComparator");
+                attributes.getClass("resourceComparator");
             sortResources(resources, comparatorType);
         } catch (IOException ex) {
             throw new IllegalStateException("Failed to resolve resources", ex);
@@ -187,7 +187,7 @@ final class PropertySourceLoading {
             if (propertySources.contains(propertySourceName)) {
                 propertySources.replace(
                         propertySourceName,
-                        new MapPropertySource(propertySourceName, Collections.<String, Object>emptyMap()));
+                        new MapPropertySource(propertySourceName, Collections.emptyMap()));
             }
             return;
         }

@@ -21,7 +21,7 @@ org.
 ## Guardrails
 
 1. **Read before claiming**
-    - Rose: root `README.md`, `docs/design/README.md`, `docs/rose-conventions.md`, existing
+    - Rose: root `README.md`, `docs/design/README.md`, `AGENTS.md`, existing
       `docs/design/microsphere-benchmark-notes.md` if present
     - Microsphere: use `gh api orgs/<org>/repos` and READMEs of **relevant** repos only (spring, spring-boot, mybatis,
       i18n, test, observability, bom, build)

@@ -3,6 +3,7 @@ package io.zhijun.multitenancy.boot.autoconfigure;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +33,7 @@ class PropertiesTenantDetailsServiceTests {
     @Test
     void whenTenantEnabledThenReturn() {
         TenantDetailsProperties tenantDetailsProperties = new TenantDetailsProperties();
-        tenantDetailsProperties.setTenants(Arrays.asList(buildTenantConfig("acme", true)));
+        tenantDetailsProperties.setTenants(Collections.singletonList(buildTenantConfig("acme", true)));
 
         PropertiesTenantDetailsService tenantDetailsService =
                 new PropertiesTenantDetailsService(tenantDetailsProperties);
@@ -44,7 +45,7 @@ class PropertiesTenantDetailsServiceTests {
     @Test
     void whenTenantDisabledThenReturn() {
         TenantDetailsProperties tenantDetailsProperties = new TenantDetailsProperties();
-        tenantDetailsProperties.setTenants(Arrays.asList(buildTenantConfig("acme", false)));
+        tenantDetailsProperties.setTenants(Collections.singletonList(buildTenantConfig("acme", false)));
 
         PropertiesTenantDetailsService tenantDetailsService =
                 new PropertiesTenantDetailsService(tenantDetailsProperties);

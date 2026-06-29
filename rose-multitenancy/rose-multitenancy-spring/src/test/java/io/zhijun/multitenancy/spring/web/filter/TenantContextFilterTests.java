@@ -76,7 +76,7 @@ class TenantContextFilterTests {
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         TenantContextFilter filter = TenantContextFilter.builder()
                 .httpRequestTenantResolver(new HeaderTenantResolver())
-                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.emptySet()))
                 .eventPublisher(eventPublisher)
                 .build();
 
@@ -111,7 +111,7 @@ class TenantContextFilterTests {
         };
         TenantContextFilter filter = TenantContextFilter.builder()
                 .httpRequestTenantResolver(new HeaderTenantResolver())
-                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.emptySet()))
                 .eventPublisher(eventPublisher)
                 .tenantVerifier(tenantVerifier)
                 .build();
@@ -135,7 +135,7 @@ class TenantContextFilterTests {
                 new TenantContextRequiredPathMatcher(Collections.singleton("/secured/**"), Collections.emptySet());
         TenantContextFilter filter = TenantContextFilter.builder()
                 .httpRequestTenantResolver(new HeaderTenantResolver())
-                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.emptySet()))
                 .tenantContextRequiredPathMatcher(requiredPathMatcher)
                 .eventPublisher(eventPublisher)
                 .build();
@@ -154,7 +154,7 @@ class TenantContextFilterTests {
         ApplicationEventPublisher eventPublisher = Mockito.mock(ApplicationEventPublisher.class);
         TenantContextFilter filter = TenantContextFilter.builder()
                 .httpRequestTenantResolver(new HeaderTenantResolver())
-                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.<String>emptySet()))
+                .tenantContextIgnorePathMatcher(new TenantContextIgnorePathMatcher(Collections.emptySet()))
                 .eventPublisher(eventPublisher)
                 .build();
 

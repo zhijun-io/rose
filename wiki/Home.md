@@ -36,8 +36,7 @@ utilities, OpenTelemetry, multitenancy, dev services, and related capabilities.
 
 > Sources under `wiki/<module>/`. Synced to GitHub Wiki on push to `main` (`.github/workflows/publish-wiki.yml`).
 
-Design specs: [`docs/design/`](../docs/design/). Contributing: [
-`docs/rose-conventions.md`](../docs/rose-conventions.md).
+Design specs: [`docs/design/`](../docs/design/). Contributing: [`AGENTS.md`](../AGENTS.md).
 
 ---
 

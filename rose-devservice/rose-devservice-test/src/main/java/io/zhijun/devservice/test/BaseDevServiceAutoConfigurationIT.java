@@ -21,6 +21,7 @@ import org.testcontainers.containers.GenericContainer;
 
 import io.zhijun.boot.env.DefaultConfigPropertiesEnvironmentPostProcessor;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 
 /**
  * Base integration test for dev services auto-configuration.
@@ -40,7 +41,7 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     }
 
     static {
-        DockerTestSupport.configureIfNeeded();
+        DockerEnvironmentSupport.configureIfNeeded();
     }
 
     @TempDir
@@ -207,7 +208,7 @@ public abstract class BaseDevServiceAutoConfigurationIT {
                     if (context.getEnvironment() instanceof ConfigurableEnvironment) {
                         new DefaultConfigPropertiesEnvironmentPostProcessor()
                                 .postProcessEnvironment(
-                                        (ConfigurableEnvironment) context.getEnvironment(), new SpringApplication());
+                                    context.getEnvironment(), new SpringApplication());
                     }
                 })
                 .withConfiguration(AutoConfigurations.of(autoConfigurationClass));

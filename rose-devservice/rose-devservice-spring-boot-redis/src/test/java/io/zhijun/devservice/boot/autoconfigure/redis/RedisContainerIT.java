@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.devservice.test.DockerTestSupport;
+import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 
 /**
  * Integration test for {@link RedisContainer}.
@@ -12,7 +12,7 @@ import io.zhijun.devservice.test.DockerTestSupport;
 class RedisContainerIT {
 
     static {
-        DockerTestSupport.configureIfNeeded();
+        DockerEnvironmentSupport.configureIfNeeded();
     }
 
     @Test

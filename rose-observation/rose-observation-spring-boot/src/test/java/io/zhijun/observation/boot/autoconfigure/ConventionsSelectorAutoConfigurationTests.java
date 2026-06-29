@@ -41,6 +41,22 @@ class ConventionsSelectorAutoConfigurationTests {
     }
 
     @Test
+    void whenSingleDefaultCandidateThenSelectsIt() {
+        contextRunner
+                .withBean(
+                        "backend1",
+                        TelemetryConventionsBackend.class,
+                        () -> TelemetryConventionsBackend.of("openinference"))
+                .withBean(
+                        "backend2",
+                        TelemetryConventionsBackend.class,
+                        () -> TelemetryConventionsBackend.of("opentelemetry", true))
+                .run(context -> assertThat(context.getBean(TelemetryConventionsBackend.class)
+                                .id())
+                        .isEqualTo("opentelemetry"));
+    }
+
+    @Test
     void whenBackendConfiguredThenSelectsMatchingBackend() {
         contextRunner
                 .withPropertyValues("rose.observation.conventions.backend=opentelemetry")
@@ -55,5 +71,21 @@ class ConventionsSelectorAutoConfigurationTests {
                 .run(context -> assertThat(context.getBean(TelemetryConventionsBackend.class)
                                 .id())
                         .isEqualTo("opentelemetry"));
+    }
+
+    @Test
+    void whenConfiguredBackendMissingThenFails() {
+        contextRunner
+                .withPropertyValues("rose.observation.conventions.backend=unknown")
+                .withBean(
+                        "backend1",
+                        TelemetryConventionsBackend.class,
+                        () -> TelemetryConventionsBackend.of("openinference"))
+                .withBean(
+                        "backend2",
+                        TelemetryConventionsBackend.class,
+                        () -> TelemetryConventionsBackend.of("opentelemetry"))
+                .run(context -> assertThat(context.getStartupFailure())
+                        .hasRootCauseInstanceOf(UnknownConventionsBackendException.class));
     }
 }

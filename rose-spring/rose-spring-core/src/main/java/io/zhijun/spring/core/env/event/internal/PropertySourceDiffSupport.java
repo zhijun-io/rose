@@ -21,9 +21,7 @@ public final class PropertySourceDiffSupport {
         }
         EnumerablePropertySource<?> enumerable = (EnumerablePropertySource<?>) source;
         LinkedHashSet<String> names = new LinkedHashSet<String>();
-        for (String name : enumerable.getPropertyNames()) {
-            names.add(name);
-        }
+        Collections.addAll(names, enumerable.getPropertyNames());
         return names;
     }
 

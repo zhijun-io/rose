@@ -1,7 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,10 +13,10 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import io.zhijun.devservice.boot.autoconfigure.bootstrap.dev.BootstrapDevProperties;
 import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestProperties;
+import io.zhijun.devservice.boot.autoconfigure.bootstrap.template.BootstrapProfilesTemplate;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 
 /**
@@ -25,6 +25,8 @@ import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 class BootstrapEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
     private static final Logger logger = LoggerFactory.getLogger(BootstrapEnvironmentPostProcessor.class);
+
+    private final BootstrapProfilesTemplate template = new BootstrapProfilesTemplate();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -40,9 +42,9 @@ class BootstrapEnvironmentPostProcessor implements EnvironmentPostProcessor, Ord
 
         List<String> currentProfiles = environment.getProperty(
                 StandardEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, List.class, new ArrayList<String>());
-        List<String> additionalProfiles = new ArrayList<String>();
 
         BootstrapMode mode = BootstrapMode.detect();
+        List<String> additionalProfiles;
 
         switch (mode) {
             case DEV:
@@ -50,38 +52,28 @@ class BootstrapEnvironmentPostProcessor implements EnvironmentPostProcessor, Ord
                 List<String> developmentProfiles = environment.getProperty(
                         BootstrapDevProperties.PROFILES_PROPERTY,
                         List.class,
-                        new ArrayList<String>(Arrays.asList("dev")));
-                addProfiles(currentProfiles, additionalProfiles, developmentProfiles);
+                        new ArrayList<String>(Collections.singletonList("dev")));
+                additionalProfiles = template.resolve(mode, currentProfiles, developmentProfiles, null);
                 break;
             case TEST:
                 logger.info("The application is running in test mode");
                 List<String> testProfiles = environment.getProperty(
                         BootstrapTestProperties.PROFILES_PROPERTY,
                         List.class,
-                        new ArrayList<String>(Arrays.asList("test")));
-                addProfiles(currentProfiles, additionalProfiles, testProfiles);
+                        new ArrayList<String>(Collections.singletonList("test")));
+                additionalProfiles = template.resolve(mode, currentProfiles, null, testProfiles);
                 break;
             case PROD:
                 logger.debug("The application is running in prod mode");
+                additionalProfiles = new ArrayList<String>();
                 break;
             default:
+                additionalProfiles = new ArrayList<String>();
                 break;
         }
 
         ConfigDataEnvironmentPostProcessor.applyTo(
                 environment, application.getResourceLoader(), null, additionalProfiles);
-    }
-
-    private static void addProfiles(
-            List<String> currentProfiles, List<String> additionalProfiles, List<String> profiles) {
-        if (!profiles.isEmpty()) {
-            for (String profile : profiles) {
-                if (StringUtils.hasText(profile) && !currentProfiles.contains(profile)) {
-                    logger.debug("Adding active profile '{}' for bootstrap mode", profile);
-                    additionalProfiles.add(profile);
-                }
-            }
-        }
     }
 
     @Override

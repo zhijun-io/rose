@@ -50,6 +50,6 @@ public class MultitenancyLineProperties {
     }
 
     public void setIgnoreTables(Set<String> ignoreTables) {
-        this.ignoreTables = ignoreTables != null ? ignoreTables : Collections.<String>emptySet();
+        this.ignoreTables = ignoreTables != null ? ignoreTables : Collections.emptySet();
     }
 }

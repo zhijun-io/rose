@@ -3,6 +3,7 @@ package io.zhijun.mybatisplus.core.permission;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ class RoseDataPermissionHandlerTests {
     @Test
     void shouldSkipBaseMapperSelectById() {
         DataPermissionPrincipalResolver principalResolver =
-                () -> DataPermissionPrincipal.of(new HashSet<Long>(Arrays.asList(1L)));
+                () -> DataPermissionPrincipal.of(new HashSet<Long>(Collections.singletonList(1L)));
         DataPermissionConditionResolver conditionResolver = (annotation, principal) -> {
             throw new IllegalStateException("should not resolve condition for BaseMapper selectById");
         };

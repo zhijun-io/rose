@@ -16,7 +16,7 @@ class PropertySourcesUtilsTests {
         MockEnvironment environment = new MockEnvironment();
         MutablePropertySources propertySources = environment.getPropertySources();
         propertySources.addFirst(
-                new MapPropertySource("test", java.util.Collections.<String, Object>singletonMap("app.name", "rose")));
+                new MapPropertySource("test", java.util.Collections.singletonMap("app.name", "rose")));
 
         Map<String, Object> subProperties = PropertySourcesUtils.getSubProperties(environment, "app");
 

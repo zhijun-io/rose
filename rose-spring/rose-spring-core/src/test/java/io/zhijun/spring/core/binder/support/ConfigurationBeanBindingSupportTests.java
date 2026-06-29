@@ -41,7 +41,7 @@ class ConfigurationBeanBindingSupportTests {
         assertThat(ConfigurationBeanBindingSupport.prefixAffected(null, Collections.singleton("app.name")))
                 .isFalse();
         assertThat(ConfigurationBeanBindingSupport.prefixAffected("app", null)).isFalse();
-        assertThat(ConfigurationBeanBindingSupport.prefixAffected("app", Collections.<String>emptySet()))
+        assertThat(ConfigurationBeanBindingSupport.prefixAffected("app", Collections.emptySet()))
                 .isFalse();
     }
 

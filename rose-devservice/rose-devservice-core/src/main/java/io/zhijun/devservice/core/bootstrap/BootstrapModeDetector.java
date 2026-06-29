@@ -106,9 +106,6 @@ final class BootstrapModeDetector {
         if (ClassUtils.isPresent("org.springframework.boot.devtools.RemoteSpringApplication", classLoader)) {
             return true;
         }
-        if (classLoader != null && classLoader.getClass().getName().contains("AppClassLoader")) {
-            return true;
-        }
-        return false;
+        return classLoader != null && classLoader.getClass().getName().contains("AppClassLoader");
     }
 }

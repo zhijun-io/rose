@@ -1,15 +1,7 @@
 package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp;
 
 import io.opentelemetry.exporter.otlp.http.metrics.OtlpHttpMetricExporter;
-import io.opentelemetry.exporter.otlp.http.metrics.OtlpHttpMetricExporterBuilder;
 import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter;
-import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporterBuilder;
-import io.opentelemetry.sdk.metrics.InstrumentSelector;
-import io.opentelemetry.sdk.metrics.InstrumentType;
-import io.opentelemetry.sdk.metrics.View;
-import io.opentelemetry.sdk.metrics.export.AggregationTemporalitySelector;
-import io.opentelemetry.sdk.metrics.internal.view.Base2ExponentialHistogramAggregation;
-import io.opentelemetry.sdk.metrics.internal.view.ExplicitBucketHistogramAggregation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +15,12 @@ import org.springframework.context.annotation.Configuration;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterTypeNames;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectionUrls;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfigurer;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterTransportConfigurer;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.ConditionalOnOpenTelemetryMetricsExporter;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.HistogramAggregationStrategy;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.template.OtlpMetricsExporterTemplate;
 
 /**
  * Auto-configuration for exporting metrics via OTLP.
@@ -41,6 +31,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTeleme
 public final class OtlpMetricsExporterConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(OtlpMetricsExporterConfiguration.class);
+    private final OtlpMetricsExporterTemplate template = new OtlpMetricsExporterTemplate();
 
     @Bean
     @ConditionalOnMissingBean(OtlpMetricsConnectionDetails.class)
@@ -61,20 +52,11 @@ public final class OtlpMetricsExporterConfiguration {
             OpenTelemetryExporterProperties commonProperties,
             OpenTelemetryMetricsExporterProperties properties,
             OtlpMetricsConnectionDetails connectionDetails) {
-        OtlpHttpMetricExporterBuilder builder = OtlpHttpMetricExporter.builder()
-                .setEndpoint(connectionDetails.getUrl(Protocol.HTTP_PROTOBUF))
-                .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
-                .setConnectTimeout(OtlpExporterConfigurer.connectTimeout(commonProperties, properties.getOtlp()))
-                .setCompression(OtlpExporterConfigurer.compression(commonProperties, properties.getOtlp()))
-                .setAggregationTemporalitySelector(getAggregationTemporalitySelector(properties))
-                .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
-        builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
-        OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.configureHttpMetricTransport(builder, commonProperties, properties.getOtlp());
+        OtlpHttpMetricExporter exporter = template.buildHttpMetricExporter(commonProperties, properties, connectionDetails);
         logger.info(
                 "Configuring OpenTelemetry HTTP/Protobuf metric exporter with endpoint: {}",
                 connectionDetails.getUrl(Protocol.HTTP_PROTOBUF));
-        return builder.build();
+        return exporter;
     }
 
     @Bean
@@ -88,51 +70,16 @@ public final class OtlpMetricsExporterConfiguration {
             OpenTelemetryExporterProperties commonProperties,
             OpenTelemetryMetricsExporterProperties properties,
             OtlpMetricsConnectionDetails connectionDetails) {
-        OtlpGrpcMetricExporterBuilder builder = OtlpGrpcMetricExporter.builder()
-                .setEndpoint(connectionDetails.getUrl(Protocol.GRPC))
-                .setTimeout(OtlpExporterConfigurer.timeout(commonProperties, properties.getOtlp()))
-                .setConnectTimeout(OtlpExporterConfigurer.connectTimeout(commonProperties, properties.getOtlp()))
-                .setCompression(OtlpExporterConfigurer.compression(commonProperties, properties.getOtlp()))
-                .setAggregationTemporalitySelector(getAggregationTemporalitySelector(properties))
-                .setMemoryMode(OtlpExporterConfigurer.memoryMode(commonProperties));
-        builder.setRetryPolicy(OtlpExporterConfigurer.retryPolicy(commonProperties, properties.getOtlp()));
-        OtlpExporterConfigurer.applyHeaders(builder::addHeader, commonProperties, properties.getOtlp());
-        OtlpExporterTransportConfigurer.configureGrpcMetricTransport(builder, commonProperties, properties.getOtlp());
+        OtlpGrpcMetricExporter exporter = template.buildGrpcMetricExporter(commonProperties, properties, connectionDetails);
         logger.info(
                 "Configuring OpenTelemetry gRPC metric exporter with endpoint: {}",
                 connectionDetails.getUrl(Protocol.GRPC));
-        return builder.build();
-    }
-
-    AggregationTemporalitySelector getAggregationTemporalitySelector(
-            OpenTelemetryMetricsExporterProperties properties) {
-        switch (properties.getAggregationTemporality()) {
-            case CUMULATIVE:
-                return AggregationTemporalitySelector.alwaysCumulative();
-            case DELTA:
-                return AggregationTemporalitySelector.deltaPreferred();
-            case LOW_MEMORY:
-            default:
-                return AggregationTemporalitySelector.lowMemory();
-        }
+        return exporter;
     }
 
     @Bean
-    OpenTelemetryMeterProviderBuilderCustomizer histogramAggregation(
-            OpenTelemetryMetricsExporterProperties properties) {
-        return builder -> builder.registerView(
-                InstrumentSelector.builder().setType(InstrumentType.HISTOGRAM).build(),
-                View.builder()
-                        .setAggregation(resolveHistogramAggregation(properties))
-                        .build());
-    }
-
-    private static io.opentelemetry.sdk.metrics.Aggregation resolveHistogramAggregation(
-            OpenTelemetryMetricsExporterProperties properties) {
-        if (properties.getHistogramAggregation() == HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM) {
-            return Base2ExponentialHistogramAggregation.getDefault();
-        }
-        return ExplicitBucketHistogramAggregation.getDefault();
+    OpenTelemetryMeterProviderBuilderCustomizer histogramAggregation(OpenTelemetryMetricsExporterProperties properties) {
+        return template.histogramAggregation(properties);
     }
 
     /**

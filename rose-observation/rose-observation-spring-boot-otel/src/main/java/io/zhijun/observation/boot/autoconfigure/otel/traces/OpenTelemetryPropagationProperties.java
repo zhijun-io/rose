@@ -2,6 +2,7 @@ package io.zhijun.observation.boot.autoconfigure.otel.traces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,9 +15,9 @@ public class OpenTelemetryPropagationProperties {
 
     public static final String CONFIG_PREFIX = "rose.otel.traces.propagation";
 
-    private List<PropagationType> produce = new ArrayList<PropagationType>(Arrays.asList(PropagationType.W3C));
+    private List<PropagationType> produce = new ArrayList<PropagationType>(Collections.singletonList(PropagationType.W3C));
 
-    private List<PropagationType> consume = new ArrayList<PropagationType>(Arrays.asList(PropagationType.W3C));
+    private List<PropagationType> consume = new ArrayList<PropagationType>(Collections.singletonList(PropagationType.W3C));
 
     public List<PropagationType> getProduce() {
         return produce;

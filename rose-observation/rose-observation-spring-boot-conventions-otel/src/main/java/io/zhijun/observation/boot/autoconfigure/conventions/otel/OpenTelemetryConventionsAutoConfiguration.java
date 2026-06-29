@@ -14,6 +14,8 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResou
 @AutoConfiguration
 public final class OpenTelemetryConventionsAutoConfiguration {
 
+    private static final String SCHEMA_URL = "https://opentelemetry.io/schemas/1.27.0";
+
     @Bean
     TelemetryConventionsBackend openTelemetryConventionsBackend() {
         return TelemetryConventionsBackend.of("opentelemetry", true);
@@ -25,7 +27,7 @@ public final class OpenTelemetryConventionsAutoConfiguration {
 
         @Bean
         OpenTelemetryResourceBuilderCustomizer conventionsCustomizer() {
-            return builder -> builder.setSchemaUrl("https://opentelemetry.io/schemas/1.27.0");
+            return builder -> builder.setSchemaUrl(SCHEMA_URL);
         }
     }
 }

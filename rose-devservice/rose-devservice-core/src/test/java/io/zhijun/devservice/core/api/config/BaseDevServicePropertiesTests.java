@@ -2,10 +2,7 @@ package io.zhijun.devservice.core.api.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,9 +27,9 @@ class BaseDevServicePropertiesTests {
 
         Map<String, String> environment = new HashMap<String, String>();
         environment.put("KEY", "value");
-        List<String> aliases = Arrays.asList("db");
-        List<ResourceMapping> resources = Arrays.asList(new ResourceMapping("a", "b"));
-        List<VolumeMapping> volumes = Arrays.asList(new VolumeMapping("/host", "/container"));
+        List<String> aliases = Collections.singletonList("db");
+        List<ResourceMapping> resources = Collections.singletonList(new ResourceMapping("a", "b"));
+        List<VolumeMapping> volumes = Collections.singletonList(new VolumeMapping("/host", "/container"));
 
         properties.setEnabled(false);
         properties.setEnvironment(environment);

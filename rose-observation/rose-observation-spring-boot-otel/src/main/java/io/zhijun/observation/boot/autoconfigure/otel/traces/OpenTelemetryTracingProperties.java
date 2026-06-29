@@ -157,7 +157,7 @@ public class OpenTelemetryTracingProperties {
         TRACE_ID_RATIO,
         PARENT_BASED_ALWAYS_ON,
         PARENT_BASED_ALWAYS_OFF,
-        PARENT_BASED_TRACE_ID_RATIO;
+        PARENT_BASED_TRACE_ID_RATIO
     }
 
     /**

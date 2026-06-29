@@ -72,7 +72,7 @@ class PostgresqlDevServiceAutoConfigurationIT extends BaseJdbcDevServiceAutoConf
             container.start();
             assertThatConfigurationIsApplied((org.testcontainers.containers.GenericContainer<?>) container);
             assertThatJdbcConfigurationIsApplied(container);
-            assertThat(((PostgreSQLContainer) container)
+            assertThat(container
                             .execInContainer(
                                     "psql",
                                     "-U",

@@ -9,7 +9,7 @@ class RoseTenantLineHandlerTests {
     @Test
     void shouldResolveTenantIdFromSupplier() {
         RoseTenantLineHandler handler =
-                new RoseTenantLineHandler(() -> "acme", "tenant_id", java.util.Collections.<String>emptySet());
+                new RoseTenantLineHandler(() -> "acme", "tenant_id", java.util.Collections.emptySet());
 
         assertThat(handler.getTenantId().toString()).isEqualTo("'acme'");
         assertThat(handler.getTenantIdColumn()).isEqualTo("tenant_id");

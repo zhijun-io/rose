@@ -192,7 +192,7 @@
 
 - **迭代规划提示词：** [../prompts/analyze-next-iteration.prompt.md](../prompts/analyze-next-iteration.prompt.md)
 - **对标细节：** [microsphere-benchmark-notes.md](./microsphere-benchmark-notes.md)
-- **实现约束：** [../rose-conventions.md](../rose-conventions.md)
+- **实现约束：** [../AGENTS.md](../AGENTS.md)
 
 更新本路线图时：同步修改 §2 状态矩阵与 Phase 表格中的 ✅/🟡/❌，并在 CHANGELOG 记录消费者可见变更。
 

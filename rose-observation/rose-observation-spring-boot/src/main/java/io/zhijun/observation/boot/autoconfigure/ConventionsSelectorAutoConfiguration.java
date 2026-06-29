@@ -29,13 +29,13 @@ public class ConventionsSelectorAutoConfiguration {
     TelemetryConventionsBackend primaryTelemetryConventionsBackend(
             ObservationProperties properties, ObjectProvider<TelemetryConventionsBackend> backends) {
         List<TelemetryConventionsBackend> candidates = backends.orderedStream().collect(Collectors.toList());
-
         String configured = properties.getConventions().getBackend();
         if (configured != null && !configured.trim().isEmpty()) {
+            String backendId = configured.trim();
             return candidates.stream()
-                    .filter(backend -> backend.id().equals(configured.trim()))
+                    .filter(backend -> backend.id().equals(backendId))
                     .findFirst()
-                    .orElseThrow(() -> new UnknownConventionsBackendException(configured.trim(), candidates));
+                    .orElseThrow(() -> new UnknownConventionsBackendException(backendId, candidates));
         }
 
         List<TelemetryConventionsBackend> defaults = candidates.stream()

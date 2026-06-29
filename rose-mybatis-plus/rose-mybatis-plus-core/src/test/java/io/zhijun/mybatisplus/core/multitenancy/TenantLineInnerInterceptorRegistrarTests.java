@@ -14,7 +14,7 @@ class TenantLineInnerInterceptorRegistrarTests {
     @Test
     void shouldRegisterTenantLineInnerInterceptor() {
         RoseTenantLineHandler handler =
-                new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.<String>emptySet());
+                new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.emptySet());
         TenantLineInnerInterceptorRegistrar registrar = new TenantLineInnerInterceptorRegistrar(handler);
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
 
@@ -27,7 +27,7 @@ class TenantLineInnerInterceptorRegistrarTests {
     @Test
     void shouldNotRegisterDuplicateTenantLineInnerInterceptor() {
         RoseTenantLineHandler handler =
-                new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.<String>emptySet());
+                new RoseTenantLineHandler(() -> "acme", "tenant_id", Collections.emptySet());
         TenantLineInnerInterceptorRegistrar registrar = new TenantLineInnerInterceptorRegistrar(handler);
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new TenantLineInnerInterceptor(handler));

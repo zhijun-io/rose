@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 
 import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.Appender;
 
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryAutoConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.ConditionalOnOpenTelemetryLoggingExporter;
@@ -36,12 +35,16 @@ public final class LogbackOpenTelemetryBridgeAutoConfiguration {
     @Bean
     @ConditionalOnBean(OpenTelemetry.class)
     ApplicationListener<ApplicationReadyEvent> logbackAppenderOnReady(OpenTelemetry openTelemetry) {
-        return event -> OpenTelemetryAppender.install(openTelemetry);
+        return event -> installAppender(openTelemetry);
     }
 
     @Bean
     @ConditionalOnBean(OpenTelemetry.class)
     ApplicationListener<ApplicationFailedEvent> logbackAppenderOnFailed(OpenTelemetry openTelemetry) {
-        return event -> OpenTelemetryAppender.install(openTelemetry);
+        return event -> installAppender(openTelemetry);
+    }
+
+    private static void installAppender(OpenTelemetry openTelemetry) {
+        OpenTelemetryAppender.install(openTelemetry);
     }
 }

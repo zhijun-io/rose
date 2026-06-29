@@ -20,7 +20,7 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
         try (Reader reader = resource.getReader()) {
             Object loaded = new Yaml().load(reader);
             if (!(loaded instanceof Map)) {
-                return new MapPropertySource(name, java.util.Collections.<String, Object>emptyMap());
+                return new MapPropertySource(name, java.util.Collections.emptyMap());
             }
             Map<String, Object> flattened = PropertySourceMaps.flatten((Map<?, ?>) loaded);
             return new MapPropertySource(name, flattened);

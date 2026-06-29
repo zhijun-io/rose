@@ -2,6 +2,7 @@ package io.zhijun.devservice.boot.autoconfigure.bootstrap.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,7 +17,7 @@ public class BootstrapTestProperties {
 
     public static final String PROFILES_PROPERTY = CONFIG_PREFIX + ".profiles";
 
-    private List<String> profiles = new ArrayList<String>(Arrays.asList("test"));
+    private List<String> profiles = new ArrayList<String>(Collections.singletonList("test"));
 
     public List<String> getProfiles() {
         return profiles;

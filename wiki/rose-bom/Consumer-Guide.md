@@ -63,7 +63,7 @@ OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via e
 ## BOM artifacts
 
 与 `rose-bom/pom.xml` 同步；新发布坐标**仅须加入 BOM**
-。命名规则见 [docs/rose-conventions.md](../../docs/rose-conventions.md)。
+。命名规则见 [AGENTS.md](../../AGENTS.md)。
 
 ### Base
 
@@ -127,7 +127,7 @@ OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via e
 
 | Topic                    | Location                                                       |
 |--------------------------|----------------------------------------------------------------|
-| Contributing conventions | [docs/rose-conventions.md](../../docs/rose-conventions.md)     |
+| Contributing conventions | [AGENTS.md](../../AGENTS.md)                                   |
 | Design specs             | [docs/design/](../../docs/design/)                             |
 | Build & profiles         | [Profiles-Management](../rose-build/Profiles-Management)       |
 | CI / release             | [CI-CD-Integration](../rose-build/CI-CD-Integration)           |

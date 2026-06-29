@@ -400,7 +400,7 @@ public class Application { }
 `META-INF/spring.factories` 注册在 **`rose-i18n-spring-boot`** 模块：
 
 ```properties
-io.zhijun.i18n.spring.boot.autoconfigure.I18nAutoConfiguration
+io.zhijun.i18n.spring.boot.autoconfigure.I18nAutoConfiguration=
 ```
 
 规则：classpath 存在 `i18n/*/messages.properties` 且未声明 `@EnableI18n` 时，自动注册 bundle。**不在 `rose-i18n-spring`

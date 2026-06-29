@@ -24,7 +24,7 @@ class TenantDetailsPropertiesTests {
         TenantDetailsProperties.TenantConfig tenant = new TenantDetailsProperties.TenantConfig();
         tenant.setIdentifier("acme");
         tenant.setEnabled(false);
-        tenant.setAttributes(Collections.<String, Object>singletonMap("region", "eu"));
+        tenant.setAttributes(Collections.singletonMap("region", "eu"));
 
         properties.setSource(TenantDetailsProperties.Source.PROPERTIES);
         properties.setTenants(Collections.singletonList(tenant));

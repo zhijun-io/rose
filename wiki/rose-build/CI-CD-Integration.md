@@ -8,7 +8,7 @@ Rose uses GitHub Actions workflows in `.github/workflows/`.
 
 | Workflow                                             | Trigger                    | Purpose                                      |
 |------------------------------------------------------|----------------------------|----------------------------------------------|
-| [`ci.yml`](../../.github/workflows/ci.yml)           | Push/PR to `main`          | Enforcer, build, unit + ITs, JaCoCo, Codecov |
+| [`ci.yml`](../../.github/workflows/ci.yml)           | Push/PR to `main`          | Validate, layered unit + ITs, coverage, Codecov |
 | [`publish.yml`](../../.github/workflows/publish.yml) | Tag `v*` / manual          | Deploy to Maven Central                      |
 | [`wiki.yml`](../../.github/workflows/wiki.yml)       | Push to `main` (`wiki/**`) | Sync `wiki/` → GitHub Wiki                   |
 
@@ -16,19 +16,24 @@ Rose uses GitHub Actions workflows in `.github/workflows/`.
 
 ## CI (`ci.yml`)
 
-Two jobs:
+The workflow is layered so pull requests get faster feedback while `main` keeps the full compatibility sweep.
 
-| Job           | JDK                            | Command                                                          | Purpose                                         |
-|---------------|--------------------------------|------------------------------------------------------------------|-------------------------------------------------|
-| `unit`        | **8, 11, 17, 21, 25** (matrix) | `./mvnw -B -ntp validate` then `./mvnw -B -ntp verify -DskipITs` | Enforcer + Surefire unit tests                  |
-| `integration` | **17**                         | `./mvnw -B -ntp -Pcoverage verify`                               | Failsafe `*IT`, Testcontainers, JaCoCo, Codecov |
+| Trigger        | Job                | JDK                    | Command                            | Purpose                                           |
+|----------------|--------------------|------------------------|------------------------------------|---------------------------------------------------|
+| PR / `main`    | `validate`         | **17**                 | `./mvnw -B -ntp validate`          | Enforcer and baseline build validation            |
+| `pull_request` | `unit-pr`          | **8, 17, 21** (matrix) | `./mvnw -B -ntp verify -DskipITs`  | Fast unit coverage across baseline/current LTS    |
+| `pull_request` | `integration-pr`   | **17**                 | `./mvnw -B -ntp -DskipSurefireTests=true verify` | `*IT`, Testcontainers, auto-configuration checks without rerunning Surefire |
+| `push` `main`  | `unit-main`        | **8, 11, 17, 21, 25**  | `./mvnw -B -ntp verify -DskipITs`  | Full compatibility unit matrix                    |
+| `push` `main`  | `integration-main` | **17**                 | `./mvnw -B -ntp -Pcoverage verify` | Full integration suite, JaCoCo, and Codecov       |
 
-After integration tests:
+After `integration-main`:
 
 - Artifact `jacoco-report-java-17` (`**/target/site/jacoco/jacoco.xml`, `**/target/site/jacoco-it/jacoco.xml`, 14 days)
 - Upload to Codecov (`codecov/codecov-action`, `fail_ci_if_error: false`)
 
 **Runtime:** Temurin JDK (see matrix above), Maven Wrapper (`mvnw`), Maven dependency cache via `actions/setup-java`.
+
+**Path filtering:** pure documentation changes in `docs/**`, `wiki/**`, `README.md`, and `CHANGELOG.md` skip `ci.yml`.
 
 See also: [Compatibility Matrix](Compatibility-Matrix) for supported Java / Boot / Testcontainers versions.
 
@@ -88,16 +93,16 @@ Use these **exact** secret names (org- or repo-level) so workflows stay consiste
 ## Local CI Parity
 
 ```bash
-# Match CI enforcer
+# Match CI validate
 ./mvnw -B -ntp validate
 
-# Match CI full verify (needs Docker)
+# Match PR integration (needs Docker)
+./mvnw -B -ntp -DskipSurefireTests=true verify
+
+# Match main branch coverage integration (needs Docker)
 ./mvnw -B -ntp -Pcoverage verify
 
-# Faster local loop
+# Match CI unit jobs
 ./mvnw test
 ./mvnw verify -DskipITs
-
-# Optional local JaCoCo only
-./mvnw verify -Pcoverage
 ```

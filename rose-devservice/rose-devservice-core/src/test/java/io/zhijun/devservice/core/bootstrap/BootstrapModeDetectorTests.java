@@ -166,7 +166,7 @@ class BootstrapModeDetectorTests {
     @Test
     void nullStackTraceUsesCurrentThreadStackTrace() {
         // The test is running in a JUnit context, so we expect TEST mode.
-        assertThat(BootstrapModeDetector.detect((StackTraceElement[]) null)).isEqualTo(BootstrapMode.TEST);
+        assertThat(BootstrapModeDetector.detect(null)).isEqualTo(BootstrapMode.TEST);
     }
 
     // PROD (StackTrace)

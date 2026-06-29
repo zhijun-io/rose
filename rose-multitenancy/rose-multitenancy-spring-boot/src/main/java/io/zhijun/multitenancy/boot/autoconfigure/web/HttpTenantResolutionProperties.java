@@ -184,6 +184,6 @@ public class HttpTenantResolutionProperties {
 
     public enum HttpResolutionMode {
         COOKIE,
-        HEADER;
+        HEADER
     }
 }

@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 import io.zhijun.devservice.test.BaseDevServicesContainerTests;
-import io.zhijun.devservice.test.DockerTestSupport;
 
 /**
  * Integration test for {@link OpenLitContainer}.
@@ -13,7 +13,7 @@ import io.zhijun.devservice.test.DockerTestSupport;
 class OpenLitContainerIT extends BaseDevServicesContainerTests<OpenLitContainer> {
 
     static {
-        DockerTestSupport.configureIfNeeded();
+        DockerEnvironmentSupport.configureIfNeeded();
     }
 
     @Test

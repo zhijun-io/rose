@@ -3,6 +3,7 @@ package io.zhijun.devservice.core.api.config;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ class JdbcDevServicePropertiesTests {
         properties.setUsername("other");
         properties.setPassword("secret");
         properties.setDbName("other-db");
-        properties.setInitScriptPaths(Arrays.asList("other.sql"));
+        properties.setInitScriptPaths(Collections.singletonList("other.sql"));
 
         assertThat(properties.getUsername()).isEqualTo("other");
         assertThat(properties.getPassword()).isEqualTo("secret");

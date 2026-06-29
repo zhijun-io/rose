@@ -3,7 +3,6 @@ package io.zhijun.observation.boot.autoconfigure.otel;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.context.propagation.ContextPropagators;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
-import io.opentelemetry.sdk.OpenTelemetrySdkBuilder;
 import io.opentelemetry.sdk.common.Clock;
 import io.opentelemetry.sdk.logs.SdkLoggerProvider;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
@@ -16,12 +15,15 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+import io.zhijun.observation.boot.autoconfigure.otel.template.OpenTelemetryTemplate;
+
 /**
  * Auto-configuration for {@link OpenTelemetry}.
  */
 @AutoConfiguration
 @EnableConfigurationProperties(OpenTelemetryProperties.class)
 public final class OpenTelemetryAutoConfiguration {
+    private final OpenTelemetryTemplate template = new OpenTelemetryTemplate();
 
     @Bean
     @ConditionalOnMissingBean(OpenTelemetry.class)
@@ -31,26 +33,21 @@ public final class OpenTelemetryAutoConfiguration {
             ObjectProvider<SdkMeterProvider> meterProvider,
             ObjectProvider<SdkTracerProvider> tracerProvider,
             ObjectProvider<ContextPropagators> propagators) {
-        OpenTelemetrySdkBuilder openTelemetryBuilder = OpenTelemetrySdk.builder();
-        loggerProvider.ifAvailable(openTelemetryBuilder::setLoggerProvider);
-        meterProvider.ifAvailable(openTelemetryBuilder::setMeterProvider);
-        tracerProvider.ifAvailable(openTelemetryBuilder::setTracerProvider);
-        propagators.ifAvailable(openTelemetryBuilder::setPropagators);
-        return openTelemetryBuilder.build();
+        return template.buildOpenTelemetrySdk(loggerProvider, meterProvider, tracerProvider, propagators);
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnOpenTelemetry(enabled = false)
     OpenTelemetry noopOpenTelemetry() {
-        return OpenTelemetry.noop();
+        return template.noopOpenTelemetry();
     }
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnOpenTelemetry
     Clock clock() {
-        return Clock.getDefault();
+        return template.clock();
     }
 
     /**
@@ -61,6 +58,6 @@ public final class OpenTelemetryAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnOpenTelemetry(enabled = false)
     Resource resource() {
-        return Resource.empty();
+        return template.resource();
     }
 }

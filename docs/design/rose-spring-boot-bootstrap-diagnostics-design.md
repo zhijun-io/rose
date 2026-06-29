@@ -63,8 +63,7 @@ Rose 应用在 **Boot 2.7 / Java 8** 上运行。`rose-spring-boot` 负责：
 - 替换 Spring Boot `FailureAnalyzers` 基础设施
 - Spring Boot 3 式 **全局 parallel application context refresh**
 - 统一 Actuator `/health` 聚合（属各主题）
-- 在 `rose-spring-boot` 放置普通业务 AutoConfiguration（见 [docs/rose-conventions.md](../docs/rose-conventions.md) **边界
-  **）
+- 在 `rose-spring-boot` 放置普通业务 AutoConfiguration（见 [AGENTS.md](../AGENTS.md)；边界仍按模块职责划分）
 
 ---
 
@@ -287,6 +286,6 @@ DevServicesBootstrapCoordinator
 
 ## 11. 开工清单
 
-1. **文档期（本 PR）：** 规格落盘；可选补充 `docs/rose-conventions.md` 链接
+1. **文档期（本 PR）：** 规格落盘；可选补充 `AGENTS.md` 链接
 2. **Phase 1：** 整理 §6.4 高优先级 Analyzer（如 Docker 不可用）
 3. **Phase 2（可选）：** Dev Services 并行启动 §8.1

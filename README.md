@@ -86,7 +86,8 @@ Full reactor module list: root `pom.xml`.
 | Consumer BOM | [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md) |
 | Build profiles & CI | [wiki/rose-build/Profiles-Management.md](wiki/rose-build/Profiles-Management.md) · [wiki/rose-build/CI-CD-Integration.md](wiki/rose-build/CI-CD-Integration.md) · [Compatibility Matrix](wiki/rose-build/Compatibility-Matrix.md) |
 | Design specs | [docs/design/README.md](docs/design/README.md) |
-| Conventions (中文) | [docs/rose-conventions.md](docs/rose-conventions.md) |
+| Repository guide | [AGENTS.md](AGENTS.md) |
+| CI improvements | [docs/ci-improvements.md](docs/ci-improvements.md) |
 | Changelog | [CHANGELOG.md](CHANGELOG.md) |
 | Issues | [GitHub Issues](https://github.com/zhijun-io/rose/issues) |
 
@@ -94,7 +95,7 @@ Sources under `wiki/` sync to the [GitHub Wiki](https://github.com/zhijun-io/ros
 
 ## Contributing
 
-Maintained by [zhijun-io](https://github.com/zhijun-io). Implementation conventions, module layout, and PR expectations: [docs/rose-conventions.md](docs/rose-conventions.md).
+Maintained by [zhijun-io](https://github.com/zhijun-io). Implementation conventions, module layout, and PR expectations: [AGENTS.md](AGENTS.md).
 
 ## License
 

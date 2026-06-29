@@ -155,10 +155,13 @@ Patch upgrades may arrive via Renovate on a schedule; see [`renovate.json`](../.
 
 What GitHub Actions proves on each push/PR to `main`:
 
-| Job                   | JDK               | Command                                                          | Scope                                           |
-|-----------------------|-------------------|------------------------------------------------------------------|-------------------------------------------------|
-| **Unit tests**        | 8, 11, 17, 21, 25 | `./mvnw -B -ntp validate` then `./mvnw -B -ntp verify -DskipITs` | Enforcer + Surefire `*Test` / `*Tests`          |
-| **Integration tests** | 17                | `./mvnw -B -ntp -Pcoverage verify`                               | Failsafe `*IT`, Testcontainers, JaCoCo, Codecov |
+| Job                         | JDK                     | Command                                           | Scope                                                         |
+|-----------------------------|-------------------------|---------------------------------------------------|---------------------------------------------------------------|
+| **Validate**                | 17                      | `./mvnw -B -ntp validate`                         | Enforcer + baseline build validation                          |
+| **PR unit tests**           | 8, 17, 21              | `./mvnw -B -ntp verify -DskipITs`                 | Fast Surefire coverage across baseline/current LTS            |
+| **PR integration tests**    | 17                      | `./mvnw -B -ntp -DskipSurefireTests=true verify`  | Failsafe `*IT`, Testcontainers, auto-configuration checks     |
+| **Main unit tests**         | 8, 11, 17, 21, 25      | `./mvnw -B -ntp verify -DskipITs`                 | Full compatibility Surefire matrix                            |
+| **Main integration tests**  | 17                      | `./mvnw -B -ntp -Pcoverage verify`                | Failsafe `*IT`, Testcontainers, JaCoCo, Codecov               |
 
 Details: [CI/CD Integration](CI-CD-Integration).
 
@@ -195,4 +198,4 @@ There is no separate LTS branch yet. Released versions follow tags (`v*`) and [C
 | Build profiles        | [Profiles Management](Profiles-Management)                                         |
 | CI workflows          | [CI/CD Integration](CI-CD-Integration)                                             |
 | Iteration roadmap     | [rose-next-iteration-roadmap.md](../../docs/design/rose-next-iteration-roadmap.md) |
-| Contributing          | [docs/rose-conventions.md](../../docs/rose-conventions.md)                         |
+| Contributing          | [AGENTS.md](../../AGENTS.md)                                                       |

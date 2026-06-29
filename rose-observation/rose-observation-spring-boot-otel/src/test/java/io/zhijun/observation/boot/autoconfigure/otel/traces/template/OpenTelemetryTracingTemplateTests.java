@@ -76,7 +76,7 @@ class OpenTelemetryTracingTemplateTests {
         private final Set<String> fields;
 
         private FixedFieldsPropagator(String field) {
-            this.fields = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(field)));
+            this.fields = Collections.unmodifiableSet(new HashSet<String>(Collections.singletonList(field)));
         }
 
         @Override

@@ -34,7 +34,7 @@ class ConfigurationBeanBinderTests {
         binder.setConversionService(conversionService);
         SampleConfiguration target = new SampleConfiguration();
 
-        binder.bind(Collections.<String, Object>singletonMap("count", "42"), true, true, target);
+        binder.bind(Collections.singletonMap("count", "42"), true, true, target);
 
         assertThat(target.count).isEqualTo(42);
     }
@@ -44,7 +44,7 @@ class ConfigurationBeanBinderTests {
         ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
 
-        binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), true, true, target);
+        binder.bind(Collections.singletonMap("unknown", "value"), true, true, target);
 
         assertThat(target.name).isNull();
     }
@@ -55,7 +55,7 @@ class ConfigurationBeanBinderTests {
         SampleConfiguration target = new SampleConfiguration();
 
         assertThatThrownBy(() ->
-                        binder.bind(Collections.<String, Object>singletonMap("unknown", "value"), false, true, target))
+                        binder.bind(Collections.singletonMap("unknown", "value"), false, true, target))
                 .isInstanceOf(org.springframework.beans.NotWritablePropertyException.class);
     }
 
@@ -64,7 +64,7 @@ class ConfigurationBeanBinderTests {
         ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
         SampleConfiguration target = new SampleConfiguration();
 
-        binder.bind(Collections.<String, Object>singletonMap("count", "not-a-number"), true, true, target);
+        binder.bind(Collections.singletonMap("count", "not-a-number"), true, true, target);
 
         assertThat(target.count).isZero();
     }

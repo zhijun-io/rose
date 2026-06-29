@@ -34,7 +34,7 @@ class CompositeTextMapPropagatorTests {
     @Test
     void injectAllFields() {
         CompositeTextMapPropagator propagator = new CompositeTextMapPropagator(
-                Arrays.asList(fieldPropagator("a"), fieldPropagator("b")), Collections.<TextMapPropagator>emptyList());
+                Arrays.asList(fieldPropagator("a"), fieldPropagator("b")), Collections.emptyList());
         TextMapSetter<Object> setter = Mockito.mock(TextMapSetter.class);
         Object carrier = new Object();
         propagator.inject(Context.current(), carrier, setter);
@@ -46,7 +46,7 @@ class CompositeTextMapPropagatorTests {
     @Test
     void extractUsesFirstMatchingExtractor() {
         CompositeTextMapPropagator propagator = new CompositeTextMapPropagator(
-                Collections.<TextMapPropagator>emptyList(), Arrays.asList(fieldPropagator("a"), fieldPropagator("b")));
+                Collections.emptyList(), Arrays.asList(fieldPropagator("a"), fieldPropagator("b")));
         Map<String, String> carrier = mapOf("a", "a-value", "b", "b-value");
         Context result = propagator.extract(Context.current(), carrier, new MapTextMapGetter());
         assertThat(result).isNotSameAs(Context.current());

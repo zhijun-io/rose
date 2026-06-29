@@ -142,7 +142,7 @@ class ContainerConfigurerTests {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
                 .withResources(
-                        Arrays.asList(new ResourceMapping("classpath:test-resource.txt", "/etc/config/test.txt")));
+                    Collections.singletonList(new ResourceMapping("classpath:test-resource.txt", "/etc/config/test.txt")));
 
         ContainerConfigurer.resources(container, properties);
 
@@ -155,7 +155,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldCopyClasspathResourceWithoutPrefix() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(new ResourceMapping("test-resource.txt", "/etc/config/test.txt")));
+                .withResources(Collections.singletonList(new ResourceMapping("test-resource.txt", "/etc/config/test.txt")));
 
         ContainerConfigurer.resources(container, properties);
 
@@ -182,7 +182,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenSourcePathIsNull() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(new ResourceMapping(null, "/etc/config/test.txt")));
+                .withResources(Collections.singletonList(new ResourceMapping(null, "/etc/config/test.txt")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(NullPointerException.class)
@@ -193,7 +193,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenSourcePathIsEmpty() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(new ResourceMapping("", "/etc/config/test.txt")));
+                .withResources(Collections.singletonList(new ResourceMapping("", "/etc/config/test.txt")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -204,7 +204,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenContainerPathIsNull() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(new ResourceMapping("test-resource.txt", null)));
+                .withResources(Collections.singletonList(new ResourceMapping("test-resource.txt", null)));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(NullPointerException.class)
@@ -215,7 +215,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenContainerPathIsEmpty() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(new ResourceMapping("test-resource.txt", "")));
+                .withResources(Collections.singletonList(new ResourceMapping("test-resource.txt", "")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -226,7 +226,7 @@ class ContainerConfigurerTests {
     void resourcesConfigurationShouldThrowExceptionWhenResourceNotFound() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withResources(Arrays.asList(new ResourceMapping("non-existent-resource.txt", "/etc/config/test.txt")));
+                .withResources(Collections.singletonList(new ResourceMapping("non-existent-resource.txt", "/etc/config/test.txt")));
 
         assertThatThrownBy(() -> ContainerConfigurer.resources(container, properties))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -247,7 +247,7 @@ class ContainerConfigurerTests {
     void volumesConfigurationShouldBindSingleVolume() {
         GenericContainer<?> container = new GenericContainer<>("alpine:latest");
         BaseDevServiceProperties properties = new TestBaseDevServiceProperties()
-                .withVolumes(Arrays.asList(new VolumeMapping("/host/path", "/container/path")));
+                .withVolumes(Collections.singletonList(new VolumeMapping("/host/path", "/container/path")));
 
         ContainerConfigurer.volumes(container, properties);
 

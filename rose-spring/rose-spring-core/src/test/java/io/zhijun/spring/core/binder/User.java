@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.binder;
 
+import java.util.Objects;
+
 public class User {
 
     private String name;
@@ -41,7 +43,7 @@ public class User {
         if (age != user.age) {
             return false;
         }
-        return name != null ? name.equals(user.name) : user.name == null;
+        return Objects.equals(name, user.name);
     }
 
     @Override

@@ -19,21 +19,25 @@ public final class OpenTelemetryPropagationConfiguration {
     @EnableConfigurationProperties(OpenTelemetryPropagationProperties.class)
     public static class PropagationConfiguration {
 
+        private final OpenTelemetryPropagationTemplate template = new OpenTelemetryPropagationTemplate();
+
         @Bean
         @ConditionalOnMissingBean(TextMapPropagator.class)
         @ConditionalOnOpenTelemetryTracingExporter("otlp")
         TextMapPropagator textMapPropagator(OpenTelemetryPropagationProperties properties) {
-            return CompositeTextMapPropagator.create(properties);
+            return template.create(properties);
         }
     }
 
     @Configuration(proxyBeanMethods = false)
     public static class NoPropagation {
 
+        private final OpenTelemetryPropagationTemplate template = new OpenTelemetryPropagationTemplate();
+
         @Bean
         @ConditionalOnMissingBean(TextMapPropagator.class)
         TextMapPropagator noopTextMapPropagator() {
-            return TextMapPropagator.noop();
+            return template.noop();
         }
     }
 }

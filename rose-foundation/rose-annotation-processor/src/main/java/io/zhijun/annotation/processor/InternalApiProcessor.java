@@ -131,9 +131,7 @@ public class InternalApiProcessor extends AbstractProcessor {
         TypeMirror superclass = type.getSuperclass();
         if (superclass != null && superclass.getKind() != TypeKind.NONE) {
             TypeElement superElement = asTypeElement(superclass);
-            if (superElement != null && containsInternalType(superElement, internalTypes)) {
-                return true;
-            }
+            return superElement != null && containsInternalType(superElement, internalTypes);
         }
         return false;
     }
