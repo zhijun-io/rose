@@ -1,8 +1,8 @@
 package io.zhijun.observation.boot.autoconfigure.otel.logs.exporter;
 
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.lang.Nullable;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterType;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpExporterConfig;

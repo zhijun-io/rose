@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.actuate.endpoint.annotation.Selector;
-import org.springframework.lang.Nullable;
 
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
@@ -29,9 +29,9 @@ public class DevServicesEndpoint {
         Map<String, ServiceInfoSummary> summaries = new java.util.HashMap<String, ServiceInfoSummary>();
         for (DevServiceRegistration registration : registrations.values()) {
             ServiceInfoSummary summary = new ServiceInfoSummary(
-                    registration.getName(),
-                    registration.getDescription(),
-                    ContainerInfoSummary.from(registration.getContainerInfo().get()));
+                registration.getName(),
+                registration.getDescription(),
+                ContainerInfoSummary.from(registration.getContainerInfo().get()));
             summaries.put(summary.getName(), summary);
         }
         return summaries;
@@ -44,9 +44,9 @@ public class DevServicesEndpoint {
             throw new IllegalArgumentException("Dev service not found: " + name);
         }
         return new ServiceInfo(
-                registration.getName(),
-                registration.getDescription(),
-                registration.getContainerInfo().get());
+            registration.getName(),
+            registration.getDescription(),
+            registration.getContainerInfo().get());
     }
 
     public static final class ServiceInfoSummary {
@@ -92,7 +92,7 @@ public class DevServicesEndpoint {
 
         public static ContainerInfoSummary from(ContainerInfo containerInfo) {
             return new ContainerInfoSummary(
-                    containerInfo.getId(), containerInfo.getImageName(), containerInfo.getExposedPorts());
+                containerInfo.getId(), containerInfo.getImageName(), containerInfo.getExposedPorts());
         }
 
         public String getId() {

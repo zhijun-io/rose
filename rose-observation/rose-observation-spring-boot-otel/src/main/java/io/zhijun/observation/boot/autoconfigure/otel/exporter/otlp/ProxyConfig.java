@@ -1,6 +1,6 @@
 package io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp;
 
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 
 /**
  * HTTP proxy settings for OTLP exporters.

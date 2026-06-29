@@ -3,7 +3,7 @@ package io.zhijun.multitenancy.core.context;
 import java.util.concurrent.Callable;
 
 
-import org.jspecify.annotations.Nullable;
+import io.zhijun.core.annotation.Nullable;
 
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 

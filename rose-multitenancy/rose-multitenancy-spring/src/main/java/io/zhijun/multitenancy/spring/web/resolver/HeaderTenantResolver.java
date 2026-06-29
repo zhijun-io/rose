@@ -2,7 +2,7 @@ package io.zhijun.multitenancy.spring.web.resolver;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.util.Assert;
 
 

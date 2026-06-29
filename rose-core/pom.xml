@@ -14,4 +14,13 @@
     <artifactId>rose-core</artifactId>
     <name>Rose Annotation</name>
     <description>Framework-agnostic API contract annotations for Rose</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>

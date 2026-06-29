@@ -3,7 +3,7 @@ package io.zhijun.devservice.boot.registration;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.testcontainers.containers.Container;
 
 import io.zhijun.devservice.core.api.registration.ContainerInfo;

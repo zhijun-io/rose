@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 
 /**
  * Configuration properties for OpenTelemetry Resource.

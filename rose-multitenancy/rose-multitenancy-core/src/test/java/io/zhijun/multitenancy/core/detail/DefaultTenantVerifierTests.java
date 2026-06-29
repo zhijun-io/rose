@@ -2,10 +2,8 @@ package io.zhijun.multitenancy.core.detail;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 
@@ -23,7 +21,7 @@ class DefaultTenantVerifierTests {
 
     @Test
     void whenNullTenantIdentifierThenThrow() {
-        TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
+        TenantDetailsService service = new StubTenantDetailsService(null);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify(null))
@@ -34,7 +32,7 @@ class DefaultTenantVerifierTests {
 
     @Test
     void whenTenantIdentifierContainsInvalidCharactersThenThrow() {
-        TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
+        TenantDetailsService service = new StubTenantDetailsService(null);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify("acme\nmalicious"))
@@ -46,8 +44,7 @@ class DefaultTenantVerifierTests {
     @Test
     void whenTenantIdentifierContainsAlphanumericDashUnderscoreThenPass() {
         Tenant tenant = Tenant.builder().identifier("acme-corp_2").enabled(true).build();
-        TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
-        when(service.loadTenantByIdentifier("acme-corp_2")).thenReturn(tenant);
+        TenantDetailsService service = new StubTenantDetailsService(tenant);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatNoException().isThrownBy(() -> verifier.verify("acme-corp_2"));
@@ -56,8 +53,7 @@ class DefaultTenantVerifierTests {
     @Test
     void whenTenantExistsAndEnabledThenPass() {
         Tenant tenant = Tenant.builder().identifier("acme").enabled(true).build();
-        TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
-        when(service.loadTenantByIdentifier("acme")).thenReturn(tenant);
+        TenantDetailsService service = new StubTenantDetailsService(tenant);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatNoException().isThrownBy(() -> verifier.verify("acme"));
@@ -66,8 +62,7 @@ class DefaultTenantVerifierTests {
     @Test
     void whenTenantExistsButDisabledThenThrow() {
         Tenant tenant = Tenant.builder().identifier("acme").enabled(false).build();
-        TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
-        when(service.loadTenantByIdentifier("acme")).thenReturn(tenant);
+        TenantDetailsService service = new StubTenantDetailsService(tenant);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify("acme"))
@@ -77,12 +72,30 @@ class DefaultTenantVerifierTests {
 
     @Test
     void whenTenantNotFoundThenThrow() {
-        TenantDetailsService service = Mockito.mock(TenantDetailsService.class);
-        when(service.loadTenantByIdentifier("unknown")).thenReturn(null);
+        TenantDetailsService service = new StubTenantDetailsService(null);
         DefaultTenantVerifier verifier = new DefaultTenantVerifier(service);
 
         assertThatThrownBy(() -> verifier.verify("unknown"))
                 .isInstanceOf(TenantVerificationException.class)
                 .hasMessageContaining("The resolved multitenancy is invalid or disabled");
+    }
+
+    private static final class StubTenantDetailsService implements TenantDetailsService {
+
+        private final TenantDetails tenantDetails;
+
+        private StubTenantDetailsService(TenantDetails tenantDetails) {
+            this.tenantDetails = tenantDetails;
+        }
+
+        @Override
+        public java.util.List<? extends TenantDetails> loadAllTenants() {
+            throw new UnsupportedOperationException("Not needed for this test");
+        }
+
+        @Override
+        public TenantDetails loadTenantByIdentifier(String tenantIdentifier) {
+            return tenantDetails;
+        }
     }
 }

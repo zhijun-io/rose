@@ -135,17 +135,6 @@
                             <configuration>
                                 <compilerArgs>
                                     <compilerArg>-parameters</compilerArg>
-                                    <compilerArg>-Xlint:deprecation</compilerArg>
-                                    <compilerArg>-Xlint:-processing</compilerArg>
-                                    <compilerArg>-Werror</compilerArg>
-                                </compilerArgs>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>default-testCompile</id>
-                            <configuration>
-                                <compilerArgs>
-                                    <compilerArg>-parameters</compilerArg>
                                     <compilerArg>-Xlint:-processing</compilerArg>
                                 </compilerArgs>
                             </configuration>

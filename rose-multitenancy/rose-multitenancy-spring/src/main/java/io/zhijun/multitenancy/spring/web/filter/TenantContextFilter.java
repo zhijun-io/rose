@@ -19,7 +19,7 @@ import io.opentelemetry.context.Scope;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;

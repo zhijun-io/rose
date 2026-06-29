@@ -8,7 +8,7 @@ import java.util.Map;
 import io.micrometer.core.instrument.config.validate.Validated;
 import io.micrometer.registry.otlp.OtlpConfig;
 
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.util.Assert;
 
 /**

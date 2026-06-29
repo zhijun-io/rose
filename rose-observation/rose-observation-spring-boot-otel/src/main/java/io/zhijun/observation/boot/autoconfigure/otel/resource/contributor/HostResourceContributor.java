@@ -10,7 +10,7 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.info.OsInfo;
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.util.StringUtils;
 
 

@@ -3,7 +3,7 @@ package io.zhijun.multitenancy.boot.autoconfigure.detail;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.util.Assert;
 
 import io.zhijun.multitenancy.core.detail.Tenant;

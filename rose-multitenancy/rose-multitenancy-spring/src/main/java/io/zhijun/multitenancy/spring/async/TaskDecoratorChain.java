@@ -1,7 +1,7 @@
 package io.zhijun.multitenancy.spring.async;
 
 import org.springframework.core.task.TaskDecorator;
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 
 /**
  * Composes {@link TaskDecorator} instances without relying on executor-specific APIs.

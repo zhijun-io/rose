@@ -1,7 +1,7 @@
 package io.zhijun.multitenancy.spring.web.annotation;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

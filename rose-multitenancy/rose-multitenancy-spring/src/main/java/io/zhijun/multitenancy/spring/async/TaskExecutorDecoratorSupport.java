@@ -1,7 +1,7 @@
 package io.zhijun.multitenancy.spring.async;
 
 import org.springframework.core.task.TaskDecorator;
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.util.ReflectionUtils;
 
 /**

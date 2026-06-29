@@ -15,7 +15,7 @@ import io.opentelemetry.context.propagation.TextMapPropagator;
 import io.opentelemetry.context.propagation.TextMapSetter;
 import io.opentelemetry.extension.trace.propagation.B3Propagator;
 
-import org.springframework.lang.Nullable;
+import io.zhijun.core.annotation.Nullable;
 
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties.PropagationType;
