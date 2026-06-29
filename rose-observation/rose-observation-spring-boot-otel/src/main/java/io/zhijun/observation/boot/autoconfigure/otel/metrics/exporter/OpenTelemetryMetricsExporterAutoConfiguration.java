@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Import;
 
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.ConditionalOnOpenTelemetryMetrics;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.console.ConsoleMetricsExporterConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsExporterConfiguration;
 
 /**

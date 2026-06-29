@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterAutoConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.console.ConsoleLoggingExporterConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.otlp.OtlpLoggingExporterConfiguration;
 
 /**

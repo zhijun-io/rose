@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.console;
+package io.zhijun.observation.boot.autoconfigure.otel.traces.exporter;
 
 import io.opentelemetry.exporter.logging.LoggingSpanExporter;
 

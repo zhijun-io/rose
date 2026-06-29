@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Import;
 
 import io.zhijun.observation.boot.autoconfigure.otel.traces.ConditionalOnOpenTelemetryTracing;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.console.ConsoleTracingExporterConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTracingExporterConfiguration;
 
 /**

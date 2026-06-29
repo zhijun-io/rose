@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterAutoConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.console.ConsoleMetricsExporterConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsExporterConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.support.MetricsTestBeans;
 

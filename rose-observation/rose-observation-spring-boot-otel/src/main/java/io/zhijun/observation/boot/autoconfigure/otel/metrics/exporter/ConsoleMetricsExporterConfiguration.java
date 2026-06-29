@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.console;
+package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter;
 
 import io.opentelemetry.exporter.logging.LoggingMetricExporter;
 

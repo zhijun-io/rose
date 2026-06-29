@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.console;
+package io.zhijun.observation.boot.autoconfigure.otel.logs.exporter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
