@@ -9,7 +9,15 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -45,11 +53,11 @@ public final class SpiLoader<S> {
     }
 
     public static <S> SpiLoader<S> load(Class<S> serviceType) {
-        return load(serviceType, defaultClassLoader(serviceType), Collections.<String>emptyList());
+        return load(serviceType, defaultClassLoader(serviceType), Collections.emptyList());
     }
 
     public static <S> SpiLoader<S> load(Class<S> serviceType, ClassLoader classLoader) {
-        return load(serviceType, classLoader, Collections.<String>emptyList());
+        return load(serviceType, classLoader, Collections.emptyList());
     }
 
     public static <S> SpiLoader<S> load(Class<S> serviceType, List<String> excludedImplementationClassNames) {
@@ -61,7 +69,7 @@ public final class SpiLoader<S> {
         ClassLoader effectiveClassLoader = classLoader != null ? classLoader : defaultClassLoader(serviceType);
         Set<String> excluded = excludedImplementationClassNames == null
                 ? Collections.emptySet()
-                : new LinkedHashSet<String>(excludedImplementationClassNames);
+                : new LinkedHashSet<>(excludedImplementationClassNames);
         if (!isCacheable(serviceType, effectiveClassLoader, excluded)) {
             return new SpiLoader<S>(serviceType, effectiveClassLoader, Collections.unmodifiableSet(excluded));
         }
@@ -135,7 +143,7 @@ public final class SpiLoader<S> {
                 loaded.add(definition);
             }
         }
-        Collections.sort(loaded, Comparator.comparingInt((ImplementationDefinition<S> left) -> left.priority)
+        loaded.sort(Comparator.comparingInt((ImplementationDefinition<S> left) -> left.priority)
                 .thenComparing(left -> left.implementationType.getName()));
         return Collections.unmodifiableList(loaded);
     }
@@ -171,17 +179,13 @@ public final class SpiLoader<S> {
 
     private List<String> readImplementationClassNames() {
         String resourceName = "META-INF/services/" + serviceType.getName();
-        Set<String> classNames = new LinkedHashSet<String>();
+        Set<String> classNames = new LinkedHashSet<>();
         try {
             Enumeration<URL> resources = classLoader.getResources(resourceName);
             while (resources.hasMoreElements()) {
                 URL resource = resources.nextElement();
-                InputStream inputStream = resource.openStream();
-                try {
+                try (InputStream inputStream = resource.openStream()) {
                     readImplementationClassNames(inputStream, classNames);
-                }
-                finally {
-                    inputStream.close();
                 }
             }
         }
@@ -192,12 +196,13 @@ public final class SpiLoader<S> {
     }
 
     private void readImplementationClassNames(InputStream inputStream, Set<String> classNames) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String candidate = stripComment(line).trim();
-            if (!candidate.isEmpty()) {
-                classNames.add(candidate);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String candidate = stripComment(line).trim();
+                if (!candidate.isEmpty()) {
+                    classNames.add(candidate);
+                }
             }
         }
     }
