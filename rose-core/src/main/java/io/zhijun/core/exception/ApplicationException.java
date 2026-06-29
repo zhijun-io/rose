@@ -9,6 +9,11 @@ import java.util.Map;
 /**
  * Structured application exception for business and integration failures.
  *
+ * <p>The shape is inspired by OpenRewrite's practice of carrying stable,
+ * machine-readable failure information with exceptions. Rose keeps that metadata in core,
+ * while framework modules decide how to map it to HTTP responses, logs, metrics, traces
+ * or retry policies.
+ *
  * <p>Currently provides:
  * <ul>
  *     <li>a stable {@link #getErrorCode() error code} for programmatic handling</li>
@@ -19,7 +24,6 @@ import java.util.Map;
  *
  * <p>TODO:
  * <ul>
- *     <li>align error code structure and naming conventions across modules</li>
  *     <li>support standardized detail keys and machine-readable metadata</li>
  *     <li>integrate with framework-specific exception mapping and observability conventions</li>
  * </ul>
@@ -84,10 +88,7 @@ public class ApplicationException extends RuntimeException {
     private ApplicationException(
             String errorCode, String message, Throwable cause, boolean retryable, Map<String, Object> details) {
         super(message, cause);
-        if (StringUtils.isBlank(errorCode)) {
-            throw new IllegalArgumentException("errorCode cannot be null or empty");
-        }
-        this.errorCode = errorCode;
+        this.errorCode = ErrorCodes.requireValid(errorCode);
         this.retryable = retryable;
         this.details = Collections.unmodifiableMap(new LinkedHashMap<String, Object>(details));
     }

@@ -35,6 +35,13 @@ class ApplicationExceptionTest {
     }
 
     @Test
+    void rejectsInvalidErrorCodeFormat() {
+        assertThatThrownBy(() -> new ApplicationException("user.not-found"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorCodes.PATTERN);
+    }
+
+    @Test
     void rejectsTypeMismatchWhenReadingDetail() {
         ApplicationException exception = new ApplicationException("E1").withDetail("count", 1);
 
