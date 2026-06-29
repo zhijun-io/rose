@@ -13,12 +13,12 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Matches HTTP request paths for which a multitenancy identifier is required.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class TenantContextRequiredPathMatcher {
 
     private final List<PathPattern> includePathPatterns;

@@ -24,7 +24,6 @@ import javax.tools.Diagnostic;
 
 import com.google.auto.service.AutoService;
 
-import org.apiguardian.api.API;
 
 import io.zhijun.core.annotation.Internal;
 
@@ -110,11 +109,11 @@ public class InternalApiProcessor extends AbstractProcessor {
         }
         if (containsInternalType(referenced, internalTypes)) {
             processingEnv
-                    .getMessager()
-                    .printMessage(
-                            Diagnostic.Kind.WARNING,
-                            "Public API must not expose internal type: " + referenced.getQualifiedName(),
-                            context);
+                .getMessager()
+                .printMessage(
+                    Diagnostic.Kind.WARNING,
+                    "Public API must not expose internal type: " + referenced.getQualifiedName(),
+                    context);
         }
     }
 
@@ -154,7 +153,7 @@ public class InternalApiProcessor extends AbstractProcessor {
 
     private boolean isInInternalPackage(TypeElement type) {
         return isInternalPackageName(
-                elements.getPackageOf(type).getQualifiedName().toString());
+            elements.getPackageOf(type).getQualifiedName().toString());
     }
 
     private static boolean isInternalPackageName(String packageName) {
@@ -177,13 +176,13 @@ public class InternalApiProcessor extends AbstractProcessor {
             return true;
         }
         return element.getEnclosingElement() != null
-                && (element.getEnclosingElement().getAnnotation(Internal.class) != null
-                        || isInternalApi(element.getEnclosingElement()));
+            && (element.getEnclosingElement().getAnnotation(Internal.class) != null
+            || isInternalApi(element.getEnclosingElement()));
     }
 
     private boolean isInternalApi(Element element) {
-        API api = element.getAnnotation(API.class);
-        return api != null && api.status() == API.Status.INTERNAL;
+        Internal api = element.getAnnotation(Internal.class);
+        return api != null;
     }
 
     private boolean isPublic(Element element) {

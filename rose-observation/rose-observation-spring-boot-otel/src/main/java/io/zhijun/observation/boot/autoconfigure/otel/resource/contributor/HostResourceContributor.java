@@ -13,7 +13,7 @@ import org.springframework.boot.info.OsInfo;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
-import org.apiguardian.api.API;
+
 
 /**
  * A {@link ResourceContributor} that contributes attributes about the host the application is running on,
@@ -27,7 +27,7 @@ import org.apiguardian.api.API;
  *
  * @link <a href="https://opentelemetry.io/docs/specs/semconv/resource/host/">Resource Host Semantic Conventions</a>
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class HostResourceContributor implements ResourceContributor {
 
     private static final Logger logger = LoggerFactory.getLogger(HostResourceContributor.class);

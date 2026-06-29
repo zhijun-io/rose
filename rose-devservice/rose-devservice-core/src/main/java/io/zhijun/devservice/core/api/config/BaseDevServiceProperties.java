@@ -8,12 +8,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.Range;
 
-import org.apiguardian.api.API;
-
 /**
  * Base dev service properties shared by all connector property classes.
  */
-@API(status = API.Status.EXPERIMENTAL)
 public abstract class BaseDevServiceProperties {
 
     public static final int RANDOM_PORT = 0;

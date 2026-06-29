@@ -8,12 +8,12 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apiguardian.api.API;
+
 
 /**
  * A {@link ResourceContributor} that contributes process attributes (OpenTelemetry semantic conventions).
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class ProcessResourceContributor implements ResourceContributor {
 
     private static final Logger logger = LoggerFactory.getLogger(ProcessResourceContributor.class);

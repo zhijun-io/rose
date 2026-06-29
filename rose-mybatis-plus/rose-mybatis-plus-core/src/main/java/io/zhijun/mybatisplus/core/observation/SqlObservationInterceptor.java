@@ -23,7 +23,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apiguardian.api.API;
+
 
 /**
  * MyBatis {@link Interceptor} that records SQL execution as OpenTelemetry spans and
@@ -47,7 +47,7 @@ import org.apiguardian.api.API;
  *
  * @since 0.0.1
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 @Intercepts({
     @Signature(
             type = Executor.class,

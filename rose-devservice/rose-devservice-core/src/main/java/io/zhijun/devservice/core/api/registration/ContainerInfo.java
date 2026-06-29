@@ -8,12 +8,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Holds information about a container.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class ContainerInfo {
 
     private final String id;

@@ -7,7 +7,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import org.apiguardian.api.API;
+
 import io.zhijun.multitenancy.core.context.TenantContext;
 
 /**
@@ -26,7 +26,7 @@ import io.zhijun.multitenancy.core.context.TenantContext;
  * }
  * </pre>
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class TenantIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override

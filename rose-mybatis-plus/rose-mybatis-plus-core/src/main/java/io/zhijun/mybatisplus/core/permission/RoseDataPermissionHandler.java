@@ -21,12 +21,12 @@ import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 
-import org.apiguardian.api.API;
+
 
 /**
  * SPI-based data permission handler.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public class RoseDataPermissionHandler implements DataPermissionHandler {
 
     private static final String DOT = ".";

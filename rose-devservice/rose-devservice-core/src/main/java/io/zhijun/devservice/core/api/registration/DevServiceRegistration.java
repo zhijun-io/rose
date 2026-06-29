@@ -4,12 +4,12 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.Validate;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Describes a registered dev service.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class DevServiceRegistration {
 
     private final String name;

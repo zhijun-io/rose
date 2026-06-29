@@ -5,13 +5,13 @@ import java.lang.reflect.Method;
 import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.lang.Nullable;
 
-import org.apiguardian.api.API;
+
 import io.zhijun.multitenancy.core.context.TenantContext;
 
 /**
  * Generates cache keys combining the current multitenancy identifier with method parameters.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class DefaultTenantKeyGenerator implements TenantKeyGenerator {
 
     @Override

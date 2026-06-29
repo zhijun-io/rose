@@ -19,7 +19,7 @@ import org.springframework.util.ClassUtils;
 import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.Container;
 
-import org.apiguardian.api.API;
+
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import io.zhijun.devservice.core.api.registration.ContainerInfo;
@@ -27,7 +27,7 @@ import io.zhijun.devservice.core.api.registration.ContainerInfo;
 /**
  * Registers Testcontainers container bean definitions.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public class DevServiceRegistry {
 
     private final BeanDefinitionRegistry beanDefinitionRegistry;

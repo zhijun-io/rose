@@ -54,7 +54,7 @@ class InternalApiProcessorTest {
                         "io.zhijun.sample.ApiGuardianInternalType",
                         "package io.zhijun.sample;\n"
                                 + "\n"
-                                + "import org.apiguardian.api.API;\n"
+                                + "\n"
                                 + "\n"
                                 + "@API(status = API.Status.INTERNAL)\n"
                                 + "public class ApiGuardianInternalType {}\n");

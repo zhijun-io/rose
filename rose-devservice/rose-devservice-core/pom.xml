@@ -13,7 +13,8 @@
 
     <artifactId>rose-devservice-core</artifactId>
     <name>Rose DevService Core</name>
-    <description>Dev Services API, bootstrap mode, Testcontainers utilities (no Spring Boot auto-configuration)</description>
+    <description>Dev Services API, bootstrap mode, Testcontainers utilities (no Spring Boot auto-configuration)
+    </description>
 
     <dependencies>
         <dependency>
@@ -44,10 +45,6 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apiguardian</groupId>
-            <artifactId>apiguardian-api</artifactId>
         </dependency>
     </dependencies>
 </project>

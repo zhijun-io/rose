@@ -6,7 +6,7 @@ import io.opentelemetry.semconv.ServiceAttributes;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.util.StringUtils;
 
-import org.apiguardian.api.API;
+
 
 /**
  * A {@link ResourceContributor} that contributes build information.
@@ -18,7 +18,7 @@ import org.apiguardian.api.API;
  *
  * @link <a href="https://opentelemetry.io/docs/specs/semconv/resource/#service">Resource Service Semantic Conventions</a>
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class BuildResourceContributor implements ResourceContributor {
 
     private final BuildProperties buildProperties;

@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import org.apiguardian.api.API;
+
 import io.zhijun.multitenancy.core.MultitenancyDefaults;
 
 /**
  * Strategy used to resolve the current multitenancy from a cookie in an HTTP request.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class CookieTenantResolver implements HttpRequestTenantResolver {
 
     public static final String DEFAULT_COOKIE_NAME = MultitenancyDefaults.DEFAULT_HTTP_COOKIE_NAME;

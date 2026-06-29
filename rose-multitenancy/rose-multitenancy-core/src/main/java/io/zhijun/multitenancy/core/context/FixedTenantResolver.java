@@ -1,11 +1,11 @@
 package io.zhijun.multitenancy.core.context;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Strategy to use a fixed value as the current multitenancy, regardless of the source context.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class FixedTenantResolver implements TenantResolver<Object> {
 
     public static final String DEFAULT_FIXED_TENANT_IDENTIFIER = "default";

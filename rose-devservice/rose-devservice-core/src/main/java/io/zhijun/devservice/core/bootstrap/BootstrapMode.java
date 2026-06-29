@@ -2,12 +2,12 @@ package io.zhijun.devservice.core.bootstrap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Application bootstrap mode.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public enum BootstrapMode {
     DEV,
     TEST,

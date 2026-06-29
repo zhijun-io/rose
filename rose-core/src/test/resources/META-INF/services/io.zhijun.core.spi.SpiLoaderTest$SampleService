@@ -1,0 +1,3 @@
+io.zhijun.core.spi.SpiLoaderTest$DefaultImplementation
+io.zhijun.core.spi.SpiLoaderTest$SingletonImplementation
+io.zhijun.core.spi.SpiLoaderTest$DisabledImplementation

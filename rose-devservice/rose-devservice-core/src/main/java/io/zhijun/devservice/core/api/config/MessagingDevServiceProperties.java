@@ -1,20 +1,24 @@
 package io.zhijun.devservice.core.api.config;
 
-import org.apiguardian.api.API;
 
 /**
  * Dev service properties shared by message broker connector property classes.
  */
-@API(status = API.Status.EXPERIMENTAL)
 public abstract class MessagingDevServiceProperties extends BaseDevServiceProperties {
 
-    /** Fixed host port for the broker web console; 0 selects a random port. */
+    /**
+     * Fixed host port for the broker web console; 0 selects a random port.
+     */
     private int managementConsolePort = RANDOM_PORT;
 
-    /** Broker username injected into connection properties. */
+    /**
+     * Broker username injected into connection properties.
+     */
     private String username = DevServiceCredentials.DEFAULT_USERNAME;
 
-    /** Broker password injected into connection properties. */
+    /**
+     * Broker password injected into connection properties.
+     */
     private String password = DevServiceCredentials.DEFAULT_PASSWORD;
 
     public int getManagementConsolePort() {

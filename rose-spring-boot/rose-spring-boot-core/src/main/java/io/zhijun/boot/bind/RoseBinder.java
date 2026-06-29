@@ -6,12 +6,12 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Lightweight helpers around Spring Boot {@link Binder}.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class RoseBinder {
 
     private final Binder binder;

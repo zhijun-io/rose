@@ -13,12 +13,12 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Matches HTTP requests paths for which a multitenancy context is not attached.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public class TenantContextIgnorePathMatcher {
 
     private static final Logger logger = LoggerFactory.getLogger(TenantContextIgnorePathMatcher.class);

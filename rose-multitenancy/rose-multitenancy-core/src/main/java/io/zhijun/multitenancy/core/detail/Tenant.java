@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.apiguardian.api.API;
+
 
 /**
  * Default implementation of {@link TenantDetails}.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class Tenant implements TenantDetails {
 
     private final String identifier;

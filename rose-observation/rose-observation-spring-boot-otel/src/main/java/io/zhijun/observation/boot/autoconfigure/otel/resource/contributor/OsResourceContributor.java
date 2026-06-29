@@ -6,7 +6,7 @@ import io.opentelemetry.sdk.resources.ResourceBuilder;
 import org.springframework.boot.info.OsInfo;
 import org.springframework.util.StringUtils;
 
-import org.apiguardian.api.API;
+
 
 /**
  * A {@link ResourceContributor} that contributes attributes about the operating system,
@@ -22,7 +22,7 @@ import org.apiguardian.api.API;
  *
  * @link <a href="https://opentelemetry.io/docs/specs/semconv/resource/os">Resource OS Semantic Conventions</a>
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class OsResourceContributor implements ResourceContributor {
 
     // These semantic conventions are experimental, so we define them explicitly to be able to ensure backward

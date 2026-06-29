@@ -2,15 +2,15 @@ package io.zhijun.multitenancy.core.context;
 
 import java.util.concurrent.Callable;
 
-import org.apiguardian.api.API;
-import org.springframework.util.StringUtils;
-import io.zhijun.core.annotation.Nullable;
+
+import org.jspecify.annotations.Nullable;
+
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 /**
  * Thread-local multitenancy context for the current execution scope.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class TenantContext {
 
     private static final ThreadLocal<String> TENANT_IDENTIFIER = new ThreadLocal<String>();
@@ -38,7 +38,7 @@ public final class TenantContext {
      * Binds the multitenancy for the current thread and returns a scope that restores the previous value on close.
      */
     public static Scope bind(String tenantIdentifier) {
-        if (!StringUtils.hasText(tenantIdentifier)) {
+        if (tenantIdentifier == null || tenantIdentifier.trim().isEmpty()) {
             throw new IllegalArgumentException("tenantIdentifier cannot be null or empty");
         }
         return new Scope(tenantIdentifier, TENANT_IDENTIFIER.get());

@@ -1,14 +1,11 @@
 package io.zhijun.devservice.core.api.provider;
 
-import org.apiguardian.api.API;
-
 /**
  * Mutually exclusive dev service category.
  * <p>
  * Providers in the same category compete for the same Spring integration point
  * (for example {@link #JDBC} for {@code spring.datasource}).
  */
-@API(status = API.Status.EXPERIMENTAL)
 public enum DevServiceCategory {
     JDBC("jdbc"),
 

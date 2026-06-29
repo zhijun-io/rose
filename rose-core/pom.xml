@@ -14,11 +14,4 @@
     <artifactId>rose-core</artifactId>
     <name>Rose Annotation</name>
     <description>Framework-agnostic API contract annotations for Rose</description>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apiguardian</groupId>
-            <artifactId>apiguardian-api</artifactId>
-        </dependency>
-    </dependencies>
 </project>

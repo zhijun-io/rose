@@ -6,7 +6,7 @@ import org.slf4j.MDC;
 import org.springframework.context.event.EventListener;
 import org.springframework.util.Assert;
 
-import org.apiguardian.api.API;
+
 import io.zhijun.multitenancy.core.MultitenancyDefaults;
 import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
 import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
@@ -14,7 +14,7 @@ import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
 /**
  * Manages the SLF4J {@link MDC} multitenancy identifier in response to multitenancy context events.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class MdcTenantEventListener {
 
     private static final Logger logger = LoggerFactory.getLogger(MdcTenantEventListener.class);

@@ -3,13 +3,13 @@ package io.zhijun.devservice.boot.registration;
 import org.springframework.core.env.Environment;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 
-import org.apiguardian.api.API;
+
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 
 /**
  * Registrar for JDBC dev service connectors that expose {@code spring.datasource.*}.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public class JdbcDevServiceRegistrar<P extends JdbcDevServiceProperties, C extends JdbcDatabaseContainer<?>>
         extends DevServiceRegistrar {
 

@@ -3,12 +3,12 @@ package io.zhijun.devservice.core.api.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apiguardian.api.API;
+
 
 /**
  * JDBC dev service properties shared by database connector property classes.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public abstract class JdbcDevServiceProperties extends BaseDevServiceProperties {
 
     /**

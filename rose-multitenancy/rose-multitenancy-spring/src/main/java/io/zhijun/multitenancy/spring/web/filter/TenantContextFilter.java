@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import org.apiguardian.api.API;
+
 import io.zhijun.multitenancy.core.context.TenantContext;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
 import io.zhijun.multitenancy.core.exception.TenantVerificationException;
@@ -35,7 +35,7 @@ import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 /**
  * Establish a multitenancy context from an HTTP request, if multitenancy information is available.
  */
-@API(status = API.Status.EXPERIMENTAL)
+
 public final class TenantContextFilter extends OncePerRequestFilter implements Ordered {
 
     private static final String MISSING_TENANT_ERROR_MESSAGE =
