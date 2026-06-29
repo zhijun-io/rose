@@ -188,13 +188,21 @@ public final class SpiLoader<S> {
     }
     /**
      * Clear all cached loaders.
+     * <p>Only loaders cached in the internal registry are affected.
+     * Loaders created with an explicit non-stable {@link ClassLoader} are not cached by default,
+     * so they are outside the scope of this operation.
+     *
      * <p>This is intended for tests and controlled classpath reload scenarios only.
      */
     public static void clearCache() {
         LOADERS.clear();
     }
+
     /**
      * Clear cached loaders bound to a specific class loader.
+     * <p>Only cached loaders are affected. If a loader was created with an explicit
+     * {@link ClassLoader} and was not cached, this method will not see it.
+     *
      * <p>This is intended for tests and controlled classpath reload scenarios only.
      */
     public static void clearCache(ClassLoader classLoader) {
@@ -215,6 +223,7 @@ public final class SpiLoader<S> {
 
     /**
      * 销毁所有已加载的SPI实例并清空缓存，应用关闭时调用
+     * <p>只会处理内部缓存中的 Loader。显式传入且未被缓存的 Loader 不在此范围内。
      */
     public static void destroyAll() {
         for (SpiLoader<?> loader : LOADERS.values()) {
@@ -226,6 +235,7 @@ public final class SpiLoader<S> {
     /**
      * 销毁指定类加载器相关的所有SPI实例并清空对应缓存
      * <p>用于类加载器销毁场景，如热重载
+     * <p>只会处理内部缓存中的 Loader。显式传入且未被缓存的 Loader 不在此范围内。
      */
     public static void destroyAll(ClassLoader classLoader) {
         if (classLoader != null) {
@@ -241,40 +251,42 @@ public final class SpiLoader<S> {
 
     /**
      * 重载当前 SPI 类型的所有实现
-     * <p>会销毁当前 Loader 加载的所有单例实例，清除缓存，然后重新扫描并加载最新的实现类
-     * <p>注意：原 Loader 实例不会被修改，返回的新 Loader 实例包含最新的实现
+     * <p>会先构建新的 Loader。只有当新 Loader 构建成功后，才会销毁当前 Loader 中已初始化的单例实例。
+     * <p>注意：原 Loader 实例不会被修改；返回的新 Loader 实例包含最新的实现。
+     * 如果重载失败，当前 Loader 中已存在的实例仍然可继续使用。
      * @return 新的 SpiLoader 实例，包含重新加载的 SPI 实现
      */
     public SpiLoader<S> reload() {
-        // 销毁当前 Loader 的所有单例实例，调用 destroy 方法已经是线程安全的
-        destroy();
-        // 从缓存中原子移除当前 LoaderKey
+        SpiLoader<S> reloaded = new SpiLoader<>(serviceType, classLoader, new LinkedHashSet<>(excludedImplementationClassNames));
         LoaderKey key = new LoaderKey(serviceType, classLoader, excludedImplementationClassNames);
-        LOADERS.remove(key);
-        // 创建新的 Loader，重新加载实现（会自动扫描最新的配置和类
-        return new SpiLoader<>(serviceType, classLoader, new LinkedHashSet<>(excludedImplementationClassNames));
+        if (isCacheable(serviceType, classLoader, excludedImplementationClassNames)) {
+            LOADERS.put(key, reloaded);
+        }
+        destroy();
+        return reloaded;
     }
 
     /**
      * 全局重载所有 SPI 实现
      * <p>会销毁所有已加载的 SPI 单例实例，清空全部缓存，后续 SPI 加载会重新扫描所有实现
+     * <p>只会重载内部缓存中的 Loader。显式传入且未被缓存的 Loader 不会被此方法感知或销毁。
      * @return 被重载的 SPI 接口类型集合
      */
     public static Set<Class<?>> reloadAll() {
-        // 先销毁所有旧实例
-        destroyAll();
-        // 收集所有被重载的 SPI 类型
+        // 先收集所有被重载的 SPI 类型，再销毁实例并清空缓存
         Set<Class<?>> serviceTypes = LOADERS.keySet().stream()
                 .map(key -> key.serviceType)
                 .collect(Collectors.toSet());
-        // 清除所有缓存
-        LOADERS.clear();
+        destroyAll();
         return serviceTypes;
     }
 
     /**
      * 重载指定类加载器下的所有 SPI 实现
      * <p>会销毁该类加载器加载的所有 SPI 单例实例，清除对应缓存，后续加载会重新扫描
+     * <p>只会处理内部缓存中的 Loader。对于显式传入该 {@link ClassLoader} 且未被缓存的 Loader，
+     * 调用方需要自行持有其引用并单独执行 {@link #reload()} 或 {@link #destroy()}。
+     *
      * @param classLoader 要重载的类加载器
      * @return 被重载的 SPI 接口类型集合
      */
@@ -918,7 +930,7 @@ public final class SpiLoader<S> {
         private final int priority;
         private final boolean singleton;
         private final boolean enabled;
-        private final Lazy<S> singletonLazy;
+        private volatile Lazy<S> singletonLazy;
         private ImplementationDefinition(Class<? extends S> implementationType, int priority, boolean singleton) {
             this(implementationType, priority, singleton, true);
         }
@@ -1009,6 +1021,7 @@ public final class SpiLoader<S> {
                         }
                     }
                 }
+                singletonLazy = new Lazy<>(this::instantiate);
             }
         }
     }

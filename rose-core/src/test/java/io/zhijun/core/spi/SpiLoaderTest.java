@@ -174,6 +174,8 @@ class SpiLoaderTest {
 
     @Test
     void reloadAllDestroysAllInstances() {
+        assertThat(SpiLoader.getAllSpiInfo()).isEmpty();
+
         // 加载多个 SPI 实例
         SpiLoader<SampleService> loader1 = SpiLoader.load(SampleService.class);
         loader1.get();
@@ -184,22 +186,28 @@ class SpiLoaderTest {
         int initCount2 = AnotherLifecycleImplementation.initCount.get();
         assertThat(initCount1).isGreaterThan(0);
         assertThat(initCount2).isGreaterThan(0);
+        assertThat(SpiLoader.getAllSpiInfo()).containsKeys(SampleService.class, AnotherSampleService.class);
 
         // 全局重载
         Set<Class<?>> reloadedTypes = SpiLoader.reloadAll();
         assertThat(reloadedTypes).contains(SampleService.class, AnotherSampleService.class);
         assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1);
         assertThat(AnotherLifecycleImplementation.destroyCount.get()).isEqualTo(1);
+        assertThat(SpiLoader.getAllSpiInfo()).isEmpty();
+
+        // 旧 loader 失去缓存后再次访问，也会重新创建实例
+        SampleService recreatedByOldLoader = loader1.getFirst().orElseThrow(() -> new AssertionError());
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount1 + 1);
 
         // 重新加载会创建新实例
         SpiLoader<SampleService> newLoader1 = SpiLoader.load(SampleService.class);
         assertThat(newLoader1.getFirst().orElseThrow(() -> new AssertionError()))
-                .isNotSameAs(loader1.getFirst().orElseThrow(() -> new AssertionError()));
-        assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount1 + 1);
+                .isNotSameAs(recreatedByOldLoader);
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount1 + 2);
     }
 
     @Test
-    void reloadWithClassLoaderOnlyDestroysTargetClassLoaderInstances() throws IOException {
+    void reloadWithClassLoaderOnlyAffectsCachedLoaders() throws IOException {
         // 系统类加载器加载的实例
         SpiLoader<SampleService> systemLoader = SpiLoader.load(SampleService.class);
         SampleService systemInstance = systemLoader.getFirst().orElseThrow(() -> new AssertionError());
@@ -208,23 +216,68 @@ class SpiLoaderTest {
         // 自定义类加载器加载的实例
         ClassLoader customClassLoader = createCompositeClassLoader();
         SpiLoader<SampleService> customLoader = SpiLoader.load(SampleService.class, customClassLoader);
+        customLoader.get();
         SampleService customInstance = customLoader.getFirst().orElseThrow(() -> new AssertionError());
         assertThat(LIFECYCLE_INIT_COUNT).hasValue(systemInitCount + 1);
 
-        // 重载自定义类加载器的 SPI
+        // 显式 classLoader 创建的 loader 默认不缓存，因此这里不会命中任何缓存条目
         Set<Class<?>> reloadedTypes = SpiLoader.reloadAll(customClassLoader);
-        assertThat(reloadedTypes).contains(SampleService.class);
+        assertThat(reloadedTypes).isEmpty();
 
-        // 自定义类加载器的实例被销毁，系统类加载器的实例不受影响
-        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1); // 只有自定义加载器的实例被销毁
+        // 现有实例都不受影响
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(0);
 
         // 系统类加载器的实例仍然可用
         assertThat(systemLoader.getFirst().orElseThrow(() -> new AssertionError())).isSameAs(systemInstance);
+        assertThat(customLoader.getFirst().orElseThrow(() -> new AssertionError())).isSameAs(customInstance);
 
-        // 重新加载自定义类加载器的 SPI 会创建新实例
+        // 再次加载自定义类加载器的 SPI 仍会创建新的 loader 与实例，因为显式 classLoader 的 loader 不缓存
         SpiLoader<SampleService> newCustomLoader = SpiLoader.load(SampleService.class, customClassLoader);
-        assertThat(newCustomLoader.getFirst().orElseThrow(() -> new AssertionError())).isNotSameAs(customInstance);
-        assertThat(LIFECYCLE_INIT_COUNT).hasValue(systemInitCount + 2);
+        assertThat(newCustomLoader.getFirst().orElseThrow(() -> new AssertionError()))
+                .isNotSameAs(customInstance);
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(systemInitCount + 1);
+    }
+
+    @Test
+    void reloadDoesNotDestroyCurrentInstanceWhenRebuildFails() throws IOException {
+        Path additionalResources = tempDir.resolve("mutable-resources");
+        writeServiceDescriptor(
+                additionalResources,
+                Arrays.asList(
+                        PriorityImplementation.class.getName(),
+                        ExplicitPriorityImplementation.class.getName(),
+                        PrototypeImplementation.class.getName()));
+        ClassLoader mutableClassLoader =
+                new URLClassLoader(new URL[] {additionalResources.toUri().toURL()}, SampleService.class.getClassLoader());
+
+        SpiLoader<SampleService> customLoader = SpiLoader.load(SampleService.class, mutableClassLoader);
+        SampleService oldInstance = customLoader.getFirst().orElseThrow(() -> new AssertionError());
+        int initCount = LIFECYCLE_INIT_COUNT.get();
+
+        writeServiceDescriptor(additionalResources, Arrays.asList("com.example.missing.MissingImplementation"));
+
+        assertThatThrownBy(customLoader::reload).isInstanceOf(RuntimeException.class);
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(0);
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount);
+        assertThat(customLoader.getFirst().orElseThrow(() -> new AssertionError())).isSameAs(oldInstance);
+    }
+
+    @Test
+    void reloadableHandleSwitchesToNewLoaderAtomically() {
+        ReloadableSpiHandle<SampleService> handle = ReloadableSpiHandle.of(SampleService.class);
+
+        SpiLoader<SampleService> initialLoader = handle.getLoader();
+        SampleService initialInstance = handle.requireFirst();
+        int initCount = LIFECYCLE_INIT_COUNT.get();
+
+        SpiLoader<SampleService> reloadedLoader = handle.reload();
+        SampleService reloadedInstance = handle.requireFirst();
+
+        assertThat(handle.getLoader()).isSameAs(reloadedLoader);
+        assertThat(reloadedLoader).isNotSameAs(initialLoader);
+        assertThat(reloadedInstance).isNotSameAs(initialInstance);
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1);
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount + 1);
     }
 
     interface PlainService {}
@@ -375,16 +428,19 @@ class SpiLoaderTest {
 
     private ClassLoader createCompositeClassLoader() throws IOException {
         Path additionalResources = tempDir.resolve("extra-resources");
-        Path servicesDirectory = additionalResources.resolve("META-INF").resolve("services");
-        Files.createDirectories(servicesDirectory);
-        Files.write(
-                servicesDirectory.resolve(SampleService.class.getName()),
+        writeServiceDescriptor(
+                additionalResources,
                 Arrays.asList(
                         PriorityImplementation.class.getName(),
                         ExplicitPriorityImplementation.class.getName(),
-                        PrototypeImplementation.class.getName()),
-                StandardCharsets.UTF_8);
+                        PrototypeImplementation.class.getName()));
         URL[] urls = new URL[] {additionalResources.toUri().toURL()};
         return new URLClassLoader(urls, SampleService.class.getClassLoader());
+    }
+
+    private void writeServiceDescriptor(Path additionalResources, List<String> implementations) throws IOException {
+        Path servicesDirectory = additionalResources.resolve("META-INF").resolve("services");
+        Files.createDirectories(servicesDirectory);
+        Files.write(servicesDirectory.resolve(SampleService.class.getName()), implementations, StandardCharsets.UTF_8);
     }
 }
