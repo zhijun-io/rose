@@ -9,7 +9,7 @@ How to consume Rose artifacts in a Spring Boot 2.7 application.
 | Layer        | Artifact                                  | Application usage                       |
 |--------------|-------------------------------------------|-----------------------------------------|
 | BOM          | `rose-bom`                                | `dependencyManagement` import           |
-| Baseline     | `rose-spring-boot-core`                   | Default platform starter                |
+| Baseline     | `rose-spring-boot-starter`                | Default platform starter                |
 | Feature      | `rose-*-spring-boot`                      | Observation, multitenancy, MyBatis-Plus |
 | Dev services | `rose-devservice-spring-boot-*`           | Optional `runtime` connectors           |
 | Libraries    | `rose-*-core`, `rose-multitenancy-spring` | Advanced / manual wiring                |
@@ -23,7 +23,9 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 
 | Starter                             | Use when                                                                  |
 |-------------------------------------|---------------------------------------------------------------------------|
-| `rose-spring-boot-core`             | Baseline Rose platform (`RoseBinder`, shared Boot utilities)              |
+| `rose-spring-boot-starter`          | Baseline Rose platform for applications                                   |
+| `rose-spring-boot-autoconfigure`    | Manual composition of Rose Boot auto-configuration                        |
+| `rose-spring-boot-core`             | Shared Boot utilities (`RoseBinder`, diagnostics, `config/default/*`)     |
 | `rose-observation-spring-boot`      | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions |
 | `rose-observation-spring-boot-otel` | OTel SDK Boot auto-configuration only                                     |
 | `rose-multitenancy-spring-boot`     | Multitenancy Boot auto-configuration (HTTP resolution on servlet apps)    |
@@ -74,7 +76,9 @@ OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via e
 | `rose-test`                 | Cross-topic JUnit helpers (`test` scope)                              |
 | `rose-annotation-processor` | Compile-time annotation processing (`optional`)                       |
 | `rose-spring-core`          | Spring extensions (property sources, env refresh, binding)            |
-| `rose-spring-boot-core`     | Boot baseline (`RoseBinder`, `config/default/*`, diagnostics)         |
+| `rose-spring-boot-core`     | Boot shared utilities (`RoseBinder`, `config/default/*`, diagnostics) |
+| `rose-spring-boot-autoconfigure` | Baseline Boot auto-configuration wiring                         |
+| `rose-spring-boot-starter`  | Recommended application entrypoint starter                            |
 | `rose-spring-boot-actuator` | Actuator extensions                                                   |
 
 ### Data & persistence

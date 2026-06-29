@@ -57,7 +57,7 @@
 | PropertySource 增强          | `rose-spring-core`                               | ✅               | 同上                                | YAML/JSON/热更已实现                                                |
 | Configuration Bean Binding | `rose-spring-core`                               | ✅ 核心 / 🟡 热更集成测 | `@EnableConfigurationBeanBinding` | 单测已补；IT + Cloud 转发待加强                                          |
 | Env 热更 / Refreshable       | `rose-spring-core`                               | ✅               | 同上                                | 与 i18n、binding 联动待验收                                           |
-| Bootstrap / 模式检测           | `rose-spring-boot-core`                          | ✅               | Boot 默认配置 + 诊断                    | 缺统一 default properties                                         |
+| Bootstrap / 模式检测           | `rose-spring-boot-core` + `rose-spring-boot-autoconfigure` | ✅               | Boot 默认配置 + 诊断                    | 已拆分为 core / autoconfigure / starter，文档待继续收口                         |
 | FailureAnalyzer            | 各主题分散                                            | 🟡              | 构件冲突 / 依赖健康                       | 缺统一注册表与文档                                                      |
 | Actuator 扩展                | `rose-spring-boot-actuator`, devservice-actuator | 🟡              | 4 个自定义端点                          | 可暴露 Rose 运行时状态                                                 |
 | OpenTelemetry              | `rose-observation/*`                             | ✅ 领先            | `microsphere-observability`       | Rose 差异化优势                                                     |

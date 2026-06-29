@@ -51,13 +51,15 @@ Use a released version from [Maven Central](https://central.sonatype.com/) when 
 <dependencies>
     <dependency>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-spring-boot-core</artifactId>
+        <artifactId>rose-spring-boot-starter</artifactId>
     </dependency>
 </dependencies>
 ```
 
-Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them *
-*instead of** duplicating `rose-spring-boot-core`. See [Consumer Guide](../rose-bom/Consumer-Guide).
+Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them
+instead of duplicating `rose-spring-boot-starter`. `rose-spring-boot-core` and
+`rose-spring-boot-autoconfigure` are intended for advanced/manual composition. See
+[Consumer Guide](../rose-bom/Consumer-Guide).
 
 ### Step 3 — Optional Dev Services
 

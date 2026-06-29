@@ -56,10 +56,10 @@ Design specs: [`docs/design/`](../docs/design/). Contributing: [`AGENTS.md`](../
 </dependencyManagement>
 
 <dependencies>
-    <dependency>
-        <groupId>io.zhijun</groupId>
-        <artifactId>rose-spring-boot-core</artifactId>
-    </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-starter</artifactId>
+        </dependency>
 </dependencies>
 ```
 

@@ -17,7 +17,7 @@
 **验收：**
 
 ```bash
-mvn -pl rose-spring-boot/rose-spring-boot-core,rose-devservice/rose-devservice-core test
+mvn -pl rose-spring-boot/rose-spring-boot-core,rose-spring-boot/rose-spring-boot-autoconfigure,rose-devservice/rose-devservice-core test
 ```
 
 ### 实现状态
@@ -71,7 +71,8 @@ Rose 应用在 **Boot 2.7 / Java 8** 上运行。`rose-spring-boot` 负责：
 
 | 模块                             | 职责                                                          |
 |--------------------------------|-------------------------------------------------------------|
-| `rose-spring-boot`             | Bootstrap EPP、AutoConfiguration、条件注解、`RoseBinder`           |
+| `rose-spring-boot-core`        | Bootstrap EPP、条件注解、`RoseBinder`、默认配置、诊断工具                 |
+| `rose-spring-boot-autoconfigure` | Boot AutoConfiguration 注册与装配                                |
 | `rose-devservice-core`         | Dev Services 注册、容器生命周期、Dev Services FailureAnalyzer         |
 | `rose-observation-spring-boot` | Ambiguous conventions backend FailureAnalyzer               |
 | `rose-spring-core`             | `ListenableConfigurableEnvironmentInitializer`（Framework 层） |

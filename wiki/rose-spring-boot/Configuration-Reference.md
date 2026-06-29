@@ -111,7 +111,9 @@ See [Consumer Guide](../rose-bom/Consumer-Guide) for starter-specific prefixes:
 | `rose.dev.enabled`                     | Global dev services toggle                                     |
 | `rose.dev.<connector>.*`               | Per-connector dev service settings                             |
 
-Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.properties` (see `rose-spring-boot-core`).
+Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.properties` from
+`rose-spring-boot-core`; baseline auto-configuration lives in `rose-spring-boot-autoconfigure`, and
+applications should depend on `rose-spring-boot-starter`.
 
 ---
 

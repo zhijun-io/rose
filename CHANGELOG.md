@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Observation: merged `rose-observation` and `rose-opentelemetry` into `rose-observation`; conventions use `TelemetryConventionsBackend` with `rose.observation.conventions.backend` selection; default stack is `rose-observation-spring-boot`.
 - Observation: Boot auto-configuration moved to `rose-observation-spring-boot`; use `rose-observation-spring-boot` for full stack.
 - OpenTelemetry: SDK moved to `rose-observation-spring-boot-otel`; packages under `io.zhijun.observation.boot.autoconfigure.otel.*`.
+- Spring Boot baseline split into `rose-spring-boot-core` (shared utilities), `rose-spring-boot-autoconfigure` (auto-configuration), and `rose-spring-boot-starter` (recommended application entrypoint).
 - **Package layout (breaking)**: business domains mirror Maven modules — `{domain}.core.*` (`*-core`), `{domain}.spring.*` (`*-spring`), `{domain}.boot.autoconfigure[.{slice}].*` (`*-spring-boot`); DevService registration at `{domain}.boot.registration.*`. See `AGENTS.md`.
 - Removed unused BOM entries `rose-excel` and `rose-sqlite`.
 - MyBatis-Plus upgraded to `3.5.15` (`mybatis-plus-bom`); Micrometer versions follow Spring Boot 2.7.18 BOM (no separate `micrometer-bom` pin).
