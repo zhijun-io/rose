@@ -1,5 +1,6 @@
 package io.zhijun.devservice.boot.registration;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.testcontainers.containers.Container;
@@ -21,12 +22,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
     private final DevServiceCategory category;
     private final Class<C> containerClass;
     private final Function<P, C> containerFactory;
-    private final DynamicPropertyRegistrar<P, C> dynamicProperties;
-
-    @FunctionalInterface
-    public interface DynamicPropertyRegistrar<P, C extends Container<?> & Startable> {
-        void register(ContainerDevServiceRegistrar<P, C> registrar);
-    }
+    private final Consumer<ContainerDevServiceRegistrar<P, C>> dynamicProperties;
 
     private DevServiceConnectorDescriptor(Builder<P, C> builder) {
         this.propertiesType = builder.propertiesType;
@@ -71,7 +67,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
         return containerFactory;
     }
 
-    DynamicPropertyRegistrar<P, C> dynamicProperties() {
+    Consumer<ContainerDevServiceRegistrar<P, C>> dynamicProperties() {
         return dynamicProperties;
     }
 
@@ -84,7 +80,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
         private DevServiceCategory category;
         private Class<C> containerClass;
         private Function<P, C> containerFactory;
-        private DynamicPropertyRegistrar<P, C> dynamicProperties;
+        private Consumer<ContainerDevServiceRegistrar<P, C>> dynamicProperties;
 
         public Builder<P, C> propertiesType(Class<P> propertiesType) {
             this.propertiesType = propertiesType;
@@ -121,7 +117,7 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
             return this;
         }
 
-        public Builder<P, C> dynamicProperties(DynamicPropertyRegistrar<P, C> dynamicProperties) {
+        public Builder<P, C> dynamicProperties(Consumer<ContainerDevServiceRegistrar<P, C>> dynamicProperties) {
             this.dynamicProperties = dynamicProperties;
             return this;
         }

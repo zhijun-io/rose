@@ -30,7 +30,7 @@ public class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable>
                 () -> descriptor.containerFactory().apply(properties));
 
         if (descriptor.dynamicProperties() != null) {
-            descriptor.dynamicProperties().register(this);
+            descriptor.dynamicProperties().accept(this);
         }
     }
 

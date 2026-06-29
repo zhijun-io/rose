@@ -60,6 +60,7 @@ public final class ContainerConfigurer {
             return MountableFile.forHostPath(path);
         }
 
+        // 兼容模式：自动探测路径类型
         if (classpathResourceExists(resourcePath)) {
             return MountableFile.forClasspathResource(resourcePath);
         }
@@ -78,6 +79,7 @@ public final class ContainerConfigurer {
         }
         return ContainerConfigurer.class.getClassLoader().getResource(resourcePath) != null;
     }
+
 
     public static void volumes(GenericContainer<?> container, BaseDevServiceProperties properties) {
         for (VolumeMapping mapping : properties.getVolumes()) {
