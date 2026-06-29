@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -200,6 +201,97 @@ public final class SpiLoader<S> {
         if (classLoader != null) {
             LOADERS.keySet().removeIf(key -> key.classLoader.equals(classLoader));
         }
+    }
+
+    /**
+     * 销毁当前Loader加载的所有单例SPI实例，调用其destroy()方法
+     * <p>此方法用于SPI重新加载或应用关闭时，会触发所有已初始化的单例SPI的destroy回调
+     */
+    public void destroy() {
+        for (ImplementationDefinition<S> definition : definitions) {
+            definition.destroy();
+        }
+    }
+
+    /**
+     * 销毁所有已加载的SPI实例并清空缓存，应用关闭时调用
+     */
+    public static void destroyAll() {
+        for (SpiLoader<?> loader : LOADERS.values()) {
+            loader.destroy();
+        }
+        LOADERS.clear();
+    }
+
+    /**
+     * 销毁指定类加载器相关的所有SPI实例并清空对应缓存
+     * <p>用于类加载器销毁场景，如热重载
+     */
+    public static void destroyAll(ClassLoader classLoader) {
+        if (classLoader != null) {
+            LOADERS.entrySet().removeIf(entry -> {
+                if (entry.getKey().classLoader.equals(classLoader)) {
+                    entry.getValue().destroy();
+                    return true;
+                }
+                return false;
+            });
+        }
+    }
+
+    /**
+     * 重载当前 SPI 类型的所有实现
+     * <p>会销毁当前 Loader 加载的所有单例实例，清除缓存，然后重新扫描并加载最新的实现类
+     * <p>注意：原 Loader 实例不会被修改，返回的新 Loader 实例包含最新的实现
+     * @return 新的 SpiLoader 实例，包含重新加载的 SPI 实现
+     */
+    public SpiLoader<S> reload() {
+        // 销毁当前 Loader 的所有单例实例，调用 destroy 方法已经是线程安全的
+        destroy();
+        // 从缓存中原子移除当前 LoaderKey
+        LoaderKey key = new LoaderKey(serviceType, classLoader, excludedImplementationClassNames);
+        LOADERS.remove(key);
+        // 创建新的 Loader，重新加载实现（会自动扫描最新的配置和类
+        return new SpiLoader<>(serviceType, classLoader, new LinkedHashSet<>(excludedImplementationClassNames));
+    }
+
+    /**
+     * 全局重载所有 SPI 实现
+     * <p>会销毁所有已加载的 SPI 单例实例，清空全部缓存，后续 SPI 加载会重新扫描所有实现
+     * @return 被重载的 SPI 接口类型集合
+     */
+    public static Set<Class<?>> reloadAll() {
+        // 先销毁所有旧实例
+        destroyAll();
+        // 收集所有被重载的 SPI 类型
+        Set<Class<?>> serviceTypes = LOADERS.keySet().stream()
+                .map(key -> key.serviceType)
+                .collect(Collectors.toSet());
+        // 清除所有缓存
+        LOADERS.clear();
+        return serviceTypes;
+    }
+
+    /**
+     * 重载指定类加载器下的所有 SPI 实现
+     * <p>会销毁该类加载器加载的所有 SPI 单例实例，清除对应缓存，后续加载会重新扫描
+     * @param classLoader 要重载的类加载器
+     * @return 被重载的 SPI 接口类型集合
+     */
+    public static Set<Class<?>> reloadAll(ClassLoader classLoader) {
+        Set<Class<?>> serviceTypes = new HashSet<>();
+        if (classLoader != null) {
+            // 原子移除指定类加载器的缓存条目，并销毁对应的 Loader
+            LOADERS.entrySet().removeIf(entry -> {
+                if (entry.getKey().classLoader.equals(classLoader)) {
+                    entry.getValue().destroy();
+                    serviceTypes.add(entry.getKey().serviceType);
+                    return true;
+                }
+                return false;
+            });
+        }
+        return serviceTypes;
     }
     /**
      * Get all loaded SPI information for monitoring.
@@ -826,7 +918,7 @@ public final class SpiLoader<S> {
         private final int priority;
         private final boolean singleton;
         private final boolean enabled;
-        private volatile S singletonInstance;
+        private final Lazy<S> singletonLazy;
         private ImplementationDefinition(Class<? extends S> implementationType, int priority, boolean singleton) {
             this(implementationType, priority, singleton, true);
         }
@@ -836,6 +928,11 @@ public final class SpiLoader<S> {
             this.priority = priority;
             this.singleton = singleton;
             this.enabled = enabled;
+            if (singleton) {
+                this.singletonLazy = new Lazy<>(this::instantiate);
+            } else {
+                this.singletonLazy = null;
+            }
         }
         private static <S> ImplementationDefinition<S> disabled(Class<? extends S> implementationType) {
             return new ImplementationDefinition<>(implementationType, Integer.MAX_VALUE, true, false);
@@ -845,20 +942,11 @@ public final class SpiLoader<S> {
                 throw new IllegalStateException("Disabled SPI implementation should not be instantiated: "
                         + implementationType.getName());
             }
-            if (!singleton) {
+            if (singleton) {
+                return singletonLazy.get();
+            } else {
                 return instantiate();
             }
-            S instance = singletonInstance;
-            if (instance == null) {
-                synchronized (this) {
-                    instance = singletonInstance;
-                    if (instance == null) {
-                        instance = instantiate();
-                        singletonInstance = instance;
-                    }
-                }
-            }
-            return instance;
         }
         private S instantiate() {
             // Try custom instance creators first
@@ -866,7 +954,7 @@ public final class SpiLoader<S> {
                 try {
                     S instance = creator.createInstance(implementationType);
                     if (instance != null) {
-                        return instance;
+                        return initializeInstance(instance);
                     }
                 } catch (Exception e) {
                     if (LOGGER.isLoggable(Level.WARNING)) {
@@ -882,7 +970,8 @@ public final class SpiLoader<S> {
                 if (!constructor.isAccessible()) {
                     constructor.setAccessible(true);
                 }
-                return constructor.newInstance();
+                S instance = constructor.newInstance();
+                return initializeInstance(instance);
             } catch (Exception ex) {
                 throw new SpiInstantiationException(
                         implementationType.getEnclosingClass(),
@@ -890,6 +979,36 @@ public final class SpiLoader<S> {
                         "Failed to instantiate SPI implementation",
                         ex
                 );
+            }
+        }
+
+        /**
+         * 初始化实例，调用生命周期回调
+         */
+        private S initializeInstance(S instance) {
+            if (instance instanceof SpiLifecycle) {
+                ((SpiLifecycle) instance).init();
+            }
+            return instance;
+        }
+
+        /**
+         * 销毁单例实例，调用生命周期回调
+         */
+        private void destroy() {
+            if (singleton && singletonLazy.isInitialized()) {
+                S instance = singletonLazy.get();
+                if (instance instanceof SpiLifecycle) {
+                    try {
+                        ((SpiLifecycle) instance).destroy();
+                    } catch (Exception e) {
+                        if (LOGGER.isLoggable(Level.WARNING)) {
+                            LOGGER.warning(String.format(
+                                    "Failed to destroy SPI implementation %s: %s",
+                                    implementationType.getName(), e.getMessage()));
+                        }
+                    }
+                }
             }
         }
     }

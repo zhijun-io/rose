@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,8 @@ import org.junit.jupiter.api.io.TempDir;
 class SpiLoaderTest {
 
     private static final AtomicInteger DISABLED_INITIALIZATIONS = new AtomicInteger();
+    private static final AtomicInteger LIFECYCLE_INIT_COUNT = new AtomicInteger();
+    private static final AtomicInteger LIFECYCLE_DESTROY_COUNT = new AtomicInteger();
 
     @TempDir
     Path tempDir;
@@ -30,6 +33,7 @@ class SpiLoaderTest {
         SpiLoader.clearCache();
         SingletonImplementation.reset();
         PrototypeImplementation.reset();
+        LifecycleImplementation.reset();
         DISABLED_INITIALIZATIONS.set(0);
     }
 
@@ -43,6 +47,7 @@ class SpiLoaderTest {
                 .containsExactly(
                         ExplicitPriorityImplementation.class,
                         PriorityImplementation.class,
+                        LifecycleImplementation.class,
                         DefaultImplementation.class,
                         PrototypeImplementation.class,
                         SingletonImplementation.class);
@@ -69,8 +74,8 @@ class SpiLoaderTest {
     void supportsPrototypeImplementations() throws IOException {
         SpiLoader<SampleService> loader = SpiLoader.load(SampleService.class, createCompositeClassLoader());
 
-        SampleService first = loader.get().get(3);
-        SampleService second = loader.get().get(3);
+        SampleService first = loader.get().get(4);
+        SampleService second = loader.get().get(4);
 
         assertThat(first).isNotSameAs(second);
         assertThat(PrototypeImplementation.instancesCreated()).isEqualTo(2);
@@ -88,6 +93,7 @@ class SpiLoaderTest {
         assertThat(implementationTypes)
                 .containsExactly(
                         ExplicitPriorityImplementation.class,
+                        LifecycleImplementation.class,
                         PrototypeImplementation.class,
                         SingletonImplementation.class);
     }
@@ -96,7 +102,7 @@ class SpiLoaderTest {
     void returnsFirstImplementationByPriority() throws IOException {
         SampleService first = SpiLoader.load(SampleService.class, createCompositeClassLoader())
                 .getFirst()
-                .orElseThrow(AssertionError::new);
+                .orElseThrow(() -> new AssertionError());
 
         assertThat(first).isInstanceOf(ExplicitPriorityImplementation.class);
     }
@@ -113,6 +119,112 @@ class SpiLoaderTest {
         SpiLoader.load(SampleService.class).getImplementationTypes();
 
         assertThat(DISABLED_INITIALIZATIONS).hasValue(0);
+    }
+
+    @Test
+    void callsLifecycleInitMethodAfterInstantiation() {
+        // 第一次获取实例，应该触发 init
+        List<SampleService> instances = SpiLoader.load(SampleService.class).get();
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(1);
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(0);
+
+        // 第二次获取实例，单例不会重新初始化，init 次数不变
+        List<SampleService> instances2 = SpiLoader.load(SampleService.class).get();
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(1);
+        assertThat(instances.get(0)).isInstanceOf(LifecycleImplementation.class);
+        assertThat(instances.get(0)).isSameAs(instances2.get(0));
+    }
+
+    @Test
+    void callsLifecycleDestroyMethodWhenDestroyingLoader() {
+        // 加载并初始化实例
+        SpiLoader<SampleService> loader = SpiLoader.load(SampleService.class);
+        List<SampleService> instances = loader.get();
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(1);
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(0);
+
+        // 销毁 Loader，应该触发 destroy
+        loader.destroy();
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1);
+
+        // 再次获取实例，会重新创建并触发 init
+        List<SampleService> newInstances = loader.get();
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(2);
+        assertThat(newInstances.get(0)).isNotSameAs(instances.get(0));
+    }
+
+    @Test
+    void reloadCreatesNewInstancesAndDestroysOldOnes() {
+        // 加载初始实例
+        SpiLoader<SampleService> oldLoader = SpiLoader.load(SampleService.class);
+        SampleService oldInstance = oldLoader.getFirst().orElseThrow(() -> new AssertionError());
+        int oldInitCount = LIFECYCLE_INIT_COUNT.get();
+        assertThat(oldInitCount).isGreaterThan(0);
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(0);
+
+        // 执行重载
+        SpiLoader<SampleService> newLoader = oldLoader.reload();
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1); // 旧实例被销毁
+
+        // 新 Loader 返回新的实例
+        SampleService newInstance = newLoader.getFirst().orElseThrow(() -> new AssertionError());
+        assertThat(newInstance).isNotSameAs(oldInstance);
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(oldInitCount + 1); // 新实例被初始化
+    }
+
+    @Test
+    void reloadAllDestroysAllInstances() {
+        // 加载多个 SPI 实例
+        SpiLoader<SampleService> loader1 = SpiLoader.load(SampleService.class);
+        loader1.get();
+        SpiLoader<AnotherSampleService> loader2 = SpiLoader.load(AnotherSampleService.class);
+        loader2.get();
+
+        int initCount1 = LIFECYCLE_INIT_COUNT.get();
+        int initCount2 = AnotherLifecycleImplementation.initCount.get();
+        assertThat(initCount1).isGreaterThan(0);
+        assertThat(initCount2).isGreaterThan(0);
+
+        // 全局重载
+        Set<Class<?>> reloadedTypes = SpiLoader.reloadAll();
+        assertThat(reloadedTypes).contains(SampleService.class, AnotherSampleService.class);
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1);
+        assertThat(AnotherLifecycleImplementation.destroyCount.get()).isEqualTo(1);
+
+        // 重新加载会创建新实例
+        SpiLoader<SampleService> newLoader1 = SpiLoader.load(SampleService.class);
+        assertThat(newLoader1.getFirst().orElseThrow(() -> new AssertionError()))
+                .isNotSameAs(loader1.getFirst().orElseThrow(() -> new AssertionError()));
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(initCount1 + 1);
+    }
+
+    @Test
+    void reloadWithClassLoaderOnlyDestroysTargetClassLoaderInstances() throws IOException {
+        // 系统类加载器加载的实例
+        SpiLoader<SampleService> systemLoader = SpiLoader.load(SampleService.class);
+        SampleService systemInstance = systemLoader.getFirst().orElseThrow(() -> new AssertionError());
+        int systemInitCount = LIFECYCLE_INIT_COUNT.get();
+
+        // 自定义类加载器加载的实例
+        ClassLoader customClassLoader = createCompositeClassLoader();
+        SpiLoader<SampleService> customLoader = SpiLoader.load(SampleService.class, customClassLoader);
+        SampleService customInstance = customLoader.getFirst().orElseThrow(() -> new AssertionError());
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(systemInitCount + 1);
+
+        // 重载自定义类加载器的 SPI
+        Set<Class<?>> reloadedTypes = SpiLoader.reloadAll(customClassLoader);
+        assertThat(reloadedTypes).contains(SampleService.class);
+
+        // 自定义类加载器的实例被销毁，系统类加载器的实例不受影响
+        assertThat(LIFECYCLE_DESTROY_COUNT).hasValue(1); // 只有自定义加载器的实例被销毁
+
+        // 系统类加载器的实例仍然可用
+        assertThat(systemLoader.getFirst().orElseThrow(() -> new AssertionError())).isSameAs(systemInstance);
+
+        // 重新加载自定义类加载器的 SPI 会创建新实例
+        SpiLoader<SampleService> newCustomLoader = SpiLoader.load(SampleService.class, customClassLoader);
+        assertThat(newCustomLoader.getFirst().orElseThrow(() -> new AssertionError())).isNotSameAs(customInstance);
+        assertThat(LIFECYCLE_INIT_COUNT).hasValue(systemInitCount + 2);
     }
 
     interface PlainService {}
@@ -204,6 +316,60 @@ class SpiLoaderTest {
         @Override
         public String id() {
             return "singleton";
+        }
+    }
+
+    @SpiImpl(priority = 600) // 低优先级，排在最后
+    public static class LifecycleImplementation implements SampleService, SpiLifecycle {
+        static void reset() {
+            LIFECYCLE_INIT_COUNT.set(0);
+            LIFECYCLE_DESTROY_COUNT.set(0);
+        }
+
+        @Override
+        public void init() {
+            LIFECYCLE_INIT_COUNT.incrementAndGet();
+        }
+
+        @Override
+        public void destroy() {
+            LIFECYCLE_DESTROY_COUNT.incrementAndGet();
+        }
+
+        @Override
+        public String id() {
+            return "lifecycle";
+        }
+    }
+
+    @Spi
+    interface AnotherSampleService {
+        String name();
+    }
+
+    @SpiImpl
+    public static class AnotherLifecycleImplementation implements AnotherSampleService, SpiLifecycle {
+        static final AtomicInteger initCount = new AtomicInteger();
+        static final AtomicInteger destroyCount = new AtomicInteger();
+
+        static void reset() {
+            initCount.set(0);
+            destroyCount.set(0);
+        }
+
+        @Override
+        public void init() {
+            initCount.incrementAndGet();
+        }
+
+        @Override
+        public void destroy() {
+            destroyCount.incrementAndGet();
+        }
+
+        @Override
+        public String name() {
+            return "another-lifecycle";
         }
     }
 
