@@ -128,18 +128,11 @@
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
                         <encoding>${file.encoding}</encoding>
+                        <compilerArgs>
+                            <compilerArg>-parameters</compilerArg>
+                            <compilerArg>-Xlint:-processing</compilerArg>
+                        </compilerArgs>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <id>default-compile</id>
-                            <configuration>
-                                <compilerArgs>
-                                    <compilerArg>-parameters</compilerArg>
-                                    <compilerArg>-Xlint:-processing</compilerArg>
-                                </compilerArgs>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

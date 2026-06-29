@@ -20,6 +20,8 @@ import org.junit.jupiter.api.io.TempDir;
 
 class SpiLoaderTest {
 
+    private static final AtomicInteger DISABLED_INITIALIZATIONS = new AtomicInteger();
+
     @TempDir
     Path tempDir;
 
@@ -28,6 +30,7 @@ class SpiLoaderTest {
         SpiLoader.clearCache();
         SingletonImplementation.reset();
         PrototypeImplementation.reset();
+        DISABLED_INITIALIZATIONS.set(0);
     }
 
     @Test
@@ -52,6 +55,14 @@ class SpiLoaderTest {
 
         assertThat(first.get(1)).isSameAs(second.get(1));
         assertThat(SingletonImplementation.instancesCreated()).isEqualTo(1);
+    }
+
+    @Test
+    void doesNotCacheLoadersForExplicitClassLoaders() throws IOException {
+        SpiLoader.load(SampleService.class, createCompositeClassLoader()).get();
+        SpiLoader.load(SampleService.class, createCompositeClassLoader()).get();
+
+        assertThat(SingletonImplementation.instancesCreated()).isEqualTo(2);
     }
 
     @Test
@@ -95,6 +106,13 @@ class SpiLoaderTest {
         assertThatThrownBy(() -> SpiLoader.load(PlainService.class))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("@Spi");
+    }
+
+    @Test
+    void doesNotInitializeDisabledImplementationsWhenLoadingDefinitions() {
+        SpiLoader.load(SampleService.class).getImplementationTypes();
+
+        assertThat(DISABLED_INITIALIZATIONS).hasValue(0);
     }
 
     interface PlainService {}
@@ -156,6 +174,10 @@ class SpiLoaderTest {
 
     @SpiImpl(enabled = false, priority = 50)
     public static class DisabledImplementation implements SampleService {
+
+        static {
+            DISABLED_INITIALIZATIONS.incrementAndGet();
+        }
 
         @Override
         public String id() {

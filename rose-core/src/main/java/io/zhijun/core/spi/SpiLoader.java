@@ -62,6 +62,9 @@ public final class SpiLoader<S> {
         Set<String> excluded = excludedImplementationClassNames == null
                 ? Collections.emptySet()
                 : new LinkedHashSet<String>(excludedImplementationClassNames);
+        if (!isCacheable(serviceType, effectiveClassLoader, excluded)) {
+            return new SpiLoader<S>(serviceType, effectiveClassLoader, Collections.unmodifiableSet(excluded));
+        }
         LoaderKey key = new LoaderKey(serviceType, effectiveClassLoader, excluded);
         @SuppressWarnings("unchecked")
         SpiLoader<S> loader = (SpiLoader<S>) LOADERS.computeIfAbsent(
@@ -69,6 +72,14 @@ public final class SpiLoader<S> {
                 ignored -> new SpiLoader<S>(
                         serviceType, effectiveClassLoader, Collections.unmodifiableSet(excluded)));
         return loader;
+    }
+
+    private static boolean isCacheable(
+            Class<?> serviceType, ClassLoader classLoader, Set<String> excludedImplementationClassNames) {
+        if (!excludedImplementationClassNames.isEmpty()) {
+            return false;
+        }
+        return classLoader == stableClassLoader(serviceType);
     }
 
     public List<S> get() {
@@ -102,6 +113,16 @@ public final class SpiLoader<S> {
         LOADERS.clear();
     }
 
+    /**
+     * Clears cached loaders bound to a specific class loader.
+     * <p>This is intended for tests and controlled classpath reload scenarios only.
+     */
+    static void clearCache(ClassLoader classLoader) {
+        if (classLoader != null) {
+            LOADERS.keySet().removeIf(key -> key.classLoader.equals(classLoader));
+        }
+    }
+
     private List<ImplementationDefinition<S>> loadDefinitions() {
         List<String> classNames = readImplementationClassNames();
         List<ImplementationDefinition<S>> loaded = new ArrayList<ImplementationDefinition<S>>(classNames.size());
@@ -114,13 +135,14 @@ public final class SpiLoader<S> {
                 loaded.add(definition);
             }
         }
-        Collections.sort(loaded, Comparator.comparingInt((ImplementationDefinition<S> left) -> left.priority).thenComparing(left -> left.implementationType.getName()));
+        Collections.sort(loaded, Comparator.comparingInt((ImplementationDefinition<S> left) -> left.priority)
+                .thenComparing(left -> left.implementationType.getName()));
         return Collections.unmodifiableList(loaded);
     }
 
     private ImplementationDefinition<S> loadDefinition(String className) {
         try {
-            Class<?> candidate = Class.forName(className, true, classLoader);
+            Class<?> candidate = Class.forName(className, false, classLoader);
             if (!serviceType.isAssignableFrom(candidate)) {
                 throw new IllegalStateException(
                         "Implementation " + className + " does not implement " + serviceType.getName());
@@ -190,6 +212,10 @@ public final class SpiLoader<S> {
         if (contextClassLoader != null) {
             return contextClassLoader;
         }
+        return stableClassLoader(serviceType);
+    }
+
+    private static ClassLoader stableClassLoader(Class<?> serviceType) {
         ClassLoader serviceClassLoader = serviceType.getClassLoader();
         return serviceClassLoader != null ? serviceClassLoader : ClassLoader.getSystemClassLoader();
     }
