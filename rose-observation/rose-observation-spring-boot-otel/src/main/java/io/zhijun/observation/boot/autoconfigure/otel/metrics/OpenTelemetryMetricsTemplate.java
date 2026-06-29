@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.metrics.template;
+package io.zhijun.observation.boot.autoconfigure.otel.metrics;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.metrics.Meter;

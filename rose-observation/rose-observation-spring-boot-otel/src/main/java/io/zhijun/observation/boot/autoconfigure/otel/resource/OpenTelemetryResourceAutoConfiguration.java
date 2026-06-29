@@ -20,7 +20,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.JavaRe
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.OsResourceContributor;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ProcessResourceContributor;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.template.OpenTelemetryResourceTemplate;
 
 /**
  * Auto-configuration for OpenTelemetry {@link Resource}.

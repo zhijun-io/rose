@@ -12,7 +12,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.metrics.ConditionalOnOpenTe
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.console.ConsoleMetricsExporterConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsExporterConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.template.OpenTelemetryMetricsExporterTemplate;
 
 /**
  * Auto-configuration for exporting OpenTelemetry metrics.

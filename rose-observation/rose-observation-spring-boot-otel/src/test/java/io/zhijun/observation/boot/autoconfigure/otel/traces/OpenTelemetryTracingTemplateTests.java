@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.traces.template;
+package io.zhijun.observation.boot.autoconfigure.otel.traces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;

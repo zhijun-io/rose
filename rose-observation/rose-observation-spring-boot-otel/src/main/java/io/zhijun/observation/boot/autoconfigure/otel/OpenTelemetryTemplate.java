@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.template;
+package io.zhijun.observation.boot.autoconfigure.otel;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.context.propagation.ContextPropagators;

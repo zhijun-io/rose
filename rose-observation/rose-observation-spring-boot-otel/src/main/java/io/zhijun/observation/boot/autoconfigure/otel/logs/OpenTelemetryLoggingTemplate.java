@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.logs.template;
+package io.zhijun.observation.boot.autoconfigure.otel.logs;
 
 import java.util.stream.Collectors;
 

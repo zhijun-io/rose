@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.template;
+package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter;
 
 import java.util.concurrent.Executors;
 

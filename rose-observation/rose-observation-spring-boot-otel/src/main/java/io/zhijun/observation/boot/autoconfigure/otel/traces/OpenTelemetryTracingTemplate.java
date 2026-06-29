@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.traces.template;
+package io.zhijun.observation.boot.autoconfigure.otel.traces;
 
 import java.util.List;
 import java.util.stream.Collectors;

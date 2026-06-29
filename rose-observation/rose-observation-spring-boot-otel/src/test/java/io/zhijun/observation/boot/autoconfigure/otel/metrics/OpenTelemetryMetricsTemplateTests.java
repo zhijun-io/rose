@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.metrics.template;
+package io.zhijun.observation.boot.autoconfigure.otel.metrics;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;

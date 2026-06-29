@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.resource.template;
+package io.zhijun.observation.boot.autoconfigure.otel.resource;
 
 import java.util.Map;
 
