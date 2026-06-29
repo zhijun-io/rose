@@ -1,1 +1,1 @@
-io.zhijun.observation.boot.autoconfigure.conventions.otel.OpenTelemetryConventionsAutoConfiguration
+io.zhijun.observation.boot.autoconfigure.conventions.OpenTelemetryConventionsAutoConfiguration

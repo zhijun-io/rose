@@ -1,11 +1,10 @@
-package io.zhijun.observation.boot.autoconfigure.conventions.otel;
+package io.zhijun.observation.boot.autoconfigure.conventions;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.observation.boot.autoconfigure.conventions.TelemetryConventionsBackend;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceBuilderCustomizer;
 
 /**
