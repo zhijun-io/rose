@@ -6,23 +6,19 @@
 
     <parent>
         <groupId>io.zhijun</groupId>
-        <artifactId>rose-multitenancy</artifactId>
+        <artifactId>rose-parent</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-multitenancy-core</artifactId>
-    <name>Rose Multitenancy Core</name>
-    <description>Tenant context, resolver SPI and verification (framework-agnostic)</description>
+    <artifactId>rose-core</artifactId>
+    <name>Rose Annotation</name>
+    <description>Framework-agnostic API contract annotations for Rose</description>
 
     <dependencies>
         <dependency>
-            <groupId>io.zhijun</groupId>
-            <artifactId>rose-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>org.apiguardian</groupId>
+            <artifactId>apiguardian-api</artifactId>
         </dependency>
     </dependencies>
 </project>

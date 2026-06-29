@@ -4,7 +4,7 @@ import java.util.concurrent.Callable;
 
 import org.apiguardian.api.API;
 import org.springframework.util.StringUtils;
-import io.zhijun.annotation.Nullable;
+import io.zhijun.core.annotation.Nullable;
 import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
 
 /**

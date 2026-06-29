@@ -35,7 +35,9 @@
     <modules>
         <module>rose-build</module>
         <module>rose-bom</module>
-        <module>rose-foundation</module>
+        <module>rose-core</module>
+        <module>rose-annotation-processor</module>
+        <module>rose-test</module>
         <module>rose-spring</module>
         <module>rose-spring-boot</module>
         <module>rose-mybatis-plus</module>

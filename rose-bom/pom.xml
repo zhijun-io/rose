@@ -22,7 +22,7 @@
             <!-- Rose artifacts (version = ${project.version}) -->
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-annotation</artifactId>
+                <artifactId>rose-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

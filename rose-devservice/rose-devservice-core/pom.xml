@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-annotation</artifactId>
+            <artifactId>rose-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
