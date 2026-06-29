@@ -22,7 +22,7 @@ class ListenableConfigurableEnvironmentInitializerTests {
                 "demo", java.util.Collections.singletonMap("a", "b")));
 
         assertThat(FactoryLoadedEnvironmentListener.callbacks())
-                .containsExactly("beforeGetPropertySources", "afterGetPropertySources");
+                .containsExactly("onPropertySourcesChanged");
         assertThat(RefreshableContextHolder.getApplicationContext()).isSameAs(context);
     }
 }

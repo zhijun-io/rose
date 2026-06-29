@@ -1,7 +1,9 @@
 package io.zhijun.observation.boot.autoconfigure.otel.config;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,64 +30,63 @@ class OpenTelemetryEnvironmentPropertyConverters {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenTelemetryEnvironmentPropertyConverters.class);
 
-    private static final Map<String, PropagationType> PROPAGATION_MAP = Map.of(
-            "baggage", PropagationType.W3C,
-            "tracecontext", PropagationType.W3C,
-            "b3", PropagationType.B3,
-            "b3multi", PropagationType.B3_MULTI);
+    private static final Map<String, PropagationType> PROPAGATION_MAP;
+
+    static {
+        Map<String, PropagationType> map = new LinkedHashMap<>();
+        map.put("baggage", PropagationType.W3C);
+        map.put("tracecontext", PropagationType.W3C);
+        map.put("b3", PropagationType.B3);
+        map.put("b3multi", PropagationType.B3_MULTI);
+        PROPAGATION_MAP = Collections.unmodifiableMap(map);
+    }
 
     static Function<String, ExporterType> exporterType(String externalKey) {
-        return matcher(
-                externalKey,
-                Map.of(
-                        "console", ExporterType.CONSOLE,
-                        "none", ExporterType.NONE,
-                        "otlp", ExporterType.OTLP),
-                false);
+        Map<String, ExporterType> mapping = new LinkedHashMap<>();
+        mapping.put("console", ExporterType.CONSOLE);
+        mapping.put("none", ExporterType.NONE);
+        mapping.put("otlp", ExporterType.OTLP);
+        return matcher(externalKey, mapping, false);
     }
 
     static Function<String, Protocol> protocol(String externalKey) {
-        return matcher(
-                externalKey,
-                Map.of("grpc", Protocol.GRPC, "http/protobuf", Protocol.HTTP_PROTOBUF),
-                false);
+        Map<String, Protocol> mapping = new LinkedHashMap<>();
+        mapping.put("grpc", Protocol.GRPC);
+        mapping.put("http/protobuf", Protocol.HTTP_PROTOBUF);
+        return matcher(externalKey, mapping, false);
     }
 
     static Function<String, Compression> compression(String externalKey) {
-        return matcher(
-                externalKey, Map.of("gzip", Compression.GZIP, "none", Compression.NONE), false);
+        Map<String, Compression> mapping = new LinkedHashMap<>();
+        mapping.put("gzip", Compression.GZIP);
+        mapping.put("none", Compression.NONE);
+        return matcher(externalKey, mapping, false);
     }
 
     static Function<String, HistogramAggregationStrategy> histogramAggregation(String externalKey) {
-        return matcher(
-                externalKey,
-                Map.of(
-                        "BASE2_EXPONENTIAL_BUCKET_HISTOGRAM", HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM,
-                        "EXPLICIT_BUCKET_HISTOGRAM", HistogramAggregationStrategy.EXPLICIT_BUCKET_HISTOGRAM),
-                true);
+        Map<String, HistogramAggregationStrategy> mapping = new LinkedHashMap<>();
+        mapping.put("BASE2_EXPONENTIAL_BUCKET_HISTOGRAM", HistogramAggregationStrategy.BASE2_EXPONENTIAL_BUCKET_HISTOGRAM);
+        mapping.put("EXPLICIT_BUCKET_HISTOGRAM", HistogramAggregationStrategy.EXPLICIT_BUCKET_HISTOGRAM);
+        return matcher(externalKey, mapping, true);
     }
 
     static Function<String, AggregationTemporalityStrategy> aggregationTemporality(String externalKey) {
-        return matcher(
-                externalKey,
-                Map.of(
-                        "CUMULATIVE", AggregationTemporalityStrategy.CUMULATIVE,
-                        "DELTA", AggregationTemporalityStrategy.DELTA,
-                        "LOWMEMORY", AggregationTemporalityStrategy.LOW_MEMORY),
-                true);
+        Map<String, AggregationTemporalityStrategy> mapping = new LinkedHashMap<>();
+        mapping.put("CUMULATIVE", AggregationTemporalityStrategy.CUMULATIVE);
+        mapping.put("DELTA", AggregationTemporalityStrategy.DELTA);
+        mapping.put("LOWMEMORY", AggregationTemporalityStrategy.LOW_MEMORY);
+        return matcher(externalKey, mapping, true);
     }
 
     static Function<String, SamplingStrategy> samplingStrategy(String externalKey) {
-        return matcher(
-                externalKey,
-                Map.of(
-                        "always_on", SamplingStrategy.ALWAYS_ON,
-                        "always_off", SamplingStrategy.ALWAYS_OFF,
-                        "traceidratio", SamplingStrategy.TRACE_ID_RATIO,
-                        "parentbased_always_on", SamplingStrategy.PARENT_BASED_ALWAYS_ON,
-                        "parentbased_always_off", SamplingStrategy.PARENT_BASED_ALWAYS_OFF,
-                        "parentbased_traceidratio", SamplingStrategy.PARENT_BASED_TRACE_ID_RATIO),
-                false);
+        Map<String, SamplingStrategy> mapping = new LinkedHashMap<>();
+        mapping.put("always_on", SamplingStrategy.ALWAYS_ON);
+        mapping.put("always_off", SamplingStrategy.ALWAYS_OFF);
+        mapping.put("traceidratio", SamplingStrategy.TRACE_ID_RATIO);
+        mapping.put("parentbased_always_on", SamplingStrategy.PARENT_BASED_ALWAYS_ON);
+        mapping.put("parentbased_always_off", SamplingStrategy.PARENT_BASED_ALWAYS_OFF);
+        mapping.put("parentbased_traceidratio", SamplingStrategy.PARENT_BASED_TRACE_ID_RATIO);
+        return matcher(externalKey, mapping, false);
     }
 
     static Function<String, List<PropagationType>> propagationType(String externalKey) {
@@ -106,13 +107,12 @@ class OpenTelemetryEnvironmentPropertyConverters {
     }
 
     static Function<String, OpenTelemetryMetricsProperties.ExemplarFilter> exemplarFilter(String externalKey) {
-        return matcher(
-                externalKey,
-                Map.of(
-                        "always_on", OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_ON,
-                        "always_off", OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_OFF,
-                        "trace_based", OpenTelemetryMetricsProperties.ExemplarFilter.TRACE_BASED),
-                false);
+        Map<String, OpenTelemetryMetricsProperties.ExemplarFilter> mapping =
+                new LinkedHashMap<>();
+        mapping.put("always_on", OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_ON);
+        mapping.put("always_off", OpenTelemetryMetricsProperties.ExemplarFilter.ALWAYS_OFF);
+        mapping.put("trace_based", OpenTelemetryMetricsProperties.ExemplarFilter.TRACE_BASED);
+        return matcher(externalKey, mapping, false);
     }
 
     private static <E> Function<String, E> matcher(String externalKey, Map<String, E> mapping, boolean upper) {
