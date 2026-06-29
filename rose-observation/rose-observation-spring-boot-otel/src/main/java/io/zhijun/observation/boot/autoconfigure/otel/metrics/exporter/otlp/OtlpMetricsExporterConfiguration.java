@@ -14,13 +14,12 @@ import org.springframework.context.annotation.Configuration;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterTypeNames;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpConnectionUrls;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.ConditionalOnOpenTelemetryMetricsExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMeterProviderBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.template.OtlpMetricsExporterTemplate;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.internal.PropertiesOtlpMetricsConnectionDetails;
 
 /**
  * Auto-configuration for exporting metrics via OTLP.
@@ -35,7 +34,7 @@ public final class OtlpMetricsExporterConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OtlpMetricsConnectionDetails.class)
-    PropertiesOtlpMetricsConnectionDetails otlpMetricsConnectionDetails(
+    OtlpMetricsConnectionDetails otlpMetricsConnectionDetails(
             OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties) {
         return new PropertiesOtlpMetricsConnectionDetails(commonProperties, properties);
     }
@@ -80,31 +79,5 @@ public final class OtlpMetricsExporterConfiguration {
     @Bean
     OpenTelemetryMeterProviderBuilderCustomizer histogramAggregation(OpenTelemetryMetricsExporterProperties properties) {
         return template.histogramAggregation(properties);
-    }
-
-    /**
-     * Implementation of {@link OtlpMetricsConnectionDetails} that uses properties to determine the OTLP endpoint.
-     */
-    static class PropertiesOtlpMetricsConnectionDetails implements OtlpMetricsConnectionDetails {
-
-        private final OpenTelemetryExporterProperties commonProperties;
-        private final OpenTelemetryMetricsExporterProperties properties;
-
-        PropertiesOtlpMetricsConnectionDetails(
-                OpenTelemetryExporterProperties commonProperties, OpenTelemetryMetricsExporterProperties properties) {
-            this.commonProperties = commonProperties;
-            this.properties = properties;
-        }
-
-        @Override
-        public String getUrl(Protocol protocol) {
-            return OtlpConnectionUrls.resolve(
-                    protocol,
-                    commonProperties,
-                    properties.getOtlp(),
-                    METRICS_PATH,
-                    DEFAULT_HTTP_PROTOBUF_ENDPOINT,
-                    DEFAULT_GRPC_ENDPOINT);
-        }
     }
 }

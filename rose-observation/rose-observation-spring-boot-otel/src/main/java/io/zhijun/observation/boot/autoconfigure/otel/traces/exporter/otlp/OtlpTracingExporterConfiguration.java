@@ -17,7 +17,7 @@ import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.ProtocolNames;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.ConditionalOnOpenTelemetryTracingExporter;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.template.OtlpTracingExporterTemplate;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.internal.PropertiesOtlpTracingConnectionDetails;
 
 /**
  * Auto-configuration for exporting traces via OTLP.
@@ -34,7 +34,7 @@ public final class OtlpTracingExporterConfiguration {
     @ConditionalOnMissingBean(OtlpTracingConnectionDetails.class)
     OtlpTracingConnectionDetails otlpTracingConnectionDetails(
             OpenTelemetryExporterProperties commonProperties, OpenTelemetryTracingExporterProperties properties) {
-        return new OtlpTracingExporterTemplate.PropertiesOtlpTracingConnectionDetails(commonProperties, properties);
+        return new PropertiesOtlpTracingConnectionDetails(commonProperties, properties);
     }
 
     @Bean

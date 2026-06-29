@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.template;
+package io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.ObjectProvider;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTracingConnectionDetails;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterProperties;
 
 class OtlpTracingExporterTemplateTests {

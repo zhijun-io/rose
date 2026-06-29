@@ -1,4 +1,4 @@
-package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.template;
+package io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
 
 class OtlpMetricsExporterTemplateTests {
