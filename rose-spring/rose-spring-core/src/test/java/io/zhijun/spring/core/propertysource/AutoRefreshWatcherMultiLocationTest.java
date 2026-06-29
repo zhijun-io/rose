@@ -1,12 +1,10 @@
-package io.zhijun.spring.core.propertysource.support;
+package io.zhijun.spring.core.propertysource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.zhijun.spring.core.propertysource.AutoRefreshWatcher;
-import io.zhijun.spring.core.propertysource.PropertySourceReloadCallback;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
 

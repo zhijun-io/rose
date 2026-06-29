@@ -1,7 +1,10 @@
-package io.zhijun.spring.core.binder.support;
+package io.zhijun.spring.core.binder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.zhijun.spring.core.binder.support.DefaultConfigurationBeanAliasGenerator;
+import io.zhijun.spring.core.binder.support.HyphenDelimitedAliasGenerator;
+import io.zhijun.spring.core.binder.support.UnderscoreDelimitedAliasGenerator;
 import org.junit.jupiter.api.Test;
 
 class ConfigurationBeanAliasGeneratorTests {
