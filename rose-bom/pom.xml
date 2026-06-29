@@ -14,11 +14,12 @@
     <artifactId>rose-bom</artifactId>
     <packaging>pom</packaging>
     <name>Rose BOM</name>
-    <description>Consumer-facing Bill of Materials for Rose artifacts</description>
+    <description>Consumer-facing Bill of Materials for Rose artifacts. Third-party alignment versions and
+        compatibility lower bounds are documented on rose-parent properties and docs/rose-conventions.md.</description>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Base platform -->
+            <!-- Rose artifacts (version = ${project.version}) -->
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-annotation</artifactId>
