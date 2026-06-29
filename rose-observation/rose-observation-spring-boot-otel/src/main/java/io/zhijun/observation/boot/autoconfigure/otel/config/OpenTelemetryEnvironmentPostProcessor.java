@@ -32,20 +32,13 @@ public class OpenTelemetryEnvironmentPostProcessor implements EnvironmentPostPro
         }
 
         Map<String, Object> roseProperties = new HashMap<String, Object>();
-        roseProperties.putAll(
-                OpenTelemetryEnvironmentPropertyAdapters.general(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.batchSpanProcessor(environment)
-                .getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.attributeLimits(environment)
-                .getRoseProperties());
-        roseProperties.putAll(
-                OpenTelemetryEnvironmentPropertyAdapters.spanLimits(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.exporterSelection(environment)
-                .getRoseProperties());
-        roseProperties.putAll(
-                OpenTelemetryEnvironmentPropertyAdapters.metrics(environment).getRoseProperties());
-        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.otlpExporter(environment)
-                .getRoseProperties());
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.general(environment));
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.batchSpanProcessor(environment));
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.attributeLimits(environment));
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.spanLimits(environment));
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.exporterSelection(environment));
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.metrics(environment));
+        roseProperties.putAll(OpenTelemetryEnvironmentPropertyAdapters.otlpExporter(environment));
 
         MapPropertySource propertySource = new MapPropertySource(PROPERTY_SOURCE_NAME, roseProperties);
         MutablePropertySources propertySources = environment.getPropertySources();

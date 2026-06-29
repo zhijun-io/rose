@@ -11,7 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
+import io.zhijun.spring.core.env.EnvironmentListener;
 
 /**
  * Dispatches property source changes to {@link Refreshable} extensions.

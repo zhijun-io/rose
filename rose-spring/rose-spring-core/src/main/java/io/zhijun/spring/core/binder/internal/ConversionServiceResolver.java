@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.binder.support;
+package io.zhijun.spring.core.binder.internal;
 
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -7,7 +7,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.format.support.DefaultFormattingConversionService;
 
 /**
- * Resolves {@link ConversionService} for {@link io.zhijun.spring.core.binder.config.ConfigurationBeanBinder}:
+ * Resolves {@link ConversionService} for {@link io.zhijun.spring.core.binder.ConfigurationBeanBinder}:
  * bean factory → conversionService bean → environment → {@link org.springframework.format.support.DefaultFormattingConversionService}.
  */
 public class ConversionServiceResolver {

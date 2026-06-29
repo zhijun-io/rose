@@ -20,9 +20,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.spring.core.propertysource.watch.AutoRefreshWatcher;
-import io.zhijun.spring.core.propertysource.watch.AutoRefreshWatcherLifecycle;
-import io.zhijun.spring.core.propertysource.watch.PropertySourceReloadCallback;
 
 /**
  * Shared loading logic for {@code @ResourcePropertySource}.

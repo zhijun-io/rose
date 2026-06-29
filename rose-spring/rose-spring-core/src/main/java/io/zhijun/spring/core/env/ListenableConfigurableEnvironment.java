@@ -13,7 +13,6 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.Profiles;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
 
 /**
  * ConfigurableEnvironment wrapper that publishes property-source change events through

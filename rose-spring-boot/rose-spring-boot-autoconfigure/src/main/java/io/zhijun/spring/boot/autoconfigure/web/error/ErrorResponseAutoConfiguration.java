@@ -1,6 +1,6 @@
 package io.zhijun.spring.boot.autoconfigure.web.error;
 
-import io.zhijun.spring.core.web.error.ApplicationExceptionHandler;
+import io.zhijun.spring.core.web.ApplicationExceptionHandler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

@@ -15,7 +15,7 @@ class ConfigurationBeanAliasGeneratorTests {
 
     @Test
     void hyphenGeneratorJoinsPrefixSegmentsAndBeanName() {
-        DelimitedAliasGenerator.Hyphen generator = new DelimitedAliasGenerator.Hyphen();
+        HyphenDelimitedAliasGenerator generator = new HyphenDelimitedAliasGenerator();
 
         assertThat(generator.generateAlias("rose.app", "primary", UserProperties.class))
                 .isEqualTo("roseApp-primary");
@@ -23,7 +23,7 @@ class ConfigurationBeanAliasGeneratorTests {
 
     @Test
     void underscoreGeneratorUsesUnderscoreDelimiter() {
-        DelimitedAliasGenerator.Underscore generator = new DelimitedAliasGenerator.Underscore();
+        UnderscoreDelimitedAliasGenerator generator = new UnderscoreDelimitedAliasGenerator();
 
         assertThat(generator.generateAlias("rose.app", "primary", UserProperties.class))
                 .isEqualTo("roseApp_primary");

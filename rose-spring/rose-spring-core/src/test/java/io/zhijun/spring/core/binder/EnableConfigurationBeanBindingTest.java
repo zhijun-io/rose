@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;
 
 import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
 
 @EnableConfigurationBeanBinding(prefix = "usr", type = User.class)
 class EnableConfigurationBeanBindingTest extends AbstractEnableConfigurationBeanBindingTest {

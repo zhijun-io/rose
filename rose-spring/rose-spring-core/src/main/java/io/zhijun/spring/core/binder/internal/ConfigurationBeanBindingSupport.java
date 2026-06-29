@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.binder.support;
+package io.zhijun.spring.core.binder.internal;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,8 +16,8 @@ import io.zhijun.spring.core.env.PropertySourcesUtils;
  * Shared rules for {@link EnableConfigurationBeanBinding} registration and env hot-reload.
  * <p>
  * Keeps {@link io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingRegistrar} and
- * {@link io.zhijun.spring.core.binder.refresh.ConfigurationBeanBindingRefreshable} aligned on
- * how prefix properties are sliced, especially when {@code multiple = true}.
+ * {@link ConfigurationBeanBindingRefreshable} aligned on how prefix properties are sliced,
+ * especially when {@code multiple = true}.
  */
 public final class ConfigurationBeanBindingSupport {
 

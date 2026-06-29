@@ -14,7 +14,6 @@ import org.springframework.core.env.PropertySource;
 
 import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
 import io.zhijun.spring.core.env.refresh.EnvRefreshProperties;
 
 /**

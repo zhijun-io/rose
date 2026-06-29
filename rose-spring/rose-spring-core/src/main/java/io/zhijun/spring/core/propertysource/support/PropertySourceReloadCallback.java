@@ -1,11 +1,10 @@
-package io.zhijun.spring.core.propertysource.watch;
+package io.zhijun.spring.core.propertysource.support;
 
 import org.springframework.core.io.Resource;
 
 /**
- * Callback when a file-backed property source location changes.
+ * Callback triggered when a watched property-source resource changes.
  */
-@FunctionalInterface
 public interface PropertySourceReloadCallback {
 
     void onReload(String resourceValue, Resource resource) throws Throwable;

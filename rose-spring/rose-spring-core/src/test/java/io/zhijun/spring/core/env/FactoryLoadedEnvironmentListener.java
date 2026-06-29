@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
-import io.zhijun.spring.core.env.listener.EnvironmentListener;
-
 public class FactoryLoadedEnvironmentListener implements EnvironmentListener {
 
     private static final List<String> CALLBACKS = new ArrayList<String>();

@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.propertysource.watch;
+package io.zhijun.spring.core.propertysource.support;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

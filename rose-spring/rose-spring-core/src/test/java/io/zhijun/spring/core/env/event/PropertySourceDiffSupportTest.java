@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.env.event.internal;
+package io.zhijun.spring.core.env.event;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

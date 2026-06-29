@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Import;
  * <p>
  * This is the Rose alternative to Boot {@code @ConfigurationProperties}: it works with plain
  * {@code spring-context}, registers beans via {@link Import}, and supports env hot-reload through
- * {@link io.zhijun.spring.core.binder.refresh.ConfigurationBeanBindingRefreshable}.
+ * {@link io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingRefreshable}.
  * <p>
  * <b>Startup flow</b>
  * <ol>

@@ -1,7 +1,19 @@
 package io.zhijun.observation.boot.autoconfigure.otel.config;
 
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
@@ -11,7 +23,6 @@ import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResou
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterProperties;
-import io.zhijun.spring.core.env.PropertyAdapter;
 
 /**
  * Adapters from the OpenTelemetry Environment Variable Specification to {@code rose.otel.*} properties.
@@ -20,9 +31,10 @@ import io.zhijun.spring.core.env.PropertyAdapter;
  */
 class OpenTelemetryEnvironmentPropertyAdapters {
 
-    static PropertyAdapter general(ConfigurableEnvironment environment) {
-        Assert.notNull(environment, "environment cannot be null");
-        return PropertyAdapter.builder(environment)
+    private static final Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)(ms|s|m|h)$");
+
+    static Map<String, Object> general(ConfigurableEnvironment environment) {
+        return map(environment)
                 .mapProperty(
                         "otel.sdk.disabled",
                         OpenTelemetryProperties.ENABLED_PROPERTY,
@@ -43,9 +55,8 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                 .build();
     }
 
-    static PropertyAdapter batchSpanProcessor(ConfigurableEnvironment environment) {
-        Assert.notNull(environment, "environment cannot be null");
-        return PropertyAdapter.builder(environment)
+    static Map<String, Object> batchSpanProcessor(ConfigurableEnvironment environment) {
+        return map(environment)
                 .mapDuration(
                         "otel.bsp.schedule.delay",
                         OpenTelemetryTracingProperties.CONFIG_PREFIX + ".processor.schedule-delay")
@@ -61,9 +72,8 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                 .build();
     }
 
-    static PropertyAdapter attributeLimits(ConfigurableEnvironment environment) {
-        Assert.notNull(environment, "environment cannot be null");
-        return PropertyAdapter.builder(environment)
+    static Map<String, Object> attributeLimits(ConfigurableEnvironment environment) {
+        return map(environment)
                 .mapInteger(
                         "otel.attribute.value.length.limit",
                         OpenTelemetryTracingProperties.CONFIG_PREFIX + ".limits.max-attribute-value-length")
@@ -73,9 +83,8 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                 .build();
     }
 
-    static PropertyAdapter spanLimits(ConfigurableEnvironment environment) {
-        Assert.notNull(environment, "environment cannot be null");
-        return PropertyAdapter.builder(environment)
+    static Map<String, Object> spanLimits(ConfigurableEnvironment environment) {
+        return map(environment)
                 .mapInteger(
                         "otel.span.attribute.value.length.limit",
                         OpenTelemetryTracingProperties.CONFIG_PREFIX + ".limits.max-attribute-value-length")
@@ -97,9 +106,8 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                 .build();
     }
 
-    static PropertyAdapter exporterSelection(ConfigurableEnvironment environment) {
-        Assert.notNull(environment, "environment cannot be null");
-        return PropertyAdapter.builder(environment)
+    static Map<String, Object> exporterSelection(ConfigurableEnvironment environment) {
+        return map(environment)
                 .mapEnum(
                         "otel.traces.exporter",
                         OpenTelemetryTracingExporterProperties.TYPE_PROPERTY,
@@ -111,9 +119,8 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                 .build();
     }
 
-    static PropertyAdapter metrics(ConfigurableEnvironment environment) {
-        Assert.notNull(environment, "environment cannot be null");
-        return PropertyAdapter.builder(environment)
+    static Map<String, Object> metrics(ConfigurableEnvironment environment) {
+        return map(environment)
                 .mapEnum(
                         "otel.metrics.exemplar.filter",
                         OpenTelemetryMetricsProperties.CONFIG_PREFIX + ".exemplars.filter",
@@ -125,9 +132,8 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                 .build();
     }
 
-    static PropertyAdapter otlpExporter(ConfigurableEnvironment environment) {
-        Assert.notNull(environment, "environment cannot be null");
-        return PropertyAdapter.builder(environment)
+    static Map<String, Object> otlpExporter(ConfigurableEnvironment environment) {
+        return map(environment)
                 .mapEnum(
                         "otel.exporter.otlp.protocol",
                         OpenTelemetryExporterProperties.CONFIG_PREFIX + ".otlp.protocol",
@@ -176,5 +182,121 @@ class OpenTelemetryEnvironmentPropertyAdapters {
                         "otel.exporter.otlp.traces.timeout",
                         OpenTelemetryTracingExporterProperties.CONFIG_PREFIX + ".otlp.timeout")
                 .build();
+    }
+
+    private static Mapper map(ConfigurableEnvironment environment) {
+        Assert.notNull(environment, "environment cannot be null");
+        return new Mapper(environment);
+    }
+
+    private static final class Mapper {
+
+        private final ConfigurableEnvironment environment;
+
+        private final Map<String, Object> properties = new HashMap<String, Object>();
+
+        private Mapper(ConfigurableEnvironment environment) {
+            this.environment = environment;
+        }
+
+        private <T> Mapper mapProperty(String externalKey, String roseKey, Function<String, T> converter) {
+            Assert.hasText(externalKey, "externalKey cannot be null or empty");
+            Assert.hasText(roseKey, "roseKey cannot be null or empty");
+            Assert.notNull(converter, "converter cannot be null");
+
+            String value = environment.getProperty(externalKey);
+            if (StringUtils.hasText(value)) {
+                T convertedValue = converter.apply(value.trim());
+                if (convertedValue != null) {
+                    properties.put(roseKey, convertedValue);
+                }
+            }
+            return this;
+        }
+
+        private <T> Mapper mapEnum(
+                String externalKey, String roseKey, Function<String, Function<String, T>> converterFactory) {
+            Assert.notNull(converterFactory, "converterFactory cannot be null");
+            return mapProperty(externalKey, roseKey, converterFactory.apply(externalKey));
+        }
+
+        private Mapper mapString(String externalKey, String roseKey) {
+            return mapProperty(externalKey, roseKey, value -> value);
+        }
+
+        private Mapper mapDouble(String externalKey, String roseKey) {
+            return mapProperty(externalKey, roseKey, value -> {
+                try {
+                    return Double.parseDouble(value);
+                } catch (NumberFormatException ex) {
+                    return null;
+                }
+            });
+        }
+
+        private Mapper mapInteger(String externalKey, String roseKey) {
+            return mapProperty(externalKey, roseKey, value -> {
+                try {
+                    return Integer.parseInt(value);
+                } catch (NumberFormatException ex) {
+                    return null;
+                }
+            });
+        }
+
+        private Mapper mapDuration(String externalKey, String roseKey) {
+            return mapProperty(externalKey, roseKey, value -> {
+                try {
+                    Matcher matcher = DURATION_PATTERN.matcher(value);
+                    if (matcher.matches()) {
+                        long amount = Long.parseLong(matcher.group(1));
+                        String unit = matcher.group(2);
+                        if ("ms".equals(unit)) {
+                            return Duration.ofMillis(amount);
+                        }
+                        if ("s".equals(unit)) {
+                            return Duration.ofSeconds(amount);
+                        }
+                        if ("m".equals(unit)) {
+                            return Duration.ofMinutes(amount);
+                        }
+                        if ("h".equals(unit)) {
+                            return Duration.ofHours(amount);
+                        }
+                    }
+                    return Duration.ofMillis(Long.parseLong(value));
+                } catch (Exception ex) {
+                    return null;
+                }
+            });
+        }
+
+        private Mapper mapMap(String externalKey, String roseKey) {
+            return mapMap(externalKey, roseKey, null);
+        }
+
+        private Mapper mapMap(
+                String externalKey, String roseKey, Function<Map<String, String>, Map<String, String>> postProcessor) {
+            return mapProperty(externalKey, roseKey, value -> {
+                Map<String, String> propertyMap = new HashMap<String, String>();
+                String[] keyValuePairs = StringUtils.tokenizeToStringArray(value, ",");
+                for (String pair : keyValuePairs) {
+                    String[] entry = pair.split("=", 2);
+                    if (entry.length == 2 && StringUtils.hasText(entry[0]) && StringUtils.hasText(entry[1])) {
+                        propertyMap.put(
+                                entry[0].trim(), StringUtils.uriDecode(entry[1].trim(), StandardCharsets.UTF_8));
+                    }
+                }
+                Map<String, String> result = propertyMap;
+                if (postProcessor != null) {
+                    result = postProcessor.apply(propertyMap);
+                }
+                return CollectionUtils.isEmpty(result) ? null : result;
+            });
+        }
+
+        private Map<String, Object> build() {
+            return properties;
+        }
     }
 }

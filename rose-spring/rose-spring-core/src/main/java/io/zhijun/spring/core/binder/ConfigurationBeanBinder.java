@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.binder.config;
+package io.zhijun.spring.core.binder;
 
 import java.util.Map;
 

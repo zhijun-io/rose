@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.binder.refresh;
+package io.zhijun.spring.core.binder.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.MapPropertySource;
 
+import io.zhijun.spring.core.binder.ConfigurationBeanCustomizer;
 import io.zhijun.spring.core.binder.User;
 import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
 import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
 import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
 

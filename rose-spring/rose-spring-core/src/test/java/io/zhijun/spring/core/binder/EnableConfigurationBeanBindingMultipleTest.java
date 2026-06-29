@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 
 import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
 import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
 
 @EnableConfigurationBeanBinding(
         prefix = "users",

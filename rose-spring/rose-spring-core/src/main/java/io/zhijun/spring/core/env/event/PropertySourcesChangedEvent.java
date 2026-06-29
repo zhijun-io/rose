@@ -11,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.core.env.PropertySource;
 
-import io.zhijun.spring.core.env.event.internal.PropertySourceDiffSupport;
 
 /**
  * Bulk property source change event.

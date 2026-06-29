@@ -25,8 +25,8 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
+import io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator;
-import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.env.PropertySourcesUtils;
 
 /**

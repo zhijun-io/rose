@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.binder.refresh;
+package io.zhijun.spring.core.binder.internal;
 
 import java.util.Set;
 
@@ -10,7 +10,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
 import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
 import io.zhijun.spring.core.env.refresh.Refreshable;
 import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
 

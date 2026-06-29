@@ -24,16 +24,16 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.ClassUtils;
 
-import io.zhijun.spring.core.binder.config.ConfigurationBeanBinder;
-import io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer;
-import io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport;
-import io.zhijun.spring.core.binder.support.ConversionServiceResolver;
+import io.zhijun.spring.core.binder.ConfigurationBeanBinder;
+import io.zhijun.spring.core.binder.ConfigurationBeanCustomizer;
+import io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingSupport;
+import io.zhijun.spring.core.binder.internal.ConversionServiceResolver;
 
 /**
- * Binds {@link EnableConfigurationBeanBinding} beans and runs {@link io.zhijun.spring.core.binder.config.ConfigurationBeanCustomizer}
+ * Binds {@link EnableConfigurationBeanBinding} beans and runs {@link io.zhijun.spring.core.binder.ConfigurationBeanCustomizer}
  * callbacks after each bind.
  * <p>
- * Configuration beans are recognized by {@link io.zhijun.spring.core.binder.support.ConfigurationBeanBindingSupport#CONFIGURATION_BEAN_SOURCE}
+ * Configuration beans are recognized by {@link io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingSupport#CONFIGURATION_BEAN_SOURCE}
  * on their {@link org.springframework.beans.factory.config.BeanDefinition}. Binding runs in
  * {@link #postProcessBeforeInitialization} so fields are populated before {@code @PostConstruct}.
  * <p>

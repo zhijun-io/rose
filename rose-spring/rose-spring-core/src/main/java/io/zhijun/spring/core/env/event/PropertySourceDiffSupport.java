@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.env.event.internal;
+package io.zhijun.spring.core.env.event;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
