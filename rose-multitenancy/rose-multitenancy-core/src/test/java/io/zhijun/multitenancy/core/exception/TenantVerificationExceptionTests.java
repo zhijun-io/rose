@@ -13,6 +13,8 @@ class TenantVerificationExceptionTests {
     void whenDefaultMessage() {
         TenantVerificationException exception = new TenantVerificationException();
         assertThat(exception).hasMessageContaining("Tenant verification failed");
+        assertThat(exception.getErrorCode()).isEqualTo("TENANT_VERIFICATION_FAILED");
+        assertThat(exception.isRetryable()).isFalse();
     }
 
     @Test
@@ -20,5 +22,6 @@ class TenantVerificationExceptionTests {
         String message = "Custom multitenancy exception message";
         TenantVerificationException exception = new TenantVerificationException(message);
         assertThat(exception).hasMessageContaining(message);
+        assertThat(exception.getErrorCode()).isEqualTo("TENANT_VERIFICATION_FAILED");
     }
 }
