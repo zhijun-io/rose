@@ -61,6 +61,9 @@ instead of duplicating `rose-spring-boot-starter`. `rose-spring-boot-core` and
 `rose-spring-boot-autoconfigure` are intended for advanced/manual composition. See
 [Consumer Guide](../rose-bom/Consumer-Guide).
 
+If the application also needs Rose actuator integration, add `rose-actuator-spring-boot-starter` on top of the
+baseline starter.
+
 ### Step 3 — Optional Dev Services
 
 Add a connector with `runtime` + `optional` scope and the matching Spring Boot starter (e.g. JDBC):

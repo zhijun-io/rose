@@ -1,5 +1,7 @@
 package io.zhijun.spring.boot.bind;
 
+import io.zhijun.core.annotation.Experimental;
+
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
@@ -10,8 +12,11 @@ import org.springframework.util.Assert;
 
 /**
  * Lightweight helpers around Spring Boot {@link Binder}.
+ * <p>
+ * Intended for Rose extension modules and advanced integrations that need small, direct property binding helpers
+ * without introducing a larger configuration object model.
  */
-
+@Experimental(since = "0.0.1")
 public final class RoseBinder {
 
     private final Binder binder;

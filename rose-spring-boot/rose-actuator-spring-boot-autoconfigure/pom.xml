@@ -11,31 +11,22 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-spring-boot-core</artifactId>
-    <name>Rose Spring Boot Core</name>
-    <description>Shared Spring Boot utilities and baseline runtime for Rose applications</description>
+    <artifactId>rose-actuator-spring-boot-autoconfigure</artifactId>
+    <name>Rose Actuator Spring Boot AutoConfigure</name>
+    <description>Actuator auto-configuration for Rose Spring Boot</description>
 
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
+            <artifactId>rose-spring-boot-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 </project>

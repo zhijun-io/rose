@@ -25,11 +25,18 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 |-------------------------------------|---------------------------------------------------------------------------|
 | `rose-spring-boot-starter`          | Baseline Rose platform for applications                                   |
 | `rose-spring-boot-autoconfigure`    | Manual composition of Rose Boot auto-configuration                        |
+| `rose-actuator-spring-boot-starter` | Actuator starter for applications that want Rose actuator integration     |
 | `rose-spring-boot-core`             | Shared Boot utilities (`RoseBinder`, diagnostics, `config/default/*`)     |
 | `rose-observation-spring-boot`      | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions |
 | `rose-observation-spring-boot-otel` | OTel SDK Boot auto-configuration only                                     |
 | `rose-multitenancy-spring-boot`     | Multitenancy Boot auto-configuration (HTTP resolution on servlet apps)    |
 | `rose-mybatis-plus-spring-boot`     | MyBatis-Plus audit, encryption, data permission                           |
+
+Recommended combinations:
+
+- Baseline application: `rose-spring-boot-starter`
+- Baseline + actuator: `rose-spring-boot-starter` + `rose-actuator-spring-boot-starter`
+- Manual framework composition only: `rose-spring-boot-autoconfigure` or `rose-actuator-spring-boot-autoconfigure`
 
 ```xml
 <!-- Observation -->
@@ -79,7 +86,8 @@ OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via e
 | `rose-spring-boot-core`     | Boot shared utilities (`RoseBinder`, `config/default/*`, diagnostics) |
 | `rose-spring-boot-autoconfigure` | Baseline Boot auto-configuration wiring                         |
 | `rose-spring-boot-starter`  | Recommended application entrypoint starter                            |
-| `rose-spring-boot-actuator` | Actuator extensions                                                   |
+| `rose-actuator-spring-boot-autoconfigure` | Actuator auto-configuration                              |
+| `rose-actuator-spring-boot-starter` | Actuator starter                                            |
 
 ### Data & persistence
 

@@ -20,7 +20,8 @@
         <module>rose-spring-boot-core</module>
         <module>rose-spring-boot-autoconfigure</module>
         <module>rose-spring-boot-starter</module>
-        <module>rose-spring-boot-actuator</module>
+        <module>rose-actuator-spring-boot-autoconfigure</module>
+        <module>rose-actuator-spring-boot-starter</module>
     </modules>
 
     <dependencies>

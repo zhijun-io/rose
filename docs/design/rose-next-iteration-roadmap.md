@@ -59,7 +59,7 @@
 | Env 热更 / Refreshable       | `rose-spring-core`                               | ✅               | 同上                                | 与 i18n、binding 联动待验收                                           |
 | Bootstrap / 模式检测           | `rose-spring-boot-core` + `rose-spring-boot-autoconfigure` | ✅               | Boot 默认配置 + 诊断                    | 已拆分为 core / autoconfigure / starter，文档待继续收口                         |
 | FailureAnalyzer            | 各主题分散                                            | 🟡              | 构件冲突 / 依赖健康                       | 缺统一注册表与文档                                                      |
-| Actuator 扩展                | `rose-spring-boot-actuator`, devservice-actuator | 🟡              | 4 个自定义端点                          | 可暴露 Rose 运行时状态                                                 |
+| Actuator 扩展                | `rose-actuator-spring-boot-autoconfigure`, devservice-actuator | 🟡              | 4 个自定义端点                          | 可暴露 Rose 运行时状态                                                 |
 | OpenTelemetry              | `rose-observation/*`                             | ✅ 领先            | `microsphere-observability`       | Rose 差异化优势                                                     |
 | Dev Services               | `rose-devservice/*`                              | ✅ 领先            | 无直接对标                             | Testcontainers 连接器生态                                           |
 | 多租户                        | `rose-multitenancy/*`                            | ✅               | 无直接对标                             | 与 cache/i18n 协作                                                |

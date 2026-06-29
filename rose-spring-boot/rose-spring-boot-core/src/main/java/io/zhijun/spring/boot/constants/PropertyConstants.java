@@ -1,8 +1,11 @@
 package io.zhijun.spring.boot.constants;
 
+import io.zhijun.core.annotation.Internal;
+
 /**
- * Property name constants for Rose Spring Boot.
+ * Internal property name constants shared across Rose Spring Boot modules.
  */
+@Internal
 public interface PropertyConstants {
 
     /**
@@ -19,6 +22,11 @@ public interface PropertyConstants {
      * Additional classpath location patterns for default config merging.
      */
     String DEFAULT_CONFIG_LOCATIONS_PROPERTY_NAME = "rose.default-config.locations";
+
+    /**
+     * Additional Spring Boot auto-configuration classes to exclude.
+     */
+    String AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME = "rose.autoconfigure.exclude";
 
     /**
      * Whether classpath artifact collision diagnosis is enabled.

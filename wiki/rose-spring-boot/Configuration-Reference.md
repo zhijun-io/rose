@@ -115,6 +115,36 @@ Default Boot auto-configuration exclusions ship in `META-INF/config/default/*.pr
 `rose-spring-boot-core`; baseline auto-configuration lives in `rose-spring-boot-autoconfigure`, and
 applications should depend on `rose-spring-boot-starter`.
 
+### Spring Boot module layout
+
+| Artifact                                  | Layer            | Purpose                                                                  | Typical consumer |
+|-------------------------------------------|------------------|--------------------------------------------------------------------------|------------------|
+| `rose-spring-boot-core`                   | runtime          | Boot startup SPI, default config merge, diagnostics, shared task support | Rarely direct    |
+| `rose-spring-boot-autoconfigure`          | autoconfigure    | Baseline Rose Boot auto-configuration                                    | Rarely direct    |
+| `rose-spring-boot-starter`                | starter          | Recommended baseline starter for applications                            | Yes              |
+| `rose-actuator-spring-boot-autoconfigure` | autoconfigure    | Rose actuator-specific auto-configuration                                | Rarely direct    |
+| `rose-actuator-spring-boot-starter`       | starter          | Actuator starter layered on top of the baseline starter                  | Yes, when needed |
+
+Recommended dependency shape:
+
+- Most applications depend on `rose-spring-boot-starter`.
+- Applications that need Rose actuator integration add `rose-actuator-spring-boot-starter`.
+- `*-autoconfigure` modules are for manual composition or framework-internal aggregation.
+- `rose-spring-boot-core` is infrastructure and should usually not be used as the application entrypoint.
+- `RoseBinder` is an experimental helper for extension authors; `PropertyConstants` is internal module glue, not a consumer-facing API.
+
+### Spring Boot bootstrap extensions
+
+| Property                                     | Default | Module                          | Purpose                                                              |
+|----------------------------------------------|---------|---------------------------------|----------------------------------------------------------------------|
+| `rose.default-config.enabled`                | `true`  | `rose-spring-boot-core`         | Merge `config/default/*` and `META-INF/config/default/*` into Boot defaults |
+| `rose.default-config.locations`              | empty   | `rose-spring-boot-core`         | Append extra classpath patterns to the default config merge scan     |
+| `rose.autoconfigure.exclude`                 | empty   | `rose-spring-boot-autoconfigure` | Accumulate additional Boot auto-configuration exclusions across property sources |
+| `rose.diagnostics.artifacts-collision.enabled` | `false` | `rose-spring-boot-core`       | Detect duplicate Maven coordinates on startup and fail fast          |
+
+`rose.autoconfigure.exclude` is intentionally different from `spring.autoconfigure.exclude`: Rose accumulates
+values from multiple `config/default/*` resources instead of letting later sources overwrite earlier ones.
+
 ---
 
 ## Design Documents

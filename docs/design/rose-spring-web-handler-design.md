@@ -81,7 +81,7 @@ rose-spring-boot/
   rose-spring-boot-core
   rose-spring-boot-autoconfigure
   rose-spring-boot-starter
-  rose-spring-boot-actuator
+  rose-actuator-spring-boot-autoconfigure
   rose-spring-boot-web/            # Boot 自动配置 + 可选 Actuator endpoint
       └── io/zhijun/boot/web/autoconfigure/
 ```
