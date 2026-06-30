@@ -18,6 +18,7 @@
     <modules>
         <module>rose-spring-core</module>
         <module>rose-spring-web</module>
+        <module>rose-spring-webmvc</module>
     </modules>
 
     <dependencies>
