@@ -55,6 +55,11 @@
                 <artifactId>rose-spring-boot-starter-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-boot-starter-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Data and persistence -->
             <dependency>
