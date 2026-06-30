@@ -33,7 +33,7 @@ class DevServiceAutoConfigurationTests {
                 .withBean(
                         "lgtm",
                         DevServiceProvider.class,
-                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY))
+                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OLLAMA))
                 .run(context -> assertThat(context).hasNotFailed());
     }
 
@@ -43,7 +43,7 @@ class DevServiceAutoConfigurationTests {
                 .withBean(
                         "lgtm",
                         DevServiceProvider.class,
-                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY))
+                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OLLAMA))
                 .withBean(
                         "postgresql",
                         DevServiceProvider.class,
@@ -57,11 +57,11 @@ class DevServiceAutoConfigurationTests {
                 .withBean(
                         "lgtm",
                         DevServiceProvider.class,
-                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY))
+                        () -> DevServiceProvider.of("lgtm", DevServiceCategory.OLLAMA))
                 .withBean(
                         "openlit",
                         DevServiceProvider.class,
-                        () -> DevServiceProvider.of("openlit", DevServiceCategory.OPENTELEMETRY))
+                        () -> DevServiceProvider.of("openlit", DevServiceCategory.OLLAMA))
                 .run(context -> {
                     assertThat(context).hasFailed();
                     assertThat(context.getStartupFailure()).isInstanceOf(MultipleDevServiceException.class);

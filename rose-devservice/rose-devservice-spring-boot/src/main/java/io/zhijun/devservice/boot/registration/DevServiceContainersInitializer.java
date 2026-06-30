@@ -2,8 +2,6 @@ package io.zhijun.devservice.boot.registration;
 
 import java.util.Map;
 
-import io.opentelemetry.api.trace.Tracer;
-
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -32,11 +30,10 @@ public class DevServiceContainersInitializer implements ApplicationContextAware,
     @SuppressWarnings("rawtypes")
     public void afterPropertiesSet() {
         Map<String, GenericContainer> containers = applicationContext.getBeansOfType(GenericContainer.class);
-        Tracer tracer = beanFactory.getBeanProvider(Tracer.class).getIfAvailable();
         for (Map.Entry<String, GenericContainer> entry : containers.entrySet()) {
             GenericContainer container = entry.getValue();
             if (!container.isRunning()) {
-                DevServiceContainerTracing.startIfNecessary(container, resolveServiceName(entry.getKey()), tracer);
+                container.start();
             }
         }
     }

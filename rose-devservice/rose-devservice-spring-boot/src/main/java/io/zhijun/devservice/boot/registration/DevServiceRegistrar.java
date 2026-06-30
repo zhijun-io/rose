@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import io.opentelemetry.api.trace.Tracer;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -100,8 +98,9 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
     }
 
     protected void ensureContainerStarted(org.testcontainers.containers.Container<?> container, String serviceName) {
-        Tracer tracer = getBeanFactory().getBeanProvider(Tracer.class).getIfAvailable();
-        DevServiceContainerTracing.startIfNecessary(container, serviceName, tracer);
+        if (!container.isRunning()) {
+            container.start();
+        }
     }
 
     protected abstract void registerDevServices(DevServiceRegistry registry, Environment environment);

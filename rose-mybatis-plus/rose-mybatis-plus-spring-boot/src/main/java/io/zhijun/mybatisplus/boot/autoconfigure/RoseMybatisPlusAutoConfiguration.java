@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Import;
 
 import io.zhijun.mybatisplus.boot.autoconfigure.multitenancy.MultitenancyAutoConfiguration;
 import io.zhijun.mybatisplus.boot.autoconfigure.multitenancy.MultitenancyLineProperties;
-import io.zhijun.mybatisplus.boot.autoconfigure.observation.SqlObservationAutoConfiguration;
 import io.zhijun.mybatisplus.core.audit.AuditMetaObjectHandler;
 import io.zhijun.mybatisplus.core.audit.CurrentAuditorProvider;
 import io.zhijun.mybatisplus.core.crypto.DefaultFieldEncryptor;
@@ -35,8 +34,7 @@ import io.zhijun.mybatisplus.core.permission.RoseDataPermissionHandler;
 @EnableConfigurationProperties({EncryptorProperties.class, MultitenancyLineProperties.class})
 @Import({
     MultitenancyAutoConfiguration.class,
-    io.zhijun.mybatisplus.spring.extension.MyBatisPlusExtensionConfiguration.class,
-    SqlObservationAutoConfiguration.class
+    io.zhijun.mybatisplus.spring.extension.MyBatisPlusExtensionConfiguration.class
 })
 public class RoseMybatisPlusAutoConfiguration {
 

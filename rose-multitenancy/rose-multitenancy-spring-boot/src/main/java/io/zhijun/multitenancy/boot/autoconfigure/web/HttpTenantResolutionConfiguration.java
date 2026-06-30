@@ -4,8 +4,6 @@ import java.util.HashSet;
 
 import javax.servlet.DispatcherType;
 
-import io.opentelemetry.api.trace.Tracer;
-
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -88,8 +86,7 @@ public final class HttpTenantResolutionConfiguration {
                 ObjectProvider<TenantContextRequiredPathMatcher> tenantContextRequiredPathMatcher,
                 ApplicationEventPublisher eventPublisher,
                 ObjectProvider<TenantVerifier> tenantVerifier,
-                ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler,
-                ObjectProvider<Tracer> tracer) {
+                ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler
             TenantContextFilter filter = TenantContextFilter.builder()
                     .httpRequestTenantResolver(httpRequestTenantResolver)
                     .tenantContextIgnorePathMatcher(tenantContextIgnorePathMatcher)
@@ -97,7 +94,7 @@ public final class HttpTenantResolutionConfiguration {
                     .eventPublisher(eventPublisher)
                     .tenantVerifier(tenantVerifier.getIfAvailable())
                     .missingTenantHandler(missingTenantHandler.getIfAvailable())
-                    .tracer(tracer.getIfAvailable())
+
                     .build();
             FilterRegistrationBean<TenantContextFilter> registration =
                     new FilterRegistrationBean<TenantContextFilter>();

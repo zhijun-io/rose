@@ -12,6 +12,6 @@ class DevServiceCategoryTests {
     @Test
     void idsAreStable() {
         assertThat(DevServiceCategory.JDBC.id()).isEqualTo("jdbc");
-        assertThat(DevServiceCategory.OPENTELEMETRY.id()).isEqualTo("opentelemetry");
+        assertThat(DevServiceCategory.OLLAMA.id()).isEqualTo("ollama");
     }
 }

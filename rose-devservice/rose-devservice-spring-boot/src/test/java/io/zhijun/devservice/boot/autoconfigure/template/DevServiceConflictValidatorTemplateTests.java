@@ -22,7 +22,7 @@ class DevServiceConflictValidatorTemplateTests {
     @Test
     void doesNotThrowForDistinctCategories() {
         ObjectProvider<DevServiceProvider> providers = providerProvider(Arrays.asList(
-                DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY),
+                DevServiceProvider.of("lgtm", DevServiceCategory.OLLAMA),
                 DevServiceProvider.of("postgresql", DevServiceCategory.JDBC)));
 
         assertThatCode(() -> template.conflictValidator(providers).afterSingletonsInstantiated())
@@ -32,8 +32,8 @@ class DevServiceConflictValidatorTemplateTests {
     @Test
     void throwsForDuplicateCategory() {
         ObjectProvider<DevServiceProvider> providers = providerProvider(Arrays.asList(
-                DevServiceProvider.of("lgtm", DevServiceCategory.OPENTELEMETRY),
-                DevServiceProvider.of("openlit", DevServiceCategory.OPENTELEMETRY)));
+                DevServiceProvider.of("lgtm", DevServiceCategory.OLLAMA),
+                DevServiceProvider.of("openlit", DevServiceCategory.OLLAMA)));
 
         assertThatThrownBy(() -> template.conflictValidator(providers).afterSingletonsInstantiated())
                 .isInstanceOf(MultipleDevServiceException.class);

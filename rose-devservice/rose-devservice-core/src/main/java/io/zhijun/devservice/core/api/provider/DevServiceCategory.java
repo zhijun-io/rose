@@ -21,9 +21,7 @@ public enum DevServiceCategory {
 
     RABBITMQ("rabbitmq"),
 
-    OLLAMA("ollama"),
-
-    OPENTELEMETRY("opentelemetry");
+    OLLAMA("ollama");
 
     private final String id;
 

@@ -11,11 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.StatusCode;
-import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.context.Scope;
-
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
@@ -56,9 +51,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
     @Nullable
     private final TenantContextMissingTenantHandler missingTenantHandler;
 
-    @Nullable
-    private final Tracer tracer;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private TenantContextFilter(
@@ -67,8 +59,7 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
             @Nullable TenantContextRequiredPathMatcher tenantContextRequiredPathMatcher,
             ApplicationEventPublisher eventPublisher,
             @Nullable TenantVerifier tenantVerifier,
-            @Nullable TenantContextMissingTenantHandler missingTenantHandler,
-            @Nullable Tracer tracer) {
+            @Nullable TenantContextMissingTenantHandler missingTenantHandler) {
         Assert.notNull(httpRequestTenantResolver, "httpRequestTenantResolver cannot be null");
         Assert.notNull(tenantContextIgnorePathMatcher, "ignorePathMatcher cannot be null");
         Assert.notNull(eventPublisher, "eventPublisher cannot be null");
@@ -78,7 +69,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         this.eventPublisher = eventPublisher;
         this.tenantVerifier = tenantVerifier;
         this.missingTenantHandler = missingTenantHandler;
-        this.tracer = tracer;
     }
 
     /**
@@ -116,22 +106,7 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         }
 
         try {
-            if (tracer != null) {
-                Span span = tracer.spanBuilder("tenant.context")
-                        .setAttribute("tenant.id", tenantIdentifier)
-                        .startSpan();
-                try (Scope scope = span.makeCurrent()) {
-                    runWithTenantContext(tenantIdentifier, request, response, filterChain);
-                } catch (Exception ex) {
-                    span.setStatus(StatusCode.ERROR);
-                    span.recordException(ex);
-                    throw ex;
-                } finally {
-                    span.end();
-                }
-            } else {
-                runWithTenantContext(tenantIdentifier, request, response, filterChain);
-            }
+            runWithTenantContext(tenantIdentifier, request, response, filterChain);
         } catch (ServletException ex) {
             throw ex;
         } catch (IOException ex) {
@@ -208,9 +183,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
         @Nullable
         private TenantContextMissingTenantHandler missingTenantHandler;
 
-        @Nullable
-        private Tracer tracer;
-
         private Builder() {}
 
         public Builder httpRequestTenantResolver(HttpRequestTenantResolver httpRequestTenantResolver) {
@@ -244,11 +216,6 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
             return this;
         }
 
-        public Builder tracer(@Nullable Tracer tracer) {
-            this.tracer = tracer;
-            return this;
-        }
-
         public TenantContextFilter build() {
             return new TenantContextFilter(
                     httpRequestTenantResolver,
@@ -256,8 +223,7 @@ public final class TenantContextFilter extends OncePerRequestFilter implements O
                     tenantContextRequiredPathMatcher,
                     eventPublisher,
                     tenantVerifier,
-                    missingTenantHandler,
-                    tracer);
+                    missingTenantHandler);
         }
     }
 }
