@@ -1,4 +1,4 @@
-package io.zhijun.spring.propertysource;
+package io.zhijun.spring.property;
 
 import java.util.Comparator;
 

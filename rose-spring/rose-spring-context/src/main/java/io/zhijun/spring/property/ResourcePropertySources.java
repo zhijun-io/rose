@@ -1,4 +1,4 @@
-package io.zhijun.spring.propertysource;
+package io.zhijun.spring.property;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -9,8 +9,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
-
-import io.zhijun.spring.propertysource.ResourcePropertySourcesLoader;
 
 /**
  * Container for repeatable resource property sources.

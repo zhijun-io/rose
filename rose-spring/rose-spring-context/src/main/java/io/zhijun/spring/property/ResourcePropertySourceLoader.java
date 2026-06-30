@@ -1,9 +1,7 @@
-package io.zhijun.spring.propertysource;
+package io.zhijun.spring.property;
 
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
-
-import io.zhijun.spring.propertysource.ResourcePropertySource;
 
 /**
  * Loader for enhanced resource property sources.

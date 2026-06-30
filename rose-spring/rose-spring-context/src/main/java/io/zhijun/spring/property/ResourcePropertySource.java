@@ -1,4 +1,4 @@
-package io.zhijun.spring.propertysource;
+package io.zhijun.spring.property;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -14,9 +14,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.DefaultPropertySourceFactory;
 import org.springframework.core.io.support.PropertySourceFactory;
-
-import io.zhijun.spring.propertysource.DefaultResourceComparator;
-import io.zhijun.spring.propertysource.ResourcePropertySourceLoader;
 
 /**
  * Enhanced property source annotation.

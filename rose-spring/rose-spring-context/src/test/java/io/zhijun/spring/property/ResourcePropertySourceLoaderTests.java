@@ -1,4 +1,4 @@
-package io.zhijun.spring.propertysource;
+package io.zhijun.spring.property;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,8 +15,6 @@ import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
-
-import io.zhijun.spring.propertysource.ResourcePropertySource;
 
 class ResourcePropertySourceLoaderTests {
 

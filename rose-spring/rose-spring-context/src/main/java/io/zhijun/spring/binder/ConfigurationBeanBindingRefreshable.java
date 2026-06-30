@@ -12,15 +12,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import io.zhijun.spring.binder.ConfigurationBeanBindingPostProcessor;
-import io.zhijun.spring.propertysource.Refreshable;
+import io.zhijun.spring.property.Refreshable;
 
 /**
  * {@link Refreshable} that rebinds {@link EnableConfigurationBeanBinding} beans when matching
  * configuration keys change.
  * <p>
  * Registered in {@code META-INF/spring.factories}. Invoked from
- * {@link io.zhijun.spring.propertysource.PropertySourcesRefreshEnvironmentListener} after
+ * {@link io.zhijun.spring.property.PropertySourcesRefreshEnvironmentListener} after
  * {@code PropertySourcesChangedEvent#getChangedKeys()} is computed.
  * <p>
  * Rebind uses {@link ConfigurationBeanBindingPostProcessor#rebindConfigurationBean} on the

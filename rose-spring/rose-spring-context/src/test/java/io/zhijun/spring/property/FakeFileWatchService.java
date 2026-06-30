@@ -1,4 +1,4 @@
-package io.zhijun.spring.propertysource;
+package io.zhijun.spring.property;
 
 import io.zhijun.core.watch.FileChangedEvent;
 import io.zhijun.core.watch.FileChangedListener;
