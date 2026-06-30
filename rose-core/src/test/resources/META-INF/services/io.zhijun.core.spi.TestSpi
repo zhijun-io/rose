@@ -1,0 +1,3 @@
+io.zhijun.core.spi.HighPriorityService
+io.zhijun.core.spi.LowPriorityService
+io.zhijun.core.spi.NoPriorityService

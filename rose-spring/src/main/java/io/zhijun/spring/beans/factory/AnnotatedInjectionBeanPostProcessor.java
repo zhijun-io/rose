@@ -27,7 +27,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.InjectionMetadata;
@@ -40,7 +39,6 @@ import org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostP
 import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.EnvironmentAware;
-import org.springframework.core.MethodParameter;
 import org.springframework.core.PriorityOrdered;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
@@ -63,7 +61,6 @@ import static io.zhijun.spring.beans.factory.BeanFactoryUtils.asConfigurableList
 import static java.lang.Integer.getInteger;
 import static java.lang.Integer.parseInt;
 import static java.lang.reflect.Modifier.isStatic;
-import static java.util.Arrays.copyOf;
 import static java.util.Collections.unmodifiableCollection;
 import static org.springframework.beans.BeanUtils.findPrimaryConstructor;
 import static org.springframework.beans.BeanUtils.findPropertyForMethod;
@@ -430,7 +427,7 @@ public class AnnotatedInjectionBeanPostProcessor implements SmartInstantiationAw
                         return;
                     }
                     boolean required = determineRequiredStatus(attributes);
-                    elements.add(new AnnotatedFieldElement(field, attributes, required));
+                    elements.add(new AnnotatedFieldElement(this, field, attributes, required));
                 }
             }
         });
@@ -479,7 +476,7 @@ public class AnnotatedInjectionBeanPostProcessor implements SmartInstantiationAw
                     }
                     PropertyDescriptor pd = findPropertyForMethod(bridgedMethod, beanClass);
                     boolean required = determineRequiredStatus(attributes);
-                    elements.add(new AnnotatedMethodElement(method, pd, attributes, required));
+                    elements.add(new AnnotatedMethodElement(this, method, pd, attributes, required));
                 }
             }
         });
@@ -679,7 +676,7 @@ public class AnnotatedInjectionBeanPostProcessor implements SmartInstantiationAw
     /**
      * Register the specified bean as dependent on the autowired beans.
      */
-    private void registerDependentBeans(String beanName, Set<String> injectedBeanNames) {
+    void registerDependentBeans(String beanName, Set<String> injectedBeanNames) {
         if (beanName != null) {
             for (String injectedBeanName : injectedBeanNames) {
                 if (this.beanFactory.containsBean(injectedBeanName)) {
@@ -695,7 +692,7 @@ public class AnnotatedInjectionBeanPostProcessor implements SmartInstantiationAw
     /**
      * Resolve the specified cached method argument or field value.
      */
-    private Object resolvedCachedArgument(String beanName, Object cachedArgument) {
+    Object resolvedCachedArgument(String beanName, Object cachedArgument) {
         if (cachedArgument instanceof DependencyDescriptor) {
             DependencyDescriptor descriptor = (DependencyDescriptor) cachedArgument;
             TypeConverter typeConverter = this.beanFactory.getTypeConverter();
@@ -728,220 +725,4 @@ public class AnnotatedInjectionBeanPostProcessor implements SmartInstantiationAw
         return beanFactory;
     }
 
-    /**
-     * Annotation {@link InjectedElement}
-     *
-     * @param <M> {@link Field} or {@link Method}
-     */
-    public abstract static class AnnotationInjectedElement<M extends Member> extends InjectedElement {
-
-        private final AnnotationAttributes attributes;
-
-        private final boolean required;
-
-        protected AnnotationInjectedElement(M member, PropertyDescriptor pd, AnnotationAttributes attributes, boolean required) {
-            super(member, pd);
-            this.attributes = attributes;
-            this.required = required;
-        }
-
-        public final AnnotationAttributes getAttributes() {
-            return attributes;
-        }
-
-        public final boolean isRequired() {
-            return required;
-        }
-
-        public final M getInjectionPoint() {
-            return (M) getMember();
-        }
-    }
-
-    /**
-     * {@link Annotation Annotated} {@link Field} {@link InjectedElement}
-     */
-    private class AnnotatedFieldElement extends AnnotationInjectedElement<Field> {
-
-        private volatile boolean cached = false;
-
-        private volatile Object cachedFieldValue;
-
-        protected AnnotatedFieldElement(Field field, AnnotationAttributes attributes, boolean required) {
-            super(field, null, attributes, required);
-        }
-
-        @Override
-        protected void inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
-            Field field = getInjectionPoint();
-            Object value;
-            if (this.cached) {
-                try {
-                    value = resolvedCachedArgument(beanName, this.cachedFieldValue);
-                } catch (NoSuchBeanDefinitionException ex) {
-                    // Unexpected removal of target bean for cached argument -> re-resolve
-                    value = resolveFieldValue(field, bean, beanName, pvs);
-                }
-            } else {
-                value = resolveFieldValue(field, bean, beanName, pvs);
-            }
-            org.springframework.util.ReflectionUtils.makeAccessible(field); org.springframework.util.ReflectionUtils.setField(field, bean, value);
-        }
-
-        @Nullable
-        private Object resolveFieldValue(Field field, Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
-            Object value = resolveInjectedFieldValue(bean, beanName, pvs, this);
-            if (value == null) {
-                boolean required = isRequired();
-                DependencyDescriptor desc = new DependencyDescriptor(field, required);
-                desc.setContainingClass(bean.getClass());
-                Set<String> injectedBeanNames = new java.util.LinkedHashSet<>(1);
-                value = resolveDependency(desc, beanName, injectedBeanNames);
-                cacheFieldValue(field, desc, beanName, injectedBeanNames, value, required);
-            }
-            return value;
-        }
-
-        private void cacheFieldValue(Field field, DependencyDescriptor desc, String beanName, Set<String> injectedBeanNames, Object value, boolean required) {
-            synchronized (this) {
-                if (!this.cached) {
-                    Object cachedFieldValue = null;
-                    if (value != null || required) {
-                        cachedFieldValue = desc;
-                        registerDependentBeans(beanName, injectedBeanNames);
-                        if (injectedBeanNames.size() == 1) {
-                            String autowiredBeanName = injectedBeanNames.iterator().next();
-                            if (beanFactory.containsBean(autowiredBeanName) &&
-                                    beanFactory.isTypeMatch(autowiredBeanName, field.getType())) {
-                                cachedFieldValue = new ShortcutDependencyDescriptor(
-                                        desc, autowiredBeanName, field.getType());
-                            }
-                        }
-                    }
-                    this.cachedFieldValue = cachedFieldValue;
-                    this.cached = true;
-                }
-            }
-        }
-    }
-
-    /**
-     * {@link Annotation Annotated} {@link Method} {@link InjectedElement}
-     */
-    private class AnnotatedMethodElement extends AnnotationInjectedElement<Method> {
-
-        private volatile boolean cached = false;
-
-        private volatile Object[] cachedMethodArguments;
-
-        protected AnnotatedMethodElement(Method method, PropertyDescriptor pd, AnnotationAttributes attributes, boolean required) {
-            super(method, pd, attributes, required);
-        }
-
-        @Override
-        protected void inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
-            if (checkPropertySkipping(pvs)) {
-                return;
-            }
-            Method method = getInjectionPoint();
-            Object[] arguments;
-            if (this.cached) {
-                try {
-                    arguments = resolveCachedArguments(beanName);
-                } catch (NoSuchBeanDefinitionException ex) {
-                    // Unexpected removal of target bean for cached argument -> re-resolve
-                    arguments = resolveMethodArguments(method, bean, beanName, pvs);
-                }
-            } else {
-                arguments = resolveMethodArguments(method, bean, beanName, pvs);
-            }
-            if (arguments != null) {
-                org.springframework.util.ReflectionUtils.makeAccessible(method); org.springframework.util.ReflectionUtils.invokeMethod(method, bean, arguments);
-            }
-        }
-
-        @Nullable
-        private Object[] resolveCachedArguments(@Nullable String beanName) {
-            Object[] cachedMethodArguments = this.cachedMethodArguments;
-            if (cachedMethodArguments == null) {
-                return null;
-            }
-            Object[] arguments = new Object[cachedMethodArguments.length];
-            for (int i = 0; i < arguments.length; i++) {
-                arguments[i] = resolvedCachedArgument(beanName, cachedMethodArguments[i]);
-            }
-            return arguments;
-        }
-
-        @Nullable
-        private Object[] resolveMethodArguments(Method method, Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
-            Object[] arguments = resolveInjectedMethodArguments(bean, beanName, pvs, this);
-            if (arguments == null) {
-                boolean required = isRequired();
-                int argumentCount = method.getParameterCount();
-                arguments = new Object[argumentCount];
-                DependencyDescriptor[] descriptors = new DependencyDescriptor[argumentCount];
-                Set<String> injectedBeanNames = new java.util.LinkedHashSet<>(argumentCount);
-                for (int i = 0; i < arguments.length; i++) {
-                    MethodParameter methodParam = new MethodParameter(method, i);
-                    DependencyDescriptor currDesc = new DependencyDescriptor(methodParam, required);
-                    currDesc.setContainingClass(bean.getClass());
-                    descriptors[i] = currDesc;
-                    Object arg = resolveDependency(currDesc, beanName, injectedBeanNames);
-                    if (arg == null && !required) {
-                        arguments = null;
-                        break;
-                    }
-                    arguments[i] = arg;
-                }
-                synchronized (this) {
-                    if (!this.cached) {
-                        if (arguments != null) {
-                            DependencyDescriptor[] cachedMethodArguments = copyOf(descriptors, arguments.length);
-                            registerDependentBeans(beanName, injectedBeanNames);
-                            if (injectedBeanNames.size() == argumentCount) {
-                                Iterator<String> it = injectedBeanNames.iterator();
-                                Class<?>[] paramTypes = method.getParameterTypes();
-                                for (int i = 0; i < paramTypes.length; i++) {
-                                    String autowiredBeanName = it.next();
-                                    if (beanFactory.containsBean(autowiredBeanName) &&
-                                            beanFactory.isTypeMatch(autowiredBeanName, paramTypes[i])) {
-                                        cachedMethodArguments[i] = new ShortcutDependencyDescriptor(
-                                                descriptors[i], autowiredBeanName, paramTypes[i]);
-                                    }
-                                }
-                            }
-                            this.cachedMethodArguments = cachedMethodArguments;
-                        } else {
-                            this.cachedMethodArguments = null;
-                        }
-                        this.cached = true;
-                    }
-                }
-            }
-            return arguments;
-        }
-    }
-
-    /**
-     * DependencyDescriptor variant with a pre-resolved target bean name.
-     */
-    @SuppressWarnings("serial")
-    private static class ShortcutDependencyDescriptor extends DependencyDescriptor {
-
-        private final String shortcut;
-
-        private final Class<?> requiredType;
-
-        public ShortcutDependencyDescriptor(DependencyDescriptor original, String shortcut, Class<?> requiredType) {
-            super(original);
-            this.shortcut = shortcut;
-            this.requiredType = requiredType;
-        }
-
-        @Override
-        public Object resolveShortcut(BeanFactory beanFactory) {
-            return beanFactory.getBean(this.shortcut, this.requiredType);
-        }
-    }
 }

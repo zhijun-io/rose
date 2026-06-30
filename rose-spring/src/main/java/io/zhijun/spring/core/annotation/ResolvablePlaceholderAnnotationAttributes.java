@@ -19,6 +19,11 @@ public class ResolvablePlaceholderAnnotationAttributes<A extends Annotation> ext
 
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings("unchecked")
+    private static <A extends Annotation> Class<A> typeOf(Annotation annotation) {
+        return (Class<A>) annotation.annotationType();
+    }
+
     /**
      * 从注解实例创建，解析其中的占位符。
      */
@@ -26,12 +31,13 @@ public class ResolvablePlaceholderAnnotationAttributes<A extends Annotation> ext
         super(resolvePlaceholders(
                 AnnotationUtils.getAnnotationAttributes(annotation),
                 propertyResolver),
-            (Class<A>) annotation.annotationType());
+            typeOf(annotation));
     }
 
     /**
      * 从 GenericAnnotationAttributes 复制并解析占位符。
      */
+    @SuppressWarnings("unchecked")
     public ResolvablePlaceholderAnnotationAttributes(GenericAnnotationAttributes<A> attributes, @Nullable PropertyResolver propertyResolver) {
         super(resolvePlaceholders(attributes, propertyResolver), (Class<A>) attributes.annotationType());
     }
@@ -54,7 +60,9 @@ public class ResolvablePlaceholderAnnotationAttributes<A extends Annotation> ext
     public static <A extends Annotation> ResolvablePlaceholderAnnotationAttributes<A> of(GenericAnnotationAttributes<A> attributes,
                                                                                          @Nullable PropertyResolver propertyResolver) {
         if (attributes instanceof ResolvablePlaceholderAnnotationAttributes) {
-            return (ResolvablePlaceholderAnnotationAttributes<A>) attributes;
+            @SuppressWarnings("unchecked")
+            ResolvablePlaceholderAnnotationAttributes<A> result = (ResolvablePlaceholderAnnotationAttributes<A>) attributes;
+            return result;
         }
         return new ResolvablePlaceholderAnnotationAttributes<>(attributes, propertyResolver);
     }

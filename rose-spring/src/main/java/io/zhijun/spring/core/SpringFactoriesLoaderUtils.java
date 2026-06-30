@@ -23,7 +23,8 @@ public abstract class SpringFactoriesLoaderUtils {
         Set<Class<T>> classes = new LinkedHashSet<>();
         for (String className : classNames) {
             try {
-                classes.add((Class<T>) Class.forName(className, false, classLoader));
+                Class<?> loaded = Class.forName(className, false, classLoader);
+                classes.add((Class<T>) loaded.asSubclass(type));
             } catch (ClassNotFoundException e) {
                 // skip
             }

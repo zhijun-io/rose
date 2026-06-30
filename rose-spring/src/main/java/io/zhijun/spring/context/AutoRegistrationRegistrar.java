@@ -1,6 +1,6 @@
 package io.zhijun.spring.context;
 
-import io.zhijun.core.spi.SpiServiceLoader;
+import io.zhijun.core.spi.SpiLoader;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * {@link EnableAutoRegistration @EnableAutoRegistration} 的实现。
  * <p>
- * 通过 {@link SpiServiceLoader} 发现所有 {@link AutoRegistrationBean} 实现，
+ * 通过 {@link SpiLoader} 发现所有 {@link AutoRegistrationBean} 实现，
  * 按优先级排序后注册为 Spring Bean。
  */
 class AutoRegistrationRegistrar
@@ -24,7 +24,7 @@ class AutoRegistrationRegistrar
                                            BeanDefinitionRegistry registry,
                                            BeanNameGenerator importBeanNameGenerator,
                                            ResolvablePlaceholderAnnotationAttributes<EnableAutoRegistration> attributes) {
-        List<AutoRegistrationBean> beans = SpiServiceLoader.loadAll(AutoRegistrationBean.class);
+        List<AutoRegistrationBean> beans = SpiLoader.defaults().loadAll(AutoRegistrationBean.class);
         AnnotationAwareOrderComparator.sort(beans);
 
         for (AutoRegistrationBean bean : beans) {

@@ -1,4 +1,0 @@
-io.zhijun.core.spi.SpiServiceLoaderTests$FormalGreeting
-io.zhijun.core.spi.SpiServiceLoaderTests$DefaultGreeting
-io.zhijun.core.spi.SpiServiceLoaderTests$CasualGreeting
-io.zhijun.core.spi.SpiServiceLoaderTests$NoPriorityGreeting

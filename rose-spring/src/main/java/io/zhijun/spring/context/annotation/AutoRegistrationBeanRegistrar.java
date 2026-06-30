@@ -18,7 +18,7 @@
 package io.zhijun.spring.context.annotation;
 import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
 
-import io.zhijun.spring.context.config.AutoRegistrationBean;
+import io.zhijun.spring.context.AutoRegistrationBean;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -30,7 +30,7 @@ import java.util.List;
 
 import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBeanDefinition;
 import static io.zhijun.spring.context.annotation.EnableAutoRegistrationBean.BEANS_AUTO_REGISTERED_PROEPRTY_NAME;
-import static io.zhijun.spring.context.config.AutoRegistrationBean.getAutoRegisteredPropertyName;
+import static io.zhijun.spring.context.AutoRegistrationBean.getAutoRegisteredPropertyName;
 import static org.springframework.beans.factory.support.BeanDefinitionBuilder.genericBeanDefinition;
 import static org.springframework.core.io.support.SpringFactoriesLoader.loadFactories;
 

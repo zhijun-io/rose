@@ -1,10 +1,8 @@
 package io.zhijun.spring.config.property;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
-import java.util.function.BiConsumer;
-
+import io.zhijun.core.spi.SpiLoader;
+import io.zhijun.core.watch.FileWatchService;
+import io.zhijun.core.watch.StandardFileWatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
@@ -12,9 +10,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-import io.zhijun.core.watch.FileWatchService;
-import io.zhijun.core.spi.SpiServiceLoader;
-import io.zhijun.core.watch.StandardFileWatchService;
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+import java.util.function.BiConsumer;
 
 /**
  * Watches file-backed resources and triggers reload callbacks.
@@ -32,7 +31,7 @@ public class AutoRefreshWatcher implements AutoCloseable {
     }
 
     private static FileWatchService createWatchService() {
-        Optional<FileWatchService> spi = SpiServiceLoader.loadFirst(FileWatchService.class);
+        Optional<FileWatchService> spi = SpiLoader.defaults().loadFirst(FileWatchService.class);
         if (spi.isPresent()) {
             return spi.get();
         }

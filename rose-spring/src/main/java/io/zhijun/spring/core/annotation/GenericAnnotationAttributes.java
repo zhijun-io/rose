@@ -25,7 +25,7 @@ public class GenericAnnotationAttributes<A extends Annotation> extends Annotatio
      */
     public GenericAnnotationAttributes(A annotation) {
         super(org.springframework.core.annotation.AnnotationUtils.getAnnotationAttributes(annotation));
-        this.annotationType = (Class<A>) annotation.annotationType();
+        this.annotationType = typeOf(annotation);
     }
 
     /**
@@ -104,8 +104,15 @@ public class GenericAnnotationAttributes<A extends Annotation> extends Annotatio
 
     public static <A extends Annotation> GenericAnnotationAttributes<A> of(Map<String, Object> map, Class<A> annotationType) {
         if (map instanceof GenericAnnotationAttributes) {
-            return (GenericAnnotationAttributes<A>) map;
+            @SuppressWarnings("unchecked")
+            GenericAnnotationAttributes<A> result = (GenericAnnotationAttributes<A>) map;
+            return result;
         }
         return new GenericAnnotationAttributes<>(map, annotationType);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <A extends Annotation> Class<A> typeOf(Annotation annotation) {
+        return (Class<A>) annotation.annotationType();
     }
 }

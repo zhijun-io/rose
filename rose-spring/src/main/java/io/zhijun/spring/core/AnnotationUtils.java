@@ -13,7 +13,8 @@ public abstract class AnnotationUtils {
 
     public static Class<? extends Annotation> findAnnotationType(String annotationTypeName) {
         try {
-            return (Class<? extends Annotation>) Class.forName(annotationTypeName);
+            Class<?> type = Class.forName(annotationTypeName);
+            return type.asSubclass(Annotation.class);
         } catch (ClassNotFoundException e) {
             return null;
         }

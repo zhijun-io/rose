@@ -18,7 +18,7 @@
 package io.zhijun.spring.context.annotation;
 
 import io.zhijun.spring.context.ConfigurableApplicationContextInitializer;
-import io.zhijun.spring.context.config.AutoRegistrationBean;
+import io.zhijun.spring.context.AutoRegistrationBean;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;

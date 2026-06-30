@@ -17,7 +17,7 @@
 
 package io.zhijun.spring.context.annotation;
 
-import io.zhijun.spring.context.config.AutoRegistrationBean;
+import io.zhijun.spring.context.AutoRegistrationBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
