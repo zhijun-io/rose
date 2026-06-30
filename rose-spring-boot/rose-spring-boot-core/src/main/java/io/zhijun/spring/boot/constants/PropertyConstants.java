@@ -32,4 +32,8 @@ public interface PropertyConstants {
      * Whether classpath artifact collision diagnosis is enabled.
      */
     String ARTIFACTS_COLLISION_ENABLED_PROPERTY_NAME = "rose.diagnostics.artifacts-collision.enabled";
+
+    String ROSE_SPRING_BOOT_WEB_PROPERTY_NAME_PREFIX = ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX + "web.";
+
+    String ROSE_SPRING_BOOT_WEB_ENABLED_PROPERTY_NAME = ROSE_SPRING_BOOT_WEB_PROPERTY_NAME_PREFIX + "enabled";
 }

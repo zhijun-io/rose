@@ -10,7 +10,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static io.zhijun.spring.boot.web.PropertyConstants.ROSE_SPRING_BOOT_WEB_ENABLED_PROPERTY_NAME;
+import static io.zhijun.spring.boot.constants.PropertyConstants.ROSE_SPRING_BOOT_WEB_ENABLED_PROPERTY_NAME;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -24,8 +24,8 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 @Documented
 @ConditionalOnWebApplication(type = SERVLET)
 @ConditionalOnClass({
-        Servlet.class,
-        HandlerMethodAdvice.class
+    Servlet.class,
+    HandlerMethodAdvice.class
 })
 @ConditionalOnProperty(name = ROSE_SPRING_BOOT_WEB_ENABLED_PROPERTY_NAME, matchIfMissing = true)
 public @interface ConditionalOnWebAvailable {
