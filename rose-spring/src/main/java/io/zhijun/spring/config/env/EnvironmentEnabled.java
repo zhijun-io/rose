@@ -17,14 +17,12 @@
 
 package io.zhijun.spring.config.env;
 
-import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
-import static io.zhijun.spring.core.PropertyConstants.ENABLED_PROPERTY_NAME;
-
 import org.springframework.core.env.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
+import static io.zhijun.spring.core.PropertyConstants.ENABLED_PROPERTY_NAME;
 
 /**
  * The template class for component that is enabled or disabled based on {@link Environment}.
@@ -32,49 +30,35 @@ import org.slf4j.LoggerFactory;
  * @see Environment
  * @since 1.0.0
  */
-public interface EnvironmentEnabled {
+public abstract class EnvironmentEnabled {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    protected Logger getLogger() {
+        return logger;
+    }
 
     /**
      * Checks if this component is enabled based on the given {@link Environment}.
-     *
-     * <p>This method determines the enabled status by looking up the property defined by
-     * {@link #getEnabledPropertyName()} in the provided environment. If the property is not found,
-     * it falls back to the default value specified by {@link #getDefaultEnabled()}.
-     *
-     * <b>Example Usage</b>
-     * <pre>{@code
-     * // Assuming this interface is implemented by a class named MyService.
-     * // The default property name would be "rose.spring.MyService.enabled".
-     *
-     * Environment environment = ...; // Obtain Environment
-     * MyService myService = new MyService();
-     *
-     * // Check if enabled (defaults to true if property is absent)
-     * boolean enabled = myService.isEnabled(environment);
-     *
-     * // To disable, set the property "rose.spring.MyService.enabled=false"
-     * // in your environment configuration.
-     * }</pre>
      *
      * @param environment the Spring {@link Environment} to check against, must not be {@code null}
      * @return {@code true} if the component is enabled, {@code false} otherwise
      * @see #getEnabledPropertyName()
      * @see #getDefaultEnabled()
      */
-    default boolean isEnabled( Environment environment) {
+    public boolean isEnabled(Environment environment) {
         String enabledPropertyName = getEnabledPropertyName();
         boolean enabled = environment.getProperty(enabledPropertyName, boolean.class, getDefaultEnabled());
-        Class<?> currentClass = getClass();
-        Logger logger = LoggerFactory.getLogger(currentClass);
+        Logger log = getLogger();
         if (enabled) {
-            if (logger.isTraceEnabled()) {
-                logger.trace("The {} is enabled, if it needs to be disabled[defalt : '{}'], please set the property '{}' to 'false' .",
-                        currentClass, getDefaultEnabled(), getEnabledPropertyName());
+            if (log.isTraceEnabled()) {
+                log.trace("The {} is enabled, if it needs to be disabled[default : '{}'], please set the property '{}' to 'false' .",
+                        getClass().getSimpleName(), getDefaultEnabled(), getEnabledPropertyName());
             }
         } else {
-            if (logger.isInfoEnabled()) {
-                logger.info("The {} is disabled, if it needs to be enabled[defalt : '{}'], please set the property '{}' to 'true' .",
-                        currentClass, getDefaultEnabled(), getEnabledPropertyName());
+            if (log.isInfoEnabled()) {
+                log.info("The {} is disabled, if it needs to be enabled[default : '{}'], please set the property '{}' to 'true' .",
+                        getClass().getSimpleName(), getDefaultEnabled(), getEnabledPropertyName());
             }
         }
         return enabled;
@@ -83,22 +67,9 @@ public interface EnvironmentEnabled {
     /**
      * Gets the property name used to determine if this component is enabled.
      *
-     * <p>The default implementation constructs the property name by combining
-     * the module prefix, the implementing class name, and the enabled suffix.
-     *
-     * <b>Example Usage</b>
-     * <pre>{@code
-     * // Assuming the implementing class is named {@code DataProvider}
-     * // The resolved property name will be: "rose.spring.DataProvider.enabled"
-     *
-     * DataProvider provider = ...;
-     * String key = provider.getEnabledPropertyName();
-     * boolean active = environment.getProperty(key, boolean.class);
-     * }</pre>
-     *
      * @return the property name key for checking the enabled status
      */
-    default String getEnabledPropertyName() {
+    public String getEnabledPropertyName() {
         String className = this.getClass().getSimpleName();
         return ROSE_SPRING_PROPERTY_NAME_PREFIX + className + '.' + ENABLED_PROPERTY_NAME;
     }
@@ -106,23 +77,10 @@ public interface EnvironmentEnabled {
     /**
      * Gets the default enabled status for this component.
      *
-     * <p>This value is used as the fallback when the property defined by
-     * {@link #getEnabledPropertyName()} is not present in the {@link Environment}.
-     *
-     * <b>Example Usage</b>
-     * <pre>{@code
-     * // Assuming the implementing class is named {@code MyService}
-     * // And the property "rose.spring.MyService.enabled" is NOT set in the Environment.
-     *
-     * MyService service = ...;
-     * boolean enabled = service.isEnabled(environment);
-     * // enabled will be true (since getDefaultEnabled returns true).
-     * }</pre>
-     *
      * @return {@code true} if the component is enabled by default, {@code false} otherwise
      * @see #isEnabled(Environment)
      */
-    default boolean getDefaultEnabled() {
+    public boolean getDefaultEnabled() {
         return true;
     }
 }

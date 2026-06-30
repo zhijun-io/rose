@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import static io.zhijun.spring.beans.factory.BeanFactoryUtils.asBeanDefinitionRegistry;
 import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBeanDefinition;
 import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
 import static java.lang.Boolean.parseBoolean;
@@ -94,7 +95,7 @@ public class ListenableAutowireCandidateResolverInitializer extends Configurable
     @Override
     protected void initialize(ConfigurableApplicationContext context, ConfigurableEnvironment environment) {
         ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-        registerBeanDefinition(beanFactory, ListenableAutowireCandidateResolver.class);
+        registerBeanDefinition(asBeanDefinitionRegistry(beanFactory), (String) null, ListenableAutowireCandidateResolver.class);
     }
 
     @Override

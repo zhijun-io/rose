@@ -10,14 +10,14 @@ import org.springframework.web.method.HandlerMethod;
  import java.util.Collection;
  import java.util.Map;
  
- import io.zhijun.spring.web.HandlerMethodInterceptor;
- import io.zhijun.spring.web.metadata.WebEndpointMapping;
- import io.zhijun.spring.web.metadata.WebEndpointMappingRegistry;
+import io.zhijun.spring.web.HandlerMethodAdvice;
+import io.zhijun.spring.web.metadata.WebEndpointMapping;
+import io.zhijun.spring.web.metadata.WebEndpointMappingRegistry;
  
  /**
   * Web 事件发布器，发布 HandlerMethodArgumentsResolvedEvent 和 WebEndpointMappingsReadyEvent。
   */
- public class WebEventPublisher implements SmartLifecycle, HandlerMethodInterceptor {
+public class WebEventPublisher implements SmartLifecycle, HandlerMethodAdvice {
  
      private static final Logger logger = LoggerFactory.getLogger(WebEventPublisher.class);
  
@@ -32,7 +32,7 @@ import org.springframework.web.method.HandlerMethod;
      }
  
      @Override
-     public void beforeExecute(HandlerMethod handlerMethod, Object[] args, NativeWebRequest request) {
+    public void beforeExecuteMethod(HandlerMethod handlerMethod, Object[] args, NativeWebRequest request) {
          context.publishEvent(new HandlerMethodArgumentsResolvedEvent(request, handlerMethod, args));
      }
  

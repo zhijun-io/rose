@@ -1,6 +1,6 @@
 package io.zhijun.spring.boot.webmvc.autoconfigure.condition;
 
-import io.zhijun.spring.web.HandlerMethodInterceptor;
+import io.zhijun.spring.web.HandlerMethodAdvice;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -28,7 +28,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 @ConditionalOnClass({
         Servlet.class,
         DispatcherServlet.class,
-        HandlerMethodInterceptor.class
+        HandlerMethodAdvice.class
 })
 @ConditionalOnProperty(name = ROSE_SPRING_BOOT_WEBMVC_ENABLED_PROPERTY_NAME, matchIfMissing = true)
 public @interface ConditionalOnWebMvcAvailable {

@@ -83,10 +83,10 @@ public class ResourceInjectionPointDependencyResolver extends AnnotatedInjection
      *
      * @param field              the field injection point to resolve
      * @param beanFactory        the {@link ConfigurableListableBeanFactory} to look up beans
-     * @param dependentBeanNames the set to collect resolved dependent bean names into
-     */
-    @Override
-    public void resolve(Field field, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
+    * @param dependentBeanNames the set to collect resolved dependent bean names into
+    */
+   @Override
+    protected void resolveField(Field field, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
         Resource resource = getAnnotation(field);
         if (resource == null) {
             // @Resource annotation can't be found in the field
@@ -150,10 +150,10 @@ public class ResourceInjectionPointDependencyResolver extends AnnotatedInjection
      *
      * @param parameter          the parameter injection point to resolve
      * @param beanFactory        the {@link ConfigurableListableBeanFactory} to look up beans
-     * @param dependentBeanNames the set to collect resolved dependent bean names into
-     */
-    @Override
-    public void resolve(Parameter parameter, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
+    * @param dependentBeanNames the set to collect resolved dependent bean names into
+    */
+   @Override
+    protected void resolveParameter(Parameter parameter, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
         Resource resource = getAnnotation(parameter);
         if (resource == null) {
             // @Resource annotation can't be found in the method parameter

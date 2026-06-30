@@ -83,13 +83,13 @@ public class AutowiredInjectionPointDependencyResolver extends AnnotatedInjectio
      * @param dependentBeanNames the set to collect resolved dependent bean names into
      */
     @Override
-    public void resolve(Field field, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
+    protected void resolveField(Field field, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
         Autowired autowired = getAnnotation(field);
         if (autowired == null) {
             // @Autowired annotation can't be found in the field
             return;
         }
-        super.resolve(field, beanFactory, dependentBeanNames);
+        super.resolveField(field, beanFactory, dependentBeanNames);
     }
 
     /**
@@ -114,12 +114,12 @@ public class AutowiredInjectionPointDependencyResolver extends AnnotatedInjectio
      * @param dependentBeanNames the set to collect resolved dependent bean names into
      */
     @Override
-    public void resolve(Parameter parameter, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
+    protected void resolveParameter(Parameter parameter, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
         Autowired autowired = getAnnotation(parameter);
         if (autowired == null) {
             // @Autowired annotation can't be found in the method parameter
             return;
         }
-        super.resolve(parameter, beanFactory, dependentBeanNames);
+        super.resolveParameter(parameter, beanFactory, dependentBeanNames);
     }
 }

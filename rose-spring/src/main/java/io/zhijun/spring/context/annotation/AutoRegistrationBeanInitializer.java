@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import static io.zhijun.spring.beans.factory.BeanFactoryUtils.asBeanDefinitionRegistry;
 import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBeanDefinition;
 import static io.zhijun.spring.core.PropertyConstants.DEFAULT_AUTO_REGISTERED_VALUE;
 import static io.zhijun.spring.context.annotation.EnableAutoRegistrationBean.BEANS_AUTO_REGISTERED_PROEPRTY_NAME;
@@ -38,7 +39,7 @@ public class AutoRegistrationBeanInitializer extends ConfigurableApplicationCont
 
     @Override
     protected void initialize(ConfigurableApplicationContext context, ConfigurableEnvironment environment) {
-        registerBeanDefinition(context.getBeanFactory(), Config.class);
+        registerBeanDefinition(asBeanDefinitionRegistry(context.getBeanFactory()), (String) null, Config.class);
     }
 
     @EnableAutoRegistrationBean

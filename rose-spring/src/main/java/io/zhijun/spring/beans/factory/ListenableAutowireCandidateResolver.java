@@ -16,7 +16,7 @@ import io.zhijun.core.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.zhijun.spring.beans.factory.AutowireCandidateResolvingListener.loadListeners;
+import static io.zhijun.spring.beans.factory.AutowireCandidateResolvingListeners.loadListeners;
 
 public class ListenableAutowireCandidateResolver implements AutowireCandidateResolver, BeanFactoryPostProcessor,
         BeanNameAware {

@@ -51,7 +51,7 @@ public class ConstructionInjectionPointDependencyResolver extends AbstractInject
      * @param dependentBeanNames the set of dependent bean names (unchanged)
      */
     @Override
-    public void resolve(Field field, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
+    protected void resolveField(Field field, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
         //DO NOTHING
     }
 
@@ -74,7 +74,7 @@ public class ConstructionInjectionPointDependencyResolver extends AbstractInject
      * @param dependentBeanNames the set of dependent bean names (unchanged)
      */
     @Override
-    public void resolve(Method method, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
+    protected void resolveMethod(Method method, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
         //DO NOTHING
     }
 
@@ -99,10 +99,10 @@ public class ConstructionInjectionPointDependencyResolver extends AbstractInject
      * @param dependentBeanNames the set to collect resolved dependent bean names into
      */
     @Override
-    public void resolve(Parameter parameter, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
+    protected void resolveParameter(Parameter parameter, ConfigurableListableBeanFactory beanFactory, Set<String> dependentBeanNames) {
         Executable executable = parameter.getDeclaringExecutable();
         if (executable instanceof Constructor) {
-            super.resolve(parameter, beanFactory, dependentBeanNames);
+            super.resolveParameter(parameter, beanFactory, dependentBeanNames);
         }
     }
 }

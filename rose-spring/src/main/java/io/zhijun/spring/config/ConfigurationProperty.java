@@ -68,17 +68,22 @@ public class ConfigurationProperty {
         if (this == o) return true;
         if (!(o instanceof ConfigurationProperty)) return false;
         ConfigurationProperty that = (ConfigurationProperty) o;
-        return Objects.equals(name, that.name) && Objects.equals(value, that.value);
+        return required == that.required
+                && Objects.equals(name, that.name)
+                && Objects.equals(value, that.value)
+                && Objects.equals(type, that.type)
+                && Objects.equals(defaultValue, that.defaultValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, value);
+        return Objects.hash(name, value, type, required, defaultValue);
     }
 
     @Override
     public String toString() {
-        return "ConfigurationProperty{name='" + name + "', value=" + value + "}";
+        return "ConfigurationProperty{name='" + name + "', value=" + value
+                + ", type=" + type + ", required=" + required + ", defaultValue=" + defaultValue + "}";
     }
 
 }
