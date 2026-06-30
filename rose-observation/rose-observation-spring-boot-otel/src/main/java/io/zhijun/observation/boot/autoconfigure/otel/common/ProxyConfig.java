@@ -1,6 +1,6 @@
 package io.zhijun.observation.boot.autoconfigure.otel.common;
 
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * HTTP proxy settings for OTLP exporters.

@@ -3,7 +3,7 @@ package io.zhijun.multitenancy.spring.cache;
 import java.lang.reflect.Method;
 
 import org.springframework.cache.interceptor.SimpleKeyGenerator;
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 
 import io.zhijun.multitenancy.core.context.TenantContext;

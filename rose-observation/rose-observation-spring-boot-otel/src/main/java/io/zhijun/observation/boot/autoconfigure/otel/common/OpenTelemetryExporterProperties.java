@@ -9,7 +9,7 @@ import io.opentelemetry.sdk.common.export.MemoryMode;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.zhijun.observation.boot.autoconfigure.otel.common.Compression;
 import io.zhijun.observation.boot.autoconfigure.otel.common.Protocol;

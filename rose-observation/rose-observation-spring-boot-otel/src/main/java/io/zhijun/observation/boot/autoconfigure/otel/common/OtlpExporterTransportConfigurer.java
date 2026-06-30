@@ -15,7 +15,7 @@ import io.opentelemetry.sdk.common.export.ProxyOptions;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 

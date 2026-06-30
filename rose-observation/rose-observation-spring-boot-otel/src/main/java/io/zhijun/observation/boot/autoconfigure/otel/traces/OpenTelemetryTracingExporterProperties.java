@@ -2,7 +2,7 @@ package io.zhijun.observation.boot.autoconfigure.otel.traces;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.zhijun.observation.boot.autoconfigure.otel.common.ExporterType;
 import io.zhijun.observation.boot.autoconfigure.otel.common.OtlpExporterConfig;

@@ -13,7 +13,7 @@ import io.opentelemetry.semconv.ServiceAttributes;
 
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.env.Environment;
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.util.StringUtils;
 
 

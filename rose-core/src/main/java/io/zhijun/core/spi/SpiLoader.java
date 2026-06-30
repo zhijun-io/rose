@@ -1,8 +1,7 @@
 package io.zhijun.core.spi;
 import io.zhijun.core.spi.annotation.Spi;
 import io.zhijun.core.spi.annotation.SpiImpl;
-import io.zhijun.core.spi.exception.SpiConfigurationException;
-import io.zhijun.core.spi.exception.SpiInstantiationException;
+import io.zhijun.core.spi.exception.SpiException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -325,7 +324,7 @@ public final class SpiLoader<S> {
             // Load class without initializing
             Class<?> candidate = Class.forName(className, false, classLoader);
             if (!serviceType.isAssignableFrom(candidate)) {
-                throw new SpiConfigurationException(
+                throw new SpiException(
                         serviceType,
                         "META-INF/services/" + serviceType.getName(),
                         String.format("Implementation %s does not implement SPI interface %s",
@@ -347,7 +346,7 @@ public final class SpiLoader<S> {
             boolean singleton = spiImpl != null ? spiImpl.singleton() : DEFAULT_SINGLETON;
             return new ImplementationDefinition<>(implementationType, priority, singleton);
         } catch (ClassNotFoundException ex) {
-            throw new SpiConfigurationException(
+            throw new SpiException(
                     serviceType,
                     "META-INF/services/" + serviceType.getName(),
                     "SPI implementation class not found: " + className,
@@ -396,7 +395,7 @@ public final class SpiLoader<S> {
                 }
             }
         } catch (IOException ex) {
-            throw new SpiConfigurationException(
+            throw new SpiException(
                     serviceType,
                     resourceName,
                     "Failed to read SPI configuration files",
@@ -683,7 +682,7 @@ public final class SpiLoader<S> {
                 S instance = constructor.newInstance();
                 return initializeInstance(instance);
             } catch (Exception ex) {
-                throw new SpiInstantiationException(
+                throw new SpiException(
                         implementationType.getEnclosingClass(),
                         implementationType,
                         "Failed to instantiate SPI implementation",

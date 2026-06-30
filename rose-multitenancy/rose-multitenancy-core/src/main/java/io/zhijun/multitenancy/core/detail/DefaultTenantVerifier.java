@@ -25,7 +25,7 @@ public final class DefaultTenantVerifier implements TenantVerifier {
 
     @Override
     public void verify(String tenantIdentifier) {
-        if (tenantIdentifier == null || !tenantIdentifier.matches(TenantIdentifierConstraints.PATTERN)) {
+        if (tenantIdentifier == null || !tenantIdentifier.matches("[a-zA-Z0-9_-]+")) {
             throw new TenantVerificationException(
                     "The tenant identifier must contain only alphanumeric characters, dashes (-), and underscores (_)");
         }

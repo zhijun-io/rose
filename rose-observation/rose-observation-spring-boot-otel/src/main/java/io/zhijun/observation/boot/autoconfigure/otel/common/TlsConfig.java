@@ -1,6 +1,6 @@
 package io.zhijun.observation.boot.autoconfigure.otel.common;
 
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * TLS settings for OTLP exporters. Paths may be {@code classpath:...} or filesystem paths.

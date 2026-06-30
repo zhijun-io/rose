@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Configuration properties for exporting OpenTelemetry telemetry data using OTLP.

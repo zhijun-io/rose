@@ -1,6 +1,6 @@
 package io.zhijun.multitenancy.core.context;
 
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Strategy used to resolve the current multitenancy from a given source context.

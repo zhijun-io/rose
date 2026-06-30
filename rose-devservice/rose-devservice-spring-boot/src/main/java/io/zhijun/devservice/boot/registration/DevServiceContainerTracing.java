@@ -5,7 +5,7 @@ import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 

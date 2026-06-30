@@ -1,6 +1,6 @@
 package io.zhijun.observation.boot.autoconfigure.otel.logs;
 
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 

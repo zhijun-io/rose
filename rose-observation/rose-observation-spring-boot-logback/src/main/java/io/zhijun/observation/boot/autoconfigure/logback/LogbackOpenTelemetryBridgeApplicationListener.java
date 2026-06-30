@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.GenericApplicationListener;
 import org.springframework.core.ResolvableType;
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.util.ClassUtils;
 
 import ch.qos.logback.classic.Logger;

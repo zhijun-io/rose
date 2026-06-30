@@ -15,7 +15,7 @@ import io.opentelemetry.context.propagation.TextMapPropagator;
 import io.opentelemetry.context.propagation.TextMapSetter;
 import io.opentelemetry.extension.trace.propagation.B3Propagator;
 
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties.PropagationType;

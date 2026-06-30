@@ -2,7 +2,7 @@ package io.zhijun.multitenancy.core.detail;
 
 import java.util.List;
 
-import io.zhijun.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Loads multitenancy-specific data. It is used throughout the framework as a multitenancy DAO.

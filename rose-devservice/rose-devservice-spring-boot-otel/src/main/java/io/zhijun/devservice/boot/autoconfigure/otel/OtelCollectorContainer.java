@@ -6,7 +6,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.OtlpPorts;
 
 /**
  * OpenTelemetry Collector container configured for Rose DevService.
@@ -17,9 +16,7 @@ final class OtelCollectorContainer extends GenericContainer<OtelCollectorContain
                     OtelCollectorDevServiceProperties.DEFAULT_IMAGE_NAME)
             .getUnversionedPart();
 
-    static final int OTLP_GRPC_PORT = OtlpPorts.GRPC;
 
-    static final int OTLP_HTTP_PORT = OtlpPorts.HTTP;
 
     private final OtelCollectorDevServiceProperties properties;
 

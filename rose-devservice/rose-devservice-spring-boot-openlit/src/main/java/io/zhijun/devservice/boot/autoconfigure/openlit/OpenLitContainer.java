@@ -15,7 +15,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.container.ContainerConfigurer;
-import io.zhijun.devservice.core.util.OtlpPorts;
 
 /**
  * OpenLit container configured for Rose DevService.
@@ -29,9 +28,7 @@ final class OpenLitContainer extends GenericContainer<OpenLitContainer> {
 
     static final int UI_PORT = 3000;
 
-    static final int OTLP_GRPC_PORT = OtlpPorts.GRPC;
 
-    static final int OTLP_HTTP_PORT = OtlpPorts.HTTP;
 
     private static final DockerImageName DEFAULT_IMAGE_NAME =
             DockerImageName.parse(OpenLitDevServiceProperties.DEFAULT_IMAGE_NAME);
