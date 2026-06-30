@@ -1,5 +1,7 @@
 package io.zhijun.spring.config.binder;
 
+import io.zhijun.spring.beans.factory.ConfigurationBeanBindingRegistrar;
+import io.zhijun.spring.beans.factory.EnableConfigurationBeanBindings;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;

@@ -1,6 +1,6 @@
 package io.zhijun.spring.boot.classloading;
 
-import io.zhijun.spring.boot.listener.SpringApplicationRunListenerAdapter;
+import io.zhijun.spring.boot.event.SpringApplicationRunListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import static io.zhijun.spring.boot.constants.PropertyConstants.ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX;
-import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.lang.Boolean.getBoolean;
 

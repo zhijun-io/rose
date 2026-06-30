@@ -1,10 +1,11 @@
 package io.zhijun.spring.config.binder;
 
+import io.zhijun.spring.beans.factory.EnableConfigurationBeanBinding;
 import org.springframework.core.Ordered;
 
 /**
  * Hook invoked after each bind (startup and env hot-reload) of an
- * {@link io.zhijun.spring.config.binder.EnableConfigurationBeanBinding} bean.
+ * {@link EnableConfigurationBeanBinding} bean.
  * <p>
  * Implement {@link Ordered} to control callback order. Register as a Spring bean.
  */

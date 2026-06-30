@@ -53,7 +53,7 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-spring-boot-web-autoconfigure</artifactId>
+                <artifactId>rose-spring-boot-starter-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -63,7 +63,7 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-actuator-spring-boot-autoconfigure</artifactId>
+                <artifactId>rose-spring-boot-starter-actuator</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

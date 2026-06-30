@@ -1,6 +1,6 @@
 package io.zhijun.spring.context.event;
 
-import io.zhijun.spring.beans.factory.DefaultBeanDependencyResolver;
+import io.zhijun.spring.beans.factory.BeanDependencyResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -62,7 +62,7 @@ public class ParallelPreInstantiationSingletonsBeanFactoryListener implements Be
         ExecutorService executorService = newExecutorService();
         if (executorService != null) {
             try {
-                DefaultBeanDependencyResolver resolver = new DefaultBeanDependencyResolver(this.beanFactory, executorService);
+                BeanDependencyResolver resolver = new BeanDependencyResolver(this.beanFactory, executorService);
                 Map<String, Set<String>> dependentBeanNamesMap = resolver.resolve(this.beanFactory);
                 preInstantiateSingletonsInParallel(dependentBeanNamesMap, beanFactory, executorService, stopWatch);
             } finally {

@@ -3,6 +3,7 @@ package io.zhijun.spring.config.binder;
 import java.util.Map;
 import java.util.Set;
 
+import io.zhijun.spring.beans.factory.ConfigurationBeanBindingRegistrar;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
@@ -15,7 +16,7 @@ import io.zhijun.spring.core.env.PropertySourcesUtils;
 /**
  * Shared rules for {@link EnableConfigurationBeanBinding} registration and env hot-reload.
  * <p>
- * Aligns with {@link io.zhijun.spring.config.binder.ConfigurationBeanBindingRegistrar} on how
+ * Aligns with {@link ConfigurationBeanBindingRegistrar} on how
  * prefix properties are sliced, especially when {@code multiple = true}.
  */
 public final class ConfigurationBeanBindingSupport {
