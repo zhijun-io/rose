@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.autoconfigure.web.error;
+package io.zhijun.spring.boot.autoconfigure.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

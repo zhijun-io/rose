@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.spring.boot.autoconfigure.web.error.ErrorResponseAutoConfiguration
+io.zhijun.spring.boot.autoconfigure.web.ErrorResponseAutoConfiguration
 
 org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
 io.zhijun.spring.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter

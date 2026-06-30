@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.autoconfigure.web.error;
+package io.zhijun.spring.boot.autoconfigure.web;
 
 import io.zhijun.spring.web.ApplicationExceptionHandler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
