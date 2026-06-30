@@ -37,12 +37,21 @@ class InterceptingApplicationListener implements GenericApplicationListenerAdapt
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
-        DefaultApplicationListenerInterceptorChain chain = new DefaultApplicationListenerInterceptorChain(this.interceptors, this::onEvent);
-        chain.intercept(delegate, event);
+        java.util.Iterator<ApplicationListenerInterceptor> it = this.interceptors.iterator();
+        doIntercept(delegate, event, it);
     }
 
-    private void onEvent(ApplicationListener applicationListener, ApplicationEvent event) {
-        applicationListener.onApplicationEvent(event);
+    private void doIntercept(ApplicationListener<?> listener, ApplicationEvent event,
+                             java.util.Iterator<ApplicationListenerInterceptor> it) {
+        if (it.hasNext()) {
+            it.next().intercept(listener, event, (l, e) -> doIntercept(l, e, it));
+        } else {
+            doOnEvent(listener, event);
+        }
+    }
+
+    private static void doOnEvent(ApplicationListener<?> listener, ApplicationEvent event) {
+        ((ApplicationListener) listener).onApplicationEvent(event);
     }
 
     public ApplicationListener<?> getDelegate() {

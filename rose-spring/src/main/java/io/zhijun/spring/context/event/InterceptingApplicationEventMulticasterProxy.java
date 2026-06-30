@@ -16,9 +16,11 @@ import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.concurrent.Executor;
 import java.util.function.Predicate;
 
@@ -109,10 +111,17 @@ public class InterceptingApplicationEventMulticasterProxy extends GenericBeanPos
     public void multicastEvent(ApplicationEvent event, ResolvableType eventType) {
         execute(() -> {
             ResolvableType type = resolveEventType(event, eventType);
-            DefaultApplicationEventInterceptorChain chain = new DefaultApplicationEventInterceptorChain(
-                    this.applicationEventInterceptors, this::onEvent);
-            chain.intercept(event, type);
+            java.util.Iterator<ApplicationEventInterceptor> it = applicationEventInterceptors.iterator();
+            doIntercept(event, type, it);
         });
+    }
+
+    private void doIntercept(ApplicationEvent event, ResolvableType eventType, java.util.Iterator<ApplicationEventInterceptor> it) {
+        if (it.hasNext()) {
+            it.next().intercept(event, eventType, (e, t) -> doIntercept(e, t, it));
+        } else {
+            onEvent(event, eventType);
+        }
     }
 
     @Override

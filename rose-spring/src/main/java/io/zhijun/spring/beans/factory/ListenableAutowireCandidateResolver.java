@@ -5,18 +5,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
 import io.zhijun.core.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import static io.zhijun.spring.beans.factory.AutowireCandidateResolvingListeners.loadListeners;
 
 public class ListenableAutowireCandidateResolver implements AutowireCandidateResolver, BeanFactoryPostProcessor,
         BeanNameAware {
@@ -25,7 +27,7 @@ public class ListenableAutowireCandidateResolver implements AutowireCandidateRes
 
     private AutowireCandidateResolver delegate;
 
-    private CompositeAutowireCandidateResolvingListener compositeListener;
+    private List<AutowireCandidateResolvingListener> listeners = Collections.emptyList();
 
     private String beanName;
 
@@ -42,7 +44,12 @@ public class ListenableAutowireCandidateResolver implements AutowireCandidateRes
     }
 
     public void addListeners(List<AutowireCandidateResolvingListener> listeners) {
-        compositeListener.addListeners(listeners);
+        if (this.listeners.isEmpty()) {
+            this.listeners = new ArrayList<>(listeners);
+        } else {
+            this.listeners.addAll(listeners);
+        }
+        AnnotationAwareOrderComparator.sort(this.listeners);
     }
 
     @Override
@@ -64,7 +71,7 @@ public class ListenableAutowireCandidateResolver implements AutowireCandidateRes
     @Override
     public Object getSuggestedValue(DependencyDescriptor descriptor) {
         Object suggestedValue = delegate.getSuggestedValue(descriptor);
-        compositeListener.suggestedValueResolved(descriptor, suggestedValue);
+        listeners.forEach(l -> l.suggestedValueResolved(descriptor, suggestedValue));
         return suggestedValue;
     }
 
@@ -72,7 +79,7 @@ public class ListenableAutowireCandidateResolver implements AutowireCandidateRes
     @Override
     public Object getLazyResolutionProxyIfNecessary(DependencyDescriptor descriptor, String beanName) {
         Object proxy = delegate.getLazyResolutionProxyIfNecessary(descriptor, beanName);
-        compositeListener.lazyProxyResolved(descriptor, beanName, proxy);
+        listeners.forEach(l -> l.lazyProxyResolved(descriptor, beanName, proxy));
         return proxy;
     }
 
@@ -99,10 +106,14 @@ public class ListenableAutowireCandidateResolver implements AutowireCandidateRes
         DefaultListableBeanFactory dbf = (DefaultListableBeanFactory) beanFactory;
         AutowireCandidateResolver autowireCandidateResolver = dbf.getAutowireCandidateResolver();
         if (autowireCandidateResolver != this) {
-            List<AutowireCandidateResolvingListener> listeners = loadListeners(beanFactory);
-            CompositeAutowireCandidateResolvingListener compositeListener = new CompositeAutowireCandidateResolvingListener(listeners);
+            List<AutowireCandidateResolvingListener> resolvedListeners = Collections.emptyList();
+            if (beanFactory instanceof ListableBeanFactory) {
+                resolvedListeners = new ArrayList<>(
+                    ((ListableBeanFactory) beanFactory).getBeansOfType(AutowireCandidateResolvingListener.class).values());
+                AnnotationAwareOrderComparator.sort(resolvedListeners);
+            }
             this.delegate = autowireCandidateResolver;
-            this.compositeListener = compositeListener;
+            addListeners(resolvedListeners);
             dbf.setAutowireCandidateResolver(this);
             logger.info("The ListenableAutowireCandidateResolver has been wrapped and registered to BeanFactory[{}]", dbf);
         }

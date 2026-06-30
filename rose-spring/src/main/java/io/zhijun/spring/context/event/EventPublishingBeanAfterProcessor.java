@@ -17,7 +17,7 @@ import org.springframework.core.ResolvableType;
 import org.springframework.util.ReflectionUtils;
 
 import java.util.Map;
-import java.util.Set;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 /**
@@ -160,7 +160,7 @@ public class EventPublishingBeanAfterProcessor
 
         private void fireBeanDefinitionReadyEvent(ConfigurableListableBeanFactory beanFactory) {
             BeanListeners beanEventListeners = BeanListeners.getBean(beanFactory);
-            Set<String> readyBeanNames = BeanListeners.getReadyBeanNames(beanFactory);
+            List<String> readyBeanNames = BeanListeners.getReadyBeanNames(beanFactory);
             beanEventListeners.setReadyBeanNames(readyBeanNames);
 
             for (String beanName : beanFactory.getBeanDefinitionNames()) {

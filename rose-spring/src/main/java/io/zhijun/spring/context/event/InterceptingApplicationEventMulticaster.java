@@ -1,6 +1,5 @@
 package io.zhijun.spring.context.event;
 
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.ApplicationEvent;
@@ -8,20 +7,21 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.ResolvableType;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * {@link ApplicationEventMulticaster} that wraps {@link SimpleApplicationEventMulticaster}
- * and applies {@link ApplicationEventInterceptor} and {@link ApplicationListenerInterceptor}
- * chains before dispatching events.
+ * and applies the {@link ApplicationEventInterceptor} chain before dispatching events.
  * <p>
  * (借鉴 microsphere-spring {@code InterceptingApplicationEventMulticaster})
  *
  * @see ApplicationEventInterceptor
- * @see ApplicationEventInterceptorChain
  */
 public class InterceptingApplicationEventMulticaster extends SimpleApplicationEventMulticaster {
 
@@ -30,9 +30,16 @@ public class InterceptingApplicationEventMulticaster extends SimpleApplicationEv
     @Override
     public final void multicastEvent(ApplicationEvent event, ResolvableType eventType) {
         ResolvableType type = resolveEventType(event, eventType);
-        DefaultApplicationEventInterceptorChain chain =
-                new DefaultApplicationEventInterceptorChain(applicationEventInterceptors, this::doMulticastEvent);
-        chain.intercept(event, type);
+        Iterator<ApplicationEventInterceptor> it = applicationEventInterceptors.iterator();
+        doIntercept(event, type, it);
+    }
+
+    private void doIntercept(ApplicationEvent event, ResolvableType eventType, Iterator<ApplicationEventInterceptor> it) {
+        if (it.hasNext()) {
+            it.next().intercept(event, eventType, (e, t) -> doIntercept(e, t, it));
+        } else {
+            doMulticastEvent(event, eventType);
+        }
     }
 
     static ResolvableType resolveEventType(ApplicationEvent event, ResolvableType eventType) {
