@@ -3,14 +3,16 @@ package io.zhijun.spring.core.env.event;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ApplicationContextEvent;
+import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.PropertySource;
-
 
 /**
  * Bulk property source change event.
@@ -55,7 +57,7 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
      * <ul>
      * <li>ADDED: all keys in the new source</li>
      * <li>REMOVED: all keys in the old source</li>
-     * <li>REPLACED: {@link PropertySourceDiffSupport#diffReplaced}</li>
+     * <li>REPLACED: diff of added, removed, and changed keys between old and new source</li>
      * </ul>
      */
     public Set<String> getChangedKeys() {
@@ -82,7 +84,7 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
     }
 
     private Map<String, Object> getProperties(PropertySourceChangedEvent.Kind... kinds) {
-        java.util.LinkedHashMap<String, Object> properties = new java.util.LinkedHashMap<String, Object>();
+        Map<String, Object> properties = new LinkedHashMap<String, Object>();
         for (PropertySourceChangedEvent event : subEvents) {
             if (!contains(kinds, event.getKind())) {
                 continue;
@@ -93,9 +95,8 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
             if (propertySource == null) {
                 continue;
             }
-            if (propertySource instanceof org.springframework.core.env.EnumerablePropertySource) {
-                org.springframework.core.env.EnumerablePropertySource<?> enumerable =
-                        (org.springframework.core.env.EnumerablePropertySource<?>) propertySource;
+            if (propertySource instanceof EnumerablePropertySource) {
+                EnumerablePropertySource<?> enumerable = (EnumerablePropertySource<?>) propertySource;
                 for (String name : enumerable.getPropertyNames()) {
                     if (!properties.containsKey(name)) {
                         properties.put(name, enumerable.getProperty(name));
@@ -120,13 +121,13 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
         for (PropertySourceChangedEvent sub : subEvents) {
             switch (sub.getKind()) {
                 case ADDED:
-                    keys.addAll(PropertySourceDiffSupport.keysAdded(sub.getNewPropertySource()));
+                    keys.addAll(getPropertyNames(sub.getNewPropertySource()));
                     break;
                 case REMOVED:
-                    keys.addAll(PropertySourceDiffSupport.keysRemoved(sub.getOldPropertySource()));
+                    keys.addAll(getPropertyNames(sub.getOldPropertySource()));
                     break;
                 case REPLACED:
-                    keys.addAll(PropertySourceDiffSupport.diffReplaced(
+                    keys.addAll(diffReplaced(
                             sub.getOldPropertySource(), sub.getNewPropertySource()));
                     break;
                 default:
@@ -134,5 +135,45 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
             }
         }
         return Collections.unmodifiableSet(keys);
+    }
+
+    private static Set<String> getPropertyNames(PropertySource<?> source) {
+        if (!(source instanceof EnumerablePropertySource)) {
+            return Collections.emptySet();
+        }
+        LinkedHashSet<String> names = new LinkedHashSet<String>();
+        Collections.addAll(names, ((EnumerablePropertySource<?>) source).getPropertyNames());
+        return names;
+    }
+
+    private static Set<String> diffReplaced(PropertySource<?> oldSource, PropertySource<?> newSource) {
+        Set<String> oldNames = getPropertyNames(oldSource);
+        Set<String> newNames = getPropertyNames(newSource);
+        if (oldNames.isEmpty() && newNames.isEmpty()) {
+            return Collections.emptySet();
+        }
+        LinkedHashSet<String> changed = new LinkedHashSet<String>();
+        if (!oldNames.isEmpty() && !newNames.isEmpty()) {
+            for (String key : oldNames) {
+                if (!newNames.contains(key)) {
+                    changed.add(key);
+                }
+            }
+            for (String key : newNames) {
+                if (!oldNames.contains(key)) {
+                    changed.add(key);
+                } else if (!Objects.equals(oldSource.getProperty(key), newSource.getProperty(key))) {
+                    changed.add(key);
+                }
+            }
+            return changed;
+        }
+        Set<String> keys = !oldNames.isEmpty() ? oldNames : newNames;
+        for (String key : keys) {
+            if (!Objects.equals(oldSource.getProperty(key), newSource.getProperty(key))) {
+                changed.add(key);
+            }
+        }
+        return changed;
     }
 }

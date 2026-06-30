@@ -22,12 +22,12 @@ import org.springframework.core.PriorityOrdered;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.ClassUtils;
 
 import io.zhijun.spring.core.binder.ConfigurationBeanBinder;
 import io.zhijun.spring.core.binder.ConfigurationBeanCustomizer;
 import io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingSupport;
-import io.zhijun.spring.core.binder.internal.ConversionServiceResolver;
 
 /**
  * Binds {@link EnableConfigurationBeanBinding} beans and runs {@link io.zhijun.spring.core.binder.ConfigurationBeanCustomizer}
@@ -169,7 +169,10 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
         if (configurationBeanBinder == null) {
             configurationBeanBinder = new ConfigurationBeanBinder();
         }
-        ConversionService conversionService = new ConversionServiceResolver(beanFactory).resolve();
+        ConversionService conversionService = beanFactory.getConversionService();
+        if (conversionService == null) {
+            conversionService = new DefaultFormattingConversionService();
+        }
         configurationBeanBinder.setConversionService(conversionService);
     }
 

@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.io.watch;
+package io.zhijun.core.watch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

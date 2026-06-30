@@ -1,5 +1,7 @@
 package io.zhijun.spring.core.binder.internal;
 
+import io.zhijun.spring.core.context.SpringContextHolder;
+
 import java.util.Set;
 
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -10,15 +12,14 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
 import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.env.refresh.Refreshable;
-import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
+import io.zhijun.spring.core.propertysource.Refreshable;
 
 /**
  * {@link Refreshable} that rebinds {@link EnableConfigurationBeanBinding} beans when matching
  * configuration keys change.
  * <p>
  * Registered in {@code META-INF/spring.factories}. Invoked from
- * {@link io.zhijun.spring.core.env.refresh.PropertySourcesRefreshEnvironmentListener} after
+ * {@link io.zhijun.spring.core.propertysource.PropertySourcesRefreshEnvironmentListener} after
  * {@code PropertySourcesChangedEvent#getChangedKeys()} is computed.
  * <p>
  * Rebind uses {@link ConfigurationBeanBindingPostProcessor#rebindConfigurationBean} on the
@@ -28,7 +29,7 @@ public final class ConfigurationBeanBindingRefreshable implements Refreshable {
 
     @Override
     public boolean supports(Set<String> changedKeys) {
-        ApplicationContext context = RefreshableContextHolder.peekApplicationContext();
+        ApplicationContext context = SpringContextHolder.peekRefreshableContext();
         if (context == null || changedKeys == null || changedKeys.isEmpty()) {
             return false;
         }
@@ -51,7 +52,7 @@ public final class ConfigurationBeanBindingRefreshable implements Refreshable {
 
     @Override
     public void refresh(Set<String> changedKeys) {
-        ApplicationContext context = RefreshableContextHolder.getApplicationContext();
+        ApplicationContext context = SpringContextHolder.getRefreshableContext();
         if (!(context instanceof ConfigurableApplicationContext)) {
             return;
         }

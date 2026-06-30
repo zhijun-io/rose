@@ -1,7 +1,10 @@
-package io.zhijun.spring.core.io.watch;
+package io.zhijun.core.watch;
 
+import io.zhijun.core.spi.annotation.Priority;
+import io.zhijun.core.spi.annotation.SpiImpl;
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.ClosedWatchServiceException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -9,61 +12,72 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Simple file watch service backed by Java NIO WatchService.
+ *
+ * <p>线程安全：所有公共方法可在任意线程安全调用。{@code watch()} 支持在
+ * {@code start()} 之前或之后调用。
  */
+@SpiImpl
+@Priority(Integer.MAX_VALUE)
 public class StandardFileWatchService implements FileWatchService {
 
     private final WatchService watchService;
 
-    private final Map<WatchKey, Path> watchKeys = new HashMap<WatchKey, Path>();
+    // 父目录 -> WatchKey（用于线程安全注册去重）
+    private final ConcurrentHashMap<Path, WatchKey> watchedDirectories = new ConcurrentHashMap<>();
 
-    private final Map<Path, FileChangedListener> listeners = new ConcurrentHashMap<Path, FileChangedListener>();
+    // WatchKey -> 父目录（用于 loop() 线程快速查找）
+    private final ConcurrentHashMap<WatchKey, Path> watchKeys = new ConcurrentHashMap<>();
+
+    private final ConcurrentHashMap<Path, FileChangedListener> listeners = new ConcurrentHashMap<>();
 
     private final AtomicBoolean running = new AtomicBoolean(false);
 
-    private Thread worker;
+    private volatile Thread worker;
 
     public StandardFileWatchService() throws IOException {
         this.watchService = FileSystems.getDefault().newWatchService();
     }
 
     @Override
-    public synchronized void watch(File file, FileChangedListener listener) throws IOException {
+    public void watch(File file, FileChangedListener listener) throws IOException {
         Path filePath = file.toPath().toAbsolutePath().normalize();
         Path parent = filePath.getParent();
         if (parent == null) {
             throw new IllegalArgumentException("file has no parent directory: " + file);
         }
         listeners.put(filePath, listener);
-        if (!watchKeys.containsValue(parent)) {
-            WatchKey key = parent.register(
-                    watchService,
-                    StandardWatchEventKinds.ENTRY_CREATE,
-                    StandardWatchEventKinds.ENTRY_MODIFY,
-                    StandardWatchEventKinds.ENTRY_DELETE);
-            watchKeys.put(key, parent);
+        // computeIfAbsent 保证每个父目录只会注册一次，原子操作
+        try {
+            watchedDirectories.computeIfAbsent(parent, p -> {
+                try {
+                    WatchKey key = p.register(
+                            watchService,
+                            StandardWatchEventKinds.ENTRY_CREATE,
+                            StandardWatchEventKinds.ENTRY_MODIFY,
+                            StandardWatchEventKinds.ENTRY_DELETE);
+                    watchKeys.put(key, p);
+                    return key;
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            });
+        } catch (UncheckedIOException e) {
+            throw e.getCause();
         }
     }
 
     @Override
     public void start() {
         if (running.compareAndSet(false, true)) {
-            worker = new Thread(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            loop();
-                        }
-                    },
-                    "rose-file-watch-service");
-            worker.setDaemon(true);
-            worker.start();
+            Thread t = new Thread(this::loop, "rose-file-watch-service");
+            t.setDaemon(true);
+            worker = t;
+            t.start();
         }
     }
 
@@ -98,7 +112,7 @@ public class StandardFileWatchService implements FileWatchService {
         }
     }
 
-    private FileChangedEvent.Kind toKind(WatchEvent.Kind<?> kind) {
+    private static FileChangedEvent.Kind toKind(WatchEvent.Kind<?> kind) {
         if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
             return FileChangedEvent.Kind.CREATED;
         }
@@ -109,11 +123,12 @@ public class StandardFileWatchService implements FileWatchService {
     }
 
     @Override
-    public synchronized void close() throws IOException {
+    public void close() throws IOException {
         running.set(false);
         watchService.close();
-        if (worker != null) {
-            worker.interrupt();
+        Thread w = worker;
+        if (w != null) {
+            w.interrupt();
         }
     }
 }

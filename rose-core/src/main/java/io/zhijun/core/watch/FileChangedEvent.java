@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.io.watch;
+package io.zhijun.core.watch;
 
 import java.io.File;
 

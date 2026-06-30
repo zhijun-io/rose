@@ -18,7 +18,7 @@ import io.zhijun.spring.core.binder.ConfigurationBeanCustomizer;
 import io.zhijun.spring.core.binder.User;
 import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
 import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
-import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
+import io.zhijun.spring.core.context.SpringContextHolder;
 
 class ConfigurationBeanBindingRefreshableTest {
 
@@ -27,7 +27,7 @@ class ConfigurationBeanBindingRefreshableTest {
     @AfterEach
     void tearDown() {
         CUSTOMIZE_COUNT.set(0);
-        RefreshableContextHolder.clear();
+        SpringContextHolder.clear();
     }
 
     @Test

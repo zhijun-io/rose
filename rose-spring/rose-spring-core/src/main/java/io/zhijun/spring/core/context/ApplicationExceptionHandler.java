@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.web;
+package io.zhijun.spring.core.context;
 
 import io.zhijun.core.exception.ApplicationException;
 import io.zhijun.core.exception.ErrorCodes;

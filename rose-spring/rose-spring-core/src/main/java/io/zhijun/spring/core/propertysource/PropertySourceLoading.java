@@ -150,17 +150,17 @@ final class PropertySourceLoading {
         }
         try {
             final AutoRefreshWatcher watcher = new AutoRefreshWatcher();
-            final PropertySourceReloadCallback callback = new PropertySourceReloadCallback() {
-                @Override
-                public void onReload(String resourceValue, Resource resource) throws Throwable {
-                    reload(context, propertySourceName, attributes, annotationType);
-                }
-            };
             String[] locations = attributes.getStringArray("value");
             if (locations != null) {
                 for (String location : locations) {
                     if (StringUtils.hasText(location)) {
-                        watcher.watch(resolvePlaceholders(context, location), callback);
+                        watcher.watch(resolvePlaceholders(context, location), (resourceValue, resource) -> {
+                    try {
+                        reload(context, propertySourceName, attributes, annotationType);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
                     }
                 }
             }

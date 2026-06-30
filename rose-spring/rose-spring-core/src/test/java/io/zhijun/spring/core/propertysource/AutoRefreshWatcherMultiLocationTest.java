@@ -8,8 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
 
-import io.zhijun.spring.core.io.watch.FakeFileWatchService;
-import io.zhijun.spring.core.io.watch.FileChangedEvent;
+import io.zhijun.core.watch.FileChangedEvent;
 
 class AutoRefreshWatcherMultiLocationTest {
 
@@ -22,9 +21,9 @@ class AutoRefreshWatcherMultiLocationTest {
 
         AutoRefreshWatcher watcher = new AutoRefreshWatcher(
                 new org.springframework.core.io.support.PathMatchingResourcePatternResolver(), watchService);
-        PropertySourceReloadCallback callback = new PropertySourceReloadCallback() {
+        java.util.function.BiConsumer<String, Resource> callback = new java.util.function.BiConsumer<String, Resource>() {
             @Override
-            public void onReload(String resourceValue, Resource resource) {
+            public void accept(String resourceValue, Resource resource) {
                 reloadCount.incrementAndGet();
             }
         };

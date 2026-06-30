@@ -1,4 +1,6 @@
-package io.zhijun.spring.core.env.refresh;
+package io.zhijun.spring.core.propertysource;
+
+import io.zhijun.spring.core.context.SpringContextHolder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +24,7 @@ class PropertySourcesRefreshEnvironmentListenerTest {
 
     @AfterEach
     void tearDown() {
-        RefreshableContextHolder.clear();
+        SpringContextHolder.clear();
     }
 
     @Test
@@ -44,7 +46,7 @@ class PropertySourcesRefreshEnvironmentListenerTest {
 
         StaticApplicationContext context = new StaticApplicationContext();
         context.refresh();
-        RefreshableContextHolder.bind(context);
+        SpringContextHolder.bind(context);
         Map<String, Object> props = new HashMap<String, Object>();
         props.put("app.messages.welcome", "hi");
         PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(
@@ -78,7 +80,7 @@ class PropertySourcesRefreshEnvironmentListenerTest {
 
         StaticApplicationContext context = new StaticApplicationContext();
         context.refresh();
-        RefreshableContextHolder.bind(context);
+        SpringContextHolder.bind(context);
         PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(
                 context,
                 Collections.singletonList(PropertySourceChangedEvent.added(
@@ -110,9 +112,9 @@ class PropertySourcesRefreshEnvironmentListenerTest {
         context.getEnvironment()
                 .getPropertySources()
                 .addFirst(new MapPropertySource(
-                        "config", Collections.singletonMap(EnvRefreshProperties.REFRESH_ENABLED, "false")));
+                        "config", Collections.singletonMap("rose.spring.env.refresh.enabled", "false")));
         context.refresh();
-        RefreshableContextHolder.bind(context);
+        SpringContextHolder.bind(context);
         PropertySourcesChangedEvent event = new PropertySourcesChangedEvent(
                 context,
                 Collections.singletonList(PropertySourceChangedEvent.added(
@@ -133,7 +135,7 @@ class PropertySourcesRefreshEnvironmentListenerTest {
 
         StaticApplicationContext context = new StaticApplicationContext();
         context.refresh();
-        RefreshableContextHolder.bind(context);
+        SpringContextHolder.bind(context);
 
         listener.onEnvironmentChangeKeys(Collections.singleton("app.messages.welcome"));
 
@@ -151,9 +153,9 @@ class PropertySourcesRefreshEnvironmentListenerTest {
         context.getEnvironment()
                 .getPropertySources()
                 .addFirst(new MapPropertySource(
-                        "config", Collections.singletonMap(EnvRefreshProperties.REFRESH_ENABLED, "false")));
+                        "config", Collections.singletonMap("rose.spring.env.refresh.enabled", "false")));
         context.refresh();
-        RefreshableContextHolder.bind(context);
+        SpringContextHolder.bind(context);
 
         listener.onEnvironmentChangeKeys(Collections.singleton("app.messages.welcome"));
 
@@ -169,7 +171,7 @@ class PropertySourcesRefreshEnvironmentListenerTest {
 
         GenericApplicationContext context = new GenericApplicationContext();
         new ListenableConfigurableEnvironmentInitializer().initialize(context);
-        RefreshableContextHolder.bind(context);
+        SpringContextHolder.bind(context);
 
         listener.onEnvironmentChangeKeys(Collections.singleton("app.messages.welcome"));
 

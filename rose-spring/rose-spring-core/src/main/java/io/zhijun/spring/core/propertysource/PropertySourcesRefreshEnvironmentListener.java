@@ -1,4 +1,6 @@
-package io.zhijun.spring.core.env.refresh;
+package io.zhijun.spring.core.propertysource;
+
+import io.zhijun.spring.core.context.SpringContextHolder;
 
 import java.util.List;
 import java.util.Set;
@@ -43,7 +45,7 @@ public final class PropertySourcesRefreshEnvironmentListener implements Environm
     }
 
     public void onEnvironmentChangeKeys(Set<String> keys) {
-        ApplicationContext context = RefreshableContextHolder.getApplicationContext();
+        ApplicationContext context = SpringContextHolder.getRefreshableContext();
         if (!isDispatchAllowed(context)) {
             return;
         }
@@ -54,7 +56,7 @@ public final class PropertySourcesRefreshEnvironmentListener implements Environm
         if (context == null) {
             return false;
         }
-        if (!EnvRefreshProperties.isRefreshEnabled(context.getEnvironment())) {
+        if (!context.getEnvironment().getProperty("rose.spring.env.refresh.enabled", Boolean.class, Boolean.TRUE)) {
             return false;
         }
         if (context instanceof ConfigurableApplicationContext) {

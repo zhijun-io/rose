@@ -9,27 +9,28 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
 
+import io.zhijun.core.watch.FileChangedEvent;
+
 class AutoRefreshWatcherTest {
 
     @Test
     void shouldTriggerReloadCallbackForFileBackedResource() throws Exception {
         File file = File.createTempFile("app", ".properties");
         List<String> callbacks = new ArrayList<String>();
-        io.zhijun.spring.core.io.watch.FakeFileWatchService watchService =
-                new io.zhijun.spring.core.io.watch.FakeFileWatchService();
+        FakeFileWatchService watchService = new FakeFileWatchService();
 
         AutoRefreshWatcher watcher = new AutoRefreshWatcher(
                 new org.springframework.core.io.support.PathMatchingResourcePatternResolver(), watchService);
         try {
-            watcher.watch("file:" + file.getAbsolutePath(), new PropertySourceReloadCallback() {
+            watcher.watch("file:" + file.getAbsolutePath(), new java.util.function.BiConsumer<String, Resource>() {
                 @Override
-                public void onReload(String resourceValue, Resource resource) {
+                public void accept(String resourceValue, Resource resource) {
                     callbacks.add(resourceValue);
                     callbacks.add(resource.getFilename());
                 }
             });
             watcher.start();
-            watchService.publish(file, io.zhijun.spring.core.io.watch.FileChangedEvent.Kind.MODIFIED);
+            watchService.publish(file, FileChangedEvent.Kind.MODIFIED);
         } finally {
             watcher.close();
         }

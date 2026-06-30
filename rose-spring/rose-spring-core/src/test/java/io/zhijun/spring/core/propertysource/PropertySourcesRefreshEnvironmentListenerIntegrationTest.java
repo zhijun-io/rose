@@ -1,4 +1,6 @@
-package io.zhijun.spring.core.env.refresh;
+package io.zhijun.spring.core.propertysource;
+
+import io.zhijun.spring.core.context.SpringContextHolder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,12 +21,12 @@ class PropertySourcesRefreshEnvironmentListenerIntegrationTest {
     @BeforeEach
     void setUp() {
         TestRefreshable.reset();
-        RefreshableContextHolder.clear();
+        SpringContextHolder.clear();
     }
 
     @AfterEach
     void tearDown() {
-        RefreshableContextHolder.clear();
+        SpringContextHolder.clear();
     }
 
     @Test

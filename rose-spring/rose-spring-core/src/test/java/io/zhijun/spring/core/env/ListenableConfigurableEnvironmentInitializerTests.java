@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.MutablePropertySources;
 
-import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
+import io.zhijun.spring.core.context.SpringContextHolder;
 
 class ListenableConfigurableEnvironmentInitializerTests {
 
@@ -23,6 +23,6 @@ class ListenableConfigurableEnvironmentInitializerTests {
 
         assertThat(FactoryLoadedEnvironmentListener.callbacks())
                 .containsExactly("onPropertySourcesChanged");
-        assertThat(RefreshableContextHolder.getApplicationContext()).isSameAs(context);
+        assertThat(SpringContextHolder.getRefreshableContext()).isSameAs(context);
     }
 }
