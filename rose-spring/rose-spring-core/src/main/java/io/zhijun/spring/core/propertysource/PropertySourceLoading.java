@@ -1,6 +1,5 @@
 package io.zhijun.spring.core.propertysource;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,9 +103,7 @@ final class PropertySourceLoading {
             Class<? extends Comparator<Resource>> comparatorType =
                 attributes.getClass("resourceComparator");
             sortResources(resources, comparatorType);
-        } catch (IOException ex) {
-            throw new IllegalStateException("Failed to resolve resources", ex);
-        } catch (Exception ex) {
+       } catch (Exception ex) {
             throw new IllegalStateException("Failed to resolve resources", ex);
         }
         return resources;

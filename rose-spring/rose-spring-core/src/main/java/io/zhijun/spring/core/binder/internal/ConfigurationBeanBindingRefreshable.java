@@ -11,7 +11,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
 import io.zhijun.spring.core.propertysource.Refreshable;
 
 /**

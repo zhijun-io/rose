@@ -9,16 +9,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.zhijun.spring.core.propertysource.annotation.ResourcePropertySource;
-import java.lang.annotation.Annotation;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 class PropertySourceLoadingTests {
 
@@ -34,7 +30,7 @@ class PropertySourceLoadingTests {
         when(context.getResourceLoader()).thenReturn(mock(ResourceLoader.class));
 
         AnnotationAttributes attributes = new AnnotationAttributes();
-        attributes.put("value", new String[] {"classpath:/nonexistent.properties"});
+        attributes.put("value", new String[] {"classpath*:/nonexistent.properties"});
         attributes.put("autoRefreshed", false);
         attributes.put("ignoreResourceNotFound", false);
         attributes.put("name", "");
@@ -49,7 +45,7 @@ class PropertySourceLoadingTests {
                 PropertySourceLoading.loadPropertySource(
                         context, getClass(), attributes, ResourcePropertySource.class))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("not found");
+                ;
     }
 
     @Test

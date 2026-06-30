@@ -1,20 +1,18 @@
 package io.zhijun.spring.core.binder.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.StandardEnvironment;
 
+import io.zhijun.spring.core.binder.ConfigurationBeanCustomizer;
 import io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingSupport;
 
 class ConfigurationBeanBindingPostProcessorTests {
@@ -37,28 +35,25 @@ class ConfigurationBeanBindingPostProcessorTests {
         when(beanFactory.getBeanDefinition("test")).thenReturn(bd);
         when(beanFactory.getBean("test")).thenReturn("test");
 
-        // Should not throw for non-configuration bean
         postProcessor.postProcessAfterInitialization("test", "test");
     }
 
     @Test
     void skipsBeansWithoutDefinition() {
         when(beanFactory.containsBeanDefinition("unknown")).thenReturn(false);
-
         postProcessor.postProcessAfterInitialization(new Object(), "unknown");
     }
 
     @Test
-    void postProcessMergesBeanDefinition() {
+    void rebindsConfigurationBean() {
         BeanDefinition bd = BeanDefinitionBuilder.rootBeanDefinition(TestConfig.class).getBeanDefinition();
-        bd.setAttribute(ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_SOURCE,
-                ConfigurationBeanBindingSupport.CONFIGURATION_BEAN_SOURCE);
         bd.setAttribute(ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_PREFIX, "app.test");
         bd.setAttribute(ConfigurationBeanBindingSupport.CONFIGURATION_BINDING_MULTIPLE, false);
+        ((org.springframework.beans.factory.support.AbstractBeanDefinition) bd).setSource(ConfigurationBeanBindingSupport.CONFIGURATION_BEAN_SOURCE);
         bd.setAttribute(ConfigurationBeanBindingPostProcessor.IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME, true);
         bd.setAttribute(ConfigurationBeanBindingPostProcessor.IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME, true);
         bd.setAttribute(ConfigurationBeanBindingPostProcessor.CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME,
-                java.util.Collections.singletonMap("key", "value"));
+                Collections.singletonMap("key", "value"));
 
         when(beanFactory.containsBeanDefinition("testConfig")).thenReturn(true);
         when(beanFactory.getBeanDefinition("testConfig")).thenReturn(bd);
@@ -66,7 +61,6 @@ class ConfigurationBeanBindingPostProcessorTests {
         when(beanFactory.getBeanNamesForType(ConfigurationBeanCustomizer.class))
                 .thenReturn(new String[0]);
 
-        postProcessor.setEnvironment(new StandardEnvironment());
         postProcessor.postProcessAfterInitialization(new TestConfig(), "testConfig");
     }
 

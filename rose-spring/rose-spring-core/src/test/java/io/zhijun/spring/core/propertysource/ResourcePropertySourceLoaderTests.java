@@ -16,9 +16,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 
-import io.zhijun.spring.core.propertysource.annotation.JsonPropertySource;
 import io.zhijun.spring.core.propertysource.annotation.ResourcePropertySource;
-import io.zhijun.spring.core.propertysource.annotation.YamlPropertySource;
 
 class ResourcePropertySourceLoaderTests {
 
@@ -215,11 +213,11 @@ class ResourcePropertySourceLoaderTests {
     static class NotFoundConfig {}
 
     @Configuration
-    @YamlPropertySource("classpath:/META-INF/test/app.yml")
+    @ResourcePropertySource(value = "classpath:/META-INF/test/app.yml", factory = YamlPropertySourceFactory.class)
     static class YamlConfig {}
 
     @Configuration
-    @JsonPropertySource("classpath:/META-INF/test/app.json")
+    @ResourcePropertySource(value = "classpath:/META-INF/test/app.json", factory = JsonPropertySourceFactory.class)
     static class JsonConfig {}
 
     @Configuration

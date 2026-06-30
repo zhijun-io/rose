@@ -146,34 +146,16 @@ public class PropertySourcesChangedEvent extends ApplicationContextEvent {
         return names;
     }
 
-    private static Set<String> diffReplaced(PropertySource<?> oldSource, PropertySource<?> newSource) {
-        Set<String> oldNames = getPropertyNames(oldSource);
-        Set<String> newNames = getPropertyNames(newSource);
-        if (oldNames.isEmpty() && newNames.isEmpty()) {
-            return Collections.emptySet();
-        }
-        LinkedHashSet<String> changed = new LinkedHashSet<String>();
-        if (!oldNames.isEmpty() && !newNames.isEmpty()) {
-            for (String key : oldNames) {
-                if (!newNames.contains(key)) {
-                    changed.add(key);
-                }
-            }
-            for (String key : newNames) {
-                if (!oldNames.contains(key)) {
-                    changed.add(key);
-                } else if (!Objects.equals(oldSource.getProperty(key), newSource.getProperty(key))) {
-                    changed.add(key);
-                }
-            }
-            return changed;
-        }
-        Set<String> keys = !oldNames.isEmpty() ? oldNames : newNames;
-        for (String key : keys) {
-            if (!Objects.equals(oldSource.getProperty(key), newSource.getProperty(key))) {
-                changed.add(key);
-            }
-        }
-        return changed;
-    }
+   private static Set<String> diffReplaced(PropertySource<?> oldSource, PropertySource<?> newSource) {
+       Set<String> oldNames = getPropertyNames(oldSource);
+       Set<String> newNames = getPropertyNames(newSource);
+       LinkedHashSet<String> changed = new LinkedHashSet<String>(oldNames);
+       changed.addAll(newNames);
+       for (String key : newNames) {
+           if (oldNames.contains(key) && Objects.equals(oldSource.getProperty(key), newSource.getProperty(key))) {
+               changed.remove(key);
+           }
+       }
+       return changed;
+   }
 }
