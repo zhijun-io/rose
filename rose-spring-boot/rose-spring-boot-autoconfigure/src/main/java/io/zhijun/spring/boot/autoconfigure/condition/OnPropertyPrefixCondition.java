@@ -6,8 +6,8 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
-import io.zhijun.spring.annotation.ResolvablePlaceholderAnnotationAttributes;
-import io.zhijun.spring.env.PropertySourcesUtils;
+import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
+import io.zhijun.spring.core.env.PropertySourcesUtils;
 
 /**
  * 检查指定属性前缀是否存在于 Environment 中的条件实现。

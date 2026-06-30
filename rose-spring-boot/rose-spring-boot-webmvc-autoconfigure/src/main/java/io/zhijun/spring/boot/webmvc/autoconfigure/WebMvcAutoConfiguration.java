@@ -4,11 +4,11 @@ import io.zhijun.spring.webmvc.metadata.HandlerMappingWebEndpointMappingResolver
 import io.zhijun.spring.boot.webmvc.autoconfigure.condition.ConditionalOnWebMvcAvailable;
 import io.zhijun.spring.webmvc.ContentCachingFilter;
 import io.zhijun.spring.webmvc.annotation.EnableWebMvcExtension;
-import io.zhijun.spring.webmvc.config.ConfigurableContentNegotiationManagerWebMvcConfigurer;
-import io.zhijun.spring.webmvc.context.ExclusiveViewResolverApplicationListener;
+import io.zhijun.spring.webmvc.ConfigurableContentNegotiationManagerWebMvcConfigurer;
+import io.zhijun.spring.webmvc.ExclusiveViewResolverApplicationListener;
 import io.zhijun.spring.webmvc.interceptor.LoggingMethodHandlerInterceptor;
 import io.zhijun.spring.webmvc.interceptor.LoggingPageRenderContextHandlerInterceptor;
-import io.zhijun.spring.webmvc.method.support.LoggingHandlerMethodArgumentResolverAdvice;
+import io.zhijun.spring.webmvc.method.LoggingHandlerMethodArgumentResolverAdvice;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import io.zhijun.spring.scheduling.MonitoredThreadPoolTaskScheduler;
+import io.zhijun.spring.core.MonitoredThreadPoolTaskScheduler;
 
 /**
  * Actuator Spring Boot auto-configuration.

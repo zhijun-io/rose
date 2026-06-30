@@ -42,12 +42,7 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
-                <artifactId>rose-spring-context</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-spring-web</artifactId>
+                <artifactId>rose-spring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -56,11 +51,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-spring-webmvc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-spring-boot-autoconfigure</artifactId>

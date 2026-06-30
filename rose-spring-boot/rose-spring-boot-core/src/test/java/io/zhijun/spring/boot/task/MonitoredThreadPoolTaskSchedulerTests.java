@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
+import io.zhijun.spring.core.MonitoredThreadPoolTaskScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.GenericApplicationContext;
 
@@ -17,7 +18,7 @@ class MonitoredThreadPoolTaskSchedulerTests {
         context.registerBean(SimpleMeterRegistry.class, SimpleMeterRegistry::new);
         context.refresh();
 
-        io.zhijun.spring.scheduling.MonitoredThreadPoolTaskScheduler scheduler = createScheduler(context, "monitoredTaskScheduler");
+        MonitoredThreadPoolTaskScheduler scheduler = createScheduler(context, "monitoredTaskScheduler");
 
         ScheduledExecutorService delegate = scheduler.getScheduledExecutor();
 
@@ -32,7 +33,7 @@ class MonitoredThreadPoolTaskSchedulerTests {
         GenericApplicationContext context = new GenericApplicationContext();
         context.refresh();
 
-        io.zhijun.spring.scheduling.MonitoredThreadPoolTaskScheduler scheduler = createScheduler(context, "plainTaskScheduler");
+        MonitoredThreadPoolTaskScheduler scheduler = createScheduler(context, "plainTaskScheduler");
 
         ScheduledExecutorService delegate = scheduler.getScheduledExecutor();
 
@@ -42,8 +43,8 @@ class MonitoredThreadPoolTaskSchedulerTests {
         context.close();
     }
 
-    private static io.zhijun.spring.scheduling.MonitoredThreadPoolTaskScheduler createScheduler(GenericApplicationContext context, String beanName) {
-        io.zhijun.spring.scheduling.MonitoredThreadPoolTaskScheduler scheduler = new io.zhijun.spring.scheduling.MonitoredThreadPoolTaskScheduler();
+    private static MonitoredThreadPoolTaskScheduler createScheduler(GenericApplicationContext context, String beanName) {
+        MonitoredThreadPoolTaskScheduler scheduler = new MonitoredThreadPoolTaskScheduler();
         scheduler.setBeanName(beanName);
         scheduler.setPoolSize(1);
         scheduler.setApplicationContext(context);
