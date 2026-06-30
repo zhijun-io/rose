@@ -29,7 +29,7 @@ public class ExclusiveViewResolverApplicationListener implements ApplicationList
 
     private static final Logger logger = LoggerFactory.getLogger(ExclusiveViewResolverApplicationListener.class);
 
-    static final String EXCLUSIVE_VIEW_RESOLVER_BEAN_NAME_PROPERTY_NAME = "rose.spring.webmvc.view-resolver.exclusive-bean-name";
+    public static final String EXCLUSIVE_VIEW_RESOLVER_BEAN_NAME_PROPERTY_NAME = "rose.spring.webmvc.view-resolver.exclusive-bean-name";
 
     private static final String VIEW_RESOLVER_COMPOSITE_BEAN_NAME = "mvcViewResolver";
 

@@ -2,6 +2,7 @@ package io.zhijun.spring.boot.env.config;
 
 import io.zhijun.spring.boot.env.PropertySourceLoaders;
 import io.zhijun.spring.context.ConfigurableApplicationContextInitializer;
+import io.zhijun.spring.context.event.BeanFactoryListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -24,7 +25,7 @@ import static org.springframework.boot.origin.OriginTrackedValue.of;
 /**
  * Origin Tracked 配置属性初始化器
  */
-public class OriginTrackedConfigurationPropertyInitializer extends ConfigurableApplicationContextInitializer
+public class OriginTrackedConfigurationPropertyInitializer extends ConfigurableApplicationContextInitializer implements BeanFactoryListener
 {
 
     private static final Logger logger = LoggerFactory.getLogger(OriginTrackedConfigurationPropertyInitializer.class);

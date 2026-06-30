@@ -3,6 +3,7 @@ package io.zhijun.spring.boot.classloading;
 import io.zhijun.spring.boot.event.SpringApplicationRunListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.Ordered;
 
@@ -31,7 +32,7 @@ public class BannedArtifactClassLoadingListener extends SpringApplicationRunList
     }
 
     @Override
-    public void starting() {
+    public void starting(ConfigurableBootstrapContext bootstrapContext) {
         if (isProcessed()) {
             return;
         }
