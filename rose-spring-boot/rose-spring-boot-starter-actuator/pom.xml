@@ -17,6 +17,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-spring-boot-autoconfigure</artifactId>
         </dependency>
