@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ import java.util.List;
 public class BeanFactoryListeners {
 
     private static final Logger logger = LoggerFactory.getLogger(BeanFactoryListeners.class);
+
+    private static final String BEAN_NAME = "beanFactoryListeners";
 
     private final List<BeanFactoryListener> listeners;
 
@@ -82,6 +86,22 @@ public class BeanFactoryListeners {
                         listener.getClass().getName(), ex);
             }
         }
+    }
+
+    /**
+     * Register this instance as a bean in the given registry.
+     */
+    void registerBean(BeanDefinitionRegistry registry) {
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(BeanFactoryListeners.class, () -> this);
+        builder.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        registry.registerBeanDefinition(BEAN_NAME, builder.getBeanDefinition());
+    }
+
+    /**
+     * Get the BeanFactoryListeners instance from the given bean factory.
+     */
+    static BeanFactoryListeners getBean(BeanFactory beanFactory) {
+        return beanFactory.getBean(BEAN_NAME, BeanFactoryListeners.class);
     }
 
 }
