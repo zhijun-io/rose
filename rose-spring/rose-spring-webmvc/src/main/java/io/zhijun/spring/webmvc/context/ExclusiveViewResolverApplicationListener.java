@@ -20,7 +20,6 @@ import static org.springframework.util.StringUtils.hasText;
 /**
  * Exclusive {@link ViewResolver} {@link ApplicationListener} on {@link ContextRefreshedEvent}
  *
- * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  * @see ViewResolver
  * @see ApplicationListener
  * @see ContextRefreshedEvent

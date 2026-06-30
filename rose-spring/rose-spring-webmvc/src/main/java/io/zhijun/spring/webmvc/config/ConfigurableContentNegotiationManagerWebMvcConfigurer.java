@@ -25,7 +25,6 @@ import static org.springframework.util.ReflectionUtils.doWithFields;
 /**
  * Configurable {@link ContentNegotiationManager} {@link WebMvcConfigurer}
  *
- * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  * @see ContentNegotiationManagerFactoryBean
  * @see ContentNegotiationManager
  * @see WebMvcConfigurer

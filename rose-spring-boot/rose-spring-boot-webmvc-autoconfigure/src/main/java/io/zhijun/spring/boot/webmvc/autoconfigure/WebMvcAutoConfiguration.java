@@ -3,6 +3,7 @@ package io.zhijun.spring.boot.webmvc.autoconfigure;
 import io.zhijun.spring.boot.webmvc.autoconfigure.condition.ConditionalOnWebMvcAvailable;
 import io.zhijun.spring.webmvc.ContentCachingFilter;
 import io.zhijun.spring.webmvc.HandlerMethodArgumentResolverAdvice;
+import io.zhijun.spring.webmvc.annotation.EnableWebMvcExtension;
 import io.zhijun.spring.webmvc.config.ConfigurableContentNegotiationManagerWebMvcConfigurer;
 import io.zhijun.spring.webmvc.context.ExclusiveViewResolverApplicationListener;
 import io.zhijun.spring.webmvc.interceptor.LoggingMethodHandlerInterceptor;
@@ -22,6 +23,10 @@ import static io.zhijun.spring.boot.webmvc.constants.PropertyConstants.ROSE_SPRI
 /**
  * Rose Spring Boot WebMVC 自动配置
  */
+@EnableWebMvcExtension(
+        registerHandlerInterceptors = true,
+        reversedProxyHandlerMapping = true
+)
 @ConditionalOnWebMvcAvailable
 @AutoConfiguration(afterName = {
         "org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration"

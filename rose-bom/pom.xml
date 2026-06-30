@@ -68,6 +68,11 @@
             </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-boot-web-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
                 <artifactId>rose-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -79,6 +84,21 @@
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-actuator-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-boot-webmvc-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-web-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-webmvc-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Data and persistence -->

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.zhijun</groupId>
+        <artifactId>rose-spring-boot</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>rose-webmvc-spring-boot-starter</artifactId>
+    <name>Rose WebMVC Spring Boot Starter</name>
+    <description>Starter for Rose Spring WebMVC extensions</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-webmvc-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-web-spring-boot-starter</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
+</project>
