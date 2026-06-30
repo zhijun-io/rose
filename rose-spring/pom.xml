@@ -16,7 +16,7 @@
     <name>Rose Spring</name>
 
     <modules>
-        <module>rose-spring-core</module>
+        <module>rose-spring-context</module>
         <module>rose-spring-web</module>
         <module>rose-spring-webmvc</module>
     </modules>

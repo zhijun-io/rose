@@ -41,15 +41,16 @@ public final class TenantContext {
         if (tenantIdentifier == null || tenantIdentifier.trim().isEmpty()) {
             throw new IllegalArgumentException("tenantIdentifier cannot be null or empty");
         }
-        return new Scope(tenantIdentifier, TENANT_IDENTIFIER.get());
+        String previous = TENANT_IDENTIFIER.get();
+        TENANT_IDENTIFIER.set(tenantIdentifier);
+        return new Scope(previous);
     }
 
     public static final class Scope implements AutoCloseable {
 
         private final String previousTenantIdentifier;
 
-        private Scope(String tenantIdentifier, @Nullable String previousTenantIdentifier) {
-            TENANT_IDENTIFIER.set(tenantIdentifier);
+        private Scope(String previousTenantIdentifier) {
             this.previousTenantIdentifier = previousTenantIdentifier;
         }
 

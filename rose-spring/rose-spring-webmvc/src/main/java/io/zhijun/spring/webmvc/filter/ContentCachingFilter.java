@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class ContentCachingFilter extends OncePerRequestFilter {
 
-    private static final Logger log = LoggerFactory.getLogger(ContentCachingFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContentCachingFilter.class);
 
     public static final String RESPONSE_CONTENT_ATTRIBUTE = "_ContentCachingFilter_";
 
@@ -59,7 +59,7 @@ public class ContentCachingFilter extends OncePerRequestFilter {
             request.setAttribute(RESPONSE_CONTENT_ATTRIBUTE, content);
             return content;
         } catch (IOException e) {
-            log.error("ContentCachingResponseWrapper 内容转换失败: contentSize={}, encoding={}",
+            logger.error("ContentCachingResponseWrapper 内容转换失败: contentSize={}, encoding={}",
                     contentSize, response.getCharacterEncoding(), e);
             return null;
         }

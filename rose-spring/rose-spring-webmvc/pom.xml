@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-core</artifactId>
+            <artifactId>rose-spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>

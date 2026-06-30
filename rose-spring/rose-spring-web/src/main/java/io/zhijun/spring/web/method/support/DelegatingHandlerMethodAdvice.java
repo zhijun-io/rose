@@ -22,7 +22,7 @@ import java.util.Map;
 public class DelegatingHandlerMethodAdvice extends OnceApplicationContextEventListener<ContextRefreshedEvent>
         implements HandlerMethodAdvice {
 
-    private static final Logger log = LoggerFactory.getLogger(DelegatingHandlerMethodAdvice.class);
+    private static final Logger logger = LoggerFactory.getLogger(DelegatingHandlerMethodAdvice.class);
 
     private List<HandlerMethodArgumentInterceptor> argumentInterceptors = Collections.emptyList();
 
@@ -33,7 +33,7 @@ public class DelegatingHandlerMethodAdvice extends OnceApplicationContextEventLi
         ApplicationContext context = event.getApplicationContext();
         this.argumentInterceptors = getSortedBeans(context, HandlerMethodArgumentInterceptor.class);
         this.methodInterceptors = getSortedBeans(context, HandlerMethodInterceptor.class);
-        log.trace("初始化完成: {} 个 HandlerMethodArgumentInterceptor, {} 个 HandlerMethodInterceptor",
+        logger.trace("初始化完成: {} 个 HandlerMethodArgumentInterceptor, {} 个 HandlerMethodInterceptor",
                 this.argumentInterceptors.size(), this.methodInterceptors.size());
     }
 

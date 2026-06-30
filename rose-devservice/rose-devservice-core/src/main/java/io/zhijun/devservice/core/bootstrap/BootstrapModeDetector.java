@@ -101,11 +101,23 @@ final class BootstrapModeDetector {
         return ClassUtils.isPresent("org.graalvm.nativeimage.ImageInfo", null);
     }
 
-    static boolean isDevelopmentContext() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        if (ClassUtils.isPresent("org.springframework.boot.devtools.RemoteSpringApplication", classLoader)) {
-            return true;
+   static boolean isDevelopmentContext() {
+       ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+       if (ClassUtils.isPresent("org.springframework.boot.devtools.RemoteSpringApplication", classLoader)) {
+           return true;
+       }
+        return isStandardJavaClassLoader(classLoader);
+    }
+
+    private static boolean isStandardJavaClassLoader(ClassLoader classLoader) {
+        if (classLoader == null) {
+            return false;
         }
-        return classLoader != null && classLoader.getClass().getName().contains("AppClassLoader");
+        try {
+            return classLoader.getClass() == ClassLoader.getSystemClassLoader().getClass();
+        } catch (SecurityException e) {
+            logger.debug("Cannot access system classloader for dev context detection", e);
+            return false;
+        }
     }
 }
