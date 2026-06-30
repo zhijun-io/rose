@@ -53,7 +53,7 @@ public abstract class BindUtils {
     }
 
     protected static <T> T bind(Binder binder, String name, Class<T> targetType, BindListener... bindListeners) {
-        ListenableBindHandlerAdapter bindHandlerAdapter = new ListenableBindHandlerAdapter(Arrays.asList(bindListeners));
+        ListenableBindHandlerAdapter bindHandlerAdapter = new ListenableBindHandlerAdapter(null, Arrays.asList(bindListeners));
         Bindable<T> bindable = of(targetType);
         BindResult<T> result = binder.bind(name, bindable, bindHandlerAdapter);
         return result.orElse(null);

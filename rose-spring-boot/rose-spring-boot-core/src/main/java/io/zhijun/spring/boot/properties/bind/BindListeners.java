@@ -18,18 +18,16 @@ class BindListeners implements BindListener {
     }
 
     @Override
-    public <T> void onStart(ConfigurationPropertyName name, Bindable<T> target, BindContext context) {
+    public void onStart(ConfigurationPropertyName name, Bindable<?> target, BindContext context) {
         iterate(listener -> listener.onStart(name, target, context));
     }
 
     @Override
-    public void onSuccess(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Object result) {
-        iterate(listener -> listener.onSuccess(name, target, context, result));
-    }
-
-    @Override
-    public void onCreate(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Object result) {
-        iterate(listener -> listener.onCreate(name, target, context, result));
+    public Object onSuccess(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Object result) {
+        for (BindListener listener : listeners) {
+            result = listener.onSuccess(name, target, context, result);
+        }
+        return result;
     }
 
     @Override

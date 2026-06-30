@@ -13,7 +13,7 @@ public abstract class ConfigurationPropertiesUtils {
     public static final Class<ConfigurationProperties> CONFIGURATION_PROPERTIES_CLASS = ConfigurationProperties.class;
 
     public static ConfigurationProperties findConfigurationProperties(Bindable bindable) {
-        ConfigurationProperties configurationProperties = bindable.getAnnotation(CONFIGURATION_PROPERTIES_CLASS);
+        ConfigurationProperties configurationProperties = (ConfigurationProperties) bindable.getAnnotation(CONFIGURATION_PROPERTIES_CLASS);
         if (configurationProperties == null) {
             ResolvableType type = bindable.getType();
             Class<?> bindableType = type.resolve();

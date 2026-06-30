@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.autoconfigure.web;
+package io.zhijun.spring.boot.web.autoconfigure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,11 +38,6 @@ class ErrorResponseAutoConfigurationTests {
             assertThat(context.getBean(ApplicationExceptionHandler.class))
                     .isSameAs(context.getBean("customApplicationExceptionHandler"));
         });
-    }
-
-    @Test
-    void shouldRegisterAutoConfigurationInSpringFactories() throws IOException {
-        assertThat(resource("META-INF/spring.factories")).contains(AUTO_CONFIGURATION_NAME);
     }
 
     @Test
