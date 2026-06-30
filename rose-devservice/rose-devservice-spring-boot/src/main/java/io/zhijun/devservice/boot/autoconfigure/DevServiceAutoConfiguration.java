@@ -9,7 +9,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.devservice.boot.autoconfigure.template.DevServiceConflictValidatorTemplate;
 import io.zhijun.devservice.boot.registration.DevServiceContainersInitializer;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 

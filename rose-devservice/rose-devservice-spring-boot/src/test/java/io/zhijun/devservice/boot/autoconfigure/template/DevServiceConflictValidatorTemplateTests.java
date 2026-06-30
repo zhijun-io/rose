@@ -8,10 +8,13 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
+import io.zhijun.devservice.boot.autoconfigure.DevServiceConflictValidatorTemplate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectProvider;
 
 import io.zhijun.devservice.boot.autoconfigure.MultipleDevServiceException;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 
 class DevServiceConflictValidatorTemplateTests {
 

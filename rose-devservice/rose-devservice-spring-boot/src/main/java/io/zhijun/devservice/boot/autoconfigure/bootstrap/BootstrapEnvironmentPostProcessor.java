@@ -14,9 +14,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.dev.BootstrapDevProperties;
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestProperties;
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.template.BootstrapProfilesTemplate;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 
 /**

@@ -1,0 +1,11 @@
+package io.zhijun.devservice.boot.autoconfigure.bootstrap;
+
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Test mode bootstrap configuration.
+ */
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(BootstrapTestProperties.class)
+public final class BootstrapTestConfiguration {}

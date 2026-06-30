@@ -2,6 +2,7 @@ package io.zhijun.devservice.boot.autoconfigure.docker;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.zhijun.devservice.boot.autoconfigure.DevServiceDockerEnvironmentPostProcessor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

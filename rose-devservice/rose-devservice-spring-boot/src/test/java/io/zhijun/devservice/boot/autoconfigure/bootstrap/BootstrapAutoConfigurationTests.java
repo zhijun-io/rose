@@ -6,9 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.dev.BootstrapDevProperties;
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestProperties;
-
 /**
  * Unit test for {@link BootstrapAutoConfiguration}.
  */

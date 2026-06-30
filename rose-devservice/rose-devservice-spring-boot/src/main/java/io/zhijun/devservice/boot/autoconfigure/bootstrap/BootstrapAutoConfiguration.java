@@ -4,9 +4,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.dev.BootstrapDevConfiguration;
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.test.BootstrapTestConfiguration;
-
 /**
  * Auto-configuration for Dev Services bootstrap.
  */

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
+import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapTestProperties;
 import org.junit.jupiter.api.Test;
 
 /**
