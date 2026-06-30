@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.web.report;
+package io.zhijun.spring.boot.report;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

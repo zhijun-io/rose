@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.web.autoconfigure;
+package io.zhijun.spring.boot.autoconfigure;
 
 import io.zhijun.spring.boot.constants.PropertyConstants;
 import org.springframework.boot.autoconfigure.AutoConfigurationImportFilter;

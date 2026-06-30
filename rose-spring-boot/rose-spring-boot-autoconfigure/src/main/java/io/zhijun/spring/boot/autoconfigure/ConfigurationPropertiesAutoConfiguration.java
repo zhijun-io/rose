@@ -1,4 +1,4 @@
- package io.zhijun.spring.boot.web.autoconfigure;
+ package io.zhijun.spring.boot.autoconfigure;
 
  import io.zhijun.spring.boot.properties.annotation.EnableConfigurationPropertiesExtension;
 

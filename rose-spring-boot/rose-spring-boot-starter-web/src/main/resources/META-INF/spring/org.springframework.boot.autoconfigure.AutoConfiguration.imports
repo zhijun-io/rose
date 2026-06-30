@@ -1,3 +1,2 @@
-io.zhijun.spring.boot.web.autoconfigure.ConfigurationPropertiesAutoConfiguration
 io.zhijun.spring.boot.web.autoconfigure.ErrorResponseAutoConfiguration
 io.zhijun.spring.boot.web.autoconfigure.WebAutoConfiguration

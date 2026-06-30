@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.web.report;
+package io.zhijun.spring.boot.report;
 
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

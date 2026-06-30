@@ -77,10 +77,9 @@ rose-spring/
           ├── registry/
           └── handler/
 
-rose-spring-boot/
-  rose-spring-boot-core
-  rose-spring-boot-autoconfigure
-  rose-spring-boot-starter
+ rose-spring-boot/
+   rose-spring-boot-autoconfigure
+   rose-spring-boot-starter
   rose-actuator-spring-boot-autoconfigure
   rose-spring-boot-web/            # Boot 自动配置 + 可选 Actuator endpoint
       └── io/zhijun/boot/web/autoconfigure/
@@ -94,11 +93,10 @@ rose-spring-web
   ├── spring-web
   └── spring-webmvc
 
-rose-spring-boot-web
-  ├── rose-spring-web
-  ├── rose-spring-boot-autoconfigure
-  ├── rose-spring-boot-core
-  └── spring-boot-starter-web
+ rose-spring-boot-web
+   ├── rose-spring-web
+   ├── rose-spring-boot-autoconfigure
+   └── spring-boot-starter-web
 ```
 
 **WebFlux（Phase 2）：** `rose-spring-webflux` / `rose-spring-boot-webflux`（optional，依赖 `spring-webflux`）。

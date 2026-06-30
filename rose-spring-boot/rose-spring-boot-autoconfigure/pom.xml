@@ -11,9 +11,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-spring-boot-core</artifactId>
-    <name>Rose Spring Boot Core</name>
-    <description>Shared Spring Boot utilities and baseline runtime for Rose applications</description>
+    <artifactId>rose-spring-boot-autoconfigure</artifactId>
+    <name>Rose Spring Boot Autoconfigure</name>
+    <description>Spring Boot auto-configuration infrastructure for Rose applications</description>
 
  <dependencies>
         <dependency>
@@ -49,6 +49,7 @@
      <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>javax.servlet-api</artifactId>
+         <scope>provided</scope>
      </dependency>
  </dependencies>
 </project>

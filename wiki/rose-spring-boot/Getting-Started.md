@@ -57,8 +57,7 @@ Use a released version from [Maven Central](https://central.sonatype.com/) when 
 ```
 
 Feature starters (OpenTelemetry, multitenancy, MyBatis-Plus) transitively include the baseline starter — declare them
-instead of duplicating `rose-spring-boot-starter`. `rose-spring-boot-core` and
-`rose-spring-boot-autoconfigure` are intended for advanced/manual composition. See
+ instead of duplicating `rose-spring-boot-starter`. `rose-spring-boot-autoconfigure` is intended for advanced/manual composition. See
 [Consumer Guide](../rose-bom/Consumer-Guide).
 
 If the application also needs Rose actuator integration, add `rose-actuator-spring-boot-starter` on top of the

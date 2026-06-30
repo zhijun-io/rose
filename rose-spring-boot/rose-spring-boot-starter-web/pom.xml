@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-boot-core</artifactId>
+            <artifactId>rose-spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 </project>

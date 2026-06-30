@@ -45,7 +45,7 @@ Keep `spring-boot-starter-parent` (or your own BOM) as parent; import Rose via B
 </dependencies>
 ```
 
-Use a released coordinate from [Maven Central](https://central.sonatype.com/) when published. Application entrypoints should prefer `rose-spring-boot-starter`; add `rose-actuator-spring-boot-starter` when actuator integration is needed. `rose-spring-boot-core` and `rose-spring-boot-autoconfigure` are for advanced/manual composition. See [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md).
+Use a released coordinate from [Maven Central](https://central.sonatype.com/) when published. Application entrypoints should prefer `rose-spring-boot-starter`; add `rose-actuator-spring-boot-starter` when actuator integration is needed. `rose-spring-boot-autoconfigure` is for advanced/manual composition. See [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md).
 
 Step-by-step walkthrough: [wiki/rose-spring-boot/Getting-Started.md](wiki/rose-spring-boot/Getting-Started.md).
 

@@ -24,9 +24,8 @@ Applications inherit **`spring-boot-starter-parent`** (or a corporate parent). T
 | Starter                             | Use when                                                                  |
 |-------------------------------------|---------------------------------------------------------------------------|
 | `rose-spring-boot-starter`          | Baseline Rose platform for applications                                   |
-| `rose-spring-boot-autoconfigure`    | Manual composition of Rose Boot auto-configuration                        |
-| `rose-actuator-spring-boot-starter` | Actuator starter for applications that want Rose actuator integration     |
-| `rose-spring-boot-core`             | Shared Boot utilities (`RoseBinder`, diagnostics, `config/default/*`)     |
+ | `rose-actuator-spring-boot-starter` | Actuator starter for applications that want Rose actuator integration     |
+ | `rose-spring-boot-autoconfigure`    | Boot startup SPI, default config merge, diagnostics, shared task support, baseline auto-configuration |
 | `rose-observation-spring-boot`      | Full OTel stack: SDK autoconfig, logs, OTLP metrics, semantic conventions |
 | `rose-observation-spring-boot-otel` | OTel SDK Boot auto-configuration only                                     |
 | `rose-multitenancy-spring-boot`     | Multitenancy Boot auto-configuration (HTTP resolution on servlet apps)    |
@@ -82,10 +81,9 @@ OTel standard environment variables (`OTEL_*`) are mapped to `rose.otel.*` via e
 | `rose-core`                 | Framework-agnostic utilities; transitively includes `rose-annotation` |
 | `rose-test`                 | Cross-topic JUnit helpers (`test` scope)                              |
 | `rose-annotation-processor` | Compile-time annotation processing (`optional`)                       |
-| `rose-spring-core`          | Spring extensions (property sources, env refresh, binding)            |
-| `rose-spring-boot-core`     | Boot shared utilities (`RoseBinder`, `config/default/*`, diagnostics) |
-| `rose-spring-boot-autoconfigure` | Baseline Boot auto-configuration wiring                         |
-| `rose-spring-boot-starter`  | Recommended application entrypoint starter                            |
+ | `rose-spring-core`          | Spring extensions (property sources, env refresh, binding)            |
+ | `rose-spring-boot-autoconfigure` | Boot startup SPI, default config merge, diagnostics, shared task support, baseline auto-configuration wiring |
+ | `rose-spring-boot-starter`  | Recommended application entrypoint starter                            |
 | `rose-actuator-spring-boot-autoconfigure` | Actuator auto-configuration                              |
 | `rose-actuator-spring-boot-starter` | Actuator starter                                            |
 

@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.web.report;
+package io.zhijun.spring.boot.report;
 
 import org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport;
 import org.springframework.context.ConfigurableApplicationContext;

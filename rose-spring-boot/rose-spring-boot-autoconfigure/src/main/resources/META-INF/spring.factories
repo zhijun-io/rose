@@ -1,0 +1,26 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+ io.zhijun.spring.boot.config.DefaultConfigEnvironmentPostProcessor
+
+# ConfigurationPropertiesBindHandlerAdvisor
+org.springframework.boot.context.properties.ConfigurationPropertiesBindHandlerAdvisor=\
+ io.zhijun.spring.boot.properties.ListenableConfigurationPropertiesBindHandlerAdvisor
+
+org.springframework.context.ApplicationListener=\
+ io.zhijun.spring.boot.diagnostics.ArtifactsCollisionDiagnosisListener,\
+ io.zhijun.spring.boot.env.DefaultPropertiesApplicationListener,\
+ io.zhijun.spring.boot.report.ConditionEvaluationReportListener
+
+org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
+ io.zhijun.spring.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter
+
+org.springframework.context.ApplicationContextInitializer=\
+ io.zhijun.spring.boot.report.ConditionEvaluationReportInitializer
+
+org.springframework.boot.SpringBootExceptionReporter=\
+ io.zhijun.spring.boot.report.ConditionEvaluationSpringBootExceptionReporter
+
+io.zhijun.spring.boot.env.DefaultPropertiesPostProcessor=\
+ io.zhijun.spring.boot.env.SpringApplicationDefaultPropertiesPostProcessor
+
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+ io.zhijun.spring.boot.diagnostics.ArtifactsCollisionFailureAnalyzer
