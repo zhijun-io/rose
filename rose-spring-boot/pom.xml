@@ -22,6 +22,7 @@
         <module>rose-spring-boot-starter</module>
         <module>rose-actuator-spring-boot-autoconfigure</module>
         <module>rose-actuator-spring-boot-starter</module>
+        <module>rose-spring-boot-webmvc-autoconfigure</module>
     </modules>
 
     <dependencies>

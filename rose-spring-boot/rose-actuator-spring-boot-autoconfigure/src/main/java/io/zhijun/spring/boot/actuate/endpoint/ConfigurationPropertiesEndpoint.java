@@ -7,7 +7,6 @@ import java.util.List;
 import io.zhijun.spring.boot.props.metadata.ConfigurationMetadataRepository;
 import io.zhijun.spring.boot.props.metadata.ConfigurationProperty;
 
-import org.springframework.boot.actuate.endpoint.OperationResponseBody;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
@@ -47,7 +46,7 @@ public class ConfigurationPropertiesEndpoint {
         return cp;
     }
 
-    public static class ConfigurationPropertiesDescriptor implements OperationResponseBody {
+    public static class ConfigurationPropertiesDescriptor {
 
         private final List<ConfigurationProperty> configurationProperties = new ArrayList<>();
 

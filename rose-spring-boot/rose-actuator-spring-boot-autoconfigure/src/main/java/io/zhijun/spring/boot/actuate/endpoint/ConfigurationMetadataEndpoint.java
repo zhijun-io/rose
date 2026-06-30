@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import io.zhijun.spring.boot.props.metadata.ConfigurationMetadataRepository;
 
-import org.springframework.boot.actuate.endpoint.OperationResponseBody;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
@@ -26,7 +25,7 @@ public class ConfigurationMetadataEndpoint {
         return descriptor;
     }
 
-    public static class ConfigurationMetadataDescriptor implements OperationResponseBody {
+    public static class ConfigurationMetadataDescriptor {
 
         private Collection<ItemMetadata> groups;
 

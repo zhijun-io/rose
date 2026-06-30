@@ -55,6 +55,12 @@
                 <artifactId>rose-spring-boot-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.zhijun</groupId>
+                <artifactId>rose-spring-webmvc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-spring-boot-autoconfigure</artifactId>

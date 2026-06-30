@@ -11,31 +11,31 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-actuator-spring-boot-autoconfigure</artifactId>
-    <name>Rose Actuator Spring Boot AutoConfigure</name>
-    <description>Actuator auto-configuration for Rose Spring Boot</description>
+    <artifactId>rose-spring-boot-webmvc-autoconfigure</artifactId>
+    <name>Rose Spring Boot WebMVC AutoConfigure</name>
+    <description>WebMVC auto-configuration for Rose Spring Boot</description>
 
     <dependencies>
-        <dependency>
-            <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-boot-core</artifactId>
-        </dependency>
         <dependency>
             <groupId>io.zhijun</groupId>
             <artifactId>rose-spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-core</artifactId>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-webmvc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator-autoconfigure</artifactId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
