@@ -1,6 +1,6 @@
 package io.zhijun.spring.context;
 
-import io.zhijun.spring.annotation.ResolvablePlaceholderAnnotationAttributes;
+import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;

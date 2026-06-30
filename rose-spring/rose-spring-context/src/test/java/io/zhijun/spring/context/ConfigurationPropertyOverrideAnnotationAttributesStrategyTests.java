@@ -7,7 +7,7 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import io.zhijun.spring.env.PropertySourcesUtils;
+import io.zhijun.spring.core.env.PropertySourcesUtils;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 

@@ -3,9 +3,9 @@ org.springframework.context.ApplicationContextAware=\
 io.zhijun.spring.context.SpringContextHolder
 
 # 环境属性源变更监听器
-io.zhijun.spring.env.EnvironmentListener=\
-io.zhijun.spring.property.PropertySourcesRefreshEnvironmentListener
+io.zhijun.spring.core.env.EnvironmentListener=\
+io.zhijun.spring.config.property.PropertySourcesRefreshEnvironmentListener
 
 # 配置绑定刷新
-io.zhijun.spring.property.Refreshable=\
-io.zhijun.spring.binder.ConfigurationBeanBindingRefreshable
+io.zhijun.spring.config.property.Refreshable=\
+io.zhijun.spring.config.binder.ConfigurationBeanBindingRefreshable

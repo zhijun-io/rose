@@ -1,6 +1,6 @@
 package io.zhijun.spring.context;
 
-import io.zhijun.spring.annotation.ResolvablePlaceholderAnnotationAttributes;
+import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;

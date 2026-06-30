@@ -1,6 +1,6 @@
 package io.zhijun.spring.context;
 
-import io.zhijun.spring.env.PropertySourcesUtils;
+import io.zhijun.spring.core.env.PropertySourcesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.EnvironmentAware;

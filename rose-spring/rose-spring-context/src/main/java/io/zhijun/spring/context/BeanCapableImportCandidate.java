@@ -1,6 +1,6 @@
 package io.zhijun.spring.context;
 
-import io.zhijun.spring.annotation.ResolvablePlaceholderAnnotationAttributes;
+import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
