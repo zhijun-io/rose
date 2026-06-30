@@ -4,7 +4,7 @@ import org.springframework.core.Ordered;
 
 /**
  * Hook invoked after each bind (startup and env hot-reload) of an
- * {@link io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding} bean.
+ * {@link io.zhijun.spring.core.binder.EnableConfigurationBeanBinding} bean.
  * <p>
  * Implement {@link Ordered} to control callback order. Register as a Spring bean.
  */

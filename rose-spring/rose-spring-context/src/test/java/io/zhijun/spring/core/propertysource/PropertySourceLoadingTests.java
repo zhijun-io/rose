@@ -8,7 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import io.zhijun.spring.core.propertysource.annotation.ResourcePropertySource;
+import io.zhijun.spring.core.propertysource.ResourcePropertySource;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.ConfigurableEnvironment;

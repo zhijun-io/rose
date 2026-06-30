@@ -13,7 +13,7 @@ import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
-import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
+import io.zhijun.spring.core.env.PropertySourceChangedEvent;
 
 class ListenableMutablePropertySourcesTests {
 

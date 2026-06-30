@@ -1,8 +1,8 @@
 package io.zhijun.spring.core.binder;
 
-import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_IGNORE_INVALID_FIELDS;
-import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_IGNORE_UNKNOWN_FIELDS;
-import static io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding.DEFAULT_MULTIPLE;
+import static io.zhijun.spring.core.binder.EnableConfigurationBeanBinding.DEFAULT_IGNORE_INVALID_FIELDS;
+import static io.zhijun.spring.core.binder.EnableConfigurationBeanBinding.DEFAULT_IGNORE_UNKNOWN_FIELDS;
+import static io.zhijun.spring.core.binder.EnableConfigurationBeanBinding.DEFAULT_MULTIPLE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingRegistrar;
+import io.zhijun.spring.core.binder.ConfigurationBeanBindingRegistrar;
 
 class ConfigurationBeanBindingRegistrarTests {
 

@@ -8,4 +8,4 @@ io.zhijun.spring.core.propertysource.PropertySourcesRefreshEnvironmentListener
 
 # 配置绑定刷新
 io.zhijun.spring.core.propertysource.Refreshable=\
-io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingRefreshable
+io.zhijun.spring.core.binder.ConfigurationBeanBindingRefreshable

@@ -8,8 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;
 
-import io.zhijun.spring.core.binder.annotation.ConfigurationBeanBindingPostProcessor;
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
+import io.zhijun.spring.core.binder.ConfigurationBeanBindingPostProcessor;
+import io.zhijun.spring.core.binder.EnableConfigurationBeanBinding;
 
 @EnableConfigurationBeanBinding(
         prefix = "users",

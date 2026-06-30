@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
-import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
+import io.zhijun.spring.core.env.PropertySourcesChangedEvent;
 import io.zhijun.spring.core.env.EnvironmentListener;
 
 /**

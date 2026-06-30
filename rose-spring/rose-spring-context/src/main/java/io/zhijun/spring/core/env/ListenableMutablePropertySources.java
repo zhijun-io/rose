@@ -12,8 +12,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 
-import io.zhijun.spring.core.env.event.PropertySourceChangedEvent;
-import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
+import io.zhijun.spring.core.env.PropertySourceChangedEvent;
+import io.zhijun.spring.core.env.PropertySourcesChangedEvent;
 
 /**
  * MutablePropertySources wrapper that publishes change callbacks.

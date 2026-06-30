@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Bean;
 
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
+import io.zhijun.spring.core.binder.EnableConfigurationBeanBinding;
 
 @EnableConfigurationBeanBinding(prefix = "usr", type = User.class)
 class EnableConfigurationBeanBindingTests extends AbstractEnableConfigurationBeanBindingTests {

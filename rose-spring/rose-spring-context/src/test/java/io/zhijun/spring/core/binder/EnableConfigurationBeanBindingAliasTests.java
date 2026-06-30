@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding;
+import io.zhijun.spring.core.binder.EnableConfigurationBeanBinding;
 
 @EnableConfigurationBeanBinding(
         prefix = "users",

@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.MapPropertySource;
 
-import io.zhijun.spring.core.env.event.PropertySourcesChangedEvent;
+import io.zhijun.spring.core.env.PropertySourcesChangedEvent;
 
 class ListenableMutablePropertySourcesPublishTests {
 
