@@ -179,7 +179,13 @@ public class ConfigurationBeanBindingRegistrar
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.environment = (ConfigurableEnvironment) environment;
+        if (environment instanceof ConfigurableEnvironment) {
+            this.environment = (ConfigurableEnvironment) environment;
+        } else {
+            throw new IllegalArgumentException(
+                    "ConfigurationBeanBindingRegistrar requires a ConfigurableEnvironment, got: "
+                            + environment.getClass().getName());
+        }
     }
 
     @Override

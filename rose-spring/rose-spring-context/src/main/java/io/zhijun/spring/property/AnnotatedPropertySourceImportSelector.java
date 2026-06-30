@@ -13,6 +13,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Lightweight {@link ImportSelector} base for annotation-driven property source loading.
@@ -29,6 +31,8 @@ public abstract class AnnotatedPropertySourceImportSelector<A extends Annotation
     private ClassLoader classLoader;
 
     private ResourceLoader resourceLoader;
+
+    private static final Logger logger = LoggerFactory.getLogger(AnnotatedPropertySourceImportSelector.class);
 
     protected AnnotatedPropertySourceImportSelector(Class<A> annotationType) {
         this.annotationType = annotationType;
@@ -73,7 +77,13 @@ public abstract class AnnotatedPropertySourceImportSelector<A extends Annotation
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.environment = (ConfigurableEnvironment) environment;
+        if (environment instanceof ConfigurableEnvironment) {
+            this.environment = (ConfigurableEnvironment) environment;
+        } else {
+            logger.warn("Environment [{}] is not ConfigurableEnvironment, skip property source loading",
+                    environment.getClass().getName());
+            this.environment = null;
+        }
     }
 
     @Override

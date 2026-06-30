@@ -10,6 +10,8 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Delegates each element of {@link EnableConfigurationBeanBindings#value()} to
@@ -17,6 +19,8 @@ import org.springframework.core.type.AnnotationMetadata;
  */
 public class ConfigurationBeanBindingsRegistrar
         implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConfigurationBeanBindingsRegistrar.class);
 
     private ConfigurableEnvironment environment;
 
@@ -39,7 +43,11 @@ public class ConfigurationBeanBindingsRegistrar
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.environment = (ConfigurableEnvironment) environment;
+        if (environment instanceof ConfigurableEnvironment) {
+            this.environment = (ConfigurableEnvironment) environment;
+        } else {
+            logger.warn("Environment [{}] is not ConfigurableEnvironment, property source may not resolve", environment);
+        }
     }
 
     @Override

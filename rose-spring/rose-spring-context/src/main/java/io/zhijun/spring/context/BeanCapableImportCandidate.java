@@ -10,7 +10,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -67,10 +66,12 @@ public abstract class BeanCapableImportCandidate implements BeanClassLoaderAware
 
     @Override
     public final void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        if (this.beanFactory == null && beanFactory instanceof DefaultListableBeanFactory) {
-            DefaultListableBeanFactory dlbf = (DefaultListableBeanFactory) beanFactory;
-            this.beanFactory = dlbf;
-            this.registry = dlbf;
+        if (this.beanFactory == null && beanFactory instanceof ConfigurableListableBeanFactory) {
+            ConfigurableListableBeanFactory clbf = (ConfigurableListableBeanFactory) beanFactory;
+            this.beanFactory = clbf;
+            if (clbf instanceof BeanDefinitionRegistry) {
+                this.registry = (BeanDefinitionRegistry) clbf;
+            }
         }
     }
 
@@ -85,7 +86,6 @@ public abstract class BeanCapableImportCandidate implements BeanClassLoaderAware
     public final void setResourceLoader(ResourceLoader resourceLoader) {
         if (this.resourceLoader == null) {
             this.resourceLoader = resourceLoader;
-            initializeSelfAsBean();
         }
     }
 
@@ -93,6 +93,7 @@ public abstract class BeanCapableImportCandidate implements BeanClassLoaderAware
     public final void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         if (this.applicationContext == null && applicationContext instanceof ConfigurableApplicationContext) {
             this.applicationContext = (ConfigurableApplicationContext) applicationContext;
+            initializeSelfAsBean();
         }
     }
 

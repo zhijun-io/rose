@@ -8,6 +8,7 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.jspecify.annotations.Nullable;
 import org.springframework.core.type.AnnotationMetadata;
 
 import java.lang.annotation.Annotation;
@@ -43,6 +44,7 @@ public class ConfigurationPropertyOverrideAnnotationAttributesStrategy
 
     private static final String PREFIX_PROPERTY_NAME_PREFIX = ROSE_SPRING_PROPERTY_PREFIX + "prefix.";
 
+    @Nullable
     private ConfigurableEnvironment environment;
 
     @Override
@@ -117,6 +119,11 @@ public class ConfigurationPropertyOverrideAnnotationAttributesStrategy
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.environment = (ConfigurableEnvironment) environment;
+        if (environment instanceof ConfigurableEnvironment) {
+            this.environment = (ConfigurableEnvironment) environment;
+        } else {
+            this.environment = null;
+            logger.warn("Environment [{}] is not ConfigurableEnvironment, property override disabled", environment);
+        }
     }
 }

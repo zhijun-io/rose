@@ -23,6 +23,7 @@ import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 import io.zhijun.spring.binder.ConfigurationBeanBinder;
@@ -196,6 +197,8 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        Assert.isInstanceOf(ConfigurableListableBeanFactory.class, beanFactory,
+                "ConfigurationBeanBindingPostProcessor requires a ConfigurableListableBeanFactory");
         this.beanFactory = (ConfigurableListableBeanFactory) beanFactory;
     }
 

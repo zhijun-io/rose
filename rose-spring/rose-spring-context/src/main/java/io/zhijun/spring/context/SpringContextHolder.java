@@ -6,6 +6,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Spring上下文持有器，自动注入ApplicationContext
@@ -13,6 +15,9 @@ import org.jspecify.annotations.Nullable;
  * <p>同时跟踪根上下文用于配置刷新，关闭时自动清理。
  */
 public class SpringContextHolder implements ApplicationContextAware, ApplicationListener<ContextClosedEvent> {
+
+    private static final Logger logger = LoggerFactory.getLogger(SpringContextHolder.class);
+
     @Nullable
     private static volatile ApplicationContext applicationContext;
 
@@ -81,11 +86,13 @@ public class SpringContextHolder implements ApplicationContextAware, Application
     public static <T> T getBean(Class<T> beanClass) {
         ApplicationContext ctx = applicationContext;
         if (ctx == null) {
+            logger.trace("ApplicationContext not available, returning null for bean [{}]", beanClass.getName());
             return null;
         }
         try {
             return ctx.getBean(beanClass);
         } catch (BeansException e) {
+            logger.trace("Bean [{}] not found, returning null", beanClass.getName(), e);
             return null;
         }
     }
@@ -97,11 +104,13 @@ public class SpringContextHolder implements ApplicationContextAware, Application
     public static <T> T getBean(String beanName, Class<T> beanClass) {
         ApplicationContext ctx = applicationContext;
         if (ctx == null) {
+            logger.trace("ApplicationContext not available, returning null for bean [{}]", beanName);
             return null;
         }
         try {
             return ctx.getBean(beanName, beanClass);
         } catch (BeansException e) {
+            logger.trace("Bean [{}] not found, returning null", beanName, e);
             return null;
         }
     }
