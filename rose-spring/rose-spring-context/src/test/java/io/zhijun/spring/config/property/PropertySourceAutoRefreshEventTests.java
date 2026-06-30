@@ -11,8 +11,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.MapPropertySource;
 
-import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
-import io.zhijun.spring.core.env.PropertySourcesChangedEvent;
+import io.zhijun.spring.env.ListenableConfigurableEnvironmentInitializer;
+import io.zhijun.spring.env.PropertySourcesChangedEvent;
 
 /**
  * Verifies {@code propertySources.replace()} on Listenable Environment publishes event with

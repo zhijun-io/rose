@@ -2,7 +2,7 @@ package io.zhijun.devservice.test;
 
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
-import io.zhijun.spring.boot.bootstrap.config.DefaultConfigEnvironmentPostProcessor;
+import io.zhijun.spring.boot.config.DefaultConfigEnvironmentPostProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

@@ -1,4 +1,4 @@
-package io.zhijun.spring.boot.actuator.autoconfigure;
+package io.zhijun.spring.boot.actuator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import io.zhijun.spring.boot.task.MonitoredThreadPoolTaskScheduler;
+import io.zhijun.spring.scheduling.MonitoredThreadPoolTaskScheduler;
 
 class ActuatorAutoConfigurationTests {
 

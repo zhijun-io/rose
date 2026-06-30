@@ -12,7 +12,7 @@ class ConfigurationBeanBinderTests {
 
     @Test
     void bindShouldApplySimpleProperties() {
-        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
         User user = new User();
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("name", "rose");
@@ -26,7 +26,7 @@ class ConfigurationBeanBinderTests {
 
     @Test
     void bindShouldIgnoreUnknownFieldsWhenConfigured() {
-        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
         User user = new User();
 
         binder.bind(Collections.<String, Object>singletonMap("missing", "value"), true, true, user);
@@ -36,7 +36,7 @@ class ConfigurationBeanBinderTests {
 
     @Test
     void bindShouldIgnoreInvalidFieldsWhenConfigured() {
-        ConfigurationBeanBinder binder = new ConfigurationBeanBinder();
+        ConfigurationBeanBinder binder = new DefaultConfigurationBeanBinder();
         User user = new User();
 
         binder.bind(Collections.<String, Object>singletonMap("age", "oops"), true, true, user);

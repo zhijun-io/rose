@@ -28,7 +28,11 @@ public final class TaskExecutorDecoratorSupport {
     static TaskDecorator resolveTaskDecorator(Object executor) {
         java.lang.reflect.Method getter = ReflectionUtils.findMethod(executor.getClass(), "getTaskDecorator");
         if (getter != null) {
-            return (TaskDecorator) ReflectionUtils.invokeMethod(getter, executor);
+            Object result = ReflectionUtils.invokeMethod(getter, executor);
+            if (result instanceof TaskDecorator) {
+                return (TaskDecorator) result;
+            }
+            return null;
         }
         return readTaskDecoratorField(executor);
     }
@@ -50,6 +54,10 @@ public final class TaskExecutorDecoratorSupport {
             return null;
         }
         ReflectionUtils.makeAccessible(field);
-        return (TaskDecorator) ReflectionUtils.getField(field, executor);
+        Object fieldValue = ReflectionUtils.getField(field, executor);
+        if (fieldValue instanceof TaskDecorator) {
+            return (TaskDecorator) fieldValue;
+        }
+        return null;
     }
 }

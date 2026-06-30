@@ -17,7 +17,7 @@ import org.springframework.core.env.MapPropertySource;
 import io.zhijun.spring.config.binder.ConfigurationBeanCustomizer;
 import io.zhijun.spring.config.binder.User;
 import io.zhijun.spring.config.binder.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
+import io.zhijun.spring.env.ListenableConfigurableEnvironmentInitializer;
 import io.zhijun.spring.context.SpringContextHolder;
 
 class ConfigurationBeanBindingRefreshableTests {

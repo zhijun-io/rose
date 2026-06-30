@@ -16,9 +16,9 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.core.env.MapPropertySource;
 
-import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
-import io.zhijun.spring.core.env.PropertySourceChangedEvent;
-import io.zhijun.spring.core.env.PropertySourcesChangedEvent;
+import io.zhijun.spring.env.ListenableConfigurableEnvironmentInitializer;
+import io.zhijun.spring.env.PropertySourceChangedEvent;
+import io.zhijun.spring.env.PropertySourcesChangedEvent;
 
 class PropertySourcesRefreshEnvironmentListenerTests {
 

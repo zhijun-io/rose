@@ -1,34 +1,37 @@
 package io.zhijun.spring.config.binder;
 
+import org.jspecify.annotations.Nullable;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.env.Environment;
+
 import java.util.Map;
 
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.validation.DataBinder;
-
 /**
- * Applies a flat property map onto a configuration bean using Spring {@link DataBinder}.
+ * Binds configuration properties from an {@link Environment} (or a flat property map)
+ * onto a configuration bean.
+ *
+ * @see DefaultConfigurationBeanBinder
+ * @see ConfigurationBeanBindingPostProcessor
  */
-public final class ConfigurationBeanBinder {
+public interface ConfigurationBeanBinder {
 
-    private ConversionService conversionService;
+    /**
+     * Bind the given flat property map onto {@code configurationBean}.
+     *
+     * @param configurationProperties flat property map (prefix already stripped)
+     * @param ignoreUnknownFields     whether to skip fields not present on the target bean
+     * @param ignoreInvalidFields     whether to skip type-mismatched fields
+     * @param configurationBean       the target bean to populate
+     */
+    void bind(Map<String, Object> configurationProperties,
+              boolean ignoreUnknownFields,
+              boolean ignoreInvalidFields,
+              Object configurationBean);
 
-    public void setConversionService(ConversionService conversionService) {
-        this.conversionService = conversionService;
+    /**
+     * Optional: set the {@link ConversionService} used during binding.
+     */
+    default void setConversionService(@Nullable ConversionService conversionService) {
     }
 
-    public void bind(
-            Map<String, Object> configurationProperties,
-            boolean ignoreUnknownFields,
-            boolean ignoreInvalidFields,
-            Object configurationBean) {
-        DataBinder dataBinder = new DataBinder(configurationBean);
-        dataBinder.setIgnoreUnknownFields(ignoreUnknownFields);
-        dataBinder.setIgnoreInvalidFields(ignoreInvalidFields);
-        dataBinder.initDirectFieldAccess();
-        if (conversionService != null) {
-            dataBinder.setConversionService(conversionService);
-        }
-        dataBinder.bind(new MutablePropertyValues(configurationProperties));
-    }
 }

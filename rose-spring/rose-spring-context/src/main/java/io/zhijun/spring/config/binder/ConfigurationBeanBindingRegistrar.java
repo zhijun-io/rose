@@ -24,7 +24,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.spring.config.binder.ConfigurationBeanBindingSupport;
-import io.zhijun.spring.core.env.PropertySourcesUtils;
+import io.zhijun.spring.env.PropertySourcesUtils;
 
 /**
  * {@link ImportBeanDefinitionRegistrar} for {@link EnableConfigurationBeanBinding}.

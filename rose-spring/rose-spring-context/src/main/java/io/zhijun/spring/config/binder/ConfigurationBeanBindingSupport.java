@@ -10,7 +10,7 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
 import io.zhijun.spring.config.binder.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.env.PropertySourcesUtils;
+import io.zhijun.spring.env.PropertySourcesUtils;
 
 /**
  * Shared rules for {@link EnableConfigurationBeanBinding} registration and env hot-reload.

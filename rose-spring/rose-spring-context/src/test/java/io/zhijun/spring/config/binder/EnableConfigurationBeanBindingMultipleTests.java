@@ -26,7 +26,7 @@ class EnableConfigurationBeanBindingMultipleTests extends AbstractEnableConfigur
     @Bean
     ConfigurationBeanBindingPostProcessor configurationBeanBindingPostProcessor() {
         ConfigurationBeanBindingPostProcessor processor = new ConfigurationBeanBindingPostProcessor();
-        processor.setConfigurationBeanBinder(new ConfigurationBeanBinder());
+        processor.setConfigurationBeanBinder(new DefaultConfigurationBeanBinder());
         return processor;
     }
 

@@ -1,8 +1,13 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-io.zhijun.spring.boot.bootstrap.config.DefaultConfigEnvironmentPostProcessor
+ io.zhijun.spring.boot.config.DefaultConfigEnvironmentPostProcessor
 
+ 
+ # ConfigurationPropertiesBindHandlerAdvisor
+ org.springframework.boot.context.properties.ConfigurationPropertiesBindHandlerAdvisor=\
+ io.zhijun.spring.boot.properties.ListenableConfigurationPropertiesBindHandlerAdvisor
+ 
 org.springframework.context.ApplicationListener=\
-io.zhijun.spring.boot.bootstrap.diagnostics.ArtifactsCollisionDiagnosisListener
+ io.zhijun.spring.boot.diagnostics.ArtifactsCollisionDiagnosisListener
 
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-io.zhijun.spring.boot.bootstrap.diagnostics.ArtifactsCollisionFailureAnalyzer
+io.zhijun.spring.boot.diagnostics.ArtifactsCollisionFailureAnalyzer

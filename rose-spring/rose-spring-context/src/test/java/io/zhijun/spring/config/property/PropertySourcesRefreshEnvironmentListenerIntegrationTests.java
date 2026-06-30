@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.MapPropertySource;
 
-import io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer;
+import io.zhijun.spring.env.ListenableConfigurableEnvironmentInitializer;
 
 class PropertySourcesRefreshEnvironmentListenerIntegrationTests {
 

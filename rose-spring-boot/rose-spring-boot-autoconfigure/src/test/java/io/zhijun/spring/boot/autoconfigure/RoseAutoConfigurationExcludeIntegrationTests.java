@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
 
-import io.zhijun.spring.boot.bootstrap.config.DefaultConfigEnvironmentPostProcessor;
+import io.zhijun.spring.boot.config.DefaultConfigEnvironmentPostProcessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;

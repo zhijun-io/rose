@@ -168,7 +168,7 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
 
     private void initConfigurationBeanBinder() {
         if (configurationBeanBinder == null) {
-            configurationBeanBinder = new ConfigurationBeanBinder();
+            configurationBeanBinder = new DefaultConfigurationBeanBinder();
         }
         ConversionService conversionService = beanFactory.getConversionService();
         if (conversionService == null) {

@@ -12,8 +12,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
-import io.zhijun.spring.core.env.PropertySourcesChangedEvent;
-import io.zhijun.spring.core.env.EnvironmentListener;
+import io.zhijun.spring.env.PropertySourcesChangedEvent;
+import io.zhijun.spring.env.EnvironmentListener;
 
 /**
  * Dispatches property source changes to {@link Refreshable} extensions.
@@ -33,7 +33,11 @@ public final class PropertySourcesRefreshEnvironmentListener implements Environm
 
     @Override
     public void onPropertySourcesChanged(PropertySourcesChangedEvent event) {
-        ApplicationContext context = (ApplicationContext) event.getSource();
+        Object source = event.getSource();
+        if (!(source instanceof ApplicationContext)) {
+            return;
+        }
+        ApplicationContext context = (ApplicationContext) source;
         if (!isDispatchAllowed(context)) {
             return;
         }
