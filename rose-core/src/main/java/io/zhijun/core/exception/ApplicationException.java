@@ -7,27 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Structured application exception for business and integration failures.
- *
- * <p>The shape is inspired by OpenRewrite's practice of carrying stable,
- * machine-readable failure information with exceptions. Rose keeps that metadata in core,
- * while framework modules decide how to map it to HTTP responses, logs, metrics, traces
- * or retry policies.
- *
- * <p>Currently provides:
- * <ul>
- *     <li>a stable {@link #getErrorCode() error code} for programmatic handling</li>
- *     <li>a {@link #isRetryable() retryable} flag for upper-layer retry frameworks</li>
- *     <li>immutable {@link #getDetails() details} for structured context</li>
- *     <li>typed {@link #getDetail(String, Class)} detail access for callers</li>
- *     <li>a {@link #toErrorResponse()} adapter for framework-neutral error responses</li>
- * </ul>
- *
- * <p>TODO:
- * <ul>
- *     <li>expand standardized detail keys and machine-readable metadata</li>
- *     <li>integrate with framework-specific exception mapping and observability conventions</li>
- * </ul>
+ * 结构化业务/集成异常，携带 errorCode、retryable 标志和不可变的 details。
+ * <p>框架模块决定如何映射到 HTTP 响应、日志或重试策略。
  */
 public class ApplicationException extends RuntimeException {
 
@@ -38,15 +19,15 @@ public class ApplicationException extends RuntimeException {
     private final Map<String, Object> details;
 
     public ApplicationException(String errorCode) {
-        this(errorCode, null, null, false, Collections.<String, Object>emptyMap());
+        this(errorCode, null, null, false, Collections.emptyMap());
     }
 
     public ApplicationException(String errorCode, String message) {
-        this(errorCode, message, null, false, Collections.<String, Object>emptyMap());
+        this(errorCode, message, null, false, Collections.emptyMap());
     }
 
     public ApplicationException(String errorCode, String message, Throwable cause) {
-        this(errorCode, message, cause, false, Collections.<String, Object>emptyMap());
+        this(errorCode, message, cause, false, Collections.emptyMap());
     }
 
     public ApplicationException retryable() {
