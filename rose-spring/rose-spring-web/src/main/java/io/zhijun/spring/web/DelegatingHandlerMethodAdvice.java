@@ -8,7 +8,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.HandlerMethod;
 
-import io.zhijun.spring.core.context.OnceApplicationContextEventListener;
+import io.zhijun.spring.context.OnceApplicationContextEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
