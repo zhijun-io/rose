@@ -90,6 +90,8 @@ public class SpiImplProcessor extends AbstractProcessor {
                 meta.setClassName(implementationClassName);
                 meta.setAlias(alias);
                 meta.setPriority(spiImpl.priority());
+                meta.setDescription(spiImpl.description());
+                meta.setTags(Arrays.asList(spiImpl.tags()));
                 spiMetadata.computeIfAbsent(spiClassName, k -> new ArrayList<>()).add(meta);
             }
         }
@@ -297,7 +299,20 @@ public class SpiImplProcessor extends AbstractProcessor {
                     if (!meta.getAlias().isEmpty()) {
                         writer.write(String.format("      \"alias\": \"%s\",\n", escapeJson(meta.getAlias())));
                     }
-                    writer.write(String.format("      \"priority\": %d\n", meta.getPriority()));
+                    writer.write(String.format("      \"priority\": %d", meta.getPriority()));
+                    if (!meta.getDescription().isEmpty()) {
+                        writer.write(",\n");
+                        writer.write(String.format("      \"description\": \"%s\"", escapeJson(meta.getDescription())));
+                    }
+                    if (!meta.getTags().isEmpty()) {
+                        writer.write(",\n");
+                        writer.write("      \"tags\": [");
+                        for (int i = 0; i < meta.getTags().size(); i++) {
+                            if (i > 0) writer.write(", ");
+                            writer.write("\"" + escapeJson(meta.getTags().get(i)) + "\"");
+                        }
+                        writer.write("]");
+                    }
                     writer.write("\n    }");
                     if (implIndex < impls.size() - 1) {
                         writer.write(",");
@@ -366,11 +381,17 @@ public class SpiImplProcessor extends AbstractProcessor {
         private String className;
         private String alias;
         private int priority;
+        private String description = "";
+        private List<String> tags = Collections.emptyList();
         public String getClassName() { return className; }
         public void setClassName(String className) { this.className = className; }
         public String getAlias() { return alias; }
         public void setAlias(String alias) { this.alias = alias; }
         public int getPriority() { return priority; }
         public void setPriority(int priority) { this.priority = priority; }
+        public String getDescription() { return description; }
+        public void setDescription(String description) { this.description = description; }
+        public List<String> getTags() { return tags; }
+        public void setTags(List<String> tags) { this.tags = tags; }
     }
 }
