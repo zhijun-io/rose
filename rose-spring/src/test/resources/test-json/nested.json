@@ -1,0 +1,9 @@
+{
+  "server": {
+    "port": 9090,
+    "features": {
+      "ssl": true,
+      "cors": false
+    }
+  }
+}
