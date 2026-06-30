@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.observation.boot.autoconfigure.micrometer.otlp.MicrometerRegistryOtlpAutoConfiguration

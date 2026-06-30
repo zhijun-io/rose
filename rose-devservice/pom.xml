@@ -30,8 +30,6 @@
         <module>rose-devservice-spring-boot-activemq</module>
         <module>rose-devservice-spring-boot-ollama</module>
         <module>rose-devservice-spring-boot-mqtt</module>
-        <module>rose-devservice-spring-boot-openlit</module>
-        <module>rose-devservice-spring-boot-otel</module>
     </modules>
 
     <dependencies>

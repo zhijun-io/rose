@@ -81,37 +81,6 @@
                 <artifactId>rose-mybatis-plus-spring-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- Observation -->
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-spring-boot</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-spring-boot-otel</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-spring-boot-logback</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-spring-boot-micrometer-bridge</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-spring-boot-micrometer-otlp</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-observation-spring-boot-conventions-otel</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <!-- Multitenancy -->
             <dependency>
                 <groupId>io.zhijun</groupId>
@@ -197,16 +166,6 @@
             <dependency>
                 <groupId>io.zhijun</groupId>
                 <artifactId>rose-devservice-spring-boot-mqtt</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-spring-boot-openlit</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.zhijun</groupId>
-                <artifactId>rose-devservice-spring-boot-otel</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

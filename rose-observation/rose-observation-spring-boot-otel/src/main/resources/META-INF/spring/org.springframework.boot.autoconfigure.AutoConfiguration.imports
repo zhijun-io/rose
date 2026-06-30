@@ -1,9 +1,0 @@
-io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.logs.OpenTelemetryLoggingExporterAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.logs.OpenTelemetryLoggingAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingExporterAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingAutoConfiguration
-io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryAutoConfiguration

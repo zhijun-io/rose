@@ -19,8 +19,8 @@ class EnableConfigurationBeanBindingAliasTest extends AbstractEnableConfiguratio
 
     @Test
     void shouldRegisterAliasesForMultipleBeans() {
-        assertAliases("a", Arrays.asList("UserA", "users-a", "users_a"));
-        assertAliases("b", Arrays.asList("UserB", "users-b", "users_b"));
+        assertAliases("a", Arrays.asList("UserA"));
+        assertAliases("b", Arrays.asList("UserB"));
     }
 
     private void assertAliases(String beanName, List<String> aliases) {

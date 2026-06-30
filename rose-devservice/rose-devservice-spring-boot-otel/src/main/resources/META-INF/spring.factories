@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.devservice.boot.autoconfigure.otel.OtelCollectorDevServicesAutoConfiguration,\
-io.zhijun.devservice.boot.autoconfigure.otel.OtelCollectorOtlpConnectionDetailsConfiguration
