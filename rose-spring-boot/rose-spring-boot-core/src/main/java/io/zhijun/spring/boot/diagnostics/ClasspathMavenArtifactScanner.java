@@ -112,12 +112,20 @@ public final class ClasspathMavenArtifactScanner {
             this.location = location;
         }
 
-        String getGroupId() {
+        public String getGroupId() {
             return groupId;
         }
 
-        String getArtifactId() {
+        public String getArtifactId() {
             return artifactId;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public String getLocation() {
+            return location;
         }
 
         @Override

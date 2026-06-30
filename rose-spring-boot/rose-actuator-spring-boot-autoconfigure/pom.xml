@@ -21,6 +21,10 @@
             <artifactId>rose-spring-boot-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-core</artifactId>
         </dependency>

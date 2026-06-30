@@ -1,10 +1,11 @@
-package io.zhijun.spring.boot.actuator;
+package io.zhijun.spring.boot.actuator.autoconfigure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
+import io.zhijun.spring.boot.actuator.ActuatorAutoConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;

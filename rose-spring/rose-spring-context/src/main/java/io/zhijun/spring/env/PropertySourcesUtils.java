@@ -1,8 +1,11 @@
 package io.zhijun.spring.env;
 
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
@@ -16,6 +19,25 @@ import org.springframework.core.env.PropertySources;
 public abstract class PropertySourcesUtils {
 
     private PropertySourcesUtils() {}
+
+    public static Set<String> findPropertyNames(ConfigurableEnvironment environment, Predicate<String> predicate) {
+        return findPropertyNames(environment.getPropertySources(), predicate);
+    }
+
+    public static Set<String> findPropertyNames(PropertySources propertySources, Predicate<String> predicate) {
+        Set<String> result = new LinkedHashSet<String>();
+        for (PropertySource<?> source : propertySources) {
+            if (source instanceof EnumerablePropertySource) {
+                String[] names = ((EnumerablePropertySource<?>) source).getPropertyNames();
+                for (String name : names) {
+                    if (predicate.test(name)) {
+                        result.add(name);
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
     public static Map<String, Object> getSubProperties(ConfigurableEnvironment environment, String prefix) {
         return getSubProperties(environment.getPropertySources(), environment, prefix);
