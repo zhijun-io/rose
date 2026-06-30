@@ -90,10 +90,6 @@ public class SpiImplProcessor extends AbstractProcessor {
                 meta.setClassName(implementationClassName);
                 meta.setAlias(alias);
                 meta.setPriority(spiImpl.priority());
-                meta.setSingleton(spiImpl.singleton());
-                meta.setEnabled(spiImpl.enabled());
-                meta.setOverride(spiImpl.override());
-                meta.setConditions(Collections.emptyList());
                 spiMetadata.computeIfAbsent(spiClassName, k -> new ArrayList<>()).add(meta);
             }
         }
@@ -216,12 +212,6 @@ public class SpiImplProcessor extends AbstractProcessor {
                     "SPI alias only supports letters, numbers, underscores and hyphens, current: " + alias, implementationType);
             return false;
         }
-        // override必须配合别名使用
-        if (spiImpl.override() && alias.isEmpty()) {
-            messager.printMessage(Diagnostic.Kind.ERROR,
-                    "@SpiImpl.override() requires an alias to be specified", implementationType);
-            return false;
-        }
         return true;
     }
     /**
@@ -307,22 +297,7 @@ public class SpiImplProcessor extends AbstractProcessor {
                     if (!meta.getAlias().isEmpty()) {
                         writer.write(String.format("      \"alias\": \"%s\",\n", escapeJson(meta.getAlias())));
                     }
-                    writer.write(String.format("      \"priority\": %d,\n", meta.getPriority()));
-                    writer.write(String.format("      \"singleton\": %b,\n", meta.isSingleton()));
-                    writer.write(String.format("      \"enabled\": %b,\n", meta.isEnabled()));
-                    writer.write(String.format("      \"override\": %b", meta.isOverride()));
-                    if (!meta.getConditions().isEmpty()) {
-                        writer.write(",\n      \"conditions\": [");
-                        int condIndex = 0;
-                        for (String cond : meta.getConditions()) {
-                            writer.write(String.format("\"%s\"", escapeJson(cond)));
-                            if (condIndex < meta.getConditions().size() - 1) {
-                                writer.write(", ");
-                            }
-                            condIndex++;
-                        }
-                        writer.write("]");
-                    }
+                    writer.write(String.format("      \"priority\": %d\n", meta.getPriority()));
                     writer.write("\n    }");
                     if (implIndex < impls.size() - 1) {
                         writer.write(",");
@@ -391,23 +366,11 @@ public class SpiImplProcessor extends AbstractProcessor {
         private String className;
         private String alias;
         private int priority;
-        private boolean singleton;
-        private boolean enabled;
-        private boolean override;
-        private List<String> conditions = Collections.emptyList();
         public String getClassName() { return className; }
         public void setClassName(String className) { this.className = className; }
         public String getAlias() { return alias; }
         public void setAlias(String alias) { this.alias = alias; }
         public int getPriority() { return priority; }
         public void setPriority(int priority) { this.priority = priority; }
-        public boolean isSingleton() { return singleton; }
-        public void setSingleton(boolean singleton) { this.singleton = singleton; }
-        public boolean isEnabled() { return enabled; }
-        public void setEnabled(boolean enabled) { this.enabled = enabled; }
-        public boolean isOverride() { return override; }
-        public void setOverride(boolean override) { this.override = override; }
-        public List<String> getConditions() { return conditions; }
-        public void setConditions(List<String> conditions) { this.conditions = conditions; }
     }
 }
