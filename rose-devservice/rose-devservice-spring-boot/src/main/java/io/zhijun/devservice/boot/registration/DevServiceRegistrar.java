@@ -99,7 +99,7 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
 
     protected void ensureContainerStarted(org.testcontainers.containers.Container<?> container, String serviceName) {
         if (!container.isRunning()) {
-            container.start();
+            ((org.testcontainers.lifecycle.Startable) container).start();
         }
     }
 
