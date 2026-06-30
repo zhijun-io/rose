@@ -12,12 +12,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterType;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Compression;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.common.ExporterType;
+import io.zhijun.observation.boot.autoconfigure.otel.common.Compression;
+import io.zhijun.observation.boot.autoconfigure.otel.common.Protocol;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties.ExemplarFilter;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.AggregationTemporalityStrategy;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.HistogramAggregationStrategy;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.AggregationTemporalityStrategy;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.HistogramAggregationStrategy;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties.PropagationType;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingProperties.SamplingStrategy;
 

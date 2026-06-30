@@ -22,7 +22,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
-import io.zhijun.observation.boot.autoconfigure.otel.traces.propagation.OpenTelemetryPropagationConfiguration;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationConfiguration;
 
 /**
  * Auto-configuration for OpenTelemetry tracing (SDK export without Micrometer tracing bridge).

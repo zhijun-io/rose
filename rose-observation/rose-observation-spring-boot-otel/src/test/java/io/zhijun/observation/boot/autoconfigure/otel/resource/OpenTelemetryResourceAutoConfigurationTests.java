@@ -15,12 +15,12 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.BuildResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.EnvironmentResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.HostResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.JavaResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.OsResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ProcessResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.BuildResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.EnvironmentResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.HostResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.JavaResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.OsResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.ProcessResourceContributor;
 
 /**
  * Unit test for {@link OpenTelemetryResourceAutoConfiguration}.

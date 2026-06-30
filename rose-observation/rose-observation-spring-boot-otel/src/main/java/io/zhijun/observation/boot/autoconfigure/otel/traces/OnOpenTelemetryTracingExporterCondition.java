@@ -1,0 +1,23 @@
+package io.zhijun.observation.boot.autoconfigure.otel.traces;
+
+import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
+import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+
+import io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterConditionSupport;
+
+/**
+ * Determines if a certain exporter type is enabled for OpenTelemetry traces.
+ */
+class OnOpenTelemetryTracingExporterCondition extends SpringBootCondition {
+
+    @Override
+    public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        return OpenTelemetryExporterConditionSupport.evaluate(
+                context,
+                metadata,
+                ConditionalOnOpenTelemetryTracingExporter.class,
+                OpenTelemetryTracingExporterProperties.TYPE_PROPERTY);
+    }
+}

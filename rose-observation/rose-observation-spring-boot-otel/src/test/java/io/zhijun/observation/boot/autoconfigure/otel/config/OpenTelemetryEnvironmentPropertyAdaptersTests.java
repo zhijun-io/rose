@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;
 
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterType;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Compression;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.common.ExporterType;
+import io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.common.Compression;
+import io.zhijun.observation.boot.autoconfigure.otel.common.Protocol;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties.PropagationType;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingProperties.SamplingStrategy;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingExporterProperties;
 
 class OpenTelemetryEnvironmentPropertyAdaptersTests {
 

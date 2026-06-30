@@ -9,7 +9,7 @@ import org.springframework.beans.factory.ObjectProvider;
 
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceBuilderCustomizer;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.ResourceContributor;
 
 /**
  * Builds and customizes the OpenTelemetry {@link Resource}.

@@ -16,13 +16,13 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.common.*;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.resource.OpenTelemetryResourceProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingExporterProperties;
 
 /**
  * Adapters from the OpenTelemetry Environment Variable Specification to {@code rose.otel.*} properties.

@@ -13,13 +13,13 @@ import org.springframework.core.env.Environment;
 
 import io.opentelemetry.sdk.resources.Resource;
 import io.zhijun.observation.boot.autoconfigure.otel.ConditionalOnOpenTelemetry;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.BuildResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.EnvironmentResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.HostResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.JavaResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.OsResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ProcessResourceContributor;
-import io.zhijun.observation.boot.autoconfigure.otel.resource.contributor.ResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.BuildResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.EnvironmentResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.HostResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.JavaResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.OsResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.ProcessResourceContributor;
+import io.zhijun.observation.boot.autoconfigure.otel.resource.ResourceContributor;
 
 /**
  * Auto-configuration for OpenTelemetry {@link Resource}.

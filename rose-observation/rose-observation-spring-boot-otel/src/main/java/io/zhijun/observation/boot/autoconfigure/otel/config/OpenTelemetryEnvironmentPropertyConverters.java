@@ -14,12 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterType;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Compression;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.common.*;
+import io.zhijun.observation.boot.autoconfigure.otel.common.*;
+import io.zhijun.observation.boot.autoconfigure.otel.common.*;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.AggregationTemporalityStrategy;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.HistogramAggregationStrategy;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.AggregationTemporalityStrategy;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.HistogramAggregationStrategy;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryPropagationProperties.PropagationType;
 import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingProperties.SamplingStrategy;
 
