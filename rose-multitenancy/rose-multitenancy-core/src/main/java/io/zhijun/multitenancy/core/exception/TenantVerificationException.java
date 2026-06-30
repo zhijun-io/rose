@@ -8,10 +8,10 @@ import io.zhijun.core.exception.ApplicationException;
 public class TenantVerificationException extends ApplicationException {
 
     public TenantVerificationException() {
-        super(MultitenancyErrorCodes.TENANT_VERIFICATION_FAILED, "Tenant verification failed");
+        super(MultitenancyErrorCodes.TENANT_VERIFICATION_FAILED, "Tenant verification failed", null);
     }
 
     public TenantVerificationException(String message) {
-        super(MultitenancyErrorCodes.TENANT_VERIFICATION_FAILED, message);
+        super(MultitenancyErrorCodes.TENANT_VERIFICATION_FAILED, message, null);
     }
 }

@@ -20,7 +20,7 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ErrorResponse> handle(ApplicationException exception) {
-        return ResponseEntity.status(status(exception)).body(exception.toErrorResponse());
+        return ResponseEntity.status(status(exception)).body(ErrorResponse.from(exception));
     }
 
     /**

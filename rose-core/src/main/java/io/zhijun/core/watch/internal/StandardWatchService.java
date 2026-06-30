@@ -1,7 +1,9 @@
-package io.zhijun.core.watch;
+package io.zhijun.core.watch.internal;
 
 import io.zhijun.core.spi.annotation.Priority;
 import io.zhijun.core.spi.annotation.SpiImpl;
+import io.zhijun.core.watch.FileChangedEvent;
+import io.zhijun.core.watch.FileChangedListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -16,14 +18,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Simple file watch service backed by Java NIO WatchService.
+ * Simple file watch service backed by java.nio.file.WatchService.
  *
  * <p>线程安全：所有公共方法可在任意线程安全调用。{@code watch()} 支持在
  * {@code start()} 之前或之后调用。
  */
 @SpiImpl
 @Priority(Integer.MAX_VALUE)
-public class StandardFileWatchService implements FileWatchService {
+public class StandardWatchService implements io.zhijun.core.watch.WatchService {
 
     private final WatchService watchService;
 
@@ -39,7 +41,7 @@ public class StandardFileWatchService implements FileWatchService {
 
     private volatile Thread worker;
 
-    public StandardFileWatchService() throws IOException {
+    public StandardWatchService() throws IOException {
         this.watchService = FileSystems.getDefault().newWatchService();
     }
 

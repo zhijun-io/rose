@@ -8,10 +8,10 @@ import io.zhijun.core.exception.ApplicationException;
 public class TenantNotFoundException extends ApplicationException {
 
     public TenantNotFoundException() {
-        super(MultitenancyErrorCodes.TENANT_NOT_FOUND, "No tenant found in the current context");
+        super(MultitenancyErrorCodes.TENANT_NOT_FOUND, "No tenant found in the current context", null);
     }
 
     public TenantNotFoundException(String message) {
-        super(MultitenancyErrorCodes.TENANT_NOT_FOUND, message);
+        super(MultitenancyErrorCodes.TENANT_NOT_FOUND, message, null);
     }
 }

@@ -36,7 +36,7 @@ public class ApplicationException extends RuntimeException {
      * 创建携带 errorCode、message、cause 的异常。
      */
     public ApplicationException(String errorCode, String message, Throwable cause) {
-        this(errorCode, message, cause, false, Collections.<String, Object>emptyMap());
+        this(errorCode, message, cause, false, Collections.emptyMap());
     }
 
     /**

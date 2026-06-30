@@ -1,8 +1,7 @@
 package io.zhijun.spring.config.property;
 
 import io.zhijun.core.spi.SpiLoader;
-import io.zhijun.core.watch.FileWatchService;
-import io.zhijun.core.watch.StandardFileWatchService;
+import io.zhijun.core.watch.WatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
@@ -24,25 +23,21 @@ public class AutoRefreshWatcher implements AutoCloseable {
 
     private final ResourcePatternResolver resourcePatternResolver;
 
-    private final FileWatchService fileWatchService;
+    private final WatchService fileWatchService;
 
     public AutoRefreshWatcher() throws IOException {
         this(new PathMatchingResourcePatternResolver(), createWatchService());
     }
 
-    private static FileWatchService createWatchService() {
-        Optional<FileWatchService> spi = SpiLoader.defaults().loadFirst(FileWatchService.class);
+    private static WatchService createWatchService() {
+        Optional<WatchService> spi = SpiLoader.defaults().loadFirst(WatchService.class);
         if (spi.isPresent()) {
             return spi.get();
         }
-        try {
-            return new StandardFileWatchService();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return WatchService.defaults();
     }
 
-    AutoRefreshWatcher(ResourcePatternResolver resourcePatternResolver, FileWatchService fileWatchService) {
+    AutoRefreshWatcher(ResourcePatternResolver resourcePatternResolver, WatchService fileWatchService) {
         this.resourcePatternResolver = resourcePatternResolver;
         this.fileWatchService = fileWatchService;
     }
