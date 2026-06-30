@@ -29,11 +29,11 @@ public class ConfigurationBeanBindingsRegistrar
     @Override
     public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(
-                metadata.getAnnotationAttributes(EnableConfigurationBeanBindings.class.getName()));
+                metadata.getAnnotationAttributes("io.zhijun.spring.beans.factory.annotation.EnableConfigurationBeanBindings"));
         if (attributes == null) {
             return;
         }
-        ConfigurationBeanBindingRegistrar delegate = new ConfigurationBeanBindingRegistrar();
+        io.zhijun.spring.beans.factory.annotation.ConfigurationBeanBindingRegistrar delegate = new io.zhijun.spring.beans.factory.annotation.ConfigurationBeanBindingRegistrar();
         delegate.setEnvironment(environment);
         delegate.setBeanFactory(beanFactory);
         for (AnnotationAttributes element : attributes.getAnnotationArray("value")) {

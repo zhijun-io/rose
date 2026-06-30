@@ -1,7 +1,6 @@
 package io.zhijun.spring.context;
 
 import io.zhijun.spring.annotation.ResolvablePlaceholderAnnotationAttributes;
-import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -26,6 +25,7 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
+import io.zhijun.core.annotation.Nullable;
 
 /**
  * 支持完整 Spring Bean 生命周期的 {@code @Import} 候选基类。

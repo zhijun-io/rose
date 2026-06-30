@@ -1,13 +1,13 @@
 package io.zhijun.spring.annotation;
 
+import org.jspecify.annotations.Nullable;
+import org.springframework.core.annotation.AnnotationAttributes;
+
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Arrays;
-
-import org.jspecify.annotations.Nullable;
-import org.springframework.core.annotation.AnnotationAttributes;
 
 /**
  * 泛型化的 {@link AnnotationAttributes}，携带准确的注解类型信息。

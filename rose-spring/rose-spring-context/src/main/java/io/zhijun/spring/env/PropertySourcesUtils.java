@@ -1,64 +1,75 @@
 package io.zhijun.spring.env;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import io.zhijun.core.annotation.Nullable;
+import org.springframework.core.env.*;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.EnumerablePropertySource;
-import org.springframework.core.env.PropertyResolver;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.env.PropertySources;
-
-/**
- * Utilities for working with {@link PropertySources}.
- */
 public abstract class PropertySourcesUtils {
 
-    private PropertySourcesUtils() {}
+    public static final String DEFAULT_PROPERTIES_PROPERTY_SOURCE_NAME = "defaultProperties";
 
-    public static Set<String> findPropertyNames(ConfigurableEnvironment environment, Predicate<String> predicate) {
-        return findPropertyNames(environment.getPropertySources(), predicate);
+    @Nullable
+    public static Map<String, Object> getDefaultProperties(ConfigurableEnvironment environment) {
+        PropertySource<?> propertySource = environment.getPropertySources().get(DEFAULT_PROPERTIES_PROPERTY_SOURCE_NAME);
+        if (propertySource instanceof MapPropertySource) {
+            return ((MapPropertySource) propertySource).getSource();
+        }
+        return null;
     }
 
-    public static Set<String> findPropertyNames(PropertySources propertySources, Predicate<String> predicate) {
-        Set<String> result = new LinkedHashSet<String>();
-        for (PropertySource<?> source : propertySources) {
-            if (source instanceof EnumerablePropertySource) {
-                String[] names = ((EnumerablePropertySource<?>) source).getPropertyNames();
-                for (String name : names) {
-                    if (predicate.test(name)) {
-                        result.add(name);
+    public static Set<String> findPropertyNames(ConfigurableEnvironment environment, Predicate<String> filter) {
+        Set<String> propertyNames = new java.util.LinkedHashSet<>();
+        for (PropertySource<?> propertySource : environment.getPropertySources()) {
+            if (propertySource instanceof EnumerablePropertySource) {
+                for (String propertyName : ((EnumerablePropertySource) propertySource).getPropertyNames()) {
+                    if (filter.test(propertyName)) {
+                        propertyNames.add(propertyName);
                     }
                 }
             }
         }
-        return result;
+        return propertyNames;
     }
 
-    public static Map<String, Object> getSubProperties(ConfigurableEnvironment environment, String prefix) {
-        return getSubProperties(environment.getPropertySources(), environment, prefix);
-    }
-
-    public static Map<String, Object> getSubProperties(
-            PropertySources propertySources, PropertyResolver propertyResolver, String prefix) {
-        Map<String, Object> subProperties = new LinkedHashMap<String, Object>();
+    public static Map<String, String> getSubProperties(PropertySources propertySources, String prefix) {
+        Map<String, String> subProperties = new LinkedHashMap<>();
         String normalizedPrefix = normalizePrefix(prefix);
-        Iterator<PropertySource<?>> iterator = propertySources.iterator();
-        while (iterator.hasNext()) {
-            PropertySource<?> source = iterator.next();
-            for (String name : getPropertyNames(source)) {
-                if (!subProperties.containsKey(name) && name.startsWith(normalizedPrefix)) {
-                    String subName = name.substring(normalizedPrefix.length());
-                    if (!subProperties.containsKey(subName)) {
-                        Object value = source.getProperty(name);
-                        if (value instanceof String) {
-                            value = propertyResolver.resolvePlaceholders((String) value);
+        for (PropertySource<?> propertySource : propertySources) {
+            if (propertySource instanceof EnumerablePropertySource) {
+                String[] propertyNames = ((EnumerablePropertySource) propertySource).getPropertyNames();
+                for (String propertyName : propertyNames) {
+                    if (propertyName.startsWith(normalizedPrefix)) {
+                        String subKey = propertyName.substring(normalizedPrefix.length());
+                        Object value = propertySource.getProperty(propertyName);
+                        if (value != null) {
+                            subProperties.put(subKey, value.toString());
                         }
-                        subProperties.put(subName, value);
+                    }
+                }
+            }
+        }
+        return subProperties;
+    }
+
+    public static Map<String, Object> getSubProperties(PropertySources propertySources,
+                                                        ConfigurableEnvironment environment,
+                                                        String prefix) {
+        Map<String, Object> subProperties = new LinkedHashMap<>();
+        String normalizedPrefix = normalizePrefix(prefix);
+        for (PropertySource<?> propertySource : propertySources) {
+            if (propertySource instanceof EnumerablePropertySource) {
+                String[] propertyNames = ((EnumerablePropertySource) propertySource).getPropertyNames();
+                for (String propertyName : propertyNames) {
+                    if (propertyName.startsWith(normalizedPrefix)) {
+                        String subKey = propertyName.substring(normalizedPrefix.length());
+                        Object value = propertySource.getProperty(propertyName);
+                        if (value != null) {
+                            subProperties.put(subKey, value);
+                        }
                     }
                 }
             }
@@ -68,12 +79,5 @@ public abstract class PropertySourcesUtils {
 
     public static String normalizePrefix(String prefix) {
         return prefix.endsWith(".") ? prefix : prefix + ".";
-    }
-
-    private static String[] getPropertyNames(PropertySource<?> propertySource) {
-        if (propertySource instanceof EnumerablePropertySource) {
-            return ((EnumerablePropertySource<?>) propertySource).getPropertyNames();
-        }
-        return new String[0];
     }
 }

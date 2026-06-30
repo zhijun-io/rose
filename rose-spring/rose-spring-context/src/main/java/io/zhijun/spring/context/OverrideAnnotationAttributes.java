@@ -4,6 +4,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import io.zhijun.spring.context.annotation.ConfigurationPropertyOverrideAnnotationAttributesStrategy;
+
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -27,6 +29,6 @@ public @interface OverrideAnnotationAttributes {
      *
      * @return 策略实现类，默认使用 {@link ConfigurationPropertyOverrideAnnotationAttributesStrategy}
      */
-    Class<? extends OverrideAnnotationAttributesStrategy> strategy()
-            default ConfigurationPropertyOverrideAnnotationAttributesStrategy.class;
+    Class<? extends OverrideAnnotationAttributesStrategy> strategy() default ConfigurationPropertyOverrideAnnotationAttributesStrategy.class;
+
 }

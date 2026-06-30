@@ -4,9 +4,9 @@ import java.lang.annotation.Annotation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.PropertyResolver;
+import io.zhijun.core.annotation.Nullable;
 
 /**
  * 支持占位符解析的注解属性包装。

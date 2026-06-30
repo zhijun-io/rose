@@ -1,7 +1,8 @@
 package io.zhijun.spring.config.binder;
 
-import org.jspecify.annotations.Nullable;
+
 import org.springframework.core.convert.ConversionService;
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.core.env.Environment;
 
 import java.util.Map;

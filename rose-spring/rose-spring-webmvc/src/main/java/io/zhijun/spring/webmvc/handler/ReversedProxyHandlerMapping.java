@@ -52,7 +52,7 @@ public class ReversedProxyHandlerMapping extends AbstractHandlerMapping {
     /**
      * 请求头名称，标识 WebEndpointMapping ID
      */
-    public static final String ID_HEADER_NAME = "microsphere_wem_id";
+    public static final String ID_HEADER_NAME = "rose_wem_id";
 
     /**
      * 默认优先级

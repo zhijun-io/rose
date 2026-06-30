@@ -38,6 +38,26 @@ public abstract class ConfigurableApplicationContextInitializer
      * Whether this initializer is enabled. Default is {@code true}.
      */
     protected boolean isEnabled(ConfigurableApplicationContext context, ConfigurableEnvironment environment) {
+        String enabledPropertyName = getEnabledPropertyName();
+        if (enabledPropertyName == null) {
+            return true;
+        }
+        return environment.getProperty(enabledPropertyName, boolean.class, getDefaultEnabled());
+    }
+
+    /**
+     * Get the property name used to check whether this initializer is enabled.
+     *
+     * @return null if no property-based enablement (always enabled)
+     */
+    public String getEnabledPropertyName() {
+        return null;
+    }
+
+    /**
+     * Get the default enabled value when the property is not set.
+     */
+    public boolean getDefaultEnabled() {
         return true;
     }
 

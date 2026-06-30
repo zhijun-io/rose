@@ -9,7 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
-import io.zhijun.spring.config.binder.EnableConfigurationBeanBinding;
+import io.zhijun.spring.beans.factory.annotation.EnableConfigurationBeanBinding;
 import io.zhijun.spring.env.PropertySourcesUtils;
 
 /**
@@ -57,7 +57,7 @@ public final class ConfigurationBeanBindingSupport {
      * {@code beanName} (first-level segment under the annotation prefix).
      */
     public static Map<String, Object> resolveSubProperties(
-            boolean multiple, String beanName, Map<String, Object> configurationProperties, Environment environment) {
+            boolean multiple, String beanName, Map<String, Object> configurationProperties, ConfigurableEnvironment environment) {
         if (!multiple) {
             return configurationProperties;
         }
@@ -70,7 +70,7 @@ public final class ConfigurationBeanBindingSupport {
     /** Reads current {@code prefix.*} from {@code environment} and applies {@link #resolveSubProperties}. */
     public static Map<String, Object> resolveBindingProperties(
             ConfigurableEnvironment environment, String prefix, boolean multiple, String beanName) {
-        Map<String, Object> configurationProperties = PropertySourcesUtils.getSubProperties(environment, prefix);
+        Map<String, Object> configurationProperties = PropertySourcesUtils.getSubProperties(environment.getPropertySources(), environment, prefix);
         return resolveSubProperties(multiple, beanName, configurationProperties, environment);
     }
 }
