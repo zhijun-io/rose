@@ -1,2 +1,2 @@
-io.zhijun.spring.core.env.EnvironmentListener=io.zhijun.spring.core.FactoryLoadedEnvironmentListener
+ io.zhijun.spring.core.env.EnvironmentListener=io.zhijun.spring.core.env.FactoryLoadedEnvironmentListener
 io.zhijun.spring.config.property.Refreshable=io.zhijun.spring.config.property.TestRefreshable
