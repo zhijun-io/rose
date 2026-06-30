@@ -1,8 +1,8 @@
 package io.zhijun.spring.boot.webmvc.autoconfigure;
 
+import io.zhijun.spring.webmvc.metadata.HandlerMappingWebEndpointMappingResolver;
 import io.zhijun.spring.boot.webmvc.autoconfigure.condition.ConditionalOnWebMvcAvailable;
 import io.zhijun.spring.webmvc.ContentCachingFilter;
-import io.zhijun.spring.webmvc.HandlerMethodArgumentResolverAdvice;
 import io.zhijun.spring.webmvc.annotation.EnableWebMvcExtension;
 import io.zhijun.spring.webmvc.config.ConfigurableContentNegotiationManagerWebMvcConfigurer;
 import io.zhijun.spring.webmvc.context.ExclusiveViewResolverApplicationListener;
@@ -33,18 +33,16 @@ import static io.zhijun.spring.boot.webmvc.constants.PropertyConstants.ROSE_SPRI
 })
 public class WebMvcAutoConfiguration {
 
+    @Bean
+    public HandlerMappingWebEndpointMappingResolver handlerMappingWebEndpointMappingResolver() {
+        return new HandlerMappingWebEndpointMappingResolver();
+    }
+
     @ConditionalOnProperty(name = ROSE_SPRING_BOOT_WEBMVC_FILTER_ENABLED_PROPERTY_NAME, matchIfMissing = true)
     @Bean
     public ContentCachingFilter contentCachingFilter() {
         return new ContentCachingFilter();
     }
-
-    @ConditionalOnProperty(name = ROSE_SPRING_BOOT_WEBMVC_LOGGING_ENABLED_PROPERTY_NAME, matchIfMissing = true)
-    @Bean
-    public HandlerMethodArgumentResolverAdvice handlerMethodArgumentResolverAdvice() {
-        return new HandlerMethodArgumentResolverAdvice();
-    }
-
     @ConditionalOnProperty(name = ROSE_SPRING_BOOT_WEBMVC_CONTENT_NEGOTIATION_ENABLED_PROPERTY_NAME, matchIfMissing = true)
     @Bean
     public WebMvcConfigurer contentNegotiationManagerWebMvcConfigurer() {

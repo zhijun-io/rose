@@ -1,7 +1,11 @@
 package io.zhijun.spring.boot.web.autoconfigure;
 
+import io.zhijun.spring.web.metadata.DefaultWebEndpointMappingRegistry;
+import io.zhijun.spring.web.metadata.WebEndpointMappingRegistrar;
+import io.zhijun.spring.web.metadata.WebEndpointMappingRegistry;
 import io.zhijun.spring.boot.web.autoconfigure.condition.ConditionalOnWebAvailable;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,4 +14,14 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnWebAvailable
 @AutoConfiguration
 public class WebAutoConfiguration {
+
+    @Bean
+    public WebEndpointMappingRegistry webEndpointMappingRegistry() {
+        return new DefaultWebEndpointMappingRegistry();
+    }
+
+    @Bean
+    public WebEndpointMappingRegistrar webEndpointMappingRegistrar(WebEndpointMappingRegistry registry) {
+        return new WebEndpointMappingRegistrar(registry);
+    }
 }
