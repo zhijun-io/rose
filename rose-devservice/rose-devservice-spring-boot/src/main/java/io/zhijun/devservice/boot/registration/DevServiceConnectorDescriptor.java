@@ -63,9 +63,6 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
         return containerClass;
     }
 
-    Function<P, C> containerFactory() {
-        return containerFactory;
-    }
 
 
     /**
