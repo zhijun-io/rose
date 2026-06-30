@@ -6,11 +6,10 @@ import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfigura
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
@@ -21,10 +20,10 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @AutoConfigureBefore(ActiveMQAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled(ActiveMqDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(ActiveMqDevServiceProperties.class)
-@Import(ActiveMqDevServicesAutoConfiguration.ActiveMqDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class ActiveMqDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<ActiveMqDevServiceProperties, ActiveMqContainer> DESCRIPTOR =
+    static final DevServiceConnectorDescriptor<ActiveMqDevServiceProperties, ActiveMqContainer> DESCRIPTOR =
             DevServiceConnectorDescriptor.<ActiveMqDevServiceProperties, ActiveMqContainer>builder()
                     .propertiesType(ActiveMqDevServiceProperties.class)
                     .configPrefix(ActiveMqDevServiceProperties.CONFIG_PREFIX)
@@ -45,12 +44,4 @@ public final class ActiveMqDevServicesAutoConfiguration {
                                 () -> registrar.requireRunningContainer().getPassword());
                     })
                     .build();
-
-    static final class ActiveMqDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<ActiveMqDevServiceProperties, ActiveMqContainer> {
-
-        ActiveMqDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

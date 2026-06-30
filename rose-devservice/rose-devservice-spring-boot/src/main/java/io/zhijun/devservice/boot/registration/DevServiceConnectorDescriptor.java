@@ -67,8 +67,21 @@ public final class DevServiceConnectorDescriptor<P, C extends Container<?> & Sta
         return containerFactory;
     }
 
-    Consumer<ContainerDevServiceRegistrar<P, C>> dynamicProperties() {
-        return dynamicProperties;
+
+    /**
+     * Creates a container instance from the given properties (LoD-friendly).
+     */
+    C createContainer(P properties) {
+        return containerFactory.apply(properties);
+    }
+
+    /**
+     * Applies dynamic properties using the given registrar (LoD-friendly).
+     */
+    void applyDynamicProperties(ContainerDevServiceRegistrar<P, C> registrar) {
+        if (dynamicProperties != null) {
+            dynamicProperties.accept(registrar);
+        }
     }
 
     public static final class Builder<P, C extends Container<?> & Startable> {

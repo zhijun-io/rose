@@ -4,11 +4,10 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
@@ -18,10 +17,10 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled(OllamaDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(OllamaDevServiceProperties.class)
-@Import(OllamaDevServicesAutoConfiguration.OllamaDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class OllamaDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<OllamaDevServiceProperties, OllamaContainer> DESCRIPTOR =
+    static final DevServiceConnectorDescriptor<OllamaDevServiceProperties, OllamaContainer> DESCRIPTOR =
             DevServiceConnectorDescriptor.<OllamaDevServiceProperties, OllamaContainer>builder()
                     .propertiesType(OllamaDevServiceProperties.class)
                     .configPrefix(OllamaDevServiceProperties.CONFIG_PREFIX)
@@ -34,12 +33,4 @@ public final class OllamaDevServicesAutoConfiguration {
                             OllamaDevServiceProperties.BASE_URL_PROPERTY,
                             () -> registrar.requireRunningContainer().getBaseUrl()))
                     .build();
-
-    static final class OllamaDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<OllamaDevServiceProperties, OllamaContainer> {
-
-        OllamaDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

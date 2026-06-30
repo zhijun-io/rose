@@ -6,11 +6,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.registration.JdbcDevServiceConnectorDescriptor;
-import io.zhijun.devservice.boot.registration.JdbcDevServiceRegistrar;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 
 /**
  * PostgreSQL dev services auto-configuration.
@@ -20,10 +19,10 @@ import io.zhijun.devservice.boot.registration.JdbcDevServiceRegistrar;
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled(PostgresqlDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(PostgresqlDevServiceProperties.class)
-@Import(PostgresqlDevServicesAutoConfiguration.PostgresqlDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class PostgresqlDevServicesAutoConfiguration {
 
-    private static final JdbcDevServiceConnectorDescriptor<PostgresqlDevServiceProperties, PostgresqlContainer>
+    static final JdbcDevServiceConnectorDescriptor<PostgresqlDevServiceProperties, PostgresqlContainer>
             DESCRIPTOR =
                     JdbcDevServiceConnectorDescriptor.<PostgresqlDevServiceProperties, PostgresqlContainer>builder()
                             .propertiesType(PostgresqlDevServiceProperties.class)
@@ -33,12 +32,4 @@ public final class PostgresqlDevServicesAutoConfiguration {
                             .containerClass(PostgresqlContainer.class)
                             .containerFactory(PostgresqlContainer::new)
                             .build();
-
-    static final class PostgresqlDevServiceRegistrar
-            extends JdbcDevServiceRegistrar<PostgresqlDevServiceProperties, PostgresqlContainer> {
-
-        PostgresqlDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

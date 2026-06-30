@@ -46,7 +46,7 @@ final class DevServiceRegistrationFactoryBean implements FactoryBean<DevServiceR
         return new DevServiceRegistration(name, description, new java.util.function.Supplier<ContainerInfo>() {
             @Override
             public ContainerInfo get() {
-                return DevServiceRegistry.extractContainerInfoById(containerId);
+                return DevServiceContainerInfo.extractById(containerId);
             }
         });
     }

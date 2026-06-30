@@ -4,11 +4,10 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
@@ -18,10 +17,10 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @AutoConfigureAfter(DevServiceAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled(MqttDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(MqttDevServiceProperties.class)
-@Import(MqttDevServicesAutoConfiguration.MqttDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class MqttDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<MqttDevServiceProperties, HiveMqContainer> DESCRIPTOR =
+    static final DevServiceConnectorDescriptor<MqttDevServiceProperties, HiveMqContainer> DESCRIPTOR =
             DevServiceConnectorDescriptor.<MqttDevServiceProperties, HiveMqContainer>builder()
                     .propertiesType(MqttDevServiceProperties.class)
                     .configPrefix(MqttDevServiceProperties.CONFIG_PREFIX)
@@ -39,12 +38,4 @@ public final class MqttDevServicesAutoConfiguration {
                                 () -> registrar.requireRunningContainer().getBrokerUrl());
                     })
                     .build();
-
-    static final class MqttDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<MqttDevServiceProperties, HiveMqContainer> {
-
-        MqttDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

@@ -6,11 +6,10 @@ import org.springframework.boot.autoconfigure.jms.artemis.ArtemisAutoConfigurati
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
@@ -21,10 +20,10 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @AutoConfigureBefore(ArtemisAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled(ArtemisDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(ArtemisDevServiceProperties.class)
-@Import(ArtemisDevServicesAutoConfiguration.ArtemisDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class ArtemisDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<ArtemisDevServiceProperties, ArtemisContainer> DESCRIPTOR =
+    static final DevServiceConnectorDescriptor<ArtemisDevServiceProperties, ArtemisContainer> DESCRIPTOR =
             DevServiceConnectorDescriptor.<ArtemisDevServiceProperties, ArtemisContainer>builder()
                     .propertiesType(ArtemisDevServiceProperties.class)
                     .configPrefix(ArtemisDevServiceProperties.CONFIG_PREFIX)
@@ -45,12 +44,4 @@ public final class ArtemisDevServicesAutoConfiguration {
                                 () -> registrar.requireRunningContainer().getPassword());
                     })
                     .build();
-
-    static final class ArtemisDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<ArtemisDevServiceProperties, ArtemisContainer> {
-
-        ArtemisDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

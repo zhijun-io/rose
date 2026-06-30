@@ -18,11 +18,11 @@ class DevServiceRegistryIT {
     }
 
     @Test
-    void extractContainerInfoByIdReturnsMetadataForRunningContainer() {
+    void extractByIdReturnsMetadataForRunningContainer() {
         TestPostgresContainer container = new TestPostgresContainer();
         container.start();
         try {
-            ContainerInfo info = DevServiceRegistry.extractContainerInfoById(container.getContainerId());
+            ContainerInfo info = DevServiceContainerInfo.extractById(container.getContainerId());
 
             assertThat(info.getId()).isEqualTo(container.getContainerId());
             assertThat(info.getImageName()).isNotBlank();

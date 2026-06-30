@@ -6,11 +6,10 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
@@ -24,10 +23,10 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 })
 @ConditionalOnDevServiceEnabled(MongoDbDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(MongoDbDevServiceProperties.class)
-@Import(MongoDbDevServicesAutoConfiguration.MongoDbDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class MongoDbDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<MongoDbDevServiceProperties, MongoDbContainer> DESCRIPTOR =
+    static final DevServiceConnectorDescriptor<MongoDbDevServiceProperties, MongoDbContainer> DESCRIPTOR =
             DevServiceConnectorDescriptor.<MongoDbDevServiceProperties, MongoDbContainer>builder()
                     .propertiesType(MongoDbDevServiceProperties.class)
                     .configPrefix(MongoDbDevServiceProperties.CONFIG_PREFIX)
@@ -40,12 +39,4 @@ public final class MongoDbDevServicesAutoConfiguration {
                             "spring.data.mongodb.uri",
                             () -> registrar.requireRunningContainer().getReplicaSetUrl()))
                     .build();
-
-    static final class MongoDbDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<MongoDbDevServiceProperties, MongoDbContainer> {
-
-        MongoDbDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

@@ -40,7 +40,7 @@ public abstract class DevServiceRegistrar implements ImportBeanDefinitionRegistr
         registerDevServices(devServiceRegistry, environment);
     }
 
-    private DevServiceRegistry getOrCreateDevServicesRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
+    protected DevServiceRegistry getOrCreateDevServicesRegistry(BeanDefinitionRegistry beanDefinitionRegistry) {
         if (beanFactory != null && beanFactory.containsBean(DEV_SERVICES_REGISTRY_BEAN_NAME)) {
             return beanFactory.getBean(DEV_SERVICES_REGISTRY_BEAN_NAME, DevServiceRegistry.class);
         }

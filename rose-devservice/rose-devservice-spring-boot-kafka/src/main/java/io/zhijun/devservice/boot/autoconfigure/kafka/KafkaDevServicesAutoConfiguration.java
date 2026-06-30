@@ -6,11 +6,10 @@ import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
@@ -21,10 +20,10 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @AutoConfigureBefore(KafkaAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled(KafkaDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(KafkaDevServiceProperties.class)
-@Import(KafkaDevServicesAutoConfiguration.KafkaDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class KafkaDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<KafkaDevServiceProperties, DevServiceKafkaContainer> DESCRIPTOR =
+    static final DevServiceConnectorDescriptor<KafkaDevServiceProperties, DevServiceKafkaContainer> DESCRIPTOR =
             DevServiceConnectorDescriptor.<KafkaDevServiceProperties, DevServiceKafkaContainer>builder()
                     .propertiesType(KafkaDevServiceProperties.class)
                     .configPrefix(KafkaDevServiceProperties.CONFIG_PREFIX)
@@ -37,12 +36,4 @@ public final class KafkaDevServicesAutoConfiguration {
                             "spring.kafka.bootstrap-servers",
                             () -> registrar.requireRunningContainer().getBootstrapServers()))
                     .build();
-
-    static final class KafkaDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<KafkaDevServiceProperties, DevServiceKafkaContainer> {
-
-        KafkaDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

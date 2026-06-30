@@ -1,6 +1,5 @@
 package io.zhijun.spring.core.env;
 
-import io.zhijun.spring.core.env.refresh.RefreshableContextHolder;
 import io.zhijun.spring.core.context.SpringContextHolder;
 
 import org.springframework.context.ApplicationContextInitializer;
@@ -18,6 +17,5 @@ public class ListenableConfigurableEnvironmentInitializer
         applicationContext.setEnvironment(
                 new ListenableConfigurableEnvironment(applicationContext.getEnvironment(), applicationContext));
         SpringContextHolder.bind(applicationContext);
-        RefreshableContextHolder.bind(applicationContext);
     }
 }

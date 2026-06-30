@@ -59,8 +59,12 @@ public final class JdbcDevServiceConnectorDescriptor<
         return containerClass;
     }
 
-    Function<P, C> containerFactory() {
-        return containerFactory;
+
+    /**
+     * Creates a container instance from the given properties (LoD-friendly).
+     */
+    C createContainer(P properties) {
+        return containerFactory.apply(properties);
     }
 
     public static final class Builder<P extends JdbcDevServiceProperties, C extends JdbcDatabaseContainer<?>> {

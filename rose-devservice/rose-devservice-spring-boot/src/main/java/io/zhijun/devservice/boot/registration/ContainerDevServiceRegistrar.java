@@ -27,11 +27,9 @@ public class ContainerDevServiceRegistrar<P, C extends Container<?> & Startable>
                 descriptor.serviceName(),
                 descriptor.displayName(),
                 descriptor.containerClass(),
-                () -> descriptor.containerFactory().apply(properties));
+                () -> descriptor.createContainer(properties));
 
-        if (descriptor.dynamicProperties() != null) {
-            descriptor.dynamicProperties().accept(this);
-        }
+        descriptor.applyDynamicProperties(this);
     }
 
     /**

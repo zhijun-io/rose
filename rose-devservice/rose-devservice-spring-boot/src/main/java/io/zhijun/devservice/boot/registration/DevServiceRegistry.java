@@ -1,14 +1,9 @@
 package io.zhijun.devservice.boot.registration;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.github.dockerjava.api.DockerClient;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -16,13 +11,11 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.Container;
 
 
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 import io.zhijun.devservice.core.api.provider.DevServiceProvider;
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
 
 /**
  * Registers Testcontainers container bean definitions.
@@ -126,40 +119,6 @@ public class DevServiceRegistry {
         return descriptionBeanDefinition;
     }
 
-    static ContainerInfo extractContainerInfoById(String containerId) {
-        try {
-            DockerClient dockerClient = DockerClientFactory.lazyClient();
-            com.github.dockerjava.api.model.Container dockerContainer = dockerClient
-                    .listContainersCmd()
-                    .withIdFilter(Collections.singleton(containerId))
-                    .withShowAll(true)
-                    .exec()
-                    .stream()
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalStateException("Container not found with ID: " + containerId));
-
-            List<String> names = new ArrayList<String>();
-            for (String name : dockerContainer.getNames()) {
-                names.add(name.charAt(0) == '/' ? name.substring(1) : name);
-            }
-
-            List<ContainerInfo.ContainerPort> exposedPorts = new ArrayList<ContainerInfo.ContainerPort>();
-            if (dockerContainer.getPorts() != null) {
-                for (com.github.dockerjava.api.model.ContainerPort port : dockerContainer.getPorts()) {
-                    exposedPorts.add(new ContainerInfo.ContainerPort(
-                            port.getIp(), port.getPrivatePort(), port.getPublicPort(), port.getType()));
-                }
-            }
-
-            Map<String, String> labels =
-                    dockerContainer.getLabels() != null ? dockerContainer.getLabels() : new HashMap<String, String>();
-
-            return new ContainerInfo(
-                    containerId, dockerContainer.getImage(), names, exposedPorts, labels, dockerContainer.getStatus());
-        } catch (Exception ex) {
-            throw new IllegalStateException("Failed to extract container information for ID: " + containerId, ex);
-        }
-    }
 
     public static final class ServiceSpec {
 

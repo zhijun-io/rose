@@ -5,11 +5,10 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import io.zhijun.devservice.boot.autoconfigure.ConditionalOnDevServiceEnabled;
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.registration.ContainerDevServiceRegistrar;
 import io.zhijun.devservice.boot.registration.DevServiceConnectorDescriptor;
+import io.zhijun.devservice.boot.registration.DevServiceAutoConfigRegistrar;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 
 /**
@@ -20,10 +19,10 @@ import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 @org.springframework.boot.autoconfigure.AutoConfigureBefore(RedisAutoConfiguration.class)
 @ConditionalOnDevServiceEnabled(RedisDevServiceProperties.SERVICE_NAME)
 @EnableConfigurationProperties(RedisDevServiceProperties.class)
-@Import(RedisDevServicesAutoConfiguration.RedisDevServiceRegistrar.class)
+@Import(DevServiceAutoConfigRegistrar.class)
 public final class RedisDevServicesAutoConfiguration {
 
-    private static final DevServiceConnectorDescriptor<RedisDevServiceProperties, RedisContainer> DESCRIPTOR =
+    static final DevServiceConnectorDescriptor<RedisDevServiceProperties, RedisContainer> DESCRIPTOR =
             DevServiceConnectorDescriptor.<RedisDevServiceProperties, RedisContainer>builder()
                     .propertiesType(RedisDevServiceProperties.class)
                     .configPrefix(RedisDevServiceProperties.CONFIG_PREFIX)
@@ -41,12 +40,4 @@ public final class RedisDevServicesAutoConfiguration {
                                 () -> registrar.requireRunningContainer().getRedisPort());
                     })
                     .build();
-
-    static final class RedisDevServiceRegistrar
-            extends ContainerDevServiceRegistrar<RedisDevServiceProperties, RedisContainer> {
-
-        RedisDevServiceRegistrar() {
-            super(DESCRIPTOR);
-        }
-    }
 }

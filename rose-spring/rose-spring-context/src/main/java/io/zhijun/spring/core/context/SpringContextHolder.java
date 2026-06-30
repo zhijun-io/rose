@@ -36,7 +36,7 @@ public class SpringContextHolder implements ApplicationContextAware, Application
     }
 
     /**
-     * 绑定根上下文，仅接受无父级的上下文（来自 RefreshableContextHolder）。
+     * 绑定根上下文，仅接受无父级的上下文。
      */
     public static void bind(ApplicationContext context) {
         if (context == null || context.getParent() != null) {
