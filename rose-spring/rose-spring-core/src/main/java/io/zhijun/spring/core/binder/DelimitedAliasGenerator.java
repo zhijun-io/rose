@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.binder.support;
+package io.zhijun.spring.core.binder;
 
 import org.springframework.util.StringUtils;
 

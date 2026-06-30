@@ -2,7 +2,7 @@ package io.zhijun.observation.boot.autoconfigure.micrometer.otlp;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterProperties;
 
 /**
  * Configuration properties for Micrometer Metrics Registry OTLP.

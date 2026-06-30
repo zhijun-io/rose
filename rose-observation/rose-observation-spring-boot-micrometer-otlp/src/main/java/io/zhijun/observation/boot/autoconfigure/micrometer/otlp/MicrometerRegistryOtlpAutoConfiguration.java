@@ -18,12 +18,12 @@ import org.springframework.context.annotation.Conditional;
 
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsAutoConfiguration;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.ConditionalOnOpenTelemetryMetricsExporter;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterAutoConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.ExporterTypeNames;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.ConditionalOnOpenTelemetryMetricsExporter;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterAutoConfiguration;
+import io.zhijun.observation.boot.autoconfigure.otel.common.ExporterTypeNames;
+import io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OtlpMetricsConnectionDetails;
 
 /**
  * Auto-configuration for Micrometer Registry OTLP export.

@@ -1,5 +1,5 @@
 package io.zhijun.spring.core.spi.annotation;
-import io.zhijun.core.spi.condition.annotation.ConditionAnnotation;
+import io.zhijun.core.spi.annotation.ConditionAnnotation;
 import io.zhijun.spring.core.spi.OnProfileCondition;
 import java.lang.annotation.*;
 /**

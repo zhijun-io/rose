@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Conditional;
 
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.ConditionalOnOpenTelemetryMetrics;
 import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsAutoConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
 
 /**
  * Auto-configuration for Micrometer metrics bridge to OpenTelemetry.

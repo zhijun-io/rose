@@ -1,4 +1,4 @@
-package io.zhijun.spring.core.binder.support;
+package io.zhijun.spring.core.binder;
 
 /**
  * SPI for extra bean aliases on {@link io.zhijun.spring.core.binder.annotation.EnableConfigurationBeanBinding} beans.

@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 import ch.qos.logback.core.Appender;
 
 import io.zhijun.observation.boot.autoconfigure.otel.OpenTelemetryAutoConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.logs.exporter.ConditionalOnOpenTelemetryLoggingExporter;
+import io.zhijun.observation.boot.autoconfigure.otel.logs.ConditionalOnOpenTelemetryLoggingExporter;
 
 /**
  * Auto-configuration for Logback OpenTelemetry Bridge.

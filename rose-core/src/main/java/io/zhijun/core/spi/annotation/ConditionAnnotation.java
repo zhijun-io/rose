@@ -1,4 +1,4 @@
-package io.zhijun.core.spi.condition.annotation;
+package io.zhijun.core.spi.annotation;
 import io.zhijun.core.spi.Condition;
 import java.lang.annotation.*;
 /**

@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTracingConnectionDetails;
+import io.zhijun.observation.boot.autoconfigure.otel.common.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OtlpMetricsConnectionDetails;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.OtlpTracingConnectionDetails;
 
 /**
  * Unit test for {@link OtelCollectorOtlpConnectionDetailsConfiguration}.

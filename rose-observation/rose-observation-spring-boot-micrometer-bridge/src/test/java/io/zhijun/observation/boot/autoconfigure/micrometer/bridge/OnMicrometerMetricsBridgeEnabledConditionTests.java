@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
 
 /**
  * Unit test for {@link OnMicrometerMetricsBridgeEnabledCondition}.

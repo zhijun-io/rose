@@ -14,7 +14,7 @@ import io.opentelemetry.instrumentation.micrometer.v1_5.OpenTelemetryMeterRegist
 
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
 
 class MicrometerMetricsOpenTelemetryBridgeTemplateTests {
 

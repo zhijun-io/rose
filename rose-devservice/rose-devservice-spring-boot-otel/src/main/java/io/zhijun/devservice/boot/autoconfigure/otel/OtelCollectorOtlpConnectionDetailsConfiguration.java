@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Bean;
 
 import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
 import io.zhijun.devservice.boot.container.DevServiceContainerLifecycle;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.OtlpContainerConnectionDetails;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterAutoConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.OpenTelemetryTracingExporterAutoConfiguration;
-import io.zhijun.observation.boot.autoconfigure.otel.traces.exporter.otlp.OtlpTracingConnectionDetails;
+import io.zhijun.observation.boot.autoconfigure.otel.common.OtlpContainerConnectionDetails;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterAutoConfiguration;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OtlpMetricsConnectionDetails;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.OpenTelemetryTracingExporterAutoConfiguration;
+import io.zhijun.observation.boot.autoconfigure.otel.traces.OtlpTracingConnectionDetails;
 
 /**
  * Registers OTLP connection details from the OpenTelemetry Collector dev service container.

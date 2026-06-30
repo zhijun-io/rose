@@ -8,10 +8,10 @@ import java.util.Set;
 
 import io.opentelemetry.sdk.resources.Resource;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.otlp.Protocol;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.otlp.OtlpMetricsConnectionDetails;
+import io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.common.Protocol;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OtlpMetricsConnectionDetails;
 
 /**
  * Builds Micrometer OTLP registry configuration.

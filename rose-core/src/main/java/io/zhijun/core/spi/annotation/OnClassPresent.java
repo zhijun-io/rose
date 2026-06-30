@@ -1,5 +1,5 @@
-package io.zhijun.core.spi.condition.annotation;
-import io.zhijun.core.spi.condition.ClassPresentCondition;
+package io.zhijun.core.spi.annotation;
+import io.zhijun.core.spi.ClassPresentCondition;
 import java.lang.annotation.*;
 /**
  * SPI加载条件：指定类存在时才加载实现

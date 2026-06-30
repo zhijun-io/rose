@@ -26,7 +26,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
 import io.zhijun.spring.core.binder.internal.ConfigurationBeanBindingSupport;
-import io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator;
+import io.zhijun.spring.core.binder.ConfigurationBeanAliasGenerator;
 import io.zhijun.spring.core.env.PropertySourcesUtils;
 
 /**
@@ -34,7 +34,7 @@ import io.zhijun.spring.core.env.PropertySourcesUtils;
  * <p>
  * Reads {@code prefix.*} from the {@code Environment}, registers one or more bean definitions
  * (see {@link EnableConfigurationBeanBinding#multiple()}), stores binding metadata on each definition,
- * registers bean aliases via {@link io.zhijun.spring.core.binder.support.ConfigurationBeanAliasGenerator},
+ * registers bean aliases via {@link ConfigurationBeanAliasGenerator},
  * and ensures {@link ConfigurationBeanBindingPostProcessor} is present.
  */
 public class ConfigurationBeanBindingRegistrar

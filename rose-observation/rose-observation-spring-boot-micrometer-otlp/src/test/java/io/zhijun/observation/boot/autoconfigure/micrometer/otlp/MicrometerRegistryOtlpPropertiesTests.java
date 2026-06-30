@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.observation.boot.autoconfigure.otel.exporter.OpenTelemetryExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.common.OpenTelemetryExporterProperties;
 
 /**
  * Unit test for {@link MicrometerRegistryOtlpProperties}.

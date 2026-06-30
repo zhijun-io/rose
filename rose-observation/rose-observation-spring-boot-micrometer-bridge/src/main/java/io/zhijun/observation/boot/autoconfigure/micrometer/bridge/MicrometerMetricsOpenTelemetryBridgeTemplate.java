@@ -10,7 +10,7 @@ import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.instrumentation.micrometer.v1_5.OpenTelemetryMeterRegistry;
 
-import io.zhijun.observation.boot.autoconfigure.otel.metrics.exporter.OpenTelemetryMetricsExporterProperties;
+import io.zhijun.observation.boot.autoconfigure.otel.metrics.OpenTelemetryMetricsExporterProperties;
 
 /**
  * Builds Micrometer meter registries for the OpenTelemetry bridge.

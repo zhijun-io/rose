@@ -1,6 +1,5 @@
-package io.zhijun.core.spi.condition;
-import io.zhijun.core.spi.Condition;
-import io.zhijun.core.spi.condition.annotation.OnClassPresent;
+package io.zhijun.core.spi;
+import io.zhijun.core.spi.annotation.OnClassPresent;
 /**
  * 类存在条件实现
  */
