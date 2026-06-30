@@ -86,7 +86,7 @@ public final class HttpTenantResolutionConfiguration {
                 ObjectProvider<TenantContextRequiredPathMatcher> tenantContextRequiredPathMatcher,
                 ApplicationEventPublisher eventPublisher,
                 ObjectProvider<TenantVerifier> tenantVerifier,
-                ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler
+                ObjectProvider<TenantContextMissingTenantHandler> missingTenantHandler) {
             TenantContextFilter filter = TenantContextFilter.builder()
                     .httpRequestTenantResolver(httpRequestTenantResolver)
                     .tenantContextIgnorePathMatcher(tenantContextIgnorePathMatcher)

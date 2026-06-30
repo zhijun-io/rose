@@ -21,6 +21,8 @@ class DevServiceContainersInitializerTests {
         when(stoppedContainer.isRunning()).thenReturn(false);
 
         GenericContainer<?> runningContainer = mock(GenericContainer.class);
+
+        BeanFactory beanFactory = mock(BeanFactory.class);
         when(runningContainer.isRunning()).thenReturn(true);
 
         ApplicationContext applicationContext = mock(ApplicationContext.class);
