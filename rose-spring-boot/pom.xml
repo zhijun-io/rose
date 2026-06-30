@@ -18,7 +18,6 @@
 
     <modules>
         <module>rose-spring-boot-core</module>
-        <module>rose-spring-boot-autoconfigure</module>
         <module>rose-spring-boot-starter-web</module>
         <module>rose-spring-boot-starter-actuator</module>
     </modules>

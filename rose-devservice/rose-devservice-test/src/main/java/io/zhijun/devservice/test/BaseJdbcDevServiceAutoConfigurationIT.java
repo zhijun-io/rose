@@ -1,8 +1,8 @@
 package io.zhijun.devservice.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.testcontainers.containers.JdbcDatabaseContainer;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Base JDBC dev services integration test.

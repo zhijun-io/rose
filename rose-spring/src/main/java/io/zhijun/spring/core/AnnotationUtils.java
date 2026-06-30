@@ -7,8 +7,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Map;
 
-import static org.springframework.core.annotation.AnnotationUtils.getAnnotationAttributes;
-
 public abstract class AnnotationUtils {
 
     public static Class<? extends Annotation> findAnnotationType(String annotationTypeName) {

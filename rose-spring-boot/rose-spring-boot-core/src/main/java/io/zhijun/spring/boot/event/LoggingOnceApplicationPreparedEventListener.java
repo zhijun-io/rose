@@ -3,9 +3,7 @@ package io.zhijun.spring.boot.event;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import static io.zhijun.spring.boot.util.SpringApplicationUtils.DEFAULT_LOGGING_LEVEL;
-import static io.zhijun.spring.boot.util.SpringApplicationUtils.getLoggingLevel;
-import static io.zhijun.spring.boot.util.SpringApplicationUtils.log;
+import static io.zhijun.spring.boot.util.SpringApplicationUtils.*;
 
 /**
  * 日志记录 {@link OnceApplicationPreparedEventListener}

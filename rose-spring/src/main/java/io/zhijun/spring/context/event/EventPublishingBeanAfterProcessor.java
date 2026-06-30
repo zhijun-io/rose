@@ -16,8 +16,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.ResolvableType;
 import org.springframework.util.ReflectionUtils;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**

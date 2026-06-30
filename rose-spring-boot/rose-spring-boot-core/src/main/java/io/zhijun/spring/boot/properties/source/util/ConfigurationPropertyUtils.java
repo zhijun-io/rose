@@ -1,15 +1,11 @@
 package io.zhijun.spring.boot.properties.source.util;
 
-import io.zhijun.spring.boot.properties.bind.ConfigurationPropertiesBeanProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.bind.BindContext;
 import org.springframework.boot.context.properties.bind.DataObjectPropertyName;
 import org.springframework.boot.context.properties.source.ConfigurationProperty;
 import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
-
-import static org.springframework.util.StringUtils.hasText;
-import static org.springframework.util.StringUtils.unqualify;
 
 /**
  * {@link ConfigurationProperty} 工具类

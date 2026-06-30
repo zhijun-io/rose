@@ -1,9 +1,9 @@
 package io.zhijun.multitenancy.spring.async;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.core.task.TaskDecorator;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TaskDecoratorChainTests {
 

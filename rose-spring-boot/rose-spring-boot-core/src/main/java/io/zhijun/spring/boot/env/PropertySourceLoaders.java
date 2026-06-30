@@ -1,11 +1,5 @@
 package io.zhijun.spring.boot.env;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.env.PropertySourceLoader;
@@ -15,6 +9,12 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.StringUtils;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.springframework.core.io.support.SpringFactoriesLoader.loadFactories;
 

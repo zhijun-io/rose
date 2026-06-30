@@ -1,12 +1,10 @@
 package io.zhijun.multitenancy.spring.web.resolver;
 
-import javax.servlet.http.HttpServletRequest;
-
+import io.zhijun.multitenancy.core.MultitenancyDefaults;
 import org.jspecify.annotations.Nullable;
 import org.springframework.util.Assert;
 
-
-import io.zhijun.multitenancy.core.MultitenancyDefaults;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Strategy used to resolve the current multitenancy from a header in an HTTP request.

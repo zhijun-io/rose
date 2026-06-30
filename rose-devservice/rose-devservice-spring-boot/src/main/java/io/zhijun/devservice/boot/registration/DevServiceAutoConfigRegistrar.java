@@ -1,12 +1,11 @@
 package io.zhijun.devservice.boot.registration;
 
-import java.lang.reflect.Field;
-
+import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 
-import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
+import java.lang.reflect.Field;
 
 /**
  * 共享的 DevService Registrar，通过反射读取各模块的 {@code DESCRIPTOR} 静态字段，

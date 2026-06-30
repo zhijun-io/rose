@@ -1,19 +1,17 @@
 package io.zhijun.mybatisplus.boot.autoconfigure;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-
+import io.zhijun.multitenancy.core.context.TenantContext;
+import io.zhijun.mybatisplus.core.multitenancy.TenantIdSupplier;
+import io.zhijun.mybatisplus.core.multitenancy.TenantLineInnerInterceptorRegistrar;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.multitenancy.core.context.TenantContext;
-import io.zhijun.mybatisplus.core.multitenancy.TenantIdSupplier;
-import io.zhijun.mybatisplus.core.multitenancy.TenantLineInnerInterceptorRegistrar;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MultitenancyAutoConfigurationTests {
 

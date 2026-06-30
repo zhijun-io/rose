@@ -2,11 +2,7 @@ package io.zhijun.core.spi;
 
 import io.zhijun.core.spi.annotation.Priority;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ServiceLoader;
+import java.util.*;
 
 /**
  * 默认 SPI 加载器实现，基于 {@link java.util.ServiceLoader} + {@link Priority @Priority} 排序。

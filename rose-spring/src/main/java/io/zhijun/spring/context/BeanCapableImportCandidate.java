@@ -1,5 +1,6 @@
 package io.zhijun.spring.context;
 
+import io.zhijun.core.annotation.Nullable;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +11,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.context.ResourceLoaderAware;
+import org.springframework.context.*;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
@@ -25,7 +22,6 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
-import io.zhijun.core.annotation.Nullable;
 
 /**
  * 支持完整 Spring Bean 生命周期的 {@code @Import} 候选基类。

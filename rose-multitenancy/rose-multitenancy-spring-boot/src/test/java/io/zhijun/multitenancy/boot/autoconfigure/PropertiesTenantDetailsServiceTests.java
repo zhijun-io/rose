@@ -1,15 +1,14 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.multitenancy.boot.autoconfigure.detail.PropertiesTenantDetailsService;
+import io.zhijun.multitenancy.boot.autoconfigure.detail.TenantDetailsProperties;
+import io.zhijun.multitenancy.core.detail.TenantDetails;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.jupiter.api.Test;
-
-import io.zhijun.multitenancy.boot.autoconfigure.detail.PropertiesTenantDetailsService;
-import io.zhijun.multitenancy.boot.autoconfigure.detail.TenantDetailsProperties;
-import io.zhijun.multitenancy.core.detail.TenantDetails;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link PropertiesTenantDetailsService}.

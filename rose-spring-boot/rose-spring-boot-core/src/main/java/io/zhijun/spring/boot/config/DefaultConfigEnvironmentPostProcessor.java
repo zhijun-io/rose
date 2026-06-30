@@ -1,10 +1,7 @@
 package io.zhijun.spring.boot.config;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import io.zhijun.core.annotation.Internal;
+import io.zhijun.spring.boot.constants.PropertyConstants;
 import org.springframework.boot.DefaultPropertiesPropertySource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor;
@@ -14,8 +11,10 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.annotation.Internal;
-import io.zhijun.spring.boot.constants.PropertyConstants;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Merges {@code config/default/*} and {@code META-INF/config/default/*} configuration files from all jars

@@ -8,9 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import static java.beans.Introspector.decapitalize;
-import static org.springframework.core.ResolvableType.NONE;
-import static org.springframework.core.ResolvableType.forField;
-import static org.springframework.core.ResolvableType.forMethodParameter;
+import static org.springframework.core.ResolvableType.*;
 
 /**
  * {@link ConfigurationProperties @ConfigurationProperties} Bean 属性

@@ -3,7 +3,6 @@ package io.zhijun.spring.context.event;
 import io.zhijun.spring.context.ConfigurableApplicationContextInitializer;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 import org.springframework.core.env.ConfigurableEnvironment;
 

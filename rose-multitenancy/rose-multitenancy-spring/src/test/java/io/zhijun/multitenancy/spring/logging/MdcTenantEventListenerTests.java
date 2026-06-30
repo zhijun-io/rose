@@ -1,13 +1,12 @@
 package io.zhijun.multitenancy.spring.logging;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
+import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
+import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 
-import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
-import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MdcTenantEventListenerTests {
 

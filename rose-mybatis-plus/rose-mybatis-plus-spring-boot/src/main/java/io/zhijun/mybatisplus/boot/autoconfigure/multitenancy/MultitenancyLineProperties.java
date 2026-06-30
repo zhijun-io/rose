@@ -1,10 +1,10 @@
 package io.zhijun.mybatisplus.boot.autoconfigure.multitenancy;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for MyBatis-Plus multitenancy line filtering.

@@ -1,11 +1,6 @@
 package io.zhijun.spring.web.metadata;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 不可变值对象，描述一个 Web 端点的 HTTP 映射信息（路径、方法、参数、头部、消费/生产类型）。

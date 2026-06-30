@@ -1,18 +1,17 @@
 package io.zhijun.devservice.boot.actuator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DevServicesEndpointTests {
 

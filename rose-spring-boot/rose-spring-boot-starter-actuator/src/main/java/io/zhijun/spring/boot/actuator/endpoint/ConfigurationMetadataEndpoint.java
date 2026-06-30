@@ -1,12 +1,11 @@
 package io.zhijun.spring.boot.actuator.endpoint;
 
-import java.util.Collection;
-
-import io.zhijun.spring.boot.props.metadata.ConfigurationMetadataRepository;
-
+import io.zhijun.spring.boot.properties.metadata.ConfigurationMetadataRepository;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
+
+import java.util.Collection;
 
 @Endpoint(id = "configMetadata")
 public class ConfigurationMetadataEndpoint {

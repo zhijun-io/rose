@@ -1,9 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure.mongodb;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * MongoDB dev service properties.

@@ -1,9 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure.artemis;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
 import io.zhijun.devservice.core.api.config.MessagingDevServiceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * ActiveMQ Artemis dev service properties.

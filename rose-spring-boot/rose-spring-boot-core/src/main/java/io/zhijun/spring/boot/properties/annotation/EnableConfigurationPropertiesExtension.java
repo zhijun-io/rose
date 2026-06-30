@@ -1,15 +1,15 @@
  package io.zhijun.spring.boot.properties.annotation;
- 
+
+ import org.springframework.boot.context.properties.EnableConfigurationProperties;
+ import org.springframework.context.annotation.Import;
+
  import java.lang.annotation.Documented;
  import java.lang.annotation.Retention;
  import java.lang.annotation.Target;
- 
- import org.springframework.boot.context.properties.EnableConfigurationProperties;
- import org.springframework.context.annotation.Import;
- 
+
  import static java.lang.annotation.ElementType.TYPE;
  import static java.lang.annotation.RetentionPolicy.RUNTIME;
- 
+
  /**
  * Extension annotation for {@link EnableConfigurationProperties @EnableConfigurationProperties}
  * that enables advanced binding features:
@@ -27,7 +27,7 @@
  @Documented
  @Import(EnableConfigurationPropertiesExtensionRegistrar.class)
  public @interface EnableConfigurationPropertiesExtension {
- 
+
      /**
       * Whether to publish {@link io.zhijun.spring.boot.properties.bind.ConfigurationPropertiesBeanPropertyChangedEvent}
       * when bound properties change.

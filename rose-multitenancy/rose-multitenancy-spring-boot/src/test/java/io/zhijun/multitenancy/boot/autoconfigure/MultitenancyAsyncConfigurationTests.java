@@ -1,11 +1,7 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
+import io.zhijun.multitenancy.core.context.TenantContext;
+import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -14,8 +10,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import io.zhijun.multitenancy.core.context.TenantContext;
-import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MultitenancyAsyncConfigurationTests {
 

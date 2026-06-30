@@ -1,10 +1,9 @@
 package io.zhijun.multitenancy.spring.context.event;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
+import io.zhijun.multitenancy.spring.event.TenantEvent;
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.multitenancy.spring.event.TenantEvent;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TenantEventTests {
 

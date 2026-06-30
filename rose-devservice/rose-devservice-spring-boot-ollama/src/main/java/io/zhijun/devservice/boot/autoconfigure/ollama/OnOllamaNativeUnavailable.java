@@ -1,8 +1,5 @@
 package io.zhijun.devservice.boot.autoconfigure.ollama;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.context.properties.bind.Binder;
@@ -10,6 +7,9 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.StringUtils;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Condition to check if Ollama native connection is available.

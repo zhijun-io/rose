@@ -1,10 +1,9 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.multitenancy.boot.autoconfigure.logging.TenantLoggingProperties;
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.multitenancy.boot.autoconfigure.logging.TenantLoggingProperties;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link TenantLoggingProperties}.

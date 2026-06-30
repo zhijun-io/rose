@@ -1,11 +1,9 @@
 package io.zhijun.devservice.boot.autoconfigure.actuator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.function.Supplier;
-
+import io.zhijun.devservice.boot.actuator.DevServicesEndpoint;
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -13,10 +11,11 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.devservice.boot.actuator.DevServicesEndpoint;
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import java.util.Collections;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link DevServicesEndpointAutoConfiguration}.

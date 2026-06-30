@@ -1,14 +1,13 @@
 package io.zhijun.multitenancy.boot.autoconfigure.async;
 
+import io.zhijun.multitenancy.spring.async.TaskExecutorDecoratorSupport;
+import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import io.zhijun.multitenancy.spring.async.TaskExecutorDecoratorSupport;
-import io.zhijun.multitenancy.spring.async.TenantContextTaskDecorator;
 
 /**
  * Auto-configuration for propagating multitenancy context to asynchronous executors.

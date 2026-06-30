@@ -1,17 +1,14 @@
 package io.zhijun.devservice.boot.registration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-
-import java.util.concurrent.atomic.AtomicReference;
-
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Unit test for {@link DevServiceDynamicPropertySource}.

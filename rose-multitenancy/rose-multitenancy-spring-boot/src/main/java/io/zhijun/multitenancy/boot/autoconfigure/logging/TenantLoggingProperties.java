@@ -1,8 +1,7 @@
 package io.zhijun.multitenancy.boot.autoconfigure.logging;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.zhijun.multitenancy.core.MultitenancyDefaults;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for multitenancy logging enrichment.

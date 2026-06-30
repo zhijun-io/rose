@@ -1,14 +1,13 @@
 package io.zhijun.multitenancy.boot.autoconfigure.detail;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.jspecify.annotations.Nullable;
-import org.springframework.util.Assert;
-
 import io.zhijun.multitenancy.core.detail.Tenant;
 import io.zhijun.multitenancy.core.detail.TenantDetails;
 import io.zhijun.multitenancy.core.detail.TenantDetailsService;
+import org.jspecify.annotations.Nullable;
+import org.springframework.util.Assert;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * An implementation of {@link TenantDetailsService} that uses application properties as

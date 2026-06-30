@@ -1,10 +1,4 @@
  package io.zhijun.spring.boot.properties.bind;
- 
- import java.util.Collection;
- import java.util.LinkedHashMap;
- import java.util.Map;
- 
-import io.zhijun.spring.boot.properties.bind.ConfigurationPropertiesBeanPropertyChangedEvent;
 
  import org.slf4j.Logger;
  import org.slf4j.LoggerFactory;
@@ -20,7 +14,7 @@ import io.zhijun.spring.boot.properties.bind.ConfigurationPropertiesBeanProperty
  import org.springframework.context.ApplicationContextAware;
  import org.springframework.context.ConfigurableApplicationContext;
  import org.springframework.core.annotation.AnnotatedElementUtils;
- 
+
  /**
  * A {@link BindListener} that publishes {@link ConfigurationPropertiesBeanPropertyChangedEvent}
  * when a bound property changes on a {@link ConfigurationProperties @ConfigurationProperties} bean.
@@ -32,26 +26,26 @@ import io.zhijun.spring.boot.properties.bind.ConfigurationPropertiesBeanProperty
  */
  public class EventPublishingConfigurationPropertiesBeanPropertyChangedListener
          implements BindListener, ApplicationContextAware, InitializingBean, SmartInitializingSingleton {
- 
+
      private static final Logger logger = LoggerFactory.getLogger(
              EventPublishingConfigurationPropertiesBeanPropertyChangedListener.class);
- 
+
      private ConfigurableApplicationContext applicationContext;
- 
+
      private boolean initialBindingComplete;
- 
+
      public EventPublishingConfigurationPropertiesBeanPropertyChangedListener() {
      }
- 
+
      @Override
      public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
          this.applicationContext = (ConfigurableApplicationContext) applicationContext;
      }
- 
+
      @Override
      public void afterPropertiesSet() {
      }
- 
+
      @Override
      public void afterSingletonsInstantiated() {
          this.initialBindingComplete = true;
@@ -59,7 +53,7 @@ import io.zhijun.spring.boot.properties.bind.ConfigurationPropertiesBeanProperty
              logger.debug("Initial binding complete, property change detection now active");
          }
      }
- 
+
      @Override
      public Object onSuccess(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Object result) {
          if (!initialBindingComplete) {
@@ -90,11 +84,11 @@ import io.zhijun.spring.boot.properties.bind.ConfigurationPropertiesBeanProperty
          }
          return result;
      }
- 
+
      private static boolean isConfigurationPropertiesBean(Object bean) {
          return AnnotatedElementUtils.hasAnnotation(bean.getClass(), ConfigurationProperties.class);
      }
- 
+
      private static Object resolveBean(Bindable<?> target) {
          java.util.function.Supplier<?> value = target.getValue();
          return value != null ? value.get() : null;

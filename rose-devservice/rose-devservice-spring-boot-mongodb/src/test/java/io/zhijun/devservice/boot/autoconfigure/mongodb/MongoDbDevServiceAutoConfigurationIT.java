@@ -1,12 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.mongodb;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.containers.MongoDBContainer;
 
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link MongoDbDevServicesAutoConfiguration}.

@@ -16,26 +16,16 @@
  */
 package io.zhijun.spring.beans.factory;
 
-import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.TypeConverter;
-import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.UnsatisfiedDependencyException;
+import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.InjectionMetadata;
 import org.springframework.beans.factory.annotation.InjectionMetadata.InjectedElement;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.config.DependencyDescriptor;
-import org.springframework.beans.factory.config.RuntimeBeanReference;
-import org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor;
+import org.springframework.beans.factory.config.*;
 import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.EnvironmentAware;
@@ -49,15 +39,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 import static io.zhijun.spring.beans.factory.BeanFactoryUtils.asConfigurableListableBeanFactory;
+import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
 import static java.lang.Integer.getInteger;
 import static java.lang.Integer.parseInt;
 import static java.lang.reflect.Modifier.isStatic;
@@ -73,9 +62,6 @@ import static org.springframework.util.ClassUtils.getUserClass;
 import static org.springframework.util.ReflectionUtils.doWithFields;
 import static org.springframework.util.ReflectionUtils.doWithMethods;
 import static org.springframework.util.StringUtils.hasLength;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import io.zhijun.core.annotation.Nullable;
 
 /**
  * A {@link BeanPostProcessor} implementation that provides dependency injection support for custom annotation types.

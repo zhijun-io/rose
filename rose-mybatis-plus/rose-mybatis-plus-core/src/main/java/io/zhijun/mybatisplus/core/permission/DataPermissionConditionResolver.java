@@ -1,7 +1,6 @@
 package io.zhijun.mybatisplus.core.permission;
 
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.Expression;
 
 /**
  * Converts mapper metadata and principal into a SQL permission expression.

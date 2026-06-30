@@ -1,9 +1,8 @@
 package io.zhijun.devservice.core.container;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
-
-import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 
 /**
  * Base class for all DevService containers, reducing duplicate code across service implementations.

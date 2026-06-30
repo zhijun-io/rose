@@ -1,10 +1,9 @@
 package io.zhijun.devservice.boot.autoconfigure.mongodb;
 
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.utility.DockerImageName;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.container.ContainerConfigurer;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * MongoDB container configured for Rose DevService.

@@ -1,15 +1,13 @@
 package io.zhijun.multitenancy.spring.logging;
 
+import io.zhijun.multitenancy.core.MultitenancyDefaults;
+import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
+import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.context.event.EventListener;
 import org.springframework.util.Assert;
-
-
-import io.zhijun.multitenancy.core.MultitenancyDefaults;
-import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
-import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
 
 /**
  * Manages the SLF4J {@link MDC} multitenancy identifier in response to multitenancy context events.

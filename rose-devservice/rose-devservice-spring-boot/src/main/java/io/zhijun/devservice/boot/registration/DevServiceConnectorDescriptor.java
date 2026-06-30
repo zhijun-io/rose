@@ -1,13 +1,11 @@
 package io.zhijun.devservice.boot.registration;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
 import org.testcontainers.containers.Container;
 import org.testcontainers.lifecycle.Startable;
 
-
-import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Declarative metadata for a non-JDBC dev service connector.

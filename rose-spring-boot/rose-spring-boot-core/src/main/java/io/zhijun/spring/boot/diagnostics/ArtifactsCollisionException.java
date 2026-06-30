@@ -1,10 +1,10 @@
 package io.zhijun.spring.boot.diagnostics;
 
+import io.zhijun.core.annotation.Internal;
+
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import io.zhijun.core.annotation.Internal;
 
 /**
  * Internal exception thrown when duplicate Maven coordinates are detected on the classpath.

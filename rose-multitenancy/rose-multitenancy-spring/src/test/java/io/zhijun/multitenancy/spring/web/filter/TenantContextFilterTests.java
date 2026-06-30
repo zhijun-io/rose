@@ -1,13 +1,11 @@
 package io.zhijun.multitenancy.spring.web.filter;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.io.IOException;
-import java.util.Collections;
-
-import javax.servlet.ServletException;
-
+import io.zhijun.multitenancy.core.detail.TenantVerifier;
+import io.zhijun.multitenancy.core.exception.TenantVerificationException;
+import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
+import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
+import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
+import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -18,12 +16,12 @@ import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import io.zhijun.multitenancy.core.detail.TenantVerifier;
-import io.zhijun.multitenancy.core.exception.TenantVerificationException;
-import io.zhijun.multitenancy.spring.event.TenantContextAttachedEvent;
-import io.zhijun.multitenancy.spring.event.TenantContextClosedEvent;
-import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
-import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.Collections;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit test for {@link TenantContextFilter}.

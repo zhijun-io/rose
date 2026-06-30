@@ -1,5 +1,6 @@
 package io.zhijun.spring.boot.web.autoconfigure;
 
+import io.zhijun.spring.boot.condition.ConditionalOnWebAvailable;
 import io.zhijun.spring.web.metadata.DefaultWebEndpointMappingRegistry;
 import io.zhijun.spring.web.metadata.WebEndpointMappingRegistrar;
 import io.zhijun.spring.web.metadata.WebEndpointMappingRegistry;

@@ -1,16 +1,10 @@
 package io.zhijun.devservice.boot.registration;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.github.dockerjava.api.DockerClient;
-
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
 import org.testcontainers.DockerClientFactory;
 
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
+import java.util.*;
 
 /**
  * Utility for extracting container metadata from a running Docker container.

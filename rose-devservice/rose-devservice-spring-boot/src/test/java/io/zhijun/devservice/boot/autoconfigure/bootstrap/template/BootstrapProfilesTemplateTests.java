@@ -1,14 +1,13 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap.template;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapProfilesTemplate;
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapProfilesTemplate;
-import org.junit.jupiter.api.Test;
-
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class BootstrapProfilesTemplateTests {
 

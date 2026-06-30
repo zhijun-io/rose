@@ -18,10 +18,6 @@
     <dependencies>
         <dependency>
             <groupId>io.zhijun</groupId>
-            <artifactId>rose-spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zhijun</groupId>
             <artifactId>rose-spring</artifactId>
         </dependency>
         <dependency>
@@ -36,6 +32,10 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-core</artifactId>
         </dependency>
     </dependencies>
 </project>

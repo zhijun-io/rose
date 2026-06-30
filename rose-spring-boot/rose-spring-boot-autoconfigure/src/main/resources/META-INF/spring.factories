@@ -1,7 +1,0 @@
-org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
-io.zhijun.spring.boot.autoconfigure.ConfigurableAutoConfigurationImportFilter
-
-# Condition evaluation report
-org.springframework.context.ApplicationContextInitializer= io.zhijun.spring.boot.autoconfigure.report.ConditionEvaluationReportInitializer
-org.springframework.context.ApplicationListener= io.zhijun.spring.boot.autoconfigure.report.ConditionEvaluationReportListener
-org.springframework.boot.SpringBootExceptionReporter= io.zhijun.spring.boot.autoconfigure.report.ConditionEvaluationSpringBootExceptionReporter

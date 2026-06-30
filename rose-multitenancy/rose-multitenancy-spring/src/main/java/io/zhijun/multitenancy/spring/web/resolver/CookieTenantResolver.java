@@ -1,15 +1,12 @@
 package io.zhijun.multitenancy.spring.web.resolver;
 
-import java.util.Arrays;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
+import io.zhijun.multitenancy.core.MultitenancyDefaults;
 import org.jspecify.annotations.Nullable;
 import org.springframework.util.Assert;
 
-
-import io.zhijun.multitenancy.core.MultitenancyDefaults;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * Strategy used to resolve the current multitenancy from a cookie in an HTTP request.

@@ -1,14 +1,13 @@
 package io.zhijun.spring.boot.task;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.concurrent.ScheduledExecutorService;
-
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
-
 import io.zhijun.spring.core.MonitoredThreadPoolTaskScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.GenericApplicationContext;
+
+import java.util.concurrent.ScheduledExecutorService;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MonitoredThreadPoolTaskSchedulerTests {
 

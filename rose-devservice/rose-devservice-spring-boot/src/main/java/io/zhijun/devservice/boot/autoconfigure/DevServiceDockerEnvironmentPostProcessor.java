@@ -1,11 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure;
 
+import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
-
-import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
 
 /**
  * Configures Docker / Testcontainers before any dev service container starts.

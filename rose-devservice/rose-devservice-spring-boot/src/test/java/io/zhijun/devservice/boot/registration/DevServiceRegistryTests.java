@@ -1,15 +1,13 @@
 package io.zhijun.devservice.boot.registration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-
-import java.util.function.Consumer;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.testcontainers.containers.GenericContainer;
+
+import java.util.function.Consumer;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Unit test for {@link DevServiceRegistry}.

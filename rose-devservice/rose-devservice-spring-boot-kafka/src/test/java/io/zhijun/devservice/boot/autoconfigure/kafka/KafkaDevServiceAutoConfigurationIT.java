@@ -1,12 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.kafka;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.kafka.ConfluentKafkaContainer;
 
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link KafkaDevServicesAutoConfiguration}.

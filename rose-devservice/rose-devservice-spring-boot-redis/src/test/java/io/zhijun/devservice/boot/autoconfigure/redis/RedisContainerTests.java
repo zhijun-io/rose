@@ -1,10 +1,9 @@
 package io.zhijun.devservice.boot.autoconfigure.redis;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.devservice.test.BaseDevServicesContainerTests;
 import org.junit.jupiter.api.Test;
 
-import io.zhijun.devservice.test.BaseDevServicesContainerTests;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link RedisContainer}.

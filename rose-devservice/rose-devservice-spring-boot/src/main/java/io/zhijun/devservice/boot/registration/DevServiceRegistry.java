@@ -1,10 +1,7 @@
 package io.zhijun.devservice.boot.registration;
 
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
@@ -13,9 +10,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.testcontainers.containers.Container;
 
-
-import io.zhijun.devservice.core.api.provider.DevServiceCategory;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Registers Testcontainers container bean definitions.

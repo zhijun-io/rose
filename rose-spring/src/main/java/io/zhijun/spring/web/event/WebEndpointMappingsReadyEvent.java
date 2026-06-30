@@ -1,12 +1,11 @@
 package io.zhijun.spring.web.event;
 
+import io.zhijun.spring.web.metadata.WebEndpointMapping;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ApplicationContextEvent;
 
 import java.util.Collection;
 import java.util.Collections;
-
-import io.zhijun.spring.web.metadata.WebEndpointMapping;
 
 /**
  * WebEndpointMapping 就绪事件，在所有端点映射注册完成后发布。

@@ -1,15 +1,14 @@
 package io.zhijun.spring.boot.actuator.endpoint;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import io.zhijun.spring.boot.props.metadata.ConfigurationMetadataRepository;
-import io.zhijun.spring.boot.props.metadata.ConfigurationProperty;
-
+import io.zhijun.spring.boot.properties.metadata.ConfigurationMetadataRepository;
+import io.zhijun.spring.boot.properties.metadata.ConfigurationProperty;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Endpoint(id = "configProperties")
 public class ConfigurationPropertiesEndpoint {

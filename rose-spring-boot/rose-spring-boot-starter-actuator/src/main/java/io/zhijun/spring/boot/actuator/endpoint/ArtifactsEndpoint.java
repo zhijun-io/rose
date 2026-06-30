@@ -1,12 +1,11 @@
 package io.zhijun.spring.boot.actuator.endpoint;
 
-import java.util.List;
-
 import io.zhijun.spring.boot.classloading.Artifact;
 import io.zhijun.spring.boot.classloading.ArtifactDetector;
-
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
+
+import java.util.List;
 
 @Endpoint(id = "artifacts")
 public class ArtifactsEndpoint {

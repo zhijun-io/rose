@@ -1,11 +1,7 @@
 package io.zhijun.mybatisplus.spring.extension;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -13,7 +9,9 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
-import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * {@link BeanPostProcessor} that applies all registered {@link MybatisPlusInterceptorCustomizer}s

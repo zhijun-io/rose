@@ -1,10 +1,10 @@
 package io.zhijun.mybatisplus.core.audit;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * Common audit columns for entities.

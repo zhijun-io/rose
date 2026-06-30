@@ -1,15 +1,14 @@
 package io.zhijun.multitenancy.spring.async;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.multitenancy.core.context.TenantContext;
+import org.junit.jupiter.api.Test;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
-
-import io.zhijun.multitenancy.core.context.TenantContext;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TenantContextTaskDecoratorTests {
 

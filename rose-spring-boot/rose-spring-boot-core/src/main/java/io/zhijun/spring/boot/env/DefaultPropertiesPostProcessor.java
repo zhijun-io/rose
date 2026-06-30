@@ -1,10 +1,9 @@
 package io.zhijun.spring.boot.env;
 
+import org.springframework.core.Ordered;
+
 import java.util.Map;
 import java.util.Set;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.core.Ordered;
 
 /**
  * 默认属性后置处理器 SPI：在 SpringApplication defaultProperties 阶段加载和修改默认属性。

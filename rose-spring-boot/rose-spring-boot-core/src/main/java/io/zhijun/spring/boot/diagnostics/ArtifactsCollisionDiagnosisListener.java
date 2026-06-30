@@ -1,8 +1,7 @@
 package io.zhijun.spring.boot.diagnostics;
 
-import java.io.IOException;
-import java.util.Set;
-
+import io.zhijun.core.annotation.Internal;
+import io.zhijun.spring.boot.constants.PropertyConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationContextInitializedEvent;
@@ -11,9 +10,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.core.annotation.Internal;
-import io.zhijun.spring.boot.constants.PropertyConstants;
-import io.zhijun.spring.boot.diagnostics.ClasspathMavenArtifactScanner;
+import java.io.IOException;
+import java.util.Set;
 
 /**
  * Internal Boot listener that detects duplicate Maven coordinates on the classpath during application startup.

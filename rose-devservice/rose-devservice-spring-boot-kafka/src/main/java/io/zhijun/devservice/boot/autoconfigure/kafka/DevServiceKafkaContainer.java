@@ -1,10 +1,9 @@
 package io.zhijun.devservice.boot.autoconfigure.kafka;
 
-import org.testcontainers.kafka.ConfluentKafkaContainer;
-import org.testcontainers.utility.DockerImageName;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.container.ContainerConfigurer;
+import org.testcontainers.kafka.ConfluentKafkaContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * Kafka container configured for Rose DevService.

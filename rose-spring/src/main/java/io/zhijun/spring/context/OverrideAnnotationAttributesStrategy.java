@@ -1,10 +1,10 @@
 package io.zhijun.spring.context;
 
+import io.zhijun.core.annotation.Nullable;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 
 import java.lang.annotation.Annotation;
-import io.zhijun.core.annotation.Nullable;
 
 /**
  * 注解属性覆盖策略接口。

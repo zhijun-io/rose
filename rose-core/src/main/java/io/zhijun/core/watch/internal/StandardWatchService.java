@@ -4,16 +4,11 @@ import io.zhijun.core.spi.annotation.Priority;
 import io.zhijun.core.spi.annotation.SpiImpl;
 import io.zhijun.core.watch.FileChangedEvent;
 import io.zhijun.core.watch.FileChangedListener;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.ClosedWatchServiceException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
+import java.nio.file.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 

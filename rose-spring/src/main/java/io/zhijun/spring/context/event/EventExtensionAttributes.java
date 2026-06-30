@@ -1,7 +1,7 @@
 package io.zhijun.spring.context.event;
 
-import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import io.zhijun.spring.beans.BeanSource;
+import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 
 /**
  * {@link EnableEventExtension} 注解属性。

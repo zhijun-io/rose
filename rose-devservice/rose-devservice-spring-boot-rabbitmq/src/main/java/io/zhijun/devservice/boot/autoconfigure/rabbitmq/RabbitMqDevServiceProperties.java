@@ -1,9 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure.rabbitmq;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * RabbitMQ dev service properties.

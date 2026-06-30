@@ -1,11 +1,11 @@
 package io.zhijun.devservice.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.testcontainers.containers.GenericContainer;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.testcontainers.containers.GenericContainer;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Abstract base test class for container configuration unit test.

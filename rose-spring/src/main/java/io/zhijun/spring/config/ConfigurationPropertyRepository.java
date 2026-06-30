@@ -16,8 +16,6 @@
  */
 package io.zhijun.spring.config;
 
-import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
-
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.EnvironmentAware;
@@ -27,6 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
+import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
 import static java.lang.Integer.parseInt;
 
 /**

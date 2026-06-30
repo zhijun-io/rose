@@ -1,8 +1,7 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.zhijun.multitenancy.core.context.FixedTenantResolver;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for fixed multitenancy resolution.

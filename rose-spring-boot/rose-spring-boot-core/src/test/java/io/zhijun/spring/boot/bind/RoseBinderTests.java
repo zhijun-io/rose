@@ -1,9 +1,9 @@
 package io.zhijun.spring.boot.bind;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RoseBinderTests {
 

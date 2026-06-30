@@ -17,7 +17,10 @@
 
 package io.zhijun.spring.context.annotation;
 
+import io.zhijun.spring.context.OverrideAnnotationAttributesStrategy;
 import io.zhijun.spring.core.PropertyConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.convert.ConversionService;
@@ -34,10 +37,7 @@ import static io.zhijun.spring.core.PropertyConstants.*;
 import static io.zhijun.spring.core.env.EnvironmentUtils.asConfigurableEnvironment;
 import static io.zhijun.spring.core.env.EnvironmentUtils.getConversionService;
 import static io.zhijun.spring.core.env.PropertySourcesUtils.getSubProperties;
-import io.zhijun.spring.context.OverrideAnnotationAttributesStrategy;
 import static io.zhijun.spring.core.env.PropertySourcesUtils.normalizePrefix;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A strategy implementation of {@link OverrideAnnotationAttributesStrategy} that overrides annotation attributes

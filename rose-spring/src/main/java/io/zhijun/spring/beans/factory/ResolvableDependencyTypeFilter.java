@@ -1,6 +1,5 @@
 package io.zhijun.spring.beans.factory;
 
-import io.zhijun.spring.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.SingletonBeanRegistry;

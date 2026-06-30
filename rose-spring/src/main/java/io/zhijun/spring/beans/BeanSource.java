@@ -7,16 +7,9 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.Set;
+import java.util.*;
 
-import static io.zhijun.spring.beans.factory.BeanFactoryUtils.asBeanDefinitionRegistry;
-import static io.zhijun.spring.beans.factory.BeanFactoryUtils.asConfigurableListableBeanFactory;
-import static io.zhijun.spring.beans.factory.BeanFactoryUtils.getBeanClass;
+import static io.zhijun.spring.beans.factory.BeanFactoryUtils.*;
 import static io.zhijun.spring.beans.factory.BeanRegistrar.registerGenericBeans;
 import static io.zhijun.spring.core.SpringFactoriesLoaderUtils.loadFactoryClasses;
 

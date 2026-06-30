@@ -1,12 +1,11 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
-import java.util.List;
-
+import io.zhijun.multitenancy.spring.web.annotation.TenantIdArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import io.zhijun.multitenancy.spring.web.annotation.TenantIdArgumentResolver;
+import java.util.List;
 
 /**
  * Register Rose Spring Web MVC configuration.

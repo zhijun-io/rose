@@ -1,13 +1,12 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
+import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
+import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
-import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
 
 /**
  * Configuration properties for HTTP multitenancy resolution.

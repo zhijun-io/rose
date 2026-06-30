@@ -1,14 +1,14 @@
 package io.zhijun.spring.config.property;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.Map;
-
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.yaml.snakeyaml.Yaml;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Map;
 
 /**
  * PropertySourceFactory for YAML.

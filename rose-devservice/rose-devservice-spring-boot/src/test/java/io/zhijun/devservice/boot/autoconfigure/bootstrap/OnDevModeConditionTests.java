@@ -1,8 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +9,8 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.mock.env.MockEnvironment;
 
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * Unit test for {@link OnDevModeCondition}.

@@ -1,12 +1,10 @@
 package io.zhijun.multitenancy.core.detail;
 
-import java.util.Objects;
-
+import io.zhijun.multitenancy.core.exception.TenantVerificationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import io.zhijun.multitenancy.core.exception.TenantVerificationException;
+import java.util.Objects;
 
 /**
  * Default {@link TenantVerifier} implementation that checks the multitenancy exists and is

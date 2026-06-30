@@ -1,14 +1,14 @@
  package io.zhijun.spring.boot.properties.bind;
- 
- import java.util.List;
- 
-import org.springframework.boot.context.properties.bind.BindContext;
-import org.springframework.boot.context.properties.bind.BindHandler;
-import org.springframework.boot.context.properties.bind.Bindable;
-import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
-import org.springframework.boot.context.properties.bind.AbstractBindHandler;
 
-/**
+ import org.springframework.boot.context.properties.bind.AbstractBindHandler;
+ import org.springframework.boot.context.properties.bind.BindContext;
+ import org.springframework.boot.context.properties.bind.BindHandler;
+ import org.springframework.boot.context.properties.bind.Bindable;
+ import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
+
+ import java.util.List;
+
+ /**
  * Adapts a chain of {@link BindListener}s into a single {@link BindHandler}.
  * <p>
  * Delegates each lifecycle event to all registered listeners in order.
@@ -22,7 +22,7 @@ public class ListenableBindHandlerAdapter extends AbstractBindHandler {
          super(parent);
          this.listeners = listeners;
      }
- 
+
     @Override
     public <T> Bindable<T> onStart(ConfigurationPropertyName name, Bindable<T> target, BindContext context) {
         for (BindListener listener : listeners) {

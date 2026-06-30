@@ -1,19 +1,14 @@
 package io.zhijun.devservice.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.jupiter.api.Test;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
 import io.zhijun.devservice.core.api.config.VolumeMapping;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Abstract base test class for testing {@link BaseDevServiceProperties} implementations.

@@ -2,7 +2,6 @@ package io.zhijun.spring.boot.properties.bind.util;
 
 import io.zhijun.spring.boot.properties.bind.BindListener;
 import io.zhijun.spring.boot.properties.bind.ListenableBindHandlerAdapter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.BindContext;
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.boot.context.properties.bind.Bindable;

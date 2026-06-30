@@ -1,14 +1,13 @@
 package io.zhijun.multitenancy.spring.cache;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import io.zhijun.multitenancy.core.context.TenantContext;
+import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-import org.junit.jupiter.api.Test;
-
-import io.zhijun.multitenancy.core.context.TenantContext;
-import io.zhijun.multitenancy.core.exception.TenantNotFoundException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class DefaultTenantKeyGeneratorTests {
 

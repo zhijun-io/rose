@@ -1,16 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 
-import io.zhijun.devservice.core.api.provider.DevServiceCategory;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
+import java.util.*;
 
 /**
  * Builds startup validation for conflicting dev service providers.

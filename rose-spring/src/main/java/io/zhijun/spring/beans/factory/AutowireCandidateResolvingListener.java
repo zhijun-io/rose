@@ -1,9 +1,7 @@
 package io.zhijun.spring.beans.factory;
 
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.config.DependencyDescriptor;
-
 import io.zhijun.core.annotation.Nullable;
+import org.springframework.beans.factory.config.DependencyDescriptor;
 
 public interface AutowireCandidateResolvingListener {
 

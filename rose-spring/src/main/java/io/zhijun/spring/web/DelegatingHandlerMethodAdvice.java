@@ -1,5 +1,6 @@
 package io.zhijun.spring.web;
 
+import io.zhijun.spring.context.OnceApplicationContextEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -7,8 +8,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.HandlerMethod;
-
-import io.zhijun.spring.context.OnceApplicationContextEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;

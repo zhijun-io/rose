@@ -1,8 +1,8 @@
 package io.zhijun.spring.config.property;
 
-import java.util.Comparator;
-
 import org.springframework.core.io.Resource;
+
+import java.util.Comparator;
 
 public class DefaultResourceComparator implements Comparator<Resource> {
 

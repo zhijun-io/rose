@@ -1,19 +1,11 @@
 package io.zhijun.mybatisplus.core.multitenancy;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.StringValue;
 import org.apache.commons.lang3.StringUtils;
 
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.StringValue;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.StringValue;
+import java.util.*;
 
 /**
  * {@link TenantLineHandler} that resolves the multitenancy identifier from a {@link TenantIdSupplier}.

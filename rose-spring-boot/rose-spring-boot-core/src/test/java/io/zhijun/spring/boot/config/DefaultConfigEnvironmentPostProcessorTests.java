@@ -1,13 +1,13 @@
 package io.zhijun.spring.boot.config;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.mock.env.MockEnvironment;
+
+import java.util.Collections;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DefaultConfigEnvironmentPostProcessorTests {
 

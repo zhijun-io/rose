@@ -1,15 +1,14 @@
  package io.zhijun.spring.boot.properties.annotation;
- 
- import java.util.Map;
- 
+
  import io.zhijun.spring.boot.properties.ListenableConfigurationPropertiesBindHandlerAdvisor;
  import io.zhijun.spring.boot.properties.bind.EventPublishingConfigurationPropertiesBeanPropertyChangedListener;
- 
  import org.springframework.beans.factory.support.BeanDefinitionBuilder;
  import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
  import org.springframework.core.type.AnnotationMetadata;
- 
+
+ import java.util.Map;
+
  /**
  * Registers beans for {@link EnableConfigurationPropertiesExtension}:
  * <ul>
@@ -18,13 +17,13 @@
  * </ul>
  */
  public class EnableConfigurationPropertiesExtensionRegistrar implements ImportBeanDefinitionRegistrar {
- 
+
      private static final String ADVISOR_BEAN_NAME =
              "listenableConfigurationPropertiesBindHandlerAdvisor";
- 
+
      private static final String EVENT_LISTENER_BEAN_NAME =
              "eventPublishingConfigurationPropertiesBeanPropertyChangedListener";
- 
+
      @Override
      public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
          if (!registry.containsBeanDefinition(ADVISOR_BEAN_NAME)) {

@@ -1,10 +1,6 @@
 package io.zhijun.multitenancy.spring.web.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Annotation that is used to resolve the current multitenancy identifier as a method argument.

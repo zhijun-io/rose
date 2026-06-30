@@ -1,13 +1,12 @@
 package io.zhijun.devservice.boot.registration;
 
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.FactoryBean;
-import org.jspecify.annotations.Nullable;
 import org.testcontainers.containers.Container;
-
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 
 /**
  * Creates {@link DevServiceRegistration} after the container bean is available (Boot 2.7 compatible).

@@ -1,19 +1,18 @@
 package io.zhijun.devservice.boot.autoconfigure.postgresql;
 
-import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.READY_REGEX;
-import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.SKIPPING_INITIALIZATION_REGEX;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.lang.reflect.Field;
-import java.time.Duration;
-
+import io.zhijun.devservice.test.BaseDevServicesContainerTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ReflectionUtils;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 
-import io.zhijun.devservice.test.BaseDevServicesContainerTests;
+import java.lang.reflect.Field;
+import java.time.Duration;
+
+import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.READY_REGEX;
+import static io.zhijun.devservice.boot.autoconfigure.postgresql.PostgresqlContainer.SKIPPING_INITIALIZATION_REGEX;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link PostgresqlContainer}.

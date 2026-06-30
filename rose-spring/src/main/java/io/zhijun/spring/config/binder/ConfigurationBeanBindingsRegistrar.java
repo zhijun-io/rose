@@ -2,6 +2,8 @@ package io.zhijun.spring.config.binder;
 
 import io.zhijun.spring.beans.factory.ConfigurationBeanBindingRegistrar;
 import io.zhijun.spring.beans.factory.EnableConfigurationBeanBindings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -12,8 +14,6 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Delegates each element of {@link EnableConfigurationBeanBindings#value()} to

@@ -1,8 +1,7 @@
 package io.zhijun.devservice.boot.autoconfigure.redis;
 
-import org.testcontainers.containers.wait.strategy.Wait;
-
 import io.zhijun.devservice.core.container.AbstractDevServiceContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 
 /**
  * Redis container configured for Rose DevService.

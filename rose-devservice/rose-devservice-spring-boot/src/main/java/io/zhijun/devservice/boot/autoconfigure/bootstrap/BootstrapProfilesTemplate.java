@@ -1,13 +1,12 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Resolves active bootstrap profiles for the current mode.

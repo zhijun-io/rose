@@ -1,10 +1,10 @@
 package io.zhijun.spring.config.property;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Closes auto-refresh watchers when the application context shuts down.

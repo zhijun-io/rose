@@ -1,10 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.postgresql;
 
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_DB_NAME;
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_PASSWORD;
-import static io.zhijun.devservice.core.api.config.DevServiceCredentials.DEFAULT_USERNAME;
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.devservice.test.BaseJdbcDevServiceAutoConfigurationIT;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.devtools.restart.RestartScope;
@@ -13,7 +9,8 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import io.zhijun.devservice.test.BaseJdbcDevServiceAutoConfigurationIT;
+import static io.zhijun.devservice.core.api.config.DevServiceCredentials.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link PostgresqlDevServicesAutoConfiguration}.

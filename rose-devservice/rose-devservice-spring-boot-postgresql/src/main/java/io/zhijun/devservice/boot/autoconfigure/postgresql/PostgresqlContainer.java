@@ -1,11 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.postgresql;
 
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
-
-import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
-import io.zhijun.devservice.core.container.ContainerConfigurer;
 
 /**
  * PostgreSQL container configured for Rose DevService.

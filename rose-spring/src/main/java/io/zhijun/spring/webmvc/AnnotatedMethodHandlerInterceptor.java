@@ -1,14 +1,12 @@
 package io.zhijun.spring.webmvc;
 
 import io.zhijun.spring.web.MethodHandlerInterceptor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.core.ResolvableType;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 
 import static org.springframework.core.ResolvableType.forType;

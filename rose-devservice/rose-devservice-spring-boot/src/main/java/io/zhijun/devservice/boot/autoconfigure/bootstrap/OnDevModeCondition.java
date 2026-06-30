@@ -1,12 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 
 /**
  * Determines if the application is running in dev mode.

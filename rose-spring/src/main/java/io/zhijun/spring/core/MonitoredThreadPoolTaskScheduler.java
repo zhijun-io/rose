@@ -1,16 +1,15 @@
 package io.zhijun.spring.core;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * {@link ThreadPoolTaskScheduler} with Micrometer executor metrics.

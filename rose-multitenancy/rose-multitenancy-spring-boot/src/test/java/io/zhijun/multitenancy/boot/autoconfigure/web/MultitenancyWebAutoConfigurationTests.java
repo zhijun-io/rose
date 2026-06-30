@@ -1,18 +1,17 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
+import io.zhijun.multitenancy.spring.web.filter.TenantContextIgnorePathMatcher;
+import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
+import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
+import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
-import io.zhijun.multitenancy.spring.web.filter.TenantContextIgnorePathMatcher;
-import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
-import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
-import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link MultitenancyWebAutoConfiguration}.

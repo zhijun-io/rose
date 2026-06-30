@@ -1,17 +1,16 @@
 package io.zhijun.devservice.boot.autoconfigure.ollama;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.net.InetSocketAddress;
-
 import com.sun.net.httpserver.HttpServer;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.net.InetSocketAddress;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link OnOllamaNativeUnavailable}.

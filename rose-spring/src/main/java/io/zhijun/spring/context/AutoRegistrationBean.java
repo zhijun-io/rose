@@ -24,11 +24,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
-import static io.zhijun.spring.core.PropertyConstants.BEANS_PROPERTY_NAME_PREFIX;
-import static io.zhijun.spring.core.PropertyConstants.DOT_CHAR;
-import static io.zhijun.spring.core.PropertyConstants.AUTO_REGISTERED_PROPERTY_NAME_SUFFIX;
-import static io.zhijun.spring.core.PropertyConstants.DEFAULT_AUTO_REGISTERED_VALUE;
-
+import static io.zhijun.spring.core.PropertyConstants.*;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
 /**

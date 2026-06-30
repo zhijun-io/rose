@@ -1,0 +1,12 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.zhijun.spring.boot.web.autoconfigure.ConfigurationPropertiesAutoConfiguration,\
+io.zhijun.spring.boot.web.autoconfigure.ErrorResponseAutoConfiguration,\
+io.zhijun.spring.boot.web.autoconfigure.WebAutoConfiguration
+
+org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
+io.zhijun.spring.boot.web.autoconfigure.ConfigurableAutoConfigurationImportFilter
+
+# Condition evaluation report
+org.springframework.context.ApplicationContextInitializer= io.zhijun.spring.boot.web.report.ConditionEvaluationReportInitializer
+org.springframework.context.ApplicationListener= io.zhijun.spring.boot.web.report.ConditionEvaluationReportListener
+org.springframework.boot.SpringBootExceptionReporter= io.zhijun.spring.boot.web.report.ConditionEvaluationSpringBootExceptionReporter

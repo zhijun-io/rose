@@ -1,12 +1,10 @@
 package io.zhijun.multitenancy.spring.cache;
 
-import java.lang.reflect.Method;
-
-import org.springframework.cache.interceptor.SimpleKeyGenerator;
-import org.jspecify.annotations.Nullable;
-
-
 import io.zhijun.multitenancy.core.context.TenantContext;
+import org.jspecify.annotations.Nullable;
+import org.springframework.cache.interceptor.SimpleKeyGenerator;
+
+import java.lang.reflect.Method;
 
 /**
  * Generates cache keys combining the current multitenancy identifier with method parameters.

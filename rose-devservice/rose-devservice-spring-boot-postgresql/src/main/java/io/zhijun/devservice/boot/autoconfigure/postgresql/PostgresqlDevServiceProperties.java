@@ -1,9 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure.postgresql;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * PostgreSQL dev service properties.

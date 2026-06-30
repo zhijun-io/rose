@@ -1,0 +1,153 @@
+package io.zhijun.spring.boot.web.autoconfigure;
+
+import io.zhijun.spring.boot.constants.PropertyConstants;
+import org.springframework.boot.autoconfigure.AutoConfigurationImportFilter;
+import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertySource;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+/**
+ * Configurable {@link AutoConfigurationImportFilter} for excluding Spring Boot auto-configuration classes.
+ * <p>
+ * Unlike {@code spring.autoconfigure.exclude}, values from multiple {@code config/default/*} resources
+ * and property sources are accumulated rather than overwritten.
+ */
+public final class ConfigurableAutoConfigurationImportFilter
+        implements AutoConfigurationImportFilter, EnvironmentAware, Ordered {
+
+    public static final String AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME =
+            PropertyConstants.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME;
+
+    private Set<String> excludedAutoConfigurationClasses = Collections.emptySet();
+
+    @Override
+    public boolean[] match(String[] autoConfigurationClasses, AutoConfigurationMetadata autoConfigurationMetadata) {
+        boolean[] results = new boolean[autoConfigurationClasses.length];
+        for (int i = 0; i < autoConfigurationClasses.length; i++) {
+            results[i] = !isExcluded(autoConfigurationClasses[i]);
+        }
+        return results;
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.excludedAutoConfigurationClasses = getExcludedAutoConfigurationClasses(environment);
+    }
+
+    public static Set<String> getExcludedAutoConfigurationClasses(Environment environment) {
+        Assert.isInstanceOf(ConfigurableEnvironment.class, environment, "environment must be configurable");
+        ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) environment;
+        Set<String> allExcludedClasses = new LinkedHashSet<String>();
+        addExcludedAutoConfigurationClasses(
+                environment,
+                getExcludedAutoConfigurationClassesFromPropertySources(configurableEnvironment),
+                allExcludedClasses);
+        addExcludedAutoConfigurationClasses(
+                environment,
+                getExcludedAutoConfigurationClassesFromBinder(configurableEnvironment),
+                allExcludedClasses);
+        if (allExcludedClasses.isEmpty()) {
+            return Collections.emptySet();
+        }
+        return Collections.unmodifiableSet(allExcludedClasses);
+    }
+
+    public static void addExcludedAutoConfigurationClass(Environment environment, String className) {
+        addExcludedAutoConfigurationClasses(environment, Collections.singleton(className));
+    }
+
+    public static void addExcludedAutoConfigurationClasses(Environment environment, Iterable<String> classNames) {
+        ExcludedAutoConfigurationClassesPropertySource propertySource =
+                ExcludedAutoConfigurationClassesPropertySource.get(environment);
+        propertySource.addClasses(classNames);
+    }
+
+    @Override
+    public int getOrder() {
+        return HIGHEST_PRECEDENCE + 99;
+    }
+
+    private static void addExcludedAutoConfigurationClasses(
+            Environment environment, String[] excludedClasses, Set<String> allExcludedClasses) {
+        for (String excludedClass : excludedClasses) {
+            if (!StringUtils.hasText(excludedClass)) {
+                continue;
+            }
+            String resolvedExcludeClass = environment.resolvePlaceholders(excludedClass);
+            allExcludedClasses.addAll(StringUtils.commaDelimitedListToSet(resolvedExcludeClass));
+        }
+    }
+
+    private static String[] getExcludedAutoConfigurationClassesFromPropertySources(
+            ConfigurableEnvironment environment) {
+        Set<String> excludedClasses = new LinkedHashSet<String>();
+        MutablePropertySources propertySources = environment.getPropertySources();
+        for (PropertySource<?> propertySource : propertySources) {
+            Object property = propertySource.getProperty(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME);
+            if (property instanceof String) {
+                String resolvedExclude = environment.resolvePlaceholders((String) property);
+                excludedClasses.addAll(StringUtils.commaDelimitedListToSet(resolvedExclude));
+            }
+        }
+        return excludedClasses.isEmpty() ? new String[0] : excludedClasses.toArray(new String[excludedClasses.size()]);
+    }
+
+    private static String[] getExcludedAutoConfigurationClassesFromBinder(ConfigurableEnvironment environment) {
+        return Binder.get(environment)
+                .bind(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME, String[].class)
+                .orElse(new String[0]);
+    }
+
+    private boolean isExcluded(String autoConfigurationClassName) {
+        return StringUtils.hasText(autoConfigurationClassName)
+                && excludedAutoConfigurationClasses.contains(autoConfigurationClassName);
+    }
+
+    private static final class ExcludedAutoConfigurationClassesPropertySource extends PropertySource<Set<String>> {
+
+        private static final String NAME = AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME;
+
+        private ExcludedAutoConfigurationClassesPropertySource() {
+            super(NAME, new LinkedHashSet<String>());
+        }
+
+        @Override
+        public Object getProperty(String name) {
+            if (AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME.equals(name)) {
+                return StringUtils.collectionToCommaDelimitedString(this.source);
+            }
+            return null;
+        }
+
+        private void addClasses(Iterable<String> classNames) {
+            for (String className : classNames) {
+                if (StringUtils.hasText(className)) {
+                    this.source.add(className);
+                }
+            }
+        }
+
+        private static ExcludedAutoConfigurationClassesPropertySource get(Environment environment) {
+            Assert.isInstanceOf(ConfigurableEnvironment.class, environment, "environment must be configurable");
+            MutablePropertySources propertySources = ((ConfigurableEnvironment) environment).getPropertySources();
+            ExcludedAutoConfigurationClassesPropertySource propertySource =
+                    (ExcludedAutoConfigurationClassesPropertySource) propertySources.get(NAME);
+            if (propertySource == null) {
+                propertySource = new ExcludedAutoConfigurationClassesPropertySource();
+                propertySources.addFirst(propertySource);
+            }
+            return propertySource;
+        }
+    }
+}

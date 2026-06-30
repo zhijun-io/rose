@@ -1,12 +1,12 @@
 package io.zhijun.multitenancy.boot.autoconfigure.detail;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.Assert;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.Assert;
 
 /**
  * Configuration properties for multitenancy details.

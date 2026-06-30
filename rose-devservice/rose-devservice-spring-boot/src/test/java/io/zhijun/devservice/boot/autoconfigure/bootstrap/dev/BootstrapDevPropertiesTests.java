@@ -1,11 +1,11 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap.dev;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapDevProperties;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.BootstrapDevProperties;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link BootstrapDevProperties}.

@@ -1,10 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Development mode bootstrap properties.

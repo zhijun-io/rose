@@ -6,7 +6,6 @@ import org.springframework.context.event.GenericApplicationListener;
 import org.springframework.core.ResolvableType;
 
 import java.util.List;
-import java.util.Objects;
 
 import static org.springframework.util.Assert.notNull;
 

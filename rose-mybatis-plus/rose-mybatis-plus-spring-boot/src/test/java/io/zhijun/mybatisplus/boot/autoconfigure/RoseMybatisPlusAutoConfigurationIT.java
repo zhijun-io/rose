@@ -1,12 +1,11 @@
 package io.zhijun.mybatisplus.boot.autoconfigure;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link RoseMybatisPlusAutoConfiguration}.

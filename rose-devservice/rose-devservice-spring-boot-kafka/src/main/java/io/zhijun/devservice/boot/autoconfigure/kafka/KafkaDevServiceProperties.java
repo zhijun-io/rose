@@ -1,9 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure.kafka;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import io.zhijun.devservice.boot.autoconfigure.DevServiceProperties;
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Kafka dev service properties.

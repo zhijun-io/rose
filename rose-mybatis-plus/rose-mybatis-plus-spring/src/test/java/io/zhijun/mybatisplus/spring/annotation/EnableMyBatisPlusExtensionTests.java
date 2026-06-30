@@ -1,17 +1,15 @@
 package io.zhijun.mybatisplus.spring.annotation;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
+import io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
-import io.zhijun.mybatisplus.spring.extension.MybatisPlusInterceptorCustomizerBeanPostProcessor;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class EnableMyBatisPlusExtensionTests {
 

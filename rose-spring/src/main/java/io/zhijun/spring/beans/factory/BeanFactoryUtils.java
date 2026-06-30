@@ -1,7 +1,6 @@
 package io.zhijun.spring.beans.factory;
 
 import io.zhijun.core.annotation.Nullable;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static io.zhijun.spring.beans.BeanDefinitionUtils.resolveBeanType;
-import static org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors;
 import static org.springframework.util.Assert.isInstanceOf;
 
 public abstract class BeanFactoryUtils {

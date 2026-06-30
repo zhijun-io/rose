@@ -1,12 +1,10 @@
 package io.zhijun.devservice.boot.registration;
 
-import java.util.function.Function;
-
-import org.testcontainers.containers.JdbcDatabaseContainer;
-
-
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+import org.testcontainers.containers.JdbcDatabaseContainer;
+
+import java.util.function.Function;
 
 /**
  * Declarative metadata for a JDBC dev service connector.

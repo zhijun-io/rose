@@ -1,14 +1,11 @@
 package io.zhijun.devservice.boot.registration;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.testcontainers.containers.GenericContainer;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Unit test for {@link DevServiceContainersInitializer}.

@@ -1,10 +1,10 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link HttpTenantResolutionProperties}.

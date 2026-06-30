@@ -1,8 +1,8 @@
 package io.zhijun.devservice.boot.autoconfigure;
 
-import java.util.List;
-
 import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+
+import java.util.List;
 
 /**
  * Thrown when multiple dev services in the same category are active.

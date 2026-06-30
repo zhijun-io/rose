@@ -1,15 +1,13 @@
 package io.zhijun.devservice.boot.autoconfigure.artemis;
 
 import com.github.dockerjava.api.command.InspectContainerResponse;
-
+import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
+import io.zhijun.devservice.core.container.ContainerConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
-
-import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
-import io.zhijun.devservice.core.container.ContainerConfigurer;
 
 /**
  * ActiveMQ Artemis container for Rose DevService.

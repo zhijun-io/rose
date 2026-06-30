@@ -1,16 +1,15 @@
 package io.zhijun.spring.config.property;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * PropertySourceFactory for JSON.

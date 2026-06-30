@@ -1,12 +1,13 @@
 package io.zhijun.core.spi.internal;
 
-import static com.google.testing.compile.CompilationSubject.assertThat;
-import static com.google.testing.compile.Compiler.javac;
-
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
-import javax.tools.StandardLocation;
 import org.junit.jupiter.api.Test;
+
+import javax.tools.StandardLocation;
+
+import static com.google.testing.compile.CompilationSubject.assertThat;
+import static com.google.testing.compile.Compiler.javac;
 
 class SpiImplProcessorTests {
 

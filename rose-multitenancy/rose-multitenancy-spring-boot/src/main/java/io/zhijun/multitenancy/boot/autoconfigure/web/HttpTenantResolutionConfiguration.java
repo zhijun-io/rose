@@ -1,19 +1,5 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
-import java.util.HashSet;
-
-import javax.servlet.DispatcherType;
-
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import io.zhijun.multitenancy.boot.autoconfigure.FixedTenantResolutionProperties;
 import io.zhijun.multitenancy.core.context.FixedTenantResolver;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
@@ -24,6 +10,18 @@ import io.zhijun.multitenancy.spring.web.filter.TenantContextRequiredPathMatcher
 import io.zhijun.multitenancy.spring.web.resolver.CookieTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
 import io.zhijun.multitenancy.spring.web.resolver.HttpRequestTenantResolver;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.servlet.DispatcherType;
+import java.util.HashSet;
 
 /**
  * Configuration for HTTP multitenancy resolution.

@@ -1,9 +1,8 @@
 package io.zhijun.spring.boot.diagnostics;
 
+import io.zhijun.core.annotation.Internal;
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
-
-import io.zhijun.core.annotation.Internal;
 
 /**
  * Internal failure analyzer for {@link ArtifactsCollisionException}.

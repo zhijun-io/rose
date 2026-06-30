@@ -1,16 +1,15 @@
 package io.zhijun.devservice.core.container;
 
-import org.apache.commons.lang3.Validate;
-import org.testcontainers.containers.BindMode;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.utility.MountableFile;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.api.config.JdbcDevServiceProperties;
 import io.zhijun.devservice.core.api.config.ResourceMapping;
 import io.zhijun.devservice.core.api.config.VolumeMapping;
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import org.apache.commons.lang3.Validate;
+import org.testcontainers.containers.BindMode;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.utility.MountableFile;
 
 /**
  * Applies dev service properties to Testcontainers instances.

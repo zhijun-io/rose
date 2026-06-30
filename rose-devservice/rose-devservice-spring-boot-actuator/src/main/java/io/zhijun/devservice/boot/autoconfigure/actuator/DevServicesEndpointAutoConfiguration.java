@@ -1,8 +1,9 @@
 package io.zhijun.devservice.boot.autoconfigure.actuator;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import io.zhijun.devservice.boot.actuator.DevServicesEndpoint;
+import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
+import io.zhijun.devservice.boot.autoconfigure.bootstrap.ConditionalOnDevMode;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -10,10 +11,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.zhijun.devservice.boot.actuator.DevServicesEndpoint;
-import io.zhijun.devservice.boot.autoconfigure.DevServiceAutoConfiguration;
-import io.zhijun.devservice.boot.autoconfigure.bootstrap.ConditionalOnDevMode;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Auto-configuration for the Dev Services Actuator endpoint.

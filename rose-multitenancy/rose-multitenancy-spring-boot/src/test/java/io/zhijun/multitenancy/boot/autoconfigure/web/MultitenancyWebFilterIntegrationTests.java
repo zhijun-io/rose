@@ -1,11 +1,9 @@
 package io.zhijun.multitenancy.boot.autoconfigure.web;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.concurrent.atomic.AtomicReference;
-
-import javax.servlet.Filter;
-
+import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
+import io.zhijun.multitenancy.core.context.TenantContext;
+import io.zhijun.multitenancy.spring.web.filter.TenantContextFilter;
+import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
@@ -14,10 +12,10 @@ import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import io.zhijun.multitenancy.boot.autoconfigure.MultitenancyCoreAutoConfiguration;
-import io.zhijun.multitenancy.core.context.TenantContext;
-import io.zhijun.multitenancy.spring.web.filter.TenantContextFilter;
-import io.zhijun.multitenancy.spring.web.resolver.HeaderTenantResolver;
+import javax.servlet.Filter;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for HTTP multitenancy resolution auto-configuration.

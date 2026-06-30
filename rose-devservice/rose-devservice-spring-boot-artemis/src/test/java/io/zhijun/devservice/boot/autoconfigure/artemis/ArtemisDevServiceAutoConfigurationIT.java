@@ -1,13 +1,12 @@
 package io.zhijun.devservice.boot.autoconfigure.artemis;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.devservice.core.api.config.DevServiceCredentials;
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.devservice.core.api.config.DevServiceCredentials;
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link ArtemisDevServicesAutoConfiguration}.

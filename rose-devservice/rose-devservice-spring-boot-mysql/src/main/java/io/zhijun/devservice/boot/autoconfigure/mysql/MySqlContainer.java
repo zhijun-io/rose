@@ -1,10 +1,9 @@
 package io.zhijun.devservice.boot.autoconfigure.mysql;
 
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.utility.DockerImageName;
-
 import io.zhijun.devservice.core.api.config.BaseDevServiceProperties;
 import io.zhijun.devservice.core.container.ContainerConfigurer;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * MySQL container configured for Rose DevService.

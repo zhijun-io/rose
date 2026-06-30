@@ -1,16 +1,15 @@
 package io.zhijun.devservice.boot.actuator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import io.zhijun.devservice.core.api.registration.ContainerInfo;
+import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
 import org.jspecify.annotations.Nullable;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.actuate.endpoint.annotation.Selector;
 
-import io.zhijun.devservice.core.api.registration.ContainerInfo;
-import io.zhijun.devservice.core.api.registration.DevServiceRegistration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Endpoint for exposing development services information.

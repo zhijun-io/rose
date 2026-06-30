@@ -19,7 +19,8 @@ package io.zhijun.spring.beans.factory;
 import io.zhijun.spring.config.binder.ConfigurationBeanBinder;
 import io.zhijun.spring.config.binder.ConfigurationBeanCustomizer;
 import io.zhijun.spring.context.config.DefaultConfigurationBeanBinder;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -40,8 +41,6 @@ import static org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncl
 import static org.springframework.core.annotation.AnnotationAwareOrderComparator.sort;
 import static org.springframework.util.ClassUtils.getUserClass;
 import static org.springframework.util.ObjectUtils.nullSafeEquals;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A {@link BeanPostProcessor} implementation that binds configuration beans with their corresponding properties.

@@ -1,7 +1,7 @@
 package io.zhijun.mybatisplus.spring.extension;
 
-import java.util.List;
-
+import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
+import io.zhijun.mybatisplus.spring.annotation.EnableMyBatisPlusExtension;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -10,8 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 
-import io.zhijun.mybatisplus.core.extension.MybatisPlusInterceptorCustomizer;
-import io.zhijun.mybatisplus.spring.annotation.EnableMyBatisPlusExtension;
+import java.util.List;
 
 /**
  * Registers infrastructure beans shared by Spring Boot auto-configuration and

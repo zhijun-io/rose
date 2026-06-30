@@ -1,9 +1,6 @@
 package io.zhijun.devservice.boot.autoconfigure.bootstrap;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +11,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
 
-import io.zhijun.devservice.core.bootstrap.BootstrapMode;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Activates profiles based on bootstrap mode.

@@ -1,8 +1,8 @@
 package io.zhijun.spring.context.event;
 
-import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import io.zhijun.spring.beans.BeanSource;
 import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
+import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;

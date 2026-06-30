@@ -1,12 +1,12 @@
 package io.zhijun.spring.boot.classloading;
 
+import io.zhijun.spring.boot.diagnostics.ClasspathMavenArtifactScanner;
+import io.zhijun.spring.boot.diagnostics.ClasspathMavenArtifactScanner.MavenCoordinate;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import io.zhijun.spring.boot.diagnostics.ClasspathMavenArtifactScanner;
-import io.zhijun.spring.boot.diagnostics.ClasspathMavenArtifactScanner.MavenCoordinate;
 
 public class ArtifactDetector {
 

@@ -1,8 +1,8 @@
 package io.zhijun.devservice.core.docker;
 
-import java.io.File;
-
 import org.testcontainers.utility.TestcontainersConfiguration;
+
+import java.io.File;
 
 /**
  * Applies Testcontainers / Docker defaults when the environment is not already configured.

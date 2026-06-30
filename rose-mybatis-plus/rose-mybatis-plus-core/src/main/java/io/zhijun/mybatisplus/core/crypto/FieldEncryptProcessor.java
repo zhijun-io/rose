@@ -1,13 +1,13 @@
 package io.zhijun.mybatisplus.core.crypto;
 
+import org.apache.ibatis.mapping.SqlCommandType;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.ibatis.mapping.SqlCommandType;
 
 /**
  * Reflective helper for {@link FieldEncrypt} processing.

@@ -1,18 +1,16 @@
 package io.zhijun.mybatisplus.boot.autoconfigure.multitenancy;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-
+import io.zhijun.multitenancy.core.context.TenantContext;
+import io.zhijun.mybatisplus.core.multitenancy.RoseTenantLineHandler;
+import io.zhijun.mybatisplus.core.multitenancy.TenantIdSupplier;
+import io.zhijun.mybatisplus.core.multitenancy.TenantLineInnerInterceptorRegistrar;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import io.zhijun.multitenancy.core.context.TenantContext;
-import io.zhijun.mybatisplus.core.multitenancy.RoseTenantLineHandler;
-import io.zhijun.mybatisplus.core.multitenancy.TenantIdSupplier;
-import io.zhijun.mybatisplus.core.multitenancy.TenantLineInnerInterceptorRegistrar;
 
 /**
  * Registers a default {@link TenantIdSupplier} when {@link TenantContext} is available.

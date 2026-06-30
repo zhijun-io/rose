@@ -16,9 +16,6 @@
  */
 package io.zhijun.spring.beans.factory;
 
-import io.zhijun.spring.beans.factory.AbstractInjectionPointDependencyResolver;
-import io.zhijun.spring.beans.factory.InjectionPointDependencyResolver;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;

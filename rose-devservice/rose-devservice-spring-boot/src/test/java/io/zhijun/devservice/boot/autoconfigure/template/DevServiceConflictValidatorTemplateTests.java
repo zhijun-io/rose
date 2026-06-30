@@ -1,20 +1,19 @@
 package io.zhijun.devservice.boot.autoconfigure.template;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import io.zhijun.devservice.boot.autoconfigure.DevServiceConflictValidatorTemplate;
+import io.zhijun.devservice.boot.autoconfigure.MultipleDevServiceException;
+import io.zhijun.devservice.core.api.provider.DevServiceCategory;
+import io.zhijun.devservice.core.api.provider.DevServiceProvider;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 
 import java.util.Arrays;
 import java.util.List;
 
-import io.zhijun.devservice.boot.autoconfigure.DevServiceConflictValidatorTemplate;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.ObjectProvider;
-
-import io.zhijun.devservice.boot.autoconfigure.MultipleDevServiceException;
-import io.zhijun.devservice.core.api.provider.DevServiceCategory;
-import io.zhijun.devservice.core.api.provider.DevServiceProvider;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class DevServiceConflictValidatorTemplateTests {
 

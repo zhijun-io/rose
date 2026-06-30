@@ -1,11 +1,10 @@
 package io.zhijun.devservice.boot.autoconfigure.redis;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import io.zhijun.devservice.test.BaseDevServiceAutoConfigurationIT;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration test for {@link RedisDevServicesAutoConfiguration}.

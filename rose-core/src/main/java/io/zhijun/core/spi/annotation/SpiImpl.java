@@ -1,10 +1,6 @@
 package io.zhijun.core.spi.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
   * 标记一个 SPI 实现类，供 {@code SpiImplProcessor} 在编译期自动生成

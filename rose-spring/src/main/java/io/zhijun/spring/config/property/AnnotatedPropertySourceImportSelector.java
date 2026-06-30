@@ -1,7 +1,7 @@
 package io.zhijun.spring.config.property;
 
-import java.lang.annotation.Annotation;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
@@ -13,8 +13,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.lang.annotation.Annotation;
 
 /**
  * Lightweight {@link ImportSelector} base for annotation-driven property source loading.

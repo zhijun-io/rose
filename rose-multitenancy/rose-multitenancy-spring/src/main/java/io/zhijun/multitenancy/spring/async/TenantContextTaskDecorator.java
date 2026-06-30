@@ -1,8 +1,7 @@
 package io.zhijun.multitenancy.spring.async;
 
-import org.springframework.core.task.TaskDecorator;
-
 import io.zhijun.multitenancy.core.context.TenantContext;
+import org.springframework.core.task.TaskDecorator;
 
 /**
  * Propagates the current {@link TenantContext} to asynchronous task execution.

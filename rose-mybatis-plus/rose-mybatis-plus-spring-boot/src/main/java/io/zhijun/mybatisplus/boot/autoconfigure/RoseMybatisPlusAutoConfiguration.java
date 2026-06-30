@@ -3,15 +3,6 @@ package io.zhijun.mybatisplus.boot.autoconfigure;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
 import io.zhijun.mybatisplus.boot.autoconfigure.multitenancy.MultitenancyAutoConfiguration;
 import io.zhijun.mybatisplus.boot.autoconfigure.multitenancy.MultitenancyLineProperties;
 import io.zhijun.mybatisplus.core.audit.AuditMetaObjectHandler;
@@ -24,6 +15,13 @@ import io.zhijun.mybatisplus.core.permission.DataPermissionConditionResolver;
 import io.zhijun.mybatisplus.core.permission.DataPermissionInterceptorRegistrar;
 import io.zhijun.mybatisplus.core.permission.DataPermissionPrincipalResolver;
 import io.zhijun.mybatisplus.core.permission.RoseDataPermissionHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * Auto-configuration for rose-mybatis-plus-core.

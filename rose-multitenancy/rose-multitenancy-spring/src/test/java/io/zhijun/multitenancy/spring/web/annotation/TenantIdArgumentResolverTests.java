@@ -1,14 +1,13 @@
 package io.zhijun.multitenancy.spring.web.annotation;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.lang.reflect.Method;
-
+import io.zhijun.multitenancy.core.context.TenantContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.ReflectionUtils;
 
-import io.zhijun.multitenancy.core.context.TenantContext;
+import java.lang.reflect.Method;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link TenantIdArgumentResolver}.

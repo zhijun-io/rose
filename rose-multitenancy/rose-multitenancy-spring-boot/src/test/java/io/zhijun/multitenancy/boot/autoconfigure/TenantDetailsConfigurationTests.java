@@ -1,15 +1,14 @@
 package io.zhijun.multitenancy.boot.autoconfigure;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-
 import io.zhijun.multitenancy.boot.autoconfigure.detail.TenantDetailsConfiguration;
 import io.zhijun.multitenancy.core.detail.DefaultTenantVerifier;
 import io.zhijun.multitenancy.core.detail.TenantDetailsService;
 import io.zhijun.multitenancy.core.detail.TenantVerifier;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link TenantDetailsConfiguration}.

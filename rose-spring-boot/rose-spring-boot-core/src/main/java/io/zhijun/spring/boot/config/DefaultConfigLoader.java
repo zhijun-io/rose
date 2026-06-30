@@ -1,19 +1,7 @@
 package io.zhijun.spring.boot.config;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
-
+import io.zhijun.spring.boot.constants.PropertyConstants;
+import io.zhijun.spring.config.property.PropertySourceMaps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -23,8 +11,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import io.zhijun.spring.boot.constants.PropertyConstants;
- import io.zhijun.spring.config.property.PropertySourceMaps;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 /**
  * Loads and merges {@code config/default/*} configuration resources from the classpath.

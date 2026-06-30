@@ -1,17 +1,15 @@
 package io.zhijun.spring.config.binder;
 
-import java.util.Map;
-import java.util.Set;
-
 import io.zhijun.spring.beans.factory.ConfigurationBeanBindingRegistrar;
+import io.zhijun.spring.beans.factory.EnableConfigurationBeanBinding;
+import io.zhijun.spring.core.env.PropertySourcesUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
-import io.zhijun.spring.beans.factory.EnableConfigurationBeanBinding;
-import io.zhijun.spring.core.env.PropertySourcesUtils;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Shared rules for {@link EnableConfigurationBeanBinding} registration and env hot-reload.

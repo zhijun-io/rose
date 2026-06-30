@@ -1,14 +1,12 @@
 package io.zhijun.multitenancy.spring.web.annotation;
 
-import org.springframework.core.MethodParameter;
+import io.zhijun.multitenancy.core.context.TenantContext;
 import org.jspecify.annotations.Nullable;
+import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-
-import io.zhijun.multitenancy.core.context.TenantContext;
 
 /**
  * Allows resolving the current multitenancy identifier using the {@link TenantId}
