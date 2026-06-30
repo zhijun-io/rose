@@ -39,6 +39,7 @@ class ConfigurationBeanBindingsRegister extends AnnotatedBeanCapableImportBeanDe
         ConfigurationBeanBindingRegistrar registrar = new ConfigurationBeanBindingRegistrar();
 
         registrar.setEnvironment(getEnvironment());
+        registrar.setBeanFactory(getBeanFactory());
 
         for (AnnotationAttributes attributes : annotationAttributes.getAnnotationArray("value")) {
             registrar.registerConfigurationBeanDefinitions(attributes, registry);

@@ -87,11 +87,11 @@ public class ConfigurationBeanBindingPostProcessor implements BeanPostProcessor,
      */
     public static final String BEAN_NAME = "configurationBeanBindingPostProcessor";
 
-    static final String CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME = "configurationProperties";
+     public static final String CONFIGURATION_PROPERTIES_ATTRIBUTE_NAME = "configurationProperties";
 
-    static final String IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME = "ignoreUnknownFields";
+     public static final String IGNORE_UNKNOWN_FIELDS_ATTRIBUTE_NAME = "ignoreUnknownFields";
 
-    static final String IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME = "ignoreInvalidFields";
+     public static final String IGNORE_INVALID_FIELDS_ATTRIBUTE_NAME = "ignoreInvalidFields";
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
