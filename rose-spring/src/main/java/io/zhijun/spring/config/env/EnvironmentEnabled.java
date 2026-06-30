@@ -25,7 +25,36 @@ import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_
 import static io.zhijun.spring.core.PropertyConstants.ENABLED_PROPERTY_NAME;
 
 /**
- * The template class for component that is enabled or disabled based on {@link Environment}.
+ * Abstract base class for components that are enabled or disabled based on {@link Environment}.
+ *
+ * <p>Extensions define enable/disable behavior through configuration properties:
+ * the property name is derived from the subclass name via {@link #getEnabledPropertyName()},
+ * and {@link #isEnabled(Environment)} checks that property with a fallback to
+ * {@link #getDefaultEnabled()} (default: {@code true}).
+ *
+ * <h3>Design Rationale</h3>
+ * <p>This was originally an interface with {@code default} methods. The problem is that
+ * a Logger inside a {@code default} method calls {@link LoggerFactory#getLogger(Class)}
+ * on <em>every invocation</em>, creating unnecessary object churn. By converting to an
+ * abstract class, the Logger becomes a one-time instance field, initialized once per
+ * subclass instance. The tradeoff is that subclasses cannot extend another class, but in
+ * practice this is a template base — extensions that need multiple inheritance can extract
+ * the property-name logic into a utility.</p>
+ *
+ * <h3>Usage</h3>
+ * <pre>{@code
+ * public class MyMBeanExporter extends EnvironmentEnabled {
+ *     public String getEnabledPropertyName() {
+ *         return "myapp.mbean-exporter.enabled";
+ *     }
+ * }
+ *
+ * // Usage:
+ * EnvironmentEnabled component = new MyMBeanExporter();
+ * if (component.isEnabled(environment)) {
+ *     // proceed with initialization
+ * }
+ * }</pre>
  *
  * @see Environment
  * @since 1.0.0
@@ -67,6 +96,10 @@ public abstract class EnvironmentEnabled {
     /**
      * Gets the property name used to determine if this component is enabled.
      *
+     * <p>The default implementation derives the name from the subclass's simple name:
+     * {@code rose.spring.<SimpleClassName>.enabled}.
+     * Subclasses may override to provide a custom property path.
+     *
      * @return the property name key for checking the enabled status
      */
     public String getEnabledPropertyName() {
@@ -76,6 +109,10 @@ public abstract class EnvironmentEnabled {
 
     /**
      * Gets the default enabled status for this component.
+     *
+     * <p>Returned when the property from {@link #getEnabledPropertyName()} is not set
+     * in the {@link Environment}. Defaults to {@code true}; subclasses may override
+     * to disable the component by default.
      *
      * @return {@code true} if the component is enabled by default, {@code false} otherwise
      * @see #isEnabled(Environment)
