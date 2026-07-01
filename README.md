@@ -6,16 +6,15 @@
 ![Java 8+](https://img.shields.io/badge/Java-8+-orange?logo=openjdk&logoColor=white)
 ![Spring Boot 2.7.18](https://img.shields.io/badge/Spring%20Boot-2.7.18-6DB33F?logo=springboot&logoColor=white)
 
-**Rose** is a Spring Boot **2.7** / Java **8+** extension platform (`io.zhijun`) — composable starters and libraries for bootstrap utilities, OpenTelemetry observation, multitenancy, MyBatis-Plus, and Testcontainers-based dev services.
+**Rose** is a Spring Boot **2.7** / Java **8+** extension platform (`io.zhijun`) — composable starters and libraries for bootstrap utilities, multitenancy, MyBatis-Plus, and Testcontainers-based dev services.
 
 Applications import **`rose-bom`** for aligned versions. Do **not** use `rose-build` or `rose-parent` as your application parent.
 
 ## Why use Rose
 
 - **BOM-aligned versions** — one `rose-bom` import keeps every `io.zhijun` artifact in sync
-- **Composable starters** — observation, multitenancy, MyBatis-Plus, and a baseline bootstrap starter
+- **Composable starters** — multitenancy, MyBatis-Plus, and a baseline bootstrap starter
 - **Dev services** — optional Testcontainers connectors with dynamic properties (`rose-devservice-spring-boot-*`)
-- **OpenTelemetry-first** — tracing, logs, OTLP metrics, and Micrometer bridges
 - **Build governance** — shared `rose-build` enforcer, profiles, JaCoCo, and Maven Central publishing (this reactor only)
 
 ## Getting started
@@ -45,7 +44,7 @@ Keep `spring-boot-starter-parent` (or your own BOM) as parent; import Rose via B
 </dependencies>
 ```
 
-Use a released coordinate from [Maven Central](https://central.sonatype.com/) when published. Application entrypoints should prefer `rose-spring-boot-starter`; add `rose-actuator-spring-boot-starter` when actuator integration is needed. `rose-spring-boot-autoconfigure` is for advanced/manual composition. See [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md).
+Use a released coordinate from [Maven Central](https://central.sonatype.com/) when published. Application entrypoints should prefer `rose-spring-boot-starter`; add `rose-spring-boot-starter-actuator` when actuator integration is needed. `rose-spring-boot-autoconfigure` is for advanced/manual composition. See [wiki/rose-bom/Consumer-Guide.md](wiki/rose-bom/Consumer-Guide.md).
 
 Step-by-step walkthrough: [wiki/rose-spring-boot/Getting-Started.md](wiki/rose-spring-boot/Getting-Started.md).
 
@@ -67,9 +66,10 @@ sdk env                         # optional — Java 8 (.sdkmanrc)
 | Path | Purpose |
 | --- | --- |
 | `rose-bom/` | Consumer BOM — import in applications |
-| `rose-core/` | Annotations, core utilities, test support |
-| `rose-spring-boot/` | Bootstrap and baseline Boot starters |
-| `rose-observation/` | Tracing, logs, OTLP, Micrometer bridges |
+| `rose-core/` | Annotations, SPI, exceptions, file watch utilities |
+| `rose-test/` | Shared test support |
+| `rose-spring/` | Spring Framework integrations without Boot auto-configuration |
+| `rose-spring-boot/` | Baseline Boot starters and auto-configuration |
 | `rose-multitenancy/` | Multitenancy support |
 | `rose-mybatis-plus/` | MyBatis-Plus integration |
 | `rose-devservice/` | Dev-service connectors (`rose-devservice-spring-boot-*`) |

@@ -16,10 +16,10 @@ Operating guide for AI agents in **zhijun-io/rose**. Human overview: [README.md]
 | --- | --- |
 | `rose-build/` | Shared parent/build logic, dependency policy, release profiles |
 | `rose-bom/` | Consumer BOM |
-| `rose-foundation/` | Annotations, annotation processor, shared test support |
+| `rose-core/` | Annotations, SPI, exceptions, file watch utilities |
+| `rose-test/` | Shared test support |
 | `rose-spring/` | Spring Framework integrations without Boot auto-configuration |
 | `rose-spring-boot/` | Baseline Boot starters and actuator support |
-| `rose-observation/` | OpenTelemetry, logback, OTLP, Micrometer bridge starters |
 | `rose-multitenancy/` | Multitenancy core, Spring, Boot modules |
 | `rose-mybatis-plus/` | MyBatis-Plus core, Spring, Boot modules |
 | `rose-devservice/` | Testcontainers-based dev-service modules and test support |

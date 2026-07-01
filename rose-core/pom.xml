@@ -12,8 +12,8 @@
     </parent>
 
     <artifactId>rose-core</artifactId>
-    <name>Rose Annotation</name>
-    <description>Framework-agnostic API contract annotations for Rose</description>
+    <name>Rose Core</name>
+    <description>Framework-agnostic core: annotations, SPI, exceptions, and file watch utilities</description>
 
     <dependencies>
         <dependency>

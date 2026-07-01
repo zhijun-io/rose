@@ -1,6 +1,6 @@
 package io.zhijun.spring.beans;
 
-import io.zhijun.spring.beans.factory.DefaultConfigurationBeanAliasGenerator;
+import io.zhijun.spring.beans.factory.support.DefaultConfigurationBeanAliasGenerator;
 import io.zhijun.spring.beans.factory.support.HyphenAliasGenerator;
 import io.zhijun.spring.beans.factory.support.UnderScoreJoinAliasGenerator;
 
