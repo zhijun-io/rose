@@ -1,6 +1,5 @@
 package io.zhijun.spring.config.binder;
 
-import io.zhijun.spring.beans.factory.EnableConfigurationBeanBinding;
 import org.springframework.core.Ordered;
 
 /**

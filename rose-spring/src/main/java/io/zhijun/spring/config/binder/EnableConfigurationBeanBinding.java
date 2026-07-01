@@ -1,6 +1,5 @@
-package io.zhijun.spring.beans.factory;
+package io.zhijun.spring.config.binder;
 
-import io.zhijun.spring.config.binder.ConfigurationBeanCustomizer;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.PropertySources;
 

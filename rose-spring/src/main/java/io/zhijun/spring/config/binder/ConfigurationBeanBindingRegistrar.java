@@ -1,5 +1,6 @@
-package io.zhijun.spring.beans.factory;
+package io.zhijun.spring.config.binder;
 
+import io.zhijun.spring.beans.ConfigurationBeanAliasGenerator;
 import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -16,9 +17,9 @@ import java.util.Set;
 
 import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBeanDefinition;
 import static io.zhijun.spring.beans.factory.BeanRegistrar.registerInfrastructureBean;
-import static io.zhijun.spring.beans.factory.ConfigurationBeanBindingPostProcessor.BEAN_NAME;
-import static io.zhijun.spring.beans.factory.ConfigurationBeanBindingPostProcessor.initBeanMetadataAttributes;
-import static io.zhijun.spring.beans.factory.EnableConfigurationBeanBinding.*;
+import static io.zhijun.spring.config.binder.ConfigurationBeanBindingPostProcessor.BEAN_NAME;
+import static io.zhijun.spring.config.binder.ConfigurationBeanBindingPostProcessor.initBeanMetadataAttributes;
+import static io.zhijun.spring.config.binder.EnableConfigurationBeanBinding.*;
 import static io.zhijun.spring.core.AnnotationUtils.getAttribute;
 import static io.zhijun.spring.core.AnnotationUtils.getRequiredAttribute;
 import static io.zhijun.spring.core.SpringFactoriesLoaderUtils.loadFactories;

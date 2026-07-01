@@ -2,7 +2,6 @@ package io.zhijun.spring.config.binder;
 
 
 import io.zhijun.core.annotation.Nullable;
-import io.zhijun.spring.beans.factory.ConfigurationBeanBindingPostProcessor;
 import io.zhijun.spring.context.config.DefaultConfigurationBeanBinder;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;

@@ -1,7 +1,5 @@
 package io.zhijun.spring.config.binder;
 
-import io.zhijun.spring.beans.factory.ConfigurationBeanBindingRegistrar;
-import io.zhijun.spring.beans.factory.EnableConfigurationBeanBinding;
 import io.zhijun.spring.core.env.PropertySourcesUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.env.ConfigurableEnvironment;

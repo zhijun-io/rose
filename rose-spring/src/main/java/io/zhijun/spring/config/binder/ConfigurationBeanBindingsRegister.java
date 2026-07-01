@@ -1,4 +1,4 @@
-package io.zhijun.spring.beans.factory;
+package io.zhijun.spring.config.binder;
 
 import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;

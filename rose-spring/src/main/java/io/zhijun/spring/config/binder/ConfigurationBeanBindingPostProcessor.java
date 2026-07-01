@@ -1,7 +1,5 @@
-package io.zhijun.spring.beans.factory;
+package io.zhijun.spring.config.binder;
 
-import io.zhijun.spring.config.binder.ConfigurationBeanBinder;
-import io.zhijun.spring.config.binder.ConfigurationBeanCustomizer;
 import io.zhijun.spring.context.config.DefaultConfigurationBeanBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

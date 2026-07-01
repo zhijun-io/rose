@@ -1,4 +1,4 @@
-package io.zhijun.spring.beans.factory;
+package io.zhijun.spring.config.binder;
 
 import org.springframework.context.annotation.Import;
 
