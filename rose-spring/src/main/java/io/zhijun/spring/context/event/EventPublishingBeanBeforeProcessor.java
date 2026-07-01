@@ -34,8 +34,15 @@ public class EventPublishingBeanBeforeProcessor
 
     private static final Logger logger = LoggerFactory.getLogger(EventPublishingBeanBeforeProcessor.class);
 
-    private static final Method GET_INSTANTIATION_STRATEGY_METHOD =
-            ReflectionUtils.findMethod(AbstractAutowireCapableBeanFactory.class, "getInstantiationStrategy");
+    private static final Method GET_INSTANTIATION_STRATEGY_METHOD;
+
+    static {
+        Method method = ReflectionUtils.findMethod(AbstractAutowireCapableBeanFactory.class, "getInstantiationStrategy");
+        if (method != null) {
+            ReflectionUtils.makeAccessible(method);
+        }
+        GET_INSTANTIATION_STRATEGY_METHOD = method;
+    }
 
     private BeanDefinitionRegistry registry;
 
