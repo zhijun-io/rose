@@ -2,7 +2,7 @@ package io.zhijun.spring.context.event;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class BeanPropertyChangedEventTests {
 
@@ -10,28 +10,28 @@ class BeanPropertyChangedEventTests {
     void constructorSetsAllFields() {
         Object bean = new Object();
         BeanPropertyChangedEvent event = new BeanPropertyChangedEvent(bean, "name", "old", "new");
-        assertSame(bean, event.getBean());
-        assertEquals("name", event.getPropertyName());
-        assertEquals("old", event.getOldValue());
-        assertEquals("new", event.getNewValue());
-        assertSame(bean, event.getSource());
+        assertThat(event.getBean()).isSameAs(bean);
+        assertThat(event.getPropertyName()).isEqualTo("name");
+        assertThat(event.getOldValue()).isEqualTo("old");
+        assertThat(event.getNewValue()).isEqualTo("new");
+        assertThat(event.getSource()).isSameAs(bean);
     }
 
     @Test
     void toStringContainsPropertyName() {
         BeanPropertyChangedEvent event = new BeanPropertyChangedEvent(new Object(), "foo", 1, 2);
         String str = event.toString();
-        assertTrue(str.contains("foo"));
-        assertTrue(str.contains("BeanPropertyChangedEvent"));
+        assertThat(str).contains("foo");
+        assertThat(str).contains("BeanPropertyChangedEvent");
     }
 
     @Test
     void supportsNullPropertyValues() {
         Object bean = new Object();
         BeanPropertyChangedEvent event = new BeanPropertyChangedEvent(bean, null, null, null);
-        assertNull(event.getPropertyName());
-        assertNull(event.getOldValue());
-        assertNull(event.getNewValue());
-        assertSame(bean, event.getBean());
+        assertThat(event.getPropertyName()).isNull();
+        assertThat(event.getOldValue()).isNull();
+        assertThat(event.getNewValue()).isNull();
+        assertThat(event.getBean()).isSameAs(bean);
     }
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DefaultConfigurationBeanBinderTests {
 
@@ -30,15 +30,15 @@ class DefaultConfigurationBeanBinderTests {
 
         binder.bind(props, true, true, bean);
 
-        assertEquals("test", bean.getName());
-        assertEquals(30, bean.getAge());
+        assertThat(bean.getName()).isEqualTo("test");
+        assertThat(bean.getAge()).isEqualTo(30);
     }
 
     @Test
     void bindHandlesEmptyProperties() {
         TestBean bean = new TestBean();
         binder.bind(new HashMap<>(), true, true, bean);
-        assertNull(bean.getName());
-        assertEquals(0, bean.getAge());
+        assertThat(bean.getName()).isNull();
+        assertThat(bean.getAge()).isEqualTo(0);
     }
 }

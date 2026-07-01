@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class InterceptingApplicationListenerTests {
 
@@ -29,7 +29,7 @@ class InterceptingApplicationListenerTests {
         InterceptingApplicationListener listener = new InterceptingApplicationListener(delegate, interceptors);
         listener.onApplicationEvent(event);
 
-        assertEquals(Arrays.asList("before-1", "before-2", "delegate", "after-2", "after-1"), order);
+        assertThat(order).isEqualTo(Arrays.asList("before-1", "before-2", "delegate", "after-2", "after-1"));
     }
 
     @Test
@@ -47,7 +47,7 @@ class InterceptingApplicationListenerTests {
         InterceptingApplicationListener listener = new InterceptingApplicationListener(delegate, interceptors);
         listener.onApplicationEvent(event);
 
-        assertEquals(Collections.singletonList("intercepted-only"), order);
+        assertThat(order).isEqualTo(Collections.singletonList("intercepted-only"));
     }
 
     @Test
@@ -61,7 +61,7 @@ class InterceptingApplicationListenerTests {
         InterceptingApplicationListener listener = new InterceptingApplicationListener(delegate, Collections.emptyList());
         listener.onApplicationEvent(event);
 
-        assertEquals(Collections.singletonList("delegate"), order);
+        assertThat(order).isEqualTo(Collections.singletonList("delegate"));
     }
 
     @Test
@@ -71,7 +71,7 @@ class InterceptingApplicationListenerTests {
         InterceptingApplicationListener inner = new InterceptingApplicationListener(original, Collections.emptyList());
         InterceptingApplicationListener outer = new InterceptingApplicationListener(inner, Collections.emptyList());
 
-        assertSame(original, outer.getDelegate());
+        assertThat(outer.getDelegate()).isSameAs(original);
     }
 
     @Test
@@ -81,7 +81,7 @@ class InterceptingApplicationListenerTests {
         InterceptingApplicationListener l1 = new InterceptingApplicationListener(delegate, Collections.emptyList());
         InterceptingApplicationListener l2 = new InterceptingApplicationListener(delegate, Collections.emptyList());
 
-        assertEquals(l1, l2);
-        assertEquals(l1.hashCode(), l2.hashCode());
+        assertThat(l2).isEqualTo(l1);
+        assertThat(l2.hashCode()).isEqualTo(l1.hashCode());
     }
 }

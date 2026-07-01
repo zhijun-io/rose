@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class InterceptingApplicationEventMulticasterTests {
 
@@ -18,14 +18,14 @@ class InterceptingApplicationEventMulticasterTests {
     void resolveEventTypeReturnsGivenType() {
         ApplicationEvent event = new ApplicationEvent("source") {};
         ResolvableType type = ResolvableType.forClass(String.class);
-        assertSame(type, InterceptingApplicationEventMulticaster.resolveEventType(event, type));
+        assertThat(InterceptingApplicationEventMulticaster.resolveEventType(event, type)).isSameAs(type);
     }
 
     @Test
     void resolveEventTypeDerivesFromEventWhenNull() {
         ApplicationEvent event = new ApplicationEvent("source") {};
         ResolvableType result = InterceptingApplicationEventMulticaster.resolveEventType(event, null);
-        assertNotNull(result);
+        assertThat(result).isNotNull();
     }
 
     @Test
@@ -42,7 +42,7 @@ class InterceptingApplicationEventMulticasterTests {
         BiConsumer<ApplicationEvent, ResolvableType> fallback = (e, t) -> order.add("fallback");
         InterceptingApplicationEventMulticaster.doIntercept(event, type, interceptors.iterator(), fallback);
 
-        assertEquals(Arrays.asList("before-1", "before-2", "fallback", "after-2", "after-1"), order);
+        assertThat(order).isEqualTo(Arrays.asList("before-1", "before-2", "fallback", "after-2", "after-1"));
     }
 
     @Test
@@ -58,7 +58,7 @@ class InterceptingApplicationEventMulticasterTests {
         BiConsumer<ApplicationEvent, ResolvableType> fallback = (e, t) -> order.add("fallback");
         InterceptingApplicationEventMulticaster.doIntercept(event, type, interceptors.iterator(), fallback);
 
-        assertEquals(Collections.singletonList("intercepted-only"), order);
+        assertThat(order).isEqualTo(Collections.singletonList("intercepted-only"));
     }
 
     @Test
@@ -70,6 +70,6 @@ class InterceptingApplicationEventMulticasterTests {
         BiConsumer<ApplicationEvent, ResolvableType> fallback = (e, t) -> order.add("fallback");
         InterceptingApplicationEventMulticaster.doIntercept(event, type, Collections.<ApplicationEventInterceptor>emptyIterator(), fallback);
 
-        assertEquals(Collections.singletonList("fallback"), order);
+        assertThat(order).isEqualTo(Collections.singletonList("fallback"));
     }
 }

@@ -2,7 +2,7 @@ package io.zhijun.spring.context.event;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 class LoggingBeanFactoryListenerTests {
 
@@ -10,8 +10,8 @@ class LoggingBeanFactoryListenerTests {
 
     @Test
     void methodsDoNotThrowWithNull() {
-        assertDoesNotThrow(() -> listener.onBeanDefinitionRegistryReady(null));
-        assertDoesNotThrow(() -> listener.onBeanFactoryReady(null));
-        assertDoesNotThrow(() -> listener.onBeanFactoryConfigurationFrozen(null));
+        assertThatCode(() -> listener.onBeanDefinitionRegistryReady(null)).doesNotThrowAnyException();
+        assertThatCode(() -> listener.onBeanFactoryReady(null)).doesNotThrowAnyException();
+        assertThatCode(() -> listener.onBeanFactoryConfigurationFrozen(null)).doesNotThrowAnyException();
     }
 }
