@@ -28,9 +28,6 @@ public abstract class SpringApplicationRunListenerAdapter implements SpringAppli
     public void starting(ConfigurableBootstrapContext bootstrapContext) {
     }
 
-    public void starting() {
-    }
-
     public void environmentPrepared(ConfigurableEnvironment environment) {
     }
 

@@ -50,11 +50,6 @@ class ActuatorAutoConfigurationTests {
                 .contains(AUTO_CONFIGURATION_NAME);
     }
 
-    @Test
-    void shouldRegisterAutoConfigurationInSpringFactories() throws IOException {
-        assertThat(resource("META-INF/spring.factories"))
-                .contains(AUTO_CONFIGURATION_NAME);
-    }
 
     // ====== TaskScheduler Bean 注册验证 ======
 

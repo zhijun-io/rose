@@ -30,11 +30,6 @@ class WebAutoConfigurationTests {
                 .contains(AUTO_CONFIGURATION_NAME);
     }
 
-    @Test
-    void shouldRegisterAutoConfigurationInSpringFactories() throws IOException {
-        assertThat(resource("META-INF/spring.factories"))
-                .contains(AUTO_CONFIGURATION_NAME);
-    }
 
     // ====== Bean 注册验证（Servlet Web 环境） ======
 

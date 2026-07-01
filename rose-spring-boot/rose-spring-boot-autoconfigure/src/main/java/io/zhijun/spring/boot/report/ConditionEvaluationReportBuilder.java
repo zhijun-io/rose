@@ -39,5 +39,12 @@ abstract class ConditionEvaluationReportBuilder {
         return Integer.toHexString(System.identityHashCode(beanFactory));
     }
 
+    /**
+     * Remove the cached report for the given bean factory. Useful for test cleanup.
+     */
+    static void remove(ConfigurableListableBeanFactory beanFactory) {
+        reports.remove(beanFactory);
+    }
+
     private ConditionEvaluationReportBuilder() {}
 }

@@ -78,6 +78,15 @@ public abstract class OnceApplicationPreparedEventListener
                                                String[] args,
                                                ConfigurableApplicationContext context);
 
+    /**
+     * 清除指定监听器类的已处理上下文 ID 缓存。测试中需要重新处理同一个 context 时调用。
+     *
+     * @param listenerClass 监听器类，必须是 {@link OnceApplicationPreparedEventListener} 的子类
+     */
+    public static void clearProcessedContextIds(Class<? extends ApplicationListener> listenerClass) {
+        listenerProcessedContextIds.remove(listenerClass);
+    }
+
     public final void setOrder(int order) {
         this.order = order;
     }

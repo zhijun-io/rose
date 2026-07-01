@@ -33,6 +33,16 @@ public interface PropertyConstants {
      */
     String ARTIFACTS_COLLISION_ENABLED_PROPERTY_NAME = "rose.diagnostics.artifacts-collision.enabled";
 
+    /**
+     * Whether banned artifact checking is enabled.
+     */
+    String BANNED_ARTIFACTS_ENABLED_PROPERTY_NAME = ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX + "banned-artifacts.enabled";
+
+    /**
+     * Comma-separated list of banned artifact patterns ({@code groupId:artifactId}).
+     */
+    String BANNED_ARTIFACTS_PROPERTY_NAME = ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX + "banned-artifacts";
+
     String ROSE_SPRING_BOOT_WEB_PROPERTY_NAME_PREFIX = ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX + "web.";
 
     String ROSE_SPRING_BOOT_WEB_ENABLED_PROPERTY_NAME = ROSE_SPRING_BOOT_WEB_PROPERTY_NAME_PREFIX + "enabled";

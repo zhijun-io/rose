@@ -6,8 +6,8 @@ org.springframework.boot.context.properties.ConfigurationPropertiesBindHandlerAd
  io.zhijun.spring.boot.properties.ListenableConfigurationPropertiesBindHandlerAdvisor
 
 org.springframework.boot.SpringApplicationRunListener=\
- io.zhijun.spring.boot.classloading.BannedArtifactClassLoadingListener,\
- io.zhijun.spring.boot.event.FailureReportSpringApplicationRunListener
+ io.zhijun.spring.boot.event.FailureReportSpringApplicationRunListener,\
+ io.zhijun.spring.boot.classloading.BannedArtifactClassLoadingListener
 
 org.springframework.context.ApplicationListener=\
  io.zhijun.spring.boot.diagnostics.ArtifactsCollisionDiagnosisListener,\

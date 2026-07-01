@@ -46,11 +46,6 @@ class ErrorResponseAutoConfigurationTests {
                 .contains(AUTO_CONFIGURATION_NAME);
     }
 
-    @Test
-    void shouldRegisterAutoConfigurationInSpringFactories() throws IOException {
-        assertThat(resource("META-INF/spring.factories"))
-                .contains(AUTO_CONFIGURATION_NAME);
-    }
 
     private String resource(String name) throws IOException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(name);

@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.zhijun.spring.boot.web.autoconfigure.ErrorResponseAutoConfiguration,\
-io.zhijun.spring.boot.web.autoconfigure.WebMvcAutoConfiguration,\
-io.zhijun.spring.boot.web.autoconfigure.WebAutoConfiguration

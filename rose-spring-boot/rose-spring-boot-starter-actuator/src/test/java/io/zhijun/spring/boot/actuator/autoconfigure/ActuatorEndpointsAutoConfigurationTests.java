@@ -55,11 +55,6 @@ class ActuatorEndpointsAutoConfigurationTests {
                 .contains(AUTO_CONFIGURATION_NAME);
     }
 
-    @Test
-    void shouldRegisterAutoConfigurationInSpringFactories() throws IOException {
-        assertThat(resource("META-INF/spring.factories"))
-                .contains(AUTO_CONFIGURATION_NAME);
-    }
 
     // ====== Endpoint Bean 注册验证（Servlet Web 环境，端点暴露） ======
 

@@ -18,14 +18,7 @@ public class LoggingSpringApplicationRunListener extends SpringApplicationRunLis
 
     @Override
     public void starting(ConfigurableBootstrapContext bootstrapContext) {
-        super.starting(bootstrapContext);
         log(getSpringApplication(), getArgs(), "starting... : {}", bootstrapContext);
-    }
-
-    @Override
-    public void starting() {
-        super.starting();
-        log(getSpringApplication(), getArgs(), "starting...");
     }
 
     @Override
