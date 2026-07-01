@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `rose-spring`: added `@JsonPropertySource`, `@YamlPropertySource`, `JsonPropertySourceFactory`, and `YamlPropertySourceFactory` for loading JSON/YAML resources into the Spring `Environment`.
+
 ### Changed
 
 - Multitenancy modules: auto-configuration moved to `rose-multitenancy-spring-boot`; `rose-multitenancy-spring` and `rose-multitenancy-core` no longer depend on Spring Boot.

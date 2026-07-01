@@ -11,5 +11,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Target(TYPE_USE)
 @Retention(RUNTIME)
-public @interface NonNull {
+public @interface Nonnull {
 }

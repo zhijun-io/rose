@@ -32,7 +32,9 @@ public interface PropertyConstants {
      */
     String AT_CHAR = "@";
 
-    /** The char of "." */
+    /**
+     * The char of "."
+     */
     String DOT_CHAR = ".";
 
     /**
@@ -67,4 +69,10 @@ public interface PropertyConstants {
      * The default value of auto registered : true
      */
     boolean DEFAULT_AUTO_REGISTERED_VALUE = parseBoolean(DEFAULT_AUTO_REGISTERED_PROPERTY_VALUE);
+
+    String LISTENABLE_ENVIRONMENT_PROPERTY_NAME_PREFIX = "rose.spring.listenable-environment." + ENABLED_PROPERTY_NAME;
+    String EVENT_PUBLISHING_BEAN_PROPERTY_KEY_PREFIX = "rose.spring.event-publishing-bean." + ENABLED_PROPERTY_NAME;
+    String LISTENABLE_AUTOWIRE_CANDIDATE_RESOLVER_PROPERTY_NAME_PREFIX = "rose.spring.listenable-autowire-candidate-resolver." + ENABLED_PROPERTY_NAME;
+
+    boolean DEFAULT_ENABLED_PROPERTY_VALUE = false;
 }

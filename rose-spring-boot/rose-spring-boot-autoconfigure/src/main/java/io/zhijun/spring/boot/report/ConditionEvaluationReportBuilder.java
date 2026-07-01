@@ -1,6 +1,6 @@
 package io.zhijun.spring.boot.report;
 
-import io.zhijun.core.annotation.NonNull;
+import io.zhijun.core.annotation.Nonnull;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport;
@@ -74,7 +74,7 @@ abstract class ConditionEvaluationReportBuilder {
      * @param beanFactory the {@link ConfigurableListableBeanFactory} to resolve the ID for
      * @return the identifier string for the given bean factory, never {@code null}
      */
-    @NonNull
+    @Nonnull
     static String getBeanFactoryId(ConfigurableListableBeanFactory beanFactory) {
         if (beanFactory instanceof DefaultListableBeanFactory) {
             return ((DefaultListableBeanFactory) beanFactory).getSerializationId();

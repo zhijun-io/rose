@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static io.zhijun.spring.beans.factory.config.BeanDefinitionUtils.genericBeanDefinition;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.unmodifiableMap;
 import static org.springframework.beans.factory.config.BeanDefinition.ROLE_INFRASTRUCTURE;
@@ -86,11 +87,6 @@ public abstract class BeanRegistrar {
 
     // ========== Bean 定义注册 ==========
 
-    public static boolean registerBeanDefinition(BeanDefinitionRegistry registry, @Nullable String beanName, Class<?> beanType) {
-        BeanDefinitionBuilder builder = BeanDefinitionUtils.createBeanDefinitionBuilder(beanType);
-        return registerBeanDefinition(registry, beanName, builder.getBeanDefinition());
-    }
-
     /**
      * Registers a bean by type with consumer-based {@link BeanDefinitionBuilder} customization.
      * <p>
@@ -108,6 +104,16 @@ public abstract class BeanRegistrar {
         BeanDefinitionBuilder builder = BeanDefinitionUtils.createBeanDefinitionBuilder(beanType);
         builderConsumer.accept(builder);
         return registerBeanDefinition(registry, beanName, builder.getBeanDefinition());
+    }
+
+    public static boolean registerBeanDefinition(BeanDefinitionRegistry registry, @Nullable String beanName, Class<?> beanType) {
+        BeanDefinition beanDefinition = genericBeanDefinition(beanType);
+        return registerBeanDefinition(registry, beanName, beanDefinition);
+    }
+
+
+    public static boolean registerBeanDefinition(BeanDefinitionRegistry registry, Class<?> beanType) {
+        return registerBeanDefinition(registry, null, beanType);
     }
 
     public static boolean registerBeanDefinition(BeanDefinitionRegistry registry, BeanDefinition beanDefinition) {

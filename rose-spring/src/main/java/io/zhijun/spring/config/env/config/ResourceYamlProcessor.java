@@ -1,4 +1,4 @@
-package io.zhijun.spring.config.env;
+package io.zhijun.spring.config.env.config;
 
 import org.springframework.beans.factory.config.YamlProcessor;
 import org.springframework.core.io.Resource;

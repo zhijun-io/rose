@@ -1,5 +1,6 @@
 package io.zhijun.spring.config.env;
 
+import io.zhijun.spring.config.env.config.ResourceYamlProcessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

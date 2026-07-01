@@ -1,10 +1,12 @@
- package io.zhijun.spring.beans.factory.support;
+package io.zhijun.spring.beans.factory.support;
 
- import io.zhijun.spring.context.ConfigurableApplicationContextInitializer;
- import org.springframework.beans.factory.support.BeanDefinitionRegistry;
- import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import io.zhijun.spring.context.ConfigurableApplicationContextInitializer;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+
+import static io.zhijun.spring.constants.PropertyConstants.LISTENABLE_AUTOWIRE_CANDIDATE_RESOLVER_PROPERTY_NAME_PREFIX;
 
 /**
  * {@link ConfigurableApplicationContextInitializer} 实现，用于注册 {@link ListenableAutowireCandidateResolver}。
@@ -12,25 +14,19 @@ import org.springframework.core.env.ConfigurableEnvironment;
  */
 public class ListenableAutowireCandidateResolverInitializer extends ConfigurableApplicationContextInitializer {
 
-    public static final String PROPERTY_NAME_PREFIX = "rose.spring.listenable-autowire-candidate-resolver.";
-
-    public static final String ENABLED_PROPERTY_NAME = PROPERTY_NAME_PREFIX + "enabled";
-
-    public static final boolean DEFAULT_ENABLED_PROPERTY_VALUE = false;
-
-     @Override
-     protected void initialize(ConfigurableApplicationContext context, ConfigurableEnvironment environment) {
-         ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-         BeanRegistrar.registerBeanDefinition((BeanDefinitionRegistry) beanFactory, null, ListenableAutowireCandidateResolver.class);
-     }
+    @Override
+    protected void initialize(ConfigurableApplicationContext context, ConfigurableEnvironment environment) {
+        ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+        BeanRegistrar.registerBeanDefinition((BeanDefinitionRegistry) beanFactory, null, ListenableAutowireCandidateResolver.class);
+    }
 
     @Override
     public String getEnabledPropertyName() {
-        return ENABLED_PROPERTY_NAME;
+        return LISTENABLE_AUTOWIRE_CANDIDATE_RESOLVER_PROPERTY_NAME_PREFIX;
     }
 
     @Override
     public boolean getDefaultEnabled() {
-        return DEFAULT_ENABLED_PROPERTY_VALUE;
+        return false;
     }
 }

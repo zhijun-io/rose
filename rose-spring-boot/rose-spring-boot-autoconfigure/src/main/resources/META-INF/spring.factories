@@ -1,4 +1,7 @@
 org.springframework.context.ApplicationContextInitializer=\
+ io.zhijun.spring.context.event.EventPublishingBeanInitializer,\
+ io.zhijun.spring.beans.factory.support.ListenableAutowireCandidateResolverInitializer,\
+ io.zhijun.spring.core.env.ListenableConfigurableEnvironmentInitializer,\
  io.zhijun.spring.boot.report.ConditionEvaluationReportInitializer,\
  io.zhijun.spring.boot.env.OriginTrackedConfigurationPropertyInitializer
 
