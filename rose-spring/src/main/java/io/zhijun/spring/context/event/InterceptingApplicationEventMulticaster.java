@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * {@link ApplicationEventMulticaster} that wraps {@link SimpleApplicationEventMulticaster}
@@ -33,10 +34,19 @@ public class InterceptingApplicationEventMulticaster extends SimpleApplicationEv
     }
 
     private void doIntercept(ApplicationEvent event, ResolvableType eventType, Iterator<ApplicationEventInterceptor> it) {
+        doIntercept(event, eventType, it, this::doMulticastEvent);
+    }
+
+    /**
+     * 执行事件拦截器链，最终 fallback 到实际事件分发。
+     */
+    static void doIntercept(ApplicationEvent event, ResolvableType eventType,
+                            Iterator<ApplicationEventInterceptor> it,
+                            BiConsumer<ApplicationEvent, ResolvableType> fallback) {
         if (it.hasNext()) {
-            it.next().intercept(event, eventType, (e, t) -> doIntercept(e, t, it));
+            it.next().intercept(event, eventType, (e, t) -> doIntercept(e, t, it, fallback));
         } else {
-            doMulticastEvent(event, eventType);
+            fallback.accept(event, eventType);
         }
     }
 

@@ -4,9 +4,9 @@ import io.zhijun.core.annotation.Nullable;
 import io.zhijun.spring.beans.BeanDefinitionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.*;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
@@ -21,7 +21,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.*;
 import java.util.function.Supplier;
 
-import static io.zhijun.spring.beans.factory.BeanFactoryUtils.asDefaultListableBeanFactory;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Collections.*;
 import static org.springframework.core.BridgeMethodResolver.findBridgedMethod;
@@ -55,7 +54,15 @@ public class BeanDependencyResolver {
     private final ExecutorService executorService;
 
     public BeanDependencyResolver(BeanFactory bf, ExecutorService executorService) {
-        this.beanFactory = asDefaultListableBeanFactory(bf);
+        if (!(bf instanceof ConfigurableListableBeanFactory)) {
+            throw new IllegalArgumentException("BeanDependencyResolver requires a ConfigurableListableBeanFactory, got: " + bf.getClass());
+        }
+        ConfigurableListableBeanFactory clbf = (ConfigurableListableBeanFactory) bf;
+        if (clbf instanceof DefaultListableBeanFactory) {
+            this.beanFactory = (DefaultListableBeanFactory) clbf;
+        } else {
+            throw new IllegalArgumentException("BeanDependencyResolver requires a DefaultListableBeanFactory, got: " + bf.getClass());
+        }
         this.classLoader = this.beanFactory.getBeanClassLoader();
         this.resolvers = new InjectionPointDependencyResolvers(beanFactory);
         this.smartInstantiationAwareBeanPostProcessors = getSmartInstantiationAwareBeanPostProcessors(beanFactory);

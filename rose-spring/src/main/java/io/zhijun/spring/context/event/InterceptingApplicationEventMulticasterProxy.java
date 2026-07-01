@@ -85,8 +85,10 @@ public class InterceptingApplicationEventMulticasterProxy extends GenericBeanPos
     @Override
     public void removeApplicationListeners(Predicate<ApplicationListener<?>> predicate) {
         this.delegate.removeApplicationListeners(listener -> {
-            InterceptingApplicationListener wrapper = (InterceptingApplicationListener) listener;
-            return predicate.test(wrapper.getDelegate());
+            if (listener instanceof InterceptingApplicationListener) {
+                return predicate.test(((InterceptingApplicationListener) listener).getDelegate());
+            }
+            return predicate.test(listener);
         });
     }
 
@@ -115,11 +117,7 @@ public class InterceptingApplicationEventMulticasterProxy extends GenericBeanPos
     }
 
     private void doIntercept(ApplicationEvent event, ResolvableType eventType, java.util.Iterator<ApplicationEventInterceptor> it) {
-        if (it.hasNext()) {
-            it.next().intercept(event, eventType, (e, t) -> doIntercept(e, t, it));
-        } else {
-            onEvent(event, eventType);
-        }
+        InterceptingApplicationEventMulticaster.doIntercept(event, eventType, it, this::onEvent);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package io.zhijun.spring.webmvc.annotation;
 
 import io.zhijun.spring.webmvc.interceptor.LazyCompositeHandlerInterceptor;
+import io.zhijun.spring.webmvc.method.InterceptingHandlerMethodProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -19,13 +20,22 @@ public class WebMvcExtensionConfiguration implements WebMvcConfigurer {
     private static final Logger logger = LoggerFactory.getLogger(WebMvcExtensionConfiguration.class);
 
     private final ObjectProvider<LazyCompositeHandlerInterceptor[]> lazyCompositeHandlerInterceptorProvider;
+    private final ObjectProvider<InterceptingHandlerMethodProcessor> interceptingHandlerMethodProcessorProvider;
 
-    public WebMvcExtensionConfiguration(ObjectProvider<LazyCompositeHandlerInterceptor[]> lazyCompositeHandlerInterceptorProvider) {
+    public WebMvcExtensionConfiguration(ObjectProvider<LazyCompositeHandlerInterceptor[]> lazyCompositeHandlerInterceptorProvider,
+                                        ObjectProvider<InterceptingHandlerMethodProcessor> interceptingHandlerMethodProcessorProvider) {
         this.lazyCompositeHandlerInterceptorProvider = lazyCompositeHandlerInterceptorProvider;
+        this.interceptingHandlerMethodProcessorProvider = interceptingHandlerMethodProcessorProvider;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // Register InterceptingHandlerMethodProcessor as interceptor (if present)
+        InterceptingHandlerMethodProcessor processor = interceptingHandlerMethodProcessorProvider.getIfAvailable();
+        if (processor != null) {
+            registry.addInterceptor(processor);
+        }
+
         LazyCompositeHandlerInterceptor[] lazyCompositeHandlerInterceptors = lazyCompositeHandlerInterceptorProvider.getIfAvailable();
         int length = lazyCompositeHandlerInterceptors != null ? lazyCompositeHandlerInterceptors.length : 0;
         if (length == 0) {

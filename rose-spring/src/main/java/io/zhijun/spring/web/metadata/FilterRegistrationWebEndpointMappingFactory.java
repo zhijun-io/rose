@@ -19,6 +19,12 @@ public class FilterRegistrationWebEndpointMappingFactory extends RegistrationWeb
         this.servletFactory = new ServletRegistrationWebEndpointMappingFactory(servletContext);
     }
 
+
+    @Override
+    protected FilterRegistration getRegistration(String name, ServletContext servletContext) {
+        return servletContext.getFilterRegistration(name);
+    }
+
     @Override
     protected Collection<String> getMethods(FilterRegistration registration) {
         Set<String> allMethods = new LinkedHashSet<>();
@@ -31,19 +37,13 @@ public class FilterRegistrationWebEndpointMappingFactory extends RegistrationWeb
 
         // 从关联的 Servlet 获取方法
         for (String servletName : registration.getServletNameMappings()) {
-            ServletRegistration servletRegistration = servletContext.getServletRegistration(servletName);
+            ServletRegistration servletRegistration = getServletRegistration(servletName);
             if (servletRegistration != null) {
                 allMethods.addAll(servletFactory.getMethods(servletRegistration));
             }
         }
         return allMethods;
     }
-
-    @Override
-    protected FilterRegistration getRegistration(String name, ServletContext servletContext) {
-        return servletContext.getFilterRegistration(name);
-    }
-
     @Override
     protected Collection<String> getPatterns(FilterRegistration registration) {
         Set<String> patterns = new LinkedHashSet<>();
@@ -51,11 +51,15 @@ public class FilterRegistrationWebEndpointMappingFactory extends RegistrationWeb
 
         // 从关联的 Servlet 获取 pattern
         for (String servletName : registration.getServletNameMappings()) {
-            ServletRegistration servletRegistration = servletContext.getServletRegistration(servletName);
+            ServletRegistration servletRegistration = getServletRegistration(servletName);
             if (servletRegistration != null) {
                 patterns.addAll(servletFactory.getPatterns(servletRegistration));
             }
         }
         return patterns;
+    }
+
+    private ServletRegistration getServletRegistration(String servletName) {
+        return servletContext.getServletRegistration(servletName);
     }
 }

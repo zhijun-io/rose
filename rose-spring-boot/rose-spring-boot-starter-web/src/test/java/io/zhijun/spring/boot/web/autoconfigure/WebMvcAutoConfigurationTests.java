@@ -2,7 +2,7 @@ package io.zhijun.spring.boot.web.autoconfigure;
 
 import io.zhijun.spring.webmvc.ConfigurableContentNegotiationManagerWebMvcConfigurer;
 import io.zhijun.spring.webmvc.ContentCachingFilter;
-import io.zhijun.spring.webmvc.ExclusiveViewResolverApplicationListener;
+import io.zhijun.spring.webmvc.SingleViewResolverConfigurationListener;
 import io.zhijun.spring.webmvc.ReversedProxyHandlerMapping;
 import io.zhijun.spring.webmvc.annotation.WebMvcExtensionConfiguration;
 import io.zhijun.spring.webmvc.interceptor.LazyCompositeHandlerInterceptor;
@@ -127,13 +127,13 @@ class WebMvcAutoConfigurationTests {
     void shouldRegisterExclusiveViewResolverListenerOnlyWhenPropertySet() {
         // 未设置属性时不应注册
         webContextRunner().run(context ->
-                assertThat(context).doesNotHaveBean(ExclusiveViewResolverApplicationListener.class));
+                assertThat(context).doesNotHaveBean(SingleViewResolverConfigurationListener.class));
 
         // 设置 bean 名称后应注册
         webContextRunner()
                 .withPropertyValues("rose.spring.webmvc.view-resolver.exclusive-bean-name=testViewResolver")
                 .run(context ->
-                        assertThat(context).hasSingleBean(ExclusiveViewResolverApplicationListener.class));
+                        assertThat(context).hasSingleBean(SingleViewResolverConfigurationListener.class));
     }
 
     // ====== 非 Web 环境回退 ======

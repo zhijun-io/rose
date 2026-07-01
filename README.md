@@ -67,7 +67,7 @@ sdk env                         # optional — Java 8 (.sdkmanrc)
 | Path | Purpose |
 | --- | --- |
 | `rose-bom/` | Consumer BOM — import in applications |
-| `rose-foundation/` | Annotations, core utilities, test support |
+| `rose-core/` | Annotations, core utilities, test support |
 | `rose-spring-boot/` | Bootstrap and baseline Boot starters |
 | `rose-observation/` | Tracing, logs, OTLP, Micrometer bridges |
 | `rose-multitenancy/` | Multitenancy support |

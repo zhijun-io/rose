@@ -137,8 +137,6 @@ public class ConfigurationBeanBindingRegistrar extends AnnotatedBeanCapableImpor
 
         initBeanMetadataAttributes(beanDefinition, subProperties, ignoreUnknownFields, ignoreInvalidFields);
 
-        registry.registerBeanDefinition(beanName, beanDefinition);
-
         registerBeanDefinition(registry, beanName, beanDefinition);
     }
 

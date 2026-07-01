@@ -3,7 +3,7 @@
  import io.zhijun.spring.boot.condition.ConditionalOnWebMvcAvailable;
  import io.zhijun.spring.webmvc.ConfigurableContentNegotiationManagerWebMvcConfigurer;
 import io.zhijun.spring.webmvc.ContentCachingFilter;
-import io.zhijun.spring.webmvc.ExclusiveViewResolverApplicationListener;
+import io.zhijun.spring.webmvc.SingleViewResolverConfigurationListener;
 import io.zhijun.spring.webmvc.annotation.EnableWebMvcExtension;
 import io.zhijun.spring.webmvc.interceptor.LoggingMethodHandlerInterceptor;
 import io.zhijun.spring.webmvc.interceptor.LoggingPageRenderContextHandlerInterceptor;
@@ -76,10 +76,10 @@ public class WebMvcAutoConfiguration {
         return new ConfigurableContentNegotiationManagerWebMvcConfigurer();
     }
 
-    @ConditionalOnProperty(name = ExclusiveViewResolverApplicationListener.EXCLUSIVE_VIEW_RESOLVER_BEAN_NAME_PROPERTY_NAME)
+    @ConditionalOnProperty(name = SingleViewResolverConfigurationListener.EXCLUSIVE_VIEW_RESOLVER_BEAN_NAME_PROPERTY_NAME)
     @Bean
-    public ExclusiveViewResolverApplicationListener exclusiveViewResolverApplicationListener() {
-        return new ExclusiveViewResolverApplicationListener();
+    public SingleViewResolverConfigurationListener exclusiveViewResolverApplicationListener() {
+        return new SingleViewResolverConfigurationListener();
     }
 
     @ConditionalOnProperty(name = ROSE_SPRING_BOOT_WEBMVC_LOGGING_ENABLED_PROPERTY_NAME, matchIfMissing = true)

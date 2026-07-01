@@ -13,7 +13,6 @@ import static org.springframework.util.Assert.hasText;
 /**
  * Spring Bean Dependency
  *
- * @since 1.0.0
  */
 public class Dependency {
 

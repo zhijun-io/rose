@@ -18,16 +18,18 @@ import java.util.Map;
 import static org.springframework.util.StringUtils.hasText;
 
 /**
- * Exclusive {@link ViewResolver} {@link ApplicationListener} on {@link ContextRefreshedEvent}
+ * {@link ContextRefreshedEvent} 监听器，将指定 ViewResolver 设置为唯一的视图解析器。
+ * <p>
+ * 通过配置属性 {@code rose.spring.webmvc.view-resolver.exclusive-bean-name} 指定 Bean 名称，
+ * 该 Bean 将作为 {@link ContentNegotiatingViewResolver} 或 {@link ViewResolverComposite} 的唯一解析器。
  *
  * @see ViewResolver
- * @see ApplicationListener
- * @see ContextRefreshedEvent
- * @since 1.0.0
+ * @see ContentNegotiatingViewResolver
+ * @see ViewResolverComposite
  */
-public class ExclusiveViewResolverApplicationListener implements ApplicationListener<ContextRefreshedEvent>, EnvironmentAware {
+public class SingleViewResolverConfigurationListener implements ApplicationListener<ContextRefreshedEvent>, EnvironmentAware {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExclusiveViewResolverApplicationListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(SingleViewResolverConfigurationListener.class);
 
     public static final String EXCLUSIVE_VIEW_RESOLVER_BEAN_NAME_PROPERTY_NAME = "rose.spring.webmvc.view-resolver.exclusive-bean-name";
 

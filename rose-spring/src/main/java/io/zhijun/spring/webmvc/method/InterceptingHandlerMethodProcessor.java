@@ -20,8 +20,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +48,7 @@ import static org.springframework.core.annotation.AnnotationAwareOrderComparator
 public class InterceptingHandlerMethodProcessor
         implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware,
         HandlerMethodArgumentResolver, HandlerMethodReturnValueHandler,
-        HandlerInterceptor, WebMvcConfigurer {
+        HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(InterceptingHandlerMethodProcessor.class);
 
@@ -100,11 +98,6 @@ public class InterceptingHandlerMethodProcessor
         initHandlerMethodAdvices();
         initHandlerMethodArgumentResolverAdvices();
         initRequestMappingHandlerAdapters();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this);
     }
 
     @Override
@@ -329,13 +322,23 @@ public class InterceptingHandlerMethodProcessor
     // ========== 工具方法 ==========
 
     @Nullable
+    private static HttpServletRequest getHttpServletRequest(NativeWebRequest webRequest) {
+        if (webRequest == null) {
+            return null;
+        }
+        // 使用 getNativeRequest() 适配所有 NativeWebRequest 实现，而非仅限 ServletWebRequest
+        return webRequest.getNativeRequest(HttpServletRequest.class);
+    }
+
+    @Nullable
     private static HandlerMethod resolveHandlerMethod(NativeWebRequest webRequest) {
-        if (webRequest instanceof ServletWebRequest) {
-            HttpServletRequest request = ((ServletWebRequest) webRequest).getRequest();
-            Object handler = request.getAttribute(HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE);
-            if (handler instanceof HandlerMethod) {
-                return (HandlerMethod) handler;
-            }
+        HttpServletRequest request = getHttpServletRequest(webRequest);
+        if (request == null) {
+            return null;
+        }
+        Object handler = request.getAttribute(HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE);
+        if (handler instanceof HandlerMethod) {
+            return (HandlerMethod) handler;
         }
         return null;
     }
@@ -358,16 +361,16 @@ public class InterceptingHandlerMethodProcessor
     static Object[] resolveArguments(NativeWebRequest webRequest, HandlerMethod handlerMethod) {
         Method method = handlerMethod.getMethod();
         String attrName = getArgumentsAttributeName(method);
-        if (webRequest instanceof ServletWebRequest) {
-            HttpServletRequest request = ((ServletWebRequest) webRequest).getRequest();
-            Object[] arguments = (Object[]) request.getAttribute(attrName);
-            if (arguments == null) {
-                arguments = new Object[method.getParameterCount()];
-                request.setAttribute(attrName, arguments);
-            }
-            return arguments;
+        HttpServletRequest request = getHttpServletRequest(webRequest);
+        if (request == null) {
+            return new Object[method.getParameterCount()];
         }
-        return new Object[method.getParameterCount()];
+        Object[] arguments = (Object[]) request.getAttribute(attrName);
+        if (arguments == null) {
+            arguments = new Object[method.getParameterCount()];
+            request.setAttribute(attrName, arguments);
+        }
+        return arguments;
     }
 
     private static String getArgumentsAttributeName(Method method) {

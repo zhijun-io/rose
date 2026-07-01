@@ -1,6 +1,5 @@
 package io.zhijun.spring.beans.factory;
 
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
@@ -13,11 +12,9 @@ public class InjectionPointDependencyResolvers implements InjectionPointDependen
 
     private final List<InjectionPointDependencyResolver> resolvers;
 
-    public InjectionPointDependencyResolvers(BeanFactory beanFactory) {
+    public InjectionPointDependencyResolvers(ListableBeanFactory beanFactory) {
         this.resolvers = new ArrayList<>();
-        if (beanFactory instanceof ListableBeanFactory) {
-            this.resolvers.addAll(((ListableBeanFactory) beanFactory).getBeansOfType(InjectionPointDependencyResolver.class).values());
-        }
+        this.resolvers.addAll(beanFactory.getBeansOfType(InjectionPointDependencyResolver.class).values());
     }
 
     @Override
