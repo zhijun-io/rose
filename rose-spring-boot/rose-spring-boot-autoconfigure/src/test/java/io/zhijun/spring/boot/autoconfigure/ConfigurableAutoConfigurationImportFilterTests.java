@@ -66,7 +66,7 @@ class ConfigurableAutoConfigurationImportFilterTests {
     @Test
     void shouldGetExcludedClassesFromEnvironment() {
         MockEnvironment env = new MockEnvironment();
-        env.setProperty("spring.autoconfigure.exclude", "com.example.TestConfig");
+        env.setProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME, "com.example.TestConfig");
         assertThat(ConfigurableAutoConfigurationImportFilter
                 .getExcludedAutoConfigurationClasses(env)).isNotEmpty();
     }

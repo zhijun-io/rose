@@ -40,7 +40,7 @@ class SpringApplicationUtilsTests {
     @Test
     void shouldResolveLoggingLevelFromEnvironment() {
         MockEnvironment env = new MockEnvironment();
-        env.setProperty("io.zhijun.spring.boot.logging-level", "DEBUG");
+        env.setProperty("rose.spring.boot.logging-level", "DEBUG");
         assertThat(SpringApplicationUtils.getLoggingLevel(env)).isEqualTo("DEBUG");
     }
 

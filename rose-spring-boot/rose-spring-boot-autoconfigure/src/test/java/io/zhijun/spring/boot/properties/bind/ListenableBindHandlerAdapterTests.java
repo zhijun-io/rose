@@ -5,8 +5,10 @@ import org.springframework.boot.context.properties.bind.BindContext;
 import org.springframework.boot.context.properties.bind.BindHandler;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
+import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class ListenableBindHandlerAdapterTests {
@@ -20,7 +22,7 @@ class ListenableBindHandlerAdapterTests {
     @Test
     void shouldDelegateOnStartToListeners() {
         BindListener listener = mock(BindListener.class);
-        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(BindHandler.DEFAULT, java.util.Collections.singletonList(listener));
+        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(BindHandler.DEFAULT, Collections.singletonList(listener));
         adapter.onStart(name, target, context);
         verify(listener).onStart(name, target, context);
     }
@@ -29,7 +31,7 @@ class ListenableBindHandlerAdapterTests {
     void shouldDelegateOnSuccessToListeners() {
         BindListener listener = mock(BindListener.class);
         when(listener.onSuccess(name, target, context, "result")).thenReturn("modified");
-        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(BindHandler.DEFAULT, java.util.Collections.singletonList(listener));
+        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(BindHandler.DEFAULT, Collections.singletonList(listener));
         Object result = adapter.onSuccess(name, target, context, "result");
         assertThat(result).isEqualTo("modified");
     }
@@ -37,16 +39,19 @@ class ListenableBindHandlerAdapterTests {
     @Test
     void shouldDelegateOnFailureToListeners() throws Exception {
         BindListener listener = mock(BindListener.class);
-        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(BindHandler.DEFAULT, java.util.Collections.singletonList(listener));
         Exception error = new RuntimeException("test error");
-        adapter.onFailure(name, target, context, error);
+        BindHandler parent = mock(BindHandler.class);
+        doThrow(error).when(parent).onFailure(any(), any(), any(), any());
+        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(parent, Collections.singletonList(listener));
+        assertThatThrownBy(() -> adapter.onFailure(name, target, context, error))
+                .isInstanceOf(RuntimeException.class);
         verify(listener).onFailure(name, target, context, error);
     }
 
     @Test
     void shouldDelegateOnFinishToListeners() throws Exception {
         BindListener listener = mock(BindListener.class);
-        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(BindHandler.DEFAULT, java.util.Collections.singletonList(listener));
+        ListenableBindHandlerAdapter adapter = new ListenableBindHandlerAdapter(BindHandler.DEFAULT, Collections.singletonList(listener));
         adapter.onFinish(name, target, context, "result");
         verify(listener).onFinish(name, target, context, "result");
     }

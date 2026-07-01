@@ -9,26 +9,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BindHandlerUtilsTests {
 
     @Test
-    void shouldCreateDefaultHandlerWhenNoFlags() {
-        BindHandler handler = BindHandlerUtils.createBindHandler(true, true);
+    void shouldReturnDefaultWhenNeitherFlag() {
+        BindHandler handler = BindHandlerUtils.createBindHandler(true, false);
         assertThat(handler).isSameAs(BindHandler.DEFAULT);
     }
 
     @Test
     void shouldWrapWithIgnoreErrorsWhenInvalidFieldsIgnored() {
-        BindHandler handler = BindHandlerUtils.createBindHandler(true, false);
+        BindHandler handler = BindHandlerUtils.createBindHandler(true, true);
         assertThat(handler).isInstanceOf(IgnoreErrorsBindHandler.class);
     }
 
     @Test
     void shouldWrapWithNoUnboundElementsWhenUnknownFieldsNotIgnored() {
-        BindHandler handler = BindHandlerUtils.createBindHandler(false, true);
+        BindHandler handler = BindHandlerUtils.createBindHandler(false, false);
         assertThat(handler).isInstanceOf(NoUnboundElementsBindHandler.class);
     }
 
     @Test
     void shouldChainBothHandlersWhenBothFlagsSet() {
-        BindHandler handler = BindHandlerUtils.createBindHandler(false, false);
+        BindHandler handler = BindHandlerUtils.createBindHandler(false, true);
         assertThat(handler).isInstanceOf(NoUnboundElementsBindHandler.class);
     }
 }
