@@ -1,7 +1,7 @@
-package io.zhijun.spring.boot.web.autoconfigure;
-
-import io.zhijun.spring.boot.condition.ConditionalOnWebAvailable;
-import io.zhijun.spring.webmvc.ConfigurableContentNegotiationManagerWebMvcConfigurer;
+ package io.zhijun.spring.boot.web.autoconfigure;
+ 
+ import io.zhijun.spring.boot.condition.ConditionalOnWebMvcAvailable;
+ import io.zhijun.spring.webmvc.ConfigurableContentNegotiationManagerWebMvcConfigurer;
 import io.zhijun.spring.webmvc.ContentCachingFilter;
 import io.zhijun.spring.webmvc.ExclusiveViewResolverApplicationListener;
 import io.zhijun.spring.webmvc.annotation.EnableWebMvcExtension;
@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Import;
  * @see EnableWebMvcExtension
  * @since 1.0.0
  */
-@ConditionalOnWebAvailable
+@ConditionalOnWebMvcAvailable
 @AutoConfiguration(afterName = "org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration")
 @EnableWebMvcExtension(
     registerHandlerInterceptors = true,

@@ -21,6 +21,8 @@ import java.util.Map;
 public class DelegatingHandlerMethodAdvice extends OnceApplicationContextEventListener<ContextRefreshedEvent>
         implements HandlerMethodAdvice {
 
+    public static final String BEAN_NAME = "delegatingHandlerMethodAdvice";
+
     private static final Logger logger = LoggerFactory.getLogger(DelegatingHandlerMethodAdvice.class);
 
     /** HandlerMethodAdvice beans discovered from the container (excluding self). */

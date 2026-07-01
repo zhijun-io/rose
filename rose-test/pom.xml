@@ -11,20 +11,83 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rose-test</artifactId>
-    <name>Rose Test</name>
-    <description>Cross-theme JUnit test utilities and shared test classpath resources (logback-test.xml)</description>
+   <artifactId>rose-test</artifactId>
+   <name>Rose Test</name>
+   <description>Cross-theme JUnit test utilities and shared test classpath resources (logback-test.xml)</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+   <dependencies>
+        <!-- Core -->
+       <dependency>
+           <groupId>org.junit.jupiter</groupId>
+           <artifactId>junit-jupiter</artifactId>
+           <scope>compile</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.assertj</groupId>
+           <artifactId>assertj-core</artifactId>
+           <scope>compile</scope>
+       </dependency>
+       <!-- Optional: Spring Framework Test Support -->
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-context</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-test</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-web</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-webmvc</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-jdbc</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <!-- Optional: Servlet API -->
+       <dependency>
+           <groupId>jakarta.servlet</groupId>
+           <artifactId>jakarta.servlet-api</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <!-- Optional: Hamcrest (used by spring-test MockMvc matchers) -->
+       <dependency>
+           <groupId>org.hamcrest</groupId>
+           <artifactId>hamcrest</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <!-- Optional: Jackson for JSON testing -->
+       <dependency>
+           <groupId>com.fasterxml.jackson.core</groupId>
+           <artifactId>jackson-databind</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <!-- Optional: Embedded Database -->
+       <dependency>
+           <groupId>com.h2database</groupId>
+           <artifactId>h2</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <!-- Optional: Embedded Tomcat -->
+       <dependency>
+           <groupId>org.apache.tomcat.embed</groupId>
+           <artifactId>tomcat-embed-core</artifactId>
+           <optional>true</optional>
+       </dependency>
+       <!-- Test-only: Logback for logging tests -->
+       <dependency>
+           <groupId>ch.qos.logback</groupId>
+           <artifactId>logback-classic</artifactId>
+           <scope>test</scope>
+       </dependency>
+   </dependencies>
 </project>
