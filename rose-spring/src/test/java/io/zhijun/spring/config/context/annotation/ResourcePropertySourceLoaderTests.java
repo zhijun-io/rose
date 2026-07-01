@@ -133,23 +133,23 @@ class ResourcePropertySourceLoaderTests {
         assertThat(environment.getProperty("b")).isEqualTo("3");
     }
 
-    @ResourcePropertySource("classpath:/META-INF/test/*.properties")
+    @ResourcePropertySource("classpath*:/META-INF/test/*.properties")
     static class DefaultConfig {
     }
 
-    @ResourcePropertySource(name = "test-property-source", value = "classpath:/META-INF/test/*.properties")
+    @ResourcePropertySource(name = "test-property-source", value = "classpath*:/META-INF/test/*.properties")
     static class NamedConfig {
     }
 
-    @ResourcePropertySource(value = "classpath:/META-INF/test/*.properties", first = true)
+    @ResourcePropertySource(value = "classpath*:/META-INF/test/*.properties", first = true)
     static class FirstConfig {
     }
 
-    @ResourcePropertySource(value = "classpath:/META-INF/test/*.properties", before = SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)
+    @ResourcePropertySource(value = "classpath*:/META-INF/test/*.properties", before = SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)
     static class BeforeConfig {
     }
 
-    @ResourcePropertySource(value = "classpath:/META-INF/test/*.properties", after = SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)
+    @ResourcePropertySource(value = "classpath*:/META-INF/test/*.properties", after = SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)
     static class AfterConfig {
     }
 

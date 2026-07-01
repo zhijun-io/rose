@@ -40,14 +40,22 @@ public class ResourcePropertySourceLoader extends PropertySourceExtensionLoader<
         this.pathMatcher = resolver.getPathMatcher();
     }
 
+    private void ensureInitialized() {
+        if (this.resourcePatternResolver == null || this.pathMatcher == null) {
+            afterPropertiesSet();
+        }
+    }
+
     @Override
     protected Resource[] resolveResources(PropertySourceExtensionAttributes<ResourcePropertySource> extensionAttributes,
                                           String propertySourceName, String resourceValue) throws Throwable {
+        ensureInitialized();
         return this.resourcePatternResolver.getResources(resourceValue);
     }
 
     @Override
     public boolean isResourcePattern(String resourceValue) {
+        ensureInitialized();
         return pathMatcher.isPattern(resourceValue);
     }
 
@@ -56,6 +64,7 @@ public class ResourcePropertySourceLoader extends PropertySourceExtensionLoader<
                                                              List<PropertySourceResource> propertySourceResources,
                                                              CompositePropertySource propertySource,
                                                              ResourcePropertySourcesRefresher refresher) throws Throwable {
+        ensureInitialized();
         this.watchService = WatchService.defaults();
         ListenerAdapter listenerAdapter = new ListenerAdapter(refresher);
         for (PropertySourceResource propertySourceResource : propertySourceResources) {

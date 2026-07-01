@@ -60,9 +60,14 @@ class DefaultPropertiesPropertySourceLoader extends AnnotatedBeanCapableImportSe
     }
 
     void loadPropertySource(PropertySource<?> propertySource, Map<String, Object> defaultProperties) {
+        if (propertySource == null) {
+            return;
+        }
         if (propertySource instanceof EnumerablePropertySource) {
             EnumerablePropertySource<?> enumerable = (EnumerablePropertySource<?>) propertySource;
-            for (String propertyName : enumerable.getPropertyNames()) {
+            String[] propertyNames = enumerable.getPropertyNames();
+            for (int i = propertyNames.length - 1; i >= 0; i--) {
+                String propertyName = propertyNames[i];
                 defaultProperties.put(propertyName, enumerable.getProperty(propertyName));
             }
         }

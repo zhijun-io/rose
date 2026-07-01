@@ -102,9 +102,10 @@ public abstract class PropertySourceExtensionLoader<A extends Annotation, EA ext
         }
         PropertySourceFactory factory = createPropertySourceFactory(extensionAttributes);
         CompositePropertySource compositePropertySource = new CompositePropertySource(propertySourceName);
-        for (PropertySourceResource propertySourceResource : resources) {
-            compositePropertySource.addPropertySource(createResourcePropertySource(extensionAttributes, propertySourceName,
-                    factory, propertySourceResource));
+        for (int i = resources.size() - 1; i >= 0; i--) {
+            PropertySourceResource propertySourceResource = resources.get(i);
+            compositePropertySource.addPropertySource(
+                    createResourcePropertySource(extensionAttributes, propertySourceName, factory, propertySourceResource));
         }
         if (extensionAttributes.isAutoRefreshed()) {
             configureResourcePropertySourcesRefresher(extensionAttributes, resources, compositePropertySource,
@@ -194,8 +195,8 @@ public abstract class PropertySourceExtensionLoader<A extends Annotation, EA ext
     private void updatePropertySources(String propertySourceName, List<ResourceBackedPropertySource> propertySources) {
         Collections.sort(propertySources);
         CompositePropertySource compositePropertySource = new CompositePropertySource(propertySourceName);
-        for (ResourceBackedPropertySource propertySource : propertySources) {
-            compositePropertySource.addPropertySource(propertySource);
+        for (int i = propertySources.size() - 1; i >= 0; i--) {
+            compositePropertySource.addPropertySource(propertySources.get(i));
         }
         getEnvironment().getPropertySources().replace(propertySourceName, compositePropertySource);
     }
