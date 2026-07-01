@@ -1,6 +1,6 @@
 package io.zhijun.spring.config.binder;
 
-import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
+import io.zhijun.spring.context.annotation.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;

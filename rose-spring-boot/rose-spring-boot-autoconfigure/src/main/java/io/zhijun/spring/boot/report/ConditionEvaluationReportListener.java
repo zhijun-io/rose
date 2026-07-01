@@ -22,7 +22,7 @@ public class ConditionEvaluationReportListener
     protected void reportConditions(ConfigurableApplicationContext context) {
         ConditionsReportMessageBuilder messageBuilder = new ConditionsReportMessageBuilder(context);
         for (String message : messageBuilder.build()) {
-            logger.info(message);
+            logger.debug(message);
         }
     }
 }

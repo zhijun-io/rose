@@ -1,7 +1,7 @@
 package io.zhijun.spring.context.event;
 
 import io.zhijun.core.annotation.Nullable;
-import io.zhijun.spring.beans.GenericBeanPostProcessorAdapter;
+import io.zhijun.spring.beans.factory.config.GenericBeanPostProcessorAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

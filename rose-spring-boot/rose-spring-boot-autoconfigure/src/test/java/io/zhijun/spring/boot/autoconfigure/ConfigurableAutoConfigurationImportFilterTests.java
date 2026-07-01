@@ -3,6 +3,8 @@ package io.zhijun.spring.boot.autoconfigure;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
 import org.springframework.mock.env.MockEnvironment;
+
+import static io.zhijun.spring.boot.constants.PropertyConstants.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -22,8 +24,8 @@ class ConfigurableAutoConfigurationImportFilterTests {
     @Test
     void shouldExcludeConfiguredClasses() {
         MockEnvironment env = new MockEnvironment();
-        env.setProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
-                "com.example.MyAutoConfig");
+        env.setProperty(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
+            "com.example.MyAutoConfig");
         filter.setEnvironment(env);
 
         String[] classes = {"com.example.MyAutoConfig", "com.example.OtherConfig"};
@@ -35,8 +37,8 @@ class ConfigurableAutoConfigurationImportFilterTests {
     @Test
     void shouldExcludeMultipleConfiguredClasses() {
         MockEnvironment env = new MockEnvironment();
-        env.setProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
-                "com.example.MyAutoConfig,com.example.OtherConfig");
+        env.setProperty(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
+            "com.example.MyAutoConfig,com.example.OtherConfig");
         filter.setEnvironment(env);
 
         String[] classes = {"com.example.MyAutoConfig", "com.example.OtherConfig", "com.example.ThirdConfig"};
@@ -48,8 +50,8 @@ class ConfigurableAutoConfigurationImportFilterTests {
     @Test
     void shouldReturnTrueForEmptyClassName() {
         MockEnvironment env = new MockEnvironment();
-        env.setProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
-                "com.example.MyAutoConfig");
+        env.setProperty(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME,
+            "com.example.MyAutoConfig");
         filter.setEnvironment(env);
 
         String[] classes = {"", null};
@@ -66,16 +68,16 @@ class ConfigurableAutoConfigurationImportFilterTests {
     @Test
     void shouldGetExcludedClassesFromEnvironment() {
         MockEnvironment env = new MockEnvironment();
-        env.setProperty(ConfigurableAutoConfigurationImportFilter.AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME, "com.example.TestConfig");
+        env.setProperty(AUTO_CONFIGURE_EXCLUDE_PROPERTY_NAME, "com.example.TestConfig");
         assertThat(ConfigurableAutoConfigurationImportFilter
-                .getExcludedAutoConfigurationClasses(env)).isNotEmpty();
+            .getExcludedAutoConfigurationClasses(env)).isNotEmpty();
     }
 
     @Test
     void shouldReturnEmptyWhenNoExclusions() {
         MockEnvironment env = new MockEnvironment();
         assertThat(ConfigurableAutoConfigurationImportFilter
-                .getExcludedAutoConfigurationClasses(env)).isEmpty();
+            .getExcludedAutoConfigurationClasses(env)).isEmpty();
     }
 
     @Test
@@ -83,6 +85,6 @@ class ConfigurableAutoConfigurationImportFilterTests {
         MockEnvironment env = new MockEnvironment();
         ConfigurableAutoConfigurationImportFilter.addExcludedAutoConfigurationClass(env, "com.example.DynamicExclude");
         assertThat(ConfigurableAutoConfigurationImportFilter.getExcludedAutoConfigurationClasses(env))
-                .contains("com.example.DynamicExclude");
+            .contains("com.example.DynamicExclude");
     }
 }

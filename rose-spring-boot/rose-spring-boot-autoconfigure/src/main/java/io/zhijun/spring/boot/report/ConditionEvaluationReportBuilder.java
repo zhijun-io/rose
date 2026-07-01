@@ -1,5 +1,6 @@
 package io.zhijun.spring.boot.report;
 
+import io.zhijun.core.annotation.NonNull;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport;
@@ -16,15 +17,41 @@ import static java.util.Collections.unmodifiableMap;
 abstract class ConditionEvaluationReportBuilder {
 
     private static final Map<ConfigurableListableBeanFactory, ConditionEvaluationReport> reports =
-            new ConcurrentHashMap<ConfigurableListableBeanFactory, ConditionEvaluationReport>();
+        new ConcurrentHashMap<ConfigurableListableBeanFactory, ConditionEvaluationReport>();
 
+    /**
+     * Builds or retrieves a cached {@link ConditionEvaluationReport} for the given bean factory.
+     *
+     * <h3>Example Usage</h3>
+     * <pre>{@code
+     *   ConfigurableListableBeanFactory beanFactory = applicationContext.getBeanFactory();
+     *   ConditionEvaluationReport report = ConditionEvaluationReportBuilder.build(beanFactory);
+     * }</pre>
+     *
+     * @param beanFactory the {@link ConfigurableListableBeanFactory} to build the report for
+     * @return the {@link ConditionEvaluationReport} associated with the given bean factory
+     */
     static ConditionEvaluationReport build(ConfigurableListableBeanFactory beanFactory) {
         return reports.computeIfAbsent(beanFactory, ConditionEvaluationReport::get);
     }
 
+    /**
+     * Returns an unmodifiable map of all cached {@link ConditionEvaluationReport} instances,
+     * keyed by their bean factory identifiers.
+     *
+     * <h3>Example Usage</h3>
+     * <pre>{@code
+     *   Map<String, ConditionEvaluationReport> reportsMap = ConditionEvaluationReportBuilder.getReportsMap();
+     *   reportsMap.forEach((id, report) -> {
+     *       System.out.println("Context: " + id + ", Exclusions: " + report.getExclusions());
+     *   });
+     * }</pre>
+     *
+     * @return an unmodifiable map of bean factory IDs to their {@link ConditionEvaluationReport}
+     */
     static Map<String, ConditionEvaluationReport> getReportsMap() {
         Map<String, ConditionEvaluationReport> reportsMap =
-                new LinkedHashMap<String, ConditionEvaluationReport>(reports.size());
+            new LinkedHashMap<String, ConditionEvaluationReport>(reports.size());
         for (Map.Entry<ConfigurableListableBeanFactory, ConditionEvaluationReport> entry : reports.entrySet()) {
             String id = getBeanFactoryId(entry.getKey());
             reportsMap.put(id, entry.getValue());
@@ -32,6 +59,22 @@ abstract class ConditionEvaluationReportBuilder {
         return unmodifiableMap(reportsMap);
     }
 
+    /**
+     * Resolves the identifier for the given {@link ConfigurableListableBeanFactory}.
+     * If the factory is a {@link DefaultListableBeanFactory}, its serialization ID is returned;
+     * otherwise, an identity string is generated.
+     *
+     * <h3>Example Usage</h3>
+     * <pre>{@code
+     *   ConfigurableListableBeanFactory beanFactory = applicationContext.getBeanFactory();
+     *   String id = ConditionEvaluationReportBuilder.getBeanFactoryId(beanFactory);
+     *   System.out.println("BeanFactory ID: " + id);
+     * }</pre>
+     *
+     * @param beanFactory the {@link ConfigurableListableBeanFactory} to resolve the ID for
+     * @return the identifier string for the given bean factory, never {@code null}
+     */
+    @NonNull
     static String getBeanFactoryId(ConfigurableListableBeanFactory beanFactory) {
         if (beanFactory instanceof DefaultListableBeanFactory) {
             return ((DefaultListableBeanFactory) beanFactory).getSerializationId();
@@ -39,12 +82,6 @@ abstract class ConditionEvaluationReportBuilder {
         return Integer.toHexString(System.identityHashCode(beanFactory));
     }
 
-    /**
-     * Remove the cached report for the given bean factory. Useful for test cleanup.
-     */
-    static void remove(ConfigurableListableBeanFactory beanFactory) {
-        reports.remove(beanFactory);
+    private ConditionEvaluationReportBuilder() {
     }
-
-    private ConditionEvaluationReportBuilder() {}
 }

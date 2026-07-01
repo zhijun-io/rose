@@ -1,7 +1,6 @@
 package io.zhijun.spring.core.env;
 
 import io.zhijun.spring.context.ConfigurableApplicationContextInitializer;
-import io.zhijun.spring.core.PropertyConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 

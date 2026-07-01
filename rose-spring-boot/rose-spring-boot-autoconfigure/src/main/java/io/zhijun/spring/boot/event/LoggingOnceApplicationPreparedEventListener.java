@@ -3,6 +3,7 @@ package io.zhijun.spring.boot.event;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import static io.zhijun.spring.boot.constants.PropertyConstants.DEFAULT_LOGGING_LEVEL;
 import static io.zhijun.spring.boot.util.SpringApplicationUtils.*;
 
 /**

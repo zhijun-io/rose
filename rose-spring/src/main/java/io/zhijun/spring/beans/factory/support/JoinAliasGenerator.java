@@ -1,7 +1,5 @@
 package io.zhijun.spring.beans.factory.support;
 
-import io.zhijun.spring.beans.ConfigurationBeanAliasGenerator;
-
 import static org.springframework.util.StringUtils.capitalize;
 
 /**

@@ -24,7 +24,7 @@ public final class ArtifactsCollisionDiagnosisListener
 
     private static final Logger logger = LoggerFactory.getLogger(ArtifactsCollisionDiagnosisListener.class);
 
-    private final ClasspathMavenArtifactScanner scanner = new ClasspathMavenArtifactScanner();
+    private final io.zhijun.core.classloading.ClasspathMavenArtifactScanner scanner = new io.zhijun.core.classloading.ClasspathMavenArtifactScanner();
 
     @Override
     public void onApplicationEvent(ApplicationContextInitializedEvent event) {

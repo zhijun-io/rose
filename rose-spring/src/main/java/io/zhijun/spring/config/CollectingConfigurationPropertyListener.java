@@ -1,13 +1,13 @@
 package io.zhijun.spring.config;
 
-import io.zhijun.spring.beans.factory.AutowireCandidateResolvingListener;
+import io.zhijun.spring.beans.factory.support.AutowireCandidateResolvingListener;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
-import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBean;
-import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBeanDefinition;
+import static io.zhijun.spring.beans.factory.support.BeanRegistrar.registerBean;
+import static io.zhijun.spring.beans.factory.support.BeanRegistrar.registerBeanDefinition;
 
 /**
  * Listens for autowire candidate resolution events to collect configuration properties.

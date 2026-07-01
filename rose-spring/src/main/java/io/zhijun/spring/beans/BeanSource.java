@@ -10,8 +10,8 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 import java.util.*;
 
 import static io.zhijun.spring.beans.factory.BeanFactoryUtils.*;
-import static io.zhijun.spring.beans.factory.BeanRegistrar.registerGenericBeans;
-import static io.zhijun.spring.core.SpringFactoriesLoaderUtils.loadFactoryClasses;
+import static io.zhijun.spring.beans.factory.support.BeanRegistrar.registerGenericBeans;
+import static io.zhijun.spring.core.io.SpringFactoriesLoaderUtils.loadFactoryClasses;
 
 /**
  * Bean 来源枚举。

@@ -1,5 +1,6 @@
 package io.zhijun.spring.core;
 
+import io.zhijun.spring.core.io.SpringFactoriesLoaderUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContextInitializer;

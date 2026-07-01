@@ -1,6 +1,6 @@
 package io.zhijun.spring.boot.actuator.autoconfigure;
 
-import io.zhijun.spring.core.MonitoredThreadPoolTaskScheduler;
+import io.zhijun.spring.core.scheduling.MonitoredThreadPoolTaskScheduler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

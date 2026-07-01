@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.zhijun</groupId>
+        <artifactId>rose-examples</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>rose-examples-spring-boot</artifactId>
+
+    <name>Rose Examples Spring Boot</name>
+    <description>Example Spring Boot application for validating rose-spring-boot starters.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.zhijun</groupId>
+            <artifactId>rose-spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -14,7 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static io.zhijun.spring.beans.BeanDefinitionUtils.resolveBeanType;
+import static io.zhijun.spring.beans.factory.config.BeanDefinitionUtils.resolveBeanType;
 import static org.springframework.util.Assert.isInstanceOf;
 
 public abstract class BeanFactoryUtils {

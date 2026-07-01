@@ -1,8 +1,7 @@
 
 package io.zhijun.spring.context.annotation;
 
-import io.zhijun.spring.context.OverrideAnnotationAttributesStrategy;
-import io.zhijun.spring.core.PropertyConstants;
+import io.zhijun.spring.constants.PropertyConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.EnvironmentAware;
@@ -17,7 +16,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static io.zhijun.spring.core.PropertyConstants.*;
+import static io.zhijun.spring.constants.PropertyConstants.*;
 import static io.zhijun.spring.core.env.EnvironmentUtils.asConfigurableEnvironment;
 import static io.zhijun.spring.core.env.EnvironmentUtils.getConversionService;
 import static io.zhijun.spring.core.env.PropertySourcesUtils.getSubProperties;

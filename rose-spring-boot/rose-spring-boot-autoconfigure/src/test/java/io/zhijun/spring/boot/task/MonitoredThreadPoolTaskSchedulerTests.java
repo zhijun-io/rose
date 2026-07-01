@@ -1,7 +1,7 @@
 package io.zhijun.spring.boot.task;
 
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
-import io.zhijun.spring.core.MonitoredThreadPoolTaskScheduler;
+import io.zhijun.spring.core.scheduling.MonitoredThreadPoolTaskScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.GenericApplicationContext;
 

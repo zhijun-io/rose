@@ -1,5 +1,6 @@
 package io.zhijun.spring.beans.factory;
 
+import io.zhijun.spring.beans.factory.annotation.AbstractInjectionPointDependencyResolver;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import java.lang.reflect.*;

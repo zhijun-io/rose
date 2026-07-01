@@ -1,9 +1,9 @@
 package io.zhijun.spring.web.annotation;
 
 import io.zhijun.spring.beans.BeanSource;
-import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
+import io.zhijun.spring.context.annotation.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
-import io.zhijun.spring.web.DelegatingHandlerMethodAdvice;
+import io.zhijun.spring.web.method.support.DelegatingHandlerMethodAdvice;
 import io.zhijun.spring.web.event.WebEventPublisher;
 import io.zhijun.spring.web.metadata.CompositeWebEndpointMappingRegistry;
 import io.zhijun.spring.web.metadata.SimpleWebEndpointMappingRegistry;
@@ -12,7 +12,7 @@ import io.zhijun.spring.web.metadata.WebEndpointMappingFilter;
 import io.zhijun.spring.web.metadata.WebEndpointMappingRegistrar;
 import io.zhijun.spring.web.metadata.WebEndpointMappingRegistry;
 import io.zhijun.spring.web.metadata.WebEndpointMappingResolver;
- import io.zhijun.spring.web.HandlerMethodAdvice;
+ import io.zhijun.spring.web.method.support.HandlerMethodAdvice;
 import io.zhijun.spring.web.method.support.HandlerMethodArgumentInterceptor;
 import io.zhijun.spring.web.method.support.HandlerMethodInterceptor;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import static io.zhijun.spring.beans.BeanSource.registerBeans;
-import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBeanDefinition;
-import static io.zhijun.spring.web.DelegatingHandlerMethodAdvice.BEAN_NAME;
+import static io.zhijun.spring.beans.factory.support.BeanRegistrar.registerBeanDefinition;
+import static io.zhijun.spring.web.method.support.DelegatingHandlerMethodAdvice.BEAN_NAME;
 
 /**
  * {@link EnableWebExtension} 的 {@link org.springframework.context.annotation.ImportBeanDefinitionRegistrar} 实现。

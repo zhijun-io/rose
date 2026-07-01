@@ -1,5 +1,4 @@
 package io.zhijun.spring.context.config;
-import io.zhijun.spring.config.binder.ConfigurationBeanBinder;
 
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.core.convert.ConversionService;

@@ -1,5 +1,6 @@
 package io.zhijun.spring.beans;
 
+import io.zhijun.spring.beans.factory.config.BeanDefinitionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;

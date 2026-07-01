@@ -1,7 +1,6 @@
 package io.zhijun.spring.webmvc.method;
 
-import io.zhijun.spring.web.HandlerMethodAdvice;
-import io.zhijun.spring.webmvc.HandlerMethodArgumentResolverAdvice;
+import io.zhijun.spring.web.method.support.HandlerMethodAdvice;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package io.zhijun.spring.boot.bind;
 
-import io.zhijun.spring.config.binder.ConfigurationBeanBinder;
+import io.zhijun.spring.context.config.ConfigurationBeanBinder;
 
 import org.springframework.boot.context.properties.bind.BindHandler;
 import org.springframework.boot.context.properties.bind.Bindable;

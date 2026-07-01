@@ -1,6 +1,6 @@
 package io.zhijun.spring.boot.condition;
 
-import io.zhijun.spring.web.HandlerMethodAdvice;
+import io.zhijun.spring.web.method.support.HandlerMethodAdvice;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;

@@ -1,8 +1,8 @@
 package io.zhijun.spring.webmvc.annotation;
 
-import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
+import io.zhijun.spring.context.annotation.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
-import io.zhijun.spring.webmvc.ReversedProxyHandlerMapping;
+import io.zhijun.spring.webmvc.handler.ReversedProxyHandlerMapping;
 import io.zhijun.spring.webmvc.advice.StoringRequestBodyArgumentAdvice;
 import io.zhijun.spring.webmvc.advice.StoringResponseBodyReturnValueAdvice;
 import io.zhijun.spring.webmvc.interceptor.LazyCompositeHandlerInterceptor;

@@ -1,8 +1,8 @@
  package io.zhijun.spring.boot.web.autoconfigure;
- 
+
  import io.zhijun.spring.boot.condition.ConditionalOnWebMvcAvailable;
  import io.zhijun.spring.webmvc.ConfigurableContentNegotiationManagerWebMvcConfigurer;
-import io.zhijun.spring.webmvc.ContentCachingFilter;
+import io.zhijun.spring.webmvc.servlet.ContentCachingFilter;
 import io.zhijun.spring.webmvc.SingleViewResolverConfigurationListener;
 import io.zhijun.spring.webmvc.annotation.EnableWebMvcExtension;
 import io.zhijun.spring.webmvc.interceptor.LoggingMethodHandlerInterceptor;

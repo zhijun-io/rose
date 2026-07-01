@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 
-import static io.zhijun.spring.core.PropertyConstants.ENABLED_PROPERTY_NAME;
-import static io.zhijun.spring.core.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
+import static io.zhijun.spring.constants.PropertyConstants.ENABLED_PROPERTY_NAME;
+import static io.zhijun.spring.constants.PropertyConstants.ROSE_SPRING_PROPERTY_NAME_PREFIX;
 
 /**
  * Abstract base class for components that are enabled or disabled based on {@link Environment}.

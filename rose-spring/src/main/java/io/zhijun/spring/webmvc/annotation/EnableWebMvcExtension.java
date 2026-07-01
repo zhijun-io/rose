@@ -1,7 +1,7 @@
 package io.zhijun.spring.webmvc.annotation;
 
-import io.zhijun.spring.context.OverrideAnnotationAttributes;
-import io.zhijun.spring.webmvc.ReversedProxyHandlerMapping;
+import io.zhijun.spring.context.annotation.OverrideAnnotationAttributes;
+import io.zhijun.spring.webmvc.handler.ReversedProxyHandlerMapping;
 import io.zhijun.spring.webmvc.advice.StoringRequestBodyArgumentAdvice;
 import io.zhijun.spring.webmvc.advice.StoringResponseBodyReturnValueAdvice;
 import org.springframework.context.annotation.Import;

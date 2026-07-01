@@ -1,5 +1,6 @@
 package io.zhijun.spring.boot.report;
 
+import io.zhijun.core.util.FormatUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -9,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.lang.String.format;
+import static io.zhijun.spring.boot.constants.PropertyConstants.BASE_PACKAGES_PROPERTY_NAME;
+import static io.zhijun.spring.boot.constants.PropertyConstants.DEFAULT_BASE_PACKAGE;
 import static java.lang.System.lineSeparator;
 import static java.util.Collections.singleton;
 
@@ -20,11 +22,6 @@ import static java.util.Collections.singleton;
  * 配置过滤的包前缀。
  */
 public class ConditionsReportMessageBuilder {
-
-    private static final String DEFAULT_BASE_PACKAGE = "io.zhijun";
-
-    public static final String BASE_PACKAGES_PROPERTY_NAME =
-            "rose.spring.boot.conditions.report.base-packages";
 
     private static final Set<String> DEFAULT_BASE_PACKAGES = singleton(DEFAULT_BASE_PACKAGE);
 
@@ -67,7 +64,7 @@ public class ConditionsReportMessageBuilder {
     private void appendConditionAndOutcomes(ConditionEvaluationReport report, StringBuilder sb) {
         Set<String> basePackages = getBasePackages();
         Map<String, ConditionEvaluationReport.ConditionAndOutcomes> map =
-                report.getConditionAndOutcomesBySource();
+            report.getConditionAndOutcomesBySource();
         for (Map.Entry<String, ConditionEvaluationReport.ConditionAndOutcomes> entry : map.entrySet()) {
             appendConditionAndOutcomes(entry.getKey(), entry.getValue(), basePackages, sb);
         }
@@ -102,10 +99,10 @@ public class ConditionsReportMessageBuilder {
     private Set<String> getBasePackages() {
         ConfigurableEnvironment environment = context.getEnvironment();
         return environment.getProperty(BASE_PACKAGES_PROPERTY_NAME, Set.class,
-                DEFAULT_BASE_PACKAGES);
+            DEFAULT_BASE_PACKAGES);
     }
 
     private void appendLine(StringBuilder sb, String text, Object... args) {
-        sb.append(format(text, args)).append(lineSeparator());
+        sb.append(FormatUtils.format(text, args)).append(lineSeparator());
     }
 }

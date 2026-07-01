@@ -1,6 +1,5 @@
 package io.zhijun.spring.beans.factory.support;
 
-import io.zhijun.spring.beans.factory.AutowireCandidateResolvingListener;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.DependencyDescriptor;
 

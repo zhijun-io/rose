@@ -1,17 +1,7 @@
 package io.zhijun.spring.web.annotation;
 
 import io.zhijun.spring.beans.BeanSource;
-import io.zhijun.spring.web.event.HandlerMethodArgumentsResolvedEvent;
-import io.zhijun.spring.web.event.WebEndpointMappingsReadyEvent;
-import io.zhijun.spring.web.event.WebEventPublisher;
 import io.zhijun.spring.web.metadata.WebEndpointMapping;
-import io.zhijun.spring.web.metadata.WebEndpointMappingFactory;
-import io.zhijun.spring.web.metadata.WebEndpointMappingFilter;
-import io.zhijun.spring.web.metadata.WebEndpointMappingRegistry;
-import io.zhijun.spring.web.metadata.WebEndpointMappingResolver;
- import io.zhijun.spring.web.HandlerMethodAdvice;
-import io.zhijun.spring.web.method.support.HandlerMethodArgumentInterceptor;
-import io.zhijun.spring.web.method.support.HandlerMethodInterceptor;
 import io.zhijun.spring.web.util.RequestContextStrategy;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.context.request.RequestAttributes;

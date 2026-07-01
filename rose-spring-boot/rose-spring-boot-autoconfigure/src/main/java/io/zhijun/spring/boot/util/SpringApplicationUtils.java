@@ -1,5 +1,7 @@
 package io.zhijun.spring.boot.util;
 
+import io.zhijun.core.util.FormatUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -8,10 +10,11 @@ import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static io.zhijun.spring.boot.constants.PropertyConstants.ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX;
+import static io.zhijun.spring.boot.constants.PropertyConstants.*;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Locale.ENGLISH;
 import static org.springframework.util.StringUtils.hasText;
@@ -23,11 +26,12 @@ public abstract class SpringApplicationUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(SpringApplicationUtils.class);
 
-    public static final String LOGGING_LEVEL_PROPERTY_NAME = ROSE_SPRING_BOOT_PROPERTY_NAME_PREFIX + "logging-level";
-
-    public static final String DEFAULT_LOGGING_LEVEL = "INFO";
-
     private static final Set<String> defaultPropertiesResources = new LinkedHashSet<>();
+
+    //TODO
+//    static {
+//        addShutdownHookCallback(defaultPropertiesResources::clear);
+//    }
 
     public static void addDefaultPropertiesResource(String resourceLocation) {
         if (hasText(resourceLocation)) {
@@ -61,7 +65,7 @@ public abstract class SpringApplicationUtils {
 
     public static String getLoggingLevel(PropertyResolver propertyResolver) {
         String level = propertyResolver == null ? DEFAULT_LOGGING_LEVEL :
-                propertyResolver.getProperty(LOGGING_LEVEL_PROPERTY_NAME, DEFAULT_LOGGING_LEVEL);
+            propertyResolver.getProperty(LOGGING_LEVEL_PROPERTY_NAME, DEFAULT_LOGGING_LEVEL);
         return level.toUpperCase(ENGLISH);
     }
 
@@ -71,37 +75,40 @@ public abstract class SpringApplicationUtils {
 
     public static void log(SpringApplication springApplication, String[] args, ConfigurableApplicationContext context,
                            String pattern, Object... patternArgs) {
-        String message = "SpringApplication: main class: '{}', web type: '{}', args: {}, context id: '{}', log: {}";
+        String messagePattern = "SpringApplication: main class : '{}', web type : '{}', sources : {}, all sources : {}, additional profiles : {}, initializers : {}, listeners : {}, args : {}, context id : '{}', log : {}";
 
-        Object[] arguments = {
-                springApplication.getMainApplicationClass(),
-                springApplication.getWebApplicationType(),
-                java.util.Arrays.toString(args),
-                context == null ? "N/A" : context.getId(),
-                pattern
-        };
+        Object[] arguments = ArrayUtils.toArray(springApplication.getMainApplicationClass(),
+            springApplication.getWebApplicationType(),
+            springApplication.getSources(),
+            springApplication.getAllSources(),
+            springApplication.getAdditionalProfiles(),
+            springApplication.getInitializers(),
+            springApplication.getListeners(),
+            Arrays.toString(args),
+            context == null ? "N/A" : context.getId(),
+            FormatUtils.format(pattern, patternArgs));
 
         String level = getLoggingLevel(context);
 
         switch (level) {
             case "TRACE":
                 if (logger.isTraceEnabled()) {
-                    logger.trace(message, arguments);
+                    logger.trace(messagePattern, arguments);
                 }
                 break;
             case "DEBUG":
                 if (logger.isDebugEnabled()) {
-                    logger.debug(message, arguments);
+                    logger.debug(messagePattern, arguments);
                 }
                 break;
             case "INFO":
-                logger.info(message, arguments);
+                logger.info(messagePattern, arguments);
                 break;
             case "WARN":
-                logger.warn(message, arguments);
+                logger.warn(messagePattern, arguments);
                 break;
             case "ERROR":
-                logger.error(message, arguments);
+                logger.error(messagePattern, arguments);
                 break;
             default:
                 if (logger.isTraceEnabled()) {

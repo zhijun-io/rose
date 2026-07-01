@@ -1,6 +1,6 @@
 package io.zhijun.spring.web.event;
 
-import io.zhijun.spring.web.HandlerMethodAdvice;
+import io.zhijun.spring.web.method.support.HandlerMethodAdvice;
 import io.zhijun.spring.web.metadata.WebEndpointMapping;
 import io.zhijun.spring.web.metadata.WebEndpointMappingRegistry;
 import org.slf4j.Logger;

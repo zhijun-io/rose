@@ -1,9 +1,10 @@
 package io.zhijun.spring.beans.factory;
 
+import io.zhijun.spring.beans.factory.support.AutowireCandidateResolvingListener;
+import io.zhijun.spring.beans.factory.support.ListenableAutowireCandidateResolver;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 import java.lang.reflect.Field;
 

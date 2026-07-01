@@ -2,7 +2,6 @@ package io.zhijun.devservice.test;
 
 import io.zhijun.devservice.core.bootstrap.BootstrapMode;
 import io.zhijun.devservice.core.docker.DockerEnvironmentSupport;
-import io.zhijun.spring.boot.config.DefaultConfigEnvironmentPostProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -62,15 +61,15 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     @Test
     void autoConfigurationNotActivatedWhenGloballyDisabled() {
         getContextRunner()
-                .withPropertyValues("rose.dev.enabled=false")
-                .run(context -> assertThat(context).doesNotHaveBean(getContainerClass()));
+            .withPropertyValues("rose.dev.enabled=false")
+            .run(context -> assertThat(context).doesNotHaveBean(getContainerClass()));
     }
 
     @Test
     void autoConfigurationNotActivatedWhenDisabled() {
         getContextRunner()
-                .withPropertyValues(String.format("rose.dev.%s.enabled=false", getServiceName()))
-                .run(context -> assertThat(context).doesNotHaveBean(getContainerClass()));
+            .withPropertyValues(String.format("rose.dev.%s.enabled=false", getServiceName()))
+            .run(context -> assertThat(context).doesNotHaveBean(getContainerClass()));
     }
 
     @Test
@@ -85,28 +84,28 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     @Test
     void containerWithRestartScope() {
         getContextRunner()
-                .withClassLoader(this.getClass().getClassLoader())
-                .withInitializer(context -> context.getBeanFactory().registerScope("restart", new SimpleThreadScope()))
-                .run(context -> {
-                    assertThat(context).hasSingleBean(getContainerClass());
-                    String[] beanNames = context.getBeanFactory().getBeanNamesForType(getContainerClass());
-                    assertThat(beanNames).hasSize(1);
-                    assertThat(context.getBeanFactory()
-                                    .getBeanDefinition(beanNames[0])
-                                    .getScope())
-                            .isEqualTo("restart");
-                });
+            .withClassLoader(this.getClass().getClassLoader())
+            .withInitializer(context -> context.getBeanFactory().registerScope("restart", new SimpleThreadScope()))
+            .run(context -> {
+                assertThat(context).hasSingleBean(getContainerClass());
+                String[] beanNames = context.getBeanFactory().getBeanNamesForType(getContainerClass());
+                assertThat(beanNames).hasSize(1);
+                assertThat(context.getBeanFactory()
+                    .getBeanDefinition(beanNames[0])
+                    .getScope())
+                    .isEqualTo("restart");
+            });
     }
 
     protected void assertThatHasSingletonScope(AssertableApplicationContext context) {
         String[] beanNames = context.getBeanFactory().getBeanNamesForType(getContainerClass());
         assertThat(beanNames).hasSize(1);
         assertThat(context.getBeanFactory().getBeanDefinition(beanNames[0]).getScope())
-                .isEqualTo("singleton");
+            .isEqualTo("singleton");
     }
 
     protected <T extends GenericContainer<?>> void assertContainerAvailableInDevMode(
-            Class<T> containerClass, String expectedImageName, ThrowingConsumer<T> assertions) {
+        Class<T> containerClass, String expectedImageName, ThrowingConsumer<T> assertions) {
         getContextRunner().withSystemProperties("rose.bootstrap.mode=dev").run(context -> {
             assertThat(context).hasSingleBean(containerClass);
             T container = context.getBean(containerClass);
@@ -119,7 +118,7 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     }
 
     protected <T extends GenericContainer<?>> void assertContainerAvailableWithDefaultConfiguration(
-            Class<T> containerClass, String expectedImageName, ThrowingConsumer<T> assertions) {
+        Class<T> containerClass, String expectedImageName, ThrowingConsumer<T> assertions) {
         getContextRunner().run(context -> {
             assertThat(context).hasSingleBean(containerClass);
             T container = context.getBean(containerClass);
@@ -132,21 +131,21 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     }
 
     protected <T extends GenericContainer<?>> void assertContainerConfigurationApplied(
-            Class<T> containerClass, String[] properties, ThrowingConsumer<T> assertions) {
+        Class<T> containerClass, String[] properties, ThrowingConsumer<T> assertions) {
         assertContainerConfigurationApplied(
-                containerClass, properties, (context, container) -> assertions.accept(container));
+            containerClass, properties, (context, container) -> assertions.accept(container));
     }
 
     protected <T extends GenericContainer<?>> void assertContainerConfigurationDeclared(
-            Class<T> containerClass, String[] properties, ThrowingConsumer<T> assertions) {
+        Class<T> containerClass, String[] properties, ThrowingConsumer<T> assertions) {
         assertContainerConfigurationDeclared(
-                containerClass, properties, (context, container) -> assertions.accept(container));
+            containerClass, properties, (context, container) -> assertions.accept(container));
     }
 
     protected <T extends GenericContainer<?>> void assertContainerConfigurationDeclared(
-            Class<T> containerClass,
-            String[] properties,
-            ThrowingBiConsumer<AssertableApplicationContext, T> assertions) {
+        Class<T> containerClass,
+        String[] properties,
+        ThrowingBiConsumer<AssertableApplicationContext, T> assertions) {
         getContextRunner().withPropertyValues(properties).run(context -> {
             T container = context.getBean(containerClass);
             assertThatConfigurationIsDeclared(container);
@@ -156,9 +155,9 @@ public abstract class BaseDevServiceAutoConfigurationIT {
     }
 
     protected <T extends GenericContainer<?>> void assertContainerConfigurationApplied(
-            Class<T> containerClass,
-            String[] properties,
-            ThrowingBiConsumer<AssertableApplicationContext, T> assertions) {
+        Class<T> containerClass,
+        String[] properties,
+        ThrowingBiConsumer<AssertableApplicationContext, T> assertions) {
         getContextRunner().withPropertyValues(properties).run(context -> {
             T container = context.getBean(containerClass);
             container.start();
@@ -175,13 +174,13 @@ public abstract class BaseDevServiceAutoConfigurationIT {
         assertThat(container.getEnv()).contains("KEY=value");
         assertThat(container.getNetworkAliases()).contains("network1");
         assertThat(container.getBinds())
-                .anyMatch(b -> b.getPath().equals(testMountDir.toAbsolutePath().toString()));
+            .anyMatch(b -> b.getPath().equals(testMountDir.toAbsolutePath().toString()));
         assertThat(container.getBinds()).anyMatch(b -> b.getVolume().getPath().equals("/rose"));
     }
 
     protected String[] commonConfigurationProperties() {
         String prefix = "rose.dev." + getServiceName();
-        return new String[] {
+        return new String[]{
             prefix + ".environment.KEY=value",
             prefix + ".network-aliases=network1",
             prefix + ".resources[0].source-path=test-resource.txt",
@@ -196,20 +195,21 @@ public abstract class BaseDevServiceAutoConfigurationIT {
         assertThat(container.getCurrentContainerInfo().getState().getStatus()).isEqualTo("running");
 
         String mappedResourceContent = container.copyFileFromContainer(
-                "/tmp/test-resource.txt", inputStream -> StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8));
+            "/tmp/test-resource.txt", inputStream -> StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8));
         assertThat(mappedResourceContent).isNotEmpty();
     }
 
     protected static ApplicationContextRunner defaultContextRunner(Class<?> autoConfigurationClass) {
         return new ApplicationContextRunner()
-                .withClassLoader(new FilteredClassLoader(RestartScope.class))
-                .withInitializer(context -> {
-                    if (context.getEnvironment() instanceof ConfigurableEnvironment) {
-                        new DefaultConfigEnvironmentPostProcessor()
-                                .postProcessEnvironment(
-                                    context.getEnvironment(), new SpringApplication());
-                    }
-                })
-                .withConfiguration(AutoConfigurations.of(autoConfigurationClass));
+            .withClassLoader(new FilteredClassLoader(RestartScope.class))
+            .withInitializer(context -> {
+                //TODO
+//                    if (context.getEnvironment() instanceof ConfigurableEnvironment) {
+//                        new DefaultConfigEnvironmentPostProcessor()
+//                                .postProcessEnvironment(
+//                                    context.getEnvironment(), new SpringApplication());
+//                    }
+            })
+            .withConfiguration(AutoConfigurations.of(autoConfigurationClass));
     }
 }

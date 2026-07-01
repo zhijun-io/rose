@@ -1,7 +1,5 @@
  package io.zhijun.spring.beans.factory.support;
- 
- import io.zhijun.spring.beans.factory.BeanRegistrar;
- import io.zhijun.spring.beans.factory.ListenableAutowireCandidateResolver;
+
  import io.zhijun.spring.context.ConfigurableApplicationContextInitializer;
  import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

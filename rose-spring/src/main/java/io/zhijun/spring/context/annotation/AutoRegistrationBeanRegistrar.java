@@ -1,31 +1,20 @@
-
 package io.zhijun.spring.context.annotation;
 
-import io.zhijun.spring.context.AnnotatedBeanCapableImportBeanDefinitionRegistrar;
-import io.zhijun.spring.context.AutoRegistrationBean;
+import io.zhijun.spring.beans.factory.support.BeanRegistrar;
+import io.zhijun.spring.context.config.AutoRegistrationBean;
 import io.zhijun.spring.core.annotation.ResolvablePlaceholderAnnotationAttributes;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
-import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 
 import java.util.List;
 
-import static io.zhijun.spring.beans.factory.BeanRegistrar.registerBeanDefinition;
-import static io.zhijun.spring.context.AutoRegistrationBean.getAutoRegisteredPropertyName;
+import static io.zhijun.spring.constants.PropertyConstants.DEFAULT_AUTO_REGISTERED_VALUE;
 import static io.zhijun.spring.context.annotation.EnableAutoRegistrationBean.BEANS_AUTO_REGISTERED_PROEPRTY_NAME;
-import static org.springframework.beans.factory.support.BeanDefinitionBuilder.genericBeanDefinition;
-import static org.springframework.core.io.support.SpringFactoriesLoader.loadFactories;
+import static io.zhijun.spring.context.config.AutoRegistrationBean.getAutoRegisteredPropertyName;
+import static io.zhijun.spring.core.io.SpringFactoriesLoaderUtils.loadFactories;
 
-/**
- * {@link AnnotatedBeanCapableImportCandidate} class for {@link EnableAutoRegistrationBean}
- *
- * @see EnableAutoRegistrationBean
- * @see AutoRegistrationBean
- * @see SpringFactoriesLoader
- * @since 1.0.0
- */
 class AutoRegistrationBeanRegistrar extends AnnotatedBeanCapableImportBeanDefinitionRegistrar<EnableAutoRegistrationBean> {
 
     @Override
@@ -41,7 +30,7 @@ class AutoRegistrationBeanRegistrar extends AnnotatedBeanCapableImportBeanDefini
         if (!isEnabled()) {
             if (logger.isTraceEnabled()) {
                 logger.trace("The @EnableAutoRegistrationBean was disabled by property[{} = false]",
-                        BEANS_AUTO_REGISTERED_PROEPRTY_NAME);
+                    BEANS_AUTO_REGISTERED_PROEPRTY_NAME);
             }
             return false;
         }
@@ -49,7 +38,7 @@ class AutoRegistrationBeanRegistrar extends AnnotatedBeanCapableImportBeanDefini
     }
 
     private boolean isEnabled() {
-        return this.environment.getProperty(BEANS_AUTO_REGISTERED_PROEPRTY_NAME, boolean.class, true);
+        return this.environment.getProperty(BEANS_AUTO_REGISTERED_PROEPRTY_NAME, boolean.class, DEFAULT_AUTO_REGISTERED_VALUE);
     }
 
     private void registerAutoRegisteredBeans(List<AutoRegistrationBean> autoRegistrationBeans, BeanDefinitionRegistry registry) {
@@ -70,18 +59,18 @@ class AutoRegistrationBeanRegistrar extends AnnotatedBeanCapableImportBeanDefini
         if (!autoRegistrationBean.isAutoRegistered(this.environment)) {
             if (logger.isTraceEnabled()) {
                 logger.trace("The Bean[{}] is not auto registered because of the property[{} = false]",
-                        autoRegistrationBean.getDescription(), getAutoRegisteredPropertyName(beanName));
+                    autoRegistrationBean.getDescription(), getAutoRegisteredPropertyName(beanName));
             }
             return;
         }
 
         Class<AutoRegistrationBean> beanType = (Class<AutoRegistrationBean>) autoRegistrationBean.getBeanType();
         String scope = autoRegistrationBean.getScope();
-        BeanDefinitionBuilder beanDefinitionBuilder = genericBeanDefinition(beanType, () -> autoRegistrationBean)
-                .setScope(scope);
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(beanType, () -> autoRegistrationBean)
+            .setScope(scope);
 
         autoRegistrationBean.customize(beanDefinitionBuilder);
 
-        registerBeanDefinition(registry, beanName, beanDefinitionBuilder.getBeanDefinition());
+        BeanRegistrar.registerBeanDefinition(registry, beanName, beanDefinitionBuilder.getBeanDefinition());
     }
 }

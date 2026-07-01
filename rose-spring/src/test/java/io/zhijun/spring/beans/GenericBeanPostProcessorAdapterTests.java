@@ -1,5 +1,6 @@
 package io.zhijun.spring.beans;
 
+import io.zhijun.spring.beans.factory.config.GenericBeanPostProcessorAdapter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 

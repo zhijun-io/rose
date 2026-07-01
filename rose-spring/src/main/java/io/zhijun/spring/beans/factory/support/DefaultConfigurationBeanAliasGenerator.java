@@ -1,6 +1,5 @@
 package io.zhijun.spring.beans.factory.support;
 
-import io.zhijun.spring.beans.ConfigurationBeanAliasGenerator;
 import org.springframework.util.StringUtils;
 
 public class DefaultConfigurationBeanAliasGenerator implements ConfigurationBeanAliasGenerator {

@@ -1,7 +1,7 @@
 package io.zhijun.spring.context.event;
 
 import io.zhijun.spring.beans.BeanSource;
-import io.zhijun.spring.context.OverrideAnnotationAttributes;
+import io.zhijun.spring.context.annotation.OverrideAnnotationAttributes;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
